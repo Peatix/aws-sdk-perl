@@ -1,6 +1,8 @@
 package Paws::Credential::ProviderChain;
   use Moose;
 
+  with 'Paws::Credential';
+
   has providers => (
     is => 'ro', 
     isa => 'ArrayRef[Str]', 
@@ -17,7 +19,7 @@ package Paws::Credential::ProviderChain;
   has selected_provider => (
     is => 'rw',
     does => 'Paws::Credential',
-    handles => [ 'access_key', 'secret_key', 'session_token' ], 
+    handles => [ 'credentials' ], 
   );
 
   sub BUILD {
@@ -33,8 +35,6 @@ package Paws::Credential::ProviderChain;
     # Tried all the providers... none got creds
     die "Can't find any credentials. I tried with " . (join ',', @{ $self->providers })
   }
-
-  with 'Paws::Credential';
 1;
 ### main pod documentation begin ###
 
