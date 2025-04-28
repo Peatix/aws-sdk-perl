@@ -1,11 +1,16 @@
 package Paws::Credential::Explicit;
   use Moose;
+  with 'Paws::Credential';
 
   has access_key => (is => 'ro', isa => 'Str', required => 1);
   has secret_key => (is => 'ro', isa => 'Str', required => 1);
   has session_token => (is => 'ro', isa => 'Str');
 
-  with 'Paws::Credential';
+  sub credentials {
+    my $self = shift;
+    
+    return $self;
+  }
 
   no Moose;
 1;
