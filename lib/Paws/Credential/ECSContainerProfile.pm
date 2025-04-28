@@ -3,6 +3,7 @@ package Paws::Credential::ECSContainerProfile;
   use Moose;
   use DateTime::Format::ISO8601;
   use URI;
+  use Paws::Credential::Explicit;
   with 'Paws::Credential';
 
   has container_local_uri => (
@@ -47,31 +48,19 @@ package Paws::Credential::ECSContainerProfile;
     default => sub { 0 }
   );
 
-  has actual_creds => (is => 'rw', default => sub { {} });
+  has actual_creds => (is => 'rw', isa => 'Paws::Credential::Explicit|Undef');
+
+  sub credentials {
+    my $self = shift;
+    $self->_refresh;
+    return $self->actual_creds;
+  }
 
   around are_set => sub {
     my ($orig, $self) = @_;
     return 0 if (not defined $self->container_local_uri);
     return $self->$orig;
   };
-
-  sub access_key {
-    my $self = shift;
-    $self->_refresh;
-    $self->actual_creds->{AccessKeyId};
-  }
-
-  sub secret_key {
-    my $self = shift;
-    $self->_refresh;
-    $self->actual_creds->{SecretAccessKey};
-  }
-
-  sub session_token {
-    my $self = shift;
-    $self->_refresh;
-    $self->actual_creds->{Token};
-  }
 
   #TODO: Raise exceptions if HTTP get didn't return success
   sub _refresh {
@@ -89,7 +78,11 @@ package Paws::Credential::ECSContainerProfile;
     my $json = eval { decode_json($r->{content}) };
     if ($@) { die "Error in JSON from metadata URL" }
 
-    $self->actual_creds($json);
+    $self->actual_creds(Paws::Credential::Explicit->new(
+      access_key => $json->{AccessKeyId},
+      secret_key => $json->{SecretAccessKey},
+      session_token => $json->{Token},
+    ));
     $self->expiration(DateTime::Format::ISO8601->parse_datetime($json->{Expiration})->epoch);
   }
 
