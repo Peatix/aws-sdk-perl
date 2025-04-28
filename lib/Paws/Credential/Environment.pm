@@ -1,11 +1,25 @@
 package Paws::Credential::Environment;
   use Moose;
-
-  has access_key => (is => 'ro', default => sub { $ENV{AWS_ACCESS_KEY} || $ENV{AWS_ACCESS_KEY_ID} });
-  has secret_key => (is => 'ro', default => sub { $ENV{AWS_SECRET_KEY} || $ENV{AWS_SECRET_ACCESS_KEY} });
-  has session_token => (is => 'ro', default => sub { $ENV{AWS_SESSION_TOKEN} });
-
+  use Paws::Credential::Explicit;
   with 'Paws::Credential';
+
+  sub credentials {
+    my $self = shift;
+
+    my $access_key = $ENV{AWS_ACCESS_KEY} || $ENV{AWS_ACCESS_KEY_ID};
+    my $secret_key = $ENV{AWS_SECRET_KEY} || $ENV{AWS_SECRET_ACCESS_KEY};
+    my $session_token = $ENV{AWS_SESSION_TOKEN};
+
+    if (!$access_key || !$secret_key) {
+      return undef;
+    }
+
+    return Paws::Credential::Explicit->new(
+      access_key => $access_key,
+      secret_key => $secret_key,
+      session_token => $session_token,
+    );
+  }
 
   no Moose;
 1;
