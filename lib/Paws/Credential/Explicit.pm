@@ -4,7 +4,7 @@ package Paws::Credential::Explicit;
 
   has access_key => (is => 'ro', isa => 'Str', required => 1);
   has secret_key => (is => 'ro', isa => 'Str', required => 1);
-  has session_token => (is => 'ro', isa => 'Str');
+  has session_token => (is => 'ro', isa => 'Str|Undef');
 
   sub refresh {
     my $self = shift;
