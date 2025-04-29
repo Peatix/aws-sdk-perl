@@ -72,10 +72,12 @@ package Paws::Net::JsonCaller;
     $request->uri('/');
     $request->method('POST');
 
+    my $creds = $self->credentials->refresh;
+
     my @time = gmtime;
     $request->parameters({ Action => $call->_api_call,
                            Version => $self->version,
-                           AWSAccessKeyId => $self->access_key,
+                           AWSAccessKeyId => $creds->access_key,
                            Timestamp => strftime("%Y-%m-%dT%H:%M:%SZ",@time),
                         });
     $request->header('X-Amz-Target', sprintf('%s.%s', $self->target_prefix, $call->_api_call));
