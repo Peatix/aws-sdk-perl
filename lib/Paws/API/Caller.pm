@@ -10,7 +10,6 @@ package Paws::API::Caller;
     is => 'ro',
     does => 'Paws::Credential',
     required => 1,
-    handles => [ 'access_key', 'secret_key', 'session_token' ],
   );
 
   # converts the params the user passed to the call into objects that represent the call
