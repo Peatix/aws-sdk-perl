@@ -19,8 +19,12 @@ package Paws::Credential::ProviderChain;
   has selected_provider => (
     is => 'rw',
     does => 'Paws::Credential',
-    handles => [ 'refresh' ],
   );
+
+  sub refresh {
+    my ($self) = @_;
+    return $self->selected_provider->refresh;
+  }
 
   sub BUILD {
     my ($self) = @_;
