@@ -71,13 +71,15 @@ sub _split_url {
 sub sign {
     my ($self, $request) = @_;
 
+    my $creds = $self->credentials->refresh;
+
     $request->parameters->{ SignatureVersion } = "2";
     $request->parameters->{ SignatureMethod } = "HmacSHA256";
     $request->parameters->{ Timestamp } //= strftime("%Y-%m-%dT%H:%M:%SZ",gmtime);
-    $request->parameters->{ AWSAccessKeyId } = $self->access_key;
+    $request->parameters->{ AWSAccessKeyId } = $creds->access_key;
 
-    if ($self->session_token) {
-      $request->parameters->{ SecurityToken } = $self->session_token;
+    if ($creds->session_token) {
+      $request->parameters->{ SecurityToken } = $creds->session_token;
     }
 
     my %sign_hash = %{ $request->parameters };
@@ -88,7 +90,7 @@ sub sign {
 
     $sign_this .= $self->www_form_urlencode(\%sign_hash);
 
-    my $encoded = encode_base64(hmac_sha256($sign_this, $self->secret_key), '');
+    my $encoded = encode_base64(hmac_sha256($sign_this, $creds->secret_key), '');
 
     $request->parameters->{ Signature } = $encoded;
 

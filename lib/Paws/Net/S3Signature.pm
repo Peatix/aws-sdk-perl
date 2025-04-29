@@ -40,7 +40,9 @@ package Paws::Net::S3Signature;
         ? $self->endpoint->host
         : $self->endpoint->host_port);
 
-    my $sig = Net::Amazon::Signature::V4->new( $self->access_key, $self->secret_key, $self->region, $self->service );
+    my $creds = $self->credentials->refresh;
+
+    my $sig = Net::Amazon::Signature::V4->new( $creds->access_key, $creds->secret_key, $self->region, $self->service );
     my $signed_req = $sig->sign( $request );
     return $signed_req;
 
