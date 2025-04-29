@@ -69,9 +69,9 @@ sub _split_url {
 }
 
 sub sign {
-    my ($self, $request) = @_;
+    my ($self, $request, $creds) = @_;
 
-    my $creds = $self->credentials->refresh;
+    $creds ||= $self->credentials->refresh;
 
     $request->parameters->{ SignatureVersion } = "2";
     $request->parameters->{ SignatureMethod } = "HmacSHA256";

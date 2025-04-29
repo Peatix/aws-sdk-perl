@@ -92,7 +92,7 @@ package Paws::Net::JsonCaller;
     my $data = $self->_to_jsoncaller_params($call);
     $request->content(encode_json($data));
 
-    $self->sign($request);
+    $self->sign($request, $creds);
 
     return $request;
   }

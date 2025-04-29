@@ -22,9 +22,9 @@ package Paws::Net::V4Signature;
   }
 
   sub sign {
-    my ($self, $request) = @_;
+    my ($self, $request, $creds) = @_;
 
-    my $creds = $self->credentials->refresh;
+    $creds ||= $self->credentials->refresh;
 
     $request->header( Date => $request->header('X-Amz-Date') // strftime( '%Y%m%dT%H%M%SZ', gmtime ) );
     $request->header(
