@@ -21,8 +21,14 @@ package Paws::Credential::CredProcess;
   sub refresh {
     my $self = shift;
 
-    if ( $self->credentials && (not defined $self->expiration || $self->expiration >= time ) ) {
-      return $self->credentials;
+    if ( $self->credentials ) {
+      if (not defined $self->expiration) {
+        return $self->credentials;
+      }
+
+      if ($self->expiration >= time ) {
+        return $self->credentials;
+      }
     }
 
     my $creds;
