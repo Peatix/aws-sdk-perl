@@ -90,7 +90,7 @@ delete @ENV{qw(
 
   sleep 2;
 
-  dies_ok { $creds->refresh }, 'Exception thrown when garbage arrives';
+  dies_ok { $creds->refresh } 'Exception thrown when garbage arrives';
 }
 
 {
@@ -112,7 +112,7 @@ delete @ENV{qw(
 
   sleep 2;
 
-  dies_ok { $creds->refresh }, 'Exception thrown when garbage arrives (IMDSv2)';
+  dies_ok { $creds->refresh } 'Exception thrown when garbage arrives (IMDSv2)';
 }
 
 {
@@ -152,7 +152,7 @@ delete @ENV{qw(
 
   sleep 2;
 
-  dies_ok { $creds->refresh }, 'Exception thrown when garbage arrives to ECS Provider';
+  dies_ok { $creds->refresh } 'Exception thrown when garbage arrives to ECS Provider';
 }
 
 {
