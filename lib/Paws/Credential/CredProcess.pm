@@ -9,6 +9,8 @@ package Paws::Credential::CredProcess;
 
   has credential_process => (is => 'ro', isa => 'Str', required => 1);
 
+  has credentials => (is => 'rw', isa => 'Paws::Credential::Explicit|Undef');
+
   has expiration => (
     is => 'rw',
     isa => 'Int|Undef',
@@ -16,19 +18,12 @@ package Paws::Credential::CredProcess;
     default => sub { 0 }
   );
 
-  has actual_creds => (is => 'rw', isa => 'Paws::Credential::Explicit|Undef');
-
-  sub credentials {
-    my $self = shift;
-    $self->_refresh;
-    return $self->actual_creds;
-  }
-
-  sub _refresh {
+  sub refresh {
     my $self = shift;
 
-    return if not defined $self->expiration;
-    return if $self->expiration >= time;
+    if ( $self->credentials && $self->expiration >= time ) {
+      return $self->credentials;
+    }
 
     my $creds;
     my $rc;
@@ -51,11 +46,13 @@ package Paws::Credential::CredProcess;
       $self->expiration(undef);
     }
 
-    $self->actual_creds(Paws::Credential::Explicit->new(
+    $self->credentials(Paws::Credential::Explicit->new(
       access_key => $creds->{ AccessKeyId },
       secret_key => $creds->{ SecretAccessKey },
       session_token => $creds->{ SessionToken },
     ));
+
+    return $self->credentials;
   }
 
   no Moose;

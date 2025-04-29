@@ -3,7 +3,7 @@ package Paws::Credential::Environment;
   use Paws::Credential::Explicit;
   with 'Paws::Credential';
 
-  sub credentials {
+  sub refresh {
     my $self = shift;
 
     my $access_key = $ENV{AWS_ACCESS_KEY} || $ENV{AWS_ACCESS_KEY_ID};
@@ -11,7 +11,7 @@ package Paws::Credential::Environment;
     my $session_token = $ENV{AWS_SESSION_TOKEN};
 
     if (!$access_key || !$secret_key) {
-      return undef;
+      return;
     }
 
     return Paws::Credential::Explicit->new(

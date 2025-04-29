@@ -19,7 +19,7 @@ package Paws::Credential::ProviderChain;
   has selected_provider => (
     is => 'rw',
     does => 'Paws::Credential',
-    handles => [ 'credentials' ], 
+    handles => [ 'refresh' ],
   );
 
   sub BUILD {

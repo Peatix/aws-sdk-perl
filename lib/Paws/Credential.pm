@@ -1,11 +1,11 @@
 package Paws::Credential;
   use Moose::Role;
 
-  requires 'credentials';
+  requires 'refresh';
 
   sub are_set {
     my $self = shift;
-    return (defined $self->credentials);
+    return (defined $self->refresh);
   }
 
   no Moose;

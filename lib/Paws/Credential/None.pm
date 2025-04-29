@@ -2,7 +2,7 @@ package Paws::Credential::None;
   use Moose;
   with 'Paws::Credential';
 
-  sub credentials { return undef; }
+  sub refresh { return undef; }
 
   no Moose;
 1;

@@ -42,19 +42,13 @@ package Paws::Credential::ECSContainerProfile;
     }
   );
 
+  has credentials => (is => 'rw', isa => 'Paws::Credential::Explicit|Undef');
+
   has expiration => (
     is => 'rw',
     isa => 'Int',
     default => sub { 0 }
   );
-
-  has actual_creds => (is => 'rw', isa => 'Paws::Credential::Explicit|Undef');
-
-  sub credentials {
-    my $self = shift;
-    $self->_refresh;
-    return $self->actual_creds;
-  }
 
   around are_set => sub {
     my ($orig, $self) = @_;
@@ -63,11 +57,16 @@ package Paws::Credential::ECSContainerProfile;
   };
 
   #TODO: Raise exceptions if HTTP get didn't return success
-  sub _refresh {
+  sub refresh {
     my $self = shift;
 
-    return if $self->expiration - 240 >= time;
-    return if ! $self->metadata_url;
+    if ( $self->credentials && $self->expiration - 240 >= time ) {
+      return $self->credentials;
+    }
+
+    if ( ! $self->metadata_url ) {
+      return;
+    }
 
     my $ua = $self->ua;
 
@@ -78,12 +77,14 @@ package Paws::Credential::ECSContainerProfile;
     my $json = eval { decode_json($r->{content}) };
     if ($@) { die "Error in JSON from metadata URL" }
 
-    $self->actual_creds(Paws::Credential::Explicit->new(
+    $self->credentials(Paws::Credential::Explicit->new(
       access_key => $json->{AccessKeyId},
       secret_key => $json->{SecretAccessKey},
       session_token => $json->{Token},
     ));
     $self->expiration(DateTime::Format::ISO8601->parse_datetime($json->{Expiration})->epoch);
+
+    return $self->credentials;
   }
 
   no Moose;

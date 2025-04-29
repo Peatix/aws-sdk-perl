@@ -45,11 +45,15 @@ use Benchmark qw(timethis);
 package Test::CustomCredentials {
   use Moose;
   use Paws::Credential;
+  use Paws::Credential::Explicit;
   with 'Paws::Credential';
 
-  sub access_key { 'CustomAK' };
-  sub secret_key { 'CustomSK' };
-  sub session_token {};
+  sub refresh {
+    return Paws::Credential::Explicit->new(
+      access_key => 'CustomAK',
+      secret_key => 'CustomSK',
+    );
+  }
 
   __PACKAGE__->meta->make_immutable;
 };

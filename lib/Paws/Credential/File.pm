@@ -57,11 +57,11 @@ package Paws::Credential::File;
     );
   });
 
-  sub credentials {
+  sub refresh {
     my $self = shift;
-    
+
     if (defined $self->credential_process) {
-      return $self->credential_process->credentials;
+      return $self->credential_process->refresh;
     } else {
       return $self->_profile;
     }

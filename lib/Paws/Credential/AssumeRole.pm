@@ -4,20 +4,14 @@ package Paws::Credential::AssumeRole;
   use Paws::Credential::Explicit;
   with 'Paws::Credential';
 
+  has credentials => (is => 'rw', isa => 'Paws::Credential::Explicit|Undef');
+
   has expiration => (
     is => 'rw',
     isa => 'Int',
     lazy => 1,
     default => sub { 0 }
   );
-
-  has actual_creds => (is => 'rw', isa => 'Paws::Credential::Explicit|Undef');
-
-  sub credentials {
-    my $self = shift;
-    $self->_refresh;
-    return $self->actual_creds;
-  }
 
   has sts_region => (is => 'ro', isa => 'Str|Undef', default => sub { undef });
 
@@ -33,10 +27,12 @@ package Paws::Credential::AssumeRole;
   has RoleArn => (is => 'rw', isa => 'Str', required => 1);
   has RoleSessionName => (is => 'rw', isa => 'Str', required => 1);
   
-  sub _refresh {
+  sub refresh {
     my $self = shift;
 
-    return if $self->expiration >= time;
+    if ( $self->credentials && $self->expiration >= time ) {
+      return $self->credentials;
+    }
 
     my $result = $self->sts->AssumeRole(
       RoleSessionName => $self->RoleSessionName,
@@ -46,12 +42,14 @@ package Paws::Credential::AssumeRole;
       (defined $self->Policy) ? (Policy => $self->Policy) : (),
     );
 
-    $self->actual_creds(Paws::Credential::Explicit->new(
+    $self->credentials(Paws::Credential::Explicit->new(
       access_key => $result->Credentials->AccessKeyId,
       secret_key => $result->Credentials->SecretAccessKey,
       session_token => $result->Credentials->SessionToken,
     ));
     $self->expiration(DateTime::Format::ISO8601->parse_datetime($result->Credentials->Expiration)->epoch);
+
+    return $self->credentials;
   }
 
   no Moose;
