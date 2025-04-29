@@ -32,18 +32,11 @@ package Paws::Credential::File;
     return $ini;
   });
 
-  has _profile => (is => 'ro', isa => 'Paws::Credential::Explicit|Undef', lazy => 1, default => sub {
+  has _profile => (is => 'ro', isa => 'HashRef', lazy => 1, default => sub {
     my $self = shift;
 
     my $profile = $self->profile;
-    my $profile_contents = $self->_ini_contents->{ $profile };
-    return undef if (not defined $profile_contents);
-
-    return Paws::Credential::Explicit->new(
-      access_key => $profile_contents->{ aws_access_key_id },
-      secret_key => $profile_contents->{ aws_secret_access_key },
-      session_token => $profile_contents->{ aws_session_token },
-    );
+    return $self->_ini_contents->{ $profile } || {};
   });
 
   has credential_process => (is => 'ro', isa => 'Paws::Credential::CredProcess|Undef', lazy => 1, default => sub {
@@ -62,9 +55,18 @@ package Paws::Credential::File;
 
     if (defined $self->credential_process) {
       return $self->credential_process->refresh;
-    } else {
-      return $self->_profile;
     }
+
+    my $profile = $self->_profile;
+    return if (not defined $profile);
+    return if (not defined $profile->{ aws_access_key_id });
+    return if (not defined $profile->{ aws_secret_access_key });
+
+    return Paws::Credential::Explicit->new(
+      access_key => $profile->{ aws_access_key_id },
+      secret_key => $profile->{ aws_secret_access_key },
+      session_token => $profile->{ aws_session_token },
+    );
   }
 
   no Moose;
