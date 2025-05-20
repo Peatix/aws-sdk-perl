@@ -37,9 +37,10 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Config::Con
 
 =head1 DESCRIPTION
 
-The details of a conformance pack evaluation. Provides AWS Config rule
-and AWS resource type that was evaluated, the compliance of the
-conformance pack, related time stamps, and supplementary information.
+The details of a conformance pack evaluation. Provides Config rule and
+Amazon Web Services resource type that was evaluated, the compliance of
+the conformance pack, related time stamps, and supplementary
+information.
 
 =head1 ATTRIBUTES
 
@@ -58,7 +59,7 @@ C<NON_COMPLIANT>. C<INSUFFICIENT_DATA> is not supported.
 
 =head2 B<REQUIRED> ConfigRuleInvokedTime => Str
 
-The time when AWS Config rule evaluated AWS resource.
+The time when Config rule evaluated Amazon Web Services resource.
 
 
 =head2 B<REQUIRED> EvaluationResultIdentifier => L<Paws::Config::EvaluationResultIdentifier>
@@ -68,7 +69,7 @@ The time when AWS Config rule evaluated AWS resource.
 
 =head2 B<REQUIRED> ResultRecordedTime => Str
 
-The time when AWS Config recorded the evaluation result.
+The time when Config recorded the evaluation result.
 
 
 

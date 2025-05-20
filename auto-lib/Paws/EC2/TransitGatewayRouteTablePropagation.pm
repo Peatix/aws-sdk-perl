@@ -4,6 +4,7 @@ package Paws::EC2::TransitGatewayRouteTablePropagation;
   has ResourceType => (is => 'ro', isa => 'Str', request_name => 'resourceType', traits => ['NameInRequest']);
   has State => (is => 'ro', isa => 'Str', request_name => 'state', traits => ['NameInRequest']);
   has TransitGatewayAttachmentId => (is => 'ro', isa => 'Str', request_name => 'transitGatewayAttachmentId', traits => ['NameInRequest']);
+  has TransitGatewayRouteTableAnnouncementId => (is => 'ro', isa => 'Str', request_name => 'transitGatewayRouteTableAnnouncementId', traits => ['NameInRequest']);
 1;
 
 ### main pod documentation begin ###
@@ -23,7 +24,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::EC2::TransitGatewayRouteTablePropagation object:
 
-  $service_obj->Method(Att1 => { ResourceId => $value, ..., TransitGatewayAttachmentId => $value  });
+  $service_obj->Method(Att1 => { ResourceId => $value, ..., TransitGatewayRouteTableAnnouncementId => $value  });
 
 =head3 Results returned from an API call
 
@@ -58,6 +59,11 @@ The state of the resource.
 =head2 TransitGatewayAttachmentId => Str
 
 The ID of the attachment.
+
+
+=head2 TransitGatewayRouteTableAnnouncementId => Str
+
+The ID of the transit gateway route table announcement.
 
 
 

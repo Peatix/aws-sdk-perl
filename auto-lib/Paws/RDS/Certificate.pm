@@ -42,6 +42,14 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::RDS::Certif
 
 A CA certificate for an Amazon Web Services account.
 
+For more information, see Using SSL/TLS to encrypt a connection to a DB
+instance
+(https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html)
+in the I<Amazon RDS User Guide> and Using SSL/TLS to encrypt a
+connection to a DB cluster
+(https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.SSL.html)
+in the I<Amazon Aurora User Guide>.
+
 =head1 ATTRIBUTES
 
 
@@ -62,7 +70,8 @@ The type of the certificate.
 
 =head2 CustomerOverride => Bool
 
-Whether there is an override for the default certificate identifier.
+Indicates whether there is an override for the default certificate
+identifier.
 
 
 =head2 CustomerOverrideValidTill => Str

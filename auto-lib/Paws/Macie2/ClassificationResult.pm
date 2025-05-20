@@ -54,7 +54,7 @@ maximum of 15 occurrences of sensitive data.
 This value can help you determine whether to investigate additional
 occurrences of sensitive data in an object. You can do this by
 referring to the corresponding sensitive data discovery result for the
-finding (ClassificationDetails.detailedResultsLocation).
+finding (classificationDetails.detailedResultsLocation).
 
 
 =head2 CustomDataIdentifiers => L<Paws::Macie2::CustomDataIdentifiers>

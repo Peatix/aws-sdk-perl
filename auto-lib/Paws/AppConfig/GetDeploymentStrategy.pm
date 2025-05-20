@@ -28,15 +28,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $appconfig = Paws->service('AppConfig');
-    my $DeploymentStrategy = $appconfig->GetDeploymentStrategy(
-      DeploymentStrategyId => 'MyDeploymentStrategyId',
-
-    );
+    # To retrieve details of a deployment strategy
+    # The following get-deployment-strategy example lists the details of the
+    # specified deployment strategy.
+    my $DeploymentStrategy =
+      $appconfig->GetDeploymentStrategy( 'DeploymentStrategyId' => '1225qzk' );
 
     # Results:
     my $DeploymentDurationInMinutes =
       $DeploymentStrategy->DeploymentDurationInMinutes;
-    my $Description            = $DeploymentStrategy->Description;
     my $FinalBakeTimeInMinutes = $DeploymentStrategy->FinalBakeTimeInMinutes;
     my $GrowthFactor           = $DeploymentStrategy->GrowthFactor;
     my $GrowthType             = $DeploymentStrategy->GrowthType;

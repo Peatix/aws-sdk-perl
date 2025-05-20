@@ -26,7 +26,8 @@ your next request.
 
 =head2 RuleGroups => ArrayRef[L<Paws::WAFV2::RuleGroupSummary>]
 
-
+Array of rule groups. If you specified a C<Limit> in your request, this
+might not be the full list.
 
 
 =head2 _request_id => Str

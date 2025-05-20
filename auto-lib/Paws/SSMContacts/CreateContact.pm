@@ -32,41 +32,21 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $ssm-contacts = Paws->service('SSMContacts');
+# To create a contact
+# The following create-contact example creates a contact in your environment
+# with a blank plan. The plan can be updated after creating contact channels.
+# Use the create-contact-channel operation with the output ARN of this command.
+# After you have created contact channels for this contact use update-contact to
+# update the plan.
     my $CreateContactResult = $ssm -contacts->CreateContact(
-      Alias => 'MyContactAlias',
-      Plan  => {
-        Stages => [
-          {
-            DurationInMinutes => 1,    # max: 30
-            Targets           => [
-              {
-                ChannelTargetInfo => {
-                  ContactChannelId => 'MySsmContactsArn',    # min: 1, max: 2048
-                  RetryIntervalInMinutes => 1,               # max: 60; OPTIONAL
-                },    # OPTIONAL
-                ContactTargetInfo => {
-                  IsEssential => 1,
-                  ContactId   => 'MySsmContactsArn',    # min: 1, max: 2048
-                },    # OPTIONAL
-              },
-              ...
-            ],
+      'Alias'       => 'akuam',
+      'DisplayName' => 'Akua Mansa',
+      'Plan'        => {
+        'Stages' => [
 
-          },
-          ...
-        ],
-
+        ]
       },
-      Type             => 'PERSONAL',
-      DisplayName      => 'MyContactName',         # OPTIONAL
-      IdempotencyToken => 'MyIdempotencyToken',    # OPTIONAL
-      Tags             => [
-        {
-          Key   => 'MyTagKey',      # min: 1, max: 128; OPTIONAL
-          Value => 'MyTagValue',    # min: 1, max: 256; OPTIONAL
-        },
-        ...
-      ],    # OPTIONAL
+      'Type' => 'PERSONAL'
     );
 
     # Results:
@@ -95,8 +75,8 @@ The full name of the contact or escalation plan.
 
 =head2 IdempotencyToken => Str
 
-A token ensuring that the action is called only once with the specified
-details.
+A token ensuring that the operation is called only once with the
+specified details.
 
 
 
@@ -120,7 +100,7 @@ first Region of your replication set.
 To create an escalation plan use C<ESCALATION>. To create a contact use
 C<PERSONAL>.
 
-Valid values are: C<"PERSONAL">, C<"ESCALATION">
+Valid values are: C<"PERSONAL">, C<"ESCALATION">, C<"ONCALL_SCHEDULE">
 
 
 =head1 SEE ALSO

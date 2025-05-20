@@ -35,7 +35,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Config::Sta
 =head1 DESCRIPTION
 
 Status filter object to filter results based on specific member account
-ID or status type for an organization config rule.
+ID or status type for an organization Config rule.
 
 =head1 ATTRIBUTES
 
@@ -47,62 +47,62 @@ The 12-digit account ID of the member account within an organization.
 
 =head2 MemberAccountRuleStatus => Str
 
-Indicates deployment status for config rule in the member account. When
-master account calls C<PutOrganizationConfigRule> action for the first
-time, config rule status is created in the member account. When master
-account calls C<PutOrganizationConfigRule> action for the second time,
-config rule status is updated in the member account. Config rule status
-is deleted when the master account deletes C<OrganizationConfigRule>
-and disables service access for
+Indicates deployment status for Config rule in the member account. When
+management account calls C<PutOrganizationConfigRule> action for the
+first time, Config rule status is created in the member account. When
+management account calls C<PutOrganizationConfigRule> action for the
+second time, Config rule status is updated in the member account.
+Config rule status is deleted when the management account deletes
+C<OrganizationConfigRule> and disables service access for
 C<config-multiaccountsetup.amazonaws.com>.
 
-AWS Config sets the state of the rule to:
+Config sets the state of the rule to:
 
 =over
 
 =item *
 
-C<CREATE_SUCCESSFUL> when config rule has been created in the member
+C<CREATE_SUCCESSFUL> when Config rule has been created in the member
 account.
 
 =item *
 
-C<CREATE_IN_PROGRESS> when config rule is being created in the member
+C<CREATE_IN_PROGRESS> when Config rule is being created in the member
 account.
 
 =item *
 
-C<CREATE_FAILED> when config rule creation has failed in the member
+C<CREATE_FAILED> when Config rule creation has failed in the member
 account.
 
 =item *
 
-C<DELETE_FAILED> when config rule deletion has failed in the member
+C<DELETE_FAILED> when Config rule deletion has failed in the member
 account.
 
 =item *
 
-C<DELETE_IN_PROGRESS> when config rule is being deleted in the member
+C<DELETE_IN_PROGRESS> when Config rule is being deleted in the member
 account.
 
 =item *
 
-C<DELETE_SUCCESSFUL> when config rule has been deleted in the member
+C<DELETE_SUCCESSFUL> when Config rule has been deleted in the member
 account.
 
 =item *
 
-C<UPDATE_SUCCESSFUL> when config rule has been updated in the member
+C<UPDATE_SUCCESSFUL> when Config rule has been updated in the member
 account.
 
 =item *
 
-C<UPDATE_IN_PROGRESS> when config rule is being updated in the member
+C<UPDATE_IN_PROGRESS> when Config rule is being updated in the member
 account.
 
 =item *
 
-C<UPDATE_FAILED> when config rule deletion has failed in the member
+C<UPDATE_FAILED> when Config rule deletion has failed in the member
 account.
 
 =back

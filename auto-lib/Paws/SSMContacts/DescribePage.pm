@@ -27,17 +27,20 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $ssm-contacts = Paws->service('SSMContacts');
-    my $DescribePageResult = $ssm -contacts->DescribePage(
-      PageId => 'MySsmContactsArn',
-
-    );
+    # To list the details of a page to a contact channel
+    # The following describe-page example lists details of a page to a contact
+    # channel. The page will include the subject and content provided.
+    my $DescribePageResult =
+      $ssm -
+      contacts->DescribePage( 'PageId' =>
+'arn:aws:ssm-contacts:us-east-2:111122223333:page/akuam/ad0052bd-e606-498a-861b-25726292eb93'
+      );
 
     # Results:
     my $ContactArn    = $DescribePageResult->ContactArn;
     my $Content       = $DescribePageResult->Content;
     my $DeliveryTime  = $DescribePageResult->DeliveryTime;
     my $EngagementArn = $DescribePageResult->EngagementArn;
-    my $IncidentId    = $DescribePageResult->IncidentId;
     my $PageArn       = $DescribePageResult->PageArn;
     my $PublicContent = $DescribePageResult->PublicContent;
     my $PublicSubject = $DescribePageResult->PublicSubject;

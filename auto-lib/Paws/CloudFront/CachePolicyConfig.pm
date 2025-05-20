@@ -59,11 +59,11 @@ want objects to stay in the CloudFront cache.
 =back
 
 The headers, cookies, and query strings that are included in the cache
-key are automatically included in requests that CloudFront sends to the
-origin. CloudFront sends a request when it canE<rsquo>t find a valid
-object in its cache that matches the requestE<rsquo>s cache key. If you
-want to send values to the origin but I<not> include them in the cache
-key, use C<OriginRequestPolicy>.
+key are also included in requests that CloudFront sends to the origin.
+CloudFront sends a request when it can't find a valid object in its
+cache that matches the request's cache key. If you want to send values
+to the origin but I<not> include them in the cache key, use
+C<OriginRequestPolicy>.
 
 =head1 ATTRIBUTES
 
@@ -79,10 +79,10 @@ than 128 characters.
 The default amount of time, in seconds, that you want objects to stay
 in the CloudFront cache before CloudFront sends another request to the
 origin to see if the object has been updated. CloudFront uses this
-value as the objectE<rsquo>s time to live (TTL) only when the origin
-does I<not> send C<Cache-Control> or C<Expires> headers with the
-object. For more information, see Managing How Long Content Stays in an
-Edge Cache (Expiration)
+value as the object's time to live (TTL) only when the origin does
+I<not> send C<Cache-Control> or C<Expires> headers with the object. For
+more information, see Managing How Long Content Stays in an Edge Cache
+(Expiration)
 (https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Expiration.html)
 in the I<Amazon CloudFront Developer Guide>.
 
@@ -126,8 +126,8 @@ A unique name to identify the cache policy.
 =head2 ParametersInCacheKeyAndForwardedToOrigin => L<Paws::CloudFront::ParametersInCacheKeyAndForwardedToOrigin>
 
 The HTTP headers, cookies, and URL query strings to include in the
-cache key. The values included in the cache key are automatically
-included in requests that CloudFront sends to the origin.
+cache key. The values included in the cache key are also included in
+requests that CloudFront sends to the origin.
 
 
 

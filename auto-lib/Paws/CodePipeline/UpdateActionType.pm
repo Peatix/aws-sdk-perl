@@ -49,8 +49,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             'MyPolicyStatementsTemplate',    # min: 1, max: 2048; OPTIONAL
         },
         Id => {
-          Category =>
-            'Source',    # values: Source, Build, Deploy, Test, Invoke, Approval
+          Category => 'Source'
+          ,    # values: Source, Build, Deploy, Test, Invoke, Approval, Compute
           Owner    => 'MyActionTypeOwner',
           Provider => 'MyActionProvider',    # min: 1, max: 35
           Version  => 'MyVersion',           # min: 1, max: 9

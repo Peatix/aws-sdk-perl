@@ -47,8 +47,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/clo
 
 =head2 B<REQUIRED> ExportName => Str
 
-The name of the exported output value. AWS CloudFormation returns the
-stack names that are importing this value.
+The name of the exported output value. CloudFormation returns the stack
+names that are importing this value.
 
 
 

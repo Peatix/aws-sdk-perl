@@ -54,9 +54,10 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/gam
 
 =head2 DesiredInstances => Int
 
-The number of EC2 instances you want to maintain in the specified fleet
-location. This value must fall between the minimum and maximum size
-limits.
+The number of Amazon EC2 instances you want to maintain in the
+specified fleet location. This value must fall between the minimum and
+maximum size limits. Changes in desired instance value can take up to 1
+minute to be reflected when viewing the fleet's capacity settings.
 
 
 
@@ -70,7 +71,7 @@ can use either the fleet ID or ARN value.
 =head2 Location => Str
 
 The name of a remote location to update fleet capacity settings for, in
-the form of an AWS Region code such as C<us-west-2>.
+the form of an Amazon Web Services Region code such as C<us-west-2>.
 
 
 

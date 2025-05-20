@@ -34,7 +34,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Batch::Arra
 
 =head1 DESCRIPTION
 
-An object representing the array properties of a job.
+An object that represents the array properties of a job.
 
 =head1 ATTRIBUTES
 

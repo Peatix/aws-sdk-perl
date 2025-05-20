@@ -30,7 +30,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $kms = Paws->service('KMS');
    # To update an alias
    # The following example updates the specified alias to refer to the specified
-   # customer master key (CMK).
+   # KMS key.
     $kms->UpdateAlias(
       'AliasName'   => 'alias/ExampleAlias',
       'TargetKeyId' => '1234abcd-12ab-34cd-56ef-1234567890ab'
@@ -45,27 +45,31 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/kms
 
 =head2 B<REQUIRED> AliasName => Str
 
-Identifies the alias that is changing its CMK. This value must begin
-with C<alias/> followed by the alias name, such as
-C<alias/ExampleAlias>. You cannot use UpdateAlias to change the alias
-name.
+Identifies the alias that is changing its KMS key. This value must
+begin with C<alias/> followed by the alias name, such as
+C<alias/ExampleAlias>. You cannot use C<UpdateAlias> to change the
+alias name.
+
+Do not include confidential or sensitive information in this field.
+This field may be displayed in plaintext in CloudTrail logs and other
+output.
 
 
 
 =head2 B<REQUIRED> TargetKeyId => Str
 
-Identifies the customer managed CMK
+Identifies the customer managed key
 (https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#customer-cmk)
 to associate with the alias. You don't have permission to associate an
-alias with an AWS managed CMK
+alias with an Amazon Web Services managed key
 (https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk).
 
-The CMK must be in the same AWS account and Region as the alias. Also,
-the new target CMK must be the same type as the current target CMK
-(both symmetric or both asymmetric) and they must have the same key
-usage.
+The KMS key must be in the same Amazon Web Services account and Region
+as the alias. Also, the new target KMS key must be the same type as the
+current target KMS key (both symmetric or both asymmetric or both HMAC)
+and they must have the same key usage.
 
-Specify the key ID or key ARN of the CMK.
+Specify the key ID or key ARN of the KMS key.
 
 For example:
 
@@ -82,9 +86,11 @@ C<arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab>
 
 =back
 
-To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
+To get the key ID and key ARN for a KMS key, use ListKeys or
+DescribeKey.
 
-To verify that the alias is mapped to the correct CMK, use ListAliases.
+To verify that the alias is mapped to the correct KMS key, use
+ListAliases.
 
 
 

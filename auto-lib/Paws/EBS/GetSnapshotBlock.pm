@@ -53,18 +53,18 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ebs
 
 =head2 B<REQUIRED> BlockIndex => Int
 
-The block index of the block from which to get data.
-
-Obtain the C<BlockIndex> by running the C<ListChangedBlocks> or
-C<ListSnapshotBlocks> operations.
+The block index of the block in which to read the data. A block index
+is a logical index in units of C<512> KiB blocks. To identify the block
+index, divide the logical offset of the data in the logical volume by
+the block size (logical offset of data/C<524288>). The logical offset
+of the data must be C<512> KiB aligned.
 
 
 
 =head2 B<REQUIRED> BlockToken => Str
 
-The block token of the block from which to get data.
-
-Obtain the C<BlockToken> by running the C<ListChangedBlocks> or
+The block token of the block from which to get data. You can obtain the
+C<BlockToken> by running the C<ListChangedBlocks> or
 C<ListSnapshotBlocks> operations.
 
 
@@ -72,6 +72,12 @@ C<ListSnapshotBlocks> operations.
 =head2 B<REQUIRED> SnapshotId => Str
 
 The ID of the snapshot containing the block from which to get data.
+
+If the specified snapshot is encrypted, you must have permission to use
+the KMS key that was used to encrypt the snapshot. For more
+information, see Using encryption
+(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebsapis-using-encryption.html)
+in the I<Amazon Elastic Compute Cloud User Guide>.
 
 
 

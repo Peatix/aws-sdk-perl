@@ -53,7 +53,8 @@ C<SKIPPED>
 
 =head2 SuccessfulVersions => L<Paws::CodeArtifact::SuccessfulPackageVersionInfoMap>
 
-A list of the package versions that were successfully deleted.
+A list of the package versions that were successfully deleted. The
+status of every successful version will be C<Deleted>.
 
 
 =head2 _request_id => Str

@@ -69,11 +69,11 @@ applies. The cluster engine version determines the set of parameters.
 
 To get a list of valid parameter group family names, you can call
 DescribeClusterParameterGroups. By default, Amazon Redshift returns a
-list of all the parameter groups that are owned by your AWS account,
-including the default parameter groups for each Amazon Redshift engine
-version. The parameter group family names associated with the default
-parameter groups provide you the valid values. For example, a valid
-family name is "redshift-1.0".
+list of all the parameter groups that are owned by your Amazon Web
+Services account, including the default parameter groups for each
+Amazon Redshift engine version. The parameter group family names
+associated with the default parameter groups provide you the valid
+values. For example, a valid family name is "redshift-1.0".
 
 
 
@@ -99,7 +99,7 @@ Cannot end with a hyphen or contain two consecutive hyphens.
 
 =item *
 
-Must be unique withing your AWS account.
+Must be unique withing your Amazon Web Services account.
 
 =back
 

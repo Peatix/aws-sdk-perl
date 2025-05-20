@@ -44,6 +44,8 @@ A recommendation on how to remediate the issue identified in a finding.
 Describes the recommended steps to take to remediate an issue
 identified in a finding.
 
+Length Constraints: Minimum of 1 length. Maximum of 512 length.
+
 
 =head2 Url => Str
 

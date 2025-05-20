@@ -44,13 +44,12 @@ This class has no description
 
 =head2 Associations => ArrayRef[L<Paws::EC2::RouteTableAssociation>]
 
-The associations between the route table and one or more subnets or a
-gateway.
+The associations between the route table and your subnets or gateways.
 
 
 =head2 OwnerId => Str
 
-The ID of the AWS account that owns the route table.
+The ID of the Amazon Web Services account that owns the route table.
 
 
 =head2 PropagatingVgws => ArrayRef[L<Paws::EC2::PropagatingVgw>]

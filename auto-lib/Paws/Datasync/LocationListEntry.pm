@@ -53,20 +53,20 @@ root of the location.
 
 =head2 LocationUri => Str
 
-Represents a list of URLs of a location. C<LocationUri> returns an
+Represents a list of URIs of a location. C<LocationUri> returns an
 array that contains a list of locations when the ListLocations
 (https://docs.aws.amazon.com/datasync/latest/userguide/API_ListLocations.html)
 operation is called.
 
 Format: C<TYPE://GLOBAL_ID/SUBDIR>.
 
-TYPE designates the type of location. Valid values: NFS | EFS | S3.
+TYPE designates the type of location (for example, C<nfs> or C<s3>).
 
 GLOBAL_ID is the globally unique identifier of the resource that backs
 the location. An example for EFS is C<us-east-2.fs-abcd1234>. An
 example for Amazon S3 is the bucket name, such as C<myBucket>. An
-example for NFS is a valid IPv4 address or a host name compliant with
-Domain Name Service (DNS).
+example for NFS is a valid IPv4 address or a hostname that is compliant
+with Domain Name Service (DNS).
 
 SUBDIR is a valid file system path, delimited by forward slashes as is
 the *nix convention. For NFS and Amazon EFS, it's the export path to

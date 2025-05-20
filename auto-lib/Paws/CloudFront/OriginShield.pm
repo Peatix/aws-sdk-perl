@@ -48,24 +48,25 @@ in the I<Amazon CloudFront Developer Guide>.
 
 A flag that specifies whether Origin Shield is enabled.
 
-When itE<rsquo>s enabled, CloudFront routes all requests through Origin
-Shield, which can help protect your origin. When itE<rsquo>s disabled,
+When it's enabled, CloudFront routes all requests through Origin
+Shield, which can help protect your origin. When it's disabled,
 CloudFront might send requests directly to your origin from multiple
 edge locations or regional edge caches.
 
 
 =head2 OriginShieldRegion => Str
 
-The AWS Region for Origin Shield.
+The Amazon Web Services Region for Origin Shield.
 
-Specify the AWS Region that has the lowest latency to your origin. To
-specify a region, use the region code, not the region name. For
-example, specify the US East (Ohio) region as C<us-east-2>.
+Specify the Amazon Web Services Region that has the lowest latency to
+your origin. To specify a region, use the region code, not the region
+name. For example, specify the US East (Ohio) region as C<us-east-2>.
 
-When you enable CloudFront Origin Shield, you must specify the AWS
-Region for Origin Shield. For the list of AWS Regions that you can
-specify, and for help choosing the best Region for your origin, see
-Choosing the AWS Region for Origin Shield
+When you enable CloudFront Origin Shield, you must specify the Amazon
+Web Services Region for Origin Shield. For the list of Amazon Web
+Services Regions that you can specify, and for help choosing the best
+Region for your origin, see Choosing the Amazon Web Services Region for
+Origin Shield
 (https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/origin-shield.html#choose-origin-shield-region)
 in the I<Amazon CloudFront Developer Guide>.
 

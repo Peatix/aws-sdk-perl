@@ -34,18 +34,19 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CloudFront:
 
 =head1 DESCRIPTION
 
-A complex type that specifies a list of Lambda functions associations
-for a cache behavior.
+A complex type that specifies a list of Lambda@Edge functions
+associations for a cache behavior.
 
-If you want to invoke one or more Lambda functions triggered by
+If you want to invoke one or more Lambda@Edge functions triggered by
 requests that match the C<PathPattern> of the cache behavior, specify
 the applicable values for C<Quantity> and C<Items>. Note that there can
 be up to 4 C<LambdaFunctionAssociation> items in this list (one for
 each possible value of C<EventType>) and each C<EventType> can be
-associated with the Lambda function only once.
+associated with only one function.
 
-If you don't want to invoke any Lambda functions for the requests that
-match C<PathPattern>, specify C<0> for C<Quantity> and omit C<Items>.
+If you don't want to invoke any Lambda@Edge functions for the requests
+that match C<PathPattern>, specify C<0> for C<Quantity> and omit
+C<Items>.
 
 =head1 ATTRIBUTES
 
@@ -59,7 +60,8 @@ C<Items>.
 
 =head2 B<REQUIRED> Quantity => Int
 
-The number of Lambda function associations for this cache behavior.
+The number of Lambda@Edge function associations for this cache
+behavior.
 
 
 

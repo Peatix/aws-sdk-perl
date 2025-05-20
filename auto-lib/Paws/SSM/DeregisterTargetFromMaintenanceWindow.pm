@@ -52,7 +52,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ssm
 =head2 Safe => Bool
 
 The system checks if the target is being referenced by a task. If the
-target is being referenced, the system returns an error and does not
+target is being referenced, the system returns an error and doesn't
 deregister the target from the maintenance window.
 
 

@@ -42,8 +42,8 @@ The details of the execute command configuration.
 
 =head2 KmsKeyId => Str
 
-Specify an AWS Key Management Service key ID to encrypt the data
-between the local client and the container.
+Specify an Key Management Service key ID to encrypt the data between
+the local client and the container.
 
 
 =head2 LogConfiguration => L<Paws::ECS::ExecuteCommandLogConfiguration>

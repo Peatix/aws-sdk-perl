@@ -3,8 +3,9 @@ package Paws::Robomaker::UpdateRobotApplication;
   use Moose;
   has Application => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'application', required => 1);
   has CurrentRevisionId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'currentRevisionId');
+  has Environment => (is => 'ro', isa => 'Paws::Robomaker::Environment', traits => ['NameInRequest'], request_name => 'environment');
   has RobotSoftwareSuite => (is => 'ro', isa => 'Paws::Robomaker::RobotSoftwareSuite', traits => ['NameInRequest'], request_name => 'robotSoftwareSuite', required => 1);
-  has Sources => (is => 'ro', isa => 'ArrayRef[Paws::Robomaker::SourceConfig]', traits => ['NameInRequest'], request_name => 'sources', required => 1);
+  has Sources => (is => 'ro', isa => 'ArrayRef[Paws::Robomaker::SourceConfig]', traits => ['NameInRequest'], request_name => 'sources');
 
   use MooseX::ClassAttribute;
 
@@ -34,10 +35,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $UpdateRobotApplicationResponse = $robomaker->UpdateRobotApplication(
       Application        => 'MyArn',
       RobotSoftwareSuite => {
-        Name    => 'ROS',    # values: ROS, ROS2; OPTIONAL
+        Name    => 'ROS',    # values: ROS, ROS2, General; OPTIONAL
         Version =>
           'Kinetic',         # values: Kinetic, Melodic, Dashing, Foxy; OPTIONAL
       },
+      CurrentRevisionId => 'MyRevisionId',    # OPTIONAL
+      Environment       => {
+        Uri => 'MyRepositoryUrl',             # min: 1, max: 1024; OPTIONAL
+      },    # OPTIONAL
       Sources => [
         {
           Architecture => 'X86_64',     # values: X86_64, ARM64, ARMHF; OPTIONAL
@@ -45,12 +50,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           S3Key        => 'MyS3Key',    # min: 1, max: 1024; OPTIONAL
         },
         ...
-      ],
-      CurrentRevisionId => 'MyRevisionId',    # OPTIONAL
+      ],    # OPTIONAL
     );
 
     # Results:
     my $Arn           = $UpdateRobotApplicationResponse->Arn;
+    my $Environment   = $UpdateRobotApplicationResponse->Environment;
     my $LastUpdatedAt = $UpdateRobotApplicationResponse->LastUpdatedAt;
     my $Name          = $UpdateRobotApplicationResponse->Name;
     my $RevisionId    = $UpdateRobotApplicationResponse->RevisionId;
@@ -79,14 +84,20 @@ The revision id for the robot application.
 
 
 
-=head2 B<REQUIRED> RobotSoftwareSuite => L<Paws::Robomaker::RobotSoftwareSuite>
+=head2 Environment => L<Paws::Robomaker::Environment>
 
-The robot software suite (ROS distribution) used by the robot
+The object that contains the Docker image URI for your robot
 application.
 
 
 
-=head2 B<REQUIRED> Sources => ArrayRef[L<Paws::Robomaker::SourceConfig>]
+=head2 B<REQUIRED> RobotSoftwareSuite => L<Paws::Robomaker::RobotSoftwareSuite>
+
+The robot software suite used by the robot application.
+
+
+
+=head2 Sources => ArrayRef[L<Paws::Robomaker::SourceConfig>]
 
 The sources of the robot application.
 

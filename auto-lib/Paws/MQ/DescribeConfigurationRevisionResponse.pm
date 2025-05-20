@@ -30,7 +30,8 @@ Required. The date and time of the configuration.
 
 =head2 Data => Str
 
-Required. The base64-encoded XML configuration.
+Amazon MQ for ActiveMQ: the base64-encoded XML configuration. Amazon MQ
+for RabbitMQ: base64-encoded Cuttlefish.
 
 
 =head2 Description => Str

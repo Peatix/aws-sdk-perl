@@ -59,10 +59,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/clo
 
 The ID of the drift detection results of this operation.
 
-AWS CloudFormation generates new results, with a new drift detection
-ID, each time this operation is run. However, the number of drift
-results AWS CloudFormation retains for any given stack, and for how
-long, may vary.
+CloudFormation generates new results, with a new drift detection ID,
+each time this operation is run. However, the number of drift results
+CloudFormation retains for any given stack, and for how long, may vary.
 
 
 

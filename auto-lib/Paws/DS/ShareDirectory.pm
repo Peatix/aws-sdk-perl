@@ -54,17 +54,17 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ds/
 
 =head2 B<REQUIRED> DirectoryId => Str
 
-Identifier of the AWS Managed Microsoft AD directory that you want to
-share with other AWS accounts.
+Identifier of the Managed Microsoft AD directory that you want to share
+with other Amazon Web Services accounts.
 
 
 
 =head2 B<REQUIRED> ShareMethod => Str
 
 The method used when sharing a directory to determine whether the
-directory should be shared within your AWS organization
-(C<ORGANIZATIONS>) or with any AWS account by sending a directory
-sharing request (C<HANDSHAKE>).
+directory should be shared within your Amazon Web Services organization
+(C<ORGANIZATIONS>) or with any Amazon Web Services account by sending a
+directory sharing request (C<HANDSHAKE>).
 
 Valid values are: C<"ORGANIZATIONS">, C<"HANDSHAKE">
 

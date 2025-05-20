@@ -35,7 +35,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CostExplore
 
 =head1 DESCRIPTION
 
-Attribute details on a specific Savings Plan.
+The attribute details on a specific Savings Plan.
 
 =head1 ATTRIBUTES
 
@@ -47,13 +47,15 @@ A group of instance types that Savings Plans applies to.
 
 =head2 OfferingId => Str
 
-The unique ID used to distinguish Savings Plans from one another.
+The unique ID that's used to distinguish Savings Plans from one
+another.
 
 
 =head2 Region => Str
 
-A collection of AWS resources in a geographic area. Each AWS Region is
-isolated and independent of the other Regions.
+A collection of Amazon Web Services resources in a geographic area.
+Each Amazon Web Services Region is isolated and independent of the
+other Regions.
 
 
 

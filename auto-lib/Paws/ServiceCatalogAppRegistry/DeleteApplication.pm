@@ -47,7 +47,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ser
 
 =head2 B<REQUIRED> Application => Str
 
-The name or ID of the application.
+The name, ID, or ARN of the application.
 
 
 

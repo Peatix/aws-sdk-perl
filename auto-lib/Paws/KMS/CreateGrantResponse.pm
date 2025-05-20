@@ -30,8 +30,10 @@ The grant token.
 Use a grant token when your permission to call this operation comes
 from a new grant that has not yet achieved I<eventual consistency>. For
 more information, see Grant token
-(https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#grant_token)
-in the I<AWS Key Management Service Developer Guide>.
+(https://docs.aws.amazon.com/kms/latest/developerguide/grants.html#grant_token)
+and Using a grant token
+(https://docs.aws.amazon.com/kms/latest/developerguide/grant-manage.html#using-grant-token)
+in the I<Key Management Service Developer Guide>.
 
 
 =head2 _request_id => Str

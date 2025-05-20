@@ -50,8 +50,7 @@ specify JSON content in the C<ContentType> setting.
 For information about the limits on count and size for custom request
 and response settings, see WAF quotas
 (https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in
-the WAF Developer Guide
-(https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html).
+the I<WAF Developer Guide>.
 
 
 =head2 B<REQUIRED> ContentType => Str

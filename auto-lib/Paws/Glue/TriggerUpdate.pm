@@ -3,6 +3,7 @@ package Paws::Glue::TriggerUpdate;
   use Moose;
   has Actions => (is => 'ro', isa => 'ArrayRef[Paws::Glue::Action]');
   has Description => (is => 'ro', isa => 'Str');
+  has EventBatchingCondition => (is => 'ro', isa => 'Paws::Glue::EventBatchingCondition');
   has Name => (is => 'ro', isa => 'Str');
   has Predicate => (is => 'ro', isa => 'Paws::Glue::Predicate');
   has Schedule => (is => 'ro', isa => 'Str');
@@ -52,6 +53,12 @@ The actions initiated by this trigger.
 =head2 Description => Str
 
 A description of this trigger.
+
+
+=head2 EventBatchingCondition => L<Paws::Glue::EventBatchingCondition>
+
+Batch condition that must be met (specified number of events received
+or batch time window expired) before EventBridge event trigger fires.
 
 
 =head2 Name => Str

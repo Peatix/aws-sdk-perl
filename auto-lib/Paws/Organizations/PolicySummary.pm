@@ -51,14 +51,14 @@ The Amazon Resource Name (ARN) of the policy.
 For more information about ARNs in Organizations, see ARN Formats
 Supported by Organizations
 (https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsorganizations.html#awsorganizations-resources-for-iam-policies)
-in the I<AWS Service Authorization Reference>.
+in the I<Amazon Web Services Service Authorization Reference>.
 
 
 =head2 AwsManaged => Bool
 
-A boolean value that indicates whether the specified policy is an AWS
-managed policy. If true, then you can attach the policy to roots, OUs,
-or accounts, but you cannot edit it.
+A boolean value that indicates whether the specified policy is an
+Amazon Web Services managed policy. If true, then you can attach the
+policy to roots, OUs, or accounts, but you cannot edit it.
 
 
 =head2 Description => Str

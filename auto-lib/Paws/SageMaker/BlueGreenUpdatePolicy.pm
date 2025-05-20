@@ -35,24 +35,34 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SageMaker::
 
 =head1 DESCRIPTION
 
-Currently, the C<BlueGreenUpdatePolicy> API is not supported.
+Update policy for a blue/green deployment. If this update policy is
+specified, SageMaker creates a new fleet during the deployment while
+maintaining the old fleet. SageMaker flips traffic to the new fleet
+according to the specified traffic routing configuration. Only one
+update policy should be used in the deployment configuration. If no
+update policy is specified, SageMaker uses a blue/green deployment
+strategy with all at once traffic shifting by default.
 
 =head1 ATTRIBUTES
 
 
 =head2 MaximumExecutionTimeoutInSeconds => Int
 
-
+Maximum execution timeout for the deployment. Note that the timeout
+value should be larger than the total waiting time specified in
+C<TerminationWaitInSeconds> and C<WaitIntervalInSeconds>.
 
 
 =head2 TerminationWaitInSeconds => Int
 
-
+Additional waiting time in seconds after the completion of an endpoint
+deployment before terminating the old endpoint fleet. Default is 0.
 
 
 =head2 B<REQUIRED> TrafficRoutingConfiguration => L<Paws::SageMaker::TrafficRoutingConfig>
 
-
+Defines the traffic routing strategy to shift traffic from the old
+fleet to the new fleet during an endpoint deployment.
 
 
 

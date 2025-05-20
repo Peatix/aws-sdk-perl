@@ -2,6 +2,7 @@
 package Paws::MediaPackage::CmafEncryption;
   use Moose;
   has ConstantInitializationVector => (is => 'ro', isa => 'Str', request_name => 'constantInitializationVector', traits => ['NameInRequest']);
+  has EncryptionMethod => (is => 'ro', isa => 'Str', request_name => 'encryptionMethod', traits => ['NameInRequest']);
   has KeyRotationIntervalSeconds => (is => 'ro', isa => 'Int', request_name => 'keyRotationIntervalSeconds', traits => ['NameInRequest']);
   has SpekeKeyProvider => (is => 'ro', isa => 'Paws::MediaPackage::SpekeKeyProvider', request_name => 'spekeKeyProvider', traits => ['NameInRequest'], required => 1);
 
@@ -46,6 +47,11 @@ An optional 128-bit, 16-byte hex value represented by a 32-character
 string, used in conjunction with the key for encrypting blocks. If you
 don't specify a value, then MediaPackage creates the constant
 initialization vector (IV).
+
+
+=head2 EncryptionMethod => Str
+
+
 
 
 =head2 KeyRotationIntervalSeconds => Int

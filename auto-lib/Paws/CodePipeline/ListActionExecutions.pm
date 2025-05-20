@@ -33,7 +33,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $ListActionExecutionsOutput = $codepipeline->ListActionExecutions(
       PipelineName => 'MyPipelineName',
       Filter       => {
-        PipelineExecutionId => 'MyPipelineExecutionId',    # OPTIONAL
+        LatestInPipelineExecution => {
+          PipelineExecutionId => 'MyPipelineExecutionId',
+          StartTimeRange      => 'Latest',                 # values: Latest, All
+
+        },    # OPTIONAL
+        PipelineExecutionId => 'MyPipelineExecutionId',
       },    # OPTIONAL
       MaxResults => 1,                # OPTIONAL
       NextToken  => 'MyNextToken',    # OPTIONAL
@@ -64,9 +69,6 @@ The maximum number of results to return in a single call. To retrieve
 the remaining results, make another call with the returned nextToken
 value. Action execution history is retained for up to 12 months, based
 on action execution start times. Default value is 100.
-
-Detailed execution history is available for executions run on or after
-February 21, 2019.
 
 
 

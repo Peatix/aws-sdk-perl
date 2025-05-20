@@ -20,6 +20,15 @@ Paws::GreengrassV2::ListInstalledComponentsResponse
 
 A list that summarizes each component on the core device.
 
+Greengrass nucleus v2.7.0 or later is required to get an accurate
+C<lastStatusChangeTimestamp> response. This response can be inaccurate
+in earlier Greengrass nucleus versions.
+
+Greengrass nucleus v2.8.0 or later is required to get an accurate
+C<lastInstallationSource> and C<lastReportedTimestamp> response. This
+response can be inaccurate or null in earlier Greengrass nucleus
+versions.
+
 
 =head2 NextToken => Str
 

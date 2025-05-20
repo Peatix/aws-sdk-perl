@@ -70,10 +70,9 @@ report on the file system's linked S3 data repository. An absolute path
 that defines where the completion report will be stored in the
 destination location. The C<Path> you provide must be located within
 the file systemE<rsquo>s ExportPath. An example C<Path> value is
-"s3://myBucket/myExportPath/optionalPrefix". The report provides the
-following information for each file in the report: FilePath,
-FileStatus, and ErrorCode. To learn more about a file system's
-C<ExportPath>, see .
+"s3://amzn-s3-demo-bucket/myExportPath/optionalPrefix". The report
+provides the following information for each file in the report:
+FilePath, FileStatus, and ErrorCode.
 
 
 =head2 Scope => Str

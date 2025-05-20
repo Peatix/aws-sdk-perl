@@ -3,11 +3,15 @@ package Paws::SecurityHub::AwsEc2VolumeDetails;
   use Moose;
   has Attachments => (is => 'ro', isa => 'ArrayRef[Paws::SecurityHub::AwsEc2VolumeAttachment]');
   has CreateTime => (is => 'ro', isa => 'Str');
+  has DeviceName => (is => 'ro', isa => 'Str');
   has Encrypted => (is => 'ro', isa => 'Bool');
   has KmsKeyId => (is => 'ro', isa => 'Str');
   has Size => (is => 'ro', isa => 'Int');
   has SnapshotId => (is => 'ro', isa => 'Str');
   has Status => (is => 'ro', isa => 'Str');
+  has VolumeId => (is => 'ro', isa => 'Str');
+  has VolumeScanStatus => (is => 'ro', isa => 'Str');
+  has VolumeType => (is => 'ro', isa => 'Str');
 
 1;
 
@@ -28,7 +32,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::SecurityHub::AwsEc2VolumeDetails object:
 
-  $service_obj->Method(Att1 => { Attachments => $value, ..., Status => $value  });
+  $service_obj->Method(Att1 => { Attachments => $value, ..., VolumeType => $value  });
 
 =head3 Results returned from an API call
 
@@ -53,22 +57,25 @@ The volume attachments.
 
 Indicates when the volume was created.
 
-Uses the C<date-time> format specified in RFC 3339 section 5.6,
-Internet Date/Time Format
-(https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot
-contain spaces. For example, C<2020-03-22T13:22:13.933Z>.
+For more information about the validation and formatting of timestamp
+fields in Security Hub, see Timestamps
+(https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+
+
+=head2 DeviceName => Str
+
+The device name for the volume that is attached to the instance.
 
 
 =head2 Encrypted => Bool
 
-Whether the volume is encrypted.
+Specifies whether the volume is encrypted.
 
 
 =head2 KmsKeyId => Str
 
-The ARN of the AWS Key Management Service (AWS KMS) customer master key
-(CMK) that was used to protect the volume encryption key for the
-volume.
+The ARN of the KMS key that was used to protect the volume encryption
+key for the volume.
 
 
 =head2 Size => Int
@@ -83,7 +90,51 @@ The snapshot from which the volume was created.
 
 =head2 Status => Str
 
-The volume state.
+The volume state. Valid values are as follows:
+
+=over
+
+=item *
+
+C<available>
+
+=item *
+
+C<creating>
+
+=item *
+
+C<deleted>
+
+=item *
+
+C<deleting>
+
+=item *
+
+C<error>
+
+=item *
+
+C<in-use>
+
+=back
+
+
+
+=head2 VolumeId => Str
+
+The ID of the volume.
+
+
+=head2 VolumeScanStatus => Str
+
+Indicates whether the volume was scanned or skipped.
+
+
+=head2 VolumeType => Str
+
+The volume type.
 
 
 

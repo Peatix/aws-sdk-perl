@@ -42,6 +42,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $MailFromAttributes = $GetEmailIdentityResponse->MailFromAttributes;
     my $Policies           = $GetEmailIdentityResponse->Policies;
     my $Tags               = $GetEmailIdentityResponse->Tags;
+    my $VerificationInfo   = $GetEmailIdentityResponse->VerificationInfo;
+    my $VerificationStatus = $GetEmailIdentityResponse->VerificationStatus;
     my $VerifiedForSendingStatus =
       $GetEmailIdentityResponse->VerifiedForSendingStatus;
 
@@ -55,7 +57,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ema
 
 =head2 B<REQUIRED> EmailIdentity => Str
 
-The email identity that you want to retrieve details for.
+The email identity.
 
 
 

@@ -50,9 +50,8 @@ https://docs.aws.amazon.com/mediaconvert/latest/ug/supported-codecs-containers-a
 Specify this setting only when your output will be consumed by a
 downstream repackaging workflow that is sensitive to very small
 duration differences between video and audio. For this situation,
-choose Match video duration (MATCH_VIDEO_DURATION). In all other cases,
-keep the default value, Default codec duration
-(DEFAULT_CODEC_DURATION). When you choose Match video duration,
+choose Match video duration. In all other cases, keep the default
+value, Default codec duration. When you choose Match video duration,
 MediaConvert pads the output audio streams with silence or trims them
 to ensure that the total duration of each audio stream is at least as
 long as the total duration of the video stream. After padding or
@@ -79,9 +78,9 @@ Ignore this setting unless compliance to the CTTS box version
 specification matters in your workflow. Specify a value of 1 to set
 your CTTS box version to 1 and make your output compliant with the
 specification. When you specify a value of 1, you must also set CSLG
-atom (cslgAtom) to the value INCLUDE. Keep the default value 0 to set
-your CTTS box version to 0. This can provide backward compatibility for
-some players and packagers.
+atom to the value INCLUDE. Keep the default value 0 to set your CTTS
+box version to 0. This can provide backward compatibility for some
+players and packagers.
 
 
 =head2 FreeSpaceBox => Str
@@ -91,9 +90,9 @@ Inserts a free-space box immediately after the moov box.
 
 =head2 MoovPlacement => Str
 
-If set to PROGRESSIVE_DOWNLOAD, the MOOV atom is relocated to the
-beginning of the archive as required for progressive downloading.
-Otherwise it is placed normally at the end.
+To place the MOOV atom at the beginning of your output, which is useful
+for progressive downloading: Leave blank or choose Progressive
+download. To place the MOOV at the end of your output: Choose Normal.
 
 
 =head2 Mp4MajorBrand => Str

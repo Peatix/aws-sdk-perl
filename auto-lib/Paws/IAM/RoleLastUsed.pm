@@ -41,7 +41,7 @@ period can be shorter if your Region began supporting these features
 within the last year. The role might have been used more than 400 days
 ago. For more information, see Regions where data is tracked
 (https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#access-advisor_tracking-period)
-in the I<IAM User Guide>.
+in the I<IAM user Guide>.
 
 This data type is returned as a response element in the GetRole and
 GetAccountAuthorizationDetails operations.
@@ -63,7 +63,8 @@ in the I<IAM User Guide>.
 
 =head2 Region => Str
 
-The name of the AWS Region in which the role was last used.
+The name of the Amazon Web Services Region in which the role was last
+used.
 
 
 

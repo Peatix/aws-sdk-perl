@@ -46,7 +46,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/sns
 
 =head2 B<REQUIRED> PlatformApplicationArn => Str
 
-PlatformApplicationArn for GetPlatformApplicationAttributesInput.
+C<PlatformApplicationArn> for GetPlatformApplicationAttributesInput.
 
 
 

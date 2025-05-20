@@ -2,6 +2,7 @@
 package Paws::AppMesh::TcpRoute;
   use Moose;
   has Action => (is => 'ro', isa => 'Paws::AppMesh::TcpRouteAction', request_name => 'action', traits => ['NameInRequest'], required => 1);
+  has Match => (is => 'ro', isa => 'Paws::AppMesh::TcpRouteMatch', request_name => 'match', traits => ['NameInRequest']);
   has Timeout => (is => 'ro', isa => 'Paws::AppMesh::TcpTimeout', request_name => 'timeout', traits => ['NameInRequest']);
 
 1;
@@ -42,6 +43,11 @@ An object that represents a TCP route type.
 =head2 B<REQUIRED> Action => L<Paws::AppMesh::TcpRouteAction>
 
 The action to take if a match is determined.
+
+
+=head2 Match => L<Paws::AppMesh::TcpRouteMatch>
+
+An object that represents the criteria for determining a request match.
 
 
 =head2 Timeout => L<Paws::AppMesh::TcpTimeout>

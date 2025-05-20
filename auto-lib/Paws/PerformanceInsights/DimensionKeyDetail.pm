@@ -43,7 +43,20 @@ An object that describes the details for a specified dimension.
 =head2 Dimension => Str
 
 The full name of the dimension. The full name includes the group name
-and key name. The only valid value is C<db.sql.statement>.
+and key name. The following values are valid:
+
+=over
+
+=item *
+
+C<db.query.statement> (Amazon DocumentDB)
+
+=item *
+
+C<db.sql.statement> (Amazon RDS and Aurora)
+
+=back
+
 
 
 =head2 Status => Str
@@ -61,8 +74,8 @@ C<AVAILABLE> - The dimension detail data is ready to be retrieved.
 
 C<PROCESSING> - The dimension detail data isn't ready to be retrieved
 because more processing time is required. If the requested detail data
-for C<db.sql.statement> has the status C<PROCESSING>, Performance
-Insights returns the truncated query.
+has the status C<PROCESSING>, Performance Insights returns the
+truncated query.
 
 =item *
 
@@ -75,9 +88,22 @@ successfully.
 
 =head2 Value => Str
 
-The value of the dimension detail data. For the C<db.sql.statement>
-dimension, this value is either the full or truncated SQL query,
-depending on the return status.
+The value of the dimension detail data. Depending on the return status,
+this value is either the full or truncated SQL query for the following
+dimensions:
+
+=over
+
+=item *
+
+C<db.query.statement> (Amazon DocumentDB)
+
+=item *
+
+C<db.sql.statement> (Amazon RDS and Aurora)
+
+=back
+
 
 
 

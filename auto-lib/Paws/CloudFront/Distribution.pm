@@ -50,62 +50,53 @@ from, and the details about how to track and manage content delivery.
 
 =head2 ActiveTrustedKeyGroups => L<Paws::CloudFront::ActiveTrustedKeyGroups>
 
-CloudFront automatically adds this field to the response if
-youE<rsquo>ve configured a cache behavior in this distribution to serve
-private content using key groups. This field contains a list of key
-groups and the public keys in each key group that CloudFront can use to
-verify the signatures of signed URLs or signed cookies.
+This field contains a list of key groups and the public keys in each
+key group that CloudFront can use to verify the signatures of signed
+URLs or signed cookies.
 
 
 =head2 ActiveTrustedSigners => L<Paws::CloudFront::ActiveTrustedSigners>
 
 We recommend using C<TrustedKeyGroups> instead of C<TrustedSigners>.
 
-CloudFront automatically adds this field to the response if
-youE<rsquo>ve configured a cache behavior in this distribution to serve
-private content using trusted signers. This field contains a list of
-AWS account IDs and the active CloudFront key pairs in each account
-that CloudFront can use to verify the signatures of signed URLs or
-signed cookies.
+This field contains a list of Amazon Web Services account IDs and the
+active CloudFront key pairs in each account that CloudFront can use to
+verify the signatures of signed URLs or signed cookies.
 
 
 =head2 AliasICPRecordals => ArrayRef[L<Paws::CloudFront::AliasICPRecordal>]
 
-AWS services in China customers must file for an Internet Content
-Provider (ICP) recordal if they want to serve content publicly on an
-alternate domain name, also known as a CNAME, that they've added to
-CloudFront. AliasICPRecordal provides the ICP recordal status for
-CNAMEs associated with distributions.
+Amazon Web Services services in China customers must file for an
+Internet Content Provider (ICP) recordal if they want to serve content
+publicly on an alternate domain name, also known as a CNAME, that
+they've added to CloudFront. AliasICPRecordal provides the ICP recordal
+status for CNAMEs associated with distributions.
 
 For more information about ICP recordals, see Signup, Accounts, and
 Credentials
 (https://docs.amazonaws.cn/en_us/aws/latest/userguide/accounts-and-credentials.html)
-in I<Getting Started with AWS services in China>.
+in I<Getting Started with Amazon Web Services services in China>.
 
 
 =head2 B<REQUIRED> ARN => Str
 
-The ARN (Amazon Resource Name) for the distribution. For example:
-C<arn:aws:cloudfront::123456789012:distribution/EDFDVBD632BHDS5>, where
-C<123456789012> is your AWS account ID.
+The distribution's Amazon Resource Name (ARN).
 
 
 =head2 B<REQUIRED> DistributionConfig => L<Paws::CloudFront::DistributionConfig>
 
-The current configuration information for the distribution. Send a
-C<GET> request to the C</I<CloudFront API version>/distribution
-ID/config> resource.
+The distribution's configuration.
 
 
 =head2 B<REQUIRED> DomainName => Str
 
-The domain name corresponding to the distribution, for example,
+The distribution's CloudFront domain name. For example:
 C<d111111abcdef8.cloudfront.net>.
 
 
 =head2 B<REQUIRED> Id => Str
 
-The identifier for the distribution. For example: C<EDFDVBD632BHDS5>.
+The distribution's identifier. For example: C<E1U5RQF7T870K0>.
 
 
 =head2 B<REQUIRED> InProgressInvalidationBatches => Int
@@ -115,14 +106,14 @@ The number of invalidation batches currently in progress.
 
 =head2 B<REQUIRED> LastModifiedTime => Str
 
-The date and time the distribution was last modified.
+The date and time when the distribution was last modified.
 
 
 =head2 B<REQUIRED> Status => Str
 
-This response element indicates the current status of the distribution.
-When the status is C<Deployed>, the distribution's information is fully
-propagated to all CloudFront edge locations.
+The distribution's status. When the status is C<Deployed>, the
+distribution's information is fully propagated to all CloudFront edge
+locations.
 
 
 

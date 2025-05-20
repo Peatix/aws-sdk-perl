@@ -2,6 +2,7 @@
 package Paws::Rekognition::RegionOfInterest;
   use Moose;
   has BoundingBox => (is => 'ro', isa => 'Paws::Rekognition::BoundingBox');
+  has Polygon => (is => 'ro', isa => 'ArrayRef[Paws::Rekognition::Point]');
 
 1;
 
@@ -22,7 +23,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::Rekognition::RegionOfInterest object:
 
-  $service_obj->Method(Att1 => { BoundingBox => $value, ..., BoundingBox => $value  });
+  $service_obj->Method(Att1 => { BoundingBox => $value, ..., Polygon => $value  });
 
 =head3 Results returned from an API call
 
@@ -33,13 +34,14 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Rekognition
 
 =head1 DESCRIPTION
 
-Specifies a location within the frame that Rekognition checks for text.
-Uses a C<BoundingBox> object to set a region of the screen.
+Specifies a location within the frame that Rekognition checks for
+objects of interest such as text, labels, or faces. It uses a
+C<BoundingBox> or C<Polygon> to set a region of the screen.
 
-A word is included in the region if the word is more than half in that
-region. If there is more than one region, the word will be compared
-with all regions of the screen. Any word more than half in a region is
-kept in the results.
+A word, face, or label is included in the region if it is more than
+half in that region. If there is more than one region, the word, face,
+or label is compared with all regions of the screen. Any object of
+interest that is more than half in a region is kept in the results.
 
 =head1 ATTRIBUTES
 
@@ -47,6 +49,12 @@ kept in the results.
 =head2 BoundingBox => L<Paws::Rekognition::BoundingBox>
 
 The box representing a region of interest on screen.
+
+
+=head2 Polygon => ArrayRef[L<Paws::Rekognition::Point>]
+
+Specifies a shape made up of up to 10 C<Point> objects to define a
+region of interest.
 
 
 

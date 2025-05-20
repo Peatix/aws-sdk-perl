@@ -38,7 +38,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ElastiCache
 =head1 DESCRIPTION
 
 A member of a Global datastore. It contains the Replication Group Id,
-the AWS region and the role of the replication group.
+the Amazon region and the role of the replication group.
 
 =head1 ATTRIBUTES
 
@@ -56,7 +56,7 @@ The replication group id of the Global datastore member.
 
 =head2 ReplicationGroupRegion => Str
 
-The AWS region of the Global datastore member.
+The Amazon region of the Global datastore member.
 
 
 =head2 Role => Str

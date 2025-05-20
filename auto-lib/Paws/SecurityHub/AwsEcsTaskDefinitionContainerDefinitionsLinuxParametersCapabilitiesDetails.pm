@@ -43,13 +43,37 @@ from the default configuration provided by Docker.
 =head2 Add => ArrayRef[Str|Undef]
 
 The Linux capabilities for the container that are added to the default
-configuration provided by Docker.
+configuration provided by Docker. Valid values are as follows:
+
+Valid values: C<"ALL"> | C<"AUDIT_CONTROL"> |C< "AUDIT_WRITE"> |
+C<"BLOCK_SUSPEND"> | C<"CHOWN"> | C<"DAC_OVERRIDE"> |
+C<"DAC_READ_SEARCH"> | C<"FOWNER"> | C<"FSETID"> | C<"IPC_LOCK"> |
+C<"IPC_OWNER"> | C<"KILL"> | C<"LEASE"> | C<"LINUX_IMMUTABLE"> |
+C<"MAC_ADMIN"> |C< "MAC_OVERRIDE"> | C<"MKNOD"> | C<"NET_ADMIN"> |
+C<"NET_BIND_SERVICE"> | C<"NET_BROADCAST"> | C<"NET_RAW"> |
+C<"SETFCAP"> | C<"SETGID"> | C<"SETPCAP"> | C<"SETUID"> |
+C<"SYS_ADMIN"> | C<"SYS_BOOT"> | C<"SYS_CHROOT"> | C<"SYS_MODULE"> |
+C<"SYS_NICE"> | C<"SYS_PACCT"> | C<"SYS_PTRACE"> | C<"SYS_RAWIO"> |
+C<"SYS_RESOURCE"> | C<"SYS_TIME"> | C<"SYS_TTY_CONFIG"> | C<"SYSLOG"> |
+C<"WAKE_ALARM">
 
 
 =head2 Drop => ArrayRef[Str|Undef]
 
 The Linux capabilities for the container that are dropped from the
 default configuration provided by Docker.
+
+Valid values: C<"ALL"> | C<"AUDIT_CONTROL"> |C< "AUDIT_WRITE"> |
+C<"BLOCK_SUSPEND"> | C<"CHOWN"> | C<"DAC_OVERRIDE"> |
+C<"DAC_READ_SEARCH"> | C<"FOWNER"> | C<"FSETID"> | C<"IPC_LOCK"> |
+C<"IPC_OWNER"> | C<"KILL"> | C<"LEASE"> | C<"LINUX_IMMUTABLE"> |
+C<"MAC_ADMIN"> |C< "MAC_OVERRIDE"> | C<"MKNOD"> | C<"NET_ADMIN"> |
+C<"NET_BIND_SERVICE"> | C<"NET_BROADCAST"> | C<"NET_RAW"> |
+C<"SETFCAP"> | C<"SETGID"> | C<"SETPCAP"> | C<"SETUID"> |
+C<"SYS_ADMIN"> | C<"SYS_BOOT"> | C<"SYS_CHROOT"> | C<"SYS_MODULE"> |
+C<"SYS_NICE"> | C<"SYS_PACCT"> | C<"SYS_PTRACE"> | C<"SYS_RAWIO"> |
+C<"SYS_RESOURCE"> | C<"SYS_TIME"> | C<"SYS_TTY_CONFIG"> | C<"SYSLOG"> |
+C<"WAKE_ALARM">
 
 
 

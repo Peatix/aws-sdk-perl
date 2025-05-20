@@ -1,6 +1,7 @@
 
 package Paws::Shield::ListProtectionGroups;
   use Moose;
+  has InclusionFilters => (is => 'ro', isa => 'Paws::Shield::InclusionProtectionGroupFilters');
   has MaxResults => (is => 'ro', isa => 'Int');
   has NextToken => (is => 'ro', isa => 'Str');
 
@@ -29,6 +30,21 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $shield = Paws->service('Shield');
     my $ListProtectionGroupsResponse = $shield->ListProtectionGroups(
+      InclusionFilters => {
+        Aggregations => [
+          'SUM', ...    # values: SUM, MEAN, MAX
+        ],    # min: 1, max: 1; OPTIONAL
+        Patterns => [
+          'ALL', ...    # values: ALL, ARBITRARY, BY_RESOURCE_TYPE
+        ],    # min: 1, max: 1; OPTIONAL
+        ProtectionGroupIds => [
+          'MyProtectionGroupId', ...    # min: 1, max: 36
+        ],    # min: 1, max: 1; OPTIONAL
+        ResourceTypes => [
+          'CLOUDFRONT_DISTRIBUTION',
+          ... # values: CLOUDFRONT_DISTRIBUTION, ROUTE_53_HOSTED_ZONE, ELASTIC_IP_ALLOCATION, CLASSIC_LOAD_BALANCER, APPLICATION_LOAD_BALANCER, GLOBAL_ACCELERATOR
+        ],    # min: 1, max: 1; OPTIONAL
+      },    # OPTIONAL
       MaxResults => 1,            # OPTIONAL
       NextToken  => 'MyToken',    # OPTIONAL
     );
@@ -45,24 +61,47 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/shi
 =head1 ATTRIBUTES
 
 
+=head2 InclusionFilters => L<Paws::Shield::InclusionProtectionGroupFilters>
+
+Narrows the set of protection groups that the call retrieves. You can
+retrieve a single protection group by its name and you can retrieve all
+protection groups that are configured with specific pattern or
+aggregation settings. You can provide up to one criteria per filter
+type. Shield Advanced returns the protection groups that exactly match
+all of the search criteria that you provide.
+
+
+
 =head2 MaxResults => Int
 
-The maximum number of ProtectionGroup objects to return. If you leave
-this blank, Shield Advanced returns the first 20 results.
+The greatest number of objects that you want Shield Advanced to return
+to the list request. Shield Advanced might return fewer objects than
+you indicate in this setting, even if more objects are available. If
+there are more objects remaining, Shield Advanced will always also
+return a C<NextToken> value in the response.
 
-This is a maximum value. Shield Advanced might return the results in
-smaller batches. That is, the number of objects returned could be less
-than C<MaxResults>, even if there are still more objects yet to return.
-If there are more objects to return, Shield Advanced returns a value in
-C<NextToken> that you can use in your next request, to get the next
-batch of objects.
+The default setting is 20.
 
 
 
 =head2 NextToken => Str
 
-The next token value from a previous call to C<ListProtectionGroups>.
-Pass null if this is the first call.
+When you request a list of objects from Shield Advanced, if the
+response does not include all of the remaining available objects,
+Shield Advanced includes a C<NextToken> value in the response. You can
+retrieve the next batch of objects by requesting the list again and
+providing the token that was returned by the prior call in your
+request.
+
+You can indicate the maximum number of objects that you want Shield
+Advanced to return for a single call with the C<MaxResults> setting.
+Shield Advanced will not return more than C<MaxResults> objects, but
+may return fewer, even if more objects are still available.
+
+Whenever more objects remain that Shield Advanced has not yet returned
+to you, the response will include a C<NextToken> value.
+
+On your first call to a list operation, leave this setting empty.
 
 
 

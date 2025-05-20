@@ -1,7 +1,8 @@
 
 package Paws::ApplicationMigration::DescribeSourceServers;
   use Moose;
-  has Filters => (is => 'ro', isa => 'Paws::ApplicationMigration::DescribeSourceServersRequestFilters', traits => ['NameInRequest'], request_name => 'filters', required => 1);
+  has AccountID => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'accountID');
+  has Filters => (is => 'ro', isa => 'Paws::ApplicationMigration::DescribeSourceServersRequestFilters', traits => ['NameInRequest'], request_name => 'filters');
   has MaxResults => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'maxResults');
   has NextToken => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'nextToken');
 
@@ -31,12 +32,23 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $mgn = Paws->service('ApplicationMigration');
     my $DescribeSourceServersResponse = $mgn->DescribeSourceServers(
-      Filters => {
+      AccountID => 'MyAccountID',    # OPTIONAL
+      Filters   => {
+        ApplicationIDs => [
+          'MyApplicationID', ...     # min: 21, max: 21
+        ],    # max: 200; OPTIONAL
         IsArchived      => 1,    # OPTIONAL
+        LifeCycleStates => [
+          'STOPPED',
+          ... # values: STOPPED, NOT_READY, READY_FOR_TEST, TESTING, READY_FOR_CUTOVER, CUTTING_OVER, CUTOVER, DISCONNECTED, DISCOVERED, PENDING_INSTALLATION
+        ],    # max: 10; OPTIONAL
+        ReplicationTypes => [
+          'AGENT_BASED', ...    # values: AGENT_BASED, SNAPSHOT_SHIPPING
+        ],    # max: 2; OPTIONAL
         SourceServerIDs => [
           'MySourceServerID', ...    # min: 19, max: 19
         ],    # max: 200; OPTIONAL
-      },
+      },    # OPTIONAL
       MaxResults => 1,                      # OPTIONAL
       NextToken  => 'MyPaginationToken',    # OPTIONAL
     );
@@ -53,7 +65,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/mgn
 =head1 ATTRIBUTES
 
 
-=head2 B<REQUIRED> Filters => L<Paws::ApplicationMigration::DescribeSourceServersRequestFilters>
+=head2 AccountID => Str
+
+Request to filter Source Servers list by Accoun ID.
+
+
+
+=head2 Filters => L<Paws::ApplicationMigration::DescribeSourceServersRequestFilters>
 
 Request to filter Source Servers list.
 

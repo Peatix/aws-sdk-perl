@@ -2,6 +2,8 @@
 package Paws::MediaPackage::HlsManifest;
   use Moose;
   has AdMarkers => (is => 'ro', isa => 'Str', request_name => 'adMarkers', traits => ['NameInRequest']);
+  has AdsOnDeliveryRestrictions => (is => 'ro', isa => 'Str', request_name => 'adsOnDeliveryRestrictions', traits => ['NameInRequest']);
+  has AdTriggers => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'adTriggers', traits => ['NameInRequest']);
   has Id => (is => 'ro', isa => 'Str', request_name => 'id', traits => ['NameInRequest'], required => 1);
   has IncludeIframeOnlyStream => (is => 'ro', isa => 'Bool', request_name => 'includeIframeOnlyStream', traits => ['NameInRequest']);
   has ManifestName => (is => 'ro', isa => 'Str', request_name => 'manifestName', traits => ['NameInRequest']);
@@ -56,6 +58,16 @@ blackout tags based on SCTE-35 messages in the input source.
 "DATERANGE" inserts EXT-X-DATERANGE tags to signal ad and program
 transition events in HLS and CMAF manifests. For this option, you must
 set a programDateTimeIntervalSeconds value that is greater than 0.
+
+
+=head2 AdsOnDeliveryRestrictions => Str
+
+
+
+
+=head2 AdTriggers => ArrayRef[Str|Undef]
+
+
 
 
 =head2 B<REQUIRED> Id => Str

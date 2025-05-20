@@ -39,6 +39,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       );
 
     # Results:
+    my $AddedPrincipals =
+      $ModifyVpcEndpointServicePermissionsResult->AddedPrincipals;
     my $ReturnValue = $ModifyVpcEndpointServicePermissionsResult->ReturnValue;
 
     # Returns a L<Paws::EC2::ModifyVpcEndpointServicePermissionsResult> object.
@@ -51,8 +53,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ec2
 
 =head2 AddAllowedPrincipals => ArrayRef[Str|Undef]
 
-The Amazon Resource Names (ARN) of one or more principals. Permissions
-are granted to the principals in this list. To grant permissions to all
+The Amazon Resource Names (ARN) of the principals. Permissions are
+granted to the principals in this list. To grant permissions to all
 principals, specify an asterisk (*).
 
 
@@ -68,8 +70,8 @@ C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
 
 =head2 RemoveAllowedPrincipals => ArrayRef[Str|Undef]
 
-The Amazon Resource Names (ARN) of one or more principals. Permissions
-are revoked for principals in this list.
+The Amazon Resource Names (ARN) of the principals. Permissions are
+revoked for principals in this list.
 
 
 

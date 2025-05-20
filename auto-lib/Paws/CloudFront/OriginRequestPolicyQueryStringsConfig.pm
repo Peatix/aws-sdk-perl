@@ -51,21 +51,27 @@ are:
 
 =item *
 
-C<none> E<ndash> Query strings in viewer requests are not included in
+C<none> E<ndash> No query strings in viewer requests are included in
 requests that CloudFront sends to the origin. Even when this field is
 set to C<none>, any query strings that are listed in a C<CachePolicy>
 I<are> included in origin requests.
 
 =item *
 
-C<whitelist> E<ndash> The query strings in viewer requests that are
-listed in the C<QueryStringNames> type are included in requests that
-CloudFront sends to the origin.
+C<whitelist> E<ndash> Only the query strings in viewer requests that
+are listed in the C<QueryStringNames> type are included in requests
+that CloudFront sends to the origin.
 
 =item *
 
 C<all> E<ndash> All query strings in viewer requests are included in
 requests that CloudFront sends to the origin.
+
+=item *
+
+C<allExcept> E<ndash> All query strings in viewer requests are included
+in requests that CloudFront sends to the origin, I< B<except> > for
+those listed in the C<QueryStringNames> type, which are not included.
 
 =back
 
@@ -73,8 +79,14 @@ requests that CloudFront sends to the origin.
 
 =head2 QueryStrings => L<Paws::CloudFront::QueryStringNames>
 
-Contains a list of the query strings in viewer requests that are
-included in requests that CloudFront sends to the origin.
+Contains the specific query strings in viewer requests that either I<
+B<are> > or I< B<are not> > included in requests that CloudFront sends
+to the origin. The behavior depends on whether the
+C<QueryStringBehavior> field in the
+C<OriginRequestPolicyQueryStringsConfig> type is set to C<whitelist>
+(the listed query strings I< B<are> > included) or C<allExcept> (the
+listed query strings I< B<are not> > included, but all other query
+strings are).
 
 
 

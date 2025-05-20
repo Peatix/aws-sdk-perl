@@ -2,6 +2,7 @@
 package Paws::Synthetics::DescribeCanariesLastRun;
   use Moose;
   has MaxResults => (is => 'ro', isa => 'Int');
+  has Names => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has NextToken => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
@@ -30,8 +31,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $synthetics = Paws->service('Synthetics');
     my $DescribeCanariesLastRunResponse = $synthetics->DescribeCanariesLastRun(
-      MaxResults => 1,            # OPTIONAL
-      NextToken  => 'MyToken',    # OPTIONAL
+      MaxResults => 1,    # OPTIONAL
+      Names      => [
+        'MyCanaryName', ...    # min: 1, max: 255
+      ],    # OPTIONAL
+      NextToken => 'MyToken',    # OPTIONAL
     );
 
     # Results:
@@ -54,11 +58,29 @@ the default of 100 is used.
 
 
 
+=head2 Names => ArrayRef[Str|Undef]
+
+Use this parameter to return only canaries that match the names that
+you specify here. You can specify as many as five canary names.
+
+If you specify this parameter, the operation is successful only if you
+have authorization to view all the canaries that you specify in your
+request. If you do not have permission to view any of the canaries, the
+request fails with a 403 response.
+
+You are required to use the C<Names> parameter if you are logged on to
+a user or role that has an IAM policy that restricts which canaries
+that you are allowed to view. For more information, see Limiting a user
+to viewing specific canaries
+(https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_Restricted.html).
+
+
+
 =head2 NextToken => Str
 
 A token that indicates that there is more data available. You can use
-this token in a subsequent C<DescribeCanaries> operation to retrieve
-the next set of results.
+this token in a subsequent C<DescribeCanariesLastRun> operation to
+retrieve the next set of results.
 
 
 

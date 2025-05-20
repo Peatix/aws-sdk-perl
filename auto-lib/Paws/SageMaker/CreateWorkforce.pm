@@ -6,6 +6,7 @@ package Paws::SageMaker::CreateWorkforce;
   has SourceIpConfig => (is => 'ro', isa => 'Paws::SageMaker::SourceIpConfig');
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::SageMaker::Tag]');
   has WorkforceName => (is => 'ro', isa => 'Str', required => 1);
+  has WorkforceVpcConfig => (is => 'ro', isa => 'Paws::SageMaker::WorkforceVpcConfigRequest');
 
   use MooseX::ClassAttribute;
 
@@ -47,7 +48,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         LogoutEndpoint        => 'MyOidcEndpoint',    # max: 500
         TokenEndpoint         => 'MyOidcEndpoint',    # max: 500
         UserInfoEndpoint      => 'MyOidcEndpoint',    # max: 500
-
+        AuthenticationRequestExtraParams => {
+          'MyAuthenticationRequestExtraParamsKey' =>
+            'MyAuthenticationRequestExtraParamsValue'
+          ,    # key: max: 512, value: max: 512
+        },    # max: 10; OPTIONAL
+        Scope => 'MyScope',    # max: 1024; OPTIONAL
       },    # OPTIONAL
       SourceIpConfig => {
         Cidrs => [
@@ -63,6 +69,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },
         ...
       ],    # OPTIONAL
+      WorkforceVpcConfig => {
+        SecurityGroupIds => [
+          'MyWorkforceSecurityGroupId', ...    # max: 32
+        ],    # min: 1, max: 5; OPTIONAL
+        Subnets => [
+          'MyWorkforceSubnetId', ...    # max: 32
+        ],    # min: 1, max: 16; OPTIONAL
+        VpcId => 'MyWorkforceVpcId',    # max: 32; OPTIONAL
+      },    # OPTIONAL
     );
 
     # Results:
@@ -113,6 +128,12 @@ value, both of which you define.
 =head2 B<REQUIRED> WorkforceName => Str
 
 The name of the private workforce.
+
+
+
+=head2 WorkforceVpcConfig => L<Paws::SageMaker::WorkforceVpcConfigRequest>
+
+Use this parameter to configure a workforce using VPC.
 
 
 

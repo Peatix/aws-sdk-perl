@@ -33,9 +33,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::WorkSpaces:
 
 =head1 DESCRIPTION
 
-Describes the AWS accounts that have been granted permission to use a
-shared image. For more information about sharing images, see Share or
-Unshare a Custom WorkSpaces Image
+Describes the Amazon Web Services accounts that have been granted
+permission to use a shared image. For more information about sharing
+images, see Share or Unshare a Custom WorkSpaces Image
 (https://docs.aws.amazon.com/workspaces/latest/adminguide/share-custom-image.html).
 
 =head1 ATTRIBUTES
@@ -43,7 +43,8 @@ Unshare a Custom WorkSpaces Image
 
 =head2 SharedAccountId => Str
 
-The identifier of the AWS account that an image has been shared with.
+The identifier of the Amazon Web Services account that an image has
+been shared with.
 
 
 

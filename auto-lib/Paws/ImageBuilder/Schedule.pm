@@ -35,7 +35,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ImageBuilde
 
 =head1 DESCRIPTION
 
-A schedule configures how often and when a pipeline will automatically
+A schedule configures when and how often a pipeline will automatically
 create a new image.
 
 =head1 ATTRIBUTES
@@ -43,18 +43,30 @@ create a new image.
 
 =head2 PipelineExecutionStartCondition => Str
 
-The condition configures when the pipeline should trigger a new image
-build. When the C<pipelineExecutionStartCondition> is set to
-C<EXPRESSION_MATCH_AND_DEPENDENCY_UPDATES_AVAILABLE>, and you use
-semantic version filters on the source image or components in your
-image recipe, EC2 Image Builder will build a new image only when there
-are new versions of the image or components in your recipe that match
-the semantic version filter. When it is set to
-C<EXPRESSION_MATCH_ONLY>, it will build a new image every time the CRON
-expression matches the current time. For semantic version syntax, see
-CreateComponent
-(https://docs.aws.amazon.com/imagebuilder/latest/APIReference/API_CreateComponent.html)
-in the I< EC2 Image Builder API Reference>.
+The start condition configures when the pipeline should trigger a new
+image build, as follows. If no value is set Image Builder defaults to
+C<EXPRESSION_MATCH_AND_DEPENDENCY_UPDATES_AVAILABLE>.
+
+=over
+
+=item *
+
+C<EXPRESSION_MATCH_AND_DEPENDENCY_UPDATES_AVAILABLE> (default) E<ndash>
+When you use semantic version filters on the base image or components
+in your image recipe, EC2 Image Builder builds a new image only when
+there are new versions of the base image or components in your recipe
+that match the filter.
+
+For semantic version syntax, see CreateComponent
+(https://docs.aws.amazon.com/imagebuilder/latest/APIReference/API_CreateComponent.html).
+
+=item *
+
+C<EXPRESSION_MATCH_ONLY> E<ndash> This condition builds a new image
+every time the CRON expression matches the current time.
+
+=back
+
 
 
 =head2 ScheduleExpression => Str

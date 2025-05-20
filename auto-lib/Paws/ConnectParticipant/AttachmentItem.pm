@@ -56,7 +56,7 @@ A case-sensitive name of the attachment being uploaded.
 
 Describes the MIME file type of the attachment. For a list of supported
 file types, see Feature specifications
-(https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#feature-limits)
+(https://docs.aws.amazon.com/connect/latest/adminguide/feature-limits.html)
 in the I<Amazon Connect Administrator Guide>.
 
 

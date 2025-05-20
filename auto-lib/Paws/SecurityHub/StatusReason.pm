@@ -47,10 +47,10 @@ The corresponding description for the status reason code.
 =head2 B<REQUIRED> ReasonCode => Str
 
 A code that represents a reason for the control status. For the list of
-status reason codes and their meanings, see Standards-related
-information in the ASFF
-(https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-results.html#securityhub-standards-results-asff)
-in the I<AWS Security Hub User Guide>.
+status reason codes and their meanings, see Compliance details for
+control findings
+(https://docs.aws.amazon.com/securityhub/latest/userguide/controls-findings-create-update.html#control-findings-asff-compliance)
+in the I<Security Hub User Guide>.
 
 
 

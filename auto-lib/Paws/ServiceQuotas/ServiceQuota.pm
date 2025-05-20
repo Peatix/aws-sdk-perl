@@ -2,11 +2,14 @@
 package Paws::ServiceQuotas::ServiceQuota;
   use Moose;
   has Adjustable => (is => 'ro', isa => 'Bool');
+  has Description => (is => 'ro', isa => 'Str');
   has ErrorReason => (is => 'ro', isa => 'Paws::ServiceQuotas::ErrorReason');
   has GlobalQuota => (is => 'ro', isa => 'Bool');
   has Period => (is => 'ro', isa => 'Paws::ServiceQuotas::QuotaPeriod');
+  has QuotaAppliedAtLevel => (is => 'ro', isa => 'Str');
   has QuotaArn => (is => 'ro', isa => 'Str');
   has QuotaCode => (is => 'ro', isa => 'Str');
+  has QuotaContext => (is => 'ro', isa => 'Paws::ServiceQuotas::QuotaContextInfo');
   has QuotaName => (is => 'ro', isa => 'Str');
   has ServiceCode => (is => 'ro', isa => 'Str');
   has ServiceName => (is => 'ro', isa => 'Str');
@@ -54,6 +57,11 @@ Information about a quota.
 Indicates whether the quota value can be increased.
 
 
+=head2 Description => Str
+
+The quota description.
+
+
 =head2 ErrorReason => L<Paws::ServiceQuotas::ErrorReason>
 
 The error code and error reason.
@@ -69,6 +77,12 @@ Indicates whether the quota is global.
 The period of time.
 
 
+=head2 QuotaAppliedAtLevel => Str
+
+Filters the response to return applied quota values for the C<ACCOUNT>,
+C<RESOURCE>, or C<ALL> levels. C<ACCOUNT> is the default.
+
+
 =head2 QuotaArn => Str
 
 The Amazon Resource Name (ARN) of the quota.
@@ -76,22 +90,30 @@ The Amazon Resource Name (ARN) of the quota.
 
 =head2 QuotaCode => Str
 
-The quota identifier.
+Specifies the quota identifier. To find the quota code for a specific
+quota, use the ListServiceQuotas operation, and look for the
+C<QuotaCode> response in the output for the quota you want.
+
+
+=head2 QuotaContext => L<Paws::ServiceQuotas::QuotaContextInfo>
+
+The context for this service quota.
 
 
 =head2 QuotaName => Str
 
-The quota name.
+Specifies the quota name.
 
 
 =head2 ServiceCode => Str
 
-The service identifier.
+Specifies the service identifier. To find the service code value for an
+Amazon Web Services service, use the ListServices operation.
 
 
 =head2 ServiceName => Str
 
-The service name.
+Specifies the service name.
 
 
 =head2 Unit => Str

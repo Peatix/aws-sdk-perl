@@ -11,6 +11,7 @@ package Paws::Translate::TextTranslationJobProperties;
   has Message => (is => 'ro', isa => 'Str');
   has OutputDataConfig => (is => 'ro', isa => 'Paws::Translate::OutputDataConfig');
   has ParallelDataNames => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has Settings => (is => 'ro', isa => 'Paws::Translate::TranslationSettings');
   has SourceLanguageCode => (is => 'ro', isa => 'Str');
   has SubmittedTime => (is => 'ro', isa => 'Str');
   has TargetLanguageCodes => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
@@ -92,7 +93,7 @@ The status of the translation job.
 
 =head2 Message => Str
 
-An explanation of any errors that may have occured during the
+An explanation of any errors that may have occurred during the
 translation job.
 
 
@@ -106,6 +107,11 @@ was requested.
 
 A list containing the names of the parallel data resources applied to
 the translation job.
+
+
+=head2 Settings => L<Paws::Translate::TranslationSettings>
+
+Settings that modify the translation output.
 
 
 =head2 SourceLanguageCode => Str

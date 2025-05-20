@@ -36,8 +36,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       DefaultRunProperties => {
         'MyIdString' => 'MyGenericString',    # key: min: 1, max: 255
       },    # OPTIONAL
-      Description       => 'MyGenericString',    # OPTIONAL
-      MaxConcurrentRuns => 1,                    # OPTIONAL
+      Description       => 'MyWorkflowDescriptionString',    # OPTIONAL
+      MaxConcurrentRuns => 1,                                # OPTIONAL
       Tags              => {
         'MyTagKey' => 'MyTagValue',    # key: min: 1, max: 128, value: max: 256
       },    # OPTIONAL
@@ -58,6 +58,11 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/glu
 
 A collection of properties to be used as part of each execution of the
 workflow.
+
+Run properties may be logged. Do not pass plaintext secrets as
+properties. Retrieve secrets from a Glue Connection, Amazon Web
+Services Secrets Manager or other secret management mechanism if you
+intend to use them within the workflow run.
 
 
 

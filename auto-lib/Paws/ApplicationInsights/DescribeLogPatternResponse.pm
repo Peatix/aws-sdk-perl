@@ -1,6 +1,7 @@
 
 package Paws::ApplicationInsights::DescribeLogPatternResponse;
   use Moose;
+  has AccountId => (is => 'ro', isa => 'Str');
   has LogPattern => (is => 'ro', isa => 'Paws::ApplicationInsights::LogPattern');
   has ResourceGroupName => (is => 'ro', isa => 'Str');
 
@@ -13,6 +14,11 @@ package Paws::ApplicationInsights::DescribeLogPatternResponse;
 Paws::ApplicationInsights::DescribeLogPatternResponse
 
 =head1 ATTRIBUTES
+
+
+=head2 AccountId => Str
+
+The Amazon Web Services account ID for the resource group owner.
 
 
 =head2 LogPattern => L<Paws::ApplicationInsights::LogPattern>

@@ -59,6 +59,9 @@ One or more labels to attach to the specified parameter version.
 
 The parameter name on which you want to attach one or more labels.
 
+You can't enter the Amazon Resource Name (ARN) for a parameter, only
+the parameter name itself.
+
 
 
 =head2 ParameterVersion => Int

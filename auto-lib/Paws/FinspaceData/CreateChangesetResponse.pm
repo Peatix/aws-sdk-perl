@@ -1,7 +1,8 @@
 
 package Paws::FinspaceData::CreateChangesetResponse;
   use Moose;
-  has Changeset => (is => 'ro', isa => 'Paws::FinspaceData::ChangesetInfo', traits => ['NameInRequest'], request_name => 'changeset');
+  has ChangesetId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'changesetId');
+  has DatasetId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'datasetId');
 
   has _request_id => (is => 'ro', isa => 'Str');
 1;
@@ -15,9 +16,15 @@ Paws::FinspaceData::CreateChangesetResponse
 =head1 ATTRIBUTES
 
 
-=head2 Changeset => L<Paws::FinspaceData::ChangesetInfo>
+=head2 ChangesetId => Str
 
-Returns the changeset details.
+The unique identifier of the Changeset that is created.
+
+
+=head2 DatasetId => Str
+
+The unique identifier for the FinSpace Dataset where the Changeset is
+created.
 
 
 =head2 _request_id => Str

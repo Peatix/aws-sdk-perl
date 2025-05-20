@@ -51,35 +51,35 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 MaxResults => Int
 
-The maximum number of repository results returned by
+The maximum number of repository results that's returned by
 C<DescribeImageTags> in paginated output. When this parameter is used,
 C<DescribeImageTags> only returns C<maxResults> results in a single
-page along with a C<nextToken> response element. The remaining results
-of the initial request can be seen by sending another
+page along with a C<nextToken> response element. You can see the
+remaining results of the initial request by sending another
 C<DescribeImageTags> request with the returned C<nextToken> value. This
-value can be between 1 and 1000. If this parameter is not used, then
+value can be between 1 and 1000. If this parameter isn't used, then
 C<DescribeImageTags> returns up to 100 results and a C<nextToken>
-value, if applicable. This option cannot be used when you specify
-images with C<imageIds>.
+value, if applicable. If you specify images with C<imageIds>, you can't
+use this option.
 
 
 
 =head2 NextToken => Str
 
-The C<nextToken> value returned from a previous paginated
+The C<nextToken> value that's returned from a previous paginated
 C<DescribeImageTags> request where C<maxResults> was used and the
 results exceeded the value of that parameter. Pagination continues from
 the end of the previous results that returned the C<nextToken> value.
-This value is C<null> when there are no more results to return. This
-option cannot be used when you specify images with C<imageIds>.
+If there are no more results to return, this value is C<null>. If you
+specify images with C<imageIds>, you can't use this option.
 
 
 
 =head2 RegistryId => Str
 
-The AWS account ID associated with the public registry that contains
-the repository in which to describe images. If you do not specify a
-registry, the default public registry is assumed.
+The Amazon Web Services account ID that's associated with the public
+registry that contains the repository where images are described. If
+you do not specify a registry, the default public registry is assumed.
 
 
 

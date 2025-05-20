@@ -39,18 +39,18 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           },    # OPTIONAL
           PlayerAttributes => {
             'MyNonZeroAndMaxString' => {
-              N   => 1,                          # OPTIONAL
-              S   => 'MyNonZeroAndMaxString',    # min: 1, max: 1024
+              N   => 1,                            # OPTIONAL
+              S   => 'MyPlayerAttributeString',    # min: 1, max: 100; OPTIONAL
               SDM => {
-                'MyNonZeroAndMaxString' =>
-                  1,    # key: min: 1, max: 1024, value: OPTIONAL
+                'MyPlayerAttributeString' =>
+                  1,    # key: min: 1, max: 100; OPTIONAL, value: OPTIONAL
               },    # OPTIONAL
               SL => [
-                'MyNonZeroAndMaxString', ...    # min: 1, max: 1024
+                'MyPlayerAttributeString', ...    # min: 1, max: 100; OPTIONAL
               ],    # OPTIONAL
             },    # key: min: 1, max: 1024
           },    # OPTIONAL
-          PlayerId => 'MyNonZeroAndMaxString',    # min: 1, max: 1024
+          PlayerId => 'MyPlayerId',               # min: 1, max: 1024; OPTIONAL
           Team     => 'MyNonZeroAndMaxString',    # min: 1, max: 1024
         },
         ...
@@ -74,7 +74,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/gam
 
 Name of the matchmaker to use for this request. You can use either the
 configuration name or ARN value. The ARN of the matchmaker that was
-used with the original game session is listed in the GameSession
+used with the original game session is listed in the C<GameSession>
 object, C<MatchmakerData> property.
 
 
@@ -93,15 +93,21 @@ Match information on all players that are currently assigned to the
 game session. This information is used by the matchmaker to find new
 players and add them to the existing game.
 
+You can include up to 199 C<Players> in a C<StartMatchBackfill>
+request.
+
 =over
 
 =item *
 
 PlayerID, PlayerAttributes, Team -- This information is maintained in
-the GameSession object, C<MatchmakerData> property, for all players who
-are currently assigned to the game session. The matchmaker data is in
-JSON syntax, formatted as a string. For more details, see Match Data
+the C<GameSession> object, C<MatchmakerData> property, for all players
+who are currently assigned to the game session. The matchmaker data is
+in JSON syntax, formatted as a string. For more details, see Match Data
 (https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/match-server.html#match-server-data).
+
+The backfill request must specify the team membership for every player.
+Do not specify team if you are not using backfill.
 
 =item *
 

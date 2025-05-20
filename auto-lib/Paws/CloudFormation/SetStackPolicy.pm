@@ -49,10 +49,10 @@ The name or unique stack ID that you want to associate a policy with.
 
 =head2 StackPolicyBody => Str
 
-Structure containing the stack policy body. For more information, go to
-Prevent Updates to Stack Resources
+Structure containing the stack policy body. For more information, see
+Prevent updates to stack resources
 (https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/protect-stack-resources.html)
-in the AWS CloudFormation User Guide. You can specify either the
+in the I<CloudFormation User Guide>. You can specify either the
 C<StackPolicyBody> or the C<StackPolicyURL> parameter, but not both.
 
 
@@ -60,9 +60,10 @@ C<StackPolicyBody> or the C<StackPolicyURL> parameter, but not both.
 =head2 StackPolicyURL => Str
 
 Location of a file containing the stack policy. The URL must point to a
-policy (maximum size: 16 KB) located in an S3 bucket in the same Region
-as the stack. You can specify either the C<StackPolicyBody> or the
-C<StackPolicyURL> parameter, but not both.
+policy (maximum size: 16 KB) located in an Amazon S3 bucket in the same
+Amazon Web Services Region as the stack. The location for an Amazon S3
+bucket must start with C<https://>. You can specify either the
+C<StackPolicyBody> or the C<StackPolicyURL> parameter, but not both.
 
 
 

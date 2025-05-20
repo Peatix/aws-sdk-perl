@@ -2,6 +2,7 @@
 package Paws::EC2::ModifyInstancePlacement;
   use Moose;
   has Affinity => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'affinity' );
+  has GroupId => (is => 'ro', isa => 'Str');
   has GroupName => (is => 'ro', isa => 'Str');
   has HostId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'hostId' );
   has HostResourceGroupArn => (is => 'ro', isa => 'Str');
@@ -36,11 +37,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $ModifyInstancePlacementResult = $ec2->ModifyInstancePlacement(
       InstanceId           => 'MyInstanceId',
       Affinity             => 'default',                 # OPTIONAL
+      GroupId              => 'MyPlacementGroupId',      # OPTIONAL
       GroupName            => 'MyPlacementGroupName',    # OPTIONAL
       HostId               => 'MyDedicatedHostId',       # OPTIONAL
       HostResourceGroupArn => 'MyString',                # OPTIONAL
       PartitionNumber      => 1,                         # OPTIONAL
-      Tenancy              => 'dedicated',               # OPTIONAL
+      Tenancy              => 'default',                 # OPTIONAL
     );
 
     # Results:
@@ -56,9 +58,19 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ec2
 
 =head2 Affinity => Str
 
-The affinity setting for the instance.
+The affinity setting for the instance. For more information, see Host
+affinity
+(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/how-dedicated-hosts-work.html#dedicated-hosts-affinity)
+in the I<Amazon EC2 User Guide>.
 
 Valid values are: C<"default">, C<"host">
+
+=head2 GroupId => Str
+
+The Group Id of a placement group. You must specify the Placement Group
+B<Group Id> to launch an instance in a shared placement group.
+
+
 
 =head2 GroupName => Str
 
@@ -80,7 +92,8 @@ The ID of the Dedicated Host with which to associate the instance.
 
 =head2 HostResourceGroupArn => Str
 
-The ARN of the host resource group in which to place the instance.
+The ARN of the host resource group in which to place the instance. The
+instance must have a tenancy of C<host> to specify this parameter.
 
 
 
@@ -92,7 +105,8 @@ The ID of the instance that you are modifying.
 
 =head2 PartitionNumber => Int
 
-Reserved for future use.
+The number of the partition in which to place the instance. Valid only
+if the placement group strategy is set to C<partition>.
 
 
 
@@ -100,7 +114,12 @@ Reserved for future use.
 
 The tenancy for the instance.
 
-Valid values are: C<"dedicated">, C<"host">
+For T3 instances, you must launch the instance on a Dedicated Host to
+use a tenancy of C<host>. You can't change the tenancy from C<host> to
+C<dedicated> or C<default>. Attempting to make one of these unsupported
+tenancy changes results in an C<InvalidRequest> error code.
+
+Valid values are: C<"default">, C<"dedicated">, C<"host">
 
 
 =head1 SEE ALSO

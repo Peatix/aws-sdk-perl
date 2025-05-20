@@ -21,17 +21,19 @@ Paws::SSM::ListInventoryEntriesResult
 
 =head2 CaptureTime => Str
 
-The time that inventory information was collected for the instance(s).
+The time that inventory information was collected for the managed
+nodes.
 
 
 =head2 Entries => ArrayRef[L<Paws::SSM::InventoryItemEntry>]
 
-A list of inventory items on the instance(s).
+A list of inventory items on the managed nodes.
 
 
 =head2 InstanceId => Str
 
-The instance ID targeted by the request to query inventory information.
+The managed node ID targeted by the request to query inventory
+information.
 
 
 =head2 NextToken => Str
@@ -42,7 +44,7 @@ additional items to return, the string is empty.
 
 =head2 SchemaVersion => Str
 
-The inventory schema version used by the instance(s).
+The inventory schema version used by the managed nodes.
 
 
 =head2 TypeName => Str

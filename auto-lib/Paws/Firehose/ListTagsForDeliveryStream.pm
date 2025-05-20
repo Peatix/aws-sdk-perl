@@ -49,7 +49,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/fir
 
 =head2 B<REQUIRED> DeliveryStreamName => Str
 
-The name of the delivery stream whose tags you want to list.
+The name of the Firehose stream whose tags you want to list.
 
 
 
@@ -64,7 +64,7 @@ after C<ExclusiveStartTagKey>.
 =head2 Limit => Int
 
 The number of tags to return. If this number is less than the total
-number of tags associated with the delivery stream, C<HasMoreTags> is
+number of tags associated with the Firehose stream, C<HasMoreTags> is
 set to C<true> in the response. To list additional tags, set
 C<ExclusiveStartTagKey> to the last key in the response.
 

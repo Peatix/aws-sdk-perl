@@ -11,6 +11,7 @@ package Paws::DS::DirectoryDescription;
   has Edition => (is => 'ro', isa => 'Str');
   has LaunchTime => (is => 'ro', isa => 'Str');
   has Name => (is => 'ro', isa => 'Str');
+  has OsVersion => (is => 'ro', isa => 'Str');
   has OwnerDirectoryDescription => (is => 'ro', isa => 'Paws::DS::OwnerDirectoryDescription');
   has RadiusSettings => (is => 'ro', isa => 'Paws::DS::RadiusSettings');
   has RadiusStatus => (is => 'ro', isa => 'Str');
@@ -57,7 +58,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::DS::Directo
 
 =head1 DESCRIPTION
 
-Contains information about an AWS Directory Service directory.
+Contains information about an Directory Service directory.
 
 =head1 ATTRIBUTES
 
@@ -105,8 +106,8 @@ The directory identifier.
 The IP addresses of the DNS servers for the directory. For a Simple AD
 or Microsoft AD directory, these are the IP addresses of the Simple AD
 or Microsoft AD directory servers. For an AD Connector directory, these
-are the IP addresses of the DNS servers or domain controllers in the
-on-premises directory to which the AD Connector is connected.
+are the IP addresses of the DNS servers or domain controllers in your
+self-managed directory to which the AD Connector is connected.
 
 
 =head2 Edition => Str
@@ -124,9 +125,14 @@ Specifies when the directory was created.
 The fully qualified name of the directory.
 
 
+=head2 OsVersion => Str
+
+The operating system (OS) version of the directory.
+
+
 =head2 OwnerDirectoryDescription => L<Paws::DS::OwnerDirectoryDescription>
 
-Describes the AWS Managed Microsoft AD directory in the directory owner
+Describes the Managed Microsoft AD directory in the directory owner
 account.
 
 
@@ -149,9 +155,9 @@ Lists the Regions where the directory has replicated.
 =head2 ShareMethod => Str
 
 The method used when sharing a directory to determine whether the
-directory should be shared within your AWS organization
-(C<ORGANIZATIONS>) or with any AWS account by sending a shared
-directory request (C<HANDSHAKE>).
+directory should be shared within your Amazon Web Services organization
+(C<ORGANIZATIONS>) or with any Amazon Web Services account by sending a
+shared directory request (C<HANDSHAKE>).
 
 
 =head2 ShareNotes => Str
@@ -164,8 +170,7 @@ the share invitation.
 
 =head2 ShareStatus => Str
 
-Current directory status of the shared AWS Managed Microsoft AD
-directory.
+Current directory status of the shared Managed Microsoft AD directory.
 
 
 =head2 ShortName => Str
@@ -201,14 +206,14 @@ Additional information about the directory stage.
 
 =head2 Type => Str
 
-The directory size.
+The directory type.
 
 
 =head2 VpcSettings => L<Paws::DS::DirectoryVpcSettingsDescription>
 
 A DirectoryVpcSettingsDescription object that contains additional
 information about a directory. This member is only present if the
-directory is a Simple AD or Managed AD directory.
+directory is a Simple AD or Managed Microsoft AD directory.
 
 
 

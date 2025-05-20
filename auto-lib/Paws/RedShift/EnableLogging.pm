@@ -1,8 +1,10 @@
 
 package Paws::RedShift::EnableLogging;
   use Moose;
-  has BucketName => (is => 'ro', isa => 'Str', required => 1);
+  has BucketName => (is => 'ro', isa => 'Str');
   has ClusterIdentifier => (is => 'ro', isa => 'Str', required => 1);
+  has LogDestinationType => (is => 'ro', isa => 'Str');
+  has LogExports => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has S3KeyPrefix => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
@@ -30,9 +32,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $redshift = Paws->service('RedShift');
     my $LoggingStatus = $redshift->EnableLogging(
-      BucketName        => 'MyString',
-      ClusterIdentifier => 'MyString',
-      S3KeyPrefix       => 'MyString',    # OPTIONAL
+      ClusterIdentifier  => 'MyString',
+      BucketName         => 'MyString',    # OPTIONAL
+      LogDestinationType => 's3',          # OPTIONAL
+      LogExports         => [
+        'MyString', ...                    # max: 2147483647
+      ],    # OPTIONAL
+      S3KeyPrefix => 'MyS3KeyPrefixValue',    # OPTIONAL
     );
 
     # Results:
@@ -40,6 +46,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $LastFailureMessage         = $LoggingStatus->LastFailureMessage;
     my $LastFailureTime            = $LoggingStatus->LastFailureTime;
     my $LastSuccessfulDeliveryTime = $LoggingStatus->LastSuccessfulDeliveryTime;
+    my $LogDestinationType         = $LoggingStatus->LogDestinationType;
+    my $LogExports                 = $LoggingStatus->LogExports;
     my $LoggingEnabled             = $LoggingStatus->LoggingEnabled;
     my $S3KeyPrefix                = $LoggingStatus->S3KeyPrefix;
 
@@ -51,7 +59,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/red
 =head1 ATTRIBUTES
 
 
-=head2 B<REQUIRED> BucketName => Str
+=head2 BucketName => Str
 
 The name of an existing S3 bucket where the log files are to be stored.
 
@@ -80,50 +88,28 @@ Example: C<examplecluster>
 
 
 
+=head2 LogDestinationType => Str
+
+The log destination type. An enum with possible values of C<s3> and
+C<cloudwatch>.
+
+Valid values are: C<"s3">, C<"cloudwatch">
+
+=head2 LogExports => ArrayRef[Str|Undef]
+
+The collection of exported log types. Possible values are
+C<connectionlog>, C<useractivitylog>, and C<userlog>.
+
+
+
 =head2 S3KeyPrefix => Str
 
 The prefix applied to the log file names.
 
-Constraints:
-
-=over
-
-=item *
-
-Cannot exceed 512 characters
-
-=item *
-
-Cannot contain spaces( ), double quotes ("), single quotes ('), a
-backslash (\), or control characters. The hexadecimal codes for invalid
-characters are:
-
-=over
-
-=item *
-
-x00 to x20
-
-=item *
-
-x22
-
-=item *
-
-x27
-
-=item *
-
-x5c
-
-=item *
-
-x7f or larger
-
-=back
-
-=back
-
+Valid characters are any letter from any language, any whitespace
+character, any numeric character, and the following characters:
+underscore (C<_>), period (C<.>), colon (C<:>), slash (C</>), equal
+(C<=>), plus (C<+>), backslash (C<\>), hyphen (C<->), at symbol (C<@>).
 
 
 

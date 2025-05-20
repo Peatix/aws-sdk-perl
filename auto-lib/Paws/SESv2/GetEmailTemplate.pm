@@ -47,7 +47,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ema
 
 =head2 B<REQUIRED> TemplateName => Str
 
-The name of the template you want to retrieve.
+The name of the template.
 
 
 

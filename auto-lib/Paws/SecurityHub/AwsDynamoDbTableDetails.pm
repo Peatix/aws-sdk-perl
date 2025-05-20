@@ -4,6 +4,7 @@ package Paws::SecurityHub::AwsDynamoDbTableDetails;
   has AttributeDefinitions => (is => 'ro', isa => 'ArrayRef[Paws::SecurityHub::AwsDynamoDbTableAttributeDefinition]');
   has BillingModeSummary => (is => 'ro', isa => 'Paws::SecurityHub::AwsDynamoDbTableBillingModeSummary');
   has CreationDateTime => (is => 'ro', isa => 'Str');
+  has DeletionProtectionEnabled => (is => 'ro', isa => 'Bool');
   has GlobalSecondaryIndexes => (is => 'ro', isa => 'ArrayRef[Paws::SecurityHub::AwsDynamoDbTableGlobalSecondaryIndex]');
   has GlobalTableVersion => (is => 'ro', isa => 'Str');
   has ItemCount => (is => 'ro', isa => 'Int');
@@ -70,10 +71,15 @@ Information about the billing for read/write capacity on the table.
 
 Indicates when the table was created.
 
-Uses the C<date-time> format specified in RFC 3339 section 5.6,
-Internet Date/Time Format
-(https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot
-contain spaces. For example, C<2020-03-22T13:22:13.933Z>.
+For more information about the validation and formatting of timestamp
+fields in Security Hub, see Timestamps
+(https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+
+
+=head2 DeletionProtectionEnabled => Bool
+
+Indicates whether deletion protection is to be enabled (true) or
+disabled (false) on the table.
 
 
 =head2 GlobalSecondaryIndexes => ArrayRef[L<Paws::SecurityHub::AwsDynamoDbTableGlobalSecondaryIndex>]
@@ -153,7 +159,40 @@ The total size of the table in bytes.
 
 =head2 TableStatus => Str
 
-The current status of the table.
+The current status of the table. Valid values are as follows:
+
+=over
+
+=item *
+
+C<ACTIVE>
+
+=item *
+
+C<ARCHIVED>
+
+=item *
+
+C<ARCHIVING>
+
+=item *
+
+C<CREATING>
+
+=item *
+
+C<DELETING>
+
+=item *
+
+C<INACCESSIBLE_ENCRYPTION_CREDENTIALS>
+
+=item *
+
+C<UPDATING>
+
+=back
+
 
 
 

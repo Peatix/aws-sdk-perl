@@ -46,7 +46,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/iot
 
 =head2 B<REQUIRED> LoggingOptions => L<Paws::IoTAnalytics::LoggingOptions>
 
-The new values of the AWS IoT Analytics logging options.
+The new values of the IoT Analytics logging options.
 
 
 

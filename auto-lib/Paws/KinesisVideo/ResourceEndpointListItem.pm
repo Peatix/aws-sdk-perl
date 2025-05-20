@@ -37,6 +37,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::KinesisVide
 An object that describes the endpoint of the signaling channel returned
 by the C<GetSignalingChannelEndpoint> API.
 
+The media server endpoint will correspond to the C<WEBRTC> Protocol.
+
 =head1 ATTRIBUTES
 
 

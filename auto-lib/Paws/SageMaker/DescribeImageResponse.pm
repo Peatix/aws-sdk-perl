@@ -45,7 +45,7 @@ failure.
 
 =head2 ImageArn => Str
 
-The Amazon Resource Name (ARN) of the image.
+The ARN of the image.
 
 
 =head2 ImageName => Str
@@ -65,8 +65,8 @@ When the image was last modified.
 
 =head2 RoleArn => Str
 
-The Amazon Resource Name (ARN) of the IAM role that enables Amazon
-SageMaker to perform tasks on your behalf.
+The ARN of the IAM role that enables Amazon SageMaker AI to perform
+tasks on your behalf.
 
 
 =head2 _request_id => Str

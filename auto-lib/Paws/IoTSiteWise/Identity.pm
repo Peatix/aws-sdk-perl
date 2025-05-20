@@ -36,19 +36,19 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::IoTSiteWise
 
 =head1 DESCRIPTION
 
-Contains an identity that can access an AWS IoT SiteWise Monitor
-resource.
+Contains an identity that can access an IoT SiteWise Monitor resource.
 
-Currently, you can't use AWS APIs to retrieve AWS SSO identity IDs. You
-can find the AWS SSO identity IDs in the URL of user and group pages in
-the AWS SSO console (https://console.aws.amazon.com/singlesignon).
+Currently, you can't use Amazon Web Services API operations to retrieve
+IAM Identity Center identity IDs. You can find the IAM Identity Center
+identity IDs in the URL of user and group pages in the IAM Identity
+Center console (https://console.aws.amazon.com/singlesignon).
 
 =head1 ATTRIBUTES
 
 
 =head2 Group => L<Paws::IoTSiteWise::GroupIdentity>
 
-An AWS SSO group identity.
+An IAM Identity Center group identity.
 
 
 =head2 IamRole => L<Paws::IoTSiteWise::IAMRoleIdentity>
@@ -63,7 +63,7 @@ An IAM user identity.
 
 =head2 User => L<Paws::IoTSiteWise::UserIdentity>
 
-An AWS SSO user identity.
+An IAM Identity Center user identity.
 
 
 

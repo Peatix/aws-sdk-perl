@@ -30,7 +30,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $workmail = Paws->service('WorkMail');
     my $DeleteUserResponse = $workmail->DeleteUser(
       OrganizationId => 'MyOrganizationId',
-      UserId         => 'MyWorkMailIdentifier',
+      UserId         => 'MyEntityIdentifier',
 
     );
 
@@ -49,6 +49,23 @@ The organization that contains the user to be deleted.
 =head2 B<REQUIRED> UserId => Str
 
 The identifier of the user to be deleted.
+
+The identifier can be the I<UserId> or I<Username>. The following
+identity formats are available:
+
+=over
+
+=item *
+
+User ID: 12345678-1234-1234-1234-123456789012 or
+S-1-1-12-1234567890-123456789-123456789-1234
+
+=item *
+
+User name: user
+
+=back
+
 
 
 

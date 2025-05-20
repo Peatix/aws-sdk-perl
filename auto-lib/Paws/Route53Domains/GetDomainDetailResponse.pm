@@ -3,22 +3,25 @@ package Paws::Route53Domains::GetDomainDetailResponse;
   use Moose;
   has AbuseContactEmail => (is => 'ro', isa => 'Str');
   has AbuseContactPhone => (is => 'ro', isa => 'Str');
-  has AdminContact => (is => 'ro', isa => 'Paws::Route53Domains::ContactDetail', required => 1);
+  has AdminContact => (is => 'ro', isa => 'Paws::Route53Domains::ContactDetail');
   has AdminPrivacy => (is => 'ro', isa => 'Bool');
   has AutoRenew => (is => 'ro', isa => 'Bool');
+  has BillingContact => (is => 'ro', isa => 'Paws::Route53Domains::ContactDetail');
+  has BillingPrivacy => (is => 'ro', isa => 'Bool');
   has CreationDate => (is => 'ro', isa => 'Str');
   has DnsSec => (is => 'ro', isa => 'Str');
-  has DomainName => (is => 'ro', isa => 'Str', required => 1);
+  has DnssecKeys => (is => 'ro', isa => 'ArrayRef[Paws::Route53Domains::DnssecKey]');
+  has DomainName => (is => 'ro', isa => 'Str');
   has ExpirationDate => (is => 'ro', isa => 'Str');
-  has Nameservers => (is => 'ro', isa => 'ArrayRef[Paws::Route53Domains::Nameserver]', required => 1);
-  has RegistrantContact => (is => 'ro', isa => 'Paws::Route53Domains::ContactDetail', required => 1);
+  has Nameservers => (is => 'ro', isa => 'ArrayRef[Paws::Route53Domains::Nameserver]');
+  has RegistrantContact => (is => 'ro', isa => 'Paws::Route53Domains::ContactDetail');
   has RegistrantPrivacy => (is => 'ro', isa => 'Bool');
   has RegistrarName => (is => 'ro', isa => 'Str');
   has RegistrarUrl => (is => 'ro', isa => 'Str');
   has RegistryDomainId => (is => 'ro', isa => 'Str');
   has Reseller => (is => 'ro', isa => 'Str');
   has StatusList => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
-  has TechContact => (is => 'ro', isa => 'Paws::Route53Domains::ContactDetail', required => 1);
+  has TechContact => (is => 'ro', isa => 'Paws::Route53Domains::ContactDetail');
   has TechPrivacy => (is => 'ro', isa => 'Bool');
   has UpdatedDate => (is => 'ro', isa => 'Str');
   has WhoIsServer => (is => 'ro', isa => 'Str');
@@ -47,7 +50,7 @@ type of abuse.
 Phone number for reporting abuse.
 
 
-=head2 B<REQUIRED> AdminContact => L<Paws::Route53Domains::ContactDetail>
+=head2 AdminContact => L<Paws::Route53Domains::ContactDetail>
 
 Provides details about the domain administrative contact.
 
@@ -56,16 +59,29 @@ Provides details about the domain administrative contact.
 
 Specifies whether contact information is concealed from WHOIS queries.
 If the value is C<true>, WHOIS ("who is") queries return contact
-information either for Amazon Registrar (for .com, .net, and .org
-domains) or for our registrar associate, Gandi (for all other TLDs). If
-the value is C<false>, WHOIS queries return the information that you
-entered for the admin contact.
+information either for Amazon Registrar or for our registrar associate,
+Gandi. If the value is C<false>, WHOIS queries return the information
+that you entered for the admin contact.
 
 
 =head2 AutoRenew => Bool
 
 Specifies whether the domain registration is set to renew
 automatically.
+
+
+=head2 BillingContact => L<Paws::Route53Domains::ContactDetail>
+
+Provides details about the domain billing contact.
+
+
+=head2 BillingPrivacy => Bool
+
+Specifies whether contact information is concealed from WHOIS queries.
+If the value is C<true>, WHOIS ("who is") queries return contact
+information either for Amazon Registrar or for our registrar associate,
+Gandi. If the value is C<false>, WHOIS queries return the information
+that you entered for the billing contact.
 
 
 =head2 CreationDate => Str
@@ -77,10 +93,16 @@ Universal time (UTC).
 
 =head2 DnsSec => Str
 
-Reserved for future use.
+Deprecated.
 
 
-=head2 B<REQUIRED> DomainName => Str
+=head2 DnssecKeys => ArrayRef[L<Paws::Route53Domains::DnssecKey>]
+
+A complex type that contains information about the DNSSEC
+configuration.
+
+
+=head2 DomainName => Str
 
 The name of a domain.
 
@@ -92,12 +114,12 @@ date and time is in Unix time format and Coordinated Universal time
 (UTC).
 
 
-=head2 B<REQUIRED> Nameservers => ArrayRef[L<Paws::Route53Domains::Nameserver>]
+=head2 Nameservers => ArrayRef[L<Paws::Route53Domains::Nameserver>]
 
-The name of the domain.
+The name servers of the domain.
 
 
-=head2 B<REQUIRED> RegistrantContact => L<Paws::Route53Domains::ContactDetail>
+=head2 RegistrantContact => L<Paws::Route53Domains::ContactDetail>
 
 Provides details about the domain registrant.
 
@@ -106,19 +128,14 @@ Provides details about the domain registrant.
 
 Specifies whether contact information is concealed from WHOIS queries.
 If the value is C<true>, WHOIS ("who is") queries return contact
-information either for Amazon Registrar (for .com, .net, and .org
-domains) or for our registrar associate, Gandi (for all other TLDs). If
-the value is C<false>, WHOIS queries return the information that you
-entered for the registrant contact (domain owner).
+information either for Amazon Registrar or for our registrar associate,
+Gandi. If the value is C<false>, WHOIS queries return the information
+that you entered for the registrant contact (domain owner).
 
 
 =head2 RegistrarName => Str
 
 Name of the registrar of the domain as identified in the registry.
-Domains with a .com, .net, or .org TLD are registered by Amazon
-Registrar. All other domains are registered by our registrar associate,
-Gandi. The value for domains that are registered by Gandi is C<"GANDI
-SAS">.
 
 
 =head2 RegistrarUrl => Str
@@ -155,7 +172,7 @@ and search for C<epp status codes>. (Search on the ICANN website; web
 searches sometimes return an old version of the document.)
 
 
-=head2 B<REQUIRED> TechContact => L<Paws::Route53Domains::ContactDetail>
+=head2 TechContact => L<Paws::Route53Domains::ContactDetail>
 
 Provides details about the domain technical contact.
 
@@ -164,10 +181,9 @@ Provides details about the domain technical contact.
 
 Specifies whether contact information is concealed from WHOIS queries.
 If the value is C<true>, WHOIS ("who is") queries return contact
-information either for Amazon Registrar (for .com, .net, and .org
-domains) or for our registrar associate, Gandi (for all other TLDs). If
-the value is C<false>, WHOIS queries return the information that you
-entered for the technical contact.
+information either for Amazon Registrar or for our registrar associate,
+Gandi. If the value is C<false>, WHOIS queries return the information
+that you entered for the technical contact.
 
 
 =head2 UpdatedDate => Str

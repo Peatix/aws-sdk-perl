@@ -4,6 +4,7 @@ package Paws::AppMesh::HttpRouteMatch;
   has Headers => (is => 'ro', isa => 'ArrayRef[Paws::AppMesh::HttpRouteHeader]', request_name => 'headers', traits => ['NameInRequest']);
   has Method => (is => 'ro', isa => 'Str', request_name => 'method', traits => ['NameInRequest']);
   has Path => (is => 'ro', isa => 'Paws::AppMesh::HttpPathMatch', request_name => 'path', traits => ['NameInRequest']);
+  has Port => (is => 'ro', isa => 'Int', request_name => 'port', traits => ['NameInRequest']);
   has Prefix => (is => 'ro', isa => 'Str', request_name => 'prefix', traits => ['NameInRequest']);
   has QueryParameters => (is => 'ro', isa => 'ArrayRef[Paws::AppMesh::HttpQueryParameter]', request_name => 'queryParameters', traits => ['NameInRequest']);
   has Scheme => (is => 'ro', isa => 'Str', request_name => 'scheme', traits => ['NameInRequest']);
@@ -57,6 +58,11 @@ The client request method to match on. Specify only one.
 =head2 Path => L<Paws::AppMesh::HttpPathMatch>
 
 The client request path to match on.
+
+
+=head2 Port => Int
+
+The port number to match on.
 
 
 =head2 Prefix => Str

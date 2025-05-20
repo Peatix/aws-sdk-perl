@@ -3,6 +3,7 @@ package Paws::IoT::ThingDocument;
   use Moose;
   has Attributes => (is => 'ro', isa => 'Paws::IoT::Attributes', request_name => 'attributes', traits => ['NameInRequest']);
   has Connectivity => (is => 'ro', isa => 'Paws::IoT::ThingConnectivity', request_name => 'connectivity', traits => ['NameInRequest']);
+  has DeviceDefender => (is => 'ro', isa => 'Str', request_name => 'deviceDefender', traits => ['NameInRequest']);
   has Shadow => (is => 'ro', isa => 'Str', request_name => 'shadow', traits => ['NameInRequest']);
   has ThingGroupNames => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'thingGroupNames', traits => ['NameInRequest']);
   has ThingId => (is => 'ro', isa => 'Str', request_name => 'thingId', traits => ['NameInRequest']);
@@ -51,17 +52,29 @@ The attributes.
 
 =head2 Connectivity => L<Paws::IoT::ThingConnectivity>
 
-Indicates whether the thing is connected to the AWS IoT service.
+Indicates whether the thing is connected to the Amazon Web Services IoT
+Core service.
+
+
+=head2 DeviceDefender => Str
+
+Contains Device Defender data.
+
+For more information about Device Defender, see Device Defender
+(https://docs.aws.amazon.com/iot/latest/developerguide/device-defender.html).
 
 
 =head2 Shadow => Str
 
-The shadow.
+The unnamed shadow and named shadow.
+
+For more information about shadows, see IoT Device Shadow service.
+(https://docs.aws.amazon.com/iot/latest/developerguide/iot-device-shadows.html)
 
 
 =head2 ThingGroupNames => ArrayRef[Str|Undef]
 
-Thing group names.
+Thing group and billing group names.
 
 
 =head2 ThingId => Str

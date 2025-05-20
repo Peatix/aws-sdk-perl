@@ -36,7 +36,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         {
           Name => 'EVENT_TYPE_ID'
           ,    # values: EVENT_TYPE_ID, CREATED_BY, RESOURCE, TARGET_ADDRESS
-          Value => 'MyListNotificationRulesFilterValue',
+          Value => 'MyListNotificationRulesFilterValue',    # max: 2048
 
         },
         ...

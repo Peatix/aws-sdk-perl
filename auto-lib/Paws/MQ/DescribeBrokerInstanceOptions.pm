@@ -69,8 +69,8 @@ Filter response by host instance type.
 
 =head2 MaxResults => Int
 
-The maximum number of instance options that Amazon MQ can return per
-page (20 by default). This value must be an integer from 5 to 100.
+The maximum number of brokers that Amazon MQ can return per page (20 by
+default). This value must be an integer from 5 to 100.
 
 
 

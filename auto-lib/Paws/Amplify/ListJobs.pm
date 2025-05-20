@@ -58,7 +58,7 @@ The unique ID for an Amplify app.
 
 =head2 B<REQUIRED> BranchName => Str
 
-The name for a branch.
+The name of the branch to use for the request.
 
 
 

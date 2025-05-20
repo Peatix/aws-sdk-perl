@@ -19,20 +19,20 @@ Paws::SSM::GetDeployablePatchSnapshotForInstanceResult
 
 =head2 InstanceId => Str
 
-The ID of the instance.
+The managed node ID.
 
 
 =head2 Product => Str
 
 Returns the specific operating system (for example Windows Server 2012
-or Amazon Linux 2015.09) on the instance for the specified patch
+or Amazon Linux 2015.09) on the managed node for the specified patch
 snapshot.
 
 
 =head2 SnapshotDownloadUrl => Str
 
-A pre-signed Amazon S3 URL that can be used to download the patch
-snapshot.
+A pre-signed Amazon Simple Storage Service (Amazon S3) URL that can be
+used to download the patch snapshot.
 
 
 =head2 SnapshotId => Str

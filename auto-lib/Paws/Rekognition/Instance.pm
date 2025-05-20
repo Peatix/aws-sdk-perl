@@ -3,6 +3,7 @@ package Paws::Rekognition::Instance;
   use Moose;
   has BoundingBox => (is => 'ro', isa => 'Paws::Rekognition::BoundingBox');
   has Confidence => (is => 'ro', isa => 'Num');
+  has DominantColors => (is => 'ro', isa => 'ArrayRef[Paws::Rekognition::DominantColor]');
 
 1;
 
@@ -23,7 +24,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::Rekognition::Instance object:
 
-  $service_obj->Method(Att1 => { BoundingBox => $value, ..., Confidence => $value  });
+  $service_obj->Method(Att1 => { BoundingBox => $value, ..., DominantColors => $value  });
 
 =head3 Results returned from an API call
 
@@ -49,6 +50,11 @@ The position of the label instance on the image.
 
 The confidence that Amazon Rekognition has in the accuracy of the
 bounding box.
+
+
+=head2 DominantColors => ArrayRef[L<Paws::Rekognition::DominantColor>]
+
+The dominant colors found in an individual instance of a label.
 
 
 

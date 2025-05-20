@@ -64,8 +64,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/wor
 
 =head2 AuthenticationToken => Str
 
-Amazon WorkDocs authentication token. Not required when using AWS
-administrator credentials to access the API.
+Amazon WorkDocs authentication token. Not required when using Amazon
+Web Services administrator credentials to access the API.
 
 
 
@@ -77,7 +77,7 @@ The given name of the user.
 
 =head2 GrantPoweruserPrivileges => Str
 
-Boolean value to determine whether the user is granted Poweruser
+Boolean value to determine whether the user is granted Power user
 privileges.
 
 Valid values are: C<"TRUE">, C<"FALSE">

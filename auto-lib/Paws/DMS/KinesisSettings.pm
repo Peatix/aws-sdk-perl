@@ -7,9 +7,11 @@ package Paws::DMS::KinesisSettings;
   has IncludeTableAlterOperations => (is => 'ro', isa => 'Bool');
   has IncludeTransactionDetails => (is => 'ro', isa => 'Bool');
   has MessageFormat => (is => 'ro', isa => 'Str');
+  has NoHexPrefix => (is => 'ro', isa => 'Bool');
   has PartitionIncludeSchemaTable => (is => 'ro', isa => 'Bool');
   has ServiceAccessRoleArn => (is => 'ro', isa => 'Str');
   has StreamArn => (is => 'ro', isa => 'Str');
+  has UseLargeIntegerValue => (is => 'ro', isa => 'Bool');
 
 1;
 
@@ -30,7 +32,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::DMS::KinesisSettings object:
 
-  $service_obj->Method(Att1 => { IncludeControlDetails => $value, ..., StreamArn => $value  });
+  $service_obj->Method(Att1 => { IncludeControlDetails => $value, ..., UseLargeIntegerValue => $value  });
 
 =head3 Results returned from an API call
 
@@ -92,6 +94,16 @@ format is C<JSON> (default) or C<JSON_UNFORMATTED> (a single line with
 no tab).
 
 
+=head2 NoHexPrefix => Bool
+
+Set this optional parameter to C<true> to avoid adding a '0x' prefix to
+raw data in hexadecimal format. For example, by default, DMS adds a
+'0x' prefix to the LOB column type in hexadecimal format moving from an
+Oracle source to an Amazon Kinesis target. Use the C<NoHexPrefix>
+endpoint setting to enable migration of RAW data type columns without
+adding the '0x' prefix.
+
+
 =head2 PartitionIncludeSchemaTable => Bool
 
 Prefixes schema and table names to partition values, when the partition
@@ -105,15 +117,20 @@ C<false>.
 
 =head2 ServiceAccessRoleArn => Str
 
-The Amazon Resource Name (ARN) for the AWS Identity and Access
-Management (IAM) role that AWS DMS uses to write to the Kinesis data
-stream.
+The Amazon Resource Name (ARN) for the IAM role that DMS uses to write
+to the Kinesis data stream. The role must allow the C<iam:PassRole>
+action.
 
 
 =head2 StreamArn => Str
 
 The Amazon Resource Name (ARN) for the Amazon Kinesis Data Streams
 endpoint.
+
+
+=head2 UseLargeIntegerValue => Bool
+
+Specifies using the large integer value with Kinesis.
 
 
 

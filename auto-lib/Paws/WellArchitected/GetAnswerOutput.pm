@@ -3,6 +3,7 @@ package Paws::WellArchitected::GetAnswerOutput;
   use Moose;
   has Answer => (is => 'ro', isa => 'Paws::WellArchitected::Answer');
   has LensAlias => (is => 'ro', isa => 'Str');
+  has LensArn => (is => 'ro', isa => 'Str');
   has MilestoneNumber => (is => 'ro', isa => 'Int');
   has WorkloadId => (is => 'ro', isa => 'Str');
 
@@ -26,6 +27,11 @@ Paws::WellArchitected::GetAnswerOutput
 =head2 LensAlias => Str
 
 
+
+
+=head2 LensArn => Str
+
+The ARN for the lens.
 
 
 =head2 MilestoneNumber => Int

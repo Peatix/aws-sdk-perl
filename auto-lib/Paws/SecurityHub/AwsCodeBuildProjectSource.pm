@@ -63,16 +63,15 @@ Valid values include:
 =item *
 
 For source code settings that are specified in the source action of a
-pipeline in AWS CodePipeline, location should not be specified. If it
-is specified, AWS CodePipeline ignores it. This is because AWS
-CodePipeline uses the settings in a pipeline's source action instead of
-this value.
+pipeline in CodePipeline, location should not be specified. If it is
+specified, CodePipeline ignores it. This is because CodePipeline uses
+the settings in a pipeline's source action instead of this value.
 
 =item *
 
-For source code in an AWS CodeCommit repository, the HTTPS clone URL to
-the repository that contains the source code and the build spec file
-(for example,
+For source code in an CodeCommit repository, the HTTPS clone URL to the
+repository that contains the source code and the build spec file (for
+example,
 C<https://git-codecommit.region-ID.amazonaws.com/v1/repos/repo-name> ).
 
 =item *
@@ -120,12 +119,12 @@ C<BITBUCKET> - The source code is in a Bitbucket repository.
 
 =item *
 
-C<CODECOMMIT> - The source code is in an AWS CodeCommit repository.
+C<CODECOMMIT> - The source code is in an CodeCommit repository.
 
 =item *
 
 C<CODEPIPELINE> - The source code settings are specified in the source
-action of a pipeline in AWS CodePipeline.
+action of a pipeline in CodePipeline.
 
 =item *
 

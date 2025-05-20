@@ -10,7 +10,9 @@ package Paws::ImageBuilder::ImagePipeline;
   has Description => (is => 'ro', isa => 'Str', request_name => 'description', traits => ['NameInRequest']);
   has DistributionConfigurationArn => (is => 'ro', isa => 'Str', request_name => 'distributionConfigurationArn', traits => ['NameInRequest']);
   has EnhancedImageMetadataEnabled => (is => 'ro', isa => 'Bool', request_name => 'enhancedImageMetadataEnabled', traits => ['NameInRequest']);
+  has ExecutionRole => (is => 'ro', isa => 'Str', request_name => 'executionRole', traits => ['NameInRequest']);
   has ImageRecipeArn => (is => 'ro', isa => 'Str', request_name => 'imageRecipeArn', traits => ['NameInRequest']);
+  has ImageScanningConfiguration => (is => 'ro', isa => 'Paws::ImageBuilder::ImageScanningConfiguration', request_name => 'imageScanningConfiguration', traits => ['NameInRequest']);
   has ImageTestsConfiguration => (is => 'ro', isa => 'Paws::ImageBuilder::ImageTestsConfiguration', request_name => 'imageTestsConfiguration', traits => ['NameInRequest']);
   has InfrastructureConfigurationArn => (is => 'ro', isa => 'Str', request_name => 'infrastructureConfigurationArn', traits => ['NameInRequest']);
   has Name => (is => 'ro', isa => 'Str', request_name => 'name', traits => ['NameInRequest']);
@@ -18,6 +20,7 @@ package Paws::ImageBuilder::ImagePipeline;
   has Schedule => (is => 'ro', isa => 'Paws::ImageBuilder::Schedule', request_name => 'schedule', traits => ['NameInRequest']);
   has Status => (is => 'ro', isa => 'Str', request_name => 'status', traits => ['NameInRequest']);
   has Tags => (is => 'ro', isa => 'Paws::ImageBuilder::TagMap', request_name => 'tags', traits => ['NameInRequest']);
+  has Workflows => (is => 'ro', isa => 'ArrayRef[Paws::ImageBuilder::WorkflowConfiguration]', request_name => 'workflows', traits => ['NameInRequest']);
 
 1;
 
@@ -38,7 +41,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::ImageBuilder::ImagePipeline object:
 
-  $service_obj->Method(Att1 => { Arn => $value, ..., Tags => $value  });
+  $service_obj->Method(Att1 => { Arn => $value, ..., Workflows => $value  });
 
 =head3 Results returned from an API call
 
@@ -72,12 +75,12 @@ The date on which this image pipeline was created.
 
 =head2 DateLastRun => Str
 
-The date on which this image pipeline was last run.
+This is no longer supported, and does not return a value.
 
 
 =head2 DateNextRun => Str
 
-The date on which this image pipeline will next be run.
+The next date when the pipeline is scheduled to run.
 
 
 =head2 DateUpdated => Str
@@ -104,10 +107,21 @@ information is used to enhance the overall experience of using EC2
 Image Builder. Enabled by default.
 
 
+=head2 ExecutionRole => Str
+
+The name or Amazon Resource Name (ARN) for the IAM role you create that
+grants Image Builder access to perform workflow actions.
+
+
 =head2 ImageRecipeArn => Str
 
 The Amazon Resource Name (ARN) of the image recipe associated with this
 image pipeline.
+
+
+=head2 ImageScanningConfiguration => L<Paws::ImageBuilder::ImageScanningConfiguration>
+
+Contains settings for vulnerability scans.
 
 
 =head2 ImageTestsConfiguration => L<Paws::ImageBuilder::ImageTestsConfiguration>
@@ -144,6 +158,11 @@ The status of the image pipeline.
 =head2 Tags => L<Paws::ImageBuilder::TagMap>
 
 The tags of this image pipeline.
+
+
+=head2 Workflows => ArrayRef[L<Paws::ImageBuilder::WorkflowConfiguration>]
+
+Contains the workflows that run for the image pipeline.
 
 
 

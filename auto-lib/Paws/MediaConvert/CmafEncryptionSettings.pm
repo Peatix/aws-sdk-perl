@@ -53,8 +53,7 @@ will follow the segment number by default.
 =head2 EncryptionMethod => Str
 
 Specify the encryption scheme that you want the service to use when
-encrypting your CMAF segments. Choose AES-CBC subsample (SAMPLE-AES) or
-AES_CTR (AES-CTR).
+encrypting your CMAF segments. Choose AES-CBC subsample or AES_CTR.
 
 
 =head2 InitializationVectorInManifest => Str

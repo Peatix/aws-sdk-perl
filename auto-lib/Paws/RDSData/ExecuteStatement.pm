@@ -3,6 +3,7 @@ package Paws::RDSData::ExecuteStatement;
   use Moose;
   has ContinueAfterTimeout => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'continueAfterTimeout');
   has Database => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'database');
+  has FormatRecordsAs => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'formatRecordsAs');
   has IncludeResultMetadata => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'includeResultMetadata');
   has Parameters => (is => 'ro', isa => 'ArrayRef[Paws::RDSData::SqlParameter]', traits => ['NameInRequest'], request_name => 'parameters');
   has ResourceArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'resourceArn', required => 1);
@@ -43,6 +44,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       Sql                   => 'MySqlStatement',
       ContinueAfterTimeout  => 1,                  # OPTIONAL
       Database              => 'MyDbName',         # OPTIONAL
+      FormatRecordsAs       => 'NONE',             # OPTIONAL
       IncludeResultMetadata => 1,                  # OPTIONAL
       Parameters            => [
         {
@@ -70,14 +72,16 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       ResultSetOptions => {
         DecimalReturnType =>
           'STRING',    # values: STRING, DOUBLE_OR_LONG; OPTIONAL
+        LongReturnType => 'STRING',    # values: STRING, LONG; OPTIONAL
       },    # OPTIONAL
       Schema        => 'MyDbName',    # OPTIONAL
       TransactionId => 'MyId',        # OPTIONAL
     );
 
     # Results:
-    my $ColumnMetadata  = $ExecuteStatementResponse->ColumnMetadata;
-    my $GeneratedFields = $ExecuteStatementResponse->GeneratedFields;
+    my $ColumnMetadata   = $ExecuteStatementResponse->ColumnMetadata;
+    my $FormattedRecords = $ExecuteStatementResponse->FormattedRecords;
+    my $GeneratedFields  = $ExecuteStatementResponse->GeneratedFields;
     my $NumberOfRecordsUpdated =
       $ExecuteStatementResponse->NumberOfRecordsUpdated;
     my $Records = $ExecuteStatementResponse->Records;
@@ -108,6 +112,21 @@ structures.
 The name of the database.
 
 
+
+=head2 FormatRecordsAs => Str
+
+A value that indicates whether to format the result set as a single
+JSON string. This parameter only applies to C<SELECT> statements and is
+ignored for other types of statements. Allowed values are C<NONE> and
+C<JSON>. The default value is C<NONE>. The result is returned in the
+C<formattedRecords> field.
+
+For usage information about the JSON format for result sets, see Using
+the Data API
+(https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/data-api.html)
+in the I<Amazon Aurora User Guide>.
+
+Valid values are: C<"NONE">, C<"JSON">
 
 =head2 IncludeResultMetadata => Bool
 
@@ -145,7 +164,11 @@ Currently, the C<schema> parameter isn't supported.
 
 =head2 B<REQUIRED> SecretArn => Str
 
-The name or ARN of the secret that enables access to the DB cluster.
+The ARN of the secret that enables access to the DB cluster. Enter the
+database user name and password for the credentials in the secret.
+
+For information about creating the secret, see Create a database secret
+(https://docs.aws.amazon.com/secretsmanager/latest/userguide/create_database_secret.html).
 
 
 

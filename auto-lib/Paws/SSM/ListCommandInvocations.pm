@@ -70,7 +70,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ssm
 =head2 Details => Bool
 
 (Optional) If set this returns the response of the command executions
-and any command output. The default value is 'false'.
+and any command output. The default value is C<false>.
 
 
 
@@ -83,7 +83,8 @@ list of results.
 
 =head2 InstanceId => Str
 
-(Optional) The command execution details for a specific instance ID.
+(Optional) The command execution details for a specific managed node
+ID.
 
 
 

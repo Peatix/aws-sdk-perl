@@ -28,16 +28,17 @@ Paws::EFS::MountTargetDescription
 
 The unique and consistent identifier of the Availability Zone that the
 mount target resides in. For example, C<use1-az1> is an AZ ID for the
-us-east-1 Region and it has the same location in every AWS account.
+us-east-1 Region and it has the same location in every Amazon Web
+Services account.
 
 
 =head2 AvailabilityZoneName => Str
 
 The name of the Availability Zone in which the mount target is located.
-Availability Zones are independently mapped to names for each AWS
-account. For example, the Availability Zone C<us-east-1a> for your AWS
-account might not be the same location as C<us-east-1a> for another AWS
-account.
+Availability Zones are independently mapped to names for each Amazon
+Web Services account. For example, the Availability Zone C<us-east-1a>
+for your Amazon Web Services account might not be the same location as
+C<us-east-1a> for another Amazon Web Services account.
 
 
 =head2 B<REQUIRED> FileSystemId => Str
@@ -69,7 +70,7 @@ the mount target.
 
 =head2 OwnerId => Str
 
-AWS account ID that owns the resource.
+Amazon Web Services account ID that owns the resource.
 
 
 =head2 B<REQUIRED> SubnetId => Str

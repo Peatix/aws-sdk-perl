@@ -2,6 +2,7 @@ package Paws::EC2::Placement;
   use Moose;
   has Affinity => (is => 'ro', isa => 'Str', request_name => 'affinity', traits => ['NameInRequest']);
   has AvailabilityZone => (is => 'ro', isa => 'Str', request_name => 'availabilityZone', traits => ['NameInRequest']);
+  has GroupId => (is => 'ro', isa => 'Str', request_name => 'groupId', traits => ['NameInRequest']);
   has GroupName => (is => 'ro', isa => 'Str', request_name => 'groupName', traits => ['NameInRequest']);
   has HostId => (is => 'ro', isa => 'Str', request_name => 'hostId', traits => ['NameInRequest']);
   has HostResourceGroupArn => (is => 'ro', isa => 'Str', request_name => 'hostResourceGroupArn', traits => ['NameInRequest']);
@@ -45,13 +46,12 @@ This class has no description
 
 =head2 Affinity => Str
 
-The affinity setting for the instance on the Dedicated Host. This
-parameter is not supported for the ImportInstance
-(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ImportInstance.html)
-command.
+The affinity setting for the instance on the Dedicated Host.
 
-This parameter is not supported by CreateFleet
-(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateFleet).
+This parameter is not supported for CreateFleet
+(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateFleet)
+or ImportInstance
+(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ImportInstance.html).
 
 
 =head2 AvailabilityZone => Str
@@ -61,42 +61,49 @@ The Availability Zone of the instance.
 If not specified, an Availability Zone will be automatically chosen for
 you based on the load balancing criteria for the Region.
 
-This parameter is not supported by CreateFleet
+This parameter is not supported for CreateFleet
 (https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateFleet).
+
+
+=head2 GroupId => Str
+
+The ID of the placement group that the instance is in. If you specify
+C<GroupId>, you can't specify C<GroupName>.
 
 
 =head2 GroupName => Str
 
-The name of the placement group the instance is in.
+The name of the placement group that the instance is in. If you specify
+C<GroupName>, you can't specify C<GroupId>.
 
 
 =head2 HostId => Str
 
-The ID of the Dedicated Host on which the instance resides. This
-parameter is not supported for the ImportInstance
-(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ImportInstance.html)
-command.
+The ID of the Dedicated Host on which the instance resides.
 
-This parameter is not supported by CreateFleet
-(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateFleet).
+This parameter is not supported for CreateFleet
+(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateFleet)
+or ImportInstance
+(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ImportInstance.html).
 
 
 =head2 HostResourceGroupArn => Str
 
-The ARN of the host resource group in which to launch the instances. If
-you specify a host resource group ARN, omit the B<Tenancy> parameter or
+The ARN of the host resource group in which to launch the instances.
+
+If you specify this parameter, either omit the B<Tenancy> parameter or
 set it to C<host>.
 
-This parameter is not supported by CreateFleet
+This parameter is not supported for CreateFleet
 (https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateFleet).
 
 
 =head2 PartitionNumber => Int
 
-The number of the partition the instance is in. Valid only if the
+The number of the partition that the instance is in. Valid only if the
 placement group strategy is set to C<partition>.
 
-This parameter is not supported by CreateFleet
+This parameter is not supported for CreateFleet
 (https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateFleet).
 
 
@@ -104,20 +111,18 @@ This parameter is not supported by CreateFleet
 
 Reserved for future use.
 
-This parameter is not supported by CreateFleet
-(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateFleet).
-
 
 =head2 Tenancy => Str
 
-The tenancy of the instance (if the instance is running in a VPC). An
-instance with a tenancy of C<dedicated> runs on single-tenant hardware.
-The C<host> tenancy is not supported for the ImportInstance
-(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ImportInstance.html)
-command.
+The tenancy of the instance. An instance with a tenancy of C<dedicated>
+runs on single-tenant hardware.
 
-This parameter is not supported by CreateFleet
+This parameter is not supported for CreateFleet
 (https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateFleet).
+The C<host> tenancy is not supported for ImportInstance
+(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ImportInstance.html)
+or for T3 instances that are configured for the C<unlimited> CPU credit
+option.
 
 
 

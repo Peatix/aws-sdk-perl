@@ -3,6 +3,7 @@ package Paws::Datasync::AgentListEntry;
   use Moose;
   has AgentArn => (is => 'ro', isa => 'Str');
   has Name => (is => 'ro', isa => 'Str');
+  has Platform => (is => 'ro', isa => 'Paws::Datasync::Platform');
   has Status => (is => 'ro', isa => 'Str');
 
 1;
@@ -35,27 +36,50 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Datasync::A
 
 =head1 DESCRIPTION
 
-Represents a single entry in a list of agents. C<AgentListEntry>
-returns an array that contains a list of agents when the ListAgents
+Represents a single entry in a list (or array) of DataSync agents when
+you call the ListAgents
 (https://docs.aws.amazon.com/datasync/latest/userguide/API_ListAgents.html)
-operation is called.
+operation.
 
 =head1 ATTRIBUTES
 
 
 =head2 AgentArn => Str
 
-The Amazon Resource Name (ARN) of the agent.
+The Amazon Resource Name (ARN) of a DataSync agent.
 
 
 =head2 Name => Str
 
-The name of the agent.
+The name of an agent.
+
+
+=head2 Platform => L<Paws::Datasync::Platform>
+
+The platform-related details about the agent, such as the version
+number.
 
 
 =head2 Status => Str
 
-The status of the agent.
+The status of an agent.
+
+=over
+
+=item *
+
+If the status is C<ONLINE>, the agent is configured properly and ready
+to use.
+
+=item *
+
+If the status is C<OFFLINE>, the agent has been out of contact with
+DataSync for five minutes or longer. This can happen for a few reasons.
+For more information, see What do I do if my agent is offline?
+(https://docs.aws.amazon.com/datasync/latest/userguide/troubleshooting-datasync-agents.html#troubleshoot-agent-offline)
+
+=back
+
 
 
 

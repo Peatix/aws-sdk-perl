@@ -2,6 +2,9 @@
 package Paws::CloudWatchLogs::QueryStatistics;
   use Moose;
   has BytesScanned => (is => 'ro', isa => 'Num', request_name => 'bytesScanned', traits => ['NameInRequest']);
+  has EstimatedBytesSkipped => (is => 'ro', isa => 'Num', request_name => 'estimatedBytesSkipped', traits => ['NameInRequest']);
+  has EstimatedRecordsSkipped => (is => 'ro', isa => 'Num', request_name => 'estimatedRecordsSkipped', traits => ['NameInRequest']);
+  has LogGroupsScanned => (is => 'ro', isa => 'Num', request_name => 'logGroupsScanned', traits => ['NameInRequest']);
   has RecordsMatched => (is => 'ro', isa => 'Num', request_name => 'recordsMatched', traits => ['NameInRequest']);
   has RecordsScanned => (is => 'ro', isa => 'Num', request_name => 'recordsScanned', traits => ['NameInRequest']);
 
@@ -39,12 +42,45 @@ Contains the number of log events scanned by the query, the number of
 log events that matched the query criteria, and the total number of
 bytes in the log events that were scanned.
 
+If the query involved log groups that have field index policies, the
+estimated number of skipped log events and the total bytes of those
+skipped log events are included. Using field indexes to skip log events
+in queries reduces scan volume and improves performance. For more
+information, see Create field indexes to improve query performance and
+reduce scan volume
+(https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatchLogs-Field-Indexing.html).
+
 =head1 ATTRIBUTES
 
 
 =head2 BytesScanned => Num
 
 The total number of bytes in the log events scanned during the query.
+
+
+=head2 EstimatedBytesSkipped => Num
+
+An estimate of the number of bytes in the log events that were skipped
+when processing this query, because the query contained an indexed
+field. Skipping these entries lowers query costs and improves the query
+performance time. For more information about field indexes, see
+PutIndexPolicy
+(https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutIndexPolicy.html).
+
+
+=head2 EstimatedRecordsSkipped => Num
+
+An estimate of the number of log events that were skipped when
+processing this query, because the query contained an indexed field.
+Skipping these entries lowers query costs and improves the query
+performance time. For more information about field indexes, see
+PutIndexPolicy
+(https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutIndexPolicy.html).
+
+
+=head2 LogGroupsScanned => Num
+
+The number of log groups that were scanned by this query.
 
 
 =head2 RecordsMatched => Num

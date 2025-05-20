@@ -96,13 +96,13 @@ A C<KMSKeyDetails> object that contains:
 =item *
 
 The encryption option for this repository association. It is either
-owned by AWS Key Management Service (KMS) (C<AWS_OWNED_CMK>) or
-customer managed (C<CUSTOMER_MANAGED_CMK>).
+owned by Amazon Web Services Key Management Service (KMS)
+(C<AWS_OWNED_CMK>) or customer managed (C<CUSTOMER_MANAGED_CMK>).
 
 =item *
 
-The ID of the AWS KMS key that is associated with this respository
-association.
+The ID of the Amazon Web Services KMS key that is associated with this
+repository association.
 
 =back
 

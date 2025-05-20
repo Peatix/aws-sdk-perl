@@ -50,6 +50,8 @@ Information about the destination of the component.
 
 The protocol used for the component.
 
+Length Constraints: Minimum of 1. Maximum of 16.
+
 
 =head2 Source => L<Paws::SecurityHub::NetworkPathComponentDetails>
 

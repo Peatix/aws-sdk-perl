@@ -70,16 +70,16 @@ limits.
 
 The feature type for which you want to describe usage limits.
 
-Valid values are: C<"spectrum">, C<"concurrency-scaling">
+Valid values are: C<"spectrum">, C<"concurrency-scaling">, C<"cross-region-datasharing">
 
 =head2 Marker => Str
 
 An optional parameter that specifies the starting point to return a set
 of response records. When the results of a DescribeUsageLimits request
-exceed the value specified in C<MaxRecords>, AWS returns a value in the
-C<Marker> field of the response. You can retrieve the next set of
-response records by providing the returned marker value in the
-C<Marker> parameter and retrying the request.
+exceed the value specified in C<MaxRecords>, Amazon Web Services
+returns a value in the C<Marker> field of the response. You can
+retrieve the next set of response records by providing the returned
+marker value in the C<Marker> parameter and retrying the request.
 
 
 

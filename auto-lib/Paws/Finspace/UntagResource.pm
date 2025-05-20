@@ -30,7 +30,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $finspace = Paws->service('Finspace');
     my $UntagResourceResponse = $finspace->UntagResource(
-      ResourceArn => 'MyEnvironmentArn',
+      ResourceArn => 'MyFinSpaceTaggableArn',
       TagKeys     => [
         'MyTagKey', ...    # min: 1, max: 128
       ],

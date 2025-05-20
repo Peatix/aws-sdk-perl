@@ -3,8 +3,12 @@ package Paws::Glue::UpdateTable;
   use Moose;
   has CatalogId => (is => 'ro', isa => 'Str');
   has DatabaseName => (is => 'ro', isa => 'Str', required => 1);
+  has Force => (is => 'ro', isa => 'Bool');
   has SkipArchive => (is => 'ro', isa => 'Bool');
   has TableInput => (is => 'ro', isa => 'Paws::Glue::TableInput', required => 1);
+  has TransactionId => (is => 'ro', isa => 'Str');
+  has VersionId => (is => 'ro', isa => 'Str');
+  has ViewUpdateAction => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -56,6 +60,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ],    # OPTIONAL
         Retention         => 1,    # OPTIONAL
         StorageDescriptor => {
+          AdditionalLocations => [
+            'MyLocationString', ...    # max: 2056
+          ],    # OPTIONAL
           BucketColumns => [
             'MyNameString', ...    # min: 1, max: 255
           ],    # OPTIONAL
@@ -73,7 +80,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           ],    # OPTIONAL
           Compressed      => 1,                     # OPTIONAL
           InputFormat     => 'MyFormatString',      # max: 128; OPTIONAL
-          Location        => 'MyLocationString',    # max: 2056; OPTIONAL
+          Location        => 'MyLocationString',    # max: 2056
           NumberOfBuckets => 1,                     # OPTIONAL
           OutputFormat    => 'MyFormatString',      # max: 128; OPTIONAL
           Parameters      => {
@@ -123,12 +130,35 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           CatalogId    => 'MyCatalogIdString',    # min: 1, max: 255; OPTIONAL
           DatabaseName => 'MyNameString',         # min: 1, max: 255
           Name         => 'MyNameString',         # min: 1, max: 255
+          Region       => 'MyNameString',         # min: 1, max: 255
+        },    # OPTIONAL
+        ViewDefinition => {
+          Definer         => 'MyArnString',    # min: 20, max: 2048; OPTIONAL
+          IsProtected     => 1,                # OPTIONAL
+          Representations => [
+            {
+              Dialect => 'REDSHIFT', # values: REDSHIFT, ATHENA, SPARK; OPTIONAL
+              DialectVersion =>
+                'MyViewDialectVersionString',    # min: 1, max: 255; OPTIONAL
+              ValidationConnection => 'MyNameString',    # min: 1, max: 255
+              ViewExpandedText => 'MyViewTextString',    # max: 409600; OPTIONAL
+              ViewOriginalText => 'MyViewTextString',    # max: 409600; OPTIONAL
+            },
+            ...
+          ],    # min: 1, max: 10; OPTIONAL
+          SubObjects => [
+            'MyArnString', ...    # min: 20, max: 2048; OPTIONAL
+          ],    # max: 10; OPTIONAL
         },    # OPTIONAL
         ViewExpandedText => 'MyViewTextString',    # max: 409600; OPTIONAL
         ViewOriginalText => 'MyViewTextString',    # max: 409600; OPTIONAL
       },
-      CatalogId   => 'MyCatalogIdString',          # OPTIONAL
-      SkipArchive => 1,                            # OPTIONAL
+      CatalogId        => 'MyCatalogIdString',        # OPTIONAL
+      Force            => 1,                          # OPTIONAL
+      SkipArchive      => 1,                          # OPTIONAL
+      TransactionId    => 'MyTransactionIdString',    # OPTIONAL
+      VersionId        => 'MyVersionString',          # OPTIONAL
+      ViewUpdateAction => 'ADD',                      # OPTIONAL
     );
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
@@ -151,6 +181,13 @@ compatibility, this name is entirely lowercase.
 
 
 
+=head2 Force => Bool
+
+A flag that can be set to true to ignore matching storage descriptor
+and subobject matching requirements.
+
+
+
 =head2 SkipArchive => Bool
 
 By default, C<UpdateTable> always creates an archived version of the
@@ -165,6 +202,24 @@ An updated C<TableInput> object to define the metadata table in the
 catalog.
 
 
+
+=head2 TransactionId => Str
+
+The transaction ID at which to update the table contents.
+
+
+
+=head2 VersionId => Str
+
+The version ID at which to update the table contents.
+
+
+
+=head2 ViewUpdateAction => Str
+
+The operation to be performed when updating the view.
+
+Valid values are: C<"ADD">, C<"REPLACE">, C<"ADD_OR_REPLACE">, C<"DROP">
 
 
 =head1 SEE ALSO

@@ -1,6 +1,7 @@
 
 package Paws::Lambda::ListLayerVersions;
   use Moose;
+  has CompatibleArchitecture => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'CompatibleArchitecture');
   has CompatibleRuntime => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'CompatibleRuntime');
   has LayerName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'LayerName', required => 1);
   has Marker => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'Marker');
@@ -48,11 +49,25 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/lam
 =head1 ATTRIBUTES
 
 
+=head2 CompatibleArchitecture => Str
+
+The compatible instruction set architecture
+(https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html).
+
+Valid values are: C<"x86_64">, C<"arm64">
+
 =head2 CompatibleRuntime => Str
 
-A runtime identifier. For example, C<go1.x>.
+A runtime identifier.
 
-Valid values are: C<"nodejs">, C<"nodejs4.3">, C<"nodejs6.10">, C<"nodejs8.10">, C<"nodejs10.x">, C<"nodejs12.x">, C<"nodejs14.x">, C<"java8">, C<"java8.al2">, C<"java11">, C<"python2.7">, C<"python3.6">, C<"python3.7">, C<"python3.8">, C<"dotnetcore1.0">, C<"dotnetcore2.0">, C<"dotnetcore2.1">, C<"dotnetcore3.1">, C<"nodejs4.3-edge">, C<"go1.x">, C<"ruby2.5">, C<"ruby2.7">, C<"provided">, C<"provided.al2">
+The following list includes deprecated runtimes. For more information,
+see Runtime use after deprecation
+(https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels).
+
+For a list of all currently supported runtimes, see Supported runtimes
+(https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
+
+Valid values are: C<"nodejs">, C<"nodejs4.3">, C<"nodejs6.10">, C<"nodejs8.10">, C<"nodejs10.x">, C<"nodejs12.x">, C<"nodejs14.x">, C<"nodejs16.x">, C<"java8">, C<"java8.al2">, C<"java11">, C<"python2.7">, C<"python3.6">, C<"python3.7">, C<"python3.8">, C<"python3.9">, C<"dotnetcore1.0">, C<"dotnetcore2.0">, C<"dotnetcore2.1">, C<"dotnetcore3.1">, C<"dotnet6">, C<"dotnet8">, C<"nodejs4.3-edge">, C<"go1.x">, C<"ruby2.5">, C<"ruby2.7">, C<"provided">, C<"provided.al2">, C<"nodejs18.x">, C<"python3.10">, C<"java17">, C<"ruby3.2">, C<"ruby3.3">, C<"ruby3.4">, C<"python3.11">, C<"nodejs20.x">, C<"provided.al2023">, C<"python3.12">, C<"java21">, C<"python3.13">, C<"nodejs22.x">
 
 =head2 B<REQUIRED> LayerName => Str
 

@@ -34,9 +34,9 @@ The description of the deployment strategy.
 
 =head2 FinalBakeTimeInMinutes => Int
 
-The amount of time AppConfig monitored for alarms before considering
-the deployment to be complete and no longer eligible for automatic roll
-back.
+The amount of time that AppConfig monitored for alarms before
+considering the deployment to be complete and no longer eligible for
+automatic rollback.
 
 
 =head2 GrowthFactor => Num

@@ -74,7 +74,7 @@ A C<ConformancePackComplianceFilters> object.
 
 =head2 Limit => Int
 
-The maximum number of AWS Config rules within a conformance pack are
+The maximum number of Config rules within a conformance pack are
 returned on each page.
 
 

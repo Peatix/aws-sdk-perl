@@ -261,12 +261,22 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             },    # OPTIONAL
           },
           ...
-        ],    # max: 1; OPTIONAL
+        ],    # OPTIONAL
         Logging => {
           AccessLog => {
             File => {
-              Path => 'MyFilePath',    # min: 1, max: 255
+              Path   => 'MyFilePath',    # min: 1, max: 255
+              Format => {
+                Json => [
+                  {
+                    Key   => 'MyJsonKey',      # min: 1, max: 100
+                    Value => 'MyJsonValue',    # min: 1, max: 100
 
+                  },
+                  ...
+                ],    # OPTIONAL
+                Text => 'MyTextFormat',    # min: 1, max: 1000; OPTIONAL
+              },    # OPTIONAL
             },    # OPTIONAL
           },    # OPTIONAL
         },    # OPTIONAL
@@ -283,9 +293,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
               },
               ...
             ],    # OPTIONAL
+            IpPreference => 'IPv6_PREFERRED'
+            , # values: IPv6_PREFERRED, IPv4_PREFERRED, IPv4_ONLY, IPv6_ONLY; OPTIONAL
           },    # OPTIONAL
           Dns => {
             Hostname     => 'MyHostname',
+            IpPreference => 'IPv6_PREFERRED'
+            , # values: IPv6_PREFERRED, IPv4_PREFERRED, IPv4_ONLY, IPv6_ONLY; OPTIONAL
             ResponseType =>
               'LOADBALANCER',    # values: LOADBALANCER, ENDPOINTS; OPTIONAL
           },    # OPTIONAL
@@ -323,10 +337,10 @@ The name of the service mesh that the virtual node resides in.
 
 =head2 MeshOwner => Str
 
-The AWS IAM account ID of the service mesh owner. If the account ID is
-not your own, then it's the ID of the account that shared the mesh with
-your account. For more information about mesh sharing, see Working with
-shared meshes
+The Amazon Web Services IAM account ID of the service mesh owner. If
+the account ID is not your own, then it's the ID of the account that
+shared the mesh with your account. For more information about mesh
+sharing, see Working with shared meshes
 (https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html).
 
 

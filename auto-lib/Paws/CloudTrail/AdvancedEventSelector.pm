@@ -34,44 +34,25 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CloudTrail:
 
 =head1 DESCRIPTION
 
-Advanced event selectors let you create fine-grained selectors for the
-following AWS CloudTrail event record elds. They help you control costs
-by logging only those events that are important to you. For more
-information about advanced event selectors, see Logging data events for
-trails
-(https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-data-events-with-cloudtrail.html)
-in the I<AWS CloudTrail User Guide>.
-
-=over
-
-=item *
-
-C<readOnly>
-
-=item *
-
-C<eventSource>
-
-=item *
-
-C<eventName>
-
-=item *
-
-C<eventCategory>
-
-=item *
-
-C<resources.type>
-
-=item *
-
-C<resources.ARN>
-
-=back
+Advanced event selectors let you create fine-grained selectors for
+CloudTrail management, data, and network activity events. They help you
+control costs by logging only those events that are important to you.
+For more information about configuring advanced event selectors, see
+the Logging data events
+(https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-data-events-with-cloudtrail.html),
+Logging network activity events
+(https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-network-events-with-cloudtrail.html),
+and Logging management events
+(https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-management-events-with-cloudtrail.html)
+topics in the I<CloudTrail User Guide>.
 
 You cannot apply both event selectors and advanced event selectors to a
 trail.
+
+For information about configurable advanced event selector fields, see
+AdvancedEventSelector
+(https://docs.aws.amazon.com/awscloudtrail/latest/APIReference/API_AdvancedEventSelector.html)
+in the I<CloudTrail API Reference>.
 
 =head1 ATTRIBUTES
 

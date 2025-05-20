@@ -53,12 +53,64 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             Data    => 'MyMessageData',
             Charset => 'MyCharset',       # OPTIONAL
           },    # OPTIONAL
+          Attachments => [
+            {
+              FileName           => 'MyAttachmentFileName',    # max: 255
+              RawContent         => 'BlobRawAttachmentData',
+              ContentDescription =>
+                'MyAttachmentContentDescription',    # max: 1000; OPTIONAL
+              ContentDisposition =>
+                'ATTACHMENT',    # values: ATTACHMENT, INLINE; OPTIONAL
+              ContentId => 'MyAttachmentContentId',  # min: 1, max: 78; OPTIONAL
+              ContentTransferEncoding => 'BASE64'
+              ,    # values: BASE64, QUOTED_PRINTABLE, SEVEN_BIT; OPTIONAL
+              ContentType =>
+                'MyAttachmentContentType',    # min: 1, max: 78; OPTIONAL
+            },
+            ...
+          ],    # OPTIONAL
+          Headers => [
+            {
+              Name  => 'MyMessageHeaderName',     # min: 1, max: 126
+              Value => 'MyMessageHeaderValue',    # min: 1, max: 870
 
+            },
+            ...
+          ],    # max: 15; OPTIONAL
         },    # OPTIONAL
         Template => {
-          TemplateArn  => 'MyAmazonResourceName',    # OPTIONAL
-          TemplateData => 'MyEmailTemplateData',     # max: 262144; OPTIONAL
-          TemplateName => 'MyEmailTemplateName',     # min: 1; OPTIONAL
+          Attachments => [
+            {
+              FileName           => 'MyAttachmentFileName',    # max: 255
+              RawContent         => 'BlobRawAttachmentData',
+              ContentDescription =>
+                'MyAttachmentContentDescription',    # max: 1000; OPTIONAL
+              ContentDisposition =>
+                'ATTACHMENT',    # values: ATTACHMENT, INLINE; OPTIONAL
+              ContentId => 'MyAttachmentContentId',  # min: 1, max: 78; OPTIONAL
+              ContentTransferEncoding => 'BASE64'
+              ,    # values: BASE64, QUOTED_PRINTABLE, SEVEN_BIT; OPTIONAL
+              ContentType =>
+                'MyAttachmentContentType',    # min: 1, max: 78; OPTIONAL
+            },
+            ...
+          ],    # OPTIONAL
+          Headers => [
+            {
+              Name  => 'MyMessageHeaderName',     # min: 1, max: 126
+              Value => 'MyMessageHeaderValue',    # min: 1, max: 870
+
+            },
+            ...
+          ],    # max: 15; OPTIONAL
+          TemplateArn     => 'MyAmazonResourceName',    # OPTIONAL
+          TemplateContent => {
+            Html    => 'MyEmailTemplateHtml',           # OPTIONAL
+            Subject => 'MyEmailTemplateSubject',        # OPTIONAL
+            Text    => 'MyEmailTemplateText',           # OPTIONAL
+          },    # OPTIONAL
+          TemplateData => 'MyEmailTemplateData',    # max: 262144; OPTIONAL
+          TemplateName => 'MyEmailTemplateName',    # min: 1; OPTIONAL
         },    # OPTIONAL
       },
       FromEmailAddress => 'MyEmailAddress',

@@ -49,7 +49,9 @@ Describes the automated branch creation configuration.
 
 =head2 BasicAuthCredentials => Str
 
-The basic authorization credentials for the autocreated branch.
+The basic authorization credentials for the autocreated branch. You
+must base64-encode the authorization credentials and provide them in
+the format C<user:password>.
 
 
 =head2 BuildSpec => Str

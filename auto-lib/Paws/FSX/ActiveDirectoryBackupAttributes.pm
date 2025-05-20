@@ -35,21 +35,22 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::FSX::Active
 
 =head1 DESCRIPTION
 
-The Microsoft AD attributes of the Amazon FSx for Windows File Server
-file system.
+The Microsoft Active Directory attributes of the Amazon FSx for Windows
+File Server file system.
 
 =head1 ATTRIBUTES
 
 
 =head2 ActiveDirectoryId => Str
 
-The ID of the AWS Managed Microsoft Active Directory instance to which
-the file system is joined.
+The ID of the Amazon Web Services Managed Microsoft Active Directory
+instance to which the file system is joined.
 
 
 =head2 DomainName => Str
 
-The fully qualified domain name of the self-managed AD directory.
+The fully qualified domain name of the self-managed Active Directory
+directory.
 
 
 =head2 ResourceARN => Str

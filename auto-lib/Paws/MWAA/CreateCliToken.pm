@@ -47,7 +47,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/air
 
 =head2 B<REQUIRED> Name => Str
 
-Create a CLI token request for a MWAA environment.
+The name of the Amazon MWAA environment. For example,
+C<MyMWAAEnvironment>.
 
 
 

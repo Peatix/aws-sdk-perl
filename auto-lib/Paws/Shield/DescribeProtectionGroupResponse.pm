@@ -16,7 +16,7 @@ Paws::Shield::DescribeProtectionGroupResponse
 
 =head2 B<REQUIRED> ProtectionGroup => L<Paws::Shield::ProtectionGroup>
 
-A grouping of protected resources that you and AWS Shield Advanced can
+A grouping of protected resources that you and Shield Advanced can
 monitor as a collective. This resource grouping improves the accuracy
 of detection and reduces false positives.
 

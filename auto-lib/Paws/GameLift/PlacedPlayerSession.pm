@@ -34,17 +34,11 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::GameLift::P
 
 =head1 DESCRIPTION
 
-Information about a player session that was created as part of a
-StartGameSessionPlacement request. This object contains only the player
-ID and player session ID. To retrieve full details on a player session,
-call DescribePlayerSessions with the player session ID.
-
-B<Related actions>
-
-CreatePlayerSession | CreatePlayerSessions | DescribePlayerSessions |
-StartGameSessionPlacement | DescribeGameSessionPlacement |
-StopGameSessionPlacement | All APIs by task
-(https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-awssdk.html#reference-awssdk-resources-fleets)
+Information about a player session. This object contains only the
+player ID and player session ID. To retrieve full details on a player
+session, call DescribePlayerSessions
+(https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribePlayerSessions.html)
+with the player session ID.
 
 =head1 ATTRIBUTES
 

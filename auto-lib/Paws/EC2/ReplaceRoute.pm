@@ -2,6 +2,7 @@
 package Paws::EC2::ReplaceRoute;
   use Moose;
   has CarrierGatewayId => (is => 'ro', isa => 'Str');
+  has CoreNetworkArn => (is => 'ro', isa => 'Str');
   has DestinationCidrBlock => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'destinationCidrBlock' );
   has DestinationIpv6CidrBlock => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'destinationIpv6CidrBlock' );
   has DestinationPrefixListId => (is => 'ro', isa => 'Str');
@@ -62,6 +63,12 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ec2
 =head2 CarrierGatewayId => Str
 
 [IPv4 traffic only] The ID of a carrier gateway.
+
+
+
+=head2 CoreNetworkArn => Str
+
+The Amazon Resource Name (ARN) of the core network.
 
 
 

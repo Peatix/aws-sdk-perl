@@ -47,12 +47,14 @@ The expired log events.
 
 =head2 TooNewLogEventStartIndex => Int
 
-The log events that are too new.
+The index of the first log event that is too new. This field is
+inclusive.
 
 
 =head2 TooOldLogEventEndIndex => Int
 
-The log events that are too old.
+The index of the last log event that is too old. This field is
+exclusive.
 
 
 

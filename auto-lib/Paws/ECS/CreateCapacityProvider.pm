@@ -32,12 +32,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $CreateCapacityProviderResponse = $ecs->CreateCapacityProvider(
       AutoScalingGroupProvider => {
         AutoScalingGroupArn => 'MyString',
+        ManagedDraining     => 'ENABLED',  # values: ENABLED, DISABLED; OPTIONAL
         ManagedScaling      => {
-          InstanceWarmupPeriod   => 1,    # max: 10000; OPTIONAL
-          MaximumScalingStepSize => 1,    # min: 1, max: 10000; OPTIONAL
-          MinimumScalingStepSize => 1,    # min: 1, max: 10000; OPTIONAL
-          Status         => 'ENABLED',    # values: ENABLED, DISABLED; OPTIONAL
-          TargetCapacity => 1,            # min: 1, max: 100; OPTIONAL
+          InstanceWarmupPeriod   => 1,     # max: 10000; OPTIONAL
+          MaximumScalingStepSize => 1,     # min: 1, max: 10000; OPTIONAL
+          MinimumScalingStepSize => 1,     # min: 1, max: 10000; OPTIONAL
+          Status         => 'ENABLED',     # values: ENABLED, DISABLED; OPTIONAL
+          TargetCapacity => 1,             # min: 1, max: 100; OPTIONAL
         },    # OPTIONAL
         ManagedTerminationProtection =>
           'ENABLED',    # values: ENABLED, DISABLED; OPTIONAL
@@ -71,18 +72,18 @@ The details of the Auto Scaling group for the capacity provider.
 
 =head2 B<REQUIRED> Name => Str
 
-The name of the capacity provider. Up to 255 characters are allowed,
-including letters (upper and lowercase), numbers, underscores, and
-hyphens. The name cannot be prefixed with "C<aws>", "C<ecs>", or
-"C<fargate>".
+The name of the capacity provider. Up to 255 characters are allowed.
+They include letters (both upper and lowercase letters), numbers,
+underscores (_), and hyphens (-). The name can't be prefixed with
+"C<aws>", "C<ecs>", or "C<fargate>".
 
 
 
 =head2 Tags => ArrayRef[L<Paws::ECS::Tag>]
 
-The metadata that you apply to the capacity provider to help you
-categorize and organize them. Each tag consists of a key and an
-optional value, both of which you define.
+The metadata that you apply to the capacity provider to categorize and
+organize them more conveniently. Each tag consists of a key and an
+optional value. You define both of them.
 
 The following basic restrictions apply to tags:
 
@@ -120,10 +121,10 @@ Tag keys and values are case-sensitive.
 =item *
 
 Do not use C<aws:>, C<AWS:>, or any upper or lowercase combination of
-such as a prefix for either keys or values as it is reserved for AWS
-use. You cannot edit or delete tag keys or values with this prefix.
-Tags with this prefix do not count against your tags per resource
-limit.
+such as a prefix for either keys or values as it is reserved for Amazon
+Web Services use. You cannot edit or delete tag keys or values with
+this prefix. Tags with this prefix do not count against your tags per
+resource limit.
 
 =back
 

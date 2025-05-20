@@ -15,8 +15,14 @@ package Paws::EC2::InstanceTypeInfo;
   has InstanceStorageInfo => (is => 'ro', isa => 'Paws::EC2::InstanceStorageInfo', request_name => 'instanceStorageInfo', traits => ['NameInRequest']);
   has InstanceStorageSupported => (is => 'ro', isa => 'Bool', request_name => 'instanceStorageSupported', traits => ['NameInRequest']);
   has InstanceType => (is => 'ro', isa => 'Str', request_name => 'instanceType', traits => ['NameInRequest']);
+  has MediaAcceleratorInfo => (is => 'ro', isa => 'Paws::EC2::MediaAcceleratorInfo', request_name => 'mediaAcceleratorInfo', traits => ['NameInRequest']);
   has MemoryInfo => (is => 'ro', isa => 'Paws::EC2::MemoryInfo', request_name => 'memoryInfo', traits => ['NameInRequest']);
   has NetworkInfo => (is => 'ro', isa => 'Paws::EC2::NetworkInfo', request_name => 'networkInfo', traits => ['NameInRequest']);
+  has NeuronInfo => (is => 'ro', isa => 'Paws::EC2::NeuronInfo', request_name => 'neuronInfo', traits => ['NameInRequest']);
+  has NitroEnclavesSupport => (is => 'ro', isa => 'Str', request_name => 'nitroEnclavesSupport', traits => ['NameInRequest']);
+  has NitroTpmInfo => (is => 'ro', isa => 'Paws::EC2::NitroTpmInfo', request_name => 'nitroTpmInfo', traits => ['NameInRequest']);
+  has NitroTpmSupport => (is => 'ro', isa => 'Str', request_name => 'nitroTpmSupport', traits => ['NameInRequest']);
+  has PhcSupport => (is => 'ro', isa => 'Str', request_name => 'phcSupport', traits => ['NameInRequest']);
   has PlacementGroupInfo => (is => 'ro', isa => 'Paws::EC2::PlacementGroupInfo', request_name => 'placementGroupInfo', traits => ['NameInRequest']);
   has ProcessorInfo => (is => 'ro', isa => 'Paws::EC2::ProcessorInfo', request_name => 'processorInfo', traits => ['NameInRequest']);
   has SupportedBootModes => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'supportedBootModes', traits => ['NameInRequest']);
@@ -61,7 +67,7 @@ This class has no description
 
 =head2 AutoRecoverySupported => Bool
 
-Indicates whether auto recovery is supported.
+Indicates whether Amazon CloudWatch action based recovery is supported.
 
 
 =head2 BareMetal => Bool
@@ -71,8 +77,10 @@ Indicates whether the instance is a bare metal instance type.
 
 =head2 BurstablePerformanceSupported => Bool
 
-Indicates whether the instance type is a burstable performance instance
-type.
+Indicates whether the instance type is a burstable performance T
+instance type. For more information, see Burstable performance
+instances
+(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-performance-instances.html).
 
 
 =head2 CurrentGeneration => Bool
@@ -137,6 +145,11 @@ The instance type. For more information, see Instance types
 in the I<Amazon EC2 User Guide>.
 
 
+=head2 MediaAcceleratorInfo => L<Paws::EC2::MediaAcceleratorInfo>
+
+Describes the media accelerator settings for the instance type.
+
+
 =head2 MemoryInfo => L<Paws::EC2::MemoryInfo>
 
 Describes the memory for the instance type.
@@ -145,6 +158,32 @@ Describes the memory for the instance type.
 =head2 NetworkInfo => L<Paws::EC2::NetworkInfo>
 
 Describes the network settings for the instance type.
+
+
+=head2 NeuronInfo => L<Paws::EC2::NeuronInfo>
+
+Describes the Neuron accelerator settings for the instance type.
+
+
+=head2 NitroEnclavesSupport => Str
+
+Indicates whether Nitro Enclaves is supported.
+
+
+=head2 NitroTpmInfo => L<Paws::EC2::NitroTpmInfo>
+
+Describes the supported NitroTPM versions for the instance type.
+
+
+=head2 NitroTpmSupport => Str
+
+Indicates whether NitroTPM is supported.
+
+
+=head2 PhcSupport => Str
+
+Indicates whether a local Precision Time Protocol (PTP) hardware clock
+(PHC) is supported.
 
 
 =head2 PlacementGroupInfo => L<Paws::EC2::PlacementGroupInfo>
@@ -171,7 +210,8 @@ The supported root device types.
 
 =head2 SupportedUsageClasses => ArrayRef[Str|Undef]
 
-Indicates whether the instance type is offered for spot or On-Demand.
+Indicates whether the instance type is offered for spot, On-Demand, or
+Capacity Blocks.
 
 
 =head2 SupportedVirtualizationTypes => ArrayRef[Str|Undef]

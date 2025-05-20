@@ -42,14 +42,18 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SageMaker::
 
 =head1 DESCRIPTION
 
-The properties of an experiment as returned by the Search API.
+The properties of an experiment as returned by the Search
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_Search.html)
+API. For information about experiments, see the CreateExperiment
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateExperiment.html)
+API.
 
 =head1 ATTRIBUTES
 
 
 =head2 CreatedBy => L<Paws::SageMaker::UserContext>
 
-
+Who created the experiment.
 
 
 =head2 CreationTime => Str
@@ -96,7 +100,9 @@ When the experiment was last modified.
 =head2 Tags => ArrayRef[L<Paws::SageMaker::Tag>]
 
 The list of tags that are associated with the experiment. You can use
-Search API to search on the tags.
+Search
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_Search.html)
+API to search on the tags.
 
 
 

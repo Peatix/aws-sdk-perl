@@ -49,13 +49,13 @@ C<CreateEventSubscription> operation.
 
 =head2 CustomerAwsId => Str
 
-The AWS customer account associated with the AWS DMS event notification
-subscription.
+The Amazon Web Services customer account associated with the DMS event
+notification subscription.
 
 
 =head2 CustSubscriptionId => Str
 
-The AWS DMS event notification subscription Id.
+The DMS event notification subscription Id.
 
 
 =head2 Enabled => Bool
@@ -70,7 +70,7 @@ A lists of event categories.
 
 =head2 SnsTopicArn => Str
 
-The topic ARN of the AWS DMS event notification subscription.
+The topic ARN of the DMS event notification subscription.
 
 
 =head2 SourceIdsList => ArrayRef[Str|Undef]
@@ -80,7 +80,7 @@ A list of source Ids for the event subscription.
 
 =head2 SourceType => Str
 
-The type of AWS DMS resource that generates events.
+The type of DMS resource that generates events.
 
 Valid values: replication-instance | replication-server |
 security-group | replication-task
@@ -88,22 +88,21 @@ security-group | replication-task
 
 =head2 Status => Str
 
-The status of the AWS DMS event notification subscription.
+The status of the DMS event notification subscription.
 
 Constraints:
 
 Can be one of the following: creating | modifying | deleting | active |
 no-permission | topic-not-exist
 
-The status "no-permission" indicates that AWS DMS no longer has
-permission to post to the SNS topic. The status "topic-not-exist"
-indicates that the topic was deleted after the subscription was
-created.
+The status "no-permission" indicates that DMS no longer has permission
+to post to the SNS topic. The status "topic-not-exist" indicates that
+the topic was deleted after the subscription was created.
 
 
 =head2 SubscriptionCreationTime => Str
 
-The time the AWS DMS event notification subscription was created.
+The time the DMS event notification subscription was created.
 
 
 

@@ -37,8 +37,8 @@ Specifies an authentication configuration for the private docker
 registry where your model image is hosted. Specify a value for this
 property only if you specified C<Vpc> as the value for the
 C<RepositoryAccessMode> field of the C<ImageConfig> object that you
-passed to a call to CreateModel and the private Docker registry where
-the model image is hosted requires authentication.
+passed to a call to C<CreateModel> and the private Docker registry
+where the model image is hosted requires authentication.
 
 =head1 ATTRIBUTES
 

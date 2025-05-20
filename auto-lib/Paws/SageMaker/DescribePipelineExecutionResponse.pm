@@ -6,12 +6,14 @@ package Paws::SageMaker::DescribePipelineExecutionResponse;
   has FailureReason => (is => 'ro', isa => 'Str');
   has LastModifiedBy => (is => 'ro', isa => 'Paws::SageMaker::UserContext');
   has LastModifiedTime => (is => 'ro', isa => 'Str');
+  has ParallelismConfiguration => (is => 'ro', isa => 'Paws::SageMaker::ParallelismConfiguration');
   has PipelineArn => (is => 'ro', isa => 'Str');
   has PipelineExecutionArn => (is => 'ro', isa => 'Str');
   has PipelineExecutionDescription => (is => 'ro', isa => 'Str');
   has PipelineExecutionDisplayName => (is => 'ro', isa => 'Str');
   has PipelineExecutionStatus => (is => 'ro', isa => 'Str');
   has PipelineExperimentConfig => (is => 'ro', isa => 'Paws::SageMaker::PipelineExperimentConfig');
+  has SelectiveExecutionConfig => (is => 'ro', isa => 'Paws::SageMaker::SelectiveExecutionConfig');
 
   has _request_id => (is => 'ro', isa => 'Str');
 
@@ -49,6 +51,11 @@ If the execution failed, a message describing why.
 The time when the pipeline execution was modified last.
 
 
+=head2 ParallelismConfiguration => L<Paws::SageMaker::ParallelismConfiguration>
+
+The parallelism configuration applied to the pipeline.
+
+
 =head2 PipelineArn => Str
 
 The Amazon Resource Name (ARN) of the pipeline.
@@ -77,6 +84,11 @@ Valid values are: C<"Executing">, C<"Stopping">, C<"Stopped">, C<"Failed">, C<"S
 =head2 PipelineExperimentConfig => L<Paws::SageMaker::PipelineExperimentConfig>
 
 
+
+
+=head2 SelectiveExecutionConfig => L<Paws::SageMaker::SelectiveExecutionConfig>
+
+The selective execution configuration applied to the pipeline run.
 
 
 =head2 _request_id => Str

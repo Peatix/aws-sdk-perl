@@ -43,7 +43,7 @@ logs for your cluster.
 =head2 Enabled => Bool
 
 If a log type is enabled, that log type exports its control plane logs
-to CloudWatch Logs. If a log type isn't enabled, that log type doesn't
+to CloudWatch Logs . If a log type isn't enabled, that log type doesn't
 export its control plane logs. Each individual log type can be enabled
 or disabled independently.
 

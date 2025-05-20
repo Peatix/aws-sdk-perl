@@ -17,7 +17,9 @@ Paws::Personalize::GetSolutionMetricsResponse
 
 =head2 Metrics => L<Paws::Personalize::Metrics>
 
-The metrics for the solution version.
+The metrics for the solution version. For more information, see
+Evaluating a solution version with metrics
+(https://docs.aws.amazon.com/personalize/latest/dg/working-with-training-metrics.html).
 
 
 =head2 SolutionVersionArn => Str

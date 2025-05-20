@@ -34,19 +34,22 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::MWAA::Dimen
 
 =head1 DESCRIPTION
 
-Internal only API.
+B<Internal only>. Represents the dimensions of a metric. To learn more
+about the metrics published to Amazon CloudWatch, see Amazon MWAA
+performance metrics in Amazon CloudWatch
+(https://docs.aws.amazon.com/mwaa/latest/userguide/cw-metrics.html).
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> Name => Str
 
-Internal only API.
+B<Internal only>. The name of the dimension.
 
 
 =head2 B<REQUIRED> Value => Str
 
-Internal only API.
+B<Internal only>. The value of the dimension.
 
 
 

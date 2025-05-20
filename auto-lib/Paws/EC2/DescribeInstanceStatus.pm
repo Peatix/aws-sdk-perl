@@ -50,7 +50,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ec2
 
 =head2 DryRun => Bool
 
-Checks whether you have the required permissions for the action,
+Checks whether you have the required permissions for the operation,
 without actually making the request, and provides an error response. If
 you have the required permissions, the error response is
 C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
@@ -125,6 +125,16 @@ C<not-applicable>).
 
 =item *
 
+C<operator.managed> - A Boolean that indicates whether this is a
+managed instance.
+
+=item *
+
+C<operator.principal> - The principal that manages the instance. Only
+valid for managed instances, where C<managed> is C<true>.
+
+=item *
+
 C<system-status.reachability> - Filters on system status where the name
 is C<reachability> (C<passed> | C<failed> | C<initializing> |
 C<insufficient-data>).
@@ -134,6 +144,12 @@ C<insufficient-data>).
 C<system-status.status> - The system status of the instance (C<ok> |
 C<impaired> | C<initializing> | C<insufficient-data> |
 C<not-applicable>).
+
+=item *
+
+C<attached-ebs-status.status> - The status of the attached EBS volume
+for the instance (C<ok> | C<impaired> | C<initializing> |
+C<insufficient-data> | C<not-applicable>).
 
 =back
 
@@ -161,16 +177,20 @@ Constraints: Maximum 100 explicitly specified instance IDs.
 
 =head2 MaxResults => Int
 
-The maximum number of results to return in a single call. To retrieve
-the remaining results, make another call with the returned C<NextToken>
-value. This value can be between 5 and 1000. You cannot specify this
-parameter and the instance IDs parameter in the same call.
+The maximum number of items to return for this request. To get the next
+page of items, make another request with the token returned in the
+output. For more information, see Pagination
+(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Query-Requests.html#api-pagination).
+
+You cannot specify this parameter and the instance IDs parameter in the
+same request.
 
 
 
 =head2 NextToken => Str
 
-The token to retrieve the next page of results.
+The token returned from a previous paginated request. Pagination
+continues from the end of the items returned by the previous request.
 
 
 

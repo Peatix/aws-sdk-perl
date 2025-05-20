@@ -13,6 +13,7 @@ package Paws::LexModelsV2::UpdateSlotResponse;
   has SlotId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'slotId');
   has SlotName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'slotName');
   has SlotTypeId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'slotTypeId');
+  has SubSlotSetting => (is => 'ro', isa => 'Paws::LexModelsV2::SubSlotSetting', traits => ['NameInRequest'], request_name => 'subSlotSetting');
   has ValueElicitationSetting => (is => 'ro', isa => 'Paws::LexModelsV2::SlotValueElicitationSetting', traits => ['NameInRequest'], request_name => 'valueElicitationSetting');
 
   has _request_id => (is => 'ro', isa => 'Str');
@@ -34,8 +35,7 @@ The identifier of the bot that contains the slot.
 
 =head2 BotVersion => Str
 
-The identifier of the slot version that contains the slot. Will always
-be C<DRAFT>.
+The version of the bot that contains the slot. Will always be C<DRAFT>.
 
 
 =head2 CreationDateTime => Str
@@ -88,6 +88,12 @@ The updated name of the slot.
 
 The updated identifier of the slot type that provides values for the
 slot.
+
+
+=head2 SubSlotSetting => L<Paws::LexModelsV2::SubSlotSetting>
+
+Specifications for the constituent sub slots and the expression for the
+composite slot.
 
 
 =head2 ValueElicitationSetting => L<Paws::LexModelsV2::SlotValueElicitationSetting>

@@ -38,14 +38,16 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       BundleName        => 'MyWorkspaceBundleName',
       ComputeType       => {
         Name => 'VALUE'
-        , # values: VALUE, STANDARD, PERFORMANCE, POWER, GRAPHICS, POWERPRO, GRAPHICSPRO; OPTIONAL
+        , # values: VALUE, STANDARD, PERFORMANCE, POWER, GRAPHICS, POWERPRO, GENERALPURPOSE_4XLARGE, GENERALPURPOSE_8XLARGE, GRAPHICSPRO, GRAPHICS_G4DN, GRAPHICSPRO_G4DN; OPTIONAL
       },
       ImageId     => 'MyWorkspaceImageId',
       UserStorage => {
-        Capacity => 'MyNonEmptyString',    # min: 1; OPTIONAL
+        Capacity => 'MyNonEmptyString',    # min: 1
+
       },
       RootStorage => {
-        Capacity => 'MyNonEmptyString',    # min: 1; OPTIONAL
+        Capacity => 'MyNonEmptyString',    # min: 1
+
       },    # OPTIONAL
       Tags => [
         {

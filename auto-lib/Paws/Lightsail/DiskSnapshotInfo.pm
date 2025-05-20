@@ -40,7 +40,7 @@ Describes a disk snapshot.
 
 =head2 SizeInGb => Int
 
-The size of the disk in GB (e.g., C<32>).
+The size of the disk in GB (C<32>).
 
 
 

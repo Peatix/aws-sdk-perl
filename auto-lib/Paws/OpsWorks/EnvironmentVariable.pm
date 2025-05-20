@@ -50,11 +50,10 @@ a letter or underscore.
 
 =head2 Secure => Bool
 
-(Optional) Whether the variable's value will be returned by the
-DescribeApps action. To conceal an environment variable's value, set
-C<Secure> to C<true>. C<DescribeApps> then returns
-C<*****FILTERED*****> instead of the actual value. The default value
-for C<Secure> is C<false>.
+(Optional) Whether the variable's value is returned by the DescribeApps
+action. To hide an environment variable's value, set C<Secure> to
+C<true>. C<DescribeApps> returns C<*****FILTERED*****> instead of the
+actual value. The default value for C<Secure> is C<false>.
 
 
 =head2 B<REQUIRED> Value => Str

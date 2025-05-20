@@ -28,18 +28,20 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $fsx = Paws->service('FSX');
+    # To tag a resource
+    # This operation tags an Amazon FSx resource.
     my $TagResourceResponse = $fsx->TagResource(
-      ResourceARN => 'MyResourceARN',
-      Tags        => [
+      'ResourceARN' =>
+        'arn:aws:fsx:us-east-1:012345678912:file-system/fs-0498eed5fe91001ec',
+      'Tags' => [
+
         {
-          Key   => 'MyTagKey',      # min: 1, max: 128
-          Value => 'MyTagValue',    # max: 256
-
-        },
-        ...
-      ],
-
+          'Key'   => 'Name',
+          'Value' => 'MyFileSystem'
+        }
+      ]
     );
+
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/fsx/TagResource>

@@ -35,26 +35,37 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Kendra::Dat
 
 =head1 DESCRIPTION
 
-Maps a column or attribute in the data source to an index field. You
-must first create the fields in the index using the C<UpdateIndex>
-operation.
+Maps attributes or field names of the documents synced from the data
+source to Amazon Kendra index field names. You can set up field
+mappings for each data source when calling CreateDataSource
+(https://docs.aws.amazon.com/kendra/latest/APIReference/API_CreateDataSource.html)
+or UpdateDataSource
+(https://docs.aws.amazon.com/kendra/latest/APIReference/API_UpdateDataSource.html)
+API. To create custom fields, use the C<UpdateIndex> API to first
+create an index field and then map to the data source field. For more
+information, see Mapping data source fields
+(https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html).
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> DataSourceFieldName => Str
 
-The name of the column or attribute in the data source.
+The name of the field in the data source. You must first create the
+index field using the C<UpdateIndex> API.
 
 
 =head2 DateFieldFormat => Str
 
-The type of data stored in the column or attribute.
+The format for date fields in the data source. If the field specified
+in C<DataSourceFieldName> is a date field, you must specify the date
+format. If the field is not a date field, an exception is thrown.
 
 
 =head2 B<REQUIRED> IndexFieldName => Str
 
-The name of the field in the index.
+The name of the index field to map to the data source field. The index
+field type must match the data source field type.
 
 
 

@@ -3,8 +3,10 @@ package Paws::StorageGateway::FileSystemAssociationInfo;
   use Moose;
   has AuditDestinationARN => (is => 'ro', isa => 'Str');
   has CacheAttributes => (is => 'ro', isa => 'Paws::StorageGateway::CacheAttributes');
+  has EndpointNetworkConfiguration => (is => 'ro', isa => 'Paws::StorageGateway::EndpointNetworkConfiguration');
   has FileSystemAssociationARN => (is => 'ro', isa => 'Str');
   has FileSystemAssociationStatus => (is => 'ro', isa => 'Str');
+  has FileSystemAssociationStatusDetails => (is => 'ro', isa => 'ArrayRef[Paws::StorageGateway::FileSystemAssociationStatusDetail]');
   has GatewayARN => (is => 'ro', isa => 'Str');
   has LocationARN => (is => 'ro', isa => 'Str');
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::StorageGateway::Tag]');
@@ -55,6 +57,15 @@ The Amazon Resource Name (ARN) of the storage used for the audit logs.
 
 
 
+=head2 EndpointNetworkConfiguration => L<Paws::StorageGateway::EndpointNetworkConfiguration>
+
+Specifies network configuration information for the gateway associated
+with the Amazon FSx file system.
+
+If multiple file systems are associated with this gateway, this
+parameter's C<IpAddresses> field is required.
+
+
 =head2 FileSystemAssociationARN => Str
 
 The Amazon Resource Name (ARN) of the file system association.
@@ -63,8 +74,13 @@ The Amazon Resource Name (ARN) of the file system association.
 =head2 FileSystemAssociationStatus => Str
 
 The status of the file system association. Valid Values: C<AVAILABLE> |
-C<CREATING> | C<DELETING> | C<FORCE_DELETING> | C<MISCONFIGURED> |
-C<UPDATING> | C<UNAVAILABLE>
+C<CREATING> | C<DELETING> | C<FORCE_DELETING> | C<UPDATING> | C<ERROR>
+
+
+=head2 FileSystemAssociationStatusDetails => ArrayRef[L<Paws::StorageGateway::FileSystemAssociationStatusDetail>]
+
+An array containing the FileSystemAssociationStatusDetail data type,
+which provides detailed information on file system association status.
 
 
 =head2 GatewayARN => Str

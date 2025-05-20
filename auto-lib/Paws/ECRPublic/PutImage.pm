@@ -54,20 +54,20 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 ImageDigest => Str
 
-The image digest of the image manifest corresponding to the image.
+The image digest of the image manifest that corresponds to the image.
 
 
 
 =head2 B<REQUIRED> ImageManifest => Str
 
-The image manifest corresponding to the image to be uploaded.
+The image manifest that corresponds to the image to be uploaded.
 
 
 
 =head2 ImageManifestMediaType => Str
 
 The media type of the image manifest. If you push an image manifest
-that does not contain the C<mediaType> field, you must specify the
+that doesn't contain the C<mediaType> field, you must specify the
 C<imageManifestMediaType> in the request.
 
 
@@ -82,15 +82,16 @@ Initiative (OCI) formats.
 
 =head2 RegistryId => Str
 
-The AWS account ID associated with the public registry that contains
-the repository in which to put the image. If you do not specify a
-registry, the default public registry is assumed.
+The Amazon Web Services account ID, or registry alias, that's
+associated with the public registry that contains the repository where
+the image is put. If you do not specify a registry, the default public
+registry is assumed.
 
 
 
 =head2 B<REQUIRED> RepositoryName => Str
 
-The name of the repository in which to put the image.
+The name of the repository where the image is put.
 
 
 

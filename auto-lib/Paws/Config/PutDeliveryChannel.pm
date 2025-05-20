@@ -50,9 +50,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/con
 
 =head2 B<REQUIRED> DeliveryChannel => L<Paws::Config::DeliveryChannel>
 
-The configuration delivery channel object that delivers the
-configuration information to an Amazon S3 bucket and to an Amazon SNS
-topic.
+An object for the delivery channel. A delivery channel sends
+notifications and updated configuration states.
 
 
 

@@ -33,7 +33,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SecurityHub
 
 =head1 DESCRIPTION
 
-Details about the action that CloudFront or AWS WAF takes when a web
+Details about the action that CloudFront or WAF takes when a web
 request matches the conditions in the rule.
 
 =head1 ATTRIBUTES
@@ -41,7 +41,7 @@ request matches the conditions in the rule.
 
 =head2 Type => Str
 
-Specifies how you want AWS WAF to respond to requests that match the
+Specifies how you want WAF to respond to requests that match the
 settings in a rule.
 
 Valid settings include the following:
@@ -50,18 +50,18 @@ Valid settings include the following:
 
 =item *
 
-C<ALLOW> - AWS WAF allows requests
+C<ALLOW> - WAF allows requests
 
 =item *
 
-C<BLOCK> - AWS WAF blocks requests
+C<BLOCK> - WAF blocks requests
 
 =item *
 
-C<COUNT> - AWS WAF increments a counter of the requests that match all
-of the conditions in the rule. AWS WAF then continues to inspect the
-web request based on the remaining rules in the web ACL. You can't
-specify C<COUNT> for the default action for a WebACL.
+C<COUNT> - WAF increments a counter of the requests that match all of
+the conditions in the rule. WAF then continues to inspect the web
+request based on the remaining rules in the web ACL. You can't specify
+C<COUNT> for the default action for a web ACL.
 
 =back
 

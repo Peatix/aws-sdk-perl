@@ -37,7 +37,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::STS::Tag ob
 You can pass custom key-value pair attributes when you assume a role or
 federate a user. These are called session tags. You can then use the
 session tags to control access to resources. For more information, see
-Tagging AWS STS Sessions
+Tagging Amazon Web Services STS Sessions
 (https://docs.aws.amazon.com/IAM/latest/UserGuide/id_session-tags.html)
 in the I<IAM User Guide>.
 

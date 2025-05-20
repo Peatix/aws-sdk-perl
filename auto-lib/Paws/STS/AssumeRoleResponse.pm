@@ -53,12 +53,12 @@ C<AssumeRole> operation.
 
 You can require users to specify a source identity when they assume a
 role. You do this by using the C<sts:SourceIdentity> condition key in a
-role trust policy. You can use source identity information in AWS
+role trust policy. You can use source identity information in
 CloudTrail logs to determine who took actions with a role. You can use
 the C<aws:SourceIdentity> condition key to further control access to
-AWS resources based on the value of source identity. For more
-information about using source identity, see Monitor and control
-actions taken with assumed roles
+Amazon Web Services resources based on the value of source identity.
+For more information about using source identity, see Monitor and
+control actions taken with assumed roles
 (https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_control-access_monitor.html)
 in the I<IAM User Guide>.
 

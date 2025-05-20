@@ -246,7 +246,7 @@ read; the process of filtering does not consume any additional read
 capacity units.
 
 For more information, see Filter Expressions
-(https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/QueryAndScan.html#FilteringResults)
+(https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Scan.html#Scan.FilterExpression)
 in the I<Amazon DynamoDB Developer Guide>.
 
 
@@ -357,13 +357,15 @@ equivalent to specifying C<ALL_ATTRIBUTES>.
 =item *
 
 C<COUNT> - Returns the number of matching items, rather than the
-matching items themselves.
+matching items themselves. Note that this uses the same quantity of
+read capacity units as getting the items, and is subject to the same
+item size calculations.
 
 =item *
 
 C<SPECIFIC_ATTRIBUTES> - Returns only the attributes listed in
-C<AttributesToGet>. This return value is equivalent to specifying
-C<AttributesToGet> without specifying any value for C<Select>.
+C<ProjectionExpression>. This return value is equivalent to specifying
+C<ProjectionExpression> without specifying any value for C<Select>.
 
 If you query or scan a local secondary index and request only
 attributes that are projected into that index, the operation reads only
@@ -378,13 +380,13 @@ queries cannot fetch attributes from the parent table.
 
 =back
 
-If neither C<Select> nor C<AttributesToGet> are specified, DynamoDB
-defaults to C<ALL_ATTRIBUTES> when accessing a table, and
+If neither C<Select> nor C<ProjectionExpression> are specified,
+DynamoDB defaults to C<ALL_ATTRIBUTES> when accessing a table, and
 C<ALL_PROJECTED_ATTRIBUTES> when accessing an index. You cannot use
-both C<Select> and C<AttributesToGet> together in a single request,
-unless the value for C<Select> is C<SPECIFIC_ATTRIBUTES>. (This usage
-is equivalent to specifying C<AttributesToGet> without any value for
-C<Select>.)
+both C<Select> and C<ProjectionExpression> together in a single
+request, unless the value for C<Select> is C<SPECIFIC_ATTRIBUTES>.
+(This usage is equivalent to specifying C<ProjectionExpression> without
+any value for C<Select>.)
 
 If you use the C<ProjectionExpression> parameter, then the value for
 C<Select> can only be C<SPECIFIC_ATTRIBUTES>. Any other value for
@@ -394,9 +396,11 @@ Valid values are: C<"ALL_ATTRIBUTES">, C<"ALL_PROJECTED_ATTRIBUTES">, C<"SPECIFI
 
 =head2 B<REQUIRED> TableName => Str
 
-The name of the table containing the requested items; or, if you
-provide C<IndexName>, the name of the table to which that index
-belongs.
+The name of the table containing the requested items or if you provide
+C<IndexName>, the name of the table to which that index belongs.
+
+You can also provide the Amazon Resource Name (ARN) of the table in
+this parameter.
 
 
 

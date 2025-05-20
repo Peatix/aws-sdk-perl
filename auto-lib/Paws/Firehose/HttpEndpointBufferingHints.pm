@@ -35,11 +35,11 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Firehose::H
 =head1 DESCRIPTION
 
 Describes the buffering options that can be applied before data is
-delivered to the HTTP endpoint destination. Kinesis Data Firehose
-treats these options as hints, and it might choose to use more optimal
-values. The C<SizeInMBs> and C<IntervalInSeconds> parameters are
-optional. However, if specify a value for one of them, you must also
-provide a value for the other.
+delivered to the HTTP endpoint destination. Firehose treats these
+options as hints, and it might choose to use more optimal values. The
+C<SizeInMBs> and C<IntervalInSeconds> parameters are optional. However,
+if specify a value for one of them, you must also provide a value for
+the other.
 
 =head1 ATTRIBUTES
 
@@ -57,7 +57,7 @@ Buffer incoming data to the specified size, in MBs, before delivering
 it to the destination. The default value is 5.
 
 We recommend setting this parameter to a value greater than the amount
-of data you typically ingest into the delivery stream in 10 seconds.
+of data you typically ingest into the Firehose stream in 10 seconds.
 For example, if you typically ingest data at 1 MB/sec, the value should
 be 10 MB or higher.
 

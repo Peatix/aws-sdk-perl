@@ -1,6 +1,7 @@
 
 package Paws::Rekognition::GetContentModeration;
   use Moose;
+  has AggregateBy => (is => 'ro', isa => 'Str');
   has JobId => (is => 'ro', isa => 'Str', required => 1);
   has MaxResults => (is => 'ro', isa => 'Int');
   has NextToken => (is => 'ro', isa => 'Str');
@@ -31,19 +32,24 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $rekognition = Paws->service('Rekognition');
     my $GetContentModerationResponse = $rekognition->GetContentModeration(
-      JobId      => 'MyJobId',
-      MaxResults => 1,                      # OPTIONAL
-      NextToken  => 'MyPaginationToken',    # OPTIONAL
-      SortBy     => 'NAME',                 # OPTIONAL
+      JobId       => 'MyJobId',
+      AggregateBy => 'TIMESTAMPS',           # OPTIONAL
+      MaxResults  => 1,                      # OPTIONAL
+      NextToken   => 'MyPaginationToken',    # OPTIONAL
+      SortBy      => 'NAME',                 # OPTIONAL
     );
 
     # Results:
-    my $JobStatus        = $GetContentModerationResponse->JobStatus;
-    my $ModerationLabels = $GetContentModerationResponse->ModerationLabels;
+    my $GetRequestMetadata = $GetContentModerationResponse->GetRequestMetadata;
+    my $JobId              = $GetContentModerationResponse->JobId;
+    my $JobStatus          = $GetContentModerationResponse->JobStatus;
+    my $JobTag             = $GetContentModerationResponse->JobTag;
+    my $ModerationLabels   = $GetContentModerationResponse->ModerationLabels;
     my $ModerationModelVersion =
       $GetContentModerationResponse->ModerationModelVersion;
     my $NextToken     = $GetContentModerationResponse->NextToken;
     my $StatusMessage = $GetContentModerationResponse->StatusMessage;
+    my $Video         = $GetContentModerationResponse->Video;
     my $VideoMetadata = $GetContentModerationResponse->VideoMetadata;
 
     # Returns a L<Paws::Rekognition::GetContentModerationResponse> object.
@@ -54,10 +60,19 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/rek
 =head1 ATTRIBUTES
 
 
+=head2 AggregateBy => Str
+
+Defines how to aggregate results of the StartContentModeration request.
+Default aggregation option is TIMESTAMPS. SEGMENTS mode aggregates
+moderation labels over time.
+
+Valid values are: C<"TIMESTAMPS">, C<"SEGMENTS">
+
 =head2 B<REQUIRED> JobId => Str
 
-The identifier for the unsafe content job. Use C<JobId> to identify the
-job in a subsequent call to C<GetContentModeration>.
+The identifier for the inappropriate, unwanted, or offensive content
+moderation job. Use C<JobId> to identify the job in a subsequent call
+to C<GetContentModeration>.
 
 
 
@@ -74,7 +89,7 @@ value you can specify is 1000. If you specify a value greater than
 If the previous response was incomplete (because there is more data to
 retrieve), Amazon Rekognition returns a pagination token in the
 response. You can use this pagination token to retrieve the next set of
-unsafe content labels.
+content moderation labels.
 
 
 

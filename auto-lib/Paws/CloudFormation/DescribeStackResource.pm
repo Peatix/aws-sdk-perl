@@ -49,14 +49,12 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/clo
 
 The logical name of the resource as specified in the template.
 
-Default: There is no default value.
-
 
 
 =head2 B<REQUIRED> StackName => Str
 
-The name or the unique stack ID that is associated with the stack,
-which are not always interchangeable:
+The name or the unique stack ID that's associated with the stack, which
+aren't always interchangeable:
 
 =over
 
@@ -71,7 +69,6 @@ Deleted stacks: You must specify the unique stack ID.
 
 =back
 
-Default: There is no default value.
 
 
 

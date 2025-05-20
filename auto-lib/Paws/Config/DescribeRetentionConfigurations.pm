@@ -59,11 +59,11 @@ the next page of results in a paginated response.
 =head2 RetentionConfigurationNames => ArrayRef[Str|Undef]
 
 A list of names of retention configurations for which you want details.
-If you do not specify a name, AWS Config returns details for all the
+If you do not specify a name, Config returns details for all the
 retention configurations for that account.
 
-Currently, AWS Config supports only one retention configuration per
-region in your account.
+Currently, Config supports only one retention configuration per region
+in your account.
 
 
 

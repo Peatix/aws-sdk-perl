@@ -64,6 +64,11 @@ The policy text content to add to the new policy. The text that you
 supply must adhere to the rules of the policy type you specify in the
 C<Type> parameter.
 
+The maximum size of a policy document depends on the policy's type. For
+more information, see Maximum and minimum values
+(https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html#min-max-values)
+in the I<Organizations User Guide>.
+
 
 
 =head2 B<REQUIRED> Description => Str
@@ -87,12 +92,11 @@ ASCII character range.
 A list of tags that you want to attach to the newly created policy. For
 each tag in the list, you must specify both a tag key and a value. You
 can set the value to an empty string, but you can't set it to C<null>.
-For more information about tagging, see Tagging AWS Organizations
-resources
+For more information about tagging, see Tagging Organizations resources
 (https://docs.aws.amazon.com/organizations/latest/userguide/orgs_tagging.html)
-in the AWS Organizations User Guide.
+in the Organizations User Guide.
 
-If any one of the tags is invalid or if you exceed the allowed number
+If any one of the tags is not valid or if you exceed the allowed number
 of tags for a policy, then the entire request fails and the policy is
 not created.
 
@@ -107,8 +111,18 @@ values:
 
 =item *
 
-AISERVICES_OPT_OUT_POLICY
-(https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)
+SERVICE_CONTROL_POLICY
+(https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html)
+
+=item *
+
+RESOURCE_CONTROL_POLICY
+(https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_rcps.html)
+
+=item *
+
+DECLARATIVE_POLICY_EC2
+(https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html)
 
 =item *
 
@@ -117,18 +131,23 @@ BACKUP_POLICY
 
 =item *
 
-SERVICE_CONTROL_POLICY
-(https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html)
+TAG_POLICY
+(https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html)
 
 =item *
 
-TAG_POLICY
-(https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html)
+CHATBOT_POLICY
+(https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html)
+
+=item *
+
+AISERVICES_OPT_OUT_POLICY
+(https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)
 
 =back
 
 
-Valid values are: C<"SERVICE_CONTROL_POLICY">, C<"TAG_POLICY">, C<"BACKUP_POLICY">, C<"AISERVICES_OPT_OUT_POLICY">
+Valid values are: C<"SERVICE_CONTROL_POLICY">, C<"RESOURCE_CONTROL_POLICY">, C<"TAG_POLICY">, C<"BACKUP_POLICY">, C<"AISERVICES_OPT_OUT_POLICY">, C<"CHATBOT_POLICY">, C<"DECLARATIVE_POLICY_EC2">
 
 
 =head1 SEE ALSO

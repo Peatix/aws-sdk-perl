@@ -5,6 +5,7 @@ package Paws::Discovery::ImportTask;
   has ApplicationImportSuccess => (is => 'ro', isa => 'Int', request_name => 'applicationImportSuccess', traits => ['NameInRequest']);
   has ClientRequestToken => (is => 'ro', isa => 'Str', request_name => 'clientRequestToken', traits => ['NameInRequest']);
   has ErrorsAndFailedEntriesZip => (is => 'ro', isa => 'Str', request_name => 'errorsAndFailedEntriesZip', traits => ['NameInRequest']);
+  has FileClassification => (is => 'ro', isa => 'Str', request_name => 'fileClassification', traits => ['NameInRequest']);
   has ImportCompletionTime => (is => 'ro', isa => 'Str', request_name => 'importCompletionTime', traits => ['NameInRequest']);
   has ImportDeletedTime => (is => 'ro', isa => 'Str', request_name => 'importDeletedTime', traits => ['NameInRequest']);
   has ImportRequestTime => (is => 'ro', isa => 'Str', request_name => 'importRequestTime', traits => ['NameInRequest']);
@@ -88,6 +89,11 @@ file. This prevents you from having to correct and update the larger
 original file and attempt importing it again.
 
 
+=head2 FileClassification => Str
+
+The type of file detected by the import task.
+
+
 =head2 ImportCompletionTime => Str
 
 The time that the import task request finished, presented in the Unix
@@ -109,7 +115,7 @@ time stamp format.
 =head2 ImportTaskId => Str
 
 The unique ID for a specific import task. These IDs aren't globally
-unique, but they are unique within an AWS account.
+unique, but they are unique within an Amazon Web Services account.
 
 
 =head2 ImportUrl => Str

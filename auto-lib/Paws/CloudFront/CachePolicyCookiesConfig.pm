@@ -35,8 +35,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CloudFront:
 =head1 DESCRIPTION
 
 An object that determines whether any cookies in viewer requests (and
-if so, which cookies) are included in the cache key and automatically
-included in requests that CloudFront sends to the origin.
+if so, which cookies) are included in the cache key and in requests
+that CloudFront sends to the origin.
 
 =head1 ATTRIBUTES
 
@@ -44,36 +44,35 @@ included in requests that CloudFront sends to the origin.
 =head2 B<REQUIRED> CookieBehavior => Str
 
 Determines whether any cookies in viewer requests are included in the
-cache key and automatically included in requests that CloudFront sends
-to the origin. Valid values are:
+cache key and in requests that CloudFront sends to the origin. Valid
+values are:
 
 =over
 
 =item *
 
-C<none> E<ndash> Cookies in viewer requests are not included in the
-cache key and are not automatically included in requests that
-CloudFront sends to the origin. Even when this field is set to C<none>,
-any cookies that are listed in an C<OriginRequestPolicy> I<are>
-included in origin requests.
+C<none> E<ndash> No cookies in viewer requests are included in the
+cache key or in requests that CloudFront sends to the origin. Even when
+this field is set to C<none>, any cookies that are listed in an
+C<OriginRequestPolicy> I<are> included in origin requests.
 
 =item *
 
-C<whitelist> E<ndash> The cookies in viewer requests that are listed in
-the C<CookieNames> type are included in the cache key and automatically
-included in requests that CloudFront sends to the origin.
+C<whitelist> E<ndash> Only the cookies in viewer requests that are
+listed in the C<CookieNames> type are included in the cache key and in
+requests that CloudFront sends to the origin.
 
 =item *
 
-C<allExcept> E<ndash> All cookies in viewer requests that are I< B<not>
-> listed in the C<CookieNames> type are included in the cache key and
-automatically included in requests that CloudFront sends to the origin.
+C<allExcept> E<ndash> All cookies in viewer requests are included in
+the cache key and in requests that CloudFront sends to the origin, I<
+B<except> > for those that are listed in the C<CookieNames> type, which
+are not included.
 
 =item *
 
 C<all> E<ndash> All cookies in viewer requests are included in the
-cache key and are automatically included in requests that CloudFront
-sends to the origin.
+cache key and in requests that CloudFront sends to the origin.
 
 =back
 

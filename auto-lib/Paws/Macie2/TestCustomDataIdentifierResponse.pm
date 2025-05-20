@@ -17,8 +17,8 @@ Paws::Macie2::TestCustomDataIdentifierResponse
 
 =head2 MatchCount => Int
 
-The number of instances of sample text that matched the detection
-criteria specified in the custom data identifier.
+The number of occurrences of sample text that matched the criteria
+specified by the custom data identifier.
 
 
 =head2 _request_id => Str

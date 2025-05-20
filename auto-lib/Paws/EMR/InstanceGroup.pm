@@ -5,6 +5,7 @@ package Paws::EMR::InstanceGroup;
   has BidPrice => (is => 'ro', isa => 'Str');
   has Configurations => (is => 'ro', isa => 'ArrayRef[Paws::EMR::Configuration]');
   has ConfigurationsVersion => (is => 'ro', isa => 'Int');
+  has CustomAmiId => (is => 'ro', isa => 'Str');
   has EbsBlockDevices => (is => 'ro', isa => 'ArrayRef[Paws::EMR::EbsBlockDevice]');
   has EbsOptimized => (is => 'ro', isa => 'Bool');
   has Id => (is => 'ro', isa => 'Str');
@@ -60,8 +61,9 @@ HDFS.
 
 An automatic scaling policy for a core instance group or task instance
 group in an Amazon EMR cluster. The automatic scaling policy defines
-how an instance group dynamically adds and terminates EC2 instances in
-response to the value of a CloudWatch metric. See PutAutoScalingPolicy.
+how an instance group dynamically adds and terminates Amazon EC2
+instances in response to the value of a CloudWatch metric. See
+PutAutoScalingPolicy.
 
 
 =head2 BidPrice => Str
@@ -76,8 +78,8 @@ price, or specify an amount in USD.
 
 Amazon EMR releases 4.x or later.
 
-The list of configurations supplied for an EMR cluster instance group.
-You can specify a separate configuration for each instance group
+The list of configurations supplied for an Amazon EMR cluster instance
+group. You can specify a separate configuration for each instance group
 (master, core, and task).
 
 
@@ -85,6 +87,11 @@ You can specify a separate configuration for each instance group
 
 The version number of the requested configuration specification for
 this instance group.
+
+
+=head2 CustomAmiId => Str
+
+The custom AMI ID to use for the provisioned instance group.
 
 
 =head2 EbsBlockDevices => ArrayRef[L<Paws::EMR::EbsBlockDevice>]
@@ -111,7 +118,7 @@ The type of the instance group. Valid values are MASTER, CORE or TASK.
 
 =head2 InstanceType => Str
 
-The EC2 instance type for all instances in the instance group.
+The Amazon EC2 instance type for all instances in the instance group.
 
 
 =head2 LastSuccessfullyAppliedConfigurations => ArrayRef[L<Paws::EMR::Configuration>]

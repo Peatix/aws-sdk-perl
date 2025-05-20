@@ -24,7 +24,7 @@ A list of C<Function> objects.
 =head2 NextToken => Str
 
 An identifier that was returned from the previous call to this
-operation, which can be used to return the next set of items in the
+operation, which you can use to return the next set of items in the
 list.
 
 

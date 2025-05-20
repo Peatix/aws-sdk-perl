@@ -1,6 +1,7 @@
 
 package Paws::Lightsail::GetBundles;
   use Moose;
+  has AppCategory => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'appCategory' );
   has IncludeInactive => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'includeInactive' );
   has PageToken => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'pageToken' );
 
@@ -29,6 +30,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $lightsail = Paws->service('Lightsail');
     my $GetBundlesResult = $lightsail->GetBundles(
+      AppCategory     => 'LfR',         # OPTIONAL
       IncludeInactive => 1,             # OPTIONAL
       PageToken       => 'Mystring',    # OPTIONAL
     );
@@ -45,10 +47,18 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/lig
 =head1 ATTRIBUTES
 
 
+=head2 AppCategory => Str
+
+Returns a list of bundles that are specific to Lightsail for Research.
+
+You must use this parameter to view Lightsail for Research bundles.
+
+Valid values are: C<"LfR">
+
 =head2 IncludeInactive => Bool
 
-A Boolean value that indicates whether to include inactive bundle
-results in your request.
+A Boolean value that indicates whether to include inactive
+(unavailable) bundles in the response of your request.
 
 
 

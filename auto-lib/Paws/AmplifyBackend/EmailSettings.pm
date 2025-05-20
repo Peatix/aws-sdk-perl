@@ -42,12 +42,12 @@ password.
 
 =head2 EmailMessage => Str
 
-The body of the email.
+The contents of the email message.
 
 
 =head2 EmailSubject => Str
 
-The subject of the email.
+The contents of the subject line of the email message.
 
 
 

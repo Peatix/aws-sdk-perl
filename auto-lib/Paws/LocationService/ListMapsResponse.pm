@@ -18,7 +18,7 @@ Paws::LocationService::ListMapsResponse
 
 =head2 B<REQUIRED> Entries => ArrayRef[L<Paws::LocationService::ListMapsResponseEntry>]
 
-Contains a list of maps in your AWS account
+Contains a list of maps in your Amazon Web Services account
 
 
 =head2 NextToken => Str

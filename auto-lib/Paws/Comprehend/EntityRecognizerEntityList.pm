@@ -33,7 +33,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Comprehend:
 
 =head1 DESCRIPTION
 
-Describes the entity recognizer submitted with an entity recognizer.
+Describes the entity list submitted with an entity recognizer.
 
 =head1 ATTRIBUTES
 
@@ -41,7 +41,7 @@ Describes the entity recognizer submitted with an entity recognizer.
 =head2 B<REQUIRED> S3Uri => Str
 
 Specifies the Amazon S3 location where the entity list is located. The
-URI must be in the same region as the API endpoint that you are
+URI must be in the same Region as the API endpoint that you are
 calling.
 
 

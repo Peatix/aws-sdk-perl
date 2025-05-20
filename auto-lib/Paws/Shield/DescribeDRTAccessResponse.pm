@@ -17,13 +17,13 @@ Paws::Shield::DescribeDRTAccessResponse
 
 =head2 LogBucketList => ArrayRef[Str|Undef]
 
-The list of Amazon S3 buckets accessed by the DRT.
+The list of Amazon S3 buckets accessed by the SRT.
 
 
 =head2 RoleArn => Str
 
-The Amazon Resource Name (ARN) of the role the DRT used to access your
-AWS account.
+The Amazon Resource Name (ARN) of the role the SRT used to access your
+Amazon Web Services account.
 
 
 =head2 _request_id => Str

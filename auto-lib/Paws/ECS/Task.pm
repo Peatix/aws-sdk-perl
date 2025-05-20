@@ -16,6 +16,7 @@ package Paws::ECS::Task;
   has EnableExecuteCommand => (is => 'ro', isa => 'Bool', request_name => 'enableExecuteCommand', traits => ['NameInRequest']);
   has EphemeralStorage => (is => 'ro', isa => 'Paws::ECS::EphemeralStorage', request_name => 'ephemeralStorage', traits => ['NameInRequest']);
   has ExecutionStoppedAt => (is => 'ro', isa => 'Str', request_name => 'executionStoppedAt', traits => ['NameInRequest']);
+  has FargateEphemeralStorage => (is => 'ro', isa => 'Paws::ECS::TaskEphemeralStorage', request_name => 'fargateEphemeralStorage', traits => ['NameInRequest']);
   has Group => (is => 'ro', isa => 'Str', request_name => 'group', traits => ['NameInRequest']);
   has HealthStatus => (is => 'ro', isa => 'Str', request_name => 'healthStatus', traits => ['NameInRequest']);
   has InferenceAccelerators => (is => 'ro', isa => 'ArrayRef[Paws::ECS::InferenceAccelerator]', request_name => 'inferenceAccelerators', traits => ['NameInRequest']);
@@ -23,6 +24,7 @@ package Paws::ECS::Task;
   has LaunchType => (is => 'ro', isa => 'Str', request_name => 'launchType', traits => ['NameInRequest']);
   has Memory => (is => 'ro', isa => 'Str', request_name => 'memory', traits => ['NameInRequest']);
   has Overrides => (is => 'ro', isa => 'Paws::ECS::TaskOverride', request_name => 'overrides', traits => ['NameInRequest']);
+  has PlatformFamily => (is => 'ro', isa => 'Str', request_name => 'platformFamily', traits => ['NameInRequest']);
   has PlatformVersion => (is => 'ro', isa => 'Str', request_name => 'platformVersion', traits => ['NameInRequest']);
   has PullStartedAt => (is => 'ro', isa => 'Str', request_name => 'pullStartedAt', traits => ['NameInRequest']);
   has PullStoppedAt => (is => 'ro', isa => 'Str', request_name => 'pullStoppedAt', traits => ['NameInRequest']);
@@ -74,8 +76,8 @@ Details on a task in a cluster.
 
 =head2 Attachments => ArrayRef[L<Paws::ECS::Attachment>]
 
-The Elastic Network Adapter associated with the task if the task uses
-the C<awsvpc> network mode.
+The Elastic Network Adapter that's associated with the task if the task
+uses the C<awsvpc> network mode.
 
 
 =head2 Attributes => ArrayRef[L<Paws::ECS::Attribute>]
@@ -85,12 +87,12 @@ The attributes of the task
 
 =head2 AvailabilityZone => Str
 
-The availability zone of the task.
+The Availability Zone for the task.
 
 
 =head2 CapacityProviderName => Str
 
-The capacity provider associated with the task.
+The capacity provider that's associated with the task.
 
 
 =head2 ClusterArn => Str
@@ -105,8 +107,8 @@ The connectivity status of a task.
 
 =head2 ConnectivityAt => Str
 
-The Unix timestamp for when the task last went into C<CONNECTED>
-status.
+The Unix timestamp for the time when the task last went into
+C<CONNECTED> status.
 
 
 =head2 ContainerInstanceArn => Str
@@ -116,61 +118,34 @@ The ARN of the container instances that host the task.
 
 =head2 Containers => ArrayRef[L<Paws::ECS::Container>]
 
-The containers associated with the task.
+The containers that's associated with the task.
 
 
 =head2 Cpu => Str
 
 The number of CPU units used by the task as expressed in a task
-definition. It can be expressed as an integer using CPU units, for
-example C<1024>. It can also be expressed as a string using vCPUs, for
-example C<1 vCPU> or C<1 vcpu>. String values are converted to an
-integer indicating the CPU units when the task definition is
+definition. It can be expressed as an integer using CPU units (for
+example, C<1024>). It can also be expressed as a string using vCPUs
+(for example, C<1 vCPU> or C<1 vcpu>). String values are converted to
+an integer that indicates the CPU units when the task definition is
 registered.
 
-If you are using the EC2 launch type, this field is optional. Supported
-values are between C<128> CPU units (C<0.125> vCPUs) and C<10240> CPU
-units (C<10> vCPUs).
+If you're using the EC2 launch type or the external launch type, this
+field is optional. Supported values are between C<128> CPU units
+(C<0.125> vCPUs) and C<196608> CPU units (C<192> vCPUs). If you do not
+specify a value, the parameter is ignored.
 
-If you are using the Fargate launch type, this field is required and
-you must use one of the following values, which determines your range
-of supported values for the C<memory> parameter:
-
-=over
-
-=item *
-
-256 (.25 vCPU) - Available C<memory> values: 512 (0.5 GB), 1024 (1 GB),
-2048 (2 GB)
-
-=item *
-
-512 (.5 vCPU) - Available C<memory> values: 1024 (1 GB), 2048 (2 GB),
-3072 (3 GB), 4096 (4 GB)
-
-=item *
-
-1024 (1 vCPU) - Available C<memory> values: 2048 (2 GB), 3072 (3 GB),
-4096 (4 GB), 5120 (5 GB), 6144 (6 GB), 7168 (7 GB), 8192 (8 GB)
-
-=item *
-
-2048 (2 vCPU) - Available C<memory> values: Between 4096 (4 GB) and
-16384 (16 GB) in increments of 1024 (1 GB)
-
-=item *
-
-4096 (4 vCPU) - Available C<memory> values: Between 8192 (8 GB) and
-30720 (30 GB) in increments of 1024 (1 GB)
-
-=back
-
+This field is required for Fargate. For information about the valid
+values, see Task size
+(https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html#task_size)
+in the I<Amazon Elastic Container Service Developer Guide>.
 
 
 =head2 CreatedAt => Str
 
-The Unix timestamp for when the task was created (the task entered the
-C<PENDING> state).
+The Unix timestamp for the time when the task was created. More
+specifically, it's for the time when the task entered the C<PENDING>
+state.
 
 
 =head2 DesiredStatus => Str
@@ -182,8 +157,8 @@ Lifecycle
 
 =head2 EnableExecuteCommand => Bool
 
-Whether or not execute command functionality is enabled for this task.
-If C<true>, this enables execute command functionality on all
+Determines whether execute command functionality is turned on for this
+task. If C<true>, execute command functionality is turned on all the
 containers in the task.
 
 
@@ -194,64 +169,69 @@ The ephemeral storage settings for the task.
 
 =head2 ExecutionStoppedAt => Str
 
-The Unix timestamp for when the task execution stopped.
+The Unix timestamp for the time when the task execution stopped.
+
+
+=head2 FargateEphemeralStorage => L<Paws::ECS::TaskEphemeralStorage>
+
+The Fargate ephemeral storage settings for the task.
 
 
 =head2 Group => Str
 
-The name of the task group associated with the task.
+The name of the task group that's associated with the task.
 
 
 =head2 HealthStatus => Str
 
-The health status for the task, which is determined by the health of
-the essential containers in the task. If all essential containers in
-the task are reporting as C<HEALTHY>, then the task status also reports
-as C<HEALTHY>. If any essential containers in the task are reporting as
-C<UNHEALTHY> or C<UNKNOWN>, then the task status also reports as
-C<UNHEALTHY> or C<UNKNOWN>, accordingly.
+The health status for the task. It's determined by the health of the
+essential containers in the task. If all essential containers in the
+task are reporting as C<HEALTHY>, the task status also reports as
+C<HEALTHY>. If any essential containers in the task are reporting as
+C<UNHEALTHY> or C<UNKNOWN>, the task status also reports as
+C<UNHEALTHY> or C<UNKNOWN>.
 
-The Amazon ECS container agent does not monitor or report on Docker
-health checks that are embedded in a container image (such as those
-specified in a parent image or from the image's Dockerfile) and not
-specified in the container definition. Health check parameters that are
-specified in a container definition override any Docker health checks
-that exist in the container image.
+The Amazon ECS container agent doesn't monitor or report on Docker
+health checks that are embedded in a container image and not specified
+in the container definition. For example, this includes those specified
+in a parent image or from the image's Dockerfile. Health check
+parameters that are specified in a container definition override any
+Docker health checks that are found in the container image.
 
 
 =head2 InferenceAccelerators => ArrayRef[L<Paws::ECS::InferenceAccelerator>]
 
-The Elastic Inference accelerator associated with the task.
+The Elastic Inference accelerator that's associated with the task.
 
 
 =head2 LastStatus => Str
 
-The last known status of the task. For more information, see Task
+The last known status for the task. For more information, see Task
 Lifecycle
 (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-lifecycle.html).
 
 
 =head2 LaunchType => Str
 
-The infrastructure on which your task is running. For more information,
-see Amazon ECS launch types
+The infrastructure where your task runs on. For more information, see
+Amazon ECS launch types
 (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/launch_types.html)
 in the I<Amazon Elastic Container Service Developer Guide>.
 
 
 =head2 Memory => Str
 
-The amount of memory (in MiB) used by the task as expressed in a task
-definition. It can be expressed as an integer using MiB, for example
-C<1024>. It can also be expressed as a string using GB, for example
-C<1GB> or C<1 GB>. String values are converted to an integer indicating
-the MiB when the task definition is registered.
+The amount of memory (in MiB) that the task uses as expressed in a task
+definition. It can be expressed as an integer using MiB (for example,
+C<1024>). If it's expressed as a string using GB (for example, C<1GB>
+or C<1 GB>), it's converted to an integer indicating the MiB when the
+task definition is registered.
 
-If you are using the EC2 launch type, this field is optional.
+If you use the EC2 launch type, this field is optional.
 
-If you are using the Fargate launch type, this field is required and
-you must use one of the following values, which determines your range
-of supported values for the C<cpu> parameter:
+If you use the Fargate launch type, this field is required. You must
+use one of the following values. The value that you choose determines
+the range of supported values for the C<cpu> parameter.
 
 =over
 
@@ -280,6 +260,20 @@ Available C<cpu> values: 2048 (2 vCPU)
 Between 8192 (8 GB) and 30720 (30 GB) in increments of 1024 (1 GB) -
 Available C<cpu> values: 4096 (4 vCPU)
 
+=item *
+
+Between 16 GB and 60 GB in 4 GB increments - Available C<cpu> values:
+8192 (8 vCPU)
+
+This option requires Linux platform C<1.4.0> or later.
+
+=item *
+
+Between 32GB and 120 GB in 8 GB increments - Available C<cpu> values:
+16384 (16 vCPU)
+
+This option requires Linux platform C<1.4.0> or later.
+
 =back
 
 
@@ -289,49 +283,65 @@ Available C<cpu> values: 4096 (4 vCPU)
 One or more container overrides.
 
 
+=head2 PlatformFamily => Str
+
+The operating system that your tasks are running on. A platform family
+is specified only for tasks that use the Fargate launch type.
+
+All tasks that run as part of this service must use the same
+C<platformFamily> value as the service (for example, C<LINUX.>).
+
+
 =head2 PlatformVersion => Str
 
-The platform version on which your task is running. A platform version
-is only specified for tasks using the Fargate launch type. If one is
-not specified, the C<LATEST> platform version is used by default. For
-more information, see AWS Fargate Platform Versions
+The platform version where your task runs on. A platform version is
+only specified for tasks that use the Fargate launch type. If you
+didn't specify one, the C<LATEST> platform version is used. For more
+information, see Fargate Platform Versions
 (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/platform_versions.html)
 in the I<Amazon Elastic Container Service Developer Guide>.
 
 
 =head2 PullStartedAt => Str
 
-The Unix timestamp for when the container image pull began.
+The Unix timestamp for the time when the container image pull began.
 
 
 =head2 PullStoppedAt => Str
 
-The Unix timestamp for when the container image pull completed.
+The Unix timestamp for the time when the container image pull
+completed.
 
 
 =head2 StartedAt => Str
 
-The Unix timestamp for when the task started (the task transitioned
-from the C<PENDING> state to the C<RUNNING> state).
+The Unix timestamp for the time when the task started. More
+specifically, it's for the time when the task transitioned from the
+C<PENDING> state to the C<RUNNING> state.
 
 
 =head2 StartedBy => Str
 
-The tag specified when a task is started. If the task is started by an
-Amazon ECS service, then the C<startedBy> parameter contains the
-deployment ID of the service that starts it.
+The tag specified when a task is started. If an Amazon ECS service
+started the task, the C<startedBy> parameter contains the deployment ID
+of that service.
 
 
 =head2 StopCode => Str
 
 The stop code indicating why a task was stopped. The C<stoppedReason>
-may contain additional details.
+might contain additional details.
+
+For more information about stop code, see Stopped tasks error codes
+(https://docs.aws.amazon.com/AmazonECS/latest/developerguide/stopped-task-error-codes.html)
+in the I<Amazon ECS Developer Guide>.
 
 
 =head2 StoppedAt => Str
 
-The Unix timestamp for when the task was stopped (the task transitioned
-from the C<RUNNING> state to the C<STOPPED> state).
+The Unix timestamp for the time when the task was stopped. More
+specifically, it's for the time when the task transitioned from the
+C<RUNNING> state to the C<STOPPED> state.
 
 
 =head2 StoppedReason => Str
@@ -341,15 +351,16 @@ The reason that the task was stopped.
 
 =head2 StoppingAt => Str
 
-The Unix timestamp for when the task stops (transitions from the
-C<RUNNING> state to C<STOPPED>).
+The Unix timestamp for the time when the task stops. More specifically,
+it's for the time when the task transitions from the C<RUNNING> state
+to C<STOPPING>.
 
 
 =head2 Tags => ArrayRef[L<Paws::ECS::Tag>]
 
 The metadata that you apply to the task to help you categorize and
-organize them. Each tag consists of a key and an optional value, both
-of which you define.
+organize the task. Each tag consists of a key and an optional value.
+You define both the key and value.
 
 The following basic restrictions apply to tags:
 
@@ -387,10 +398,10 @@ Tag keys and values are case-sensitive.
 =item *
 
 Do not use C<aws:>, C<AWS:>, or any upper or lowercase combination of
-such as a prefix for either keys or values as it is reserved for AWS
-use. You cannot edit or delete tag keys or values with this prefix.
-Tags with this prefix do not count against your tags per resource
-limit.
+such as a prefix for either keys or values as it is reserved for Amazon
+Web Services use. You cannot edit or delete tag keys or values with
+this prefix. Tags with this prefix do not count against your tags per
+resource limit.
 
 =back
 
@@ -409,8 +420,8 @@ The ARN of the task definition that creates the task.
 =head2 Version => Int
 
 The version counter for the task. Every time a task experiences a
-change that triggers a CloudWatch event, the version counter is
-incremented. If you are replicating your Amazon ECS task state with
+change that starts a CloudWatch event, the version counter is
+incremented. If you replicate your Amazon ECS task state with
 CloudWatch Events, you can compare the version of a task reported by
 the Amazon ECS API actions with the version reported in CloudWatch
 Events for the task (inside the C<detail> object) to verify that the

@@ -35,30 +35,30 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::GameLift::L
 
 =head1 DESCRIPTION
 
-B<This data type is used with the GameLift FleetIQ and game server
-groups.>
+B<This data type is used with the Amazon GameLift FleetIQ and game
+server groups.>
 
-An EC2 launch template that contains configuration settings and game
-server code to be deployed to all instances in a game server group. The
-launch template is specified when creating a new game server group with
-CreateGameServerGroup.
+An Amazon Elastic Compute Cloud launch template that contains
+configuration settings and game server code to be deployed to all
+instances in a game server group. The launch template is specified when
+creating a new game server group.
 
 =head1 ATTRIBUTES
 
 
 =head2 LaunchTemplateId => Str
 
-A unique identifier for an existing EC2 launch template.
+A unique identifier for an existing Amazon EC2 launch template.
 
 
 =head2 LaunchTemplateName => Str
 
-A readable identifier for an existing EC2 launch template.
+A readable identifier for an existing Amazon EC2 launch template.
 
 
 =head2 Version => Str
 
-The version of the EC2 launch template to use. If no version is
+The version of the Amazon EC2 launch template to use. If no version is
 specified, the default version will be used. With Amazon EC2, you can
 specify a default version for a launch template. If none is set, the
 default is the first version created.

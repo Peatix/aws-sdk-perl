@@ -65,50 +65,49 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 AdditionalContext => L<Paws::ApiGateway::MapOfStringToString>
 
-[Optional] A key-value map of additional context variables.
+A key-value map of additional context variables.
 
 
 
 =head2 B<REQUIRED> AuthorizerId => Str
 
-[Required] Specifies a test invoke authorizer request's Authorizer ID.
+Specifies a test invoke authorizer request's Authorizer ID.
 
 
 
 =head2 Body => Str
 
-[Optional] The simulated request body of an incoming invocation
-request.
+The simulated request body of an incoming invocation request.
 
 
 
 =head2 Headers => L<Paws::ApiGateway::MapOfStringToString>
 
-[Required] A key-value map of headers to simulate an incoming
-invocation request. This is where the incoming authorization token, or
-identity source, should be specified.
+A key-value map of headers to simulate an incoming invocation request.
+This is where the incoming authorization token, or identity source,
+should be specified.
 
 
 
 =head2 MultiValueHeaders => L<Paws::ApiGateway::MapOfStringToList>
 
-[Optional] The headers as a map from string to list of values to
-simulate an incoming invocation request. This is where the incoming
-authorization token, or identity source, may be specified.
+The headers as a map from string to list of values to simulate an
+incoming invocation request. This is where the incoming authorization
+token, or identity source, may be specified.
 
 
 
 =head2 PathWithQueryString => Str
 
-[Optional] The URI path, including query string, of the simulated
-invocation request. Use this to specify path parameters and query
-string parameters.
+The URI path, including query string, of the simulated invocation
+request. Use this to specify path parameters and query string
+parameters.
 
 
 
 =head2 B<REQUIRED> RestApiId => Str
 
-[Required] The string identifier of the associated RestApi.
+The string identifier of the associated RestApi.
 
 
 

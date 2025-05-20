@@ -17,7 +17,7 @@ Paws::FMS::GetAppsListResponse
 
 =head2 AppsList => L<Paws::FMS::AppsListData>
 
-Information about the specified AWS Firewall Manager applications list.
+Information about the specified Firewall Manager applications list.
 
 
 =head2 AppsListArn => Str

@@ -8,8 +8,12 @@ package Paws::FSX::LustreFileSystemConfiguration;
   has DataRepositoryConfiguration => (is => 'ro', isa => 'Paws::FSX::DataRepositoryConfiguration');
   has DeploymentType => (is => 'ro', isa => 'Str');
   has DriveCacheType => (is => 'ro', isa => 'Str');
+  has EfaEnabled => (is => 'ro', isa => 'Bool');
+  has LogConfiguration => (is => 'ro', isa => 'Paws::FSX::LustreLogConfiguration');
+  has MetadataConfiguration => (is => 'ro', isa => 'Paws::FSX::FileSystemLustreMetadataConfiguration');
   has MountName => (is => 'ro', isa => 'Str');
   has PerUnitStorageThroughput => (is => 'ro', isa => 'Int');
+  has RootSquashConfiguration => (is => 'ro', isa => 'Paws::FSX::LustreRootSquashConfiguration');
   has WeeklyMaintenanceStartTime => (is => 'ro', isa => 'Str');
 
 1;
@@ -54,14 +58,14 @@ The configuration for the Amazon FSx for Lustre file system.
 
 =head2 CopyTagsToBackups => Bool
 
-A boolean flag indicating whether tags on the file system should be
-copied to backups. If it's set to true, all tags on the file system are
-copied to all automatic backups and any user-initiated backups where
-the user doesn't specify any tags. If this value is true, and you
-specify one or more tags, only the specified tags are copied to
-backups. If you specify one or more tags when creating a user-initiated
-backup, no tags are copied from the file system, regardless of this
-value. (Default = false)
+A boolean flag indicating whether tags on the file system are copied to
+backups. If it's set to true, all tags on the file system are copied to
+all automatic backups and any user-initiated backups where the user
+doesn't specify any tags. If this value is true, and you specify one or
+more tags, only the specified tags are copied to backups. If you
+specify one or more tags when creating a user-initiated backup, no tags
+are copied from the file system, regardless of this value. (Default =
+false)
 
 
 =head2 DailyAutomaticBackupStartTime => Str
@@ -97,7 +101,7 @@ For more information, see Lustre data compression
 
 =head2 DeploymentType => Str
 
-The deployment type of the FSX for Lustre file system. I<Scratch
+The deployment type of the FSx for Lustre file system. I<Scratch
 deployment type> is designed for temporary storage and shorter-term
 processing of data.
 
@@ -106,22 +110,45 @@ you need temporary storage and shorter-term processing of data. The
 C<SCRATCH_2> deployment type provides in-transit encryption of data and
 higher burst throughput capacity than C<SCRATCH_1>.
 
-The C<PERSISTENT_1> deployment type is used for longer-term storage and
-workloads and encryption of data in transit. To learn more about
-deployment types, see FSx for Lustre Deployment Options
+The C<PERSISTENT_1> and C<PERSISTENT_2> deployment type is used for
+longer-term storage and workloads and encryption of data in transit.
+C<PERSISTENT_2> offers higher C<PerUnitStorageThroughput> (up to 1000
+MB/s/TiB) along with a lower minimum storage capacity requirement (600
+GiB). To learn more about FSx for Lustre deployment types, see FSx for
+Lustre deployment options
 (https://docs.aws.amazon.com/fsx/latest/LustreGuide/lustre-deployment-types.html).
-(Default = C<SCRATCH_1>)
+
+The default is C<SCRATCH_1>.
 
 
 =head2 DriveCacheType => Str
 
-The type of drive cache used by PERSISTENT_1 file systems that are
+The type of drive cache used by C<PERSISTENT_1> file systems that are
 provisioned with HDD storage devices. This parameter is required when
-storage type is HDD. Set to C<READ>, improve the performance for
-frequently accessed files and allows 20% of the total storage capacity
-of the file system to be cached.
+C<StorageType> is HDD. When set to C<READ> the file system has an SSD
+storage cache that is sized to 20% of the file system's storage
+capacity. This improves the performance for frequently accessed files
+by caching up to 20% of the total storage capacity.
 
 This parameter is required when C<StorageType> is set to HDD.
+
+
+=head2 EfaEnabled => Bool
+
+Specifies whether Elastic Fabric Adapter (EFA) and GPUDirect Storage
+(GDS) support is enabled for the Amazon FSx for Lustre file system.
+
+
+=head2 LogConfiguration => L<Paws::FSX::LustreLogConfiguration>
+
+The Lustre logging configuration. Lustre logging writes the enabled log
+events for your file system to Amazon CloudWatch Logs.
+
+
+=head2 MetadataConfiguration => L<Paws::FSX::FileSystemLustreMetadataConfiguration>
+
+The Lustre metadata performance configuration for an Amazon FSx for
+Lustre file system using a C<PERSISTENT_2> deployment type.
 
 
 =head2 MountName => Str
@@ -129,8 +156,9 @@ This parameter is required when C<StorageType> is set to HDD.
 You use the C<MountName> value when mounting the file system.
 
 For the C<SCRATCH_1> deployment type, this value is always "C<fsx>".
-For C<SCRATCH_2> and C<PERSISTENT_1> deployment types, this value is a
-string that is unique within an AWS Region.
+For C<SCRATCH_2>, C<PERSISTENT_1>, and C<PERSISTENT_2> deployment
+types, this value is a string that is unique within an Amazon Web
+Services Region.
 
 
 =head2 PerUnitStorageThroughput => Int
@@ -139,17 +167,40 @@ Per unit storage throughput represents the megabytes per second of read
 or write throughput per 1 tebibyte of storage provisioned. File system
 throughput capacity is equal to Storage capacity (TiB) *
 PerUnitStorageThroughput (MB/s/TiB). This option is only valid for
-C<PERSISTENT_1> deployment types.
+C<PERSISTENT_1> and C<PERSISTENT_2> deployment types.
 
-Valid values for SSD storage: 50, 100, 200. Valid values for HDD
-storage: 12, 40.
+Valid values:
+
+=over
+
+=item *
+
+For C<PERSISTENT_1> SSD storage: 50, 100, 200.
+
+=item *
+
+For C<PERSISTENT_1> HDD storage: 12, 40.
+
+=item *
+
+For C<PERSISTENT_2> SSD storage: 125, 250, 500, 1000.
+
+=back
+
+
+
+=head2 RootSquashConfiguration => L<Paws::FSX::LustreRootSquashConfiguration>
+
+The Lustre root squash configuration for an Amazon FSx for Lustre file
+system. When enabled, root squash restricts root-level access from
+clients that try to access your file system as a root user.
 
 
 =head2 WeeklyMaintenanceStartTime => Str
 
 The preferred start time to perform weekly maintenance, formatted
-d:HH:MM in the UTC time zone. d is the weekday number, from 1 through
-7, beginning with Monday and ending with Sunday.
+d:HH:MM in the UTC time zone. Here, C<d> is the weekday number, from 1
+through 7, beginning with Monday and ending with Sunday.
 
 
 

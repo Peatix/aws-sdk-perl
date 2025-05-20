@@ -63,7 +63,7 @@ RemoteDomainName.
 
 =head2 B<REQUIRED> DirectoryId => Str
 
-The Directory ID of the AWS Managed Microsoft AD directory for which to
+The Directory ID of the Managed Microsoft AD directory for which to
 establish the trust relationship.
 
 
@@ -89,8 +89,8 @@ Valid values are: C<"One-Way: Outgoing">, C<"One-Way: Incoming">, C<"Two-Way">
 
 =head2 B<REQUIRED> TrustPassword => Str
 
-The trust password. The must be the same password that was used when
-creating the trust relationship on the external domain.
+The trust password. The trust password must be the same password that
+was used when creating the trust relationship on the external domain.
 
 
 

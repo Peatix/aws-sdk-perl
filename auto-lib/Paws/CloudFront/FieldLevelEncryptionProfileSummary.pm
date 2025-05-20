@@ -62,7 +62,7 @@ ID for the field-level encryption profile summary.
 
 =head2 B<REQUIRED> LastModifiedTime => Str
 
-The time when the the field-level encryption profile summary was last
+The time when the field-level encryption profile summary was last
 updated.
 
 

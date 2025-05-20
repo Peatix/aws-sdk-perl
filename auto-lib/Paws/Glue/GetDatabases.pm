@@ -1,6 +1,7 @@
 
 package Paws::Glue::GetDatabases;
   use Moose;
+  has AttributesToGet => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has CatalogId => (is => 'ro', isa => 'Str');
   has MaxResults => (is => 'ro', isa => 'Int');
   has NextToken => (is => 'ro', isa => 'Str');
@@ -31,6 +32,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $glue = Paws->service('Glue');
     my $GetDatabasesResponse = $glue->GetDatabases(
+      AttributesToGet => [
+        'NAME', ...    # values: NAME
+      ],    # OPTIONAL
       CatalogId         => 'MyCatalogIdString',    # OPTIONAL
       MaxResults        => 1,                      # OPTIONAL
       NextToken         => 'MyToken',              # OPTIONAL
@@ -47,6 +51,14 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/glue/GetDatabases>
 
 =head1 ATTRIBUTES
+
+
+=head2 AttributesToGet => ArrayRef[Str|Undef]
+
+Specifies the database fields returned by the C<GetDatabases> call.
+This parameter doesnE<rsquo>t accept an empty list. The request must
+include the C<NAME>.
+
 
 
 =head2 CatalogId => Str
@@ -71,9 +83,15 @@ A continuation token, if this is a continuation call.
 =head2 ResourceShareType => Str
 
 Allows you to specify that you want to list the databases shared with
-your account. The allowable values are C<FOREIGN> or C<ALL>.
+your account. The allowable values are C<FEDERATED>, C<FOREIGN> or
+C<ALL>.
 
 =over
+
+=item *
+
+If set to C<FEDERATED>, will list the federated databases (referencing
+an external entity) shared with your account.
 
 =item *
 
@@ -87,7 +105,7 @@ well as the databases in yor local account.
 =back
 
 
-Valid values are: C<"FOREIGN">, C<"ALL">
+Valid values are: C<"FOREIGN">, C<"ALL">, C<"FEDERATED">
 
 
 =head1 SEE ALSO

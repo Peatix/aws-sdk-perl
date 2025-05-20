@@ -47,7 +47,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/dms
 
 =head2 B<REQUIRED> ResourceArn => Str
 
-An AWS DMS resource from which you want to remove tag(s). The value for
+An DMS resource from which you want to remove tag(s). The value for
 this parameter is an Amazon Resource Name (ARN).
 
 

@@ -3,9 +3,11 @@ package Paws::EC2::VpnConnectionOptionsSpecification;
   has EnableAcceleration => (is => 'ro', isa => 'Bool');
   has LocalIpv4NetworkCidr => (is => 'ro', isa => 'Str');
   has LocalIpv6NetworkCidr => (is => 'ro', isa => 'Str');
+  has OutsideIpAddressType => (is => 'ro', isa => 'Str');
   has RemoteIpv4NetworkCidr => (is => 'ro', isa => 'Str');
   has RemoteIpv6NetworkCidr => (is => 'ro', isa => 'Str');
   has StaticRoutesOnly => (is => 'ro', isa => 'Bool', request_name => 'staticRoutesOnly', traits => ['NameInRequest']);
+  has TransportTransitGatewayAttachmentId => (is => 'ro', isa => 'Str');
   has TunnelInsideIpVersion => (is => 'ro', isa => 'Str');
   has TunnelOptions => (is => 'ro', isa => 'ArrayRef[Paws::EC2::VpnTunnelOptionsSpecification]');
 1;
@@ -66,16 +68,26 @@ connection.
 Default: C<::/0>
 
 
+=head2 OutsideIpAddressType => Str
+
+The type of IPv4 address assigned to the outside interface of the
+customer gateway device.
+
+Valid values: C<PrivateIpv4> | C<PublicIpv4>
+
+Default: C<PublicIpv4>
+
+
 =head2 RemoteIpv4NetworkCidr => Str
 
-The IPv4 CIDR on the AWS side of the VPN connection.
+The IPv4 CIDR on the Amazon Web Services side of the VPN connection.
 
 Default: C<0.0.0.0/0>
 
 
 =head2 RemoteIpv6NetworkCidr => Str
 
-The IPv6 CIDR on the AWS side of the VPN connection.
+The IPv6 CIDR on the Amazon Web Services side of the VPN connection.
 
 Default: C<::/0>
 
@@ -88,6 +100,13 @@ must specify C<true>. Use CreateVpnConnectionRoute to create a static
 route.
 
 Default: C<false>
+
+
+=head2 TransportTransitGatewayAttachmentId => Str
+
+The transit gateway attachment ID to use for the VPN tunnel.
+
+Required if C<OutsideIpAddressType> is set to C<PrivateIpv4>.
 
 
 =head2 TunnelInsideIpVersion => Str

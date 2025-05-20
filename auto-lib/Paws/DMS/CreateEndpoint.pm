@@ -12,6 +12,7 @@ package Paws::DMS::CreateEndpoint;
   has EngineName => (is => 'ro', isa => 'Str', required => 1);
   has ExternalTableDefinition => (is => 'ro', isa => 'Str');
   has ExtraConnectionAttributes => (is => 'ro', isa => 'Str');
+  has GcpMySQLSettings => (is => 'ro', isa => 'Paws::DMS::GcpMySQLSettings');
   has IBMDb2Settings => (is => 'ro', isa => 'Paws::DMS::IBMDb2Settings');
   has KafkaSettings => (is => 'ro', isa => 'Paws::DMS::KafkaSettings');
   has KinesisSettings => (is => 'ro', isa => 'Paws::DMS::KinesisSettings');
@@ -24,6 +25,7 @@ package Paws::DMS::CreateEndpoint;
   has Password => (is => 'ro', isa => 'Str');
   has Port => (is => 'ro', isa => 'Int');
   has PostgreSQLSettings => (is => 'ro', isa => 'Paws::DMS::PostgreSQLSettings');
+  has RedisSettings => (is => 'ro', isa => 'Paws::DMS::RedisSettings');
   has RedshiftSettings => (is => 'ro', isa => 'Paws::DMS::RedshiftSettings');
   has ResourceIdentifier => (is => 'ro', isa => 'Str');
   has S3Settings => (is => 'ro', isa => 'Paws::DMS::S3Settings');
@@ -32,6 +34,7 @@ package Paws::DMS::CreateEndpoint;
   has SslMode => (is => 'ro', isa => 'Str');
   has SybaseSettings => (is => 'ro', isa => 'Paws::DMS::SybaseSettings');
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::DMS::Tag]');
+  has TimestreamSettings => (is => 'ro', isa => 'Paws::DMS::TimestreamSettings');
   has Username => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
@@ -102,7 +105,9 @@ The Amazon Resource Name (ARN) for the certificate.
 
 =head2 DatabaseName => Str
 
-The name of the endpoint database.
+The name of the endpoint database. For a MySQL source or target
+endpoint, do not specify DatabaseName. To migrate to a specific
+database, use this setting and C<targetDbType>.
 
 
 
@@ -117,27 +122,21 @@ Possible settings include the following:
 
 =item *
 
-C<ServiceAccessRoleArn> - The IAM role that has permission to access
-the Amazon S3 bucket.
+C<ServiceAccessRoleArn> - The Amazon Resource Name (ARN) used by the
+service access IAM role. The role must allow the C<iam:PassRole>
+action.
 
 =item *
 
 C<BucketName> - The name of the S3 bucket to use.
 
-=item *
-
-C<CompressionType> - An optional parameter to use GZIP to compress the
-target files. To use GZIP, set this value to C<NONE> (the default). To
-keep the files uncompressed, don't use this value.
-
 =back
 
 Shorthand syntax for these settings is as follows:
-C<ServiceAccessRoleArn=string,BucketName=string,CompressionType=string>
+C<ServiceAccessRoleArn=string,BucketName=string>
 
 JSON syntax for these settings is as follows: C<{
-"ServiceAccessRoleArn": "string", "BucketName": "string",
-"CompressionType": "none"|"gzip" }>
+"ServiceAccessRoleArn": "string", "BucketName": "string", }>
 
 
 
@@ -152,18 +151,18 @@ JSON syntax for these settings is as follows: C<{
 Settings in JSON format for the target Amazon DynamoDB endpoint. For
 information about other available settings, see Using Object Mapping to
 Migrate Data to DynamoDB
-(https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.DynamoDB.html)
-in the I<AWS Database Migration Service User Guide.>
+(https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.DynamoDB.html#CHAP_Target.DynamoDB.ObjectMapping)
+in the I<Database Migration Service User Guide.>
 
 
 
 =head2 ElasticsearchSettings => L<Paws::DMS::ElasticsearchSettings>
 
-Settings in JSON format for the target Elasticsearch endpoint. For more
+Settings in JSON format for the target OpenSearch endpoint. For more
 information about the available settings, see Extra Connection
-Attributes When Using Elasticsearch as a Target for AWS DMS
+Attributes When Using OpenSearch as a Target for DMS
 (https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Elasticsearch.html#CHAP_Target.Elasticsearch.Configuration)
-in the I<AWS Database Migration Service User Guide>.
+in the I<Database Migration Service User Guide>.
 
 
 
@@ -185,10 +184,13 @@ Valid values are: C<"source">, C<"target">
 
 The type of engine for the endpoint. Valid values, depending on the
 C<EndpointType> value, include C<"mysql">, C<"oracle">, C<"postgres">,
-C<"mariadb">, C<"aurora">, C<"aurora-postgresql">, C<"redshift">,
-C<"s3">, C<"db2">, C<"azuredb">, C<"sybase">, C<"dynamodb">,
-C<"mongodb">, C<"kinesis">, C<"kafka">, C<"elasticsearch">, C<"docdb">,
-C<"sqlserver">, and C<"neptune">.
+C<"mariadb">, C<"aurora">, C<"aurora-postgresql">, C<"opensearch">,
+C<"redshift">, C<"s3">, C<"db2">, C<"db2-zos">, C<"azuredb">,
+C<"sybase">, C<"dynamodb">, C<"mongodb">, C<"kinesis">, C<"kafka">,
+C<"elasticsearch">, C<"docdb">, C<"sqlserver">, C<"neptune">,
+C<"babelfish">, C<redshift-serverless>, C<aurora-serverless>,
+C<aurora-postgresql-serverless>, C<gcp-mysql>,
+C<azure-sql-managed-instance>, C<redis>, C<dms-transfer>.
 
 
 
@@ -204,9 +206,15 @@ Additional attributes associated with the connection. Each attribute is
 specified as a name-value pair associated by an equal sign (=).
 Multiple attributes are separated by a semicolon (;) with no additional
 white space. For information on the attributes available for connecting
-your source or target endpoint, see Working with AWS DMS Endpoints
+your source or target endpoint, see Working with DMS Endpoints
 (https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Endpoints.html)
-in the I<AWS Database Migration Service User Guide.>
+in the I<Database Migration Service User Guide.>
+
+
+
+=head2 GcpMySQLSettings => L<Paws::DMS::GcpMySQLSettings>
+
+Settings in JSON format for the source GCP MySQL endpoint.
 
 
 
@@ -214,19 +222,19 @@ in the I<AWS Database Migration Service User Guide.>
 
 Settings in JSON format for the source IBM Db2 LUW endpoint. For
 information about other available settings, see Extra connection
-attributes when using Db2 LUW as a source for AWS DMS
-(https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.DB2.html)
-in the I<AWS Database Migration Service User Guide.>
+attributes when using Db2 LUW as a source for DMS
+(https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.DB2.html#CHAP_Source.DB2.ConnectionAttrib)
+in the I<Database Migration Service User Guide.>
 
 
 
 =head2 KafkaSettings => L<Paws::DMS::KafkaSettings>
 
 Settings in JSON format for the target Apache Kafka endpoint. For more
-information about the available settings, see Using Apache Kafka as a
-Target for AWS Database Migration Service
-(https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Kafka.html)
-in the I<AWS Database Migration Service User Guide.>
+information about the available settings, see Using object mapping to
+migrate data to a Kafka topic
+(https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Kafka.html#CHAP_Target.Kafka.ObjectMapping)
+in the I<Database Migration Service User Guide.>
 
 
 
@@ -234,23 +242,23 @@ in the I<AWS Database Migration Service User Guide.>
 
 Settings in JSON format for the target endpoint for Amazon Kinesis Data
 Streams. For more information about the available settings, see Using
-Amazon Kinesis Data Streams as a Target for AWS Database Migration
-Service
-(https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Kinesis.html)
-in the I<AWS Database Migration Service User Guide.>
+object mapping to migrate data to a Kinesis data stream
+(https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Kinesis.html#CHAP_Target.Kinesis.ObjectMapping)
+in the I<Database Migration Service User Guide.>
 
 
 
 =head2 KmsKeyId => Str
 
-An AWS KMS key identifier that is used to encrypt the connection
-parameters for the endpoint.
+An KMS key identifier that is used to encrypt the connection parameters
+for the endpoint.
 
-If you don't specify a value for the C<KmsKeyId> parameter, then AWS
-DMS uses your default encryption key.
+If you don't specify a value for the C<KmsKeyId> parameter, then DMS
+uses your default encryption key.
 
-AWS KMS creates the default encryption key for your AWS account. Your
-AWS account has a different default encryption key for each AWS Region.
+KMS creates the default encryption key for your Amazon Web Services
+account. Your Amazon Web Services account has a different default
+encryption key for each Amazon Web Services Region.
 
 
 
@@ -258,22 +266,22 @@ AWS account has a different default encryption key for each AWS Region.
 
 Settings in JSON format for the source and target Microsoft SQL Server
 endpoint. For information about other available settings, see Extra
-connection attributes when using SQL Server as a source for AWS DMS
-(https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.SQLServer.html)
+connection attributes when using SQL Server as a source for DMS
+(https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.SQLServer.html#CHAP_Source.SQLServer.ConnectionAttrib)
 and Extra connection attributes when using SQL Server as a target for
-AWS DMS
-(https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.SQLServer.html)
-in the I<AWS Database Migration Service User Guide.>
+DMS
+(https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.SQLServer.html#CHAP_Target.SQLServer.ConnectionAttrib)
+in the I<Database Migration Service User Guide.>
 
 
 
 =head2 MongoDbSettings => L<Paws::DMS::MongoDbSettings>
 
 Settings in JSON format for the source MongoDB endpoint. For more
-information about the available settings, see Using MongoDB as a Target
-for AWS Database Migration Service
+information about the available settings, see Endpoint configuration
+settings when using MongoDB as a source for Database Migration Service
 (https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.MongoDB.html#CHAP_Source.MongoDB.Configuration)
-in the I<AWS Database Migration Service User Guide.>
+in the I<Database Migration Service User Guide.>
 
 
 
@@ -281,22 +289,23 @@ in the I<AWS Database Migration Service User Guide.>
 
 Settings in JSON format for the source and target MySQL endpoint. For
 information about other available settings, see Extra connection
-attributes when using MySQL as a source for AWS DMS
-(https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.MySQL.html)
+attributes when using MySQL as a source for DMS
+(https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.MySQL.html#CHAP_Source.MySQL.ConnectionAttrib)
 and Extra connection attributes when using a MySQL-compatible database
-as a target for AWS DMS
-(https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.MySQL.html)
-in the I<AWS Database Migration Service User Guide.>
+as a target for DMS
+(https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.MySQL.html#CHAP_Target.MySQL.ConnectionAttrib)
+in the I<Database Migration Service User Guide.>
 
 
 
 =head2 NeptuneSettings => L<Paws::DMS::NeptuneSettings>
 
 Settings in JSON format for the target Amazon Neptune endpoint. For
-more information about the available settings, see Specifying Endpoint
-Settings for Amazon Neptune as a Target
+more information about the available settings, see Specifying
+graph-mapping rules using Gremlin and R2RML for Amazon Neptune as a
+target
 (https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Neptune.html#CHAP_Target.Neptune.EndpointSettings)
-in the I<AWS Database Migration Service User Guide.>
+in the I<Database Migration Service User Guide.>
 
 
 
@@ -304,12 +313,11 @@ in the I<AWS Database Migration Service User Guide.>
 
 Settings in JSON format for the source and target Oracle endpoint. For
 information about other available settings, see Extra connection
-attributes when using Oracle as a source for AWS DMS
-(https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.Oracle.html)
-and Extra connection attributes when using Oracle as a target for AWS
-DMS
-(https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Oracle.html)
-in the I<AWS Database Migration Service User Guide.>
+attributes when using Oracle as a source for DMS
+(https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.Oracle.html#CHAP_Source.Oracle.ConnectionAttrib)
+and Extra connection attributes when using Oracle as a target for DMS
+(https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Oracle.html#CHAP_Target.Oracle.ConnectionAttrib)
+in the I<Database Migration Service User Guide.>
 
 
 
@@ -329,12 +337,18 @@ The port used by the endpoint database.
 
 Settings in JSON format for the source and target PostgreSQL endpoint.
 For information about other available settings, see Extra connection
-attributes when using PostgreSQL as a source for AWS DMS
-(https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.PostgreSQL.html)
+attributes when using PostgreSQL as a source for DMS
+(https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.PostgreSQL.html#CHAP_Source.PostgreSQL.ConnectionAttrib)
 and Extra connection attributes when using PostgreSQL as a target for
-AWS DMS
-(https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.PostgreSQL.html)
-in the I<AWS Database Migration Service User Guide.>
+DMS
+(https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.PostgreSQL.html#CHAP_Target.PostgreSQL.ConnectionAttrib)
+in the I<Database Migration Service User Guide.>
+
+
+
+=head2 RedisSettings => L<Paws::DMS::RedisSettings>
+
+Settings in JSON format for the target Redis endpoint.
 
 
 
@@ -354,8 +368,8 @@ characters. It can contain only ASCII letters, digits, and hyphen
 hyphens, and can only begin with a letter, such as C<Example-App-ARN1>.
 For example, this value might result in the C<EndpointArn> value
 C<arn:aws:dms:eu-west-1:012345678901:rep:Example-App-ARN1>. If you
-don't specify a C<ResourceIdentifier> value, AWS DMS generates a
-default identifier value for the end of C<EndpointArn>.
+don't specify a C<ResourceIdentifier> value, DMS generates a default
+identifier value for the end of C<EndpointArn>.
 
 
 
@@ -363,9 +377,9 @@ default identifier value for the end of C<EndpointArn>.
 
 Settings in JSON format for the target Amazon S3 endpoint. For more
 information about the available settings, see Extra Connection
-Attributes When Using Amazon S3 as a Target for AWS DMS
+Attributes When Using Amazon S3 as a Target for DMS
 (https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.S3.html#CHAP_Target.S3.Configuring)
-in the I<AWS Database Migration Service User Guide.>
+in the I<Database Migration Service User Guide.>
 
 
 
@@ -378,7 +392,8 @@ The name of the server where the endpoint database resides.
 =head2 ServiceAccessRoleArn => Str
 
 The Amazon Resource Name (ARN) for the service access role that you
-want to use to create the endpoint.
+want to use to create the endpoint. The role must allow the
+C<iam:PassRole> action.
 
 
 
@@ -393,18 +408,23 @@ Valid values are: C<"none">, C<"require">, C<"verify-ca">, C<"verify-full">
 
 Settings in JSON format for the source and target SAP ASE endpoint. For
 information about other available settings, see Extra connection
-attributes when using SAP ASE as a source for AWS DMS
-(https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.SAP.html)
-and Extra connection attributes when using SAP ASE as a target for AWS
-DMS
-(https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.SAP.html)
-in the I<AWS Database Migration Service User Guide.>
+attributes when using SAP ASE as a source for DMS
+(https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.SAP.html#CHAP_Source.SAP.ConnectionAttrib)
+and Extra connection attributes when using SAP ASE as a target for DMS
+(https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.SAP.html#CHAP_Target.SAP.ConnectionAttrib)
+in the I<Database Migration Service User Guide.>
 
 
 
 =head2 Tags => ArrayRef[L<Paws::DMS::Tag>]
 
 One or more tags to be assigned to the endpoint.
+
+
+
+=head2 TimestreamSettings => L<Paws::DMS::TimestreamSettings>
+
+Settings in JSON format for the target Amazon Timestream endpoint.
 
 
 

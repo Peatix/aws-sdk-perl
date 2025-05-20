@@ -20,23 +20,23 @@ Paws::IoTDeviceAdvisor::CreateSuiteDefinitionResponse
 
 =head2 CreatedAt => Str
 
-Creates a Device Advisor test suite with TimeStamp of when it was
-created.
+The timestamp of when the test suite was created.
 
 
 =head2 SuiteDefinitionArn => Str
 
-Creates a Device Advisor test suite with Amazon Resource name.
+The Amazon Resource Name (ARN) of the test suite.
 
 
 =head2 SuiteDefinitionId => Str
 
-Creates a Device Advisor test suite with suite UUID.
+The UUID of the test suite created.
 
 
 =head2 SuiteDefinitionName => Str
 
-Creates a Device Advisor test suite with suite definition name.
+The suite definition name of the test suite. This is a required
+parameter.
 
 
 =head2 _request_id => Str

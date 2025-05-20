@@ -48,8 +48,8 @@ The ID of the associated gateway.
 
 =head2 OwnerAccount => Str
 
-The ID of the AWS account that owns the associated virtual private
-gateway or transit gateway.
+The ID of the Amazon Web Services account that owns the associated
+virtual private gateway or transit gateway.
 
 
 =head2 Region => Str

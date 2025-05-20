@@ -38,7 +38,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::EMR::Instan
 The status of the instance fleet.
 
 The instance fleet configuration is available only in Amazon EMR
-versions 4.8.0 and later, excluding 5.0.x versions.
+releases 4.8.0 and later, excluding 5.0.x versions.
 
 =head1 ATTRIBUTES
 
@@ -51,38 +51,40 @@ A code representing the instance fleet status.
 
 =item *
 
-C<PROVISIONING>E<mdash>The instance fleet is provisioning EC2 resources
-and is not yet ready to run jobs.
+C<PROVISIONING>E<mdash>The instance fleet is provisioning Amazon EC2
+resources and is not yet ready to run jobs.
 
 =item *
 
-C<BOOTSTRAPPING>E<mdash>EC2 instances and other resources have been
-provisioned and the bootstrap actions specified for the instances are
-underway.
+C<BOOTSTRAPPING>E<mdash>Amazon EC2 instances and other resources have
+been provisioned and the bootstrap actions specified for the instances
+are underway.
 
 =item *
 
-C<RUNNING>E<mdash>EC2 instances and other resources are running. They
-are either executing jobs or waiting to execute jobs.
+C<RUNNING>E<mdash>Amazon EC2 instances and other resources are running.
+They are either executing jobs or waiting to execute jobs.
 
 =item *
 
-C<RESIZING>E<mdash>A resize operation is underway. EC2 instances are
-either being added or removed.
+C<RESIZING>E<mdash>A resize operation is underway. Amazon EC2 instances
+are either being added or removed.
 
 =item *
 
-C<SUSPENDED>E<mdash>A resize operation could not complete. Existing EC2
-instances are running, but instances can't be added or removed.
+C<SUSPENDED>E<mdash>A resize operation could not complete. Existing
+Amazon EC2 instances are running, but instances can't be added or
+removed.
 
 =item *
 
-C<TERMINATING>E<mdash>The instance fleet is terminating EC2 instances.
+C<TERMINATING>E<mdash>The instance fleet is terminating Amazon EC2
+instances.
 
 =item *
 
 C<TERMINATED>E<mdash>The instance fleet is no longer active, and all
-EC2 instances have been terminated.
+Amazon EC2 instances have been terminated.
 
 =back
 

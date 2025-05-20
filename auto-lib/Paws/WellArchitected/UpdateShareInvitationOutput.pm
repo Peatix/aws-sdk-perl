@@ -17,7 +17,7 @@ Paws::WellArchitected::UpdateShareInvitationOutput
 
 =head2 ShareInvitation => L<Paws::WellArchitected::ShareInvitation>
 
-The updated workload share invitation.
+The updated workload or custom lens share invitation.
 
 
 =head2 _request_id => Str

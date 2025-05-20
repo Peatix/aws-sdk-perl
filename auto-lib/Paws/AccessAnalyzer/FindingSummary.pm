@@ -10,6 +10,7 @@ package Paws::AccessAnalyzer::FindingSummary;
   has IsPublic => (is => 'ro', isa => 'Bool', request_name => 'isPublic', traits => ['NameInRequest']);
   has Principal => (is => 'ro', isa => 'Paws::AccessAnalyzer::PrincipalMap', request_name => 'principal', traits => ['NameInRequest']);
   has Resource => (is => 'ro', isa => 'Str', request_name => 'resource', traits => ['NameInRequest']);
+  has ResourceControlPolicyRestriction => (is => 'ro', isa => 'Str', request_name => 'resourceControlPolicyRestriction', traits => ['NameInRequest']);
   has ResourceOwnerAccount => (is => 'ro', isa => 'Str', request_name => 'resourceOwnerAccount', traits => ['NameInRequest'], required => 1);
   has ResourceType => (is => 'ro', isa => 'Str', request_name => 'resourceType', traits => ['NameInRequest'], required => 1);
   has Sources => (is => 'ro', isa => 'ArrayRef[Paws::AccessAnalyzer::FindingSource]', request_name => 'sources', traits => ['NameInRequest']);
@@ -101,9 +102,15 @@ trust.
 The resource that the external principal has access to.
 
 
+=head2 ResourceControlPolicyRestriction => Str
+
+The type of restriction applied to the finding by the resource owner
+with an Organizations resource control policy (RCP).
+
+
 =head2 B<REQUIRED> ResourceOwnerAccount => Str
 
-The AWS account ID that owns the resource.
+The Amazon Web Services account ID that owns the resource.
 
 
 =head2 B<REQUIRED> ResourceType => Str

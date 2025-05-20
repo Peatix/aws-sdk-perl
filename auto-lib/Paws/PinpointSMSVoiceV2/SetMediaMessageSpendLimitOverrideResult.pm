@@ -1,0 +1,27 @@
+
+package Paws::PinpointSMSVoiceV2::SetMediaMessageSpendLimitOverrideResult;
+  use Moose;
+  has MonthlyLimit => (is => 'ro', isa => 'Int');
+
+  has _request_id => (is => 'ro', isa => 'Str');
+
+### main pod documentation begin ###
+
+=head1 NAME
+
+Paws::PinpointSMSVoiceV2::SetMediaMessageSpendLimitOverrideResult
+
+=head1 ATTRIBUTES
+
+
+=head2 MonthlyLimit => Int
+
+The current monthly limit to enforce on sending text messages.
+
+
+=head2 _request_id => Str
+
+
+=cut
+
+1;

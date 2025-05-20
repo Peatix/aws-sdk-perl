@@ -19,8 +19,12 @@ package Paws::RedShift::Cluster;
   has ClusterStatus => (is => 'ro', isa => 'Str');
   has ClusterSubnetGroupName => (is => 'ro', isa => 'Str');
   has ClusterVersion => (is => 'ro', isa => 'Str');
+  has CustomDomainCertificateArn => (is => 'ro', isa => 'Str');
+  has CustomDomainCertificateExpiryDate => (is => 'ro', isa => 'Str');
+  has CustomDomainName => (is => 'ro', isa => 'Str');
   has DataTransferProgress => (is => 'ro', isa => 'Paws::RedShift::DataTransferProgress');
   has DBName => (is => 'ro', isa => 'Str');
+  has DefaultIamRoleArn => (is => 'ro', isa => 'Str');
   has DeferredMaintenanceWindows => (is => 'ro', isa => 'ArrayRef[Paws::RedShift::DeferredMaintenanceWindow]', request_name => 'DeferredMaintenanceWindow', traits => ['NameInRequest']);
   has ElasticIpStatus => (is => 'ro', isa => 'Paws::RedShift::ElasticIpStatus');
   has ElasticResizeNumberOfNodeOptions => (is => 'ro', isa => 'Str');
@@ -31,11 +35,16 @@ package Paws::RedShift::Cluster;
   has ExpectedNextSnapshotScheduleTimeStatus => (is => 'ro', isa => 'Str');
   has HsmStatus => (is => 'ro', isa => 'Paws::RedShift::HsmStatus');
   has IamRoles => (is => 'ro', isa => 'ArrayRef[Paws::RedShift::ClusterIamRole]', request_name => 'ClusterIamRole', traits => ['NameInRequest']);
+  has IpAddressType => (is => 'ro', isa => 'Str');
   has KmsKeyId => (is => 'ro', isa => 'Str');
   has MaintenanceTrackName => (is => 'ro', isa => 'Str');
   has ManualSnapshotRetentionPeriod => (is => 'ro', isa => 'Int');
+  has MasterPasswordSecretArn => (is => 'ro', isa => 'Str');
+  has MasterPasswordSecretKmsKeyId => (is => 'ro', isa => 'Str');
   has MasterUsername => (is => 'ro', isa => 'Str');
   has ModifyStatus => (is => 'ro', isa => 'Str');
+  has MultiAZ => (is => 'ro', isa => 'Str');
+  has MultiAZSecondary => (is => 'ro', isa => 'Paws::RedShift::SecondaryClusterInfo');
   has NextMaintenanceWindowStartTime => (is => 'ro', isa => 'Str');
   has NodeType => (is => 'ro', isa => 'Str');
   has NumberOfNodes => (is => 'ro', isa => 'Int');
@@ -43,6 +52,7 @@ package Paws::RedShift::Cluster;
   has PendingModifiedValues => (is => 'ro', isa => 'Paws::RedShift::PendingModifiedValues');
   has PreferredMaintenanceWindow => (is => 'ro', isa => 'Str');
   has PubliclyAccessible => (is => 'ro', isa => 'Bool');
+  has ReservedNodeExchangeStatus => (is => 'ro', isa => 'Paws::RedShift::ReservedNodeExchangeStatus');
   has ResizeInfo => (is => 'ro', isa => 'Paws::RedShift::ResizeInfo');
   has RestoreStatus => (is => 'ro', isa => 'Paws::RedShift::RestoreStatus');
   has SnapshotScheduleIdentifier => (is => 'ro', isa => 'Str');
@@ -96,7 +106,8 @@ window.
 
 =head2 AquaConfiguration => L<Paws::RedShift::AquaConfiguration>
 
-The AQUA (Advanced Query Accelerator) configuration of the cluster.
+This field is retired. Amazon Redshift automatically determines whether
+to use AQUA (Advanced Query Accelerator).
 
 
 =head2 AutomatedSnapshotRetentionPeriod => Int
@@ -304,6 +315,22 @@ The version ID of the Amazon Redshift engine that is running on the
 cluster.
 
 
+=head2 CustomDomainCertificateArn => Str
+
+The certificate Amazon Resource Name (ARN) for the custom domain name.
+
+
+=head2 CustomDomainCertificateExpiryDate => Str
+
+The expiration date for the certificate associated with the custom
+domain name.
+
+
+=head2 CustomDomainName => Str
+
+The custom domain name associated with the cluster.
+
+
 =head2 DataTransferProgress => L<Paws::RedShift::DataTransferProgress>
 
 
@@ -315,6 +342,12 @@ The name of the initial database that was created when the cluster was
 created. This same name is returned for the life of the cluster. If an
 initial database was not specified, a database named C<dev>dev was
 created by default.
+
+
+=head2 DefaultIamRoleArn => Str
+
+The Amazon Resource Name (ARN) for the IAM role set as default for the
+cluster.
 
 
 =head2 DeferredMaintenanceWindows => ArrayRef[L<Paws::RedShift::DeferredMaintenanceWindow>]
@@ -395,14 +428,20 @@ Values: active, applying
 
 =head2 IamRoles => ArrayRef[L<Paws::RedShift::ClusterIamRole>]
 
-A list of AWS Identity and Access Management (IAM) roles that can be
-used by the cluster to access other AWS services.
+A list of Identity and Access Management (IAM) roles that can be used
+by the cluster to access other Amazon Web Services services.
+
+
+=head2 IpAddressType => Str
+
+The IP address type for the cluster. Possible values are C<ipv4> and
+C<dualstack>.
 
 
 =head2 KmsKeyId => Str
 
-The AWS Key Management Service (AWS KMS) key ID of the encryption key
-used to encrypt data in the cluster.
+The Key Management Service (KMS) key ID of the encryption key used to
+encrypt data in the cluster.
 
 
 =head2 MaintenanceTrackName => Str
@@ -419,15 +458,39 @@ the retention period of existing snapshots.
 The value must be either -1 or an integer between 1 and 3,653.
 
 
+=head2 MasterPasswordSecretArn => Str
+
+The Amazon Resource Name (ARN) for the cluster's admin user credentials
+secret.
+
+
+=head2 MasterPasswordSecretKmsKeyId => Str
+
+The ID of the Key Management Service (KMS) key used to encrypt and
+store the cluster's admin credentials secret.
+
+
 =head2 MasterUsername => Str
 
-The master user name for the cluster. This name is used to connect to
+The admin user name for the cluster. This name is used to connect to
 the database that is specified in the B<DBName> parameter.
 
 
 =head2 ModifyStatus => Str
 
 The status of a modify operation, if any, initiated for the cluster.
+
+
+=head2 MultiAZ => Str
+
+A boolean value that, if true, indicates that the cluster is deployed
+in two Availability Zones.
+
+
+=head2 MultiAZSecondary => L<Paws::RedShift::SecondaryClusterInfo>
+
+The secondary compute unit of a cluster, if Multi-AZ deployment is
+turned on.
 
 
 =head2 NextMaintenanceWindowStartTime => Str
@@ -466,6 +529,14 @@ which system maintenance can occur.
 
 A boolean value that, if C<true>, indicates that the cluster can be
 accessed from a public network.
+
+Default: false
+
+
+=head2 ReservedNodeExchangeStatus => L<Paws::RedShift::ReservedNodeExchangeStatus>
+
+The status of the reserved-node exchange request. Statuses include
+in-progress and requested.
 
 
 =head2 ResizeInfo => L<Paws::RedShift::ResizeInfo>

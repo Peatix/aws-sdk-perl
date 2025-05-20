@@ -34,8 +34,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::IoTSiteWise
 
 =head1 DESCRIPTION
 
-Contains an AWS IoT SiteWise Monitor resource ID for a portal or
-project.
+Contains an IoT SiteWise Monitor resource ID for a portal or project.
 
 =head1 ATTRIBUTES
 

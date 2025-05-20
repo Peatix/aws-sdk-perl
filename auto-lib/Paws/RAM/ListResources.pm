@@ -6,6 +6,7 @@ package Paws::RAM::ListResources;
   has Principal => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'principal');
   has ResourceArns => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'resourceArns');
   has ResourceOwner => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'resourceOwner', required => 1);
+  has ResourceRegionScope => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'resourceRegionScope');
   has ResourceShareArns => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'resourceShareArns');
   has ResourceType => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'resourceType');
 
@@ -35,13 +36,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $ram = Paws->service('RAM');
     my $ListResourcesResponse = $ram->ListResources(
-      ResourceOwner     => 'SELF',
-      MaxResults        => 1,                      # OPTIONAL
-      NextToken         => 'MyString',             # OPTIONAL
-      Principal         => 'MyString',             # OPTIONAL
-      ResourceArns      => [ 'MyString', ... ],    # OPTIONAL
-      ResourceShareArns => [ 'MyString', ... ],    # OPTIONAL
-      ResourceType      => 'MyString',             # OPTIONAL
+      ResourceOwner       => 'SELF',
+      MaxResults          => 1,                      # OPTIONAL
+      NextToken           => 'MyString',             # OPTIONAL
+      Principal           => 'MyString',             # OPTIONAL
+      ResourceArns        => [ 'MyString', ... ],    # OPTIONAL
+      ResourceRegionScope => 'ALL',                  # OPTIONAL
+      ResourceShareArns   => [ 'MyString', ... ],    # OPTIONAL
+      ResourceType        => 'MyString',             # OPTIONAL
     );
 
     # Results:
@@ -58,61 +60,108 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ram
 
 =head2 MaxResults => Int
 
-The maximum number of results to return with a single call. To retrieve
-the remaining results, make another call with the returned C<nextToken>
-value.
+Specifies the total number of results that you want included on each
+page of the response. If you do not include this parameter, it defaults
+to a value that is specific to the operation. If additional items exist
+beyond the number you specify, the C<NextToken> response element is
+returned with a value (not null). Include the specified value as the
+C<NextToken> request parameter in the next call to the operation to get
+the next part of the results. Note that the service might return fewer
+results than the maximum even when there are more results available.
+You should check C<NextToken> after every operation to ensure that you
+receive all of the results.
 
 
 
 =head2 NextToken => Str
 
-The token for the next page of results.
+Specifies that you want to receive the next page of results. Valid only
+if you received a C<NextToken> response in the previous request. If you
+did, it indicates that more output is available. Set this parameter to
+the value provided by the previous call's C<NextToken> response to
+request the next page of results.
 
 
 
 =head2 Principal => Str
 
-The principal.
+Specifies that you want to list only the resource shares that are
+associated with the specified principal.
 
 
 
 =head2 ResourceArns => ArrayRef[Str|Undef]
 
-The Amazon Resource Names (ARN) of the resources.
+Specifies that you want to list only the resource shares that include
+resources with the specified Amazon Resource Names (ARNs)
+(https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
 
 
 
 =head2 B<REQUIRED> ResourceOwner => Str
 
-The type of owner.
+Specifies that you want to list only the resource shares that match the
+following:
+
+=over
+
+=item *
+
+B<C<SELF> > E<ndash> resources that your account shares with other
+accounts
+
+=item *
+
+B<C<OTHER-ACCOUNTS> > E<ndash> resources that other accounts share with
+your account
+
+=back
+
 
 Valid values are: C<"SELF">, C<"OTHER-ACCOUNTS">
 
+=head2 ResourceRegionScope => Str
+
+Specifies that you want the results to include only resources that have
+the specified scope.
+
+=over
+
+=item *
+
+C<ALL> E<ndash> the results include both global and regional resources
+or resource types.
+
+=item *
+
+C<GLOBAL> E<ndash> the results include only global resources or
+resource types.
+
+=item *
+
+C<REGIONAL> E<ndash> the results include only regional resources or
+resource types.
+
+=back
+
+The default value is C<ALL>.
+
+Valid values are: C<"ALL">, C<"REGIONAL">, C<"GLOBAL">
+
 =head2 ResourceShareArns => ArrayRef[Str|Undef]
 
-The Amazon Resource Names (ARN) of the resource shares.
+Specifies that you want to list only resources in the resource shares
+identified by the specified Amazon Resource Names (ARNs)
+(https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
 
 
 
 =head2 ResourceType => Str
 
-The resource type.
+Specifies that you want to list only the resource shares that include
+resources of the specified resource type.
 
-Valid values: C<acm-pca:CertificateAuthority> | C<appmesh:Mesh> |
-C<codebuild:Project> | C<codebuild:ReportGroup> |
-C<ec2:CapacityReservation> | C<ec2:DedicatedHost> |
-C<ec2:LocalGatewayRouteTable> | C<ec2:PrefixList> | C<ec2:Subnet> |
-C<ec2:TrafficMirrorTarget> | C<ec2:TransitGateway> |
-C<imagebuilder:Component> | C<imagebuilder:Image> |
-C<imagebuilder:ImageRecipe> | C<imagebuilder:ContainerRecipe> |
-C<glue:Catalog> | C<glue:Database> | C<glue:Table> |
-C<license-manager:LicenseConfiguration> I
-C<network-firewall:FirewallPolicy> |
-C<network-firewall:StatefulRuleGroup> |
-C<network-firewall:StatelessRuleGroup> | C<outposts:Outpost> |
-C<resource-groups:Group> | C<rds:Cluster> |
-C<route53resolver:ResolverQueryLogConfig> |
-C<route53resolver:ResolverRule>
+For valid values, query the ListResourceTypes operation.
 
 
 

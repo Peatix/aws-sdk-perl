@@ -49,81 +49,64 @@ Specifies the method setting properties.
 
 =head2 CacheDataEncrypted => Bool
 
-Specifies whether the cached responses are encrypted. The PATCH path
-for this setting is C</{method_setting_key}/caching/dataEncrypted>, and
-the value is a Boolean.
+Specifies whether the cached responses are encrypted.
 
 
 =head2 CacheTtlInSeconds => Int
 
 Specifies the time to live (TTL), in seconds, for cached responses. The
-higher the TTL, the longer the response will be cached. The PATCH path
-for this setting is C</{method_setting_key}/caching/ttlInSeconds>, and
-the value is an integer.
+higher the TTL, the longer the response will be cached.
 
 
 =head2 CachingEnabled => Bool
 
 Specifies whether responses should be cached and returned for requests.
 A cache cluster must be enabled on the stage for responses to be
-cached. The PATCH path for this setting is
-C</{method_setting_key}/caching/enabled>, and the value is a Boolean.
+cached.
 
 
 =head2 DataTraceEnabled => Bool
 
 Specifies whether data trace logging is enabled for this method, which
-affects the log entries pushed to Amazon CloudWatch Logs. The PATCH
-path for this setting is C</{method_setting_key}/logging/dataTrace>,
-and the value is a Boolean.
+affects the log entries pushed to Amazon CloudWatch Logs. This can be
+useful to troubleshoot APIs, but can result in logging sensitive data.
+We recommend that you don't enable this option for production APIs.
 
 
 =head2 LoggingLevel => Str
 
 Specifies the logging level for this method, which affects the log
-entries pushed to Amazon CloudWatch Logs. The PATCH path for this
-setting is C</{method_setting_key}/logging/loglevel>, and the available
-levels are C<OFF>, C<ERROR>, and C<INFO>. Choose C<ERROR> to write only
-error-level entries to CloudWatch Logs, or choose C<INFO> to include
-all C<ERROR> events as well as extra informational events.
+entries pushed to Amazon CloudWatch Logs. Valid values are C<OFF>,
+C<ERROR>, and C<INFO>. Choose C<ERROR> to write only error-level
+entries to CloudWatch Logs, or choose C<INFO> to include all C<ERROR>
+events as well as extra informational events.
 
 
 =head2 MetricsEnabled => Bool
 
 Specifies whether Amazon CloudWatch metrics are enabled for this
-method. The PATCH path for this setting is
-C</{method_setting_key}/metrics/enabled>, and the value is a Boolean.
+method.
 
 
 =head2 RequireAuthorizationForCacheControl => Bool
 
 Specifies whether authorization is required for a cache invalidation
-request. The PATCH path for this setting is
-C</{method_setting_key}/caching/requireAuthorizationForCacheControl>,
-and the value is a Boolean.
+request.
 
 
 =head2 ThrottlingBurstLimit => Int
 
-Specifies the throttling burst limit. The PATCH path for this setting
-is C</{method_setting_key}/throttling/burstLimit>, and the value is an
-integer.
+Specifies the throttling burst limit.
 
 
 =head2 ThrottlingRateLimit => Num
 
-Specifies the throttling rate limit. The PATCH path for this setting is
-C</{method_setting_key}/throttling/rateLimit>, and the value is a
-double.
+Specifies the throttling rate limit.
 
 
 =head2 UnauthorizedCacheControlHeaderStrategy => Str
 
 Specifies how to handle unauthorized requests for cache invalidation.
-The PATCH path for this setting is
-C</{method_setting_key}/caching/unauthorizedCacheControlHeaderStrategy>,
-and the available values are C<FAIL_WITH_403>,
-C<SUCCEED_WITH_RESPONSE_HEADER>, C<SUCCEED_WITHOUT_RESPONSE_HEADER>.
 
 
 

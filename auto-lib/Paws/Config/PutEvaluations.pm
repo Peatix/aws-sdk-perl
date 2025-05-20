@@ -59,25 +59,25 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/con
 
 =head2 Evaluations => ArrayRef[L<Paws::Config::Evaluation>]
 
-The assessments that the AWS Lambda function performs. Each evaluation
-identifies an AWS resource and indicates whether it complies with the
-AWS Config rule that invokes the AWS Lambda function.
+The assessments that the Lambda function performs. Each evaluation
+identifies an Amazon Web Services resource and indicates whether it
+complies with the Config rule that invokes the Lambda function.
 
 
 
 =head2 B<REQUIRED> ResultToken => Str
 
-An encrypted token that associates an evaluation with an AWS Config
-rule. Identifies the rule and the event that triggered the evaluation.
+An encrypted token that associates an evaluation with an Config rule.
+Identifies the rule and the event that triggered the evaluation.
 
 
 
 =head2 TestMode => Bool
 
 Use this parameter to specify a test run for C<PutEvaluations>. You can
-verify whether your AWS Lambda function will deliver evaluation results
-to AWS Config. No updates occur to your existing evaluations, and
-evaluation results are not sent to AWS Config.
+verify whether your Lambda function will deliver evaluation results to
+Config. No updates occur to your existing evaluations, and evaluation
+results are not sent to Config.
 
 When C<TestMode> is C<true>, C<PutEvaluations> doesn't require a valid
 value for the C<ResultToken> parameter, but the value cannot be null.

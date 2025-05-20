@@ -11,6 +11,7 @@ package Paws::SavingsPlans::SavingsPlan;
   has ProductTypes => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'productTypes', traits => ['NameInRequest']);
   has RecurringPaymentAmount => (is => 'ro', isa => 'Str', request_name => 'recurringPaymentAmount', traits => ['NameInRequest']);
   has Region => (is => 'ro', isa => 'Str', request_name => 'region', traits => ['NameInRequest']);
+  has ReturnableUntil => (is => 'ro', isa => 'Str', request_name => 'returnableUntil', traits => ['NameInRequest']);
   has SavingsPlanArn => (is => 'ro', isa => 'Str', request_name => 'savingsPlanArn', traits => ['NameInRequest']);
   has SavingsPlanId => (is => 'ro', isa => 'Str', request_name => 'savingsPlanId', traits => ['NameInRequest']);
   has SavingsPlanType => (is => 'ro', isa => 'Str', request_name => 'savingsPlanType', traits => ['NameInRequest']);
@@ -57,7 +58,7 @@ Information about a Savings Plan.
 
 =head2 Commitment => Str
 
-The hourly commitment, in USD.
+The hourly commitment amount in the specified currency.
 
 
 =head2 Currency => Str
@@ -102,7 +103,14 @@ The recurring payment amount.
 
 =head2 Region => Str
 
-The AWS Region.
+The Amazon Web Services Region.
+
+
+=head2 ReturnableUntil => Str
+
+The time until when a return for the Savings Plan can be requested. If
+the Savings Plan is not returnable, the field reflects the Savings Plan
+start time.
 
 
 =head2 SavingsPlanArn => Str
@@ -127,7 +135,7 @@ The start time.
 
 =head2 State => Str
 
-The state.
+The current state.
 
 
 =head2 Tags => L<Paws::SavingsPlans::TagMap>

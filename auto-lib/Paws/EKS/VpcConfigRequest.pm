@@ -50,10 +50,10 @@ Kubernetes API server endpoint. If you enable private access,
 Kubernetes API requests from within your cluster's VPC use the private
 VPC endpoint. The default value for this parameter is C<false>, which
 disables private access for your Kubernetes API server. If you disable
-private access and you have nodes or AWS Fargate pods in the cluster,
-then ensure that C<publicAccessCidrs> includes the necessary CIDR
-blocks for communication with the nodes or Fargate pods. For more
-information, see Amazon EKS Cluster Endpoint Access Control
+private access and you have nodes or Fargate pods in the cluster, then
+ensure that C<publicAccessCidrs> includes the necessary CIDR blocks for
+communication with the nodes or Fargate pods. For more information, see
+Amazon EKS cluster endpoint access control
 (https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html)
 in the I< I<Amazon EKS User Guide> >.
 
@@ -65,7 +65,7 @@ Kubernetes API server endpoint. If you disable public access, your
 cluster's Kubernetes API server can only receive requests from within
 the cluster VPC. The default value for this parameter is C<true>, which
 enables public access for your Kubernetes API server. For more
-information, see Amazon EKS Cluster Endpoint Access Control
+information, see Amazon EKS cluster endpoint access control
 (https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html)
 in the I< I<Amazon EKS User Guide> >.
 
@@ -76,9 +76,9 @@ The CIDR blocks that are allowed access to your cluster's public
 Kubernetes API server endpoint. Communication to the endpoint from
 addresses outside of the CIDR blocks that you specify is denied. The
 default value is C<0.0.0.0/0>. If you've disabled private endpoint
-access and you have nodes or AWS Fargate pods in the cluster, then
-ensure that you specify the necessary CIDR blocks. For more
-information, see Amazon EKS Cluster Endpoint Access Control
+access, make sure that you specify the necessary CIDR blocks for every
+node and Fargate C<Pod> in the cluster. For more information, see
+Amazon EKS cluster endpoint access control
 (https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html)
 in the I< I<Amazon EKS User Guide> >.
 
@@ -86,25 +86,12 @@ in the I< I<Amazon EKS User Guide> >.
 =head2 SecurityGroupIds => ArrayRef[Str|Undef]
 
 Specify one or more security groups for the cross-account elastic
-network interfaces that Amazon EKS creates to use to allow
+network interfaces that Amazon EKS creates to use that allow
 communication between your nodes and the Kubernetes control plane. If
 you don't specify any security groups, then familiarize yourself with
 the difference between Amazon EKS defaults for clusters deployed with
-Kubernetes:
-
-=over
-
-=item *
-
-1.14 Amazon EKS platform version C<eks.2> and earlier
-
-=item *
-
-1.14 Amazon EKS platform version C<eks.3> and later
-
-=back
-
-For more information, see Amazon EKS security group considerations
+Kubernetes. For more information, see Amazon EKS security group
+considerations
 (https://docs.aws.amazon.com/eks/latest/userguide/sec-group-reqs.html)
 in the I< I<Amazon EKS User Guide> >.
 

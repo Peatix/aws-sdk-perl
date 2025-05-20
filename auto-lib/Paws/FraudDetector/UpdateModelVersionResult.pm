@@ -26,7 +26,7 @@ The model ID.
 
 The model type.
 
-Valid values are: C<"ONLINE_FRAUD_INSIGHTS">
+Valid values are: C<"ONLINE_FRAUD_INSIGHTS">, C<"TRANSACTION_FRAUD_INSIGHTS">, C<"ACCOUNT_TAKEOVER_INSIGHTS">
 =head2 ModelVersionNumber => Str
 
 The model version number of the model version updated.

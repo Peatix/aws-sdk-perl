@@ -1,6 +1,7 @@
 
 package Paws::Rekognition::GetLabelDetection;
   use Moose;
+  has AggregateBy => (is => 'ro', isa => 'Str');
   has JobId => (is => 'ro', isa => 'Str', required => 1);
   has MaxResults => (is => 'ro', isa => 'Int');
   has NextToken => (is => 'ro', isa => 'Str');
@@ -31,19 +32,24 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $rekognition = Paws->service('Rekognition');
     my $GetLabelDetectionResponse = $rekognition->GetLabelDetection(
-      JobId      => 'MyJobId',
-      MaxResults => 1,                      # OPTIONAL
-      NextToken  => 'MyPaginationToken',    # OPTIONAL
-      SortBy     => 'NAME',                 # OPTIONAL
+      JobId       => 'MyJobId',
+      AggregateBy => 'TIMESTAMPS',           # OPTIONAL
+      MaxResults  => 1,                      # OPTIONAL
+      NextToken   => 'MyPaginationToken',    # OPTIONAL
+      SortBy      => 'NAME',                 # OPTIONAL
     );
 
     # Results:
-    my $JobStatus         = $GetLabelDetectionResponse->JobStatus;
-    my $LabelModelVersion = $GetLabelDetectionResponse->LabelModelVersion;
-    my $Labels            = $GetLabelDetectionResponse->Labels;
-    my $NextToken         = $GetLabelDetectionResponse->NextToken;
-    my $StatusMessage     = $GetLabelDetectionResponse->StatusMessage;
-    my $VideoMetadata     = $GetLabelDetectionResponse->VideoMetadata;
+    my $GetRequestMetadata = $GetLabelDetectionResponse->GetRequestMetadata;
+    my $JobId              = $GetLabelDetectionResponse->JobId;
+    my $JobStatus          = $GetLabelDetectionResponse->JobStatus;
+    my $JobTag             = $GetLabelDetectionResponse->JobTag;
+    my $LabelModelVersion  = $GetLabelDetectionResponse->LabelModelVersion;
+    my $Labels             = $GetLabelDetectionResponse->Labels;
+    my $NextToken          = $GetLabelDetectionResponse->NextToken;
+    my $StatusMessage      = $GetLabelDetectionResponse->StatusMessage;
+    my $Video              = $GetLabelDetectionResponse->Video;
+    my $VideoMetadata      = $GetLabelDetectionResponse->VideoMetadata;
 
     # Returns a L<Paws::Rekognition::GetLabelDetectionResponse> object.
 
@@ -52,6 +58,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/rek
 
 =head1 ATTRIBUTES
 
+
+=head2 AggregateBy => Str
+
+Defines how to aggregate the returned results. Results can be
+aggregated by timestamps or segments.
+
+Valid values are: C<"TIMESTAMPS">, C<"SEGMENTS">
 
 =head2 B<REQUIRED> JobId => Str
 

@@ -44,38 +44,38 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Firehose::D
 
 =head1 DESCRIPTION
 
-Contains information about a delivery stream.
+Contains information about a Firehose stream.
 
 =head1 ATTRIBUTES
 
 
 =head2 CreateTimestamp => Str
 
-The date and time that the delivery stream was created.
+The date and time that the Firehose stream was created.
 
 
 =head2 B<REQUIRED> DeliveryStreamARN => Str
 
-The Amazon Resource Name (ARN) of the delivery stream. For more
-information, see Amazon Resource Names (ARNs) and AWS Service
-Namespaces
+The Amazon Resource Name (ARN) of the Firehose stream. For more
+information, see Amazon Resource Names (ARNs) and Amazon Web Services
+Service Namespaces
 (https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
 
 
 =head2 DeliveryStreamEncryptionConfiguration => L<Paws::Firehose::DeliveryStreamEncryptionConfiguration>
 
-Indicates the server-side encryption (SSE) status for the delivery
+Indicates the server-side encryption (SSE) status for the Firehose
 stream.
 
 
 =head2 B<REQUIRED> DeliveryStreamName => Str
 
-The name of the delivery stream.
+The name of the Firehose stream.
 
 
 =head2 B<REQUIRED> DeliveryStreamStatus => Str
 
-The status of the delivery stream. If the status of a delivery stream
+The status of the Firehose stream. If the status of a Firehose stream
 is C<CREATING_FAILED>, this status doesn't change, and you can't invoke
 C<CreateDeliveryStream> again on it. However, you can invoke the
 DeleteDeliveryStream operation to delete it.
@@ -83,18 +83,18 @@ DeleteDeliveryStream operation to delete it.
 
 =head2 B<REQUIRED> DeliveryStreamType => Str
 
-The delivery stream type. This can be one of the following values:
+The Firehose stream type. This can be one of the following values:
 
 =over
 
 =item *
 
-C<DirectPut>: Provider applications access the delivery stream
+C<DirectPut>: Provider applications access the Firehose stream
 directly.
 
 =item *
 
-C<KinesisStreamAsSource>: The delivery stream uses a Kinesis data
+C<KinesisStreamAsSource>: The Firehose stream uses a Kinesis data
 stream as a source.
 
 =back
@@ -120,7 +120,7 @@ Indicates whether there are more destinations available to list.
 
 =head2 LastUpdateTimestamp => Str
 
-The date and time that the delivery stream was last updated.
+The date and time that the Firehose stream was last updated.
 
 
 =head2 Source => L<Paws::Firehose::SourceDescription>
@@ -131,7 +131,7 @@ SourceDescription object describing the source Kinesis data stream.
 
 =head2 B<REQUIRED> VersionId => Str
 
-Each time the destination is updated for a delivery stream, the version
+Each time the destination is updated for a Firehose stream, the version
 ID is changed, and the current version ID is required when updating the
 destination. This is so that the service knows it is applying the
 changes to the correct version of the delivery stream.

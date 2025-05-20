@@ -3,7 +3,9 @@ package Paws::SageMaker::AppImageConfigDetails;
   use Moose;
   has AppImageConfigArn => (is => 'ro', isa => 'Str');
   has AppImageConfigName => (is => 'ro', isa => 'Str');
+  has CodeEditorAppImageConfig => (is => 'ro', isa => 'Paws::SageMaker::CodeEditorAppImageConfig');
   has CreationTime => (is => 'ro', isa => 'Str');
+  has JupyterLabAppImageConfig => (is => 'ro', isa => 'Paws::SageMaker::JupyterLabAppImageConfig');
   has KernelGatewayImageConfig => (is => 'ro', isa => 'Paws::SageMaker::KernelGatewayImageConfig');
   has LastModifiedTime => (is => 'ro', isa => 'Str');
 
@@ -37,14 +39,15 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SageMaker::
 
 =head1 DESCRIPTION
 
-The configuration for running a SageMaker image as a KernelGateway app.
+The configuration for running a SageMaker AI image as a KernelGateway
+app.
 
 =head1 ATTRIBUTES
 
 
 =head2 AppImageConfigArn => Str
 
-The Amazon Resource Name (ARN) of the AppImageConfig.
+The ARN of the AppImageConfig.
 
 
 =head2 AppImageConfigName => Str
@@ -52,14 +55,26 @@ The Amazon Resource Name (ARN) of the AppImageConfig.
 The name of the AppImageConfig. Must be unique to your account.
 
 
+=head2 CodeEditorAppImageConfig => L<Paws::SageMaker::CodeEditorAppImageConfig>
+
+The configuration for the file system and the runtime, such as the
+environment variables and entry point.
+
+
 =head2 CreationTime => Str
 
 When the AppImageConfig was created.
 
 
+=head2 JupyterLabAppImageConfig => L<Paws::SageMaker::JupyterLabAppImageConfig>
+
+The configuration for the file system and the runtime, such as the
+environment variables and entry point.
+
+
 =head2 KernelGatewayImageConfig => L<Paws::SageMaker::KernelGatewayImageConfig>
 
-The configuration for the file system and kernels in the SageMaker
+The configuration for the file system and kernels in the SageMaker AI
 image.
 
 

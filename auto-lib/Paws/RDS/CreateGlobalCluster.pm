@@ -4,10 +4,12 @@ package Paws::RDS::CreateGlobalCluster;
   has DatabaseName => (is => 'ro', isa => 'Str');
   has DeletionProtection => (is => 'ro', isa => 'Bool');
   has Engine => (is => 'ro', isa => 'Str');
+  has EngineLifecycleSupport => (is => 'ro', isa => 'Str');
   has EngineVersion => (is => 'ro', isa => 'Str');
   has GlobalClusterIdentifier => (is => 'ro', isa => 'Str');
   has SourceDBClusterIdentifier => (is => 'ro', isa => 'Str');
   has StorageEncrypted => (is => 'ro', isa => 'Bool');
+  has Tags => (is => 'ro', isa => 'ArrayRef[Paws::RDS::Tag]');
 
   use MooseX::ClassAttribute;
 
@@ -37,10 +39,18 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       DatabaseName              => 'MyString',    # OPTIONAL
       DeletionProtection        => 1,             # OPTIONAL
       Engine                    => 'MyString',    # OPTIONAL
+      EngineLifecycleSupport    => 'MyString',    # OPTIONAL
       EngineVersion             => 'MyString',    # OPTIONAL
       GlobalClusterIdentifier   => 'MyString',    # OPTIONAL
       SourceDBClusterIdentifier => 'MyString',    # OPTIONAL
       StorageEncrypted          => 1,             # OPTIONAL
+      Tags                      => [
+        {
+          Key   => 'MyString',
+          Value => 'MyString',
+        },
+        ...
+      ],                                          # OPTIONAL
     );
 
     # Results:
@@ -56,47 +66,161 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/rds
 
 =head2 DatabaseName => Str
 
-The name for your database of up to 64 alpha-numeric characters. If you
-do not provide a name, Amazon Aurora will not create a database in the
-global database cluster you are creating.
+The name for your database of up to 64 alphanumeric characters. If you
+don't specify a name, Amazon Aurora doesn't create a database in the
+global database cluster.
+
+Constraints:
+
+=over
+
+=item *
+
+Can't be specified if C<SourceDBClusterIdentifier> is specified. In
+this case, Amazon Aurora uses the database name from the source DB
+cluster.
+
+=back
+
 
 
 
 =head2 DeletionProtection => Bool
 
-The deletion protection setting for the new global database. The global
-database can't be deleted when deletion protection is enabled.
+Specifies whether to enable deletion protection for the new global
+database cluster. The global database can't be deleted when deletion
+protection is enabled.
 
 
 
 =head2 Engine => Str
 
-The name of the database engine to be used for this DB cluster.
+The database engine to use for this global database cluster.
+
+Valid Values: C<aurora-mysql | aurora-postgresql>
+
+Constraints:
+
+=over
+
+=item *
+
+Can't be specified if C<SourceDBClusterIdentifier> is specified. In
+this case, Amazon Aurora uses the engine of the source DB cluster.
+
+=back
+
+
+
+
+=head2 EngineLifecycleSupport => Str
+
+The life cycle type for this global database cluster.
+
+By default, this value is set to C<open-source-rds-extended-support>,
+which enrolls your global cluster into Amazon RDS Extended Support. At
+the end of standard support, you can avoid charges for Extended Support
+by setting the value to C<open-source-rds-extended-support-disabled>.
+In this case, creating the global cluster will fail if the DB major
+version is past its end of standard support date.
+
+This setting only applies to Aurora PostgreSQL-based global databases.
+
+You can use this setting to enroll your global cluster into Amazon RDS
+Extended Support. With RDS Extended Support, you can run the selected
+major engine version on your global cluster past the end of standard
+support for that engine version. For more information, see Using Amazon
+RDS Extended Support
+(https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html)
+in the I<Amazon Aurora User Guide>.
+
+Valid Values: C<open-source-rds-extended-support |
+open-source-rds-extended-support-disabled>
+
+Default: C<open-source-rds-extended-support>
 
 
 
 =head2 EngineVersion => Str
 
-The engine version of the Aurora global database.
+The engine version to use for this global database cluster.
+
+Constraints:
+
+=over
+
+=item *
+
+Can't be specified if C<SourceDBClusterIdentifier> is specified. In
+this case, Amazon Aurora uses the engine version of the source DB
+cluster.
+
+=back
+
 
 
 
 =head2 GlobalClusterIdentifier => Str
 
-The cluster identifier of the new global database cluster.
+The cluster identifier for this global database cluster. This parameter
+is stored as a lowercase string.
 
 
 
 =head2 SourceDBClusterIdentifier => Str
 
 The Amazon Resource Name (ARN) to use as the primary cluster of the
-global database. This parameter is optional.
+global database.
+
+If you provide a value for this parameter, don't specify values for the
+following settings because Amazon Aurora uses the values from the
+specified source DB cluster:
+
+=over
+
+=item *
+
+C<DatabaseName>
+
+=item *
+
+C<Engine>
+
+=item *
+
+C<EngineVersion>
+
+=item *
+
+C<StorageEncrypted>
+
+=back
+
 
 
 
 =head2 StorageEncrypted => Bool
 
-The storage encryption setting for the new global database cluster.
+Specifies whether to enable storage encryption for the new global
+database cluster.
+
+Constraints:
+
+=over
+
+=item *
+
+Can't be specified if C<SourceDBClusterIdentifier> is specified. In
+this case, Amazon Aurora uses the setting from the source DB cluster.
+
+=back
+
+
+
+
+=head2 Tags => ArrayRef[L<Paws::RDS::Tag>]
+
+Tags to assign to the global cluster.
 
 
 

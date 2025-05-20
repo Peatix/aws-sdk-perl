@@ -3,6 +3,8 @@ package Paws::LexModelsV2::ImportResourceSpecification;
   use Moose;
   has BotImportSpecification => (is => 'ro', isa => 'Paws::LexModelsV2::BotImportSpecification', request_name => 'botImportSpecification', traits => ['NameInRequest']);
   has BotLocaleImportSpecification => (is => 'ro', isa => 'Paws::LexModelsV2::BotLocaleImportSpecification', request_name => 'botLocaleImportSpecification', traits => ['NameInRequest']);
+  has CustomVocabularyImportSpecification => (is => 'ro', isa => 'Paws::LexModelsV2::CustomVocabularyImportSpecification', request_name => 'customVocabularyImportSpecification', traits => ['NameInRequest']);
+  has TestSetImportResourceSpecification => (is => 'ro', isa => 'Paws::LexModelsV2::TestSetImportResourceSpecification', request_name => 'testSetImportResourceSpecification', traits => ['NameInRequest']);
 
 1;
 
@@ -23,7 +25,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::LexModelsV2::ImportResourceSpecification object:
 
-  $service_obj->Method(Att1 => { BotImportSpecification => $value, ..., BotLocaleImportSpecification => $value  });
+  $service_obj->Method(Att1 => { BotImportSpecification => $value, ..., TestSetImportResourceSpecification => $value  });
 
 =head3 Results returned from an API call
 
@@ -35,7 +37,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::LexModelsV2
 =head1 DESCRIPTION
 
 Provides information about the bot or bot locale that you want to
-import. You can sepcifiy the C<botImportSpecification> or the
+import. You can specify the C<botImportSpecification> or the
 C<botLocaleImportSpecification>, but not both.
 
 =head1 ATTRIBUTES
@@ -49,6 +51,16 @@ Parameters for importing a bot.
 =head2 BotLocaleImportSpecification => L<Paws::LexModelsV2::BotLocaleImportSpecification>
 
 Parameters for importing a bot locale.
+
+
+=head2 CustomVocabularyImportSpecification => L<Paws::LexModelsV2::CustomVocabularyImportSpecification>
+
+
+
+
+=head2 TestSetImportResourceSpecification => L<Paws::LexModelsV2::TestSetImportResourceSpecification>
+
+Specifications for the test set that is imported.
 
 
 

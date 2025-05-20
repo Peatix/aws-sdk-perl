@@ -67,8 +67,8 @@ database.
 =head2 EngineNativeAuditFieldsIncluded => Bool
 
 Specifies whether the database activity stream includes engine-native
-audit fields. This option only applies to an Oracle DB instance. By
-default, no engine-native audit fields are included.
+audit fields. This option applies to an Oracle or Microsoft SQL Server
+DB instance. By default, no engine-native audit fields are included.
 
 
 
@@ -76,8 +76,8 @@ default, no engine-native audit fields are included.
 
 The Amazon Web Services KMS key identifier for encrypting messages in
 the database activity stream. The Amazon Web Services KMS key
-identifier is the key ARN, key ID, alias ARN, or alias name for the
-Amazon Web Services KMS customer master key (CMK).
+identifier is the key ARN, key ID, alias ARN, or alias name for the KMS
+key.
 
 
 

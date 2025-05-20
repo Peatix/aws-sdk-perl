@@ -3,9 +3,11 @@ package Paws::EC2::LocalGatewayRouteTable;
   has LocalGatewayId => (is => 'ro', isa => 'Str', request_name => 'localGatewayId', traits => ['NameInRequest']);
   has LocalGatewayRouteTableArn => (is => 'ro', isa => 'Str', request_name => 'localGatewayRouteTableArn', traits => ['NameInRequest']);
   has LocalGatewayRouteTableId => (is => 'ro', isa => 'Str', request_name => 'localGatewayRouteTableId', traits => ['NameInRequest']);
+  has Mode => (is => 'ro', isa => 'Str', request_name => 'mode', traits => ['NameInRequest']);
   has OutpostArn => (is => 'ro', isa => 'Str', request_name => 'outpostArn', traits => ['NameInRequest']);
   has OwnerId => (is => 'ro', isa => 'Str', request_name => 'ownerId', traits => ['NameInRequest']);
   has State => (is => 'ro', isa => 'Str', request_name => 'state', traits => ['NameInRequest']);
+  has StateReason => (is => 'ro', isa => 'Paws::EC2::StateReason', request_name => 'stateReason', traits => ['NameInRequest']);
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::EC2::Tag]', request_name => 'tagSet', traits => ['NameInRequest']);
 1;
 
@@ -57,6 +59,11 @@ The Amazon Resource Name (ARN) of the local gateway route table.
 The ID of the local gateway route table.
 
 
+=head2 Mode => Str
+
+The mode of the local gateway route table.
+
+
 =head2 OutpostArn => Str
 
 The Amazon Resource Name (ARN) of the Outpost.
@@ -64,12 +71,18 @@ The Amazon Resource Name (ARN) of the Outpost.
 
 =head2 OwnerId => Str
 
-The AWS account ID that owns the local gateway route table.
+The ID of the Amazon Web Services account that owns the local gateway
+route table.
 
 
 =head2 State => Str
 
 The state of the local gateway route table.
+
+
+=head2 StateReason => L<Paws::EC2::StateReason>
+
+Information about the state change.
 
 
 =head2 Tags => ArrayRef[L<Paws::EC2::Tag>]

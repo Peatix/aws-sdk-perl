@@ -36,6 +36,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     # Results:
     my $Arn           = $DescribeRobotApplicationResponse->Arn;
+    my $Environment   = $DescribeRobotApplicationResponse->Environment;
+    my $ImageDigest   = $DescribeRobotApplicationResponse->ImageDigest;
     my $LastUpdatedAt = $DescribeRobotApplicationResponse->LastUpdatedAt;
     my $Name          = $DescribeRobotApplicationResponse->Name;
     my $RevisionId    = $DescribeRobotApplicationResponse->RevisionId;

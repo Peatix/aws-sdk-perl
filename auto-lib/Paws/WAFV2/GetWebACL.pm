@@ -1,9 +1,10 @@
 
 package Paws::WAFV2::GetWebACL;
   use Moose;
-  has Id => (is => 'ro', isa => 'Str', required => 1);
-  has Name => (is => 'ro', isa => 'Str', required => 1);
-  has Scope => (is => 'ro', isa => 'Str', required => 1);
+  has ARN => (is => 'ro', isa => 'Str');
+  has Id => (is => 'ro', isa => 'Str');
+  has Name => (is => 'ro', isa => 'Str');
+  has Scope => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -30,13 +31,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $wafv2 = Paws->service('WAFV2');
     my $GetWebACLResponse = $wafv2->GetWebACL(
-      Id    => 'MyEntityId',
-      Name  => 'MyEntityName',
-      Scope => 'CLOUDFRONT',
-
+      ARN   => 'MyResourceArn',    # OPTIONAL
+      Id    => 'MyEntityId',       # OPTIONAL
+      Name  => 'MyEntityName',     # OPTIONAL
+      Scope => 'CLOUDFRONT',       # OPTIONAL
     );
 
     # Results:
+    my $ApplicationIntegrationURL =
+      $GetWebACLResponse->ApplicationIntegrationURL;
     my $LockToken = $GetWebACLResponse->LockToken;
     my $WebACL    = $GetWebACLResponse->WebACL;
 
@@ -48,7 +51,14 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/waf
 =head1 ATTRIBUTES
 
 
-=head2 B<REQUIRED> Id => Str
+=head2 ARN => Str
+
+The Amazon Resource Name (ARN) of the web ACL that you want to
+retrieve.
+
+
+
+=head2 Id => Str
 
 The unique identifier for the web ACL. This ID is returned in the
 responses to create and list commands. You provide it to operations
@@ -56,19 +66,17 @@ like update and delete.
 
 
 
-=head2 B<REQUIRED> Name => Str
+=head2 Name => Str
 
 The name of the web ACL. You cannot change the name of a web ACL after
 you create it.
 
 
 
-=head2 B<REQUIRED> Scope => Str
+=head2 Scope => Str
 
-Specifies whether this is for an Amazon CloudFront distribution or for
-a regional application. A regional application can be an Application
-Load Balancer (ALB), an Amazon API Gateway REST API, or an AppSync
-GraphQL API.
+Specifies whether this is for a global resource type, such as a Amazon
+CloudFront distribution. For an Amplify application, use C<CLOUDFRONT>.
 
 To work with CloudFront, you must also specify the Region US East (N.
 Virginia) as follows:

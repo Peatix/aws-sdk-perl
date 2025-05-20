@@ -36,7 +36,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Config::Res
 
 =head1 DESCRIPTION
 
-The details that identify a resource that is discovered by AWS Config,
+The details that identify a resource that is discovered by Config,
 including the resource type, ID, and (if available) the custom resource
 name.
 

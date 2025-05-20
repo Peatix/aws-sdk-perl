@@ -34,8 +34,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     );
 
     # Results:
-    my $ClientToken = $DescribeClassificationJobResponse->ClientToken;
-    my $CreatedAt   = $DescribeClassificationJobResponse->CreatedAt;
+    my $AllowListIds = $DescribeClassificationJobResponse->AllowListIds;
+    my $ClientToken  = $DescribeClassificationJobResponse->ClientToken;
+    my $CreatedAt    = $DescribeClassificationJobResponse->CreatedAt;
     my $CustomDataIdentifierIds =
       $DescribeClassificationJobResponse->CustomDataIdentifierIds;
     my $Description = $DescribeClassificationJobResponse->Description;
@@ -46,7 +47,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $JobType     = $DescribeClassificationJobResponse->JobType;
     my $LastRunErrorStatus =
       $DescribeClassificationJobResponse->LastRunErrorStatus;
-    my $LastRunTime     = $DescribeClassificationJobResponse->LastRunTime;
+    my $LastRunTime = $DescribeClassificationJobResponse->LastRunTime;
+    my $ManagedDataIdentifierIds =
+      $DescribeClassificationJobResponse->ManagedDataIdentifierIds;
+    my $ManagedDataIdentifierSelector =
+      $DescribeClassificationJobResponse->ManagedDataIdentifierSelector;
     my $Name            = $DescribeClassificationJobResponse->Name;
     my $S3JobDefinition = $DescribeClassificationJobResponse->S3JobDefinition;
     my $SamplingPercentage =

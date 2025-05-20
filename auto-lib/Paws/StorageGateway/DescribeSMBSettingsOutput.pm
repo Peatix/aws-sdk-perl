@@ -6,6 +6,7 @@ package Paws::StorageGateway::DescribeSMBSettingsOutput;
   has FileSharesVisible => (is => 'ro', isa => 'Bool');
   has GatewayARN => (is => 'ro', isa => 'Str');
   has SMBGuestPasswordSet => (is => 'ro', isa => 'Bool');
+  has SMBLocalGroups => (is => 'ro', isa => 'Paws::StorageGateway::SMBLocalGroups');
   has SMBSecurityStrategy => (is => 'ro', isa => 'Str');
 
   has _request_id => (is => 'ro', isa => 'Str');
@@ -23,6 +24,10 @@ Paws::StorageGateway::DescribeSMBSettingsOutput
 
 Indicates the status of a gateway that is a member of the Active
 Directory domain.
+
+This field is only used as part of a C<JoinDomain> request. It is not
+affected by Active Directory connectivity changes that occur after the
+C<JoinDomain> request succeeds.
 
 =over
 
@@ -61,7 +66,7 @@ to another type of error.
 =back
 
 
-Valid values are: C<"ACCESS_DENIED">, C<"DETACHED">, C<"JOINED">, C<"JOINING">, C<"NETWORK_ERROR">, C<"TIMEOUT">, C<"UNKNOWN_ERROR">
+Valid values are: C<"ACCESS_DENIED">, C<"DETACHED">, C<"JOINED">, C<"JOINING">, C<"NETWORK_ERROR">, C<"TIMEOUT">, C<"UNKNOWN_ERROR">, C<"INSUFFICIENT_PERMISSIONS">
 =head2 DomainName => Str
 
 The name of the domain that the gateway is joined to.
@@ -69,7 +74,8 @@ The name of the domain that the gateway is joined to.
 
 =head2 FileSharesVisible => Bool
 
-The shares on this gateway appear when listing shares.
+The shares on this gateway appear when listing shares. Only supported
+for S3 File Gateways.
 
 
 =head2 GatewayARN => Str
@@ -80,9 +86,15 @@ The shares on this gateway appear when listing shares.
 =head2 SMBGuestPasswordSet => Bool
 
 This value is C<true> if a password for the guest user C<smbguest> is
-set, otherwise C<false>.
+set, otherwise C<false>. Only supported for S3 File Gateways.
 
 Valid Values: C<true> | C<false>
+
+
+=head2 SMBLocalGroups => L<Paws::StorageGateway::SMBLocalGroups>
+
+A list of Active Directory users and groups that have special
+permissions for SMB file shares on the gateway.
 
 
 =head2 SMBSecurityStrategy => Str
@@ -93,30 +105,38 @@ The type of security strategy that was specified for file gateway.
 
 =item *
 
-C<ClientSpecified>: If you use this option, requests are established
+C<ClientSpecified>: If you choose this option, requests are established
 based on what is negotiated by the client. This option is recommended
 when you want to maximize compatibility across different clients in
-your environment.
+your environment. Supported only for S3 File Gateway.
 
 =item *
 
-C<MandatorySigning>: If you use this option, file gateway only allows
-connections from SMBv2 or SMBv3 clients that have signing enabled. This
-option works with SMB clients on Microsoft Windows Vista, Windows
-Server 2008 or newer.
+C<MandatorySigning>: If you choose this option, File Gateway only
+allows connections from SMBv2 or SMBv3 clients that have signing turned
+on. This option works with SMB clients on Microsoft Windows Vista,
+Windows Server 2008, or later.
 
 =item *
 
-C<MandatoryEncryption>: If you use this option, file gateway only
-allows connections from SMBv3 clients that have encryption enabled.
-This option is highly recommended for environments that handle
-sensitive data. This option works with SMB clients on Microsoft Windows
-8, Windows Server 2012 or newer.
+C<MandatoryEncryption>: If you choose this option, File Gateway only
+allows connections from SMBv3 clients that have encryption turned on.
+Both 256-bit and 128-bit algorithms are allowed. This option is
+recommended for environments that handle sensitive data. It works with
+SMB clients on Microsoft Windows 8, Windows Server 2012, or later.
+
+=item *
+
+C<MandatoryEncryptionNoAes128>: If you choose this option, File Gateway
+only allows connections from SMBv3 clients that use 256-bit AES
+encryption algorithms. 128-bit algorithms are not allowed. This option
+is recommended for environments that handle sensitive data. It works
+with SMB clients on Microsoft Windows 8, Windows Server 2012, or later.
 
 =back
 
 
-Valid values are: C<"ClientSpecified">, C<"MandatorySigning">, C<"MandatoryEncryption">
+Valid values are: C<"ClientSpecified">, C<"MandatorySigning">, C<"MandatoryEncryption">, C<"MandatoryEncryptionNoAes128">
 =head2 _request_id => Str
 
 

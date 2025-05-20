@@ -127,7 +127,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/iot
 A list of C<PipelineActivity> objects. Activities perform
 transformations on your messages, such as removing, renaming or adding
 message attributes; filtering messages based on attribute values;
-invoking your Lambda functions on messages for advanced processing; or
+invoking your Lambda unctions on messages for advanced processing; or
 performing mathematical transformations to normalize device data.
 
 The list can be 2-25 C<PipelineActivity> objects and must contain both

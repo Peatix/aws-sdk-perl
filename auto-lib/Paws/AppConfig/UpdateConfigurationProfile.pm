@@ -4,6 +4,7 @@ package Paws::AppConfig::UpdateConfigurationProfile;
   has ApplicationId => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'ApplicationId', required => 1);
   has ConfigurationProfileId => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'ConfigurationProfileId', required => 1);
   has Description => (is => 'ro', isa => 'Str');
+  has KmsKeyIdentifier => (is => 'ro', isa => 'Str');
   has Name => (is => 'ro', isa => 'Str');
   has RetrievalRoleArn => (is => 'ro', isa => 'Str');
   has Validators => (is => 'ro', isa => 'ArrayRef[Paws::AppConfig::Validator]');
@@ -33,20 +34,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $appconfig = Paws->service('AppConfig');
+ # To update a configuration profile
+ # The following update-configuration-profile example updates the description of
+ # the specified configuration profile.
     my $ConfigurationProfile = $appconfig->UpdateConfigurationProfile(
-      ApplicationId          => 'MyId',
-      ConfigurationProfileId => 'MyId',
-      Description            => 'MyDescription',    # OPTIONAL
-      Name                   => 'MyName',           # OPTIONAL
-      RetrievalRoleArn       => 'MyRoleArn',        # OPTIONAL
-      Validators             => [
-        {
-          Content => 'MyStringWithLengthBetween0And32768',    # max: 32768
-          Type    => 'JSON_SCHEMA',    # values: JSON_SCHEMA, LAMBDA
-
-        },
-        ...
-      ],    # OPTIONAL
+      'ApplicationId'          => '339ohji',
+      'ConfigurationProfileId' => 'ur8hx2f',
+      'Description'            => 'Configuration profile used for examples.'
     );
 
     # Results:
@@ -56,7 +50,6 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $LocationUri      = $ConfigurationProfile->LocationUri;
     my $Name             = $ConfigurationProfile->Name;
     my $RetrievalRoleArn = $ConfigurationProfile->RetrievalRoleArn;
-    my $Validators       = $ConfigurationProfile->Validators;
 
     # Returns a L<Paws::AppConfig::ConfigurationProfile> object.
 
@@ -84,6 +77,18 @@ A description of the configuration profile.
 
 
 
+=head2 KmsKeyIdentifier => Str
+
+The identifier for a Key Management Service key to encrypt new
+configuration data versions in the AppConfig hosted configuration
+store. This attribute is only used for C<hosted> configuration types.
+The identifier can be an KMS key ID, alias, or the Amazon Resource Name
+(ARN) of the key ID or alias. To encrypt data managed in other
+configuration stores, see the documentation for how to specify an KMS
+key for that particular service.
+
+
+
 =head2 Name => Str
 
 The name of the configuration profile.
@@ -93,7 +98,11 @@ The name of the configuration profile.
 =head2 RetrievalRoleArn => Str
 
 The ARN of an IAM role with permission to access the configuration at
-the specified LocationUri.
+the specified C<LocationUri>.
+
+A retrieval role ARN is not required for configurations stored in
+CodePipeline or the AppConfig hosted configuration store. It is
+required for all other sources that store your configuration.
 
 
 

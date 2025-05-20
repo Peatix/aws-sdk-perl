@@ -35,13 +35,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $networkmanager = Paws->service('NetworkManager');
     my $GetLinksResponse = $networkmanager->GetLinks(
-      GlobalNetworkId => 'MyString',
-      LinkIds         => [ 'MyString', ... ],    # OPTIONAL
-      MaxResults      => 1,                      # OPTIONAL
-      NextToken       => 'MyString',             # OPTIONAL
-      Provider        => 'MyString',             # OPTIONAL
-      SiteId          => 'MyString',             # OPTIONAL
-      Type            => 'MyString',             # OPTIONAL
+      GlobalNetworkId => 'MyGlobalNetworkId',
+      LinkIds         => [
+        'MyLinkId', ...    # max: 50
+      ],    # OPTIONAL
+      MaxResults => 1,                        # OPTIONAL
+      NextToken  => 'MyNextToken',            # OPTIONAL
+      Provider   => 'MyConstrainedString',    # OPTIONAL
+      SiteId     => 'MySiteId',               # OPTIONAL
+      Type       => 'MyConstrainedString',    # OPTIONAL
     );
 
     # Results:

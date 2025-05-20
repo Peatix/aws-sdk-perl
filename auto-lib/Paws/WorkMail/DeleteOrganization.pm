@@ -3,6 +3,8 @@ package Paws::WorkMail::DeleteOrganization;
   use Moose;
   has ClientToken => (is => 'ro', isa => 'Str');
   has DeleteDirectory => (is => 'ro', isa => 'Bool', required => 1);
+  has DeleteIdentityCenterApplication => (is => 'ro', isa => 'Bool');
+  has ForceDelete => (is => 'ro', isa => 'Bool');
   has OrganizationId => (is => 'ro', isa => 'Str', required => 1);
 
   use MooseX::ClassAttribute;
@@ -30,9 +32,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $workmail = Paws->service('WorkMail');
     my $DeleteOrganizationResponse = $workmail->DeleteOrganization(
-      DeleteDirectory => 1,
-      OrganizationId  => 'MyOrganizationId',
-      ClientToken     => 'MyIdempotencyClientToken',    # OPTIONAL
+      DeleteDirectory                 => 1,
+      OrganizationId                  => 'MyOrganizationId',
+      ClientToken                     => 'MyIdempotencyClientToken',  # OPTIONAL
+      DeleteIdentityCenterApplication => 1,                           # OPTIONAL
+      ForceDelete                     => 1,                           # OPTIONAL
     );
 
     # Results:
@@ -57,6 +61,20 @@ The idempotency token associated with the request.
 
 If true, deletes the AWS Directory Service directory associated with
 the organization.
+
+
+
+=head2 DeleteIdentityCenterApplication => Bool
+
+Deletes IAM Identity Center application for WorkMail. This action does
+not affect authentication settings for any organization.
+
+
+
+=head2 ForceDelete => Bool
+
+Deletes a WorkMail organization even if the organization has enabled
+users.
 
 
 

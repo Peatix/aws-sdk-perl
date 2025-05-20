@@ -1,7 +1,10 @@
 
 package Paws::Rekognition::CreateProject;
   use Moose;
+  has AutoUpdate => (is => 'ro', isa => 'Str');
+  has Feature => (is => 'ro', isa => 'Str');
   has ProjectName => (is => 'ro', isa => 'Str', required => 1);
+  has Tags => (is => 'ro', isa => 'Paws::Rekognition::TagMap');
 
   use MooseX::ClassAttribute;
 
@@ -29,7 +32,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $rekognition = Paws->service('Rekognition');
     my $CreateProjectResponse = $rekognition->CreateProject(
       ProjectName => 'MyProjectName',
-
+      AutoUpdate  => 'ENABLED',               # OPTIONAL
+      Feature     => 'CONTENT_MODERATION',    # OPTIONAL
+      Tags        => {
+        'MyTagKey' => 'MyTagValue',    # key: min: 1, max: 128, value: max: 256
+      },    # OPTIONAL
     );
 
     # Results:
@@ -43,9 +50,30 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/rek
 =head1 ATTRIBUTES
 
 
+=head2 AutoUpdate => Str
+
+Specifies whether automatic retraining should be attempted for the
+versions of the project. Automatic retraining is done as a best effort.
+Required argument for Content Moderation. Applicable only to adapters.
+
+Valid values are: C<"ENABLED">, C<"DISABLED">
+
+=head2 Feature => Str
+
+Specifies feature that is being customized. If no value is provided
+CUSTOM_LABELS is used as a default.
+
+Valid values are: C<"CONTENT_MODERATION">, C<"CUSTOM_LABELS">
+
 =head2 B<REQUIRED> ProjectName => Str
 
 The name of the project to create.
+
+
+
+=head2 Tags => L<Paws::Rekognition::TagMap>
+
+A set of tags (key-value pairs) that you want to attach to the project.
 
 
 

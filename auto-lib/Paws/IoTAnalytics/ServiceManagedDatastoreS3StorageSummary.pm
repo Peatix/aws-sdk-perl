@@ -32,7 +32,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::IoTAnalytic
 
 =head1 DESCRIPTION
 
-Used to store data store data in an S3 bucket managed by AWS IoT
+Contains information about the data store that is managed by IoT
 Analytics.
 
 =head1 ATTRIBUTES

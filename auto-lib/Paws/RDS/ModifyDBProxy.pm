@@ -38,11 +38,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       DBProxyName => 'MyString',
       Auth        => [
         {
-          AuthScheme  => 'SECRETS',     # values: SECRETS; OPTIONAL
+          AuthScheme             => 'SECRETS',    # values: SECRETS; OPTIONAL
+          ClientPasswordAuthType => 'MYSQL_NATIVE_PASSWORD'
+          , # values: MYSQL_NATIVE_PASSWORD, MYSQL_CACHING_SHA2_PASSWORD, POSTGRES_SCRAM_SHA_256, POSTGRES_MD5, SQL_SERVER_AUTHENTICATION; OPTIONAL
           Description => 'MyString',
-          IAMAuth     => 'DISABLED',    # values: DISABLED, REQUIRED; OPTIONAL
-          SecretArn   => 'MyString',
-          UserName    => 'MyString',
+          IAMAuth => 'DISABLED', # values: DISABLED, REQUIRED, ENABLED; OPTIONAL
+          SecretArn => 'MyString',
+          UserName  => 'MyString',
         },
         ...
       ],    # OPTIONAL

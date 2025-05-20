@@ -52,6 +52,8 @@ ManagedInstance: mi-012345abcde
 
 MaintenanceWindow: mw-012345abcde
 
+C<Automation>: C<example-c160-4567-8519-012345abcde>
+
 PatchBaseline: pb-012345abcde
 
 OpsMetadata object: C<ResourceID> for tagging is created from the
@@ -64,8 +66,8 @@ C</aws/ssm/MyGroup/appmanager>.
 
 For the Document and Parameter values, use the name of the resource.
 
-The ManagedInstance type for this API action is only for on-premises
-managed instances. Specify the name of the managed instance in the
+The C<ManagedInstance> type for this API operation is only for
+on-premises managed nodes. Specify the name of the managed node in the
 following format: mi-ID_number. For example, mi-1a2b3c4d5e6f.
 
 
@@ -74,11 +76,11 @@ following format: mi-ID_number. For example, mi-1a2b3c4d5e6f.
 
 The type of resource from which you want to remove a tag.
 
-The ManagedInstance type for this API action is only for on-premises
-managed instances. Specify the name of the managed instance in the
-following format: mi-ID_number. For example, mi-1a2b3c4d5e6f.
+The C<ManagedInstance> type for this API operation is only for
+on-premises managed nodes. Specify the name of the managed node in the
+following format: C<mi-I<ID_number> >. For example, C<mi-1a2b3c4d5e6f>.
 
-Valid values are: C<"Document">, C<"ManagedInstance">, C<"MaintenanceWindow">, C<"Parameter">, C<"PatchBaseline">, C<"OpsItem">, C<"OpsMetadata">
+Valid values are: C<"Document">, C<"ManagedInstance">, C<"MaintenanceWindow">, C<"Parameter">, C<"PatchBaseline">, C<"OpsItem">, C<"OpsMetadata">, C<"Automation">, C<"Association">
 
 =head2 B<REQUIRED> TagKeys => ArrayRef[Str|Undef]
 

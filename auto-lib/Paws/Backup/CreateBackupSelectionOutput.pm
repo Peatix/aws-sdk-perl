@@ -19,7 +19,7 @@ Paws::Backup::CreateBackupSelectionOutput
 
 =head2 BackupPlanId => Str
 
-Uniquely identifies a backup plan.
+The ID of the backup plan.
 
 
 =head2 CreationDate => Str

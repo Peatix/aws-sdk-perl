@@ -72,14 +72,14 @@ The unique string (ID) used to identify a hosted zone.
 
 =head2 B<REQUIRED> KeyManagementServiceArn => Str
 
-The Amazon resource name (ARN) for a customer managed customer master
-key (CMK) in AWS Key Management Service (AWS KMS). The
-C<KeyManagementServiceArn> must be unique for each key-signing key
-(KSK) in a single hosted zone. To see an example of
-C<KeyManagementServiceArn> that grants the correct permissions for
-DNSSEC, scroll down to B<Example>.
+The Amazon resource name (ARN) for a customer managed key in Key
+Management Service (KMS). The C<KeyManagementServiceArn> must be unique
+for each key-signing key (KSK) in a single hosted zone. To see an
+example of C<KeyManagementServiceArn> that grants the correct
+permissions for DNSSEC, scroll down to B<Example>.
 
-You must configure the customer managed CMK as follows:
+You must configure the customer managed customer managed key as
+follows:
 
 =over
 
@@ -122,14 +122,14 @@ principal for your account. Specify the following:
 
 =item *
 
-C<"Service": "dnssec.route53.aws.amazonaws.com">
+C<"Service": "dnssec-route53.amazonaws.com">
 
 =back
 
 =back
 
-For more information about working with a customer managed CMK in AWS
-KMS, see AWS Key Management Service concepts
+For more information about working with a customer managed key in KMS,
+see Key Management Service concepts
 (https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html).
 
 

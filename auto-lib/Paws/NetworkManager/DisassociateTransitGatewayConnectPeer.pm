@@ -31,8 +31,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $networkmanager = Paws->service('NetworkManager');
     my $DisassociateTransitGatewayConnectPeerResponse =
       $networkmanager->DisassociateTransitGatewayConnectPeer(
-      GlobalNetworkId              => 'MyString',
-      TransitGatewayConnectPeerArn => 'MyString',
+      GlobalNetworkId              => 'MyGlobalNetworkId',
+      TransitGatewayConnectPeerArn => 'MyTransitGatewayConnectPeerArn',
 
       );
 

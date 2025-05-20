@@ -68,8 +68,8 @@ The date and time that the event ended.
 
 =head2 EventScopeCode => Str
 
-This parameter specifies if the AWS Health event is a public AWS
-service event or an account-specific event.
+This parameter specifies if the Health event is a public Amazon Web
+Services service event or an account-specific event.
 
 =over
 
@@ -81,10 +81,11 @@ C<affectedAccounts> value is always empty.
 =item *
 
 If the C<eventScopeCode> value is C<ACCOUNT_SPECIFIC>, then the
-C<affectedAccounts> value lists the affected AWS accounts in your
-organization. For example, if an event affects a service such as Amazon
-Elastic Compute Cloud and you have AWS accounts that use that service,
-those account IDs appear in the response.
+C<affectedAccounts> value lists the affected Amazon Web Services
+accounts in your organization. For example, if an event affects a
+service such as Amazon Elastic Compute Cloud and you have Amazon Web
+Services accounts that use that service, those account IDs appear in
+the response.
 
 =item *
 
@@ -97,7 +98,9 @@ you specified in the request is invalid or doesn't exist.
 
 =head2 EventTypeCategory => Str
 
-The category of the event type.
+A list of event type category codes. Possible values are C<issue>,
+C<accountNotification>, or C<scheduledChange>. Currently, the
+C<investigation> value isn't supported at this time.
 
 
 =head2 EventTypeCode => Str
@@ -114,12 +117,13 @@ The most recent date and time that the event was updated.
 
 =head2 Region => Str
 
-The AWS Region name of the event.
+The Amazon Web Services Region name of the event.
 
 
 =head2 Service => Str
 
-The AWS service that is affected by the event, such as EC2 and RDS.
+The Amazon Web Services service that is affected by the event, such as
+EC2 and RDS.
 
 
 =head2 StartTime => Str

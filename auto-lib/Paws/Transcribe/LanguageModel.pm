@@ -41,59 +41,130 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Transcribe:
 
 =head1 DESCRIPTION
 
-The structure used to describe a custom language model.
+Provides information about a custom language model, including:
+
+=over
+
+=item *
+
+The base model name
+
+=item *
+
+When the model was created
+
+=item *
+
+The location of the files used to train the model
+
+=item *
+
+When the model was last modified
+
+=item *
+
+The name you chose for the model
+
+=item *
+
+The model's language
+
+=item *
+
+The model's processing state
+
+=item *
+
+Any available upgrades for the base model
+
+=back
+
 
 =head1 ATTRIBUTES
 
 
 =head2 BaseModelName => Str
 
-The Amazon Transcribe standard language model, or base model used to
-create the custom language model.
+The Amazon Transcribe standard language model, or base model, used to
+create your custom language model.
 
 
 =head2 CreateTime => Str
 
-The time the custom language model was created.
+The date and time the specified custom language model was created.
+
+Timestamps are in the format C<YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC>. For
+example, C<2022-05-04T12:32:58.761000-07:00> represents 12:32 PM UTC-7
+on May 4, 2022.
 
 
 =head2 FailureReason => Str
 
-The reason why the custom language model couldn't be created.
+If C<ModelStatus> is C<FAILED>, C<FailureReason> contains information
+about why the custom language model request failed. See also: Common
+Errors
+(https://docs.aws.amazon.com/transcribe/latest/APIReference/CommonErrors.html).
 
 
 =head2 InputDataConfig => L<Paws::Transcribe::InputDataConfig>
 
-The data access role and Amazon S3 prefixes for the input files used to
-train the custom language model.
+The Amazon S3 location of the input files used to train and tune your
+custom language model, in addition to the data access role ARN (Amazon
+Resource Name) that has permissions to access these data.
 
 
 =head2 LanguageCode => Str
 
-The language code you used to create your custom language model.
+The language code used to create your custom language model. Each
+custom language model must contain terms in only one language, and the
+language you select for your custom language model must match the
+language of your training and tuning data.
+
+For a list of supported languages and their associated language codes,
+refer to the Supported languages
+(https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html)
+table. Note that US English (C<en-US>) is the only language supported
+with Amazon Transcribe Medical.
 
 
 =head2 LastModifiedTime => Str
 
-The most recent time the custom language model was modified.
+The date and time the specified custom language model was last
+modified.
+
+Timestamps are in the format C<YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC>. For
+example, C<2022-05-04T12:32:58.761000-07:00> represents 12:32 PM UTC-7
+on May 4, 2022.
 
 
 =head2 ModelName => Str
 
-The name of the custom language model.
+A unique name, chosen by you, for your custom language model.
+
+This name is case sensitive, cannot contain spaces, and must be unique
+within an Amazon Web Services account.
 
 
 =head2 ModelStatus => Str
 
-The creation status of a custom language model. When the status is
-C<COMPLETED> the model is ready for use.
+The status of the specified custom language model. When the status
+displays as C<COMPLETED> the model is ready for use.
 
 
 =head2 UpgradeAvailability => Bool
 
-Whether the base model used for the custom language model is up to
-date. If this field is C<true> then you are running the most up-to-date
-version of the base model in your custom language model.
+Shows if a more current base model is available for use with the
+specified custom language model.
+
+If C<false>, your custom language model is using the most up-to-date
+base model.
+
+If C<true>, there is a newer base model available than the one your
+language model is using.
+
+Note that to update a base model, you must recreate the custom language
+model using the new base model. Base model upgrades for existing custom
+language models are not supported.
 
 
 

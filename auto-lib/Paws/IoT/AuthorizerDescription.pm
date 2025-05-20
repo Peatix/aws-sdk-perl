@@ -5,6 +5,7 @@ package Paws::IoT::AuthorizerDescription;
   has AuthorizerFunctionArn => (is => 'ro', isa => 'Str', request_name => 'authorizerFunctionArn', traits => ['NameInRequest']);
   has AuthorizerName => (is => 'ro', isa => 'Str', request_name => 'authorizerName', traits => ['NameInRequest']);
   has CreationDate => (is => 'ro', isa => 'Str', request_name => 'creationDate', traits => ['NameInRequest']);
+  has EnableCachingForHttp => (is => 'ro', isa => 'Bool', request_name => 'enableCachingForHttp', traits => ['NameInRequest']);
   has LastModifiedDate => (is => 'ro', isa => 'Str', request_name => 'lastModifiedDate', traits => ['NameInRequest']);
   has SigningDisabled => (is => 'ro', isa => 'Bool', request_name => 'signingDisabled', traits => ['NameInRequest']);
   has Status => (is => 'ro', isa => 'Str', request_name => 'status', traits => ['NameInRequest']);
@@ -66,6 +67,13 @@ The authorizer name.
 The UNIX timestamp of when the authorizer was created.
 
 
+=head2 EnableCachingForHttp => Bool
+
+When C<true>, the result from the authorizerE<rsquo>s Lambda function
+is cached for the time specified in C<refreshAfterInSeconds>. The
+cached result is used while the device reuses the same HTTP connection.
+
+
 =head2 LastModifiedDate => Str
 
 The UNIX timestamp of when the authorizer was last updated.
@@ -73,8 +81,8 @@ The UNIX timestamp of when the authorizer was last updated.
 
 =head2 SigningDisabled => Bool
 
-Specifies whether AWS IoT validates the token signature in an
-authorization request.
+Specifies whether IoT validates the token signature in an authorization
+request.
 
 
 =head2 Status => Str

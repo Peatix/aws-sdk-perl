@@ -2,12 +2,20 @@
 package Paws::SageMaker::ProductionVariant;
   use Moose;
   has AcceleratorType => (is => 'ro', isa => 'Str');
+  has ContainerStartupHealthCheckTimeoutInSeconds => (is => 'ro', isa => 'Int');
   has CoreDumpConfig => (is => 'ro', isa => 'Paws::SageMaker::ProductionVariantCoreDumpConfig');
-  has InitialInstanceCount => (is => 'ro', isa => 'Int', required => 1);
+  has EnableSSMAccess => (is => 'ro', isa => 'Bool');
+  has InferenceAmiVersion => (is => 'ro', isa => 'Str');
+  has InitialInstanceCount => (is => 'ro', isa => 'Int');
   has InitialVariantWeight => (is => 'ro', isa => 'Num');
-  has InstanceType => (is => 'ro', isa => 'Str', required => 1);
-  has ModelName => (is => 'ro', isa => 'Str', required => 1);
+  has InstanceType => (is => 'ro', isa => 'Str');
+  has ManagedInstanceScaling => (is => 'ro', isa => 'Paws::SageMaker::ProductionVariantManagedInstanceScaling');
+  has ModelDataDownloadTimeoutInSeconds => (is => 'ro', isa => 'Int');
+  has ModelName => (is => 'ro', isa => 'Str');
+  has RoutingConfig => (is => 'ro', isa => 'Paws::SageMaker::ProductionVariantRoutingConfig');
+  has ServerlessConfig => (is => 'ro', isa => 'Paws::SageMaker::ProductionVariantServerlessConfig');
   has VariantName => (is => 'ro', isa => 'Str', required => 1);
+  has VolumeSizeInGB => (is => 'ro', isa => 'Int');
 
 1;
 
@@ -28,7 +36,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::SageMaker::ProductionVariant object:
 
-  $service_obj->Method(Att1 => { AcceleratorType => $value, ..., VariantName => $value  });
+  $service_obj->Method(Att1 => { AcceleratorType => $value, ..., VolumeSizeInGB => $value  });
 
 =head3 Results returned from an API call
 
@@ -41,18 +49,30 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SageMaker::
 
 Identifies a model that you want to host and the resources chosen to
 deploy for hosting it. If you are deploying multiple models, tell
-Amazon SageMaker how to distribute traffic among the models by
-specifying variant weights.
+SageMaker how to distribute traffic among the models by specifying
+variant weights. For more information on production variants, check
+Production variants
+(https://docs.aws.amazon.com/sagemaker/latest/dg/model-ab-testing.html).
 
 =head1 ATTRIBUTES
 
 
 =head2 AcceleratorType => Str
 
-The size of the Elastic Inference (EI) instance to use for the
-production variant. EI instances provide on-demand GPU computing for
-inference. For more information, see Using Elastic Inference in Amazon
-SageMaker (https://docs.aws.amazon.com/sagemaker/latest/dg/ei.html).
+This parameter is no longer supported. Elastic Inference (EI) is no
+longer available.
+
+This parameter was used to specify the size of the EI instance to use
+for the production variant.
+
+
+=head2 ContainerStartupHealthCheckTimeoutInSeconds => Int
+
+The timeout value, in seconds, for your inference container to pass
+health check by SageMaker Hosting. For more information about health
+check, see How Your Container Should Respond to Health Check (Ping)
+Requests
+(https://docs.aws.amazon.com/sagemaker/latest/dg/your-algorithms-inference-code.html#your-algorithms-inference-algo-ping-requests).
 
 
 =head2 CoreDumpConfig => L<Paws::SageMaker::ProductionVariantCoreDumpConfig>
@@ -61,7 +81,114 @@ Specifies configuration for a core dump from the model container when
 the process crashes.
 
 
-=head2 B<REQUIRED> InitialInstanceCount => Int
+=head2 EnableSSMAccess => Bool
+
+You can use this parameter to turn on native Amazon Web Services
+Systems Manager (SSM) access for a production variant behind an
+endpoint. By default, SSM access is disabled for all production
+variants behind an endpoint. You can turn on or turn off SSM access for
+a production variant behind an existing endpoint by creating a new
+endpoint configuration and calling C<UpdateEndpoint>.
+
+
+=head2 InferenceAmiVersion => Str
+
+Specifies an option from a collection of preconfigured Amazon Machine
+Image (AMI) images. Each image is configured by Amazon Web Services
+with a set of software and driver versions. Amazon Web Services
+optimizes these configurations for different machine learning
+workloads.
+
+By selecting an AMI version, you can ensure that your inference
+environment is compatible with specific software requirements, such as
+CUDA driver versions, Linux kernel versions, or Amazon Web Services
+Neuron driver versions.
+
+The AMI version names, and their configurations, are the following:
+
+=over
+
+=item al2-ami-sagemaker-inference-gpu-2
+
+=over
+
+=item *
+
+Accelerator: GPU
+
+=item *
+
+NVIDIA driver version: 535
+
+=item *
+
+CUDA version: 12.2
+
+=back
+
+=item al2-ami-sagemaker-inference-gpu-2-1
+
+=over
+
+=item *
+
+Accelerator: GPU
+
+=item *
+
+NVIDIA driver version: 535
+
+=item *
+
+CUDA version: 12.2
+
+=item *
+
+NVIDIA Container Toolkit with disabled CUDA-compat mounting
+
+=back
+
+=item al2-ami-sagemaker-inference-gpu-3-1
+
+=over
+
+=item *
+
+Accelerator: GPU
+
+=item *
+
+NVIDIA driver version: 550
+
+=item *
+
+CUDA version: 12.4
+
+=item *
+
+NVIDIA Container Toolkit with disabled CUDA-compat mounting
+
+=back
+
+=item al2-ami-sagemaker-inference-neuron-2
+
+=over
+
+=item *
+
+Accelerator: Inferentia2 and Trainium
+
+=item *
+
+Neuron driver version: 2.19
+
+=back
+
+=back
+
+
+
+=head2 InitialInstanceCount => Int
 
 Number of instances to launch initially.
 
@@ -75,20 +202,53 @@ of all C<VariantWeight> values across all ProductionVariants. If
 unspecified, it defaults to 1.0.
 
 
-=head2 B<REQUIRED> InstanceType => Str
+=head2 InstanceType => Str
 
 The ML compute instance type.
 
 
-=head2 B<REQUIRED> ModelName => Str
+=head2 ManagedInstanceScaling => L<Paws::SageMaker::ProductionVariantManagedInstanceScaling>
+
+Settings that control the range in the number of instances that the
+endpoint provisions as it scales up or down to accommodate traffic.
+
+
+=head2 ModelDataDownloadTimeoutInSeconds => Int
+
+The timeout value, in seconds, to download and extract the model that
+you want to host from Amazon S3 to the individual inference instance
+associated with this production variant.
+
+
+=head2 ModelName => Str
 
 The name of the model that you want to host. This is the name that you
 specified when creating the model.
 
 
+=head2 RoutingConfig => L<Paws::SageMaker::ProductionVariantRoutingConfig>
+
+Settings that control how the endpoint routes incoming traffic to the
+instances that the endpoint hosts.
+
+
+=head2 ServerlessConfig => L<Paws::SageMaker::ProductionVariantServerlessConfig>
+
+The serverless configuration for an endpoint. Specifies a serverless
+endpoint configuration instead of an instance-based endpoint
+configuration.
+
+
 =head2 B<REQUIRED> VariantName => Str
 
 The name of the production variant.
+
+
+=head2 VolumeSizeInGB => Int
+
+The size, in GB, of the ML storage volume attached to individual
+inference instance associated with the production variant. Currently
+only Amazon EBS gp2 storage volumes are supported.
 
 
 

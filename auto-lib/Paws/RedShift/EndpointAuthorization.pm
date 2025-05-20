@@ -57,12 +57,12 @@ authorization.
 
 =head2 Grantee => Str
 
-The AWS account ID of the grantee of the cluster.
+The Amazon Web Services account ID of the grantee of the cluster.
 
 
 =head2 Grantor => Str
 
-The AWS account ID of the cluster owner.
+The Amazon Web Services account ID of the cluster owner.
 
 
 =head2 Status => Str

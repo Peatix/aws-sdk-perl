@@ -37,19 +37,21 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AppSync::Rd
 
 =head1 DESCRIPTION
 
-The Amazon RDS HTTP endpoint configuration.
+The Amazon Relational Database Service (Amazon RDS) HTTP endpoint
+configuration.
 
 =head1 ATTRIBUTES
 
 
 =head2 AwsRegion => Str
 
-AWS Region for RDS HTTP endpoint.
+Amazon Web Services Region for Amazon RDS HTTP endpoint.
 
 
 =head2 AwsSecretStoreArn => Str
 
-AWS secret store ARN for database credentials.
+Amazon Web Services secret store Amazon Resource Name (ARN) for
+database credentials.
 
 
 =head2 DatabaseName => Str
@@ -59,7 +61,7 @@ Logical database name.
 
 =head2 DbClusterIdentifier => Str
 
-Amazon RDS cluster ARN.
+Amazon RDS cluster Amazon Resource Name (ARN).
 
 
 =head2 Schema => Str

@@ -37,7 +37,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SageMaker::
 The value of a hyperparameter. Only one of C<NumberValue> or
 C<StringValue> can be specified.
 
-This object is specified in the CreateTrialComponent request.
+This object is specified in the CreateTrialComponent
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrialComponent.html)
+request.
 
 =head1 ATTRIBUTES
 

@@ -72,7 +72,8 @@ The failure behavior the simulation job.
 
 =item Continue
 
-Restart the simulation job in the same host instance.
+Leaves the host running for its maximum timeout duration after a C<4XX>
+error code.
 
 =item Fail
 

@@ -65,7 +65,7 @@ specified.
 
 For more information, see Flow Logs
 (https://docs.aws.amazon.com/global-accelerator/latest/dg/monitoring-global-accelerator.flow-logs.html)
-in the I<AWS Global Accelerator Developer Guide>.
+in the I<Global Accelerator Developer Guide>.
 
 
 
@@ -73,8 +73,8 @@ in the I<AWS Global Accelerator Developer Guide>.
 
 The name of the Amazon S3 bucket for the flow logs. Attribute is
 required if C<FlowLogsEnabled> is C<true>. The bucket must exist and
-have a bucket policy that grants AWS Global Accelerator permission to
-write to the bucket.
+have a bucket policy that grants Global Accelerator permission to write
+to the bucket.
 
 
 
@@ -83,10 +83,8 @@ write to the bucket.
 Update the prefix for the location in the Amazon S3 bucket for the flow
 logs. Attribute is required if C<FlowLogsEnabled> is C<true>.
 
-If you donE<rsquo>t specify a prefix, the flow logs are stored in the
-root of the bucket. If you specify slash (/) for the S3 bucket prefix,
-the log file bucket folder structure will include a double slash (//),
-like the following:
+If you specify slash (/) for the S3 bucket prefix, the log file bucket
+folder structure will include a double slash (//), like the following:
 
 s3-bucket_name//AWSLogs/aws_account_id
 

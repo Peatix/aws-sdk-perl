@@ -38,31 +38,32 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       DetectorId => 'Mystring',
       Entities   => [
         {
-          EntityId   => 'Myidentifier',    # min: 1, max: 64
+          EntityId   => 'MyentityRestrictedString',    # min: 1, max: 256
           EntityType => 'Mystring',
 
         },
         ...
       ],
       EventId        => 'Mystring',
-      EventTimestamp => 'Mystring',
+      EventTimestamp => 'MyutcTimestampISO8601',
       EventTypeName  => 'Mystring',
       EventVariables => {
         'MyvariableName' =>
-          'MyvariableValue',    # key: min: 1, max: 64, value: min: 1, max: 1024
+          'MyvariableValue',    # key: min: 1, max: 64, value: min: 1, max: 8192
       },
       DetectorVersionId              => 'MywholeNumberVersionString', # OPTIONAL
       ExternalModelEndpointDataBlobs => {
-        'Mystring' => {
+        'MysageMakerEndpointIdentifier' => {
           ByteBuffer  => 'Blobblob',         # OPTIONAL
           ContentType => 'MycontentType',    # min: 1, max: 1024; OPTIONAL
-        },
+        },    # key: min: 1, max: 63
       },    # OPTIONAL
     );
 
     # Results:
-    my $ModelScores = $GetEventPredictionResult->ModelScores;
-    my $RuleResults = $GetEventPredictionResult->RuleResults;
+    my $ExternalModelOutputs = $GetEventPredictionResult->ExternalModelOutputs;
+    my $ModelScores          = $GetEventPredictionResult->ModelScores;
+    my $RuleResults          = $GetEventPredictionResult->RuleResults;
 
     # Returns a L<Paws::FraudDetector::GetEventPredictionResult> object.
 
@@ -100,7 +101,8 @@ The unique ID used to identify the event.
 
 =head2 B<REQUIRED> EventTimestamp => Str
 
-Timestamp that defines when the event under evaluation occurred.
+Timestamp that defines when the event under evaluation occurred. The
+timestamp must be specified using ISO 8601 standard in UTC.
 
 
 
@@ -116,6 +118,27 @@ prediction.
 Names of the event type's variables you defined in Amazon Fraud
 Detector to represent data elements and their corresponding values for
 the event you are sending for evaluation.
+
+You must provide at least one eventVariable
+
+To ensure most accurate fraud prediction and to simplify your data
+preparation, Amazon Fraud Detector will replace all missing variables
+or values as follows:
+
+B<For Amazon Fraud Detector trained models:>
+
+If a null value is provided explicitly for a variable or if a variable
+is missing, model will replace the null value or the missing variable
+(no variable name in the eventVariables map) with calculated default
+mean/medians for numeric variables and with special values for
+categorical variables.
+
+B<For imported SageMaker models:>
+
+If a null value is provided explicitly for a variable, the model and
+rules will use E<ldquo>nullE<rdquo> as the value. If a variable is not
+provided (no variable name in the eventVariables map), model and rules
+will use the default value that is provided for the variable.
 
 
 

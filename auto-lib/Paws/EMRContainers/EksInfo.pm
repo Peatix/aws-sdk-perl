@@ -33,14 +33,14 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::EMRContaine
 
 =head1 DESCRIPTION
 
-The information about the EKS cluster.
+The information about the Amazon EKS cluster.
 
 =head1 ATTRIBUTES
 
 
 =head2 Namespace => Str
 
-The namespaces of the EKS cluster.
+The namespaces of the Amazon EKS cluster.
 
 
 

@@ -1,9 +1,12 @@
 
 package Paws::Appflow::ListConnectorEntities;
   use Moose;
+  has ApiVersion => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'apiVersion');
   has ConnectorProfileName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'connectorProfileName');
   has ConnectorType => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'connectorType');
   has EntitiesPath => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'entitiesPath');
+  has MaxResults => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'maxResults');
+  has NextToken => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'nextToken');
 
   use MooseX::ClassAttribute;
 
@@ -31,13 +34,17 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $appflow = Paws->service('Appflow');
     my $ListConnectorEntitiesResponse = $appflow->ListConnectorEntities(
+      ApiVersion           => 'MyApiVersion',              # OPTIONAL
       ConnectorProfileName => 'MyConnectorProfileName',    # OPTIONAL
       ConnectorType        => 'Salesforce',                # OPTIONAL
       EntitiesPath         => 'MyEntitiesPath',            # OPTIONAL
+      MaxResults           => 1,                           # OPTIONAL
+      NextToken            => 'MyNextToken',               # OPTIONAL
     );
 
     # Results:
     my $ConnectorEntityMap = $ListConnectorEntitiesResponse->ConnectorEntityMap;
+    my $NextToken          = $ListConnectorEntitiesResponse->NextToken;
 
     # Returns a L<Paws::Appflow::ListConnectorEntitiesResponse> object.
 
@@ -47,11 +54,17 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/app
 =head1 ATTRIBUTES
 
 
+=head2 ApiVersion => Str
+
+The version of the API that's used by the connector.
+
+
+
 =head2 ConnectorProfileName => Str
 
 The name of the connector profile. The name is unique for each
-C<ConnectorProfile> in the AWS account, and is used to query the
-downstream connector.
+C<ConnectorProfile> in the Amazon Web Services account, and is used to
+query the downstream connector.
 
 
 
@@ -59,7 +72,7 @@ downstream connector.
 
 The type of connector, such as Salesforce, Amplitude, and so on.
 
-Valid values are: C<"Salesforce">, C<"Singular">, C<"Slack">, C<"Redshift">, C<"S3">, C<"Marketo">, C<"Googleanalytics">, C<"Zendesk">, C<"Servicenow">, C<"Datadog">, C<"Trendmicro">, C<"Snowflake">, C<"Dynatrace">, C<"Infornexus">, C<"Amplitude">, C<"Veeva">, C<"EventBridge">, C<"LookoutMetrics">, C<"Upsolver">, C<"Honeycode">, C<"CustomerProfiles">
+Valid values are: C<"Salesforce">, C<"Singular">, C<"Slack">, C<"Redshift">, C<"S3">, C<"Marketo">, C<"Googleanalytics">, C<"Zendesk">, C<"Servicenow">, C<"Datadog">, C<"Trendmicro">, C<"Snowflake">, C<"Dynatrace">, C<"Infornexus">, C<"Amplitude">, C<"Veeva">, C<"EventBridge">, C<"LookoutMetrics">, C<"Upsolver">, C<"Honeycode">, C<"CustomerProfiles">, C<"SAPOData">, C<"CustomConnector">, C<"Pardot">
 
 =head2 EntitiesPath => Str
 
@@ -70,6 +83,20 @@ without the C<entitiesPath> parameter. If the connector supports
 entities at different roots, this initial request returns the list of
 roots. Otherwise, this request returns all entities supported by the
 provider.
+
+
+
+=head2 MaxResults => Int
+
+The maximum number of items that the operation returns in the response.
+
+
+
+=head2 NextToken => Str
+
+A token that was provided by your prior C<ListConnectorEntities>
+operation if the response was too big for the page size. You specify
+this token to get the next page of results in paginated response.
 
 
 

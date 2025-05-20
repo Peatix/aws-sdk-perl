@@ -42,7 +42,7 @@ accounts and regions in an aggregator.
 
 =head2 ComplianceSummary => L<Paws::Config::ComplianceSummary>
 
-The number of compliant and noncompliant AWS Config rules.
+The number of compliant and noncompliant Config rules.
 
 
 =head2 GroupName => Str

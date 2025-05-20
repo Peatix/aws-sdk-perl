@@ -76,8 +76,8 @@ Must not be "Default".
 
 =item *
 
-Must be unique for all subnet groups that are created by your AWS
-account.
+Must be unique for all subnet groups that are created by your Amazon
+Web Services account.
 
 =back
 

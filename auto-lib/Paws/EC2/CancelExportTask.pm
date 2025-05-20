@@ -40,8 +40,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ec2
 
 =head2 B<REQUIRED> ExportTaskId => Str
 
-The ID of the export task. This is the ID returned by
-C<CreateInstanceExportTask>.
+The ID of the export task. This is the ID returned by the
+C<CreateInstanceExportTask> and C<ExportImage> operations.
 
 
 

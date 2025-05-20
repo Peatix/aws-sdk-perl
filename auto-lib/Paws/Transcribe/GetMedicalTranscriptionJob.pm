@@ -47,7 +47,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/tra
 
 =head2 B<REQUIRED> MedicalTranscriptionJobName => Str
 
-The name of the medical transcription job.
+The name of the medical transcription job you want information about.
+Job names are case sensitive.
 
 
 

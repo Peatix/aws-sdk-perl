@@ -16,7 +16,7 @@ Paws::Proton::CreateEnvironmentAccountConnectionOutput
 
 =head2 B<REQUIRED> EnvironmentAccountConnection => L<Paws::Proton::EnvironmentAccountConnection>
 
-The environment account connection detail data that's returned by AWS
+The environment account connection detail data that's returned by
 Proton.
 
 

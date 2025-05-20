@@ -39,6 +39,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $FileSharesVisible   = $DescribeSMBSettingsOutput->FileSharesVisible;
     my $GatewayARN          = $DescribeSMBSettingsOutput->GatewayARN;
     my $SMBGuestPasswordSet = $DescribeSMBSettingsOutput->SMBGuestPasswordSet;
+    my $SMBLocalGroups      = $DescribeSMBSettingsOutput->SMBLocalGroups;
     my $SMBSecurityStrategy = $DescribeSMBSettingsOutput->SMBSecurityStrategy;
 
     # Returns a L<Paws::StorageGateway::DescribeSMBSettingsOutput> object.

@@ -1,7 +1,8 @@
 
 package Paws::DMS::ListTagsForResource;
   use Moose;
-  has ResourceArn => (is => 'ro', isa => 'Str', required => 1);
+  has ResourceArn => (is => 'ro', isa => 'Str');
+  has ResourceArnList => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
 
   use MooseX::ClassAttribute;
 
@@ -43,10 +44,20 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/dms
 =head1 ATTRIBUTES
 
 
-=head2 B<REQUIRED> ResourceArn => Str
+=head2 ResourceArn => Str
 
-The Amazon Resource Name (ARN) string that uniquely identifies the AWS
-DMS resource.
+The Amazon Resource Name (ARN) string that uniquely identifies the DMS
+resource to list tags for. This returns a list of keys (names of tags)
+created for the resource and their associated tag values.
+
+
+
+=head2 ResourceArnList => ArrayRef[Str|Undef]
+
+List of ARNs that identify multiple DMS resources that you want to list
+tags for. This returns a list of keys (tag names) and their associated
+tag values. It also returns each tag's associated C<ResourceArn> value,
+which is the ARN of the resource for which each listed tag is created.
 
 
 

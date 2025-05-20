@@ -17,7 +17,7 @@ Paws::Prometheus::DescribeWorkspaceResponse
 
 =head2 B<REQUIRED> Workspace => L<Paws::Prometheus::WorkspaceDescription>
 
-The properties of the selected workspace.
+A structure that contains details about the workspace.
 
 
 =head2 _request_id => Str

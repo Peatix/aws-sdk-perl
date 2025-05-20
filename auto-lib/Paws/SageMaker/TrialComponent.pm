@@ -8,11 +8,13 @@ package Paws::SageMaker::TrialComponent;
   has InputArtifacts => (is => 'ro', isa => 'Paws::SageMaker::TrialComponentArtifacts');
   has LastModifiedBy => (is => 'ro', isa => 'Paws::SageMaker::UserContext');
   has LastModifiedTime => (is => 'ro', isa => 'Str');
+  has LineageGroupArn => (is => 'ro', isa => 'Str');
   has MetadataProperties => (is => 'ro', isa => 'Paws::SageMaker::MetadataProperties');
   has Metrics => (is => 'ro', isa => 'ArrayRef[Paws::SageMaker::TrialComponentMetricSummary]');
   has OutputArtifacts => (is => 'ro', isa => 'Paws::SageMaker::TrialComponentArtifacts');
   has Parameters => (is => 'ro', isa => 'Paws::SageMaker::TrialComponentParameters');
   has Parents => (is => 'ro', isa => 'ArrayRef[Paws::SageMaker::Parent]');
+  has RunName => (is => 'ro', isa => 'Str');
   has Source => (is => 'ro', isa => 'Paws::SageMaker::TrialComponentSource');
   has SourceDetail => (is => 'ro', isa => 'Paws::SageMaker::TrialComponentSourceDetail');
   has StartTime => (is => 'ro', isa => 'Str');
@@ -51,14 +53,16 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SageMaker::
 
 =head1 DESCRIPTION
 
-The properties of a trial component as returned by the Search API.
+The properties of a trial component as returned by the Search
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_Search.html)
+API.
 
 =head1 ATTRIBUTES
 
 
 =head2 CreatedBy => L<Paws::SageMaker::UserContext>
 
-
+Who created the trial component.
 
 
 =head2 CreationTime => Str
@@ -92,6 +96,11 @@ The input artifacts of the component.
 When the component was last modified.
 
 
+=head2 LineageGroupArn => Str
+
+The Amazon Resource Name (ARN) of the lineage group resource.
+
+
 =head2 MetadataProperties => L<Paws::SageMaker::MetadataProperties>
 
 
@@ -119,6 +128,11 @@ component is associated with and the experiment the trial is part of. A
 component might not have any parents.
 
 
+=head2 RunName => Str
+
+The name of the experiment run.
+
+
 =head2 Source => L<Paws::SageMaker::TrialComponentSource>
 
 The Amazon Resource Name (ARN) and job type of the source of the
@@ -143,7 +157,9 @@ When the component started.
 =head2 Tags => ArrayRef[L<Paws::SageMaker::Tag>]
 
 The list of tags that are associated with the component. You can use
-Search API to search on the tags.
+Search
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_Search.html)
+API to search on the tags.
 
 
 =head2 TrialComponentArn => Str

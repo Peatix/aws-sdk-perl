@@ -14,6 +14,7 @@ package Paws::SSM::StepExecution;
   has OnFailure => (is => 'ro', isa => 'Str');
   has Outputs => (is => 'ro', isa => 'Paws::SSM::AutomationParameterMap');
   has OverriddenParameters => (is => 'ro', isa => 'Paws::SSM::AutomationParameterMap');
+  has ParentStepDetails => (is => 'ro', isa => 'Paws::SSM::ParentStepDetails');
   has Response => (is => 'ro', isa => 'Str');
   has ResponseCode => (is => 'ro', isa => 'Str');
   has StepExecutionId => (is => 'ro', isa => 'Str');
@@ -22,6 +23,7 @@ package Paws::SSM::StepExecution;
   has TargetLocation => (is => 'ro', isa => 'Paws::SSM::TargetLocation');
   has Targets => (is => 'ro', isa => 'ArrayRef[Paws::SSM::Target]');
   has TimeoutSeconds => (is => 'ro', isa => 'Int');
+  has TriggeredAlarms => (is => 'ro', isa => 'ArrayRef[Paws::SSM::AlarmStateInformation]');
   has ValidNextSteps => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
 
 1;
@@ -69,13 +71,13 @@ the step.
 =head2 ExecutionEndTime => Str
 
 If a step has finished execution, this contains the time the execution
-ended. If the step has not yet concluded, this field is not populated.
+ended. If the step hasn't yet concluded, this field isn't populated.
 
 
 =head2 ExecutionStartTime => Str
 
 If a step has begun execution, this contains the time the step started.
-If the step is in Pending status, this field is not populated.
+If the step is in Pending status, this field isn't populated.
 
 
 =head2 FailureDetails => L<Paws::SSM::FailureDetails>
@@ -108,7 +110,7 @@ succeeds or fails.
 =head2 MaxAttempts => Int
 
 The maximum number of tries to run the action of the step. The default
-value is 1.
+value is C<1>.
 
 
 =head2 NextStep => Str
@@ -118,7 +120,7 @@ The next step after the step succeeds.
 
 =head2 OnFailure => Str
 
-The action to take if the step fails. The default value is Abort.
+The action to take if the step fails. The default value is C<Abort>.
 
 
 =head2 Outputs => L<Paws::SSM::AutomationParameterMap>
@@ -129,6 +131,11 @@ Returned values from the execution of the step.
 =head2 OverriddenParameters => L<Paws::SSM::AutomationParameterMap>
 
 A user-specified list of parameters to override when running a step.
+
+
+=head2 ParentStepDetails => L<Paws::SSM::ParentStepDetails>
+
+Information about the parent step.
 
 
 =head2 Response => Str
@@ -158,8 +165,8 @@ The execution status for this step.
 
 =head2 TargetLocation => L<Paws::SSM::TargetLocation>
 
-The combination of AWS Regions and accounts targeted by the current
-Automation execution.
+The combination of Amazon Web Services Regions and Amazon Web Services
+accounts targeted by the current Automation execution.
 
 
 =head2 Targets => ArrayRef[L<Paws::SSM::Target>]
@@ -170,6 +177,11 @@ The targets for the step execution.
 =head2 TimeoutSeconds => Int
 
 The timeout seconds of the step.
+
+
+=head2 TriggeredAlarms => ArrayRef[L<Paws::SSM::AlarmStateInformation>]
+
+The CloudWatch alarms that were invoked by the automation.
 
 
 =head2 ValidNextSteps => ArrayRef[Str|Undef]

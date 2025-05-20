@@ -46,9 +46,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ecs
 
 =head2 Include => ArrayRef[Str|Undef]
 
-Specifies whether to see the resource tags for the task definition. If
+Determines whether to see the resource tags for the task definition. If
 C<TAGS> is specified, the tags are included in the response. If this
-field is omitted, tags are not included in the response.
+field is omitted, tags aren't included in the response.
 
 
 

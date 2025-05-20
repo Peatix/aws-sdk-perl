@@ -36,6 +36,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::S3Control::
 =head1 DESCRIPTION
 
 Contains the information required to locate a manifest object.
+Manifests can't be imported from directory buckets. For more
+information, see Directory buckets
+(https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-overview.html).
 
 =head1 ATTRIBUTES
 
@@ -49,10 +52,12 @@ The ETag for the specified manifest object.
 
 The Amazon Resource Name (ARN) for a manifest object.
 
-Replacement must be made for object keys containing special characters
-(such as carriage returns) when using XML requests. For more
-information, see XML related object key constraints
-(https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-xml-related-constraints).
+When you're using XML requests, you must replace special characters
+(such as carriage returns) in object keys with their equivalent XML
+entity codes. For more information, see XML-related object key
+constraints
+(https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-xml-related-constraints)
+in the I<Amazon S3 User Guide>.
 
 
 =head2 ObjectVersionId => Str

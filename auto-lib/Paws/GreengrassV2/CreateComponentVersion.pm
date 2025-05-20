@@ -1,6 +1,7 @@
 
 package Paws::GreengrassV2::CreateComponentVersion;
   use Moose;
+  has ClientToken => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'clientToken');
   has InlineRecipe => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'inlineRecipe');
   has LambdaFunction => (is => 'ro', isa => 'Paws::GreengrassV2::LambdaFunctionRecipeSource', traits => ['NameInRequest'], request_name => 'lambdaFunction');
   has Tags => (is => 'ro', isa => 'Paws::GreengrassV2::TagMap', traits => ['NameInRequest'], request_name => 'tags');
@@ -31,9 +32,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $greengrass = Paws->service('GreengrassV2');
     my $CreateComponentVersionResponse = $greengrass->CreateComponentVersion(
-      InlineRecipe   => 'BlobRecipeBlob',    # OPTIONAL
+      ClientToken    => 'MyClientTokenString',    # OPTIONAL
+      InlineRecipe   => 'BlobRecipeBlob',         # OPTIONAL
       LambdaFunction => {
-        LambdaArn             => 'MyLambdaFunctionARNWithVersionNumber',
+        LambdaArn             => 'MyNonEmptyString',    # min: 1
         ComponentDependencies => {
           'MyNonEmptyString' => {
             DependencyType     => 'HARD',    # values: HARD, SOFT; OPTIONAL
@@ -120,6 +122,19 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/gre
 =head1 ATTRIBUTES
 
 
+=head2 ClientToken => Str
+
+A unique, case-sensitive identifier that you can provide to ensure that
+the request is idempotent. Idempotency means that the request is
+successfully processed only once, even if you send the request multiple
+times. When a request succeeds, and you specify the same client token
+for subsequent successful requests, the IoT Greengrass V2 service
+returns the successful response that it caches from the previous
+request. IoT Greengrass V2 caches successful responses for idempotent
+requests for up to 8 hours.
+
+
+
 =head2 InlineRecipe => Str
 
 The recipe to use to create the component. The recipe defines the
@@ -143,7 +158,7 @@ You must specify either C<inlineRecipe> or C<lambdaFunction>.
 A list of key-value pairs that contain metadata for the resource. For
 more information, see Tag your resources
 (https://docs.aws.amazon.com/greengrass/v2/developerguide/tag-resources.html)
-in the I<AWS IoT Greengrass V2 Developer Guide>.
+in the I<IoT Greengrass V2 Developer Guide>.
 
 
 

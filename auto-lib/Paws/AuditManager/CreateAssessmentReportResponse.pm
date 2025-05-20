@@ -17,8 +17,8 @@ Paws::AuditManager::CreateAssessmentReportResponse
 
 =head2 AssessmentReport => L<Paws::AuditManager::AssessmentReport>
 
-The new assessment report returned by the C<CreateAssessmentReport>
-API.
+The new assessment report that the C<CreateAssessmentReport> API
+returned.
 
 
 =head2 _request_id => Str

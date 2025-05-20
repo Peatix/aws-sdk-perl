@@ -62,7 +62,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
         },    # OPTIONAL
         PriceClass => 'PriceClass_100'
-        ,     # values: PriceClass_100, PriceClass_200, PriceClass_All; OPTIONAL
+        , # values: PriceClass_100, PriceClass_200, PriceClass_All, None; OPTIONAL
       },
       IfMatch => 'Mystring',    # OPTIONAL
       );

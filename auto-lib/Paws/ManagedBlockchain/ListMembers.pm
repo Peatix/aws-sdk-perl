@@ -57,8 +57,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/man
 =head2 IsOwned => Bool
 
 An optional Boolean value. If provided, the request is limited either
-to members that the current AWS account owns (C<true>) or that other
-AWS accounts own (C<false>). If omitted, all members are listed.
+to members that the current Amazon Web Services account owns (C<true>)
+or that other Amazon Web Services accountsn own (C<false>). If omitted,
+all members are listed.
 
 
 

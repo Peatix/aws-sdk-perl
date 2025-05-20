@@ -4,6 +4,7 @@ package Paws::DMS::DescribeApplicableIndividualAssessments;
   has Marker => (is => 'ro', isa => 'Str');
   has MaxRecords => (is => 'ro', isa => 'Int');
   has MigrationType => (is => 'ro', isa => 'Str');
+  has ReplicationConfigArn => (is => 'ro', isa => 'Str');
   has ReplicationInstanceArn => (is => 'ro', isa => 'Str');
   has ReplicationTaskArn => (is => 'ro', isa => 'Str');
   has SourceEngineName => (is => 'ro', isa => 'Str');
@@ -38,6 +39,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       Marker                 => 'MyString',     # OPTIONAL
       MaxRecords             => 1,              # OPTIONAL
       MigrationType          => 'full-load',    # OPTIONAL
+      ReplicationConfigArn   => 'MyString',     # OPTIONAL
       ReplicationInstanceArn => 'MyString',     # OPTIONAL
       ReplicationTaskArn     => 'MyString',     # OPTIONAL
       SourceEngineName       => 'MyString',     # OPTIONAL
@@ -81,6 +83,13 @@ Name of the migration type that each provided individual assessment
 must support.
 
 Valid values are: C<"full-load">, C<"cdc">, C<"full-load-and-cdc">
+
+=head2 ReplicationConfigArn => Str
+
+Amazon Resource Name (ARN) of a serverless replication on which you
+want to base the default list of individual assessments.
+
+
 
 =head2 ReplicationInstanceArn => Str
 

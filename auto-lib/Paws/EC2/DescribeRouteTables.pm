@@ -58,9 +58,14 @@ C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
 
 =head2 Filters => ArrayRef[L<Paws::EC2::Filter>]
 
-One or more filters.
+The filters.
 
 =over
+
+=item *
+
+C<association.gateway-id> - The ID of the gateway involved in the
+association.
 
 =item *
 
@@ -85,7 +90,8 @@ have an association ID are not returned in the response.
 
 =item *
 
-C<owner-id> - The ID of the AWS account that owns the route table.
+C<owner-id> - The ID of the Amazon Web Services account that owns the
+route table.
 
 =item *
 
@@ -103,8 +109,8 @@ a route in the route table.
 
 =item *
 
-C<route.destination-prefix-list-id> - The ID (prefix) of the AWS
-service specified in a route in the table.
+C<route.destination-prefix-list-id> - The ID (prefix) of the Amazon Web
+Services service specified in a route in the table.
 
 =item *
 
@@ -152,11 +158,11 @@ specified in a route in the table.
 
 =item *
 
-C<tag>:E<lt>keyE<gt> - The key/value combination of a tag assigned to
-the resource. Use the tag key in the filter name and the tag value as
-the filter value. For example, to find all resources that have a tag
-with the key C<Owner> and the value C<TeamA>, specify C<tag:Owner> for
-the filter name and C<TeamA> for the filter value.
+C<tag> - The key/value combination of a tag assigned to the resource.
+Use the tag key in the filter name and the tag value as the filter
+value. For example, to find all resources that have a tag with the key
+C<Owner> and the value C<TeamA>, specify C<tag:Owner> for the filter
+name and C<TeamA> for the filter value.
 
 =item *
 
@@ -175,23 +181,23 @@ C<vpc-id> - The ID of the VPC for the route table.
 
 =head2 MaxResults => Int
 
-The maximum number of results to return with a single call. To retrieve
-the remaining results, make another call with the returned C<nextToken>
-value.
+The maximum number of items to return for this request. To get the next
+page of items, make another request with the token returned in the
+output. For more information, see Pagination
+(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Query-Requests.html#api-pagination).
 
 
 
 =head2 NextToken => Str
 
-The token for the next page of results.
+The token returned from a previous paginated request. Pagination
+continues from the end of the items returned by the previous request.
 
 
 
 =head2 RouteTableIds => ArrayRef[Str|Undef]
 
-One or more route table IDs.
-
-Default: Describes all your route tables.
+The IDs of the route tables.
 
 
 

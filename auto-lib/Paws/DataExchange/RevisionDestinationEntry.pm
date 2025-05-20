@@ -42,7 +42,8 @@ The destination where the assets in the revision will be exported.
 
 =head2 B<REQUIRED> Bucket => Str
 
-The S3 bucket that is the destination for the assets in the revision.
+The Amazon S3 bucket that is the destination for the assets in the
+revision.
 
 
 =head2 KeyPattern => Str

@@ -93,7 +93,7 @@ user documentation.
 The severity of findings generated from this security standard control.
 
 The finding severity is based on an assessment of how easy it would be
-to compromise AWS resources if the issue is detected.
+to compromise Amazon Web Services resources if the issue is detected.
 
 
 =head2 StandardsControlArn => Str

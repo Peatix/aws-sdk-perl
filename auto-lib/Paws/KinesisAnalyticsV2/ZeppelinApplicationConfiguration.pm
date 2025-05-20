@@ -36,15 +36,16 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::KinesisAnal
 
 =head1 DESCRIPTION
 
-The configuration of a Kinesis Data Analytics Studio notebook.
+The configuration of a Managed Service for Apache Flink Studio
+notebook.
 
 =head1 ATTRIBUTES
 
 
 =head2 CatalogConfiguration => L<Paws::KinesisAnalyticsV2::CatalogConfiguration>
 
-The AWS Glue Data Catalog that you use in queries in a Kinesis Data
-Analytics Studio notebook.
+The Amazon Glue Data Catalog that you use in queries in a Managed
+Service for Apache Flink Studio notebook.
 
 
 =head2 CustomArtifactsConfiguration => ArrayRef[L<Paws::KinesisAnalyticsV2::CustomArtifactConfiguration>]
@@ -54,14 +55,14 @@ Custom artifacts are dependency JARs and user-defined functions (UDF).
 
 =head2 DeployAsApplicationConfiguration => L<Paws::KinesisAnalyticsV2::DeployAsApplicationConfiguration>
 
-The information required to deploy a Kinesis Data Analytics Studio
-notebook as an application with durable state..
+The information required to deploy a Managed Service for Apache Flink
+Studio notebook as an application with durable state.
 
 
 =head2 MonitoringConfiguration => L<Paws::KinesisAnalyticsV2::ZeppelinMonitoringConfiguration>
 
-The monitoring configuration of a Kinesis Data Analytics Studio
-notebook.
+The monitoring configuration of a Managed Service for Apache Flink
+Studio notebook.
 
 
 

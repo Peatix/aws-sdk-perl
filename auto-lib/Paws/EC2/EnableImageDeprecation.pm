@@ -53,7 +53,8 @@ format: I<YYYY>-I<MM>-I<DD>TI<HH>:I<MM>:I<SS>Z. If you specify a value
 for seconds, Amazon EC2 rounds the seconds to the nearest minute.
 
 You canE<rsquo>t specify a date in the past. The upper limit for
-C<DeprecateAt> is 10 years from now.
+C<DeprecateAt> is 10 years from now, except for public AMIs, where the
+upper limit is 2 years from the creation date.
 
 
 

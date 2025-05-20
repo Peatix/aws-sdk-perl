@@ -30,7 +30,7 @@ The ID of the Savings Plan.
 
 =head2 SearchResults => ArrayRef[L<Paws::SavingsPlans::SavingsPlanRate>]
 
-Information about the Savings Plans rates.
+Information about the Savings Plan rates.
 
 
 =head2 _request_id => Str

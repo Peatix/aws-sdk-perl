@@ -70,7 +70,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ec2
 
 The VPC attribute.
 
-Valid values are: C<"enableDnsSupport">, C<"enableDnsHostnames">
+Valid values are: C<"enableDnsSupport">, C<"enableDnsHostnames">, C<"enableNetworkAddressUsageMetrics">
 
 =head2 DryRun => Bool
 

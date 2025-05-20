@@ -18,23 +18,24 @@ Paws::Transcribe::ListVocabulariesResponse
 
 =head2 NextToken => Str
 
-The C<ListVocabularies> operation returns a page of vocabularies at a
-time. The maximum size of the page is set in the C<MaxResults>
-parameter. If there are more jobs in the list than will fit on the
-page, Amazon Transcribe returns the C<NextPage> token. To return in the
-next page of jobs, include the token in the next request to the
-C<ListVocabularies> operation.
+If C<NextToken> is present in your response, it indicates that not all
+results are displayed. To view the next set of results, copy the string
+associated with the C<NextToken> parameter in your results output, then
+run your request again including C<NextToken> with the value of the
+copied string. Repeat as needed to view all your results.
 
 
 =head2 Status => Str
 
-The requested vocabulary state.
+Lists all custom vocabularies that have the status specified in your
+request. Vocabularies are ordered by creation date, with the newest
+vocabulary first.
 
 Valid values are: C<"PENDING">, C<"READY">, C<"FAILED">
 =head2 Vocabularies => ArrayRef[L<Paws::Transcribe::VocabularyInfo>]
 
-A list of objects that describe the vocabularies that match the search
-criteria in the request.
+Provides information about the custom vocabularies that match the
+criteria specified in your request.
 
 
 =head2 _request_id => Str

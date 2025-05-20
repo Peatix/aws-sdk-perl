@@ -56,10 +56,10 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ec2
 
 =head2 B<REQUIRED> Bucket => Str
 
-The name of the S3 bucket in which the AMI object will be stored. The
-bucket must be in the Region in which the request is being made. The
-AMI object appears in the bucket only after the upload task has
-completed.
+The name of the Amazon S3 bucket in which the AMI object will be
+stored. The bucket must be in the Region in which the request is being
+made. The AMI object appears in the bucket only after the upload task
+has completed.
 
 
 
@@ -80,8 +80,8 @@ The ID of the AMI.
 
 =head2 S3ObjectTags => ArrayRef[L<Paws::EC2::S3ObjectTag>]
 
-The tags to apply to the AMI object that will be stored in the S3
-bucket.
+The tags to apply to the AMI object that will be stored in the Amazon
+S3 bucket.
 
 
 

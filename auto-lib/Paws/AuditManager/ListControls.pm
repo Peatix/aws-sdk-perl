@@ -1,6 +1,7 @@
 
 package Paws::AuditManager::ListControls;
   use Moose;
+  has ControlCatalogId => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'controlCatalogId');
   has ControlType => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'controlType', required => 1);
   has MaxResults => (is => 'ro', isa => 'Int', traits => ['ParamInQuery'], query_name => 'maxResults');
   has NextToken => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'nextToken');
@@ -31,9 +32,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $auditmanager = Paws->service('AuditManager');
     my $ListControlsResponse = $auditmanager->ListControls(
-      ControlType => 'Standard',
-      MaxResults  => 1,            # OPTIONAL
-      NextToken   => 'MyToken',    # OPTIONAL
+      ControlType      => 'Standard',
+      ControlCatalogId => 'MyControlCatalogId',    # OPTIONAL
+      MaxResults       => 1,                       # OPTIONAL
+      NextToken        => 'MyToken',               # OPTIONAL
     );
 
     # Results:
@@ -48,22 +50,48 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/aud
 =head1 ATTRIBUTES
 
 
+=head2 ControlCatalogId => Str
+
+A filter that narrows the list of controls to a specific resource from
+the Amazon Web Services Control Catalog.
+
+To use this parameter, specify the ARN of the Control Catalog resource.
+You can specify either a control domain, a control objective, or a
+common control. For information about how to find the ARNs for these
+resources, see C<ListDomains>
+(https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListDomains.html),
+C<ListObjectives>
+(https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListObjectives.html),
+and C<ListCommonControls>
+(https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListCommonControls.html).
+
+You can only filter by one Control Catalog resource at a time.
+Specifying multiple resource ARNs isnE<rsquo>t currently supported. If
+you want to filter by more than one ARN, we recommend that you run the
+C<ListControls> operation separately for each ARN.
+
+Alternatively, specify C<UNCATEGORIZED> to list controls that aren't
+mapped to a Control Catalog resource. For example, this operation might
+return a list of custom controls that don't belong to any control
+domain or control objective.
+
+
+
 =head2 B<REQUIRED> ControlType => Str
 
-The type of control, such as standard or custom.
+A filter that narrows the list of controls to a specific type.
 
-Valid values are: C<"Standard">, C<"Custom">
+Valid values are: C<"Standard">, C<"Custom">, C<"Core">
 
 =head2 MaxResults => Int
 
-Represents the maximum number of results per page, or per API request
-call.
+The maximum number of results on a page or for an API request call.
 
 
 
 =head2 NextToken => Str
 
-The pagination token used to fetch the next set of results.
+The pagination token that's used to fetch the next set of results.
 
 
 

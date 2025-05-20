@@ -14,6 +14,7 @@ package Paws::ACM::CertificateDetail;
   has Issuer => (is => 'ro', isa => 'Str');
   has KeyAlgorithm => (is => 'ro', isa => 'Str');
   has KeyUsages => (is => 'ro', isa => 'ArrayRef[Paws::ACM::KeyUsage]');
+  has ManagedBy => (is => 'ro', isa => 'Str');
   has NotAfter => (is => 'ro', isa => 'Str');
   has NotBefore => (is => 'ro', isa => 'Str');
   has Options => (is => 'ro', isa => 'Paws::ACM::CertificateOptions');
@@ -69,14 +70,13 @@ in the response to a DescribeCertificate request.
 The Amazon Resource Name (ARN) of the certificate. For more information
 about ARNs, see Amazon Resource Names (ARNs)
 (https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
-in the I<AWS General Reference>.
+in the I<Amazon Web Services General Reference>.
 
 
 =head2 CertificateAuthorityArn => Str
 
-The Amazon Resource Name (ARN) of the ACM PCA private certificate
-authority (CA) that issued the certificate. This has the following
-format:
+The Amazon Resource Name (ARN) of the private certificate authority
+(CA) that issued the certificate. This has the following format:
 
 C<arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012>
 
@@ -112,19 +112,20 @@ The reason the certificate request failed. This value exists only when
 the certificate status is C<FAILED>. For more information, see
 Certificate Request Failed
 (https://docs.aws.amazon.com/acm/latest/userguide/troubleshooting.html#troubleshooting-failed)
-in the I<AWS Certificate Manager User Guide>.
+in the I<Certificate Manager User Guide>.
 
 
 =head2 ImportedAt => Str
 
-The date and time at which the certificate was imported. This value
-exists only when the certificate type is C<IMPORTED>.
+The date and time when the certificate was imported. This value exists
+only when the certificate type is C<IMPORTED>.
 
 
 =head2 InUseBy => ArrayRef[Str|Undef]
 
-A list of ARNs for the AWS resources that are using the certificate. A
-certificate can be used by multiple AWS resources.
+A list of ARNs for the Amazon Web Services resources that are using the
+certificate. A certificate can be used by multiple Amazon Web Services
+resources.
 
 
 =head2 IssuedAt => Str
@@ -150,6 +151,12 @@ A list of Key Usage X.509 v3 extension objects. Each object is a string
 value that identifies the purpose of the public key contained in the
 certificate. Possible extension values include DIGITAL_SIGNATURE,
 KEY_ENCHIPHERMENT, NON_REPUDIATION, and more.
+
+
+=head2 ManagedBy => Str
+
+Identifies the Amazon Web Services service that manages the certificate
+issued by ACM.
 
 
 =head2 NotAfter => Str
@@ -212,6 +219,20 @@ The algorithm that was used to sign the certificate.
 
 The status of the certificate.
 
+A certificate enters status PENDING_VALIDATION upon being requested,
+unless it fails for any of the reasons given in the troubleshooting
+topic Certificate request fails
+(https://docs.aws.amazon.com/acm/latest/userguide/troubleshooting-failed.html).
+ACM makes repeated attempts to validate a certificate for 72 hours and
+then times out. If a certificate shows status FAILED or
+VALIDATION_TIMED_OUT, delete the request, correct the issue with DNS
+validation
+(https://docs.aws.amazon.com/acm/latest/userguide/dns-validation.html)
+or Email validation
+(https://docs.aws.amazon.com/acm/latest/userguide/email-validation.html),
+and try again. If validation succeeds, the certificate enters status
+ISSUED.
+
 
 =head2 Subject => Str
 
@@ -240,7 +261,7 @@ imported certificates. For more information about the differences
 between certificates that you import and those that ACM provides, see
 Importing Certificates
 (https://docs.aws.amazon.com/acm/latest/userguide/import-certificate.html)
-in the I<AWS Certificate Manager User Guide>.
+in the I<Certificate Manager User Guide>.
 
 
 

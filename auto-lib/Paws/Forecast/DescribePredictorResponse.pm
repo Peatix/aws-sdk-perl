@@ -14,8 +14,10 @@ package Paws::Forecast::DescribePredictorResponse;
   has ForecastTypes => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has HPOConfig => (is => 'ro', isa => 'Paws::Forecast::HyperParameterTuningJobConfig');
   has InputDataConfig => (is => 'ro', isa => 'Paws::Forecast::InputDataConfig');
+  has IsAutoPredictor => (is => 'ro', isa => 'Bool');
   has LastModificationTime => (is => 'ro', isa => 'Str');
   has Message => (is => 'ro', isa => 'Str');
+  has OptimizationMetric => (is => 'ro', isa => 'Str');
   has PerformAutoML => (is => 'ro', isa => 'Bool');
   has PerformHPO => (is => 'ro', isa => 'Bool');
   has PredictorArn => (is => 'ro', isa => 'Str');
@@ -48,13 +50,17 @@ When C<PerformAutoML> is specified, the ARN of the chosen algorithm.
 
 =head2 AutoMLOverrideStrategy => Str
 
+The C<LatencyOptimized> AutoML override strategy is only available in
+private beta. Contact Amazon Web Services Support or your account
+manager to learn more about access privileges.
+
 The AutoML strategy used to train the predictor. Unless
 C<LatencyOptimized> is specified, the AutoML strategy optimizes
 predictor accuracy.
 
 This parameter is only valid for predictors trained using AutoML.
 
-Valid values are: C<"LatencyOptimized">
+Valid values are: C<"LatencyOptimized">, C<"AccuracyOptimized">
 =head2 CreationTime => Str
 
 When the model training task was created.
@@ -68,7 +74,7 @@ data for the predictor.
 
 =head2 EncryptionConfig => L<Paws::Forecast::EncryptionConfig>
 
-An AWS Key Management Service (KMS) key and the AWS Identity and Access
+An Key Management Service (KMS) key and the Identity and Access
 Management (IAM) role that Amazon Forecast can assume to access the
 key.
 
@@ -115,6 +121,11 @@ Describes the dataset group that contains the data to use to train the
 predictor.
 
 
+=head2 IsAutoPredictor => Bool
+
+Whether the predictor was created with CreateAutoPredictor.
+
+
 =head2 LastModificationTime => Str
 
 The last time the resource was modified. The timestamp depends on the
@@ -151,6 +162,11 @@ C<ACTIVE> or C<CREATE_FAILED> - When the job finished or failed.
 If an error occurred, an informational message about the error.
 
 
+=head2 OptimizationMetric => Str
+
+The accuracy metric used to optimize the predictor.
+
+Valid values are: C<"WAPE">, C<"RMSE">, C<"AverageWeightedQuantileLoss">, C<"MASE">, C<"MAPE">
 =head2 PerformAutoML => Bool
 
 Whether the predictor is set to perform AutoML.

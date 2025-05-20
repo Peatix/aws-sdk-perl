@@ -50,7 +50,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/sns
 
 =head2 Attributes => L<Paws::SNS::MapStringToString>
 
-For a list of attributes, see SetEndpointAttributes
+For a list of attributes, see C<SetEndpointAttributes>
 (https://docs.aws.amazon.com/sns/latest/api/API_SetEndpointAttributes.html).
 
 
@@ -64,8 +64,8 @@ use this data. The data must be in UTF-8 format and less than 2KB.
 
 =head2 B<REQUIRED> PlatformApplicationArn => Str
 
-PlatformApplicationArn returned from CreatePlatformApplication is used
-to create a an endpoint.
+C<PlatformApplicationArn> returned from CreatePlatformApplication is
+used to create a an endpoint.
 
 
 

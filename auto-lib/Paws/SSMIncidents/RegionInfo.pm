@@ -36,29 +36,32 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SSMIncident
 
 =head1 DESCRIPTION
 
-Information about a Region in your replication set.
+Information about a Amazon Web Services Region in your replication set.
 
 =head1 ATTRIBUTES
 
 
 =head2 SseKmsKeyId => Str
 
-The ID of the KMS key used to encrypt the data in this Region.
+The ID of the KMS key used to encrypt the data in this Amazon Web
+Services Region.
 
 
 =head2 B<REQUIRED> Status => Str
 
-The status of the Region in the replication set.
+The status of the Amazon Web Services Region in the replication set.
 
 
 =head2 StatusMessage => Str
 
-Information displayed about the status of the Region.
+Information displayed about the status of the Amazon Web Services
+Region.
 
 
 =head2 B<REQUIRED> StatusUpdateDateTime => Str
 
-The most recent date and time that the Region's status was updated.
+The timestamp for when Incident Manager updated the status of the
+Amazon Web Services Region.
 
 
 

@@ -22,6 +22,7 @@ package Paws::CodeDeploy::DeploymentInfo;
   has IgnoreApplicationStopFailures => (is => 'ro', isa => 'Bool', request_name => 'ignoreApplicationStopFailures', traits => ['NameInRequest']);
   has InstanceTerminationWaitTimeStarted => (is => 'ro', isa => 'Bool', request_name => 'instanceTerminationWaitTimeStarted', traits => ['NameInRequest']);
   has LoadBalancerInfo => (is => 'ro', isa => 'Paws::CodeDeploy::LoadBalancerInfo', request_name => 'loadBalancerInfo', traits => ['NameInRequest']);
+  has OverrideAlarmConfiguration => (is => 'ro', isa => 'Paws::CodeDeploy::AlarmConfiguration', request_name => 'overrideAlarmConfiguration', traits => ['NameInRequest']);
   has PreviousRevision => (is => 'ro', isa => 'Paws::CodeDeploy::RevisionLocation', request_name => 'previousRevision', traits => ['NameInRequest']);
   has RelatedDeployments => (is => 'ro', isa => 'Paws::CodeDeploy::RelatedDeployments', request_name => 'relatedDeployments', traits => ['NameInRequest']);
   has Revision => (is => 'ro', isa => 'Paws::CodeDeploy::RevisionLocation', request_name => 'revision', traits => ['NameInRequest']);
@@ -126,7 +127,7 @@ C<codeDeployRollback>: A rollback process created the deployment.
 =item *
 
 C<CodeDeployAutoUpdate>: An auto-update process created the deployment
-when it detected outdated EC2 instances.
+when it detected outdated Amazon EC2 instances.
 
 =back
 
@@ -182,9 +183,9 @@ stack ID) that is linked to this deployment.
 
 =head2 FileExistsBehavior => Str
 
-Information about how AWS CodeDeploy handles files that already exist
-in a deployment target location but weren't part of the previous
-successful deployment.
+Information about how CodeDeploy handles files that already exist in a
+deployment target location but weren't part of the previous successful
+deployment.
 
 =over
 
@@ -223,12 +224,12 @@ instance is part of an overall deployment and the number of healthy
 hosts is not less than the minimum number of healthy hosts, then a
 deployment to the next instance is attempted.
 
-During a deployment, the AWS CodeDeploy agent runs the scripts
-specified for C<ApplicationStop>, C<BeforeBlockTraffic>, and
-C<AfterBlockTraffic> in the AppSpec file from the previous successful
-deployment. (All other scripts are run from the AppSpec file in the
-current deployment.) If one of these scripts contains an error and does
-not run successfully, the deployment can fail.
+During a deployment, the CodeDeploy agent runs the scripts specified
+for C<ApplicationStop>, C<BeforeBlockTraffic>, and C<AfterBlockTraffic>
+in the AppSpec file from the previous successful deployment. (All other
+scripts are run from the AppSpec file in the current deployment.) If
+one of these scripts contains an error and does not run successfully,
+the deployment can fail.
 
 If the cause of the failure is a script from the last successful
 deployment that will never run successfully, create a new deployment
@@ -248,6 +249,11 @@ termination wait period starts.
 =head2 LoadBalancerInfo => L<Paws::CodeDeploy::LoadBalancerInfo>
 
 Information about the load balancer used in the deployment.
+
+
+=head2 OverrideAlarmConfiguration => L<Paws::CodeDeploy::AlarmConfiguration>
+
+
 
 
 =head2 PreviousRevision => L<Paws::CodeDeploy::RevisionLocation>

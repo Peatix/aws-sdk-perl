@@ -20,7 +20,8 @@ Paws::LocationService::CreateGeofenceCollectionResponse
 =head2 B<REQUIRED> CollectionArn => Str
 
 The Amazon Resource Name (ARN) for the geofence collection resource.
-Used when you need to specify a resource across all AWS.
+Used when you need to specify a resource across all Amazon Web
+Services.
 
 =over
 

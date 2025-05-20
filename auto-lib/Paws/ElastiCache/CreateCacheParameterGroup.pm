@@ -56,9 +56,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ela
 The name of the cache parameter group family that the cache parameter
 group can be used with.
 
-Valid values are: C<memcached1.4> | C<memcached1.5> | C<memcached1.6> |
-C<redis2.6> | C<redis2.8> | C<redis3.2> | C<redis4.0> | C<redis5.0> |
-C<redis6.x> |
+Valid values are: C<valkey8> | C<valkey7> | C<memcached1.4> |
+C<memcached1.5> | C<memcached1.6> | C<redis2.6> | C<redis2.8> |
+C<redis3.2> | C<redis4.0> | C<redis5.0> | C<redis6.x> | C<redis7>
 
 
 

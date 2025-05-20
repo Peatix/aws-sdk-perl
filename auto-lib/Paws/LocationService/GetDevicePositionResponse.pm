@@ -1,8 +1,10 @@
 
 package Paws::LocationService::GetDevicePositionResponse;
   use Moose;
+  has Accuracy => (is => 'ro', isa => 'Paws::LocationService::PositionalAccuracy');
   has DeviceId => (is => 'ro', isa => 'Str');
   has Position => (is => 'ro', isa => 'ArrayRef[Num]', required => 1);
+  has PositionProperties => (is => 'ro', isa => 'Paws::LocationService::PositionPropertyMap');
   has ReceivedTime => (is => 'ro', isa => 'Str', required => 1);
   has SampleTime => (is => 'ro', isa => 'Str', required => 1);
 
@@ -18,6 +20,11 @@ Paws::LocationService::GetDevicePositionResponse
 =head1 ATTRIBUTES
 
 
+=head2 Accuracy => L<Paws::LocationService::PositionalAccuracy>
+
+The accuracy of the device position.
+
+
 =head2 DeviceId => Str
 
 The device whose position you retrieved.
@@ -28,10 +35,15 @@ The device whose position you retrieved.
 The last known device position.
 
 
+=head2 PositionProperties => L<Paws::LocationService::PositionPropertyMap>
+
+The properties associated with the position.
+
+
 =head2 B<REQUIRED> ReceivedTime => Str
 
 The timestamp for when the tracker resource received the device
-position in ISO 8601
+position. Uses ISO 8601
 (https://www.iso.org/iso-8601-date-and-time-format.html) format:
 C<YYYY-MM-DDThh:mm:ss.sssZ>.
 

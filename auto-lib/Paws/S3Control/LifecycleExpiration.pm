@@ -57,7 +57,9 @@ rule. The value must be a non-zero positive integer.
 Indicates whether Amazon S3 will remove a delete marker with no
 noncurrent versions. If set to true, the delete marker will be expired.
 If set to false, the policy takes no action. This cannot be specified
-with Days or Date in a Lifecycle Expiration Policy.
+with Days or Date in a Lifecycle Expiration Policy. To learn more about
+delete markers, see Working with delete markers
+(https://docs.aws.amazon.com/AmazonS3/latest/userguide/DeleteMarker.html).
 
 
 

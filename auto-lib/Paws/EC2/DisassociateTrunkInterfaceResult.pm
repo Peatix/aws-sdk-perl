@@ -19,9 +19,9 @@ Paws::EC2::DisassociateTrunkInterfaceResult
 =head2 ClientToken => Str
 
 Unique, case-sensitive identifier that you provide to ensure the
-idempotency of the request. For more information, see How to Ensure
-Idempotency
-(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Run_Instance_Idempotency.html).
+idempotency of the request. For more information, see Ensuring
+idempotency
+(https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
 
 
 =head2 Return => Bool

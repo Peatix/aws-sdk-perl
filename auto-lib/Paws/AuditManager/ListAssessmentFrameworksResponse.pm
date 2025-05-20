@@ -18,12 +18,13 @@ Paws::AuditManager::ListAssessmentFrameworksResponse
 
 =head2 FrameworkMetadataList => ArrayRef[L<Paws::AuditManager::AssessmentFrameworkMetadata>]
 
-The list of metadata objects for the specified framework.
+A list of metadata that the C<ListAssessmentFrameworks> API returns for
+each framework.
 
 
 =head2 NextToken => Str
 
-The pagination token used to fetch the next set of results.
+The pagination token that's used to fetch the next set of results.
 
 
 =head2 _request_id => Str

@@ -1,8 +1,11 @@
 
 package Paws::NetworkFirewall::ListRuleGroups;
   use Moose;
+  has ManagedType => (is => 'ro', isa => 'Str');
   has MaxResults => (is => 'ro', isa => 'Int');
   has NextToken => (is => 'ro', isa => 'Str');
+  has Scope => (is => 'ro', isa => 'Str');
+  has Type => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -29,8 +32,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $network-firewall = Paws->service('NetworkFirewall');
     my $ListRuleGroupsResponse = $network -firewall->ListRuleGroups(
-      MaxResults => 1,                      # OPTIONAL
-      NextToken  => 'MyPaginationToken',    # OPTIONAL
+      ManagedType => 'AWS_MANAGED_THREAT_SIGNATURES',    # OPTIONAL
+      MaxResults  => 1,                                  # OPTIONAL
+      NextToken   => 'MyPaginationToken',                # OPTIONAL
+      Scope       => 'MANAGED',                          # OPTIONAL
+      Type        => 'STATELESS',                        # OPTIONAL
     );
 
     # Results:
@@ -44,6 +50,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/net
 
 =head1 ATTRIBUTES
 
+
+=head2 ManagedType => Str
+
+Indicates the general category of the Amazon Web Services managed rule
+group.
+
+Valid values are: C<"AWS_MANAGED_THREAT_SIGNATURES">, C<"AWS_MANAGED_DOMAIN_LISTS">
 
 =head2 MaxResults => Int
 
@@ -63,6 +76,22 @@ the response. To retrieve the next batch of objects, use the token
 returned from the prior request in your next request.
 
 
+
+=head2 Scope => Str
+
+The scope of the request. The default setting of C<ACCOUNT> or a
+setting of C<NULL> returns all of the rule groups in your account. A
+setting of C<MANAGED> returns all available managed rule groups.
+
+Valid values are: C<"MANAGED">, C<"ACCOUNT">
+
+=head2 Type => Str
+
+Indicates whether the rule group is stateless or stateful. If the rule
+group is stateless, it contains stateless rules. If it is stateful, it
+contains stateful rules.
+
+Valid values are: C<"STATELESS">, C<"STATEFUL">
 
 
 =head1 SEE ALSO

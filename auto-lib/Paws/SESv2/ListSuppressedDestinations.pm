@@ -59,7 +59,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ema
 
 Used to filter the list of suppressed email destinations so that it
 only includes addresses that were added to the list before a specific
-date. The date that you specify should be in Unix time format.
+date.
 
 
 
@@ -89,7 +89,7 @@ The factors that caused the email address to be added to .
 
 Used to filter the list of suppressed email destinations so that it
 only includes addresses that were added to the list after a specific
-date. The date that you specify should be in Unix time format.
+date.
 
 
 

@@ -2,7 +2,10 @@
 package Paws::AuditManager::Settings;
   use Moose;
   has DefaultAssessmentReportsDestination => (is => 'ro', isa => 'Paws::AuditManager::AssessmentReportsDestination', request_name => 'defaultAssessmentReportsDestination', traits => ['NameInRequest']);
+  has DefaultExportDestination => (is => 'ro', isa => 'Paws::AuditManager::DefaultExportDestination', request_name => 'defaultExportDestination', traits => ['NameInRequest']);
   has DefaultProcessOwners => (is => 'ro', isa => 'ArrayRef[Paws::AuditManager::Role]', request_name => 'defaultProcessOwners', traits => ['NameInRequest']);
+  has DeregistrationPolicy => (is => 'ro', isa => 'Paws::AuditManager::DeregistrationPolicy', request_name => 'deregistrationPolicy', traits => ['NameInRequest']);
+  has EvidenceFinderEnablement => (is => 'ro', isa => 'Paws::AuditManager::EvidenceFinderEnablement', request_name => 'evidenceFinderEnablement', traits => ['NameInRequest']);
   has IsAwsOrgEnabled => (is => 'ro', isa => 'Bool', request_name => 'isAwsOrgEnabled', traits => ['NameInRequest']);
   has KmsKey => (is => 'ro', isa => 'Str', request_name => 'kmsKey', traits => ['NameInRequest']);
   has SnsTopic => (is => 'ro', isa => 'Str', request_name => 'snsTopic', traits => ['NameInRequest']);
@@ -37,15 +40,19 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AuditManage
 
 =head1 DESCRIPTION
 
-The settings object that holds all supported AWS Audit Manager
-settings.
+The settings object that holds all supported Audit Manager settings.
 
 =head1 ATTRIBUTES
 
 
 =head2 DefaultAssessmentReportsDestination => L<Paws::AuditManager::AssessmentReportsDestination>
 
-The default storage destination for assessment reports.
+The default S3 destination bucket for storing assessment reports.
+
+
+=head2 DefaultExportDestination => L<Paws::AuditManager::DefaultExportDestination>
+
+The default S3 destination bucket for storing evidence finder exports.
 
 
 =head2 DefaultProcessOwners => ArrayRef[L<Paws::AuditManager::Role>]
@@ -53,14 +60,26 @@ The default storage destination for assessment reports.
 The designated default audit owners.
 
 
+=head2 DeregistrationPolicy => L<Paws::AuditManager::DeregistrationPolicy>
+
+The deregistration policy for your Audit Manager data. You can use this
+attribute to determine how your data is handled when you deregister
+Audit Manager.
+
+
+=head2 EvidenceFinderEnablement => L<Paws::AuditManager::EvidenceFinderEnablement>
+
+The current evidence finder status and event data store details.
+
+
 =head2 IsAwsOrgEnabled => Bool
 
-Specifies whether AWS Organizations is enabled.
+Specifies whether Organizations is enabled.
 
 
 =head2 KmsKey => Str
 
-The AWS KMS key details.
+The KMS key details.
 
 
 =head2 SnsTopic => Str

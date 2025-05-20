@@ -37,9 +37,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ECS::EFSVol
 
 =head1 DESCRIPTION
 
-This parameter is specified when you are using an Amazon Elastic File
+This parameter is specified when you're using an Amazon Elastic File
 System file system for task storage. For more information, see Amazon
-EFS Volumes
+EFS volumes
 (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/efs-volumes.html)
 in the I<Amazon Elastic Container Service Developer Guide>.
 
@@ -70,11 +70,11 @@ will enforce the path set on the EFS access point.
 
 =head2 TransitEncryption => Str
 
-Whether or not to enable encryption for Amazon EFS data in transit
+Determines whether to use encryption for Amazon EFS data in transit
 between the Amazon ECS host and the Amazon EFS server. Transit
-encryption must be enabled if Amazon EFS IAM authorization is used. If
-this parameter is omitted, the default value of C<DISABLED> is used.
-For more information, see Encrypting Data in Transit
+encryption must be turned on if Amazon EFS IAM authorization is used.
+If this parameter is omitted, the default value of C<DISABLED> is used.
+For more information, see Encrypting data in transit
 (https://docs.aws.amazon.com/efs/latest/ug/encryption-in-transit.html)
 in the I<Amazon Elastic File System User Guide>.
 
@@ -84,7 +84,7 @@ in the I<Amazon Elastic File System User Guide>.
 The port to use when sending encrypted data between the Amazon ECS host
 and the Amazon EFS server. If you do not specify a transit encryption
 port, it will use the port selection strategy that the Amazon EFS mount
-helper uses. For more information, see EFS Mount Helper
+helper uses. For more information, see EFS mount helper
 (https://docs.aws.amazon.com/efs/latest/ug/efs-mount-helper.html) in
 the I<Amazon Elastic File System User Guide>.
 

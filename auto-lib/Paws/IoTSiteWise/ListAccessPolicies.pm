@@ -35,7 +35,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $iotsitewise = Paws->service('IoTSiteWise');
     my $ListAccessPoliciesResponse = $iotsitewise->ListAccessPolicies(
-      IamArn       => 'MyARN',           # OPTIONAL
+      IamArn       => 'MyIamArn',        # OPTIONAL
       IdentityId   => 'MyIdentityId',    # OPTIONAL
       IdentityType => 'USER',            # OPTIONAL
       MaxResults   => 1,                 # OPTIONAL
@@ -75,14 +75,15 @@ C<USER> or C<GROUP> for C<identityType>.
 
 =head2 IdentityType => Str
 
-The type of identity (AWS SSO user, AWS SSO group, or IAM user). This
-parameter is required if you specify C<identityId>.
+The type of identity (IAM Identity Center user, IAM Identity Center
+group, or IAM user). This parameter is required if you specify
+C<identityId>.
 
 Valid values are: C<"USER">, C<"GROUP">, C<"IAM">
 
 =head2 MaxResults => Int
 
-The maximum number of results to be returned per paginated request.
+The maximum number of results to return for each paginated request.
 
 Default: 50
 

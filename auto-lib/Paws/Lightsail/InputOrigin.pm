@@ -4,6 +4,7 @@ package Paws::Lightsail::InputOrigin;
   has Name => (is => 'ro', isa => 'Str', request_name => 'name', traits => ['NameInRequest']);
   has ProtocolPolicy => (is => 'ro', isa => 'Str', request_name => 'protocolPolicy', traits => ['NameInRequest']);
   has RegionName => (is => 'ro', isa => 'Str', request_name => 'regionName', traits => ['NameInRequest']);
+  has ResponseTimeout => (is => 'ro', isa => 'Int', request_name => 'responseTimeout', traits => ['NameInRequest']);
 
 1;
 
@@ -24,7 +25,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::Lightsail::InputOrigin object:
 
-  $service_obj->Method(Att1 => { Name => $value, ..., RegionName => $value  });
+  $service_obj->Method(Att1 => { Name => $value, ..., ResponseTimeout => $value  });
 
 =head3 Results returned from an API call
 
@@ -38,9 +39,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Lightsail::
 Describes the origin resource of an Amazon Lightsail content delivery
 network (CDN) distribution.
 
-An origin can be a Lightsail instance or load balancer. A distribution
-pulls content from an origin, caches it, and serves it to viewers via a
-worldwide network of edge servers.
+An origin can be a Lightsail instance, bucket, container service, or
+load balancer. A distribution pulls content from an origin, caches it,
+and serves it to viewers via a worldwide network of edge servers.
 
 =head1 ATTRIBUTES
 
@@ -59,6 +60,14 @@ establishing a connection with your origin to pull content.
 =head2 RegionName => Str
 
 The AWS Region name of the origin resource.
+
+
+=head2 ResponseTimeout => Int
+
+The amount of time, in seconds, that the distribution waits for a
+response after forwarding a request to the origin. The minimum timeout
+is 1 second, the maximum is 60 seconds, and the default (if you don't
+specify otherwise) is 30 seconds.
 
 
 

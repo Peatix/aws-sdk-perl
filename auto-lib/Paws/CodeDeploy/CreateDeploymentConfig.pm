@@ -5,6 +5,7 @@ package Paws::CodeDeploy::CreateDeploymentConfig;
   has DeploymentConfigName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'deploymentConfigName' , required => 1);
   has MinimumHealthyHosts => (is => 'ro', isa => 'Paws::CodeDeploy::MinimumHealthyHosts', traits => ['NameInRequest'], request_name => 'minimumHealthyHosts' );
   has TrafficRoutingConfig => (is => 'ro', isa => 'Paws::CodeDeploy::TrafficRoutingConfig', traits => ['NameInRequest'], request_name => 'trafficRoutingConfig' );
+  has ZonalConfig => (is => 'ro', isa => 'Paws::CodeDeploy::ZonalConfig', traits => ['NameInRequest'], request_name => 'zonalConfig' );
 
   use MooseX::ClassAttribute;
 
@@ -48,6 +49,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },    # OPTIONAL
         Type => 'TimeBasedCanary'
         ,     # values: TimeBasedCanary, TimeBasedLinear, AllAtOnce; OPTIONAL
+      },    # OPTIONAL
+      ZonalConfig => {
+        FirstZoneMonitorDurationInSeconds => 1,    # OPTIONAL
+        MinimumHealthyHostsPerZone        => {
+          Type  => 'HOST_COUNT',   # values: HOST_COUNT, FLEET_PERCENT; OPTIONAL
+          Value => 1,              # OPTIONAL
+        },    # OPTIONAL
+        MonitorDurationInSeconds => 1,    # OPTIONAL
       },    # OPTIONAL
     );
 
@@ -95,8 +104,8 @@ healthy instances as an absolute value.
 FLEET_PERCENT: The value parameter represents the minimum number of
 healthy instances as a percentage of the total number of instances in
 the deployment. If you specify FLEET_PERCENT, at the start of the
-deployment, AWS CodeDeploy converts the percentage to the equivalent
-number of instances and rounds up fractional instances.
+deployment, CodeDeploy converts the percentage to the equivalent number
+of instances and rounds up fractional instances.
 
 =back
 
@@ -110,6 +119,20 @@ of FLEET_PERCENT and a value of 95.
 =head2 TrafficRoutingConfig => L<Paws::CodeDeploy::TrafficRoutingConfig>
 
 The configuration that specifies how the deployment traffic is routed.
+
+
+
+=head2 ZonalConfig => L<Paws::CodeDeploy::ZonalConfig>
+
+Configure the C<ZonalConfig> object if you want CodeDeploy to deploy
+your application to one Availability Zone
+(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-availability-zones)
+at a time, within an Amazon Web Services Region.
+
+For more information about the zonal configuration feature, see zonal
+configuration
+(https://docs.aws.amazon.com/codedeploy/latest/userguide/deployment-configurations-create.html#zonal-config)
+in the I<CodeDeploy User Guide>.
 
 
 

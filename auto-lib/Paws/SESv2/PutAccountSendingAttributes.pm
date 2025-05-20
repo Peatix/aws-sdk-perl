@@ -45,8 +45,9 @@ Enables or disables your account's ability to send email. Set to
 C<true> to enable email sending, or set to C<false> to disable email
 sending.
 
-If AWS paused your account's ability to send email, you can't use this
-operation to resume your account's ability to send email.
+If Amazon Web Services paused your account's ability to send email, you
+can't use this operation to resume your account's ability to send
+email.
 
 
 

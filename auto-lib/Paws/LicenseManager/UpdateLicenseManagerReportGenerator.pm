@@ -76,22 +76,19 @@ Description of the report generator.
 
 =head2 B<REQUIRED> LicenseManagerReportGeneratorArn => Str
 
-Amazon Resource Number (ARN) of the report generator to update.
+Amazon Resource Name (ARN) of the report generator to update.
 
 
 
 =head2 B<REQUIRED> ReportContext => L<Paws::LicenseManager::ReportContext>
 
-?
+The report context.
 
 
 
 =head2 B<REQUIRED> ReportFrequency => L<Paws::LicenseManager::ReportFrequency>
 
-Frequency by which reports are generated. The following options are
-avaiable:
-
-??? What are the APi value options?
+Frequency by which reports are generated.
 
 
 
@@ -103,20 +100,19 @@ Name of the report generator.
 
 =head2 B<REQUIRED> Type => ArrayRef[Str|Undef]
 
-Type of reports to generate. The following report types an be
-generated:
+Type of reports to generate. The following report types are supported:
 
 =over
 
 =item *
 
-License configuration report - Reports on the number and details of
+License configuration report - Reports the number and details of
 consumed licenses for a license configuration.
 
 =item *
 
-Resource report - Reports on the tracked licenses and resource
-consumption for a license configuration.
+Resource report - Reports the tracked licenses and resource consumption
+for a license configuration.
 
 =back
 

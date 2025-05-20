@@ -79,7 +79,7 @@ logical replication slot should already be created and associated with
 the source endpoint. You can verify this by setting the C<slotName>
 extra connection attribute to the name of this logical replication
 slot. For more information, see Extra Connection Attributes When Using
-PostgreSQL as a Source for AWS DMS
+PostgreSQL as a Source for DMS
 (https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.PostgreSQL.html#CHAP_Source.PostgreSQL.ConnectionAttrib).
 
 
@@ -102,8 +102,8 @@ The value can be either server time or commit time.
 Server time example: --cdc-stop-position
 E<ldquo>server_time:2018-02-09T12:12:12E<rdquo>
 
-Commit time example: --cdc-stop-position E<ldquo>commit_time:
-2018-02-09T12:12:12 E<ldquo>
+Commit time example: --cdc-stop-position
+E<ldquo>commit_time:2018-02-09T12:12:12E<ldquo>
 
 
 
@@ -154,7 +154,7 @@ settings.
 
 =head2 TableMappings => Str
 
-When using the AWS CLI or boto3, provide the path of the JSON file that
+When using the CLI or boto3, provide the path of the JSON file that
 contains the table mappings. Precede the path with C<file://>. For
 example, C<--table-mappings file://mappingfile.json>. When working with
 the DMS API, provide the JSON as the parameter value.
@@ -167,7 +167,7 @@ Supplemental information that the task requires to migrate the data for
 certain source and target endpoints. For more information, see
 Specifying Supplemental Data for Task Settings
 (https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.TaskData.html)
-in the I<AWS Database Migration Service User Guide.>
+in the I<Database Migration Service User Guide.>
 
 
 

@@ -10,6 +10,7 @@ package Paws::DynamoDB::DeleteItem;
   has ReturnConsumedCapacity => (is => 'ro', isa => 'Str');
   has ReturnItemCollectionMetrics => (is => 'ro', isa => 'Str');
   has ReturnValues => (is => 'ro', isa => 'Str');
+  has ReturnValuesOnConditionCheckFailure => (is => 'ro', isa => 'Str');
   has TableName => (is => 'ro', isa => 'Str', required => 1);
 
   use MooseX::ClassAttribute;
@@ -216,7 +217,7 @@ in the I<Amazon DynamoDB Developer Guide>.
 A map of attribute names to C<AttributeValue> objects, representing the
 primary key of the item to delete.
 
-For the primary key, you must provide all of the attributes. For
+For the primary key, you must provide all of the key attributes. For
 example, with a simple primary key, you only need to provide a value
 for the partition key. For a composite primary key, you must provide
 values for both the partition key and the sort key.
@@ -258,15 +259,31 @@ C<ALL_OLD> - The content of the old item is returned.
 
 =back
 
+There is no additional cost associated with requesting a return value
+aside from the small network and processing overhead of receiving a
+larger response. No read capacity units are consumed.
+
 The C<ReturnValues> parameter is used by several DynamoDB operations;
 however, C<DeleteItem> does not recognize any values other than C<NONE>
 or C<ALL_OLD>.
 
 Valid values are: C<"NONE">, C<"ALL_OLD">, C<"UPDATED_OLD">, C<"ALL_NEW">, C<"UPDATED_NEW">
 
+=head2 ReturnValuesOnConditionCheckFailure => Str
+
+An optional parameter that returns the item attributes for a
+C<DeleteItem> operation that failed a condition check.
+
+There is no additional cost associated with requesting a return value
+aside from the small network and processing overhead of receiving a
+larger response. No read capacity units are consumed.
+
+Valid values are: C<"ALL_OLD">, C<"NONE">
+
 =head2 B<REQUIRED> TableName => Str
 
-The name of the table from which to delete the item.
+The name of the table from which to delete the item. You can also
+provide the Amazon Resource Name (ARN) of the table in this parameter.
 
 
 

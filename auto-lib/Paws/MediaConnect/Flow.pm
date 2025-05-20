@@ -6,11 +6,15 @@ package Paws::MediaConnect::Flow;
   has EgressIp => (is => 'ro', isa => 'Str', request_name => 'egressIp', traits => ['NameInRequest']);
   has Entitlements => (is => 'ro', isa => 'ArrayRef[Paws::MediaConnect::Entitlement]', request_name => 'entitlements', traits => ['NameInRequest'], required => 1);
   has FlowArn => (is => 'ro', isa => 'Str', request_name => 'flowArn', traits => ['NameInRequest'], required => 1);
+  has FlowSize => (is => 'ro', isa => 'Str', request_name => 'flowSize', traits => ['NameInRequest']);
+  has Maintenance => (is => 'ro', isa => 'Paws::MediaConnect::Maintenance', request_name => 'maintenance', traits => ['NameInRequest']);
   has MediaStreams => (is => 'ro', isa => 'ArrayRef[Paws::MediaConnect::MediaStream]', request_name => 'mediaStreams', traits => ['NameInRequest']);
   has Name => (is => 'ro', isa => 'Str', request_name => 'name', traits => ['NameInRequest'], required => 1);
+  has NdiConfig => (is => 'ro', isa => 'Paws::MediaConnect::NdiConfig', request_name => 'ndiConfig', traits => ['NameInRequest']);
   has Outputs => (is => 'ro', isa => 'ArrayRef[Paws::MediaConnect::Output]', request_name => 'outputs', traits => ['NameInRequest'], required => 1);
   has Source => (is => 'ro', isa => 'Paws::MediaConnect::Source', request_name => 'source', traits => ['NameInRequest'], required => 1);
   has SourceFailoverConfig => (is => 'ro', isa => 'Paws::MediaConnect::FailoverConfig', request_name => 'sourceFailoverConfig', traits => ['NameInRequest']);
+  has SourceMonitoringConfig => (is => 'ro', isa => 'Paws::MediaConnect::MonitoringConfig', request_name => 'sourceMonitoringConfig', traits => ['NameInRequest']);
   has Sources => (is => 'ro', isa => 'ArrayRef[Paws::MediaConnect::Source]', request_name => 'sources', traits => ['NameInRequest']);
   has Status => (is => 'ro', isa => 'Str', request_name => 'status', traits => ['NameInRequest'], required => 1);
   has VpcInterfaces => (is => 'ro', isa => 'ArrayRef[Paws::MediaConnect::VpcInterface]', request_name => 'vpcInterfaces', traits => ['NameInRequest']);
@@ -54,13 +58,14 @@ entitlements.
 =head2 B<REQUIRED> AvailabilityZone => Str
 
 The Availability Zone that you want to create the flow in. These
-options are limited to the Availability Zones within the current AWS.
+options are limited to the Availability Zones within the current Amazon
+Web Services Region.
 
 
 =head2 Description => Str
 
 A description of the flow. This value is not used or seen outside of
-the current AWS Elemental MediaConnect account.
+the current MediaConnect account.
 
 
 =head2 EgressIp => Str
@@ -75,8 +80,19 @@ The entitlements in this flow.
 
 =head2 B<REQUIRED> FlowArn => Str
 
-The Amazon Resource Name (ARN), a unique identifier for any AWS
-resource, of the flow.
+The Amazon Resource Name (ARN) of the flow.
+
+
+=head2 FlowSize => Str
+
+Determines the processing capacity and feature set of the flow. Set
+this optional parameter to LARGE if you want to enable NDI outputs on
+the flow.
+
+
+=head2 Maintenance => L<Paws::MediaConnect::Maintenance>
+
+The maintenance settings for the flow.
 
 
 =head2 MediaStreams => ArrayRef[L<Paws::MediaConnect::MediaStream>]
@@ -91,6 +107,12 @@ outputs on the flow.
 The name of the flow.
 
 
+=head2 NdiConfig => L<Paws::MediaConnect::NdiConfig>
+
+Specifies the configuration settings for NDI outputs. Required when the
+flow includes NDI outputs.
+
+
 =head2 B<REQUIRED> Outputs => ArrayRef[L<Paws::MediaConnect::Output>]
 
 The outputs in this flow.
@@ -98,17 +120,22 @@ The outputs in this flow.
 
 =head2 B<REQUIRED> Source => L<Paws::MediaConnect::Source>
 
-
+The source for the flow.
 
 
 =head2 SourceFailoverConfig => L<Paws::MediaConnect::FailoverConfig>
 
+The settings for the source failover.
 
+
+=head2 SourceMonitoringConfig => L<Paws::MediaConnect::MonitoringConfig>
+
+The settings for source monitoring.
 
 
 =head2 Sources => ArrayRef[L<Paws::MediaConnect::Source>]
 
-
+The settings for the sources that are assigned to the flow.
 
 
 =head2 B<REQUIRED> Status => Str

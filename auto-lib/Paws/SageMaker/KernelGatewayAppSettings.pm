@@ -3,6 +3,7 @@ package Paws::SageMaker::KernelGatewayAppSettings;
   use Moose;
   has CustomImages => (is => 'ro', isa => 'ArrayRef[Paws::SageMaker::CustomImage]');
   has DefaultResourceSpec => (is => 'ro', isa => 'Paws::SageMaker::ResourceSpec');
+  has LifecycleConfigArns => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
 
 1;
 
@@ -23,7 +24,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::SageMaker::KernelGatewayAppSettings object:
 
-  $service_obj->Method(Att1 => { CustomImages => $value, ..., DefaultResourceSpec => $value  });
+  $service_obj->Method(Att1 => { CustomImages => $value, ..., LifecycleConfigArns => $value  });
 
 =head3 Results returned from an API call
 
@@ -41,14 +42,47 @@ The KernelGateway app settings.
 
 =head2 CustomImages => ArrayRef[L<Paws::SageMaker::CustomImage>]
 
-A list of custom SageMaker images that are configured to run as a
+A list of custom SageMaker AI images that are configured to run as a
 KernelGateway app.
+
+The maximum number of custom images are as follows.
+
+=over
+
+=item *
+
+On a domain level: 200
+
+=item *
+
+On a space level: 5
+
+=item *
+
+On a user profile level: 5
+
+=back
+
 
 
 =head2 DefaultResourceSpec => L<Paws::SageMaker::ResourceSpec>
 
 The default instance type and the Amazon Resource Name (ARN) of the
-default SageMaker image used by the KernelGateway app.
+default SageMaker AI image used by the KernelGateway app.
+
+The Amazon SageMaker AI Studio UI does not use the default instance
+type value set here. The default instance type set here is used when
+Apps are created using the CLI or CloudFormation and the instance type
+parameter value is not passed.
+
+
+=head2 LifecycleConfigArns => ArrayRef[Str|Undef]
+
+The Amazon Resource Name (ARN) of the Lifecycle Configurations attached
+to the the user profile or domain.
+
+To remove a Lifecycle Config, you must set C<LifecycleConfigArns> to an
+empty list.
 
 
 

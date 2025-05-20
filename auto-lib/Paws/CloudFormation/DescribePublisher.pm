@@ -49,7 +49,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/clo
 
 The ID of the extension publisher.
 
-If you do not supply a C<PublisherId>, and you have registered as an
+If you don't supply a C<PublisherId>, and you have registered as an
 extension publisher, C<DescribePublisher> returns information about
 your own publisher account.
 

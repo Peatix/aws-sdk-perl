@@ -4,6 +4,7 @@ package Paws::LexRuntimeV2::IntentResultEvent;
   has EventId => (is => 'ro', isa => 'Str', request_name => 'eventId', traits => ['NameInRequest']);
   has InputMode => (is => 'ro', isa => 'Str', request_name => 'inputMode', traits => ['NameInRequest']);
   has Interpretations => (is => 'ro', isa => 'ArrayRef[Paws::LexRuntimeV2::Interpretation]', request_name => 'interpretations', traits => ['NameInRequest']);
+  has RecognizedBotMember => (is => 'ro', isa => 'Paws::LexRuntimeV2::RecognizedBotMember', request_name => 'recognizedBotMember', traits => ['NameInRequest']);
   has RequestAttributes => (is => 'ro', isa => 'Paws::LexRuntimeV2::StringMap', request_name => 'requestAttributes', traits => ['NameInRequest']);
   has SessionId => (is => 'ro', isa => 'Str', request_name => 'sessionId', traits => ['NameInRequest']);
   has SessionState => (is => 'ro', isa => 'Paws::LexRuntimeV2::SessionState', request_name => 'sessionState', traits => ['NameInRequest']);
@@ -54,7 +55,8 @@ session.
 
 =head2 InputMode => Str
 
-Indicates whether the input to the operation was text or speech.
+Indicates whether the input to the operation was text, speech, or from
+a touch-tone keypad.
 
 
 =head2 Interpretations => ArrayRef[L<Paws::LexRuntimeV2::Interpretation>]
@@ -66,6 +68,11 @@ Each interpretation includes the intent, a score that indicates how
 confident Amazon Lex V2 is that the interpretation is the correct one,
 and an optional sentiment response that indicates the sentiment
 expressed in the utterance.
+
+
+=head2 RecognizedBotMember => L<Paws::LexRuntimeV2::RecognizedBotMember>
+
+The bot member that is processing the intent.
 
 
 =head2 RequestAttributes => L<Paws::LexRuntimeV2::StringMap>

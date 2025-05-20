@@ -65,7 +65,7 @@ parameter to get the next set of results.
 
 =head2 NextToken => Str
 
-If the previous paginated request didn't return all of the remaining
+If the previous paginated request didn't return all the remaining
 results, the response object's C<NextToken> parameter value is set to a
 token. To retrieve the next set of results, call this action again and
 assign that token to the request object's C<NextToken> parameter. If
@@ -89,7 +89,7 @@ The kind of extension.
 Conditional: You must specify either C<TypeName> and C<Type>, or
 C<Arn>.
 
-Valid values are: C<"RESOURCE">, C<"MODULE">
+Valid values are: C<"RESOURCE">, C<"MODULE">, C<"HOOK">
 
 =head2 TypeArn => Str
 

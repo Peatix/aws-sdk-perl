@@ -5,6 +5,7 @@ package Paws::Lambda::GetFunctionResponse;
   has Concurrency => (is => 'ro', isa => 'Paws::Lambda::Concurrency');
   has Configuration => (is => 'ro', isa => 'Paws::Lambda::FunctionConfiguration');
   has Tags => (is => 'ro', isa => 'Paws::Lambda::Tags');
+  has TagsError => (is => 'ro', isa => 'Paws::Lambda::TagsError');
 
   has _request_id => (is => 'ro', isa => 'Str');
 1;
@@ -37,7 +38,16 @@ The configuration of the function or version.
 =head2 Tags => L<Paws::Lambda::Tags>
 
 The function's tags
-(https://docs.aws.amazon.com/lambda/latest/dg/tagging.html).
+(https://docs.aws.amazon.com/lambda/latest/dg/tagging.html). Lambda
+returns tag data only if you have explicit allow permissions for
+lambda:ListTags
+(https://docs.aws.amazon.com/lambda/latest/api/API_ListTags.html).
+
+
+=head2 TagsError => L<Paws::Lambda::TagsError>
+
+An object that contains details about an error related to retrieving
+tags.
 
 
 =head2 _request_id => Str

@@ -11,6 +11,7 @@ package Paws::LicenseManager::CreateLicense;
   has LicenseName => (is => 'ro', isa => 'Str', required => 1);
   has ProductName => (is => 'ro', isa => 'Str', required => 1);
   has ProductSKU => (is => 'ro', isa => 'Str', required => 1);
+  has Tags => (is => 'ro', isa => 'ArrayRef[Paws::LicenseManager::Tag]');
   has Validity => (is => 'ro', isa => 'Paws::LicenseManager::DatetimeRange', required => 1);
 
   use MooseX::ClassAttribute;
@@ -79,6 +80,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       LicenseMetadata => [
         {
           Name  => 'MyString',
+          Value => 'MyString',
+        },
+        ...
+      ],    # OPTIONAL
+      Tags => [
+        {
+          Key   => 'MyString',
           Value => 'MyString',
         },
         ...
@@ -158,6 +166,15 @@ Product name.
 =head2 B<REQUIRED> ProductSKU => Str
 
 Product SKU.
+
+
+
+=head2 Tags => ArrayRef[L<Paws::LicenseManager::Tag>]
+
+Tags to add to the license. For more information about tagging support
+in License Manager, see the TagResource
+(https://docs.aws.amazon.com/license-manager/latest/APIReference/API_TagResource.html)
+operation.
 
 
 

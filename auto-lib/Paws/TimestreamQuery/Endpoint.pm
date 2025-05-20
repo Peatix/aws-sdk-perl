@@ -35,7 +35,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::TimestreamQ
 =head1 DESCRIPTION
 
 Represents an available endpoint against which to make API calls
-agaisnt, as well as the TTL for that endpoint.
+against, as well as the TTL for that endpoint.
 
 =head1 ATTRIBUTES
 

@@ -31,8 +31,8 @@ The type of encryption used for the encryption configuration.
 Valid values are: C<"SITEWISE_DEFAULT_ENCRYPTION">, C<"KMS_BASED_ENCRYPTION">
 =head2 KmsKeyArn => Str
 
-The key ARN of the customer managed customer master key (CMK) used for
-AWS KMS encryption if you use C<KMS_BASED_ENCRYPTION>.
+The key ARN of the customer managed key used for KMS encryption if you
+use C<KMS_BASED_ENCRYPTION>.
 
 
 =head2 _request_id => Str

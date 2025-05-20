@@ -33,7 +33,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Config::Exe
 
 =head1 DESCRIPTION
 
-The controls that AWS Config uses for executing remediations.
+The controls that Config uses for executing remediations.
 
 =head1 ATTRIBUTES
 

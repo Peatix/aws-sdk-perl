@@ -34,8 +34,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::GreengrassV
 
 =head1 DESCRIPTION
 
-Contains information about an event source for an AWS Lambda function.
-The event source defines the topics on which this Lambda function
+Contains information about an event source for an Lambda function. The
+event source defines the topics on which this Lambda function
 subscribes to receive messages that run the function.
 
 =head1 ATTRIBUTES
@@ -60,9 +60,9 @@ event source topic.
 
 =item *
 
-C<IOT_CORE> E<ndash> Subscribe to AWS IoT Core MQTT messages. This
-event source type supports MQTT wildcards (C<+> and C<#>) in the event
-source topic.
+C<IOT_CORE> E<ndash> Subscribe to Amazon Web Services IoT Core MQTT
+messages. This event source type supports MQTT wildcards (C<+> and
+C<#>) in the event source topic.
 
 =back
 

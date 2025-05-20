@@ -46,16 +46,12 @@ IP addresses when queried from instances in the peer VPC.
 
 =head2 AllowEgressFromLocalClassicLinkToRemoteVpc => Bool
 
-If true, enables outbound communication from an EC2-Classic instance
-that's linked to a local VPC using ClassicLink to instances in a peer
-VPC.
+Deprecated.
 
 
 =head2 AllowEgressFromLocalVpcToRemoteClassicLink => Bool
 
-If true, enables outbound communication from instances in a local VPC
-to an EC2-Classic instance that's linked to a peer VPC using
-ClassicLink.
+Deprecated.
 
 
 

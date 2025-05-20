@@ -51,6 +51,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       $ReimportApiResponse->DisableExecuteApiEndpoint;
     my $DisableSchemaValidation = $ReimportApiResponse->DisableSchemaValidation;
     my $ImportInfo              = $ReimportApiResponse->ImportInfo;
+    my $IpAddressType           = $ReimportApiResponse->IpAddressType;
     my $Name                    = $ReimportApiResponse->Name;
     my $ProtocolType            = $ReimportApiResponse->ProtocolType;
     my $RouteSelectionExpression =

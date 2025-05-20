@@ -17,9 +17,9 @@ Paws::SecurityHub::DeleteInvitationsResponse
 
 =head2 UnprocessedAccounts => ArrayRef[L<Paws::SecurityHub::Result>]
 
-The list of AWS accounts for which the invitations were not deleted.
-For each account, the list includes the account ID and the email
-address.
+The list of Amazon Web Services accounts for which the invitations were
+not deleted. For each account, the list includes the account ID and the
+email address.
 
 
 =head2 _request_id => Str

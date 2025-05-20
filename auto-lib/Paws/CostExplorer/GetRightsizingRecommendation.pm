@@ -46,7 +46,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           Key          => 'MyCostCategoryName',     # min: 1, max: 50; OPTIONAL
           MatchOptions => [
             'EQUALS',
-            ... # values: EQUALS, ABSENT, STARTS_WITH, ENDS_WITH, CONTAINS, CASE_SENSITIVE, CASE_INSENSITIVE
+            ... # values: EQUALS, ABSENT, STARTS_WITH, ENDS_WITH, CONTAINS, CASE_SENSITIVE, CASE_INSENSITIVE, GREATER_THAN_OR_EQUAL
           ],    # OPTIONAL
           Values => [
             'MyValue', ...    # max: 1024
@@ -54,10 +54,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },    # OPTIONAL
         Dimensions => {
           Key => 'AZ'
-          , # values: AZ, INSTANCE_TYPE, LINKED_ACCOUNT, LINKED_ACCOUNT_NAME, OPERATION, PURCHASE_TYPE, REGION, SERVICE, SERVICE_CODE, USAGE_TYPE, USAGE_TYPE_GROUP, RECORD_TYPE, OPERATING_SYSTEM, TENANCY, SCOPE, PLATFORM, SUBSCRIPTION_ID, LEGAL_ENTITY_NAME, DEPLOYMENT_OPTION, DATABASE_ENGINE, CACHE_ENGINE, INSTANCE_TYPE_FAMILY, BILLING_ENTITY, RESERVATION_ID, RESOURCE_ID, RIGHTSIZING_TYPE, SAVINGS_PLANS_TYPE, SAVINGS_PLAN_ARN, PAYMENT_OPTION, AGREEMENT_END_DATE_TIME_AFTER, AGREEMENT_END_DATE_TIME_BEFORE; OPTIONAL
+          , # values: AZ, INSTANCE_TYPE, LINKED_ACCOUNT, LINKED_ACCOUNT_NAME, OPERATION, PURCHASE_TYPE, REGION, SERVICE, SERVICE_CODE, USAGE_TYPE, USAGE_TYPE_GROUP, RECORD_TYPE, OPERATING_SYSTEM, TENANCY, SCOPE, PLATFORM, SUBSCRIPTION_ID, LEGAL_ENTITY_NAME, DEPLOYMENT_OPTION, DATABASE_ENGINE, CACHE_ENGINE, INSTANCE_TYPE_FAMILY, BILLING_ENTITY, RESERVATION_ID, RESOURCE_ID, RIGHTSIZING_TYPE, SAVINGS_PLANS_TYPE, SAVINGS_PLAN_ARN, PAYMENT_OPTION, AGREEMENT_END_DATE_TIME_AFTER, AGREEMENT_END_DATE_TIME_BEFORE, INVOICING_ENTITY, ANOMALY_TOTAL_IMPACT_ABSOLUTE, ANOMALY_TOTAL_IMPACT_PERCENTAGE; OPTIONAL
           MatchOptions => [
             'EQUALS',
-            ... # values: EQUALS, ABSENT, STARTS_WITH, ENDS_WITH, CONTAINS, CASE_SENSITIVE, CASE_INSENSITIVE
+            ... # values: EQUALS, ABSENT, STARTS_WITH, ENDS_WITH, CONTAINS, CASE_SENSITIVE, CASE_INSENSITIVE, GREATER_THAN_OR_EQUAL
           ],    # OPTIONAL
           Values => [
             'MyValue', ...    # max: 1024
@@ -69,7 +69,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           Key          => 'MyTagKey',     # max: 1024; OPTIONAL
           MatchOptions => [
             'EQUALS',
-            ... # values: EQUALS, ABSENT, STARTS_WITH, ENDS_WITH, CONTAINS, CASE_SENSITIVE, CASE_INSENSITIVE
+            ... # values: EQUALS, ABSENT, STARTS_WITH, ENDS_WITH, CONTAINS, CASE_SENSITIVE, CASE_INSENSITIVE, GREATER_THAN_OR_EQUAL
           ],    # OPTIONAL
           Values => [
             'MyValue', ...    # max: 1024
@@ -98,11 +98,12 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ce/
 
 =head2 Configuration => L<Paws::CostExplorer::RightsizingRecommendationConfiguration>
 
-Enables you to customize recommendations across two attributes. You can
-choose to view recommendations for instances within the same instance
-families or across different instance families. You can also choose to
-view your estimated savings associated with recommendations with
-consideration of existing Savings Plans or RI benefits, or neither.
+You can use Configuration to customize recommendations across two
+attributes. You can choose to view recommendations for instances within
+the same instance families or across different instance families. You
+can also choose to view your estimated savings that are associated with
+recommendations with consideration of existing Savings Plans or RI
+benefits, or neither.
 
 
 

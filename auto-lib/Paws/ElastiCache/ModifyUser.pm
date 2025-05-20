@@ -3,6 +3,8 @@ package Paws::ElastiCache::ModifyUser;
   use Moose;
   has AccessString => (is => 'ro', isa => 'Str');
   has AppendAccessString => (is => 'ro', isa => 'Str');
+  has AuthenticationMode => (is => 'ro', isa => 'Paws::ElastiCache::AuthenticationMode');
+  has Engine => (is => 'ro', isa => 'Str');
   has NoPasswordRequired => (is => 'ro', isa => 'Bool');
   has Passwords => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has UserId => (is => 'ro', isa => 'Str', required => 1);
@@ -33,21 +35,28 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $elasticache = Paws->service('ElastiCache');
     my $User = $elasticache->ModifyUser(
       UserId             => 'MyUserId',
-      AccessString       => 'MyAccessString',       # OPTIONAL
-      AppendAccessString => 'MyAccessString',       # OPTIONAL
+      AccessString       => 'MyAccessString',    # OPTIONAL
+      AppendAccessString => 'MyAccessString',    # OPTIONAL
+      AuthenticationMode => {
+        Passwords => [ 'MyString', ... ],        # min: 1; OPTIONAL
+        Type      =>
+          'password',    # values: password, no-password-required, iam; OPTIONAL
+      },    # OPTIONAL
+      Engine             => 'MyEngineType',         # OPTIONAL
       NoPasswordRequired => 1,                      # OPTIONAL
       Passwords          => [ 'MyString', ... ],    # OPTIONAL
     );
 
     # Results:
-    my $ARN            = $User->ARN;
-    my $AccessString   = $User->AccessString;
-    my $Authentication = $User->Authentication;
-    my $Engine         = $User->Engine;
-    my $Status         = $User->Status;
-    my $UserGroupIds   = $User->UserGroupIds;
-    my $UserId         = $User->UserId;
-    my $UserName       = $User->UserName;
+    my $ARN                  = $User->ARN;
+    my $AccessString         = $User->AccessString;
+    my $Authentication       = $User->Authentication;
+    my $Engine               = $User->Engine;
+    my $MinimumEngineVersion = $User->MinimumEngineVersion;
+    my $Status               = $User->Status;
+    my $UserGroupIds         = $User->UserGroupIds;
+    my $UserId               = $User->UserId;
+    my $UserName             = $User->UserName;
 
     # Returns a L<Paws::ElastiCache::User> object.
 
@@ -66,6 +75,18 @@ Access permissions string used for this user.
 =head2 AppendAccessString => Str
 
 Adds additional user permissions to the access string.
+
+
+
+=head2 AuthenticationMode => L<Paws::ElastiCache::AuthenticationMode>
+
+Specifies how to authenticate the user.
+
+
+
+=head2 Engine => Str
+
+Modifies the engine listed for a user. The options are valkey or redis.
 
 
 

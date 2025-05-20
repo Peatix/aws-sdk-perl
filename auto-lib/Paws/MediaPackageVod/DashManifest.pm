@@ -5,6 +5,7 @@ package Paws::MediaPackageVod::DashManifest;
   has ManifestName => (is => 'ro', isa => 'Str', request_name => 'manifestName', traits => ['NameInRequest']);
   has MinBufferTimeSeconds => (is => 'ro', isa => 'Int', request_name => 'minBufferTimeSeconds', traits => ['NameInRequest']);
   has Profile => (is => 'ro', isa => 'Str', request_name => 'profile', traits => ['NameInRequest']);
+  has ScteMarkersSource => (is => 'ro', isa => 'Str', request_name => 'scteMarkersSource', traits => ['NameInRequest']);
   has StreamSelection => (is => 'ro', isa => 'Paws::MediaPackageVod::StreamSelection', request_name => 'streamSelection', traits => ['NameInRequest']);
 
 1;
@@ -66,6 +67,14 @@ starting the presentation.
 
 The Dynamic Adaptive Streaming over HTTP (DASH) profile type. When set
 to "HBBTV_1_5", HbbTV 1.5 compliant output is enabled.
+
+
+=head2 ScteMarkersSource => Str
+
+The source of scte markers used. When set to SEGMENTS, the scte markers
+are sourced from the segments of the ingested content. When set to
+MANIFEST, the scte markers are sourced from the manifest of the
+ingested content.
 
 
 =head2 StreamSelection => L<Paws::MediaPackageVod::StreamSelection>

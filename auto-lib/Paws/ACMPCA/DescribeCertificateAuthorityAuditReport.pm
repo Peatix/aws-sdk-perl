@@ -55,7 +55,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/acm
 
 The report ID returned by calling the
 CreateCertificateAuthorityAuditReport
-(https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_CreateCertificateAuthorityAuditReport.html)
+(https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthorityAuditReport.html)
 action.
 
 

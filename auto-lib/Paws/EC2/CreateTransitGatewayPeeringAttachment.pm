@@ -2,6 +2,7 @@
 package Paws::EC2::CreateTransitGatewayPeeringAttachment;
   use Moose;
   has DryRun => (is => 'ro', isa => 'Bool');
+  has Options => (is => 'ro', isa => 'Paws::EC2::CreateTransitGatewayPeeringAttachmentRequestOptions');
   has PeerAccountId => (is => 'ro', isa => 'Str', required => 1);
   has PeerRegion => (is => 'ro', isa => 'Str', required => 1);
   has PeerTransitGatewayId => (is => 'ro', isa => 'Str', required => 1);
@@ -39,10 +40,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       PeerTransitGatewayId => 'MyTransitAssociationGatewayId',
       TransitGatewayId     => 'MyTransitGatewayId',
       DryRun               => 1,                                 # OPTIONAL
-      TagSpecifications    => [
+      Options              => {
+        DynamicRouting => 'enable',    # values: enable, disable; OPTIONAL
+      },    # OPTIONAL
+      TagSpecifications => [
         {
-          ResourceType => 'client-vpn-endpoint'
-          , # values: client-vpn-endpoint, customer-gateway, dedicated-host, dhcp-options, egress-only-internet-gateway, elastic-ip, elastic-gpu, export-image-task, export-instance-task, fleet, fpga-image, host-reservation, image, import-image-task, import-snapshot-task, instance, internet-gateway, key-pair, launch-template, local-gateway-route-table-vpc-association, natgateway, network-acl, network-interface, network-insights-analysis, network-insights-path, placement-group, reserved-instances, route-table, security-group, snapshot, spot-fleet-request, spot-instances-request, subnet, traffic-mirror-filter, traffic-mirror-session, traffic-mirror-target, transit-gateway, transit-gateway-attachment, transit-gateway-connect-peer, transit-gateway-multicast-domain, transit-gateway-route-table, volume, vpc, vpc-peering-connection, vpn-connection, vpn-gateway, vpc-flow-log; OPTIONAL
+          ResourceType => 'capacity-reservation'
+          , # values: capacity-reservation, client-vpn-endpoint, customer-gateway, carrier-gateway, coip-pool, declarative-policies-report, dedicated-host, dhcp-options, egress-only-internet-gateway, elastic-ip, elastic-gpu, export-image-task, export-instance-task, fleet, fpga-image, host-reservation, image, import-image-task, import-snapshot-task, instance, instance-event-window, internet-gateway, ipam, ipam-pool, ipam-scope, ipv4pool-ec2, ipv6pool-ec2, key-pair, launch-template, local-gateway, local-gateway-route-table, local-gateway-virtual-interface, local-gateway-virtual-interface-group, local-gateway-route-table-vpc-association, local-gateway-route-table-virtual-interface-group-association, natgateway, network-acl, network-interface, network-insights-analysis, network-insights-path, network-insights-access-scope, network-insights-access-scope-analysis, outpost-lag, placement-group, prefix-list, replace-root-volume-task, reserved-instances, route-table, security-group, security-group-rule, service-link-virtual-interface, snapshot, spot-fleet-request, spot-instances-request, subnet, subnet-cidr-reservation, traffic-mirror-filter, traffic-mirror-session, traffic-mirror-target, transit-gateway, transit-gateway-attachment, transit-gateway-connect-peer, transit-gateway-multicast-domain, transit-gateway-policy-table, transit-gateway-route-table, transit-gateway-route-table-announcement, volume, vpc, vpc-endpoint, vpc-endpoint-connection, vpc-endpoint-service, vpc-endpoint-service-permission, vpc-peering-connection, vpn-connection, vpn-gateway, vpc-flow-log, capacity-reservation-fleet, traffic-mirror-filter-rule, vpc-endpoint-connection-device-type, verified-access-instance, verified-access-group, verified-access-endpoint, verified-access-policy, verified-access-trust-provider, vpn-connection-device-type, vpc-block-public-access-exclusion, route-server, route-server-endpoint, route-server-peer, ipam-resource-discovery, ipam-resource-discovery-association, instance-connect-endpoint, verified-access-endpoint-target, ipam-external-resource-verification-token, mac-modification-task; OPTIONAL
           Tags => [
             {
               Key   => 'MyString',
@@ -77,9 +81,16 @@ C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
 
 
 
+=head2 Options => L<Paws::EC2::CreateTransitGatewayPeeringAttachmentRequestOptions>
+
+Requests a transit gateway peering attachment.
+
+
+
 =head2 B<REQUIRED> PeerAccountId => Str
 
-The AWS account ID of the owner of the peer transit gateway.
+The ID of the Amazon Web Services account that owns the peer transit
+gateway.
 
 
 

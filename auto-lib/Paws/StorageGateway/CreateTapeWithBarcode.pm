@@ -58,14 +58,15 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/sto
 
 The unique Amazon Resource Name (ARN) that represents the gateway to
 associate the virtual tape with. Use the ListGateways operation to
-return a list of gateways for your account and AWS Region.
+return a list of gateways for your account and Amazon Web Services
+Region.
 
 
 
 =head2 KMSEncrypted => Bool
 
 Set to C<true> to use Amazon S3 server-side encryption with your own
-AWS KMS key, or C<false> to use a key managed by Amazon S3. Optional.
+KMS key, or C<false> to use a key managed by Amazon S3. Optional.
 
 Valid Values: C<true> | C<false>
 
@@ -87,8 +88,6 @@ tape in this pool is archived in the S3 storage class that is
 associated with the pool. When you use your backup application to eject
 the tape, the tape is archived directly into the storage class (S3
 Glacier or S3 Deep Archive) that corresponds to the pool.
-
-Valid Values: C<GLACIER> | C<DEEP_ARCHIVE>
 
 
 

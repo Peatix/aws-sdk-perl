@@ -58,8 +58,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/dir
 
 =head2 B<REQUIRED> AssociatedGatewayOwnerAccount => Str
 
-The ID of the AWS account that owns the virtual private gateway or
-transit gateway.
+The ID of the Amazon Web Services account that owns the virtual private
+gateway or transit gateway.
 
 
 
@@ -76,7 +76,7 @@ gateway.
 
 For information about how to set the prefixes, see Allowed Prefixes
 (https://docs.aws.amazon.com/directconnect/latest/UserGuide/multi-account-associate-vgw.html#allowed-prefixes)
-in the I<AWS Direct Connect User Guide>.
+in the I<Direct Connect User Guide>.
 
 
 

@@ -4,7 +4,7 @@ package Paws::LocationService::ListGeofenceCollectionsResponseEntry;
   has CollectionName => (is => 'ro', isa => 'Str', required => 1);
   has CreateTime => (is => 'ro', isa => 'Str', required => 1);
   has Description => (is => 'ro', isa => 'Str', required => 1);
-  has PricingPlan => (is => 'ro', isa => 'Str', required => 1);
+  has PricingPlan => (is => 'ro', isa => 'Str');
   has PricingPlanDataSource => (is => 'ro', isa => 'Str');
   has UpdateTime => (is => 'ro', isa => 'Str', required => 1);
 
@@ -40,6 +40,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::LocationSer
 
 Contains the geofence collection details.
 
+The returned geometry will always match the geometry format used when
+the geofence was created.
+
 =head1 ATTRIBUTES
 
 
@@ -60,18 +63,14 @@ C<YYYY-MM-DDThh:mm:ss.sssZ>
 The description for the geofence collection
 
 
-=head2 B<REQUIRED> PricingPlan => Str
+=head2 PricingPlan => Str
 
-The pricing plan for the specified geofence collection.
-
-For additional details and restrictions on each pricing plan option,
-see the Amazon Location Service pricing page
-(https://aws.amazon.com/location/pricing/).
+No longer used. Always returns C<RequestBasedUsage>.
 
 
 =head2 PricingPlanDataSource => Str
 
-The specified data provider for the geofence collection.
+No longer used. Always returns an empty string.
 
 
 =head2 B<REQUIRED> UpdateTime => Str

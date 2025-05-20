@@ -68,6 +68,14 @@ Amazon Web Services account that owns the resource.
 
 =item *
 
+AUTOMATED_DISCOVERY_MONITORING_STATUS - A string that represents an
+enumerated value that Macie defines for the
+BucketMetadata.automatedDiscoveryMonitoringStatus
+(https://docs.aws.amazon.com/macie/latest/APIReference/datasources-s3.html#datasources-s3-prop-bucketmetadata-automateddiscoverymonitoringstatus)
+property of an S3 bucket.
+
+=item *
+
 S3_BUCKET_EFFECTIVE_PERMISSION - A string that represents an enumerated
 value that Macie defines for the BucketPublicAccess.effectivePermission
 (https://docs.aws.amazon.com/macie/latest/APIReference/datasources-s3.html#datasources-s3-prop-bucketpublicaccess-effectivepermission)

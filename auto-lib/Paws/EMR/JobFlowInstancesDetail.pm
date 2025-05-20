@@ -14,6 +14,7 @@ package Paws::EMR::JobFlowInstancesDetail;
   has Placement => (is => 'ro', isa => 'Paws::EMR::PlacementType');
   has SlaveInstanceType => (is => 'ro', isa => 'Str', required => 1);
   has TerminationProtected => (is => 'ro', isa => 'Bool');
+  has UnhealthyNodeReplacement => (is => 'ro', isa => 'Bool');
 
 1;
 
@@ -34,7 +35,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::EMR::JobFlowInstancesDetail object:
 
-  $service_obj->Method(Att1 => { Ec2KeyName => $value, ..., TerminationProtected => $value  });
+  $service_obj->Method(Att1 => { Ec2KeyName => $value, ..., UnhealthyNodeReplacement => $value  });
 
 =head3 Results returned from an API call
 
@@ -130,6 +131,12 @@ The Amazon EC2 core and task node instance type.
 Specifies whether the Amazon EC2 instances in the cluster are protected
 from termination by API calls, user intervention, or in the event of a
 job-flow error.
+
+
+=head2 UnhealthyNodeReplacement => Bool
+
+Indicates whether Amazon EMR should gracefully replace core nodes that
+have degraded within the cluster.
 
 
 

@@ -25,8 +25,8 @@ The list of compute environments.
 
 The C<nextToken> value to include in a future
 C<DescribeComputeEnvironments> request. When the results of a
-C<DescribeJobDefinitions> request exceed C<maxResults>, this value can
-be used to retrieve the next page of results. This value is C<null>
+C<DescribeComputeEnvironments> request exceed C<maxResults>, this value
+can be used to retrieve the next page of results. This value is C<null>
 when there are no more results to return.
 
 

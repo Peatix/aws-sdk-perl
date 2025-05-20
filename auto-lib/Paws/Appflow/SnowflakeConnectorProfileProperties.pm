@@ -69,7 +69,7 @@ transfers.
 
 =head2 Region => Str
 
-The AWS Region of the Snowflake account.
+The Amazon Web Services Region of the Snowflake account.
 
 
 =head2 B<REQUIRED> Stage => Str

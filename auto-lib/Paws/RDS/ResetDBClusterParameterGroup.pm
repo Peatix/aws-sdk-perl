@@ -60,10 +60,9 @@ C<ResetAllParameters> parameter is enabled.
 
 =head2 ResetAllParameters => Bool
 
-A value that indicates whether to reset all parameters in the DB
-cluster parameter group to their default values. You can't use this
-parameter if there is a list of parameter names specified for the
-C<Parameters> parameter.
+Specifies whether to reset all parameters in the DB cluster parameter
+group to their default values. You can't use this parameter if there is
+a list of parameter names specified for the C<Parameters> parameter.
 
 
 

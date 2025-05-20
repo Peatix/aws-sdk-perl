@@ -50,7 +50,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/aud
 
 =head2 B<REQUIRED> AdminAccountId => Str
 
-The identifier for the specified delegated administrator account.
+The identifier for the delegated administrator account.
 
 
 

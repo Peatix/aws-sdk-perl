@@ -18,7 +18,7 @@ Paws::EC2::DescribeVpcEndpointServicePermissionsResult
 
 =head2 AllowedPrincipals => ArrayRef[L<Paws::EC2::AllowedPrincipal>]
 
-Information about one or more allowed principals.
+Information about the allowed principals.
 
 
 =head2 NextToken => Str

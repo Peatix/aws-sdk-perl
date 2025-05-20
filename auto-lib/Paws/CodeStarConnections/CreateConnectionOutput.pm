@@ -19,7 +19,7 @@ Paws::CodeStarConnections::CreateConnectionOutput
 
 The Amazon Resource Name (ARN) of the connection to be created. The ARN
 is used as the connection reference when the connection is shared
-between AWS services.
+between Amazon Web Services services.
 
 The ARN is never reused if the connection is deleted.
 

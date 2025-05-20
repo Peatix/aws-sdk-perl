@@ -60,7 +60,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/cod
 
 =head2 B<REQUIRED> CodeReviewArn => Str
 
-The Amazon Resource Name (ARN) of the C<CodeReview>
+The Amazon Resource Name (ARN) of the CodeReview
 (https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_CodeReview.html)
 object.
 
@@ -76,9 +76,9 @@ is 100.
 =head2 NextToken => Str
 
 If C<nextToken> is returned, there are more results available. The
-value of nextToken is a unique pagination token for each page. Make the
-call again using the returned token to retrieve the next page. Keep all
-other arguments unchanged.
+value of C<nextToken> is a unique pagination token for each page. Make
+the call again using the returned token to retrieve the next page. Keep
+all other arguments unchanged.
 
 
 
@@ -90,14 +90,16 @@ Used to query the recommendation feedback for a given recommendation.
 
 =head2 UserIds => ArrayRef[Str|Undef]
 
-An AWS user's account ID or Amazon Resource Name (ARN). Use this ID to
-query the recommendation feedback for a code review from that user.
+An Amazon Web Services user's account ID or Amazon Resource Name (ARN).
+Use this ID to query the recommendation feedback for a code review from
+that user.
 
-The C<UserId> is an IAM principal that can be specified as an AWS
-account ID or an Amazon Resource Name (ARN). For more information, see
-Specifying a Principal
+The C<UserId> is an IAM principal that can be specified as an Amazon
+Web Services account ID or an Amazon Resource Name (ARN). For more
+information, see Specifying a Principal
 (https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html#Principal_specifying)
-in the I<AWS Identity and Access Management User Guide>.
+in the I<Amazon Web Services Identity and Access Management User
+Guide>.
 
 
 

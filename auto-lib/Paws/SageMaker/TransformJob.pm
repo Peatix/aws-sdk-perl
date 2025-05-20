@@ -4,6 +4,7 @@ package Paws::SageMaker::TransformJob;
   has AutoMLJobArn => (is => 'ro', isa => 'Str');
   has BatchStrategy => (is => 'ro', isa => 'Str');
   has CreationTime => (is => 'ro', isa => 'Str');
+  has DataCaptureConfig => (is => 'ro', isa => 'Paws::SageMaker::BatchDataCaptureConfig');
   has DataProcessing => (is => 'ro', isa => 'Paws::SageMaker::DataProcessing');
   has Environment => (is => 'ro', isa => 'Paws::SageMaker::TransformEnvironmentMap');
   has ExperimentConfig => (is => 'ro', isa => 'Paws::SageMaker::ExperimentConfig');
@@ -77,6 +78,11 @@ record.
 =head2 CreationTime => Str
 
 A timestamp that shows when the transform Job was created.
+
+
+=head2 DataCaptureConfig => L<Paws::SageMaker::BatchDataCaptureConfig>
+
+
 
 
 =head2 DataProcessing => L<Paws::SageMaker::DataProcessing>

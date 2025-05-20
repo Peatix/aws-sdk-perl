@@ -16,8 +16,8 @@ Paws::Config::GetComplianceSummaryByConfigRuleResponse
 
 =head2 ComplianceSummary => L<Paws::Config::ComplianceSummary>
 
-The number of AWS Config rules that are compliant and the number that
-are noncompliant, up to a maximum of 25 for each.
+The number of Config rules that are compliant and the number that are
+noncompliant, up to a maximum of 25 for each.
 
 
 =head2 _request_id => Str

@@ -44,7 +44,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SSM::Instan
 
 =head1 DESCRIPTION
 
-Status information about the instance association.
+Status information about the association.
 
 =head1 ATTRIBUTES
 
@@ -56,17 +56,17 @@ The association ID.
 
 =head2 AssociationName => Str
 
-The name of the association applied to the instance.
+The name of the association applied to the managed node.
 
 
 =head2 AssociationVersion => Str
 
-The version of the association applied to the instance.
+The version of the association applied to the managed node.
 
 
 =head2 DetailedStatus => Str
 
-Detailed status information about the instance association.
+Detailed status information about the association.
 
 
 =head2 DocumentVersion => Str
@@ -81,7 +81,7 @@ An error code returned by the request to create the association.
 
 =head2 ExecutionDate => Str
 
-The date the instance association ran.
+The date the association ran.
 
 
 =head2 ExecutionSummary => Str
@@ -91,7 +91,7 @@ Summary information about association execution.
 
 =head2 InstanceId => Str
 
-The instance ID where the association was created.
+The managed node ID where the association was created.
 
 
 =head2 Name => Str
@@ -107,7 +107,7 @@ request.
 
 =head2 Status => Str
 
-Status information about the instance association.
+Status information about the association.
 
 
 

@@ -49,11 +49,11 @@ that's scheduled to expire at the end of the current calendar month.
 
 =head2 SubscriptionExpiryDate => Str
 
-The date, in Unix time format, when your current subscription to the
-Deliverability dashboard is scheduled to expire, if your subscription
-is scheduled to expire at the end of the current calendar month. This
-value is null if you have an active subscription that isnE<rsquo>t due
-to expire at the end of the month.
+The date when your current subscription to the Deliverability dashboard
+is scheduled to expire, if your subscription is scheduled to expire at
+the end of the current calendar month. This value is null if you have
+an active subscription that isnE<rsquo>t due to expire at the end of
+the month.
 
 
 =head2 _request_id => Str

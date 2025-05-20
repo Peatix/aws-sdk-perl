@@ -1,6 +1,7 @@
 
 package Paws::IoT::ListJobExecutionsForThing;
   use Moose;
+  has JobId => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'jobId');
   has MaxResults => (is => 'ro', isa => 'Int', traits => ['ParamInQuery'], query_name => 'maxResults');
   has NamespaceId => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'namespaceId');
   has NextToken => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'nextToken');
@@ -34,6 +35,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $iot = Paws->service('IoT');
     my $ListJobExecutionsForThingResponse = $iot->ListJobExecutionsForThing(
       ThingName   => 'MyThingName',
+      JobId       => 'MyJobId',          # OPTIONAL
       MaxResults  => 1,                  # OPTIONAL
       NamespaceId => 'MyNamespaceId',    # OPTIONAL
       NextToken   => 'MyNextToken',      # OPTIONAL
@@ -53,6 +55,12 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/iot
 =head1 ATTRIBUTES
 
 
+=head2 JobId => Str
+
+The unique identifier you assigned to this job when it was created.
+
+
+
 =head2 MaxResults => Int
 
 The maximum number of results to be returned per request.
@@ -63,13 +71,15 @@ The maximum number of results to be returned per request.
 
 The namespace used to indicate that a job is a customer-managed job.
 
-When you specify a value for this parameter, AWS IoT Core sends jobs
-notifications to MQTT topics that contain the value in the following
-format.
+When you specify a value for this parameter, Amazon Web Services IoT
+Core sends jobs notifications to MQTT topics that contain the value in
+the following format.
 
 C<$aws/things/I<THING_NAME>/jobs/I<JOB_ID>/notify-namespace-I<NAMESPACE_ID>/>
 
-The C<namespaceId> feature is in public preview.
+The C<namespaceId> feature is only supported by IoT Greengrass at this
+time. For more information, see Setting up IoT Greengrass core devices.
+(https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html)
 
 
 

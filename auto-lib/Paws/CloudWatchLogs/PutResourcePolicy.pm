@@ -55,10 +55,23 @@ service to put DNS query logs in to the specified log group. Replace
 C<"logArn"> with the ARN of your CloudWatch Logs resource, such as a
 log group or log stream.
 
+CloudWatch Logs also supports aws:SourceArn
+(https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-keys.html#condition-keys-sourcearn)
+and aws:SourceAccount
+(https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-keys.html#condition-keys-sourceaccount)
+condition context keys.
+
+In the example resource policy, you would replace the value of
+C<SourceArn> with the resource making the call from Route 53 to
+CloudWatch Logs. You would also replace the value of C<SourceAccount>
+with the Amazon Web Services account ID making that call.
+
 C<{ "Version": "2012-10-17", "Statement": [ { "Sid":
 "Route53LogsToCloudWatchLogs", "Effect": "Allow", "Principal": {
-"Service": [ "route53.amazonaws.com" ] }, "Action":"logs:PutLogEvents",
-"Resource": "logArn" } ] }>
+"Service": [ "route53.amazonaws.com" ] }, "Action":
+"logs:PutLogEvents", "Resource": "logArn", "Condition": { "ArnLike": {
+"aws:SourceArn": "myRoute53ResourceArn" }, "StringEquals": {
+"aws:SourceAccount": "myAwsAccountId" } } } ] }>
 
 
 

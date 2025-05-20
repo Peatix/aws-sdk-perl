@@ -55,7 +55,9 @@ listed.
 =head2 Domain => Str
 
 Specifies the domain of the storage system that is used for file
-transfers.
+transfers. There are two domains available: Amazon Simple Storage
+Service (Amazon S3) and Amazon Elastic File System (Amazon EFS). The
+default value is S3.
 
 
 =head2 EndpointType => Str
@@ -67,28 +69,33 @@ accessible over the public internet.
 
 =head2 IdentityProviderType => Str
 
-Specifies the mode of authentication for a server. The default value is
+The mode of authentication for a server. The default value is
 C<SERVICE_MANAGED>, which allows you to store and access user
-credentials within the Amazon Web Services Transfer Family service.
+credentials within the Transfer Family service.
 
 Use C<AWS_DIRECTORY_SERVICE> to provide access to Active Directory
-groups in Amazon Web Services Managed Active Directory or Microsoft
+groups in Directory Service for Microsoft Active Directory or Microsoft
 Active Directory in your on-premises environment or in Amazon Web
-Services using AD Connectors. This option also requires you to provide
-a Directory ID using the C<IdentityProviderDetails> parameter.
+Services using AD Connector. This option also requires you to provide a
+Directory ID by using the C<IdentityProviderDetails> parameter.
 
 Use the C<API_GATEWAY> value to integrate with an identity provider of
 your choosing. The C<API_GATEWAY> setting requires you to provide an
-API Gateway endpoint URL to call for authentication using the
+Amazon API Gateway endpoint URL to call for authentication by using the
 C<IdentityProviderDetails> parameter.
+
+Use the C<AWS_LAMBDA> value to directly use an Lambda function as your
+identity provider. If you choose this value, you must specify the ARN
+for the Lambda function in the C<Function> parameter for the
+C<IdentityProviderDetails> data type.
 
 
 =head2 LoggingRole => Str
 
-Specifies the Amazon Resource Name (ARN) of the Amazon Web Services
-Identity and Access Management (IAM) role that allows a server to turn
-on Amazon CloudWatch logging for Amazon S3 or Amazon EFS events. When
-set, user activity can be viewed in your CloudWatch logs.
+The Amazon Resource Name (ARN) of the Identity and Access Management
+(IAM) role that allows a server to turn on Amazon CloudWatch logging
+for Amazon S3 or Amazon EFS events. When set, you can view user
+activity in your CloudWatch logs.
 
 
 =head2 ServerId => Str
@@ -99,10 +106,10 @@ were listed.
 
 =head2 State => Str
 
-Specifies the condition of a server for the server that was described.
-A value of C<ONLINE> indicates that the server can accept jobs and
-transfer files. A C<State> value of C<OFFLINE> means that the server
-cannot perform file transfer operations.
+The condition of the server that was described. A value of C<ONLINE>
+indicates that the server can accept jobs and transfer files. A
+C<State> value of C<OFFLINE> means that the server cannot perform file
+transfer operations.
 
 The states of C<STARTING> and C<STOPPING> indicate that the server is
 in an intermediate state, either not fully able to respond, or not

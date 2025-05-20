@@ -37,8 +37,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     # Results:
     my $BotId            = $DescribeBotVersionResponse->BotId;
+    my $BotMembers       = $DescribeBotVersionResponse->BotMembers;
     my $BotName          = $DescribeBotVersionResponse->BotName;
     my $BotStatus        = $DescribeBotVersionResponse->BotStatus;
+    my $BotType          = $DescribeBotVersionResponse->BotType;
     my $BotVersion       = $DescribeBotVersionResponse->BotVersion;
     my $CreationDateTime = $DescribeBotVersionResponse->CreationDateTime;
     my $DataPrivacy      = $DescribeBotVersionResponse->DataPrivacy;
@@ -46,7 +48,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $FailureReasons   = $DescribeBotVersionResponse->FailureReasons;
     my $IdleSessionTTLInSeconds =
       $DescribeBotVersionResponse->IdleSessionTTLInSeconds;
-    my $RoleArn = $DescribeBotVersionResponse->RoleArn;
+    my $ParentBotNetworks = $DescribeBotVersionResponse->ParentBotNetworks;
+    my $RoleArn           = $DescribeBotVersionResponse->RoleArn;
 
     # Returns a L<Paws::LexModelsV2::DescribeBotVersionResponse> object.
 

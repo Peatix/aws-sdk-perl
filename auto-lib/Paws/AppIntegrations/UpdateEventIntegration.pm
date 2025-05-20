@@ -43,7 +43,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/app
 
 =head2 Description => Str
 
-The description of the event inegration.
+The description of the event integration.
 
 
 

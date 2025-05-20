@@ -4,7 +4,9 @@ package Paws::Batch::JobQueueDetail;
   has ComputeEnvironmentOrder => (is => 'ro', isa => 'ArrayRef[Paws::Batch::ComputeEnvironmentOrder]', request_name => 'computeEnvironmentOrder', traits => ['NameInRequest'], required => 1);
   has JobQueueArn => (is => 'ro', isa => 'Str', request_name => 'jobQueueArn', traits => ['NameInRequest'], required => 1);
   has JobQueueName => (is => 'ro', isa => 'Str', request_name => 'jobQueueName', traits => ['NameInRequest'], required => 1);
+  has JobStateTimeLimitActions => (is => 'ro', isa => 'ArrayRef[Paws::Batch::JobStateTimeLimitAction]', request_name => 'jobStateTimeLimitActions', traits => ['NameInRequest']);
   has Priority => (is => 'ro', isa => 'Int', request_name => 'priority', traits => ['NameInRequest'], required => 1);
+  has SchedulingPolicyArn => (is => 'ro', isa => 'Str', request_name => 'schedulingPolicyArn', traits => ['NameInRequest']);
   has State => (is => 'ro', isa => 'Str', request_name => 'state', traits => ['NameInRequest'], required => 1);
   has Status => (is => 'ro', isa => 'Str', request_name => 'status', traits => ['NameInRequest']);
   has StatusReason => (is => 'ro', isa => 'Str', request_name => 'statusReason', traits => ['NameInRequest']);
@@ -40,7 +42,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Batch::JobQ
 
 =head1 DESCRIPTION
 
-An object representing the details of an AWS Batch job queue.
+An object that represents the details for an Batch job queue.
 
 =head1 ATTRIBUTES
 
@@ -59,27 +61,57 @@ The Amazon Resource Name (ARN) of the job queue.
 
 =head2 B<REQUIRED> JobQueueName => Str
 
-The name of the job queue.
+The job queue name.
+
+
+=head2 JobStateTimeLimitActions => ArrayRef[L<Paws::Batch::JobStateTimeLimitAction>]
+
+The set of actions that Batch perform on jobs that remain at the head
+of the job queue in the specified state longer than specified times.
+Batch will perform each action after C<maxTimeSeconds> has passed.
 
 
 =head2 B<REQUIRED> Priority => Int
 
-The priority of the job queue. Job queues with a higher priority (or a
-higher integer value for the C<priority> parameter) are evaluated first
-when associated with the same compute environment. Priority is
-determined in descending order, for example, a job queue with a
-priority value of C<10> is given scheduling preference over a job queue
-with a priority value of C<1>. All of the compute environments must be
-either EC2 (C<EC2> or C<SPOT>) or Fargate (C<FARGATE> or
-C<FARGATE_SPOT>); EC2 and Fargate compute environments can't be mixed.
+The priority of the job queue. Job queue priority determines the order
+that job queues are evaluated when multiple queues dispatch jobs within
+a shared compute environment. A higher value for C<priority> indicates
+a higher priority. Queues are evaluated in cycles, in descending order
+by priority. For example, a job queue with a priority value of C<10> is
+evaluated before a queue with a priority value of C<1>. All of the
+compute environments must be either Amazon EC2 (C<EC2> or C<SPOT>) or
+Fargate (C<FARGATE> or C<FARGATE_SPOT>). Amazon EC2 and Fargate compute
+environments can't be mixed.
+
+Job queue priority doesn't guarantee that a particular job executes
+before a job in a lower priority queue. Jobs added to higher priority
+queues during the queue evaluation cycle might not be evaluated until
+the next cycle. A job is dispatched from a queue only if resources are
+available when the queue is evaluated. If there are insufficient
+resources available at that time, the cycle proceeds to the next queue.
+This means that jobs added to higher priority queues might have to wait
+for jobs in multiple lower priority queues to complete before they are
+dispatched. You can use job dependencies to control the order for jobs
+from queues with different priorities. For more information, see Job
+Dependencies
+(https://docs.aws.amazon.com/batch/latest/userguide/job_dependencies.html)
+in the I<Batch User Guide>.
+
+
+=head2 SchedulingPolicyArn => Str
+
+The Amazon Resource Name (ARN) of the scheduling policy. The format is
+C<aws:I<Partition>:batch:I<Region>:I<Account>:scheduling-policy/I<Name>
+>. For example,
+C<aws:aws:batch:us-west-2:123456789012:scheduling-policy/MySchedulingPolicy>.
 
 
 =head2 B<REQUIRED> State => Str
 
 Describes the ability of the queue to accept new jobs. If the job queue
-state is C<ENABLED>, it's able to accept jobs. If the job queue state
-is C<DISABLED>, new jobs can't be added to the queue, but jobs already
-in the queue can finish.
+state is C<ENABLED>, it can accept jobs. If the job queue state is
+C<DISABLED>, new jobs can't be added to the queue, but jobs already in
+the queue can finish.
 
 
 =head2 Status => Str
@@ -89,16 +121,16 @@ The status of the job queue (for example, C<CREATING> or C<VALID>).
 
 =head2 StatusReason => Str
 
-A short, human-readable string to provide additional details about the
+A short, human-readable string to provide additional details for the
 current status of the job queue.
 
 
 =head2 Tags => L<Paws::Batch::TagrisTagsMap>
 
-The tags applied to the job queue. For more information, see Tagging
-your AWS Batch resources
+The tags that are applied to the job queue. For more information, see
+Tagging your Batch resources
 (https://docs.aws.amazon.com/batch/latest/userguide/using-tags.html) in
-I<AWS Batch User Guide>.
+I<Batch User Guide>.
 
 
 

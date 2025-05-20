@@ -53,8 +53,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/gam
 
 =head2 B<REQUIRED> FleetId => Str
 
-A unique identifier for the fleet to retrieve scaling policies for. You
-can use either the fleet ID or ARN value.
+A unique identifier for the fleet for which to retrieve scaling
+policies. You can use either the fleet ID or ARN value.
 
 
 
@@ -67,7 +67,8 @@ C<NextToken> to get results as a set of sequential pages.
 
 =head2 Location => Str
 
-CONTENT TODO
+The fleet location. If you don't specify this value, the response
+contains the scaling policies of every location in the fleet.
 
 
 

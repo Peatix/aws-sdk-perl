@@ -34,7 +34,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::S3Control::
 
 =head1 DESCRIPTION
 
-AWS Lambda function used to transform objects through an Object Lambda
+Lambda function used to transform objects through an Object Lambda
 Access Point.
 
 =head1 ATTRIBUTES
@@ -42,7 +42,7 @@ Access Point.
 
 =head2 B<REQUIRED> FunctionArn => Str
 
-The Amazon Resource Name (ARN) of the AWS Lambda function.
+The Amazon Resource Name (ARN) of the Lambda function.
 
 
 =head2 FunctionPayload => Str

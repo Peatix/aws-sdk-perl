@@ -47,7 +47,7 @@ pull request on an associated repository.
 
 C<RepositoryAnalysis> - A code review that analyzes all code under a
 specified branch in an associated repository. The associated repository
-is specified using its ARN in C<CreateCodeReview>
+is specified using its ARN in CreateCodeReview
 (https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_CreateCodeReview).
 
 =back
@@ -67,7 +67,7 @@ both.
 
 A code review that analyzes all code under a specified branch in an
 associated repository. The associated repository is specified using its
-ARN in C<CreateCodeReview>
+ARN in CreateCodeReview
 (https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_CreateCodeReview).
 
 

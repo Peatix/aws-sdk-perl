@@ -32,7 +32,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $ListContributorInsightsOutput = $dynamodb->ListContributorInsights(
       MaxResults => 1,                      # OPTIONAL
       NextToken  => 'MyNextTokenString',    # OPTIONAL
-      TableName  => 'MyTableName',          # OPTIONAL
+      TableName  => 'MyTableArn',           # OPTIONAL
     );
 
     # Results:
@@ -62,7 +62,8 @@ A token to for the desired page, if there is one.
 
 =head2 TableName => Str
 
-The name of the table.
+The name of the table. You can also provide the Amazon Resource Name
+(ARN) of the table in this parameter.
 
 
 

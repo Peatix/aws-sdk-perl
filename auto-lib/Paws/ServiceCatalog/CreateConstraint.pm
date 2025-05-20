@@ -64,10 +64,6 @@ The language code.
 
 =item *
 
-C<en> - English (default)
-
-=item *
-
 C<jp> - Japanese
 
 =item *
@@ -155,8 +151,8 @@ You cannot have both a C<LAUNCH> and a C<STACKSET> constraint.
 You also cannot have more than one C<STACKSET> constraint on a product
 and portfolio.
 
-Products with a C<STACKSET> constraint will launch an AWS
-CloudFormation stack set.
+Products with a C<STACKSET> constraint will launch an CloudFormation
+stack set.
 
 =item TEMPLATE
 

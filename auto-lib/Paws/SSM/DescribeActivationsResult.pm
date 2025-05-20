@@ -17,7 +17,7 @@ Paws::SSM::DescribeActivationsResult
 
 =head2 ActivationList => ArrayRef[L<Paws::SSM::Activation>]
 
-A list of activations for your AWS account.
+A list of activations for your Amazon Web Services account.
 
 
 =head2 NextToken => Str

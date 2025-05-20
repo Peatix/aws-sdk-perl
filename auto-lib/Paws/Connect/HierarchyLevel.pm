@@ -3,6 +3,8 @@ package Paws::Connect::HierarchyLevel;
   use Moose;
   has Arn => (is => 'ro', isa => 'Str');
   has Id => (is => 'ro', isa => 'Str');
+  has LastModifiedRegion => (is => 'ro', isa => 'Str');
+  has LastModifiedTime => (is => 'ro', isa => 'Str');
   has Name => (is => 'ro', isa => 'Str');
 
 1;
@@ -48,6 +50,16 @@ The Amazon Resource Name (ARN) of the hierarchy level.
 =head2 Id => Str
 
 The identifier of the hierarchy level.
+
+
+=head2 LastModifiedRegion => Str
+
+The Amazon Web Services Region where this resource was last modified.
+
+
+=head2 LastModifiedTime => Str
+
+The timestamp when this resource was last modified.
 
 
 =head2 Name => Str

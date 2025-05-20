@@ -41,16 +41,16 @@ This class has no description
 
 The error code that indicates why the parameter or parameter
 combination is not valid. For more information about error codes, see
-Error Codes
-(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/errors-overview.html.html).
+Error codes
+(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/errors-overview.html).
 
 
 =head2 Message => Str
 
 The error message that describes why the parameter or parameter
 combination is not valid. For more information about error messages,
-see Error Codes
-(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/errors-overview.html.html).
+see Error codes
+(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/errors-overview.html).
 
 
 

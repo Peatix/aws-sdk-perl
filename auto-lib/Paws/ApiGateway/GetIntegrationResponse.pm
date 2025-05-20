@@ -56,26 +56,25 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 B<REQUIRED> HttpMethod => Str
 
-[Required] Specifies a get integration response request's HTTP method.
+Specifies a get integration response request's HTTP method.
 
 
 
 =head2 B<REQUIRED> ResourceId => Str
 
-[Required] Specifies a get integration response request's resource
-identifier.
+Specifies a get integration response request's resource identifier.
 
 
 
 =head2 B<REQUIRED> RestApiId => Str
 
-[Required] The string identifier of the associated RestApi.
+The string identifier of the associated RestApi.
 
 
 
 =head2 B<REQUIRED> StatusCode => Str
 
-[Required] Specifies a get integration response request's status code.
+Specifies a get integration response request's status code.
 
 
 

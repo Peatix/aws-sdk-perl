@@ -59,7 +59,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 B<REQUIRED> EndDate => Str
 
-[Required] The ending date (e.g., 2016-12-31) of the usage data.
+The ending date (e.g., 2016-12-31) of the usage data.
 
 
 
@@ -84,13 +84,13 @@ The current pagination position in the paged result set.
 
 =head2 B<REQUIRED> StartDate => Str
 
-[Required] The starting date (e.g., 2016-01-01) of the usage data.
+The starting date (e.g., 2016-01-01) of the usage data.
 
 
 
 =head2 B<REQUIRED> UsagePlanId => Str
 
-[Required] The Id of the usage plan associated with the usage data.
+The Id of the usage plan associated with the usage data.
 
 
 

@@ -4,7 +4,8 @@ package Paws::MediaConnect::UpdateFlowSource;
   has Decryption => (is => 'ro', isa => 'Paws::MediaConnect::UpdateEncryption', traits => ['NameInRequest'], request_name => 'decryption');
   has Description => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'description');
   has EntitlementArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'entitlementArn');
-  has FlowArn => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'flowArn', required => 1);
+  has FlowArn => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'FlowArn', required => 1);
+  has GatewayBridgeSource => (is => 'ro', isa => 'Paws::MediaConnect::UpdateGatewayBridgeSourceRequest', traits => ['NameInRequest'], request_name => 'gatewayBridgeSource');
   has IngestPort => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'ingestPort');
   has MaxBitrate => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'maxBitrate');
   has MaxLatency => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'maxLatency');
@@ -12,7 +13,11 @@ package Paws::MediaConnect::UpdateFlowSource;
   has MediaStreamSourceConfigurations => (is => 'ro', isa => 'ArrayRef[Paws::MediaConnect::MediaStreamSourceConfigurationRequest]', traits => ['NameInRequest'], request_name => 'mediaStreamSourceConfigurations');
   has MinLatency => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'minLatency');
   has Protocol => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'protocol');
-  has SourceArn => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'sourceArn', required => 1);
+  has SenderControlPort => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'senderControlPort');
+  has SenderIpAddress => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'senderIpAddress');
+  has SourceArn => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'SourceArn', required => 1);
+  has SourceListenerAddress => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'sourceListenerAddress');
+  has SourceListenerPort => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'sourceListenerPort');
   has StreamId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'streamId');
   has VpcInterfaceName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'vpcInterfaceName');
   has WhitelistCidr => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'whitelistCidr');
@@ -20,7 +25,7 @@ package Paws::MediaConnect::UpdateFlowSource;
   use MooseX::ClassAttribute;
 
   class_has _api_call => (isa => 'Str', is => 'ro', default => 'UpdateFlowSource');
-  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/v1/flows/{flowArn}/source/{sourceArn}');
+  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/v1/flows/{FlowArn}/source/{SourceArn}');
   class_has _api_method  => (isa => 'Str', is => 'ro', default => 'PUT');
   class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::MediaConnect::UpdateFlowSourceResponse');
 1;
@@ -43,48 +48,60 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $mediaconnect = Paws->service('MediaConnect');
     my $UpdateFlowSourceResponse = $mediaconnect->UpdateFlowSource(
-      FlowArn    => 'My__string',
-      SourceArn  => 'My__string',
+      FlowArn    => 'MyUpdateFlowSourceRequestFlowArnString',
+      SourceArn  => 'MyUpdateFlowSourceRequestSourceArnString',
       Decryption => {
-        Algorithm => 'aes128',    # values: aes128, aes192, aes256; OPTIONAL
-        ConstantInitializationVector => 'My__string',
-        DeviceId                     => 'My__string',
+        Algorithm => 'aes128',       # values: aes128, aes192, aes256; OPTIONAL
+        ConstantInitializationVector => 'MyString',    # OPTIONAL
+        DeviceId                     => 'MyString',    # OPTIONAL
         KeyType => 'speke',  # values: speke, static-key, srt-password; OPTIONAL
-        Region     => 'My__string',
-        ResourceId => 'My__string',
-        RoleArn    => 'My__string',
-        SecretArn  => 'My__string',
-        Url        => 'My__string',
+        Region     => 'MyString',    # OPTIONAL
+        ResourceId => 'MyString',    # OPTIONAL
+        RoleArn    => 'MyString',    # OPTIONAL
+        SecretArn  => 'MyString',    # OPTIONAL
+        Url        => 'MyString',    # OPTIONAL
       },    # OPTIONAL
-      Description                     => 'My__string',    # OPTIONAL
-      EntitlementArn                  => 'My__string',    # OPTIONAL
-      IngestPort                      => 1,               # OPTIONAL
-      MaxBitrate                      => 1,               # OPTIONAL
-      MaxLatency                      => 1,               # OPTIONAL
-      MaxSyncBuffer                   => 1,               # OPTIONAL
+      Description    => 'MyString',                         # OPTIONAL
+      EntitlementArn =>
+        'MyUpdateFlowSourceRequestEntitlementArnString',    # OPTIONAL
+      GatewayBridgeSource => {
+        BridgeArn =>
+          'MyUpdateGatewayBridgeSourceRequestBridgeArnString',    # OPTIONAL
+        VpcInterfaceAttachment => {
+          VpcInterfaceName => 'MyString',                         # OPTIONAL
+        },    # OPTIONAL
+      },    # OPTIONAL
+      IngestPort                      => 1,    # OPTIONAL
+      MaxBitrate                      => 1,    # OPTIONAL
+      MaxLatency                      => 1,    # OPTIONAL
+      MaxSyncBuffer                   => 1,    # OPTIONAL
       MediaStreamSourceConfigurations => [
         {
           EncodingName        => 'jxsv',      # values: jxsv, raw, smpte291, pcm
-          MediaStreamName     => 'My__string',
+          MediaStreamName     => 'MyString',  # OPTIONAL
           InputConfigurations => [
             {
               InputPort => 1,
               Interface => {
-                Name => 'My__string',
+                Name => 'MyString',    # OPTIONAL
 
               },
 
             },
             ...
-          ],                                  # OPTIONAL
+          ],    # OPTIONAL
         },
         ...
       ],    # OPTIONAL
-      MinLatency       => 1,               # OPTIONAL
-      Protocol         => 'zixi-push',     # OPTIONAL
-      StreamId         => 'My__string',    # OPTIONAL
-      VpcInterfaceName => 'My__string',    # OPTIONAL
-      WhitelistCidr    => 'My__string',    # OPTIONAL
+      MinLatency            => 1,              # OPTIONAL
+      Protocol              => 'zixi-push',    # OPTIONAL
+      SenderControlPort     => 1,              # OPTIONAL
+      SenderIpAddress       => 'MyString',     # OPTIONAL
+      SourceListenerAddress => 'MyString',     # OPTIONAL
+      SourceListenerPort    => 1,              # OPTIONAL
+      StreamId              => 'MyString',     # OPTIONAL
+      VpcInterfaceName      => 'MyString',     # OPTIONAL
+      WhitelistCidr         => 'MyString',     # OPTIONAL
     );
 
     # Results:
@@ -101,40 +118,49 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/med
 
 =head2 Decryption => L<Paws::MediaConnect::UpdateEncryption>
 
-The type of encryption used on the content ingested from this source.
+The type of encryption that is used on the content ingested from the
+source.
 
 
 
 =head2 Description => Str
 
-A description for the source. This value is not used or seen outside of
-the current AWS Elemental MediaConnect account.
+A description of the source. This description is not visible outside of
+the current Amazon Web Services account.
 
 
 
 =head2 EntitlementArn => Str
 
-The ARN of the entitlement that allows you to subscribe to this flow.
-The entitlement is set by the flow originator, and the ARN is generated
-as part of the originator's flow.
+The Amazon Resource Name (ARN) of the entitlement that allows you to
+subscribe to the flow. The entitlement is set by the content
+originator, and the ARN is generated as part of the originator's flow.
 
 
 
 =head2 B<REQUIRED> FlowArn => Str
 
-The flow that is associated with the source that you want to update.
+The ARN of the flow that you want to update.
+
+
+
+=head2 GatewayBridgeSource => L<Paws::MediaConnect::UpdateGatewayBridgeSourceRequest>
+
+The source configuration for cloud flows receiving a stream from a
+bridge.
 
 
 
 =head2 IngestPort => Int
 
-The port that the flow will be listening on for incoming content.
+The port that the flow listens on for incoming content. If the protocol
+of the source is Zixi, the port must be set to 2088.
 
 
 
 =head2 MaxBitrate => Int
 
-The smoothing max bitrate for RIST, RTP, and RTP-FEC streams.
+The maximum bitrate for RIST, RTP, and RTP-FEC streams.
 
 
 
@@ -154,8 +180,8 @@ data.
 
 =head2 MediaStreamSourceConfigurations => ArrayRef[L<Paws::MediaConnect::MediaStreamSourceConfigurationRequest>]
 
-The media streams that are associated with the source, and the
-parameters for those associations.
+The media stream that is associated with the source, and the parameters
+for that association.
 
 
 
@@ -172,9 +198,27 @@ minimum latency.
 
 =head2 Protocol => Str
 
-The protocol that is used by the source.
+The protocol that the source uses to deliver the content to
+MediaConnect.
 
-Valid values are: C<"zixi-push">, C<"rtp-fec">, C<"rtp">, C<"zixi-pull">, C<"rist">, C<"st2110-jpegxs">, C<"cdi">, C<"srt-listener">
+Elemental MediaConnect no longer supports the Fujitsu QoS protocol.
+This reference is maintained for legacy purposes only.
+
+Valid values are: C<"zixi-push">, C<"rtp-fec">, C<"rtp">, C<"zixi-pull">, C<"rist">, C<"st2110-jpegxs">, C<"cdi">, C<"srt-listener">, C<"srt-caller">, C<"fujitsu-qos">, C<"udp">, C<"ndi-speed-hq">
+
+=head2 SenderControlPort => Int
+
+The port that the flow uses to send outbound requests to initiate
+connection with the sender.
+
+
+
+=head2 SenderIpAddress => Str
+
+The IP address that the flow communicates with to initiate connection
+with the sender.
+
+
 
 =head2 B<REQUIRED> SourceArn => Str
 
@@ -182,24 +226,36 @@ The ARN of the source that you want to update.
 
 
 
+=head2 SourceListenerAddress => Str
+
+The source IP or domain name for SRT-caller protocol.
+
+
+
+=head2 SourceListenerPort => Int
+
+Source port for SRT-caller protocol.
+
+
+
 =head2 StreamId => Str
 
 The stream ID that you want to use for this transport. This parameter
-applies only to Zixi-based streams.
+applies only to Zixi and SRT caller-based streams.
 
 
 
 =head2 VpcInterfaceName => Str
 
-The name of the VPC interface to use for this source.
+The name of the VPC interface that you want to send your output to.
 
 
 
 =head2 WhitelistCidr => Str
 
-The range of IP addresses that should be allowed to contribute content
-to your source. These IP addresses should be in the form of a Classless
-Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
+The range of IP addresses that are allowed to contribute content to
+your source. Format the IP addresses as a Classless Inter-Domain
+Routing (CIDR) block; for example, 10.0.0.0/16.
 
 
 

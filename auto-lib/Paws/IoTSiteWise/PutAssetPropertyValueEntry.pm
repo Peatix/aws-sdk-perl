@@ -58,12 +58,12 @@ which entries failed.
 
 =head2 PropertyAlias => Str
 
-The property alias that identifies the property, such as an OPC-UA
-server data stream path (for example,
+The alias that identifies the property, such as an OPC-UA server data
+stream path (for example,
 C</company/windfarm/3/turbine/7/temperature>). For more information,
 see Mapping industrial data streams to asset properties
 (https://docs.aws.amazon.com/iot-sitewise/latest/userguide/connect-data-streams.html)
-in the I<AWS IoT SiteWise User Guide>.
+in the I<IoT SiteWise User Guide>.
 
 
 =head2 PropertyId => Str

@@ -35,6 +35,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       CallAs               => 'SELF',                    # OPTIONAL
       OperationId          => 'MyClientRequestToken',    # OPTIONAL
       OperationPreferences => {
+        ConcurrencyMode => 'STRICT_FAILURE_TOLERANCE'
+        ,   # values: STRICT_FAILURE_TOLERANCE, SOFT_FAILURE_TOLERANCE; OPTIONAL
         FailureToleranceCount      => 1,    # OPTIONAL
         FailureTolerancePercentage => 1,    # max: 100; OPTIONAL
         MaxConcurrentCount         => 1,    # min: 1; OPTIONAL
@@ -76,11 +78,11 @@ If you are signed in to the management account, specify C<SELF>.
 If you are signed in to a delegated administrator account, specify
 C<DELEGATED_ADMIN>.
 
-Your AWS account must be registered as a delegated administrator in the
-management account. For more information, see Register a delegated
-administrator
+Your Amazon Web Services account must be registered as a delegated
+administrator in the management account. For more information, see
+Register a delegated administrator
 (https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-delegated-admin.html)
-in the I<AWS CloudFormation User Guide>.
+in the I<CloudFormation User Guide>.
 
 =back
 
@@ -95,7 +97,12 @@ I<The ID of the stack set operation.>
 
 =head2 OperationPreferences => L<Paws::CloudFormation::StackSetOperationPreferences>
 
+The user-specified preferences for how CloudFormation performs a stack
+set operation.
 
+For more information about maximum concurrent accounts and failure
+tolerance, see Stack set operation options
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/what-is-cfnstacksets.html#stackset-ops-options).
 
 
 

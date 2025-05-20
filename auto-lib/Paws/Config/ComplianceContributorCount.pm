@@ -34,8 +34,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Config::Com
 
 =head1 DESCRIPTION
 
-The number of AWS resources or AWS Config rules responsible for the
-current compliance of the item, up to a maximum number.
+The number of Amazon Web Services resources or Config rules responsible
+for the current compliance of the item, up to a maximum number.
 
 =head1 ATTRIBUTES
 
@@ -47,8 +47,8 @@ Indicates whether the maximum count is reached.
 
 =head2 CappedCount => Int
 
-The number of AWS resources or AWS Config rules responsible for the
-current compliance of the item.
+The number of Amazon Web Services resources or Config rules responsible
+for the current compliance of the item.
 
 
 

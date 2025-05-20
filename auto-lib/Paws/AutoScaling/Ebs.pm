@@ -55,32 +55,23 @@ Amazon EC2 Auto Scaling, the default value is C<true>.
 
 Specifies whether the volume should be encrypted. Encrypted EBS volumes
 can only be attached to instances that support Amazon EBS encryption.
-For more information, see Supported Instance Types
-(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html#EBSEncryption_supported_instances).
-If your AMI uses encrypted volumes, you can also only launch it on
-supported instance types.
+For more information, see Requirements for Amazon EBS encryption
+(https://docs.aws.amazon.com/ebs/latest/userguide/ebs-encryption-requirements.html)
+in the I<Amazon EBS User Guide>. If your AMI uses encrypted volumes,
+you can also only launch it on supported instance types.
 
-If you are creating a volume from a snapshot, you cannot specify an
-encryption value. Volumes that are created from encrypted snapshots are
-automatically encrypted, and volumes that are created from unencrypted
-snapshots are automatically unencrypted. By default, encrypted
-snapshots use the Amazon Web Services managed CMK that is used for EBS
-encryption, but you can specify a custom CMK when you create the
-snapshot. The ability to encrypt a snapshot during copying also allows
-you to apply a new CMK to an already-encrypted snapshot. Volumes
-restored from the resulting copy are only accessible using the new CMK.
+If you are creating a volume from a snapshot, you cannot create an
+unencrypted volume from an encrypted snapshot. Also, you cannot specify
+a KMS key ID when using a launch configuration.
 
-Enabling encryption by default
-(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html#encryption-by-default)
-results in all EBS volumes being encrypted with the Amazon Web Services
-managed CMK or a customer managed CMK, whether or not the snapshot was
-encrypted.
+If you enable encryption by default, the EBS volumes that you create
+are always encrypted, either using the Amazon Web Services managed KMS
+key or a customer-managed KMS key, regardless of whether the snapshot
+was encrypted.
 
-For more information, see Using Encryption with EBS-Backed AMIs
-(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIEncryption.html)
-in the I<Amazon EC2 User Guide for Linux Instances> and Required CMK
-key policy for use with encrypted volumes
-(https://docs.aws.amazon.com/autoscaling/ec2/userguide/key-policy-requirements-EBS-encryption.html)
+For more information, see Use Amazon Web Services KMS keys to encrypt
+Amazon EBS volumes
+(https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-data-protection.html#encryption)
 in the I<Amazon EC2 Auto Scaling User Guide>.
 
 
@@ -107,8 +98,8 @@ C<io1>: 100-64,000 IOPS
 =back
 
 For C<io1> volumes, we guarantee 64,000 IOPS only for Instances built
-on the Nitro System
-(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances).
+on the Amazon Web Services Nitro System
+(https://docs.aws.amazon.com/ec2/latest/instancetypes/ec2-nitro-instances.html).
 Other instance families guarantee performance up to 32,000 IOPS.
 
 C<Iops> is supported when the volume type is C<gp3> or C<io1> and
@@ -160,11 +151,11 @@ equal or greater than the size of the snapshot.
 
 =head2 VolumeType => Str
 
-The volume type. For more information, see Amazon EBS Volume Types
-(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumeTypes.html)
-in the I<Amazon EC2 User Guide for Linux Instances>.
+The volume type. For more information, see Amazon EBS volume types
+(https://docs.aws.amazon.com/ebs/latest/userguide/ebs-volume-types.html)
+in the I<Amazon EBS User Guide>.
 
-Valid Values: C<standard> | C<io1> | C<gp2> | C<st1> | C<sc1> | C<gp3>
+Valid values: C<standard> | C<io1> | C<gp2> | C<st1> | C<sc1> | C<gp3>
 
 
 

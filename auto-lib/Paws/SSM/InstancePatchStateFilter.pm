@@ -35,28 +35,83 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SSM::Instan
 
 =head1 DESCRIPTION
 
-Defines a filter used in DescribeInstancePatchStatesForPatchGroup used
-to scope down the information returned by the API.
+Defines a filter used in DescribeInstancePatchStatesForPatchGroup to
+scope down the information returned by the API.
+
+B<Example>: To filter for all managed nodes in a patch group having
+more than three patches with a C<FailedCount> status, use the following
+for the filter:
+
+=over
+
+=item *
+
+Value for C<Key>: C<FailedCount>
+
+=item *
+
+Value for C<Type>: C<GreaterThan>
+
+=item *
+
+Value for C<Values>: C<3>
+
+=back
+
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> Key => Str
 
-The key for the filter. Supported values are FailedCount,
-InstalledCount, InstalledOtherCount, MissingCount and
-NotApplicableCount.
+The key for the filter. Supported values include the following:
+
+=over
+
+=item *
+
+C<InstalledCount>
+
+=item *
+
+C<InstalledOtherCount>
+
+=item *
+
+C<InstalledPendingRebootCount>
+
+=item *
+
+C<InstalledRejectedCount>
+
+=item *
+
+C<MissingCount>
+
+=item *
+
+C<FailedCount>
+
+=item *
+
+C<UnreportedNotApplicableCount>
+
+=item *
+
+C<NotApplicableCount>
+
+=back
+
 
 
 =head2 B<REQUIRED> Type => Str
 
-The type of comparison that should be performed for the value: Equal,
-NotEqual, LessThan or GreaterThan.
+The type of comparison that should be performed for the value.
 
 
 =head2 B<REQUIRED> Values => ArrayRef[Str|Undef]
 
-The value for the filter, must be an integer greater than or equal to
+The value for the filter. Must be an integer greater than or equal to
 0.
 
 

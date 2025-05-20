@@ -17,7 +17,7 @@ Paws::MediaConnect::DescribeOfferingResponse
 
 =head2 Offering => L<Paws::MediaConnect::Offering>
 
-
+The offering that you requested a description of.
 
 
 =head2 _request_id => Str

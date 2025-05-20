@@ -38,7 +38,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::TimestreamW
 
 =head1 DESCRIPTION
 
-A top level container for a table. Databases and tables are the
+A top-level container for a table. Databases and tables are the
 fundamental management concepts in Amazon Timestream. All tables in a
 database are encrypted with the same KMS key.
 

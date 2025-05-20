@@ -17,8 +17,8 @@ Paws::WAFV2::ListIPSetsResponse
 
 =head2 IPSets => ArrayRef[L<Paws::WAFV2::IPSetSummary>]
 
-Array of IPSets. This may not be the full list of IPSets that you have
-defined. See the C<Limit> specification for this request.
+Array of IPSets. If you specified a C<Limit> in your request, this
+might not be the full list.
 
 
 =head2 NextMarker => Str

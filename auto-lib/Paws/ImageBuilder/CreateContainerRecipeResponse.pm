@@ -19,7 +19,7 @@ Paws::ImageBuilder::CreateContainerRecipeResponse
 
 =head2 ClientToken => Str
 
-The client token used to make this request idempotent.
+The client token that uniquely identifies the request.
 
 
 =head2 ContainerRecipeArn => Str

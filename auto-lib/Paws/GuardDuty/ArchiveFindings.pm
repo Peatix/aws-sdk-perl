@@ -48,6 +48,11 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/gua
 The ID of the detector that specifies the GuardDuty service whose
 findings you want to archive.
 
+To find the C<detectorId> in the current Region, see the Settings page
+in the GuardDuty console, or run the ListDetectors
+(https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+API.
+
 
 
 =head2 B<REQUIRED> FindingIds => ArrayRef[Str|Undef]

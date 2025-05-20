@@ -53,6 +53,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       },    # OPTIONAL
     );
 
+    # Results:
+    my $OperationId = $StartApplicationResponse->OperationId;
+
+    # Returns a L<Paws::KinesisAnalyticsV2::StartApplicationResponse> object.
+
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/kinesisanalytics/StartApplication>
 
@@ -67,8 +72,8 @@ The name of the application.
 
 =head2 RunConfiguration => L<Paws::KinesisAnalyticsV2::RunConfiguration>
 
-Identifies the run configuration (start parameters) of a Kinesis Data
-Analytics application.
+Identifies the run configuration (start parameters) of a Managed
+Service for Apache Flink application.
 
 
 

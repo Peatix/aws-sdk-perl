@@ -6,6 +6,7 @@ package Paws::IoTWireless::UpdateWirelessDevice;
   has Id => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'Id', required => 1);
   has LoRaWAN => (is => 'ro', isa => 'Paws::IoTWireless::LoRaWANUpdateDevice');
   has Name => (is => 'ro', isa => 'Str');
+  has Positioning => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -37,10 +38,33 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       Description     => 'MyDescription',        # OPTIONAL
       DestinationName => 'MyDestinationName',    # OPTIONAL
       LoRaWAN         => {
-        DeviceProfileId  => 'MyDeviceProfileId',     # max: 256; OPTIONAL
+        AbpV1_0_x => {
+          FCntStart => 1,                        # max: 65535; OPTIONAL
+        },    # OPTIONAL
+        AbpV1_1 => {
+          FCntStart => 1,    # max: 65535; OPTIONAL
+        },    # OPTIONAL
+        DeviceProfileId => 'MyDeviceProfileId',    # max: 256; OPTIONAL
+        FPorts          => {
+          Applications => [
+            {
+              DestinationName => 'MyDestinationName',    # max: 128
+              FPort           => 1,    # min: 1, max: 223; OPTIONAL
+              Type            =>
+                'SemtechGeolocation',    # values: SemtechGeolocation; OPTIONAL
+            },
+            ...
+          ],    # OPTIONAL
+          Positioning => {
+            ClockSync => 1,    # min: 1, max: 223; OPTIONAL
+            Gnss      => 1,    # min: 1, max: 223; OPTIONAL
+            Stream    => 1,    # min: 1, max: 223; OPTIONAL
+          },    # OPTIONAL
+        },    # OPTIONAL
         ServiceProfileId => 'MyServiceProfileId',    # max: 256; OPTIONAL
       },    # OPTIONAL
-      Name => 'MyWirelessDeviceName',    # OPTIONAL
+      Name        => 'MyWirelessDeviceName',    # OPTIONAL
+      Positioning => 'Enabled',                 # OPTIONAL
     );
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
@@ -78,6 +102,13 @@ The updated wireless device's configuration.
 The new name of the resource.
 
 
+
+=head2 Positioning => Str
+
+FPort values for the GNSS, stream, and ClockSync functions of the
+positioning information.
+
+Valid values are: C<"Enabled">, C<"Disabled">
 
 
 =head1 SEE ALSO

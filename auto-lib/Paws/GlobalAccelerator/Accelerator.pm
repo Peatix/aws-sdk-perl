@@ -4,7 +4,9 @@ package Paws::GlobalAccelerator::Accelerator;
   has AcceleratorArn => (is => 'ro', isa => 'Str');
   has CreatedTime => (is => 'ro', isa => 'Str');
   has DnsName => (is => 'ro', isa => 'Str');
+  has DualStackDnsName => (is => 'ro', isa => 'Str');
   has Enabled => (is => 'ro', isa => 'Bool');
+  has Events => (is => 'ro', isa => 'ArrayRef[Paws::GlobalAccelerator::AcceleratorEvent]');
   has IpAddressType => (is => 'ro', isa => 'Str');
   has IpSets => (is => 'ro', isa => 'ArrayRef[Paws::GlobalAccelerator::IpSet]');
   has LastModifiedTime => (is => 'ro', isa => 'Str');
@@ -62,17 +64,42 @@ The date and time that the accelerator was created.
 =head2 DnsName => Str
 
 The Domain Name System (DNS) name that Global Accelerator creates that
-points to your accelerator's static IP addresses.
+points to an accelerator's static IPv4 addresses.
 
-The naming convention for the DNS name is the following: A lowercase
-letter a, followed by a 16-bit random hex string, followed by
-.awsglobalaccelerator.com. For example:
+The naming convention for the DNS name for an accelerator is the
+following: A lowercase letter a, followed by a 16-bit random hex
+string, followed by .awsglobalaccelerator.com. For example:
 a1234567890abcdef.awsglobalaccelerator.com.
 
+If you have a dual-stack accelerator, you also have a second DNS name,
+C<DualStackDnsName>, that points to both the A record and the AAAA
+record for all four static addresses for the accelerator: two IPv4
+addresses and two IPv6 addresses.
+
 For more information about the default DNS name, see Support for DNS
-Addressing in Global Accelerator
+addressing in Global Accelerator
+(https://docs.aws.amazon.com/global-accelerator/latest/dg/dns-addressing-custom-domains.dns-addressing.html)
+in the I<Global Accelerator Developer Guide>.
+
+
+=head2 DualStackDnsName => Str
+
+The Domain Name System (DNS) name that Global Accelerator creates that
+points to a dual-stack accelerator's four static IP addresses: two IPv4
+addresses and two IPv6 addresses.
+
+The naming convention for the dual-stack DNS name is the following: A
+lowercase letter a, followed by a 16-bit random hex string, followed by
+.dualstack.awsglobalaccelerator.com. For example:
+a1234567890abcdef.dualstack.awsglobalaccelerator.com.
+
+Note: Global Accelerator also assigns a default DNS name, C<DnsName>,
+to your accelerator that points just to the static IPv4 addresses.
+
+For more information, see Support for DNS addressing in Global
+Accelerator
 (https://docs.aws.amazon.com/global-accelerator/latest/dg/about-accelerators.html#about-accelerators.dns-addressing)
-in the I<AWS Global Accelerator Developer Guide>.
+in the I<Global Accelerator Developer Guide>.
 
 
 =head2 Enabled => Bool
@@ -84,9 +111,16 @@ If the value is set to true, the accelerator cannot be deleted. If set
 to false, accelerator can be deleted.
 
 
+=head2 Events => ArrayRef[L<Paws::GlobalAccelerator::AcceleratorEvent>]
+
+A history of changes that you make to an accelerator in Global
+Accelerator.
+
+
 =head2 IpAddressType => Str
 
-The value for the address type must be IPv4.
+The IP address type that an accelerator supports. For a standard
+accelerator, the value can be IPV4 or DUAL_STACK.
 
 
 =head2 IpSets => ArrayRef[L<Paws::GlobalAccelerator::IpSet>]

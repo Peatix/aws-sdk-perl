@@ -6,8 +6,10 @@ package Paws::Rekognition::FaceDetail;
   has BoundingBox => (is => 'ro', isa => 'Paws::Rekognition::BoundingBox');
   has Confidence => (is => 'ro', isa => 'Num');
   has Emotions => (is => 'ro', isa => 'ArrayRef[Paws::Rekognition::Emotion]');
+  has EyeDirection => (is => 'ro', isa => 'Paws::Rekognition::EyeDirection');
   has Eyeglasses => (is => 'ro', isa => 'Paws::Rekognition::Eyeglasses');
   has EyesOpen => (is => 'ro', isa => 'Paws::Rekognition::EyeOpen');
+  has FaceOccluded => (is => 'ro', isa => 'Paws::Rekognition::FaceOccluded');
   has Gender => (is => 'ro', isa => 'Paws::Rekognition::Gender');
   has Landmarks => (is => 'ro', isa => 'ArrayRef[Paws::Rekognition::Landmark]');
   has MouthOpen => (is => 'ro', isa => 'Paws::Rekognition::MouthOpen');
@@ -59,7 +61,7 @@ operation that can return a C<FaceDetail> object with all attributes.
 To specify which attributes to return, use the C<FaceAttributes> input
 parameter for StartFaceDetection. The following Amazon Rekognition
 Video operations return only the default attributes. The corresponding
-Start operations don't have a C<FaceAttributes> input parameter.
+Start operations don't have a C<FaceAttributes> input parameter:
 
 =over
 
@@ -118,6 +120,12 @@ should not be used in such a way. For example, a person pretending to
 have a sad face might not be sad emotionally.
 
 
+=head2 EyeDirection => L<Paws::Rekognition::EyeDirection>
+
+Indicates the direction the eyes are gazing in, as defined by pitch and
+yaw.
+
+
 =head2 Eyeglasses => L<Paws::Rekognition::Eyeglasses>
 
 Indicates whether or not the face is wearing eye glasses, and the
@@ -128,6 +136,17 @@ confidence level in the determination.
 
 Indicates whether or not the eyes on the face are open, and the
 confidence level in the determination.
+
+
+=head2 FaceOccluded => L<Paws::Rekognition::FaceOccluded>
+
+C<FaceOccluded> should return "true" with a high confidence score if a
+detected faceE<rsquo>s eyes, nose, and mouth are partially captured or
+if they are covered by masks, dark sunglasses, cell phones, hands, or
+other objects. C<FaceOccluded> should return "false" with a high
+confidence score if common occurrences that do not impact face
+verification are detected, such as eye glasses, lightly tinted
+sunglasses, strands of hair, and others.
 
 
 =head2 Gender => L<Paws::Rekognition::Gender>

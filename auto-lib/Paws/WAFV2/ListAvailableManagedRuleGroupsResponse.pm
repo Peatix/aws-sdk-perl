@@ -17,7 +17,8 @@ Paws::WAFV2::ListAvailableManagedRuleGroupsResponse
 
 =head2 ManagedRuleGroups => ArrayRef[L<Paws::WAFV2::ManagedRuleGroupSummary>]
 
-
+Array of managed rule groups that you can use. If you specified a
+C<Limit> in your request, this might not be the full list.
 
 
 =head2 NextMarker => Str

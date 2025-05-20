@@ -70,7 +70,8 @@ Information about the parameter.
 
 =head2 KeyId => Str
 
-The ID of the query key used for this parameter.
+The alias of the Key Management Service (KMS) key used to encrypt the
+parameter. Applies to C<SecureString> parameters only
 
 
 =head2 Labels => ArrayRef[Str|Undef]
@@ -85,8 +86,8 @@ Date the parameter was last changed or updated.
 
 =head2 LastModifiedUser => Str
 
-Amazon Resource Name (ARN) of the AWS user who last changed the
-parameter.
+Amazon Resource Name (ARN) of the Amazon Web Services user who last
+changed the parameter.
 
 
 =head2 Name => Str
@@ -100,7 +101,7 @@ Information about the policies assigned to a parameter.
 
 Assigning parameter policies
 (https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-policies.html)
-in the I<AWS Systems Manager User Guide>.
+in the I<Amazon Web Services Systems Manager User Guide>.
 
 
 =head2 Tier => Str

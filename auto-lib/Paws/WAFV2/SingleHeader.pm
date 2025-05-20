@@ -33,11 +33,16 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::WAFV2::Sing
 
 =head1 DESCRIPTION
 
-One of the headers in a web request, identified by name, for example,
-C<User-Agent> or C<Referer>. This setting isn't case sensitive.
+Inspect one of the headers in the web request, identified by name, for
+example, C<User-Agent> or C<Referer>. The name isn't case sensitive.
 
-This is used only to indicate the web request component for WAF to
-inspect, in the FieldToMatch specification.
+You can filter and inspect all headers with the C<FieldToMatch> setting
+C<Headers>.
+
+This is used to indicate the web request component to inspect, in the
+FieldToMatch specification.
+
+Example JSON: C<"SingleHeader": { "Name": "haystack" }>
 
 =head1 ATTRIBUTES
 

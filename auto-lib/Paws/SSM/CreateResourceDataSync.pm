@@ -99,10 +99,10 @@ Specify C<SyncToDestination> to create a resource data sync that
 synchronizes data to an S3 bucket for Inventory. If you specify
 C<SyncToDestination>, you must provide a value for C<S3Destination>.
 Specify C<SyncFromSource> to synchronize data from a single account and
-multiple Regions, or multiple AWS accounts and Regions, as listed in
-AWS Organizations for Explorer. If you specify C<SyncFromSource>, you
-must provide a value for C<SyncSource>. The default value is
-C<SyncToDestination>.
+multiple Regions, or multiple Amazon Web Services accounts and Amazon
+Web Services Regions, as listed in Organizations for Explorer. If you
+specify C<SyncFromSource>, you must provide a value for C<SyncSource>.
+The default value is C<SyncToDestination>.
 
 
 

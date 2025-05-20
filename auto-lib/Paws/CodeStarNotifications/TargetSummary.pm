@@ -42,7 +42,7 @@ Information about the targets specified for a notification rule.
 
 =head2 TargetAddress => Str
 
-The Amazon Resource Name (ARN) of the SNS topic.
+The Amazon Resource Name (ARN) of the Chatbot topic or Chatbot client.
 
 
 =head2 TargetStatus => Str
@@ -52,7 +52,20 @@ The status of the target.
 
 =head2 TargetType => Str
 
-The type of the target (for example, SNS).
+The type of the target (for example, C<SNS>).
+
+=over
+
+=item *
+
+Chatbot topics are specified as C<SNS>.
+
+=item *
+
+Chatbot clients are specified as C<AWSChatbotSlack>.
+
+=back
+
 
 
 

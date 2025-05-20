@@ -2,6 +2,7 @@
 package Paws::ServiceCatalog::DescribeProvisioningArtifact;
   use Moose;
   has AcceptLanguage => (is => 'ro', isa => 'Str');
+  has IncludeProvisioningArtifactParameters => (is => 'ro', isa => 'Bool');
   has ProductId => (is => 'ro', isa => 'Str');
   has ProductName => (is => 'ro', isa => 'Str');
   has ProvisioningArtifactId => (is => 'ro', isa => 'Str');
@@ -34,18 +35,21 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $servicecatalog = Paws->service('ServiceCatalog');
     my $DescribeProvisioningArtifactOutput =
       $servicecatalog->DescribeProvisioningArtifact(
-      AcceptLanguage           => 'MyAcceptLanguage',              # OPTIONAL
-      ProductId                => 'MyId',                          # OPTIONAL
-      ProductName              => 'MyProductViewName',             # OPTIONAL
-      ProvisioningArtifactId   => 'MyId',                          # OPTIONAL
-      ProvisioningArtifactName => 'MyProvisioningArtifactName',    # OPTIONAL
-      Verbose                  => 1,                               # OPTIONAL
+      AcceptLanguage                        => 'MyAcceptLanguage',    # OPTIONAL
+      IncludeProvisioningArtifactParameters => 1,                     # OPTIONAL
+      ProductId                             => 'MyId',                # OPTIONAL
+      ProductName                           => 'MyProductViewName',   # OPTIONAL
+      ProvisioningArtifactId                => 'MyId',                # OPTIONAL
+      ProvisioningArtifactName => 'MyProvisioningArtifactName',       # OPTIONAL
+      Verbose                  => 1,                                  # OPTIONAL
       );
 
     # Results:
     my $Info = $DescribeProvisioningArtifactOutput->Info;
     my $ProvisioningArtifactDetail =
       $DescribeProvisioningArtifactOutput->ProvisioningArtifactDetail;
+    my $ProvisioningArtifactParameters =
+      $DescribeProvisioningArtifactOutput->ProvisioningArtifactParameters;
     my $Status = $DescribeProvisioningArtifactOutput->Status;
 
  # Returns a L<Paws::ServiceCatalog::DescribeProvisioningArtifactOutput> object.
@@ -64,10 +68,6 @@ The language code.
 
 =item *
 
-C<en> - English (default)
-
-=item *
-
 C<jp> - Japanese
 
 =item *
@@ -76,6 +76,13 @@ C<zh> - Chinese
 
 =back
 
+
+
+
+=head2 IncludeProvisioningArtifactParameters => Bool
+
+Indicates if the API call response does or does not include additional
+details about the provisioning parameters.
 
 
 

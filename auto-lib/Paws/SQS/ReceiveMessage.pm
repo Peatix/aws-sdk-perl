@@ -4,6 +4,7 @@ package Paws::SQS::ReceiveMessage;
   has AttributeNames => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has MaxNumberOfMessages => (is => 'ro', isa => 'Int');
   has MessageAttributeNames => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has MessageSystemAttributeNames => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has QueueUrl => (is => 'ro', isa => 'Str', required => 1);
   has ReceiveRequestAttemptId => (is => 'ro', isa => 'Str');
   has VisibilityTimeout => (is => 'ro', isa => 'Int');
@@ -13,7 +14,7 @@ package Paws::SQS::ReceiveMessage;
 
   class_has _api_call => (isa => 'Str', is => 'ro', default => 'ReceiveMessage');
   class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::SQS::ReceiveMessageResult');
-  class_has _result_key => (isa => 'Str', is => 'ro', default => 'ReceiveMessageResult');
+  class_has _result_key => (isa => 'Str', is => 'ro');
 1;
 
 ### main pod documentation begin ###
@@ -36,14 +37,18 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $ReceiveMessageResult = $sqs->ReceiveMessage(
       QueueUrl       => 'MyString',
       AttributeNames => [
-        'SenderId',
-        ... # values: SenderId, SentTimestamp, ApproximateReceiveCount, ApproximateFirstReceiveTimestamp
+        'All',
+        ... # values: All, Policy, VisibilityTimeout, MaximumMessageSize, MessageRetentionPeriod, ApproximateNumberOfMessages, ApproximateNumberOfMessagesNotVisible, CreatedTimestamp, LastModifiedTimestamp, QueueArn, ApproximateNumberOfMessagesDelayed, DelaySeconds, ReceiveMessageWaitTimeSeconds, RedrivePolicy, FifoQueue, ContentBasedDeduplication, KmsMasterKeyId, KmsDataKeyReusePeriodSeconds, DeduplicationScope, FifoThroughputLimit, RedriveAllowPolicy, SqsManagedSseEnabled
       ],    # OPTIONAL
-      MaxNumberOfMessages     => 1,                                   # OPTIONAL
-      MessageAttributeNames   => [ 'MyMessageAttributeName', ... ],   # OPTIONAL
-      ReceiveRequestAttemptId => 'MyString',                          # OPTIONAL
-      VisibilityTimeout       => 1,                                   # OPTIONAL
-      WaitTimeSeconds         => 1,                                   # OPTIONAL
+      MaxNumberOfMessages   => 1,                                    # OPTIONAL
+      MessageAttributeNames => [ 'MyMessageAttributeName', ... ],    # OPTIONAL
+      MessageSystemAttributeNames => [
+        'All',
+        ... # values: All, SenderId, SentTimestamp, ApproximateReceiveCount, ApproximateFirstReceiveTimestamp, SequenceNumber, MessageDeduplicationId, MessageGroupId, AWSTraceHeader, DeadLetterQueueSourceArn
+      ],    # OPTIONAL
+      ReceiveRequestAttemptId => 'MyString',    # OPTIONAL
+      VisibilityTimeout       => 1,             # OPTIONAL
+      WaitTimeSeconds         => 1,             # OPTIONAL
     );
 
     # Results:
@@ -58,6 +63,10 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/sqs
 
 
 =head2 AttributeNames => ArrayRef[Str|Undef]
+
+This parameter has been discontinued but will be supported for backward
+compatibility. To provide attribute names, you are encouraged to use
+C<MessageSystemAttributeNames>.
 
 A list of attributes that need to be returned along with each message.
 These attributes include:
@@ -91,8 +100,7 @@ C<SenderId>
 
 =item *
 
-For an IAM user, returns the IAM user ID, for example
-C<ABCDEFGHI1JKLMNOPQ23R>.
+For a user, returns the user ID, for example C<ABCDEFGHI1JKLMNOPQ23R>.
 
 =item *
 
@@ -106,6 +114,15 @@ C<ABCDE1F2GH3I4JK5LMNOP:i-a123b456>.
 C<SentTimestamp> E<ndash> Returns the time the message was sent to the
 queue (epoch time (http://en.wikipedia.org/wiki/Unix_time) in
 milliseconds).
+
+=item *
+
+C<SqsManagedSseEnabled> E<ndash> Enables server-side queue encryption
+using SQS owned encryption keys. Only one server-side encryption option
+is supported per queue (for example, SSE-KMS
+(https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-sse-existing-queue.html)
+or SSE-SQS
+(https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-sqs-sse-queue.html)).
 
 =item *
 
@@ -174,6 +191,84 @@ starting with a prefix, for example C<bar.*>.
 
 
 
+=head2 MessageSystemAttributeNames => ArrayRef[Str|Undef]
+
+A list of attributes that need to be returned along with each message.
+These attributes include:
+
+=over
+
+=item *
+
+C<All> E<ndash> Returns all values.
+
+=item *
+
+C<ApproximateFirstReceiveTimestamp> E<ndash> Returns the time the
+message was first received from the queue (epoch time
+(http://en.wikipedia.org/wiki/Unix_time) in milliseconds).
+
+=item *
+
+C<ApproximateReceiveCount> E<ndash> Returns the number of times a
+message has been received across all queues but not deleted.
+
+=item *
+
+C<AWSTraceHeader> E<ndash> Returns the X-Ray trace header string.
+
+=item *
+
+C<SenderId>
+
+=over
+
+=item *
+
+For a user, returns the user ID, for example C<ABCDEFGHI1JKLMNOPQ23R>.
+
+=item *
+
+For an IAM role, returns the IAM role ID, for example
+C<ABCDE1F2GH3I4JK5LMNOP:i-a123b456>.
+
+=back
+
+=item *
+
+C<SentTimestamp> E<ndash> Returns the time the message was sent to the
+queue (epoch time (http://en.wikipedia.org/wiki/Unix_time) in
+milliseconds).
+
+=item *
+
+C<SqsManagedSseEnabled> E<ndash> Enables server-side queue encryption
+using SQS owned encryption keys. Only one server-side encryption option
+is supported per queue (for example, SSE-KMS
+(https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-sse-existing-queue.html)
+or SSE-SQS
+(https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-sqs-sse-queue.html)).
+
+=item *
+
+C<MessageDeduplicationId> E<ndash> Returns the value provided by the
+producer that calls the C< SendMessage > action.
+
+=item *
+
+C<MessageGroupId> E<ndash> Returns the value provided by the producer
+that calls the C< SendMessage > action. Messages with the same
+C<MessageGroupId> are returned in sequence.
+
+=item *
+
+C<SequenceNumber> E<ndash> Returns the value provided by Amazon SQS.
+
+=back
+
+
+
+
 =head2 B<REQUIRED> QueueUrl => Str
 
 The URL of the Amazon SQS queue from which messages are received.
@@ -204,12 +299,6 @@ C<ReceiveMessage> action.
 
 When you set C<FifoQueue>, a caller of the C<ReceiveMessage> action can
 provide a C<ReceiveRequestAttemptId> explicitly.
-
-=item *
-
-If a caller of the C<ReceiveMessage> action doesn't provide a
-C<ReceiveRequestAttemptId>, Amazon SQS generates a
-C<ReceiveRequestAttemptId>.
 
 =item *
 
@@ -269,7 +358,47 @@ in the I<Amazon SQS Developer Guide>.
 
 The duration (in seconds) that the received messages are hidden from
 subsequent retrieve requests after being retrieved by a
-C<ReceiveMessage> request.
+C<ReceiveMessage> request. If not specified, the default visibility
+timeout for the queue is used, which is 30 seconds.
+
+Understanding C<VisibilityTimeout>:
+
+=over
+
+=item *
+
+When a message is received from a queue, it becomes temporarily
+invisible to other consumers for the duration of the visibility
+timeout. This prevents multiple consumers from processing the same
+message simultaneously. If the message is not deleted or its visibility
+timeout is not extended before the timeout expires, it becomes visible
+again and can be retrieved by other consumers.
+
+=item *
+
+Setting an appropriate visibility timeout is crucial. If it's too
+short, the message might become visible again before processing is
+complete, leading to duplicate processing. If it's too long, it delays
+the reprocessing of messages if the initial processing fails.
+
+=item *
+
+You can adjust the visibility timeout using the C<--visibility-timeout>
+parameter in the C<receive-message> command to match the processing
+time required by your application.
+
+=item *
+
+A message that isn't deleted or a message whose visibility isn't
+extended before the visibility timeout expires counts as a failed
+receive. Depending on the configuration of the queue, the message might
+be sent to the dead-letter queue.
+
+=back
+
+For more information, see Visibility Timeout
+(https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html)
+in the I<Amazon SQS Developer Guide>.
 
 
 
@@ -278,8 +407,10 @@ C<ReceiveMessage> request.
 The duration (in seconds) for which the call waits for a message to
 arrive in the queue before returning. If a message is available, the
 call returns sooner than C<WaitTimeSeconds>. If no messages are
-available and the wait time expires, the call returns successfully with
-an empty list of messages.
+available and the wait time expires, the call does not return a message
+list. If you are using the Java SDK, it returns a
+C<ReceiveMessageResponse> object, which has a empty list instead of a
+Null object.
 
 To avoid HTTP errors, ensure that the HTTP response timeout for
 C<ReceiveMessage> requests is longer than the C<WaitTimeSeconds>

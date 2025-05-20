@@ -39,7 +39,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         RadiusServers => [
           'MyServer', ...      # min: 1, max: 256
         ],    # OPTIONAL
-        RadiusTimeout   => 1,                       # min: 1, max: 20; OPTIONAL
+        RadiusTimeout   => 1,                       # min: 1, max: 50; OPTIONAL
         SharedSecret    => 'MyRadiusSharedSecret',  # min: 8, max: 512; OPTIONAL
         UseSameUsername => 1,                       # OPTIONAL
       },

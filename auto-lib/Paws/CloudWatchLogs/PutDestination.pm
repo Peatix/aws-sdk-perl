@@ -3,6 +3,7 @@ package Paws::CloudWatchLogs::PutDestination;
   use Moose;
   has DestinationName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'destinationName' , required => 1);
   has RoleArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'roleArn' , required => 1);
+  has Tags => (is => 'ro', isa => 'Paws::CloudWatchLogs::Tags', traits => ['NameInRequest'], request_name => 'tags' );
   has TargetArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'targetArn' , required => 1);
 
   use MooseX::ClassAttribute;
@@ -33,7 +34,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       DestinationName => 'MyDestinationName',
       RoleArn         => 'MyRoleArn',
       TargetArn       => 'MyTargetArn',
-
+      Tags            => {
+        'MyTagKey' => 'MyTagValue',    # key: min: 1, max: 128, value: max: 256
+      },    # OPTIONAL
     );
 
     # Results:
@@ -57,6 +60,16 @@ A name for the destination.
 
 The ARN of an IAM role that grants CloudWatch Logs permissions to call
 the Amazon Kinesis C<PutRecord> operation on the destination stream.
+
+
+
+=head2 Tags => L<Paws::CloudWatchLogs::Tags>
+
+An optional list of key-value pairs to associate with the resource.
+
+For more information about tagging, see Tagging Amazon Web Services
+resources
+(https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
 
 
 

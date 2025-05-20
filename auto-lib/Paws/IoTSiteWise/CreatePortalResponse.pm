@@ -35,10 +35,10 @@ The ID of the created portal.
 
 =head2 B<REQUIRED> PortalStartUrl => Str
 
-The URL for the AWS IoT SiteWise Monitor portal. You can use this URL
-to access portals that use AWS SSO for authentication. For portals that
-use IAM for authentication, you must use the AWS IoT SiteWise console
-to get a URL that you can use to access the portal.
+The URL for the IoT SiteWise Monitor portal. You can use this URL to
+access portals that use IAM Identity Center for authentication. For
+portals that use IAM for authentication, you must use the IoT SiteWise
+console to get a URL that you can use to access the portal.
 
 
 =head2 B<REQUIRED> PortalStatus => L<Paws::IoTSiteWise::PortalStatus>
@@ -49,7 +49,8 @@ successfully calling this operation) and any error message.
 
 =head2 B<REQUIRED> SsoApplicationId => Str
 
-The associated AWS SSO application ID, if the portal uses AWS SSO.
+The associated IAM Identity Center application ID, if the portal uses
+IAM Identity Center.
 
 
 =head2 _request_id => Str

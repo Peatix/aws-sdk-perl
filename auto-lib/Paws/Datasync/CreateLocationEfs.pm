@@ -1,8 +1,11 @@
 
 package Paws::Datasync::CreateLocationEfs;
   use Moose;
+  has AccessPointArn => (is => 'ro', isa => 'Str');
   has Ec2Config => (is => 'ro', isa => 'Paws::Datasync::Ec2Config', required => 1);
   has EfsFilesystemArn => (is => 'ro', isa => 'Str', required => 1);
+  has FileSystemAccessRoleArn => (is => 'ro', isa => 'Str');
+  has InTransitEncryption => (is => 'ro', isa => 'Str');
   has Subdirectory => (is => 'ro', isa => 'Str');
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::Datasync::TagListEntry]');
 
@@ -38,12 +41,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         SubnetArn => 'MyEc2SubnetArn',    # max: 128
 
       },
-      EfsFilesystemArn => 'MyEfsFilesystemArn',
-      Subdirectory     => 'MyEfsSubdirectory',    # OPTIONAL
-      Tags             => [
+      EfsFilesystemArn        => 'MyEfsFilesystemArn',
+      AccessPointArn          => 'MyEfsAccessPointArn',    # OPTIONAL
+      FileSystemAccessRoleArn => 'MyIamRoleArn',           # OPTIONAL
+      InTransitEncryption     => 'NONE',                   # OPTIONAL
+      Subdirectory            => 'MyEfsSubdirectory',      # OPTIONAL
+      Tags                    => [
         {
           Key   => 'MyTagKey',      # min: 1, max: 256
-          Value => 'MyTagValue',    # min: 1, max: 256; OPTIONAL
+          Value => 'MyTagValue',    # max: 256; OPTIONAL
         },
         ...
       ],    # OPTIONAL
@@ -60,63 +66,70 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/dat
 =head1 ATTRIBUTES
 
 
+=head2 AccessPointArn => Str
+
+Specifies the Amazon Resource Name (ARN) of the access point that
+DataSync uses to mount your Amazon EFS file system.
+
+For more information, see Accessing restricted file systems
+(https://docs.aws.amazon.com/datasync/latest/userguide/create-efs-location.html#create-efs-location-iam).
+
+
+
 =head2 B<REQUIRED> Ec2Config => L<Paws::Datasync::Ec2Config>
 
-The subnet and security group that the Amazon EFS file system uses. The
-security group that you provide needs to be able to communicate with
-the security group on the mount target in the subnet specified.
-
-The exact relationship between security group M (of the mount target)
-and security group S (which you provide for DataSync to use at this
-stage) is as follows:
-
-=over
-
-=item *
-
-Security group M (which you associate with the mount target) must allow
-inbound access for the Transmission Control Protocol (TCP) on the NFS
-port (2049) from security group S. You can enable inbound connections
-either by IP address (CIDR range) or security group.
-
-=item *
-
-Security group S (provided to DataSync to access EFS) should have a
-rule that enables outbound connections to the NFS port on one of the
-file systemE<rsquo>s mount targets. You can enable outbound connections
-either by IP address (CIDR range) or security group.
-
-For information about security groups and mount targets, see Security
-Groups for Amazon EC2 Instances and Mount Targets in the I<Amazon EFS
-User Guide.>
-
-=back
-
+Specifies the subnet and security groups DataSync uses to connect to
+one of your Amazon EFS file system's mount targets
+(https://docs.aws.amazon.com/efs/latest/ug/accessing-fs.html).
 
 
 
 =head2 B<REQUIRED> EfsFilesystemArn => Str
 
-The Amazon Resource Name (ARN) for the Amazon EFS file system.
+Specifies the ARN for your Amazon EFS file system.
 
 
+
+=head2 FileSystemAccessRoleArn => Str
+
+Specifies an Identity and Access Management (IAM) role that allows
+DataSync to access your Amazon EFS file system.
+
+For information on creating this role, see Creating a DataSync IAM role
+for file system access
+(https://docs.aws.amazon.com/datasync/latest/userguide/create-efs-location.html#create-efs-location-iam-role).
+
+
+
+=head2 InTransitEncryption => Str
+
+Specifies whether you want DataSync to use Transport Layer Security
+(TLS) 1.2 encryption when it transfers data to or from your Amazon EFS
+file system.
+
+If you specify an access point using C<AccessPointArn> or an IAM role
+using C<FileSystemAccessRoleArn>, you must set this parameter to
+C<TLS1_2>.
+
+Valid values are: C<"NONE">, C<"TLS1_2">
 
 =head2 Subdirectory => Str
 
-A subdirectory in the locationE<rsquo>s path. This subdirectory in the
-EFS file system is used to read data from the EFS source location or
-write data to the EFS destination. By default, AWS DataSync uses the
-root directory.
+Specifies a mount path for your Amazon EFS file system. This is where
+DataSync reads or writes data on your file system (depending on if this
+is a source or destination location).
 
-C<Subdirectory> must be specified with forward slashes. For example,
-C</path/to/folder>.
+By default, DataSync uses the root directory (or access point
+(https://docs.aws.amazon.com/efs/latest/ug/efs-access-points.html) if
+you provide one by using C<AccessPointArn>). You can also include
+subdirectories using forward slashes (for example, C</path/to/folder>).
 
 
 
 =head2 Tags => ArrayRef[L<Paws::Datasync::TagListEntry>]
 
-The key-value pair that represents a tag that you want to add to the
-resource. The value can be an empty string. This value helps you
+Specifies the key-value pair that represents a tag that you want to add
+to the resource. The value can be an empty string. This value helps you
 manage, filter, and search for your resources. We recommend that you
 create a name tag for your location.
 

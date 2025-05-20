@@ -70,14 +70,14 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/pro
 =head2 BranchName => Str
 
 The name of the code repository branch that holds the code that's
-deployed in AWS Proton. I<Don't> include this parameter if your service
+deployed in Proton. I<Don't> include this parameter if your service
 template I<doesn't> include a service pipeline.
 
 
 
 =head2 Description => Str
 
-A description of the AWS Proton service.
+A description of the Proton service.
 
 
 
@@ -89,13 +89,11 @@ The service name.
 
 =head2 RepositoryConnectionArn => Str
 
-The ARN of the repository connection. For more information, see Set up
-repository connection
-(https://docs.aws.amazon.com/proton/latest/adminguide/setting-up-for-service.html#settingSS-up-vcontrol)
-in the I<AWS Proton Administration Guide> and Getting started
-(https://docs.aws.amazon.com/proton/latest/userguide/ug-getting-started.html#getting-started-step1)
-in the I<AWS Proton User Guide>. I<Don't> include this parameter if
-your service template I<doesn't> include a service pipeline.
+The Amazon Resource Name (ARN) of the repository connection. For more
+information, see Setting up an AWS CodeStar connection
+(https://docs.aws.amazon.com/proton/latest/userguide/setting-up-for-service.html#setting-up-vcontrol)
+in the I<Proton User Guide>. I<Don't> include this parameter if your
+service template I<doesn't> include a service pipeline.
 
 
 
@@ -110,37 +108,36 @@ service template I<doesn't> include a service pipeline.
 
 A link to a spec file that provides inputs as defined in the service
 template bundle schema file. The spec file is in YAML format.
-DonE<rsquo>t include pipeline inputs in the spec if your service
-template doesnE<rsquo>t include a service pipeline. For more
+I<DonE<rsquo>t> include pipeline inputs in the spec if your service
+template I<doesnE<rsquo>t> include a service pipeline. For more
 information, see Create a service
-(https://docs.aws.amazon.com/proton/latest/adminguide/ag-create-svc.html.html)
-in the I<AWS Proton Administration Guide> and Create a service
-(https://docs.aws.amazon.com/proton/latest/userguide/ug-svc-create.html)
-in the I<AWS Proton User Guide>.
+(https://docs.aws.amazon.com/proton/latest/userguide/ag-create-svc.html)
+in the I<Proton User Guide>.
 
 
 
 =head2 Tags => ArrayRef[L<Paws::Proton::Tag>]
 
-Create tags for your service. For more information, see I<AWS Proton
-resources and tagging> in the AWS Proton Administration Guide
-(https://docs.aws.amazon.com/proton/latest/adminguide/resources.html)
-or AWS Proton User Guide
-(https://docs.aws.amazon.com/proton/latest/userguide/resources.html).
+An optional list of metadata items that you can associate with the
+Proton service. A tag is a key-value pair.
+
+For more information, see Proton resources and tagging
+(https://docs.aws.amazon.com/proton/latest/userguide/resources.html) in
+the I<Proton User Guide>.
 
 
 
 =head2 B<REQUIRED> TemplateMajorVersion => Str
 
-The ID of the major version of the service template that was used to
-create the service.
+The major version of the service template that was used to create the
+service.
 
 
 
 =head2 TemplateMinorVersion => Str
 
-The ID of the minor version of the service template that was used to
-create the service.
+The minor version of the service template that was used to create the
+service.
 
 
 

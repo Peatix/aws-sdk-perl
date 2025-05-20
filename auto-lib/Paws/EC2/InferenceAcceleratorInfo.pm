@@ -1,6 +1,7 @@
 package Paws::EC2::InferenceAcceleratorInfo;
   use Moose;
   has Accelerators => (is => 'ro', isa => 'ArrayRef[Paws::EC2::InferenceDeviceInfo]', request_name => 'accelerators', traits => ['NameInRequest']);
+  has TotalInferenceMemoryInMiB => (is => 'ro', isa => 'Int', request_name => 'totalInferenceMemoryInMiB', traits => ['NameInRequest']);
 1;
 
 ### main pod documentation begin ###
@@ -20,7 +21,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::EC2::InferenceAcceleratorInfo object:
 
-  $service_obj->Method(Att1 => { Accelerators => $value, ..., Accelerators => $value  });
+  $service_obj->Method(Att1 => { Accelerators => $value, ..., TotalInferenceMemoryInMiB => $value  });
 
 =head3 Results returned from an API call
 
@@ -39,6 +40,12 @@ This class has no description
 =head2 Accelerators => ArrayRef[L<Paws::EC2::InferenceDeviceInfo>]
 
 Describes the Inference accelerators for the instance type.
+
+
+=head2 TotalInferenceMemoryInMiB => Int
+
+The total size of the memory for the inference accelerators for the
+instance type, in MiB.
 
 
 

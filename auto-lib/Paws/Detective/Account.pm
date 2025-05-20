@@ -34,20 +34,21 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Detective::
 
 =head1 DESCRIPTION
 
-An AWS account that is the administrator account of or a member of a
-behavior graph.
+An Amazon Web Services account that is the administrator account of or
+a member of a behavior graph.
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> AccountId => Str
 
-The account identifier of the AWS account.
+The account identifier of the Amazon Web Services account.
 
 
 =head2 B<REQUIRED> EmailAddress => Str
 
-The AWS account root user email address for the AWS account.
+The Amazon Web Services account root user email address for the Amazon
+Web Services account.
 
 
 

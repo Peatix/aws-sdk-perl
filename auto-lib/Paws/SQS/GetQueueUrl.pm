@@ -8,7 +8,7 @@ package Paws::SQS::GetQueueUrl;
 
   class_has _api_call => (isa => 'Str', is => 'ro', default => 'GetQueueUrl');
   class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::SQS::GetQueueUrlResult');
-  class_has _result_key => (isa => 'Str', is => 'ro', default => 'GetQueueUrlResult');
+  class_has _result_key => (isa => 'Str', is => 'ro');
 1;
 
 ### main pod documentation begin ###
@@ -46,17 +46,18 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/sqs
 
 =head2 B<REQUIRED> QueueName => Str
 
-The name of the queue whose URL must be fetched. Maximum 80 characters.
-Valid values: alphanumeric characters, hyphens (C<->), and underscores
-(C<_>).
-
-Queue URLs and names are case-sensitive.
+(Required) The name of the queue for which you want to fetch the URL.
+The name can be up to 80 characters long and can include alphanumeric
+characters, hyphens (-), and underscores (_). Queue URLs and names are
+case-sensitive.
 
 
 
 =head2 QueueOwnerAWSAccountId => Str
 
-The account ID of the account that created the queue.
+(Optional) The Amazon Web Services account ID of the account that
+created the queue. This is only required when you are attempting to
+access a queue owned by another Amazon Web Services account.
 
 
 

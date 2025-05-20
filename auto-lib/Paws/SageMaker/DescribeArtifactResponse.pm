@@ -8,6 +8,7 @@ package Paws::SageMaker::DescribeArtifactResponse;
   has CreationTime => (is => 'ro', isa => 'Str');
   has LastModifiedBy => (is => 'ro', isa => 'Paws::SageMaker::UserContext');
   has LastModifiedTime => (is => 'ro', isa => 'Str');
+  has LineageGroupArn => (is => 'ro', isa => 'Str');
   has MetadataProperties => (is => 'ro', isa => 'Paws::SageMaker::MetadataProperties');
   has Properties => (is => 'ro', isa => 'Paws::SageMaker::LineageEntityParameters');
   has Source => (is => 'ro', isa => 'Paws::SageMaker::ArtifactSource');
@@ -56,6 +57,11 @@ When the artifact was created.
 =head2 LastModifiedTime => Str
 
 When the artifact was last modified.
+
+
+=head2 LineageGroupArn => Str
+
+The Amazon Resource Name (ARN) of the lineage group.
 
 
 =head2 MetadataProperties => L<Paws::SageMaker::MetadataProperties>

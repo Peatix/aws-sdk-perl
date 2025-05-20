@@ -59,14 +59,14 @@ Not currently used.
 =head2 RadiusPort => Int
 
 The port that your RADIUS server is using for communications. Your
-on-premises network must allow inbound traffic over this port from the
-AWS Directory Service servers.
+self-managed network must allow inbound traffic over this port from the
+Directory Service servers.
 
 
 =head2 RadiusRetries => Int
 
 The maximum number of times that communication with the RADIUS server
-is attempted.
+is retried after the initial attempt.
 
 
 =head2 RadiusServers => ArrayRef[Str|Undef]

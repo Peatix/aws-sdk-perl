@@ -3,7 +3,7 @@ package Paws::SageMaker::ServiceCatalogProvisioningDetails;
   use Moose;
   has PathId => (is => 'ro', isa => 'Str');
   has ProductId => (is => 'ro', isa => 'Str', required => 1);
-  has ProvisioningArtifactId => (is => 'ro', isa => 'Str', required => 1);
+  has ProvisioningArtifactId => (is => 'ro', isa => 'Str');
   has ProvisioningParameters => (is => 'ro', isa => 'ArrayRef[Paws::SageMaker::ProvisioningParameter]');
 
 1;
@@ -37,7 +37,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SageMaker::
 =head1 DESCRIPTION
 
 Details that you specify to provision a service catalog product. For
-information about service catalog, see .What is Amazon Web Services
+information about service catalog, see What is Amazon Web Services
 Service Catalog
 (https://docs.aws.amazon.com/servicecatalog/latest/adminguide/introduction.html).
 
@@ -56,7 +56,7 @@ one path.
 The ID of the product to provision.
 
 
-=head2 B<REQUIRED> ProvisioningArtifactId => Str
+=head2 ProvisioningArtifactId => Str
 
 The ID of the provisioning artifact.
 

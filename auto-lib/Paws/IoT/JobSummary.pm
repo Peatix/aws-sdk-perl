@@ -3,6 +3,7 @@ package Paws::IoT::JobSummary;
   use Moose;
   has CompletedAt => (is => 'ro', isa => 'Str', request_name => 'completedAt', traits => ['NameInRequest']);
   has CreatedAt => (is => 'ro', isa => 'Str', request_name => 'createdAt', traits => ['NameInRequest']);
+  has IsConcurrent => (is => 'ro', isa => 'Bool', request_name => 'isConcurrent', traits => ['NameInRequest']);
   has JobArn => (is => 'ro', isa => 'Str', request_name => 'jobArn', traits => ['NameInRequest']);
   has JobId => (is => 'ro', isa => 'Str', request_name => 'jobId', traits => ['NameInRequest']);
   has LastUpdatedAt => (is => 'ro', isa => 'Str', request_name => 'lastUpdatedAt', traits => ['NameInRequest']);
@@ -55,6 +56,13 @@ The time, in seconds since the epoch, when the job completed.
 The time, in seconds since the epoch, when the job was created.
 
 
+=head2 IsConcurrent => Bool
+
+Indicates whether a job is concurrent. Will be true when a job is
+rolling out new job executions or canceling previously created
+executions, otherwise false.
+
+
 =head2 JobArn => Str
 
 The job ARN.
@@ -83,6 +91,11 @@ job (SNAPSHOT). If continuous, the job may also be run on a thing when
 a change is detected in a target. For example, a job will run on a
 thing when the thing is added to a target group, even after the job was
 completed by all things originally in the group.
+
+We recommend that you use continuous jobs instead of snapshot jobs for
+dynamic thing group targets. By using continuous jobs, devices that
+join the group receive the job execution even after the job has been
+created.
 
 
 =head2 ThingGroupId => Str

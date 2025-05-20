@@ -63,9 +63,9 @@ Update whether flow logs are enabled. The default value is false. If
 the value is true, C<FlowLogsS3Bucket> and C<FlowLogsS3Prefix> must be
 specified.
 
-For more information, see Flow Logs
+For more information, see Flow logs
 (https://docs.aws.amazon.com/global-accelerator/latest/dg/monitoring-global-accelerator.flow-logs.html)
-in the I<AWS Global Accelerator Developer Guide>.
+in the I<Global Accelerator Developer Guide>.
 
 
 
@@ -73,8 +73,8 @@ in the I<AWS Global Accelerator Developer Guide>.
 
 The name of the Amazon S3 bucket for the flow logs. Attribute is
 required if C<FlowLogsEnabled> is C<true>. The bucket must exist and
-have a bucket policy that grants AWS Global Accelerator permission to
-write to the bucket.
+have a bucket policy that grants Global Accelerator permission to write
+to the bucket.
 
 
 

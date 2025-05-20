@@ -33,7 +33,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     );
 
     # Results:
-    my $CreatedAt = $DescribeModelResponse->CreatedAt;
+    my $AccumulatedInferenceDataEndTime =
+      $DescribeModelResponse->AccumulatedInferenceDataEndTime;
+    my $AccumulatedInferenceDataStartTime =
+      $DescribeModelResponse->AccumulatedInferenceDataStartTime;
+    my $ActiveModelVersion    = $DescribeModelResponse->ActiveModelVersion;
+    my $ActiveModelVersionArn = $DescribeModelResponse->ActiveModelVersionArn;
+    my $CreatedAt             = $DescribeModelResponse->CreatedAt;
     my $DataPreProcessingConfiguration =
       $DescribeModelResponse->DataPreProcessingConfiguration;
     my $DatasetArn            = $DescribeModelResponse->DatasetArn;
@@ -41,16 +47,46 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $EvaluationDataEndTime = $DescribeModelResponse->EvaluationDataEndTime;
     my $EvaluationDataStartTime =
       $DescribeModelResponse->EvaluationDataStartTime;
-    my $FailedReason = $DescribeModelResponse->FailedReason;
+    my $FailedReason       = $DescribeModelResponse->FailedReason;
+    my $ImportJobEndTime   = $DescribeModelResponse->ImportJobEndTime;
+    my $ImportJobStartTime = $DescribeModelResponse->ImportJobStartTime;
     my $LabelsInputConfiguration =
       $DescribeModelResponse->LabelsInputConfiguration;
-    my $LastUpdatedTime       = $DescribeModelResponse->LastUpdatedTime;
-    my $ModelArn              = $DescribeModelResponse->ModelArn;
-    my $ModelMetrics          = $DescribeModelResponse->ModelMetrics;
-    my $ModelName             = $DescribeModelResponse->ModelName;
+    my $LastUpdatedTime = $DescribeModelResponse->LastUpdatedTime;
+    my $LatestScheduledRetrainingAvailableDataInDays =
+      $DescribeModelResponse->LatestScheduledRetrainingAvailableDataInDays;
+    my $LatestScheduledRetrainingFailedReason =
+      $DescribeModelResponse->LatestScheduledRetrainingFailedReason;
+    my $LatestScheduledRetrainingModelVersion =
+      $DescribeModelResponse->LatestScheduledRetrainingModelVersion;
+    my $LatestScheduledRetrainingStartTime =
+      $DescribeModelResponse->LatestScheduledRetrainingStartTime;
+    my $LatestScheduledRetrainingStatus =
+      $DescribeModelResponse->LatestScheduledRetrainingStatus;
+    my $ModelArn = $DescribeModelResponse->ModelArn;
+    my $ModelDiagnosticsOutputConfiguration =
+      $DescribeModelResponse->ModelDiagnosticsOutputConfiguration;
+    my $ModelMetrics = $DescribeModelResponse->ModelMetrics;
+    my $ModelName    = $DescribeModelResponse->ModelName;
+    my $ModelQuality = $DescribeModelResponse->ModelQuality;
+    my $ModelVersionActivatedAt =
+      $DescribeModelResponse->ModelVersionActivatedAt;
+    my $NextScheduledRetrainingStartDate =
+      $DescribeModelResponse->NextScheduledRetrainingStartDate;
+    my $OffCondition = $DescribeModelResponse->OffCondition;
+    my $PreviousActiveModelVersion =
+      $DescribeModelResponse->PreviousActiveModelVersion;
+    my $PreviousActiveModelVersionArn =
+      $DescribeModelResponse->PreviousActiveModelVersionArn;
+    my $PreviousModelVersionActivatedAt =
+      $DescribeModelResponse->PreviousModelVersionActivatedAt;
+    my $PriorModelMetrics = $DescribeModelResponse->PriorModelMetrics;
+    my $RetrainingSchedulerStatus =
+      $DescribeModelResponse->RetrainingSchedulerStatus;
     my $RoleArn               = $DescribeModelResponse->RoleArn;
     my $Schema                = $DescribeModelResponse->Schema;
     my $ServerSideKmsKeyId    = $DescribeModelResponse->ServerSideKmsKeyId;
+    my $SourceModelVersionArn = $DescribeModelResponse->SourceModelVersionArn;
     my $Status                = $DescribeModelResponse->Status;
     my $TrainingDataEndTime   = $DescribeModelResponse->TrainingDataEndTime;
     my $TrainingDataStartTime = $DescribeModelResponse->TrainingDataStartTime;
@@ -69,7 +105,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/loo
 
 =head2 B<REQUIRED> ModelName => Str
 
-The name of the ML model to be described.
+The name of the machine learning model to be described.
 
 
 

@@ -33,10 +33,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $networkmanager = Paws->service('NetworkManager');
     my $GetCustomerGatewayAssociationsResponse =
       $networkmanager->GetCustomerGatewayAssociations(
-      GlobalNetworkId     => 'MyString',
-      CustomerGatewayArns => [ 'MyString', ... ],    # OPTIONAL
-      MaxResults          => 1,                      # OPTIONAL
-      NextToken           => 'MyString',             # OPTIONAL
+      GlobalNetworkId     => 'MyGlobalNetworkId',
+      CustomerGatewayArns => [
+        'MyCustomerGatewayArn', ...    # max: 500
+      ],    # OPTIONAL
+      MaxResults => 1,                # OPTIONAL
+      NextToken  => 'MyNextToken',    # OPTIONAL
       );
 
     # Results:
@@ -54,10 +56,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/net
 
 =head2 CustomerGatewayArns => ArrayRef[Str|Undef]
 
-One or more customer gateway Amazon Resource Names (ARNs). For more
-information, see Resources Defined by Amazon EC2
-(https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazonec2.html#amazonec2-resources-for-iam-policies).
-The maximum is 10.
+One or more customer gateway Amazon Resource Names (ARNs). The maximum
+is 10.
 
 
 

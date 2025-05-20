@@ -78,8 +78,8 @@ The name of the image. Must be unique to your account.
 
 =head2 B<REQUIRED> RoleArn => Str
 
-The Amazon Resource Name (ARN) of an IAM role that enables Amazon
-SageMaker to perform tasks on your behalf.
+The ARN of an IAM role that enables Amazon SageMaker AI to perform
+tasks on your behalf.
 
 
 

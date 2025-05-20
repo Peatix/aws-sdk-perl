@@ -58,9 +58,9 @@ User defined description associated with the resource.
 Information about whether the resource's actual configuration differs,
 or has I<drifted>, from its expected configuration, as defined in the
 stack template and any values specified as template parameters. For
-more information, see Detecting Unregulated Configuration Changes to
-Stacks and Resources
-(http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html).
+more information, see Detect unmanaged configuration changes to stacks
+and resources with drift detection
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html).
 
 
 =head2 B<REQUIRED> LogicalResourceId => Str
@@ -78,7 +78,7 @@ stack template.
 =head2 PhysicalResourceId => Str
 
 The name or unique identifier that corresponds to a physical instance
-ID of a resource supported by AWS CloudFormation.
+ID of a resource supported by CloudFormation.
 
 
 =head2 B<REQUIRED> ResourceStatus => Str
@@ -93,10 +93,10 @@ Success/failure message associated with the resource.
 
 =head2 B<REQUIRED> ResourceType => Str
 
-Type of resource. (For more information, go to AWS Resource Types
-Reference
+Type of resource. For more information, see Amazon Web Services
+resource and property types reference
 (https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html)
-in the AWS CloudFormation User Guide.)
+in the I<CloudFormation User Guide>.
 
 
 =head2 StackId => Str

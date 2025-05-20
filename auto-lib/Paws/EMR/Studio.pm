@@ -5,13 +5,19 @@ package Paws::EMR::Studio;
   has CreationTime => (is => 'ro', isa => 'Str');
   has DefaultS3Location => (is => 'ro', isa => 'Str');
   has Description => (is => 'ro', isa => 'Str');
+  has EncryptionKeyArn => (is => 'ro', isa => 'Str');
   has EngineSecurityGroupId => (is => 'ro', isa => 'Str');
+  has IdcInstanceArn => (is => 'ro', isa => 'Str');
+  has IdcUserAssignment => (is => 'ro', isa => 'Str');
+  has IdpAuthUrl => (is => 'ro', isa => 'Str');
+  has IdpRelayStateParameterName => (is => 'ro', isa => 'Str');
   has Name => (is => 'ro', isa => 'Str');
   has ServiceRole => (is => 'ro', isa => 'Str');
   has StudioArn => (is => 'ro', isa => 'Str');
   has StudioId => (is => 'ro', isa => 'Str');
   has SubnetIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::EMR::Tag]');
+  has TrustedIdentityPropagationEnabled => (is => 'ro', isa => 'Bool');
   has Url => (is => 'ro', isa => 'Str');
   has UserRole => (is => 'ro', isa => 'Str');
   has VpcId => (is => 'ro', isa => 'Str');
@@ -55,8 +61,8 @@ so on.
 
 =head2 AuthMode => Str
 
-Specifies whether the Amazon EMR Studio authenticates users using
-single sign-on (SSO) or IAM.
+Specifies whether the Amazon EMR Studio authenticates users with IAM or
+IAM Identity Center.
 
 
 =head2 CreationTime => Str
@@ -75,11 +81,43 @@ notebook files.
 The detailed description of the Amazon EMR Studio.
 
 
+=head2 EncryptionKeyArn => Str
+
+The KMS key identifier (ARN) used to encrypt Amazon EMR Studio
+workspace and notebook files when backed up to Amazon S3.
+
+
 =head2 EngineSecurityGroupId => Str
 
 The ID of the Engine security group associated with the Amazon EMR
 Studio. The Engine security group allows inbound network traffic from
 resources in the Workspace security group.
+
+
+=head2 IdcInstanceArn => Str
+
+The ARN of the IAM Identity Center instance the Studio application
+belongs to.
+
+
+=head2 IdcUserAssignment => Str
+
+Indicates whether the Studio has C<REQUIRED> or C<OPTIONAL> IAM
+Identity Center user assignment. If the value is set to C<REQUIRED>,
+users must be explicitly assigned to the Studio application to access
+the Studio.
+
+
+=head2 IdpAuthUrl => Str
+
+Your identity provider's authentication endpoint. Amazon EMR Studio
+redirects federated users to this endpoint for authentication when
+logging in to a Studio with the Studio URL.
+
+
+=head2 IdpRelayStateParameterName => Str
+
+The name of your identity provider's C<RelayState> parameter.
 
 
 =head2 Name => Str
@@ -112,6 +150,12 @@ The list of IDs of the subnets associated with the Amazon EMR Studio.
 A list of tags associated with the Amazon EMR Studio.
 
 
+=head2 TrustedIdentityPropagationEnabled => Bool
+
+Indicates whether the Studio has Trusted identity propagation enabled.
+The default value is C<false>.
+
+
 =head2 Url => Str
 
 The unique access URL of the Amazon EMR Studio.
@@ -120,7 +164,8 @@ The unique access URL of the Amazon EMR Studio.
 =head2 UserRole => Str
 
 The name of the IAM role assumed by users logged in to the Amazon EMR
-Studio.
+Studio. A Studio only requires a C<UserRole> when you use IAM
+authentication.
 
 
 =head2 VpcId => Str

@@ -36,30 +36,45 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Transcribe:
 
 =head1 DESCRIPTION
 
-Provides information about a custom vocabulary.
+Provides information about a custom vocabulary, including the language
+of the custom vocabulary, when it was last modified, its name, and the
+processing state.
 
 =head1 ATTRIBUTES
 
 
 =head2 LanguageCode => Str
 
-The language code of the vocabulary entries.
+The language code used to create your custom vocabulary. Each custom
+vocabulary must contain terms in only one language.
+
+A custom vocabulary can only be used to transcribe files in the same
+language as the custom vocabulary. For example, if you create a custom
+vocabulary using US English (C<en-US>), you can only apply this custom
+vocabulary to files that contain English audio.
 
 
 =head2 LastModifiedTime => Str
 
-The date and time that the vocabulary was last modified.
+The date and time the specified custom vocabulary was last modified.
+
+Timestamps are in the format C<YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC>. For
+example, C<2022-05-04T12:32:58.761000-07:00> represents 12:32 PM UTC-7
+on May 4, 2022.
 
 
 =head2 VocabularyName => Str
 
-The name of the vocabulary.
+A unique name, chosen by you, for your custom vocabulary. This name is
+case sensitive, cannot contain spaces, and must be unique within an
+Amazon Web Services account.
 
 
 =head2 VocabularyState => Str
 
-The processing state of the vocabulary. If the state is C<READY> you
-can use the vocabulary in a C<StartTranscriptionJob> request.
+The processing state of your custom vocabulary. If the state is
+C<READY>, you can use the custom vocabulary in a
+C<StartTranscriptionJob> request.
 
 
 

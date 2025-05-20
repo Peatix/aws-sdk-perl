@@ -2,7 +2,8 @@
 package Paws::IoTSiteWise::VariableValue;
   use Moose;
   has HierarchyId => (is => 'ro', isa => 'Str', request_name => 'hierarchyId', traits => ['NameInRequest']);
-  has PropertyId => (is => 'ro', isa => 'Str', request_name => 'propertyId', traits => ['NameInRequest'], required => 1);
+  has PropertyId => (is => 'ro', isa => 'Str', request_name => 'propertyId', traits => ['NameInRequest']);
+  has PropertyPath => (is => 'ro', isa => 'ArrayRef[Paws::IoTSiteWise::AssetModelPropertyPathSegment]', request_name => 'propertyPath', traits => ['NameInRequest']);
 
 1;
 
@@ -23,7 +24,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::IoTSiteWise::VariableValue object:
 
-  $service_obj->Method(Att1 => { HierarchyId => $value, ..., PropertyId => $value  });
+  $service_obj->Method(Att1 => { HierarchyId => $value, ..., PropertyPath => $value  });
 
 =head3 Results returned from an API call
 
@@ -42,7 +43,11 @@ Identifies a property value used in an expression.
 =head2 HierarchyId => Str
 
 The ID of the hierarchy to query for the property ID. You can use the
-hierarchy's name instead of the hierarchy's ID.
+hierarchy's name instead of the hierarchy's ID. If the hierarchy has an
+external ID, you can specify C<externalId:> followed by the external
+ID. For more information, see Using external IDs
+(https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-ids)
+in the I<IoT SiteWise User Guide>.
 
 You use a hierarchy ID instead of a model ID because you can have
 several hierarchies using the same model and therefore the same
@@ -50,13 +55,22 @@ C<propertyId>. For example, you might have separately grouped assets
 that come from the same asset model. For more information, see Asset
 hierarchies
 (https://docs.aws.amazon.com/iot-sitewise/latest/userguide/asset-hierarchies.html)
-in the I<AWS IoT SiteWise User Guide>.
+in the I<IoT SiteWise User Guide>.
 
 
-=head2 B<REQUIRED> PropertyId => Str
+=head2 PropertyId => Str
 
 The ID of the property to use as the variable. You can use the property
-C<name> if it's from the same asset model.
+C<name> if it's from the same asset model. If the property has an
+external ID, you can specify C<externalId:> followed by the external
+ID. For more information, see Using external IDs
+(https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-ids)
+in the I<IoT SiteWise User Guide>.
+
+
+=head2 PropertyPath => ArrayRef[L<Paws::IoTSiteWise::AssetModelPropertyPathSegment>]
+
+The path of the property.
 
 
 

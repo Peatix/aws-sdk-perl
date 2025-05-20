@@ -3,6 +3,7 @@ package Paws::ApiGateway::GetBasePathMapping;
   use Moose;
   has BasePath => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'base_path', required => 1);
   has DomainName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'domain_name', required => 1);
+  has DomainNameId => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'domainNameId');
 
   use MooseX::ClassAttribute;
 
@@ -30,9 +31,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $apigateway = Paws->service('ApiGateway');
     my $BasePathMapping = $apigateway->GetBasePathMapping(
-      BasePath   => 'MyString',
-      DomainName => 'MyString',
-
+      BasePath     => 'MyString',
+      DomainName   => 'MyString',
+      DomainNameId => 'MyString',    # OPTIONAL
     );
 
     # Results:
@@ -50,17 +51,23 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 B<REQUIRED> BasePath => Str
 
-[Required] The base path name that callers of the API must provide as
-part of the URL after the domain name. This value must be unique for
-all of the mappings across a single API. Specify '(none)' if you do not
-want callers to specify any base path name after the domain name.
+The base path name that callers of the API must provide as part of the
+URL after the domain name. This value must be unique for all of the
+mappings across a single API. Specify '(none)' if you do not want
+callers to specify any base path name after the domain name.
 
 
 
 =head2 B<REQUIRED> DomainName => Str
 
-[Required] The domain name of the BasePathMapping resource to be
-described.
+The domain name of the BasePathMapping resource to be described.
+
+
+
+=head2 DomainNameId => Str
+
+The identifier for the domain name resource. Supported only for private
+custom domain names.
 
 
 

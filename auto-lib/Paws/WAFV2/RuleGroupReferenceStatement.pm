@@ -3,6 +3,7 @@ package Paws::WAFV2::RuleGroupReferenceStatement;
   use Moose;
   has ARN => (is => 'ro', isa => 'Str', required => 1);
   has ExcludedRules => (is => 'ro', isa => 'ArrayRef[Paws::WAFV2::ExcludedRule]');
+  has RuleActionOverrides => (is => 'ro', isa => 'ArrayRef[Paws::WAFV2::RuleActionOverride]');
 
 1;
 
@@ -23,7 +24,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::WAFV2::RuleGroupReferenceStatement object:
 
-  $service_obj->Method(Att1 => { ARN => $value, ..., ExcludedRules => $value  });
+  $service_obj->Method(Att1 => { ARN => $value, ..., RuleActionOverrides => $value  });
 
 =head3 Results returned from an API call
 
@@ -39,8 +40,10 @@ To use this, create a rule group with your rules, then provide the ARN
 of the rule group in this statement.
 
 You cannot nest a C<RuleGroupReferenceStatement>, for example for use
-inside a C<NotStatement> or C<OrStatement>. It can only be referenced
-as a top-level statement within a rule.
+inside a C<NotStatement> or C<OrStatement>. You cannot use a rule group
+reference statement inside another rule group. You can only reference a
+rule group as a top-level statement within a rule that you define in a
+web ACL.
 
 =head1 ATTRIBUTES
 
@@ -52,8 +55,27 @@ The Amazon Resource Name (ARN) of the entity.
 
 =head2 ExcludedRules => ArrayRef[L<Paws::WAFV2::ExcludedRule>]
 
-The names of rules that are in the referenced rule group, but that you
-want WAF to exclude from processing for this rule statement.
+Rules in the referenced rule group whose actions are set to C<Count>.
+
+Instead of this option, use C<RuleActionOverrides>. It accepts any
+valid action setting, including C<Count>.
+
+
+=head2 RuleActionOverrides => ArrayRef[L<Paws::WAFV2::RuleActionOverride>]
+
+Action settings to use in the place of the rule actions that are
+configured inside the rule group. You specify one override for each
+rule whose action you want to change.
+
+Take care to verify the rule names in your overrides. If you provide a
+rule name that doesn't match the name of any rule in the rule group,
+WAF doesn't return an error and doesn't apply the override setting.
+
+You can use overrides for testing, for example you can override all of
+rule actions to C<Count> and then monitor the resulting count metrics
+to understand how the rule group would handle your web traffic. You can
+also permanently override some or all actions, to modify how the rule
+group manages your web traffic.
 
 
 

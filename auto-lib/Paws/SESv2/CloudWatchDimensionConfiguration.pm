@@ -51,8 +51,9 @@ send an email. This value has to meet the following criteria:
 
 =item *
 
-It can only contain ASCII letters (aE<ndash>z, AE<ndash>Z), numbers
-(0E<ndash>9), underscores (_), or dashes (-).
+Can only contain ASCII letters (aE<ndash>z, AE<ndash>Z), numbers
+(0E<ndash>9), underscores (_), or dashes (-), at signs (@), and periods
+(.).
 
 =item *
 
@@ -85,11 +86,11 @@ It can contain no more than 256 characters.
 =head2 B<REQUIRED> DimensionValueSource => Str
 
 The location where the Amazon SES API v2 finds the value of a dimension
-to publish to Amazon CloudWatch. If you want to use the message tags
-that you specify using an C<X-SES-MESSAGE-TAGS> header or a parameter
-to the C<SendEmail> or C<SendRawEmail> API, choose C<messageTag>. If
-you want to use your own email headers, choose C<emailHeader>. If you
-want to use link tags, choose C<linkTags>.
+to publish to Amazon CloudWatch. To use the message tags that you
+specify using an C<X-SES-MESSAGE-TAGS> header or a parameter to the
+C<SendEmail> or C<SendRawEmail> API, choose C<messageTag>. To use your
+own email headers, choose C<emailHeader>. To use link tags, choose
+C<linkTags>.
 
 
 

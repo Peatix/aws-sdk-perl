@@ -32,7 +32,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $CreateRepositoryResponse = $api . ecr-public->CreateRepository(
       RepositoryName => 'MyRepositoryName',
       CatalogData    => {
-        AboutText     => 'MyAboutText',    # max: 10240; OPTIONAL
+        AboutText     => 'MyAboutText',    # max: 25600; OPTIONAL
         Architectures => [
           'MyArchitecture', ...            # min: 1, max: 50
         ],    # max: 50; OPTIONAL
@@ -41,7 +41,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         OperatingSystems => [
           'MyOperatingSystem', ...                       # min: 1, max: 50
         ],    # max: 50; OPTIONAL
-        UsageText => 'MyUsageText',    # max: 10240; OPTIONAL
+        UsageText => 'MyUsageText',    # max: 25600; OPTIONAL
       },    # OPTIONAL
       Tags => [
         {
@@ -74,20 +74,20 @@ Amazon ECR Public Gallery.
 =head2 B<REQUIRED> RepositoryName => Str
 
 The name to use for the repository. This appears publicly in the Amazon
-ECR Public Gallery. The repository name may be specified on its own
-(such as C<nginx-web-app>) or it can be prepended with a namespace to
-group the repository into a category (such as
+ECR Public Gallery. The repository name can be specified on its own
+(for example C<nginx-web-app>) or prepended with a namespace to group
+the repository into a category (for example
 C<project-a/nginx-web-app>).
 
 
 
 =head2 Tags => ArrayRef[L<Paws::ECRPublic::Tag>]
 
-The metadata that you apply to the repository to help you categorize
-and organize them. Each tag consists of a key and an optional value,
-both of which you define. Tag keys can have a maximum character length
-of 128 characters, and tag values can have a maximum length of 256
-characters.
+The metadata that you apply to each repository to help categorize and
+organize your repositories. Each tag consists of a key and an optional
+value. You define both of them. Tag keys can have a maximum character
+length of 128 characters, and tag values can have a maximum length of
+256 characters.
 
 
 

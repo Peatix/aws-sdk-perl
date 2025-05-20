@@ -48,10 +48,10 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/glu
 
 =head2 B<REQUIRED> DataFormat => Str
 
-The data format of the schema definition. Currently C<AVRO> and C<JSON>
-are supported.
+The data format of the schema definition. Currently C<AVRO>, C<JSON>
+and C<PROTOBUF> are supported.
 
-Valid values are: C<"AVRO">, C<"JSON">
+Valid values are: C<"AVRO">, C<"JSON">, C<"PROTOBUF">
 
 =head2 B<REQUIRED> SchemaDefinition => Str
 

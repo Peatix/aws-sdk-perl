@@ -1,6 +1,7 @@
 
 package Paws::ApplicationMigration::DeleteSourceServer;
   use Moose;
+  has AccountID => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'accountID');
   has SourceServerID => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'sourceServerID', required => 1);
 
   use MooseX::ClassAttribute;
@@ -30,13 +31,19 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $mgn = Paws->service('ApplicationMigration');
     my $DeleteSourceServerResponse = $mgn->DeleteSourceServer(
       SourceServerID => 'MySourceServerID',
-
+      AccountID      => 'MyAccountID',        # OPTIONAL
     );
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/mgn/DeleteSourceServer>
 
 =head1 ATTRIBUTES
+
+
+=head2 AccountID => Str
+
+Request to delete Source Server from service by Account ID.
+
 
 
 =head2 B<REQUIRED> SourceServerID => Str

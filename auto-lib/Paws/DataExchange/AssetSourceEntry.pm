@@ -41,7 +41,7 @@ The source of the assets.
 
 =head2 B<REQUIRED> Bucket => Str
 
-The S3 bucket that's part of the source of the asset.
+The Amazon S3 bucket that's part of the source of the asset.
 
 
 =head2 B<REQUIRED> Key => Str

@@ -50,18 +50,74 @@ include the following:
 =item *
 
 C<PlatformCredential> E<ndash> The credential received from the
-notification service. For C<APNS> and C<APNS_SANDBOX>,
-C<PlatformCredential> is C<private key>. For C<GCM> (Firebase Cloud
-Messaging), C<PlatformCredential> is C<API key>. For C<ADM>,
-C<PlatformCredential> is C<client secret>.
+notification service.
+
+=over
+
+=item *
+
+For ADM, C<PlatformCredential>is client secret.
+
+=item *
+
+For Apple Services using certificate credentials, C<PlatformCredential>
+is private key.
+
+=item *
+
+For Apple Services using token credentials, C<PlatformCredential> is
+signing key.
+
+=item *
+
+For GCM (Firebase Cloud Messaging) using key credentials, there is no
+C<PlatformPrincipal>. The C<PlatformCredential> is C<API key>.
+
+=item *
+
+For GCM (Firebase Cloud Messaging) using token credentials, there is no
+C<PlatformPrincipal>. The C<PlatformCredential> is a JSON formatted
+private key file. When using the Amazon Web Services CLI, the file must
+be in string format and special characters must be ignored. To format
+the file correctly, Amazon SNS recommends using the following command:
+C<SERVICE_JSON=`jq @json E<lt>E<lt>E<lt> cat service.json`>.
+
+=back
+
+=back
+
+=over
 
 =item *
 
 C<PlatformPrincipal> E<ndash> The principal received from the
-notification service. For C<APNS> and C<APNS_SANDBOX>,
-C<PlatformPrincipal> is C<SSL certificate>. For C<GCM> (Firebase Cloud
-Messaging), there is no C<PlatformPrincipal>. For C<ADM>,
-C<PlatformPrincipal> is C<client id>.
+notification service.
+
+=over
+
+=item *
+
+For ADM, C<PlatformPrincipal>is client id.
+
+=item *
+
+For Apple Services using certificate credentials, C<PlatformPrincipal>
+is SSL certificate.
+
+=item *
+
+For Apple Services using token credentials, C<PlatformPrincipal> is
+signing key ID.
+
+=item *
+
+For GCM (Firebase Cloud Messaging), there is no C<PlatformPrincipal>.
+
+=back
+
+=back
+
+=over
 
 =item *
 
@@ -101,12 +157,30 @@ successfully delivered messages.
 
 =back
 
+The following attributes only apply to C<APNs> token-based
+authentication:
+
+=over
+
+=item *
+
+C<ApplePlatformTeamID> E<ndash> The identifier that's assigned to your
+Apple developer account team.
+
+=item *
+
+C<ApplePlatformBundleID> E<ndash> The bundle identifier that's assigned
+to your iOS app.
+
+=back
+
 
 
 
 =head2 B<REQUIRED> PlatformApplicationArn => Str
 
-PlatformApplicationArn for SetPlatformApplicationAttributes action.
+C<PlatformApplicationArn> for C<SetPlatformApplicationAttributes>
+action.
 
 
 

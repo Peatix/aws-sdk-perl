@@ -1,7 +1,7 @@
 
 package Paws::EC2::GetAssociatedEnclaveCertificateIamRoles;
   use Moose;
-  has CertificateArn => (is => 'ro', isa => 'Str');
+  has CertificateArn => (is => 'ro', isa => 'Str', required => 1);
   has DryRun => (is => 'ro', isa => 'Bool');
 
   use MooseX::ClassAttribute;
@@ -30,8 +30,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $ec2 = Paws->service('EC2');
     my $GetAssociatedEnclaveCertificateIamRolesResult =
       $ec2->GetAssociatedEnclaveCertificateIamRoles(
-      CertificateArn => 'MyResourceArn',    # OPTIONAL
-      DryRun         => 1,                  # OPTIONAL
+      CertificateArn => 'MyCertificateId',
+      DryRun         => 1,                   # OPTIONAL
       );
 
     # Results:
@@ -46,7 +46,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ec2
 =head1 ATTRIBUTES
 
 
-=head2 CertificateArn => Str
+=head2 B<REQUIRED> CertificateArn => Str
 
 The ARN of the ACM certificate for which to view the associated IAM
 roles, encryption keys, and Amazon S3 object information.

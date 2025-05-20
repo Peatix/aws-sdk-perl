@@ -107,7 +107,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             },    # OPTIONAL
           },
           ...
-        ],    # max: 1
+        ],
         BackendDefaults => {
           ClientPolicy => {
             Tls => {
@@ -158,8 +158,18 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         Logging => {
           AccessLog => {
             File => {
-              Path => 'MyFilePath',    # min: 1, max: 255
+              Path   => 'MyFilePath',    # min: 1, max: 255
+              Format => {
+                Json => [
+                  {
+                    Key   => 'MyJsonKey',      # min: 1, max: 100
+                    Value => 'MyJsonValue',    # min: 1, max: 100
 
+                  },
+                  ...
+                ],    # OPTIONAL
+                Text => 'MyTextFormat',    # min: 1, max: 1000; OPTIONAL
+              },    # OPTIONAL
             },    # OPTIONAL
           },    # OPTIONAL
         },    # OPTIONAL
@@ -204,11 +214,11 @@ The name of the service mesh to create the virtual gateway in.
 
 =head2 MeshOwner => Str
 
-The AWS IAM account ID of the service mesh owner. If the account ID is
-not your own, then the account that you specify must share the mesh
-with your account before you can create the resource in the service
-mesh. For more information about mesh sharing, see Working with shared
-meshes
+The Amazon Web Services IAM account ID of the service mesh owner. If
+the account ID is not your own, then the account that you specify must
+share the mesh with your account before you can create the resource in
+the service mesh. For more information about mesh sharing, see Working
+with shared meshes
 (https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html).
 
 

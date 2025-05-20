@@ -39,9 +39,10 @@ bucket. If the proposed configuration is for an existing Amazon S3
 bucket and the configuration is not specified, the access preview uses
 the existing setting. If the proposed configuration is for a new bucket
 and the configuration is not specified, the access preview uses
-C<false>. If the proposed configuration is for a new access point and
-the access point BPA configuration is not specified, the access preview
-uses C<true>. For more information, see PublicAccessBlockConfiguration
+C<false>. If the proposed configuration is for a new access point or
+multi-region access point and the access point BPA configuration is not
+specified, the access preview uses C<true>. For more information, see
+PublicAccessBlockConfiguration
 (https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket-publicaccessblockconfiguration.html).
 
 =head1 ATTRIBUTES

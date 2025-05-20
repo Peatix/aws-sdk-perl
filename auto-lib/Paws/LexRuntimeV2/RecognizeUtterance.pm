@@ -49,15 +49,16 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     );
 
     # Results:
-    my $AudioStream       = $RecognizeUtteranceResponse->AudioStream;
-    my $ContentType       = $RecognizeUtteranceResponse->ContentType;
-    my $InputMode         = $RecognizeUtteranceResponse->InputMode;
-    my $InputTranscript   = $RecognizeUtteranceResponse->InputTranscript;
-    my $Interpretations   = $RecognizeUtteranceResponse->Interpretations;
-    my $Messages          = $RecognizeUtteranceResponse->Messages;
-    my $RequestAttributes = $RecognizeUtteranceResponse->RequestAttributes;
-    my $SessionId         = $RecognizeUtteranceResponse->SessionId;
-    my $SessionState      = $RecognizeUtteranceResponse->SessionState;
+    my $AudioStream         = $RecognizeUtteranceResponse->AudioStream;
+    my $ContentType         = $RecognizeUtteranceResponse->ContentType;
+    my $InputMode           = $RecognizeUtteranceResponse->InputMode;
+    my $InputTranscript     = $RecognizeUtteranceResponse->InputTranscript;
+    my $Interpretations     = $RecognizeUtteranceResponse->Interpretations;
+    my $Messages            = $RecognizeUtteranceResponse->Messages;
+    my $RecognizedBotMember = $RecognizeUtteranceResponse->RecognizedBotMember;
+    my $RequestAttributes   = $RecognizeUtteranceResponse->RequestAttributes;
+    my $SessionId           = $RecognizeUtteranceResponse->SessionId;
+    my $SessionState        = $RecognizeUtteranceResponse->SessionState;
 
     # Returns a L<Paws::LexRuntimeV2::RecognizeUtteranceResponse> object.
 
@@ -179,7 +180,7 @@ in the response.
 
 If the value begins with C<audio/>, Amazon Lex V2 returns speech in the
 response. Amazon Lex V2 uses Amazon Polly to generate the speech using
-the configuration that you specified in the C<requestContentType>
+the configuration that you specified in the C<responseContentType>
 parameter. For example, if you specify C<audio/mpeg> as the value,
 Amazon Lex V2 returns speech in the MPEG format.
 

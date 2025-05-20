@@ -2,6 +2,7 @@
 package Paws::SageMaker::CandidateProperties;
   use Moose;
   has CandidateArtifactLocations => (is => 'ro', isa => 'Paws::SageMaker::CandidateArtifactLocations');
+  has CandidateMetrics => (is => 'ro', isa => 'ArrayRef[Paws::SageMaker::MetricDatum]');
 
 1;
 
@@ -22,7 +23,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::SageMaker::CandidateProperties object:
 
-  $service_obj->Method(Att1 => { CandidateArtifactLocations => $value, ..., CandidateArtifactLocations => $value  });
+  $service_obj->Method(Att1 => { CandidateArtifactLocations => $value, ..., CandidateMetrics => $value  });
 
 =head3 Results returned from an API call
 
@@ -42,6 +43,11 @@ The properties of an AutoML candidate job.
 
 The Amazon S3 prefix to the artifacts generated for an AutoML
 candidate.
+
+
+=head2 CandidateMetrics => ArrayRef[L<Paws::SageMaker::MetricDatum>]
+
+Information about the candidate metrics for an AutoML job.
 
 
 

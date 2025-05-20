@@ -5,6 +5,8 @@ package Paws::ACM::ListCertificates;
   has Includes => (is => 'ro', isa => 'Paws::ACM::Filters');
   has MaxItems => (is => 'ro', isa => 'Int');
   has NextToken => (is => 'ro', isa => 'Str');
+  has SortBy => (is => 'ro', isa => 'Str');
+  has SortOrder => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -41,16 +43,19 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           ... # values: TLS_WEB_SERVER_AUTHENTICATION, TLS_WEB_CLIENT_AUTHENTICATION, CODE_SIGNING, EMAIL_PROTECTION, TIME_STAMPING, OCSP_SIGNING, IPSEC_END_SYSTEM, IPSEC_TUNNEL, IPSEC_USER, ANY, NONE, CUSTOM
         ],    # OPTIONAL
         KeyTypes => [
-          'RSA_2048',
-          ... # values: RSA_2048, RSA_1024, RSA_4096, EC_prime256v1, EC_secp384r1, EC_secp521r1
+          'RSA_1024',
+          ... # values: RSA_1024, RSA_2048, RSA_3072, RSA_4096, EC_prime256v1, EC_secp384r1, EC_secp521r1
         ],    # OPTIONAL
         KeyUsage => [
           'DIGITAL_SIGNATURE',
           ... # values: DIGITAL_SIGNATURE, NON_REPUDIATION, KEY_ENCIPHERMENT, DATA_ENCIPHERMENT, KEY_AGREEMENT, CERTIFICATE_SIGNING, CRL_SIGNING, ENCIPHER_ONLY, DECIPHER_ONLY, ANY, CUSTOM
         ],    # OPTIONAL
+        ManagedBy => 'CLOUDFRONT',    # values: CLOUDFRONT; OPTIONAL
       },    # OPTIONAL
       MaxItems  => 1,                # OPTIONAL
       NextToken => 'MyNextToken',    # OPTIONAL
+      SortBy    => 'CREATED_AT',     # OPTIONAL
+      SortOrder => 'ASCENDING',      # OPTIONAL
     );
 
     # Results:
@@ -97,6 +102,20 @@ Set it to the value of C<NextToken> from the response you just
 received.
 
 
+
+=head2 SortBy => Str
+
+Specifies the field to sort results by. If you specify C<SortBy>, you
+must also specify C<SortOrder>.
+
+Valid values are: C<"CREATED_AT">
+
+=head2 SortOrder => Str
+
+Specifies the order of sorted results. If you specify C<SortOrder>, you
+must also specify C<SortBy>.
+
+Valid values are: C<"ASCENDING">, C<"DESCENDING">
 
 
 =head1 SEE ALSO

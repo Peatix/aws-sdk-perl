@@ -1,6 +1,7 @@
 
 package Paws::SSM::GetMaintenanceWindowExecutionTaskResult;
   use Moose;
+  has AlarmConfiguration => (is => 'ro', isa => 'Paws::SSM::AlarmConfiguration');
   has EndTime => (is => 'ro', isa => 'Str');
   has MaxConcurrency => (is => 'ro', isa => 'Str');
   has MaxErrors => (is => 'ro', isa => 'Str');
@@ -12,6 +13,7 @@ package Paws::SSM::GetMaintenanceWindowExecutionTaskResult;
   has TaskArn => (is => 'ro', isa => 'Str');
   has TaskExecutionId => (is => 'ro', isa => 'Str');
   has TaskParameters => (is => 'ro', isa => 'ArrayRef[Paws::SSM::MaintenanceWindowTaskParameters]');
+  has TriggeredAlarms => (is => 'ro', isa => 'ArrayRef[Paws::SSM::AlarmStateInformation]');
   has Type => (is => 'ro', isa => 'Str');
   has WindowExecutionId => (is => 'ro', isa => 'Str');
 
@@ -24,6 +26,12 @@ package Paws::SSM::GetMaintenanceWindowExecutionTaskResult;
 Paws::SSM::GetMaintenanceWindowExecutionTaskResult
 
 =head1 ATTRIBUTES
+
+
+=head2 AlarmConfiguration => L<Paws::SSM::AlarmConfiguration>
+
+The details for the CloudWatch alarm you applied to your maintenance
+window task.
 
 
 =head2 EndTime => Str
@@ -65,13 +73,12 @@ The status of the task.
 Valid values are: C<"PENDING">, C<"IN_PROGRESS">, C<"SUCCESS">, C<"FAILED">, C<"TIMED_OUT">, C<"CANCELLING">, C<"CANCELLED">, C<"SKIPPED_OVERLAPPING">
 =head2 StatusDetails => Str
 
-The details explaining the Status. Only available for certain status
-values.
+The details explaining the status. Not available for all status values.
 
 
 =head2 TaskArn => Str
 
-The ARN of the task that ran.
+The Amazon Resource Name (ARN) of the task that ran.
 
 
 =head2 TaskExecutionId => Str
@@ -92,9 +99,23 @@ window task types, see MaintenanceWindowTaskInvocationParameters.
 
 The map has the following format:
 
-Key: string, between 1 and 255 characters
+=over
 
-Value: an array of strings, each string is between 1 and 255 characters
+=item *
+
+C<Key>: string, between 1 and 255 characters
+
+=item *
+
+C<Value>: an array of strings, each between 1 and 255 characters
+
+=back
+
+
+
+=head2 TriggeredAlarms => ArrayRef[L<Paws::SSM::AlarmStateInformation>]
+
+The CloudWatch alarms that were invoked by the maintenance window task.
 
 
 =head2 Type => Str

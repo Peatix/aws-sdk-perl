@@ -49,7 +49,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/app
 
 The authentication type for the user. You must specify USERPOOL.
 
-Valid values are: C<"API">, C<"SAML">, C<"USERPOOL">
+Valid values are: C<"API">, C<"SAML">, C<"USERPOOL">, C<"AWS_AD">
 
 =head2 FirstName => Str
 

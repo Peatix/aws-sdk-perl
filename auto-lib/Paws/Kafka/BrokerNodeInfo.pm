@@ -66,7 +66,7 @@ The virtual private cloud (VPC) of the client.
 =head2 CurrentBrokerSoftwareInfo => L<Paws::Kafka::BrokerSoftwareInfo>
 
 Information about the version of software currently deployed on the
-Kafka brokers in the cluster.
+Apache Kafka brokers in the cluster.
 
 
 =head2 Endpoints => ArrayRef[Str|Undef]

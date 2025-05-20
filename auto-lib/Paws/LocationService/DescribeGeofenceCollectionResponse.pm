@@ -5,8 +5,9 @@ package Paws::LocationService::DescribeGeofenceCollectionResponse;
   has CollectionName => (is => 'ro', isa => 'Str', required => 1);
   has CreateTime => (is => 'ro', isa => 'Str', required => 1);
   has Description => (is => 'ro', isa => 'Str', required => 1);
+  has GeofenceCount => (is => 'ro', isa => 'Int');
   has KmsKeyId => (is => 'ro', isa => 'Str');
-  has PricingPlan => (is => 'ro', isa => 'Str', required => 1);
+  has PricingPlan => (is => 'ro', isa => 'Str');
   has PricingPlanDataSource => (is => 'ro', isa => 'Str');
   has Tags => (is => 'ro', isa => 'Paws::LocationService::TagMap');
   has UpdateTime => (is => 'ro', isa => 'Str', required => 1);
@@ -26,7 +27,8 @@ Paws::LocationService::DescribeGeofenceCollectionResponse
 =head2 B<REQUIRED> CollectionArn => Str
 
 The Amazon Resource Name (ARN) for the geofence collection resource.
-Used when you need to specify a resource across all AWS.
+Used when you need to specify a resource across all Amazon Web
+Services.
 
 =over
 
@@ -56,25 +58,26 @@ C<YYYY-MM-DDThh:mm:ss.sssZ>
 The optional description for the geofence collection.
 
 
+=head2 GeofenceCount => Int
+
+The number of geofences in the geofence collection.
+
+
 =head2 KmsKeyId => Str
 
-A key identifier for an AWS KMS customer managed key
+A key identifier for an Amazon Web Services KMS customer managed key
 (https://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html)
 assigned to the Amazon Location resource
 
 
-=head2 B<REQUIRED> PricingPlan => Str
+=head2 PricingPlan => Str
 
-The pricing plan selected for the specified geofence collection.
-
-For additional details and restrictions on each pricing plan option,
-see the Amazon Location Service pricing page
-(https://aws.amazon.com/location/pricing/).
+No longer used. Always returns C<RequestBasedUsage>.
 
 Valid values are: C<"RequestBasedUsage">, C<"MobileAssetTracking">, C<"MobileAssetManagement">
 =head2 PricingPlanDataSource => Str
 
-The specified data provider for the geofence collection.
+No longer used. Always returns an empty string.
 
 
 =head2 Tags => L<Paws::LocationService::TagMap>

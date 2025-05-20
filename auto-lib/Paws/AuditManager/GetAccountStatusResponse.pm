@@ -17,7 +17,7 @@ Paws::AuditManager::GetAccountStatusResponse
 
 =head2 Status => Str
 
-The status of the specified AWS account.
+The status of the Amazon Web Services account.
 
 Valid values are: C<"ACTIVE">, C<"INACTIVE">, C<"PENDING_ACTIVATION">
 =head2 _request_id => Str

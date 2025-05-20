@@ -48,7 +48,7 @@ filters the results of a query for information about S3 buckets.
 =head2 Eq => ArrayRef[Str|Undef]
 
 The value for the property matches (equals) the specified value. If you
-specify multiple values, Macie uses OR logic to join the values.
+specify multiple values, Amazon Macie uses OR logic to join the values.
 
 
 =head2 Gt => Int

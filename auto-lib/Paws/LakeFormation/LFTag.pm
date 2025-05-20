@@ -35,20 +35,24 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::LakeFormati
 =head1 DESCRIPTION
 
 A structure that allows an admin to grant user permissions on certain
-conditions. For example, granting a role access to all columns not
-tagged 'PII' of tables tagged 'Prod'.
+conditions. For example, granting a role access to all columns that do
+not have the LF-tag 'PII' in tables that have the LF-tag 'Prod'.
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> TagKey => Str
 
-The key-name for the tag.
+The key-name for the LF-tag.
 
 
 =head2 B<REQUIRED> TagValues => ArrayRef[Str|Undef]
 
 A list of possible values an attribute can take.
+
+The maximum number of values that can be defined for a LF-Tag is 1000.
+A single API call supports 50 values. You can use multiple API calls to
+add more values.
 
 
 

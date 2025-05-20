@@ -46,8 +46,9 @@ The status of the application.
 
 =head2 B<REQUIRED> ApplicationVersionId => Int
 
-The ID of the application version. Kinesis Data Analytics updates the
-C<ApplicationVersionId> each time you update the application.
+The ID of the application version. Managed Service for Apache Flink
+updates the C<ApplicationVersionId> each time you update the
+application.
 
 
 

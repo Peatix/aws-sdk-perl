@@ -3,6 +3,7 @@ package Paws::StorageGateway::UpdateGatewayInformation;
   use Moose;
   has CloudWatchLogGroupARN => (is => 'ro', isa => 'Str');
   has GatewayARN => (is => 'ro', isa => 'Str', required => 1);
+  has GatewayCapacity => (is => 'ro', isa => 'Str');
   has GatewayName => (is => 'ro', isa => 'Str');
   has GatewayTimezone => (is => 'ro', isa => 'Str');
 
@@ -67,6 +68,17 @@ For more information, see What is Amazon CloudWatch Logs?
 
 
 
+
+=head2 GatewayCapacity => Str
+
+Specifies the size of the gateway's metadata cache. This setting
+impacts gateway performance and hardware recommendations. For more
+information, see Performance guidance for gateways with multiple file
+shares
+(https://docs.aws.amazon.com/filegateway/latest/files3/performance-multiple-file-shares.html)
+in the I<Amazon S3 File Gateway User Guide>.
+
+Valid values are: C<"Small">, C<"Medium">, C<"Large">
 
 =head2 GatewayName => Str
 

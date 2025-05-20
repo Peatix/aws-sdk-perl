@@ -61,8 +61,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/cod
 
 =head2 ApplicationName => Str
 
-The name of an AWS CodeDeploy application associated with the IAM user
-or AWS account.
+The name of an CodeDeploy application associated with the user or
+Amazon Web Services account.
 
 If C<applicationName> is specified, then C<deploymentGroupName> must be
 specified. If it is not specified, then C<deploymentGroupName> must not

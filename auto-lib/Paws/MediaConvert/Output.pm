@@ -50,18 +50,16 @@ https://docs.aws.amazon.com/mediaconvert/latest/ug/create-outputs.html.
 
 =head2 AudioDescriptions => ArrayRef[L<Paws::MediaConvert::AudioDescription>]
 
-(AudioDescriptions) contains groups of audio encoding settings
-organized by audio codec. Include one instance of (AudioDescriptions)
-per output. (AudioDescriptions) can contain multiple groups of encoding
-settings.
+Contains groups of audio encoding settings organized by audio codec.
+Include one instance of per output. Can contain multiple groups of
+encoding settings.
 
 
 =head2 CaptionDescriptions => ArrayRef[L<Paws::MediaConvert::CaptionDescription>]
 
-(CaptionDescriptions) contains groups of captions settings. For each
-output that has captions, include one instance of
-(CaptionDescriptions). (CaptionDescriptions) can contain multiple
-groups of captions settings.
+Contains groups of captions settings. For each output that has
+captions, include one instance of CaptionDescriptions. Can contain
+multiple groups of captions settings.
 
 
 =head2 ContainerSettings => L<Paws::MediaConvert::ContainerSettings>
@@ -71,23 +69,23 @@ Container specific settings.
 
 =head2 Extension => Str
 
-Use Extension (Extension) to specify the file extension for outputs in
-File output groups. If you do not specify a value, the service will use
-default extensions by container type as follows * MPEG-2 transport
-stream, m2ts * Quicktime, mov * MXF container, mxf * MPEG-4 container,
-mp4 * WebM container, webm * No Container, the service will use codec
-extensions (e.g. AAC, H265, H265, AC3)
+Use Extension to specify the file extension for outputs in File output
+groups. If you do not specify a value, the service will use default
+extensions by container type as follows * MPEG-2 transport stream, m2ts
+* Quicktime, mov * MXF container, mxf * MPEG-4 container, mp4 * WebM
+container, webm * Animated GIF container, gif * No Container, the
+service will use codec extensions (e.g. AAC, H265, H265, AC3)
 
 
 =head2 NameModifier => Str
 
-Use Name modifier (NameModifier) to have the service add a string to
-the end of each output filename. You specify the base filename as part
-of your destination URI. When you create multiple outputs in the same
-output group, Name modifier (NameModifier) is required. Name modifier
-also accepts format identifiers. For DASH ISO outputs, if you use the
-format identifiers $Number$ or $Time$ in one output, you must use them
-in the same way in all outputs of the output group.
+Use Name modifier to have the service add a string to the end of each
+output filename. You specify the base filename as part of your
+destination URI. When you create multiple outputs in the same output
+group, Name modifier is required. Name modifier also accepts format
+identifiers. For DASH ISO outputs, if you use the format identifiers
+$Number$ or $Time$ in one output, you must use them in the same way in
+all outputs of the output group.
 
 
 =head2 OutputSettings => L<Paws::MediaConvert::OutputSettings>
@@ -97,9 +95,9 @@ Specific settings for this type of output.
 
 =head2 Preset => Str
 
-Use Preset (Preset) to specify a preset for your transcoding settings.
-Provide the system or custom preset name. You can specify either Preset
-(Preset) or Container settings (ContainerSettings), but not both.
+Use Preset to specify a preset for your transcoding settings. Provide
+the system or custom preset name. You can specify either Preset or
+Container settings, but not both.
 
 
 =head2 VideoDescription => L<Paws::MediaConvert::VideoDescription>

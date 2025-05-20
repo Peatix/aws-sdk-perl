@@ -6,6 +6,8 @@ package Paws::Personalize::SolutionVersionSummary;
   has LastUpdatedDateTime => (is => 'ro', isa => 'Str', request_name => 'lastUpdatedDateTime', traits => ['NameInRequest']);
   has SolutionVersionArn => (is => 'ro', isa => 'Str', request_name => 'solutionVersionArn', traits => ['NameInRequest']);
   has Status => (is => 'ro', isa => 'Str', request_name => 'status', traits => ['NameInRequest']);
+  has TrainingMode => (is => 'ro', isa => 'Str', request_name => 'trainingMode', traits => ['NameInRequest']);
+  has TrainingType => (is => 'ro', isa => 'Str', request_name => 'trainingType', traits => ['NameInRequest']);
 
 1;
 
@@ -26,7 +28,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::Personalize::SolutionVersionSummary object:
 
-  $service_obj->Method(Att1 => { CreationDateTime => $value, ..., Status => $value  });
+  $service_obj->Method(Att1 => { CreationDateTime => $value, ..., TrainingType => $value  });
 
 =head3 Results returned from an API call
 
@@ -38,7 +40,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Personalize
 =head1 DESCRIPTION
 
 Provides a summary of the properties of a solution version. For a
-complete listing, call the DescribeSolutionVersion API.
+complete listing, call the DescribeSolutionVersion
+(https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeSolutionVersion.html)
+API.
 
 =head1 ATTRIBUTES
 
@@ -79,6 +83,20 @@ CREATE PENDING E<gt> CREATE IN_PROGRESS E<gt> ACTIVE -or- CREATE FAILED
 
 =back
 
+
+
+=head2 TrainingMode => Str
+
+The scope of training to be performed when creating the solution
+version. A C<FULL> training considers all of the data in your dataset
+group. An C<UPDATE> processes only the data that has changed since the
+latest training. Only solution versions created with the
+User-Personalization recipe can use C<UPDATE>.
+
+
+=head2 TrainingType => Str
+
+Whether the solution version was created automatically or manually.
 
 
 

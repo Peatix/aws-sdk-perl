@@ -2,6 +2,7 @@
 package Paws::Personalize::RecipeSummary;
   use Moose;
   has CreationDateTime => (is => 'ro', isa => 'Str', request_name => 'creationDateTime', traits => ['NameInRequest']);
+  has Domain => (is => 'ro', isa => 'Str', request_name => 'domain', traits => ['NameInRequest']);
   has LastUpdatedDateTime => (is => 'ro', isa => 'Str', request_name => 'lastUpdatedDateTime', traits => ['NameInRequest']);
   has Name => (is => 'ro', isa => 'Str', request_name => 'name', traits => ['NameInRequest']);
   has RecipeArn => (is => 'ro', isa => 'Str', request_name => 'recipeArn', traits => ['NameInRequest']);
@@ -38,7 +39,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Personalize
 =head1 DESCRIPTION
 
 Provides a summary of the properties of a recipe. For a complete
-listing, call the DescribeRecipe API.
+listing, call the DescribeRecipe
+(https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeRecipe.html)
+API.
 
 =head1 ATTRIBUTES
 
@@ -46,6 +49,12 @@ listing, call the DescribeRecipe API.
 =head2 CreationDateTime => Str
 
 The date and time (in Unix time) that the recipe was created.
+
+
+=head2 Domain => Str
+
+The domain of the recipe (if the recipe is a Domain dataset group use
+case).
 
 
 =head2 LastUpdatedDateTime => Str

@@ -2,8 +2,11 @@
 package Paws::LocationService::CreateTracker;
   use Moose;
   has Description => (is => 'ro', isa => 'Str');
+  has EventBridgeEnabled => (is => 'ro', isa => 'Bool');
+  has KmsKeyEnableGeospatialQueries => (is => 'ro', isa => 'Bool');
   has KmsKeyId => (is => 'ro', isa => 'Str');
-  has PricingPlan => (is => 'ro', isa => 'Str', required => 1);
+  has PositionFiltering => (is => 'ro', isa => 'Str');
+  has PricingPlan => (is => 'ro', isa => 'Str');
   has PricingPlanDataSource => (is => 'ro', isa => 'Str');
   has Tags => (is => 'ro', isa => 'Paws::LocationService::TagMap');
   has TrackerName => (is => 'ro', isa => 'Str', required => 1);
@@ -34,12 +37,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $geo = Paws->service('LocationService');
     my $CreateTrackerResponse = $geo->CreateTracker(
-      PricingPlan           => 'RequestBasedUsage',
-      TrackerName           => 'MyResourceName',
-      Description           => 'MyResourceDescription',    # OPTIONAL
-      KmsKeyId              => 'MyKmsKeyId',               # OPTIONAL
-      PricingPlanDataSource => 'MyString',                 # OPTIONAL
-      Tags                  => {
+      TrackerName                   => 'MyResourceName',
+      Description                   => 'MyResourceDescription',    # OPTIONAL
+      EventBridgeEnabled            => 1,                          # OPTIONAL
+      KmsKeyEnableGeospatialQueries => 1,                          # OPTIONAL
+      KmsKeyId                      => 'MyKmsKeyId',               # OPTIONAL
+      PositionFiltering             => 'TimeBased',                # OPTIONAL
+      PricingPlan                   => 'RequestBasedUsage',        # OPTIONAL
+      PricingPlanDataSource         => 'MyString',                 # OPTIONAL
+      Tags                          => {
         'MyTagKey' => 'MyTagValue',    # key: min: 1, max: 128, value: max: 256
       },    # OPTIONAL
     );
@@ -63,48 +69,100 @@ An optional description for the tracker resource.
 
 
 
+=head2 EventBridgeEnabled => Bool
+
+Whether to enable position C<UPDATE> events from this tracker to be
+sent to EventBridge.
+
+You do not need enable this feature to get C<ENTER> and C<EXIT> events
+for geofences with this tracker. Those events are always sent to
+EventBridge.
+
+
+
+=head2 KmsKeyEnableGeospatialQueries => Bool
+
+Enables C<GeospatialQueries> for a tracker that uses a Amazon Web
+Services KMS customer managed key
+(https://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html).
+
+This parameter is only used if you are using a KMS customer managed
+key.
+
+If you wish to encrypt your data using your own KMS customer managed
+key, then the Bounding Polygon Queries feature will be disabled by
+default. This is because by using this feature, a representation of
+your device positions will not be encrypted using the your KMS managed
+key. The exact device position, however; is still encrypted using your
+managed key.
+
+You can choose to opt-in to the Bounding Polygon Quseries feature. This
+is done by setting the C<KmsKeyEnableGeospatialQueries> parameter to
+true when creating or updating a Tracker.
+
+
+
 =head2 KmsKeyId => Str
 
-A key identifier for an AWS KMS customer managed key
+A key identifier for an Amazon Web Services KMS customer managed key
 (https://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html).
 Enter a key ID, key ARN, alias name, or alias ARN.
 
 
 
-=head2 B<REQUIRED> PricingPlan => Str
+=head2 PositionFiltering => Str
 
-Specifies the pricing plan for the tracker resource.
+Specifies the position filtering for the tracker resource.
 
-For additional details and restrictions on each pricing plan option,
-see the Amazon Location Service pricing page
-(https://aws.amazon.com/location/pricing/).
-
-Valid values are: C<"RequestBasedUsage">, C<"MobileAssetTracking">, C<"MobileAssetManagement">
-
-=head2 PricingPlanDataSource => Str
-
-Specifies the data provider for the tracker resource.
+Valid values:
 
 =over
 
 =item *
 
-Required value for the following pricing plans: C<MobileAssetTracking
->| C<MobileAssetManagement>
+C<TimeBased> - Location updates are evaluated against linked geofence
+collections, but not every location update is stored. If your update
+frequency is more often than 30 seconds, only one update per 30 seconds
+is stored for each unique device ID.
+
+=item *
+
+C<DistanceBased> - If the device has moved less than 30 m (98.4 ft),
+location updates are ignored. Location updates within this area are
+neither evaluated against linked geofence collections, nor stored. This
+helps control costs by reducing the number of geofence evaluations and
+historical device positions to paginate through. Distance-based
+filtering can also reduce the effects of GPS noise when displaying
+device trajectories on a map.
+
+=item *
+
+C<AccuracyBased> - If the device has moved less than the measured
+accuracy, location updates are ignored. For example, if two consecutive
+updates from a device have a horizontal accuracy of 5 m and 10 m, the
+second update is ignored if the device has moved less than 15 m.
+Ignored location updates are neither evaluated against linked geofence
+collections, nor stored. This can reduce the effects of GPS noise when
+displaying device trajectories on a map, and can help control your
+costs by reducing the number of geofence evaluations.
 
 =back
 
-For more information about Data Providers
-(https://aws.amazon.com/location/data-providers/), and Pricing plans
-(https://aws.amazon.com/location/pricing/), see the Amazon Location
-Service product page.
+This field is optional. If not specified, the default value is
+C<TimeBased>.
 
-Amazon Location Service only uses C<PricingPlanDataSource> to calculate
-billing for your tracker resource. Your data will not be shared with
-the data provider, and will remain in your AWS account or Region unless
-you move it.
+Valid values are: C<"TimeBased">, C<"DistanceBased">, C<"AccuracyBased">
 
-Valid Values: C<Esri> | C<Here>
+=head2 PricingPlan => Str
+
+No longer used. If included, the only allowed value is
+C<RequestBasedUsage>.
+
+Valid values are: C<"RequestBasedUsage">, C<"MobileAssetTracking">, C<"MobileAssetManagement">
+
+=head2 PricingPlanDataSource => Str
+
+This parameter is no longer used.
 
 
 
@@ -140,6 +198,10 @@ Maximum value length: 256 Unicode characters in UTF-8
 
 Can use alphanumeric characters (AE<ndash>Z, aE<ndash>z, 0E<ndash>9),
 and the following characters: + - = . _ : / @.
+
+=item *
+
+Cannot use "aws:" as a prefix for a key.
 
 =back
 

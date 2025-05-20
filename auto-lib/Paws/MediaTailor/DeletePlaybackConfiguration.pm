@@ -42,7 +42,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 B<REQUIRED> Name => Str
 
-The identifier for the playback configuration.
+The name of the playback configuration.
 
 
 

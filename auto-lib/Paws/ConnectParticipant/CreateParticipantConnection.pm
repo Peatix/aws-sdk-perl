@@ -1,8 +1,9 @@
 
 package Paws::ConnectParticipant::CreateParticipantConnection;
   use Moose;
+  has ConnectParticipant => (is => 'ro', isa => 'Bool');
   has ParticipantToken => (is => 'ro', isa => 'Str', traits => ['ParamInHeader'], header_name => 'X-Amz-Bearer', required => 1);
-  has Type => (is => 'ro', isa => 'ArrayRef[Str|Undef]', required => 1);
+  has Type => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
 
   use MooseX::ClassAttribute;
 
@@ -31,11 +32,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $participant.connect = Paws->service('ConnectParticipant');
     my $CreateParticipantConnectionResponse =
       $participant . connect->CreateParticipantConnection(
-      ParticipantToken => 'MyParticipantToken',
-      Type             => [
+      ParticipantToken   => 'MyParticipantToken',
+      ConnectParticipant => 1,                      # OPTIONAL
+      Type               => [
         'WEBSOCKET', ...    # values: WEBSOCKET, CONNECTION_CREDENTIALS
-      ],
-
+      ],    # OPTIONAL
       );
 
     # Results:
@@ -51,19 +52,29 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/par
 =head1 ATTRIBUTES
 
 
+=head2 ConnectParticipant => Bool
+
+Amazon Connect Participant is used to mark the participant as connected
+for customer participant in message streaming, as well as for agent or
+manager participant in non-streaming chats.
+
+
+
 =head2 B<REQUIRED> ParticipantToken => Str
 
 This is a header parameter.
 
-The Participant Token as obtained from StartChatContact
+The ParticipantToken as obtained from StartChatContact
 (https://docs.aws.amazon.com/connect/latest/APIReference/API_StartChatContact.html)
 API response.
 
 
 
-=head2 B<REQUIRED> Type => ArrayRef[Str|Undef]
+=head2 Type => ArrayRef[Str|Undef]
 
-Type of connection information required.
+Type of connection information required. If you need
+C<CONNECTION_CREDENTIALS> along with marking participant as connected,
+pass C<CONNECTION_CREDENTIALS> in C<Type>.
 
 
 

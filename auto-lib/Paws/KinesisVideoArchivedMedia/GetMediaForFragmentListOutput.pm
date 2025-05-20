@@ -63,7 +63,6 @@ threw the exception
 =item *
 
 AWS_KINESISVIDEO_EXCEPTION_ERROR_CODE - The integer code of the
-exception
 
 =item *
 

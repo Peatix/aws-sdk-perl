@@ -5,6 +5,7 @@ package Paws::EC2::CreateLaunchTemplate;
   has DryRun => (is => 'ro', isa => 'Bool');
   has LaunchTemplateData => (is => 'ro', isa => 'Paws::EC2::RequestLaunchTemplateData', required => 1);
   has LaunchTemplateName => (is => 'ro', isa => 'Str', required => 1);
+  has Operator => (is => 'ro', isa => 'Paws::EC2::OperatorRequest');
   has TagSpecifications => (is => 'ro', isa => 'ArrayRef[Paws::EC2::TagSpecification]', traits => ['NameInRequest'], request_name => 'TagSpecification' );
   has VersionDescription => (is => 'ro', isa => 'Str');
 
@@ -81,7 +82,10 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ec2
 =head2 ClientToken => Str
 
 Unique, case-sensitive identifier you provide to ensure the idempotency
-of the request. For more information, see Ensuring Idempotency
+of the request. If a client token isn't specified, a randomly generated
+token is used in the request to ensure idempotency.
+
+For more information, see Ensuring idempotency
 (https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 
 Constraint: Maximum 128 ASCII characters.
@@ -109,9 +113,22 @@ A name for the launch template.
 
 
 
+=head2 Operator => L<Paws::EC2::OperatorRequest>
+
+Reserved for internal use.
+
+
+
 =head2 TagSpecifications => ArrayRef[L<Paws::EC2::TagSpecification>]
 
-The tags to apply to the launch template during creation.
+The tags to apply to the launch template on creation. To tag the launch
+template, the resource type must be C<launch-template>.
+
+To specify the tags for the resources that are created when an instance
+is launched, you must use the C<TagSpecifications> parameter in the
+launch template data
+(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_RequestLaunchTemplateData.html)
+structure.
 
 
 

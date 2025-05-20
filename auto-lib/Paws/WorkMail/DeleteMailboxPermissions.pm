@@ -30,8 +30,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $workmail = Paws->service('WorkMail');
     my $DeleteMailboxPermissionsResponse = $workmail->DeleteMailboxPermissions(
-      EntityId       => 'MyWorkMailIdentifier',
-      GranteeId      => 'MyWorkMailIdentifier',
+      EntityId       => 'MyEntityIdentifier',
+      GranteeId      => 'MyEntityIdentifier',
       OrganizationId => 'MyOrganizationId',
 
     );
@@ -44,14 +44,57 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/wor
 
 =head2 B<REQUIRED> EntityId => Str
 
-The identifier of the member (user or group) that owns the mailbox.
+The identifier of the entity that owns the mailbox.
+
+The identifier can be I<UserId or Group Id>, I<Username or Groupname>,
+or I<email>.
+
+=over
+
+=item *
+
+Entity ID: 12345678-1234-1234-1234-123456789012,
+r-0123456789a0123456789b0123456789, or
+S-1-1-12-1234567890-123456789-123456789-1234
+
+=item *
+
+Email address: entity@domain.tld
+
+=item *
+
+Entity name: entity
+
+=back
+
 
 
 
 =head2 B<REQUIRED> GranteeId => Str
 
-The identifier of the member (user or group) for which to delete
-granted permissions.
+The identifier of the entity for which to delete granted permissions.
+
+The identifier can be I<UserId, ResourceID, or Group Id>, I<Username or
+Groupname>, or I<email>.
+
+=over
+
+=item *
+
+Grantee ID:
+12345678-1234-1234-1234-123456789012,r-0123456789a0123456789b0123456789,
+or S-1-1-12-1234567890-123456789-123456789-1234
+
+=item *
+
+Email address: grantee@domain.tld
+
+=item *
+
+Grantee name: grantee
+
+=back
+
 
 
 

@@ -36,7 +36,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::TimestreamQ
 =head1 DESCRIPTION
 
 Information about the status of the query, including progress and bytes
-scannned.
+scanned.
 
 =head1 ATTRIBUTES
 
@@ -47,7 +47,7 @@ The amount of data scanned by the query in bytes that you will be
 charged for. This is a cumulative sum and represents the total amount
 of data that you will be charged for since the query was started. The
 charge is applied only once and is either applied when the query
-completes execution or when the query is cancelled.
+completes running or when the query is cancelled.
 
 
 =head2 CumulativeBytesScanned => Int

@@ -5,9 +5,12 @@ package Paws::Firehose::ExtendedS3DestinationDescription;
   has BufferingHints => (is => 'ro', isa => 'Paws::Firehose::BufferingHints', required => 1);
   has CloudWatchLoggingOptions => (is => 'ro', isa => 'Paws::Firehose::CloudWatchLoggingOptions');
   has CompressionFormat => (is => 'ro', isa => 'Str', required => 1);
+  has CustomTimeZone => (is => 'ro', isa => 'Str');
   has DataFormatConversionConfiguration => (is => 'ro', isa => 'Paws::Firehose::DataFormatConversionConfiguration');
+  has DynamicPartitioningConfiguration => (is => 'ro', isa => 'Paws::Firehose::DynamicPartitioningConfiguration');
   has EncryptionConfiguration => (is => 'ro', isa => 'Paws::Firehose::EncryptionConfiguration', required => 1);
   has ErrorOutputPrefix => (is => 'ro', isa => 'Str');
+  has FileExtension => (is => 'ro', isa => 'Str');
   has Prefix => (is => 'ro', isa => 'Str');
   has ProcessingConfiguration => (is => 'ro', isa => 'Paws::Firehose::ProcessingConfiguration');
   has RoleARN => (is => 'ro', isa => 'Str', required => 1);
@@ -52,7 +55,7 @@ Describes a destination in Amazon S3.
 =head2 B<REQUIRED> BucketARN => Str
 
 The ARN of the S3 bucket. For more information, see Amazon Resource
-Names (ARNs) and AWS Service Namespaces
+Names (ARNs) and Amazon Web Services Service Namespaces
 (https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
 
 
@@ -63,7 +66,7 @@ The buffering option.
 
 =head2 CloudWatchLoggingOptions => L<Paws::Firehose::CloudWatchLoggingOptions>
 
-The Amazon CloudWatch logging options for your delivery stream.
+The Amazon CloudWatch logging options for your Firehose stream.
 
 
 =head2 B<REQUIRED> CompressionFormat => Str
@@ -72,11 +75,24 @@ The compression format. If no value is specified, the default is
 C<UNCOMPRESSED>.
 
 
+=head2 CustomTimeZone => Str
+
+The time zone you prefer. UTC is the default.
+
+
 =head2 DataFormatConversionConfiguration => L<Paws::Firehose::DataFormatConversionConfiguration>
 
 The serializer, deserializer, and schema for converting data from the
 JSON format to the Parquet or ORC format before writing it to Amazon
 S3.
+
+
+=head2 DynamicPartitioningConfiguration => L<Paws::Firehose::DynamicPartitioningConfiguration>
+
+The configuration of the dynamic partitioning mechanism that creates
+smaller data sets from the streaming data by partitioning it based on
+partition keys. Currently, dynamic partitioning is only supported for
+Amazon S3 destinations.
 
 
 =head2 B<REQUIRED> EncryptionConfiguration => L<Paws::Firehose::EncryptionConfiguration>
@@ -87,11 +103,16 @@ no encryption.
 
 =head2 ErrorOutputPrefix => Str
 
-A prefix that Kinesis Data Firehose evaluates and adds to failed
-records before writing them to S3. This prefix appears immediately
-following the bucket name. For information about how to specify this
-prefix, see Custom Prefixes for Amazon S3 Objects
+A prefix that Firehose evaluates and adds to failed records before
+writing them to S3. This prefix appears immediately following the
+bucket name. For information about how to specify this prefix, see
+Custom Prefixes for Amazon S3 Objects
 (https://docs.aws.amazon.com/firehose/latest/dev/s3-prefixes.html).
+
+
+=head2 FileExtension => Str
+
+Specify a file extension. It will override the default file extension
 
 
 =head2 Prefix => Str
@@ -109,9 +130,9 @@ The data processing configuration.
 
 =head2 B<REQUIRED> RoleARN => Str
 
-The Amazon Resource Name (ARN) of the AWS credentials. For more
-information, see Amazon Resource Names (ARNs) and AWS Service
-Namespaces
+The Amazon Resource Name (ARN) of the Amazon Web Services credentials.
+For more information, see Amazon Resource Names (ARNs) and Amazon Web
+Services Service Namespaces
 (https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
 
 

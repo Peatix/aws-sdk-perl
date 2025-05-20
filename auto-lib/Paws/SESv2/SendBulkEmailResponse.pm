@@ -17,7 +17,8 @@ Paws::SESv2::SendBulkEmailResponse
 
 =head2 B<REQUIRED> BulkEmailEntryResults => ArrayRef[L<Paws::SESv2::BulkEmailEntryResult>]
 
-
+One object per intended recipient. Check each response object and retry
+any messages with a failure status.
 
 
 =head2 _request_id => Str

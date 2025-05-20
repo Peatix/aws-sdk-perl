@@ -2,19 +2,24 @@
 package Paws::WellArchitected::Workload;
   use Moose;
   has AccountIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has Applications => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has ArchitecturalDesign => (is => 'ro', isa => 'Str');
   has AwsRegions => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has Description => (is => 'ro', isa => 'Str');
+  has DiscoveryConfig => (is => 'ro', isa => 'Paws::WellArchitected::WorkloadDiscoveryConfig');
   has Environment => (is => 'ro', isa => 'Str');
   has ImprovementStatus => (is => 'ro', isa => 'Str');
   has Industry => (is => 'ro', isa => 'Str');
   has IndustryType => (is => 'ro', isa => 'Str');
   has IsReviewOwnerUpdateAcknowledged => (is => 'ro', isa => 'Bool');
+  has JiraConfiguration => (is => 'ro', isa => 'Paws::WellArchitected::WorkloadJiraConfigurationOutput');
   has Lenses => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has NonAwsRegions => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has Notes => (is => 'ro', isa => 'Str');
   has Owner => (is => 'ro', isa => 'Str');
   has PillarPriorities => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has PrioritizedRiskCounts => (is => 'ro', isa => 'Paws::WellArchitected::RiskCounts');
+  has Profiles => (is => 'ro', isa => 'ArrayRef[Paws::WellArchitected::WorkloadProfile]');
   has ReviewOwner => (is => 'ro', isa => 'Str');
   has ReviewRestrictionDate => (is => 'ro', isa => 'Str');
   has RiskCounts => (is => 'ro', isa => 'Paws::WellArchitected::RiskCounts');
@@ -65,6 +70,11 @@ A workload return object.
 
 
 
+=head2 Applications => ArrayRef[Str|Undef]
+
+List of AppRegistry application ARNs associated to the workload.
+
+
 =head2 ArchitecturalDesign => Str
 
 
@@ -78,6 +88,11 @@ A workload return object.
 =head2 Description => Str
 
 
+
+
+=head2 DiscoveryConfig => L<Paws::WellArchitected::WorkloadDiscoveryConfig>
+
+Discovery configuration associated to the workload.
 
 
 =head2 Environment => Str
@@ -110,6 +125,11 @@ acknowledgement, access to the workload is restricted until an owner is
 added.
 
 
+=head2 JiraConfiguration => L<Paws::WellArchitected::WorkloadJiraConfigurationOutput>
+
+Jira configuration for a specific workload.
+
+
 =head2 Lenses => ArrayRef[Str|Undef]
 
 
@@ -133,6 +153,16 @@ added.
 =head2 PillarPriorities => ArrayRef[Str|Undef]
 
 
+
+
+=head2 PrioritizedRiskCounts => L<Paws::WellArchitected::RiskCounts>
+
+
+
+
+=head2 Profiles => ArrayRef[L<Paws::WellArchitected::WorkloadProfile>]
+
+Profile associated with a workload.
 
 
 =head2 ReviewOwner => Str

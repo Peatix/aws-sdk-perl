@@ -1,6 +1,7 @@
 
 package Paws::DLM::GetLifecyclePolicies;
   use Moose;
+  has DefaultPolicyType => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'defaultPolicyType');
   has PolicyIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['ParamInQuery'], query_name => 'policyIds');
   has ResourceTypes => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['ParamInQuery'], query_name => 'resourceTypes');
   has State => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'state');
@@ -33,8 +34,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $dlm = Paws->service('DLM');
     my $GetLifecyclePoliciesResponse = $dlm->GetLifecyclePolicies(
-      PolicyIds => [
-        'MyPolicyId', ...    # max: 64
+      DefaultPolicyType => 'VOLUME',    # OPTIONAL
+      PolicyIds         => [
+        'MyPolicyId', ...               # max: 64
       ],    # OPTIONAL
       ResourceTypes => [
         'VOLUME', ...    # values: VOLUME, INSTANCE
@@ -58,6 +60,30 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/dlm
 
 =head1 ATTRIBUTES
 
+
+=head2 DefaultPolicyType => Str
+
+B<[Default policies only]> Specifies the type of default policy to get.
+Specify one of the following:
+
+=over
+
+=item *
+
+C<VOLUME> - To get only the default policy for EBS snapshots
+
+=item *
+
+C<INSTANCE> - To get only the default policy for EBS-backed AMIs
+
+=item *
+
+C<ALL> - To get all default policies
+
+=back
+
+
+Valid values are: C<"VOLUME">, C<"INSTANCE">, C<"ALL">
 
 =head2 PolicyIds => ArrayRef[Str|Undef]
 
@@ -83,8 +109,8 @@ The tags to add to objects created by the policy.
 
 Tags are strings in the format C<key=value>.
 
-These user-defined tags are added in addition to the AWS-added
-lifecycle tags.
+These user-defined tags are added in addition to the Amazon Web
+Services-added lifecycle tags.
 
 
 

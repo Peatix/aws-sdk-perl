@@ -41,7 +41,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SSM::Parame
 
 =head1 DESCRIPTION
 
-An Systems Manager parameter in Parameter Store.
+An Amazon Web Services Systems Manager parameter in Parameter Store.
 
 =head1 ATTRIBUTES
 
@@ -80,8 +80,9 @@ parameter_name:label
 
 =head2 SourceResult => Str
 
-Applies to parameters that reference information in other AWS services.
-SourceResult is the raw result or response from the source.
+Applies to parameters that reference information in other Amazon Web
+Services services. C<SourceResult> is the raw result or response from
+the source.
 
 
 =head2 Type => Str
@@ -89,10 +90,16 @@ SourceResult is the raw result or response from the source.
 The type of parameter. Valid values include the following: C<String>,
 C<StringList>, and C<SecureString>.
 
+If type is C<StringList>, the system returns a comma-separated string
+with no spaces between commas in the C<Value> field.
+
 
 =head2 Value => Str
 
 The parameter value.
+
+If type is C<StringList>, the system returns a comma-separated string
+with no spaces between commas in the C<Value> field.
 
 
 =head2 Version => Int

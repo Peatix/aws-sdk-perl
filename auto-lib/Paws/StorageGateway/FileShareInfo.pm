@@ -37,7 +37,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::StorageGate
 
 =head1 DESCRIPTION
 
-Describes a file share.
+Describes a file share. Only supported S3 File Gateway.
 
 =head1 ATTRIBUTES
 

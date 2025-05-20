@@ -41,12 +41,14 @@ Details used when updating the replication set.
 
 =head2 AddRegionAction => L<Paws::SSMIncidents::AddRegionAction>
 
-Details about the Region that you're adding to the replication set.
+Details about the Amazon Web Services Region that you're adding to the
+replication set.
 
 
 =head2 DeleteRegionAction => L<Paws::SSMIncidents::DeleteRegionAction>
 
-Details about the Region that you're deleting to the replication set.
+Details about the Amazon Web Services Region that you're deleting to
+the replication set.
 
 
 

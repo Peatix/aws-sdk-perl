@@ -67,7 +67,7 @@ The redirected URI for signing in to your Amplify app.
 
 =head2 B<REQUIRED> RedirectSignOutURIs => ArrayRef[Str|Undef]
 
-Redirect URLs used by OAuth when a user signs out of an Amplify app.
+Redirect URLs that OAuth uses when a user signs out of an Amplify app.
 
 
 =head2 SocialProviderSettings => L<Paws::AmplifyBackend::SocialProviderSettings>

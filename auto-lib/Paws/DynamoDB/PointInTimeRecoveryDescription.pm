@@ -4,6 +4,7 @@ package Paws::DynamoDB::PointInTimeRecoveryDescription;
   has EarliestRestorableDateTime => (is => 'ro', isa => 'Str');
   has LatestRestorableDateTime => (is => 'ro', isa => 'Str');
   has PointInTimeRecoveryStatus => (is => 'ro', isa => 'Str');
+  has RecoveryPeriodInDays => (is => 'ro', isa => 'Int');
 
 1;
 
@@ -24,7 +25,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::DynamoDB::PointInTimeRecoveryDescription object:
 
-  $service_obj->Method(Att1 => { EarliestRestorableDateTime => $value, ..., PointInTimeRecoveryStatus => $value  });
+  $service_obj->Method(Att1 => { EarliestRestorableDateTime => $value, ..., RecoveryPeriodInDays => $value  });
 
 =head3 Results returned from an API call
 
@@ -60,10 +61,6 @@ The current state of point in time recovery:
 
 =item *
 
-C<ENABLING> - Point in time recovery is being enabled.
-
-=item *
-
 C<ENABLED> - Point in time recovery is enabled.
 
 =item *
@@ -72,6 +69,13 @@ C<DISABLED> - Point in time recovery is disabled.
 
 =back
 
+
+
+=head2 RecoveryPeriodInDays => Int
+
+The number of preceding days for which continuous backups are taken and
+maintained. Your table data is only recoverable to any point-in-time
+from within the configured recovery period. This parameter is optional.
 
 
 

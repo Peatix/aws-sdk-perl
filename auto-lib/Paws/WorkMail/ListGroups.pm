@@ -1,6 +1,7 @@
 
 package Paws::WorkMail::ListGroups;
   use Moose;
+  has Filters => (is => 'ro', isa => 'Paws::WorkMail::ListGroupsFilters');
   has MaxResults => (is => 'ro', isa => 'Int');
   has NextToken => (is => 'ro', isa => 'Str');
   has OrganizationId => (is => 'ro', isa => 'Str', required => 1);
@@ -31,8 +32,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $workmail = Paws->service('WorkMail');
     my $ListGroupsResponse = $workmail->ListGroups(
       OrganizationId => 'MyOrganizationId',
-      MaxResults     => 1,                    # OPTIONAL
-      NextToken      => 'MyNextToken',        # OPTIONAL
+      Filters        => {
+        NamePrefix         => 'MyString',    # max: 256; OPTIONAL
+        PrimaryEmailPrefix => 'MyString',    # max: 256; OPTIONAL
+        State => 'ENABLED',    # values: ENABLED, DISABLED, DELETED; OPTIONAL
+      },    # OPTIONAL
+      MaxResults => 1,                # OPTIONAL
+      NextToken  => 'MyNextToken',    # OPTIONAL
     );
 
     # Results:
@@ -45,6 +51,13 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/workmail/ListGroups>
 
 =head1 ATTRIBUTES
+
+
+=head2 Filters => L<Paws::WorkMail::ListGroupsFilters>
+
+Limit the search results based on the filter criteria. Only one filter
+per request is supported.
+
 
 
 =head2 MaxResults => Int

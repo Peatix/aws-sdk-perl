@@ -33,8 +33,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::S3Control::
 =head1 DESCRIPTION
 
 Contains no configuration parameters because the DELETE Object tagging
-API only accepts the bucket name and key name as parameters, which are
-defined in the job's manifest.
+(C<DeleteObjectTagging>) API operation accepts only the bucket name and
+key name as parameters, which are defined in the job's manifest.
 
 =head1 ATTRIBUTES
 

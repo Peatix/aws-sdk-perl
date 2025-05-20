@@ -2,7 +2,10 @@
 package Paws::Backup::ProtectedResource;
   use Moose;
   has LastBackupTime => (is => 'ro', isa => 'Str');
+  has LastBackupVaultArn => (is => 'ro', isa => 'Str');
+  has LastRecoveryPointArn => (is => 'ro', isa => 'Str');
   has ResourceArn => (is => 'ro', isa => 'Str');
+  has ResourceName => (is => 'ro', isa => 'Str');
   has ResourceType => (is => 'ro', isa => 'Str');
 
 1;
@@ -48,18 +51,35 @@ accurate to milliseconds. For example, the value 1516925490.087
 represents Friday, January 26, 2018 12:11:30.087 AM.
 
 
+=head2 LastBackupVaultArn => Str
+
+The ARN (Amazon Resource Name) of the backup vault that contains the
+most recent backup recovery point.
+
+
+=head2 LastRecoveryPointArn => Str
+
+The ARN (Amazon Resource Name) of the most recent recovery point.
+
+
 =head2 ResourceArn => Str
 
 An Amazon Resource Name (ARN) that uniquely identifies a resource. The
 format of the ARN depends on the resource type.
 
 
+=head2 ResourceName => Str
+
+The non-unique name of the resource that belongs to the specified
+backup.
+
+
 =head2 ResourceType => Str
 
-The type of AWS resource; for example, an Amazon Elastic Block Store
-(Amazon EBS) volume or an Amazon Relational Database Service (Amazon
-RDS) database. For VSS Windows backups, the only supported resource
-type is Amazon EC2.
+The type of Amazon Web Services resource; for example, an Amazon
+Elastic Block Store (Amazon EBS) volume or an Amazon Relational
+Database Service (Amazon RDS) database. For Windows Volume Shadow Copy
+Service (VSS) backups, the only supported resource type is Amazon EC2.
 
 
 

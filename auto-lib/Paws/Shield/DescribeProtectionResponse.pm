@@ -16,7 +16,7 @@ Paws::Shield::DescribeProtectionResponse
 
 =head2 Protection => L<Paws::Shield::Protection>
 
-The Protection object that is described.
+The Protection that you requested.
 
 
 =head2 _request_id => Str

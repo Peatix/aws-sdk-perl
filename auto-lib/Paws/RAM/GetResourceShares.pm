@@ -5,6 +5,7 @@ package Paws::RAM::GetResourceShares;
   has Name => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'name');
   has NextToken => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'nextToken');
   has PermissionArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'permissionArn');
+  has PermissionVersion => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'permissionVersion');
   has ResourceOwner => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'resourceOwner', required => 1);
   has ResourceShareArns => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'resourceShareArns');
   has ResourceShareStatus => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'resourceShareStatus');
@@ -41,6 +42,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       Name                => 'MyString',             # OPTIONAL
       NextToken           => 'MyString',             # OPTIONAL
       PermissionArn       => 'MyString',             # OPTIONAL
+      PermissionVersion   => 1,                      # OPTIONAL
       ResourceShareArns   => [ 'MyString', ... ],    # OPTIONAL
       ResourceShareStatus => 'PENDING',              # OPTIONAL
       TagFilters          => [
@@ -66,52 +68,93 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ram
 
 =head2 MaxResults => Int
 
-The maximum number of results to return with a single call. To retrieve
-the remaining results, make another call with the returned C<nextToken>
-value.
+Specifies the total number of results that you want included on each
+page of the response. If you do not include this parameter, it defaults
+to a value that is specific to the operation. If additional items exist
+beyond the number you specify, the C<NextToken> response element is
+returned with a value (not null). Include the specified value as the
+C<NextToken> request parameter in the next call to the operation to get
+the next part of the results. Note that the service might return fewer
+results than the maximum even when there are more results available.
+You should check C<NextToken> after every operation to ensure that you
+receive all of the results.
 
 
 
 =head2 Name => Str
 
-The name of the resource share.
+Specifies the name of an individual resource share that you want to
+retrieve details about.
 
 
 
 =head2 NextToken => Str
 
-The token for the next page of results.
+Specifies that you want to receive the next page of results. Valid only
+if you received a C<NextToken> response in the previous request. If you
+did, it indicates that more output is available. Set this parameter to
+the value provided by the previous call's C<NextToken> response to
+request the next page of results.
 
 
 
 =head2 PermissionArn => Str
 
-The Amazon Resource Name (ARN) of the AWS RAM permission that is
-associated with the resource share.
+Specifies that you want to retrieve details of only those resource
+shares that use the managed permission with this Amazon Resource Name
+(ARN)
+(https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
+
+
+
+=head2 PermissionVersion => Int
+
+Specifies that you want to retrieve details for only those resource
+shares that use the specified version of the managed permission.
 
 
 
 =head2 B<REQUIRED> ResourceOwner => Str
 
-The type of owner.
+Specifies that you want to retrieve details of only those resource
+shares that match the following:
+
+=over
+
+=item *
+
+B<C<SELF> > E<ndash> resource shares that your account shares with
+other accounts
+
+=item *
+
+B<C<OTHER-ACCOUNTS> > E<ndash> resource shares that other accounts
+share with your account
+
+=back
+
 
 Valid values are: C<"SELF">, C<"OTHER-ACCOUNTS">
 
 =head2 ResourceShareArns => ArrayRef[Str|Undef]
 
-The ARNs of the resource shares.
+Specifies the Amazon Resource Names (ARNs)
+(https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+of individual resource shares that you want information about.
 
 
 
 =head2 ResourceShareStatus => Str
 
-The status of the resource share.
+Specifies that you want to retrieve details of only those resource
+shares that have this status.
 
 Valid values are: C<"PENDING">, C<"ACTIVE">, C<"FAILED">, C<"DELETING">, C<"DELETED">
 
 =head2 TagFilters => ArrayRef[L<Paws::RAM::TagFilter>]
 
-One or more tag filters.
+Specifies that you want to retrieve details of only those resource
+shares that match the specified tag keys and values.
 
 
 

@@ -41,7 +41,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::RDS::Option
 
 =head1 DESCRIPTION
 
-Option details.
+The details of an option.
 
 =head1 ATTRIBUTES
 
@@ -74,12 +74,12 @@ The version of the option.
 
 =head2 Permanent => Bool
 
-Indicate if this option is permanent.
+Indicates whether this option is permanent.
 
 
 =head2 Persistent => Bool
 
-Indicate if this option is persistent.
+Indicates whether this option is persistent.
 
 
 =head2 Port => Int

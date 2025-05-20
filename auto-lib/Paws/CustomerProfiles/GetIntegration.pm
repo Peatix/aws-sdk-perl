@@ -36,12 +36,17 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     );
 
     # Results:
-    my $CreatedAt      = $GetIntegrationResponse->CreatedAt;
-    my $DomainName     = $GetIntegrationResponse->DomainName;
-    my $LastUpdatedAt  = $GetIntegrationResponse->LastUpdatedAt;
-    my $ObjectTypeName = $GetIntegrationResponse->ObjectTypeName;
-    my $Tags           = $GetIntegrationResponse->Tags;
-    my $Uri            = $GetIntegrationResponse->Uri;
+    my $CreatedAt         = $GetIntegrationResponse->CreatedAt;
+    my $DomainName        = $GetIntegrationResponse->DomainName;
+    my $EventTriggerNames = $GetIntegrationResponse->EventTriggerNames;
+    my $IsUnstructured    = $GetIntegrationResponse->IsUnstructured;
+    my $LastUpdatedAt     = $GetIntegrationResponse->LastUpdatedAt;
+    my $ObjectTypeName    = $GetIntegrationResponse->ObjectTypeName;
+    my $ObjectTypeNames   = $GetIntegrationResponse->ObjectTypeNames;
+    my $RoleArn           = $GetIntegrationResponse->RoleArn;
+    my $Tags              = $GetIntegrationResponse->Tags;
+    my $Uri               = $GetIntegrationResponse->Uri;
+    my $WorkflowId        = $GetIntegrationResponse->WorkflowId;
 
     # Returns a L<Paws::CustomerProfiles::GetIntegrationResponse> object.
 

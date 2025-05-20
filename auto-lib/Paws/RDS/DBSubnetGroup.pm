@@ -6,6 +6,7 @@ package Paws::RDS::DBSubnetGroup;
   has DBSubnetGroupName => (is => 'ro', isa => 'Str');
   has SubnetGroupStatus => (is => 'ro', isa => 'Str');
   has Subnets => (is => 'ro', isa => 'ArrayRef[Paws::RDS::Subnet]', request_name => 'Subnet', traits => ['NameInRequest']);
+  has SupportedNetworkTypes => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has VpcId => (is => 'ro', isa => 'Str');
 
 1;
@@ -69,6 +70,32 @@ Provides the status of the DB subnet group.
 =head2 Subnets => ArrayRef[L<Paws::RDS::Subnet>]
 
 Contains a list of C<Subnet> elements.
+
+
+=head2 SupportedNetworkTypes => ArrayRef[Str|Undef]
+
+The network type of the DB subnet group.
+
+Valid values:
+
+=over
+
+=item *
+
+C<IPV4>
+
+=item *
+
+C<DUAL>
+
+=back
+
+A C<DBSubnetGroup> can support only the IPv4 protocol or the IPv4 and
+the IPv6 protocols (C<DUAL>).
+
+For more information, see Working with a DB instance in a VPC
+(https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_VPC.WorkingWithRDSInstanceinaVPC.html)
+in the I<Amazon RDS User Guide.>
 
 
 =head2 VpcId => Str

@@ -152,7 +152,21 @@ The instance Elastic IP address
 
 =head2 Hostname => Str
 
-The instance host name.
+The instance host name. The following are character limits for instance
+host names.
+
+=over
+
+=item *
+
+Linux-based instances: 63 characters
+
+=item *
+
+Windows-based instances: 15 characters
+
+=back
+
 
 
 =head2 InfrastructureClass => Str
@@ -165,13 +179,12 @@ C<on-premises>.
 
 Whether to install operating system and package updates when the
 instance boots. The default value is C<true>. If this value is set to
-C<false>, you must then update your instances manually by using
-CreateDeployment to run the C<update_dependencies> stack command or by
-manually running C<yum> (Amazon Linux) or C<apt-get> (Ubuntu) on the
-instances.
+C<false>, you must update instances manually by using CreateDeployment
+to run the C<update_dependencies> stack command or by manually running
+C<yum> (Amazon Linux) or C<apt-get> (Ubuntu) on the instances.
 
-We strongly recommend using the default value of C<true>, to ensure
-that your instances have the latest security updates.
+We strongly recommend using the default value of C<true> to ensure that
+your instances have the latest security updates.
 
 
 =head2 InstanceId => Str
@@ -239,7 +252,7 @@ For registered instances, who performed the registration.
 
 =head2 ReportedAgentVersion => Str
 
-The instance's reported AWS OpsWorks Stacks agent version.
+The instance's reported OpsWorks Stacks agent version.
 
 
 =head2 ReportedOs => L<Paws::OpsWorks::ReportedOs>

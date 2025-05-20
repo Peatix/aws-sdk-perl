@@ -39,6 +39,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::LexModelsV2
 =head1 DESCRIPTION
 
 Summary information about bot locales returned by the ListBotLocales
+(https://docs.aws.amazon.com/lexv2/latest/APIReference/API_ListBotLocales.html)
 operation.
 
 =head1 ATTRIBUTES

@@ -33,11 +33,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $networkmanager = Paws->service('NetworkManager');
     my $UpdateConnectionResponse = $networkmanager->UpdateConnection(
-      ConnectionId    => 'MyString',
-      GlobalNetworkId => 'MyString',
-      ConnectedLinkId => 'MyString',    # OPTIONAL
-      Description     => 'MyString',    # OPTIONAL
-      LinkId          => 'MyString',    # OPTIONAL
+      ConnectionId    => 'MyConnectionId',
+      GlobalNetworkId => 'MyGlobalNetworkId',
+      ConnectedLinkId => 'MyLinkId',               # OPTIONAL
+      Description     => 'MyConstrainedString',    # OPTIONAL
+      LinkId          => 'MyLinkId',               # OPTIONAL
     );
 
     # Results:

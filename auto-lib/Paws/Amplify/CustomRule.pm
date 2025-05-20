@@ -58,16 +58,26 @@ The status code for a URL rewrite or redirect rule.
 
 =over
 
-=item * 200: Represents a 200 rewrite rule.
+=item 200
 
-=item * 301: Represents a 301 (moved pemanently) redirect rule. This
-and all future requests should be directed to the target URL.
+Represents a 200 rewrite rule.
 
-=item * 302: Represents a 302 temporary redirect rule.
+=item 301
 
-=item * 404: Represents a 404 redirect rule.
+Represents a 301 (moved permanently) redirect rule. This and all future
+requests should be directed to the target URL.
 
-=item * 404-200: Represents a 404 rewrite rule.
+=item 302
+
+Represents a 302 temporary redirect rule.
+
+=item 404
+
+Represents a 404 redirect rule.
+
+=item 404-200
+
+Represents a 404 rewrite rule.
 
 =back
 

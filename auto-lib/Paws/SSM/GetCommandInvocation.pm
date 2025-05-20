@@ -76,28 +76,27 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ssm
 
 =head2 B<REQUIRED> InstanceId => Str
 
-(Required) The ID of the managed instance targeted by the command. A
-managed instance can be an Amazon Elastic Compute Cloud (Amazon EC2)
-instance or an instance in your hybrid environment that is configured
-for AWS Systems Manager.
+(Required) The ID of the managed node targeted by the command. A
+I<managed node> can be an Amazon Elastic Compute Cloud (Amazon EC2)
+instance, edge device, and on-premises server or VM in your hybrid
+environment that is configured for Amazon Web Services Systems Manager.
 
 
 
 =head2 PluginName => Str
 
-The name of the plugin for which you want detailed results. If the
-document contains only one plugin, you can omit the name and details
-for that plugin. If the document contains more than one plugin, you
-must specify the name of the plugin for which you want to view details.
-
-Plugin names are also referred to as I<step names> in Systems Manager
-documents. For example, C<aws:RunShellScript> is a plugin.
+The name of the step for which you want detailed results. If the
+document contains only one step, you can omit the name and details for
+that step. If the document contains more than one step, you must
+specify the name of the step for which you want to view details. Be
+sure to specify the name of the step, not the name of a plugin like
+C<aws:RunShellScript>.
 
 To find the C<PluginName>, check the document content and find the name
-of the plugin. Alternatively, use ListCommandInvocations with the
-C<CommandId> and C<Details> parameters. The C<PluginName> is the
-C<Name> attribute of the C<CommandPlugin> object in the
-C<CommandPlugins> list.
+of the step you want details for. Alternatively, use
+ListCommandInvocations with the C<CommandId> and C<Details> parameters.
+The C<PluginName> is the C<Name> attribute of the C<CommandPlugin>
+object in the C<CommandPlugins> list.
 
 
 

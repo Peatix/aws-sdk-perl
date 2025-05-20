@@ -34,11 +34,11 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::XRay::Tag o
 
 =head1 DESCRIPTION
 
-A map that contains tag keys and tag values to attach to an AWS X-Ray
-group or sampling rule. For more information about ways to use tags,
-see Tagging AWS resources
+A map that contains tag keys and tag values to attach to an Amazon Web
+Services X-Ray group or sampling rule. For more information about ways
+to use tags, see Tagging Amazon Web Services resources
 (https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the
-I<AWS General Reference>.
+I<Amazon Web Services General Reference>.
 
 The following restrictions apply to tags:
 
@@ -54,8 +54,8 @@ Tag keys and values are case sensitive.
 
 =item *
 
-Don't use C<aws:> as a prefix for keys; it's reserved for AWS use. You
-cannot edit or delete system tags.
+Don't use C<aws:> as a prefix for keys; it's reserved for Amazon Web
+Services use. You cannot edit or delete system tags.
 
 =back
 

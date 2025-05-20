@@ -6,6 +6,7 @@ package Paws::LexModelsV2::CreateBotLocaleResponse;
   has BotVersion => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'botVersion');
   has CreationDateTime => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'creationDateTime');
   has Description => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'description');
+  has GenerativeAISettings => (is => 'ro', isa => 'Paws::LexModelsV2::GenerativeAISettings', traits => ['NameInRequest'], request_name => 'generativeAISettings');
   has LocaleId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'localeId');
   has LocaleName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'localeName');
   has NluIntentConfidenceThreshold => (is => 'ro', isa => 'Num', traits => ['NameInRequest'], request_name => 'nluIntentConfidenceThreshold');
@@ -43,7 +44,7 @@ bot is ready for full testing or to run, the status is C<Built>.
 If there was a problem with building the bot, the status is C<Failed>.
 If the bot was saved but not built, the status is C<NotBuilt>.
 
-Valid values are: C<"Creating">, C<"Building">, C<"Built">, C<"ReadyExpressTesting">, C<"Failed">, C<"Deleting">, C<"NotBuilt">, C<"Importing">
+Valid values are: C<"Creating">, C<"Building">, C<"Built">, C<"ReadyExpressTesting">, C<"Failed">, C<"Deleting">, C<"NotBuilt">, C<"Importing">, C<"Processing">
 =head2 BotVersion => Str
 
 The specified bot version.
@@ -58,6 +59,11 @@ created.
 =head2 Description => Str
 
 The specified description of the bot locale.
+
+
+=head2 GenerativeAISettings => L<Paws::LexModelsV2::GenerativeAISettings>
+
+
 
 
 =head2 LocaleId => Str

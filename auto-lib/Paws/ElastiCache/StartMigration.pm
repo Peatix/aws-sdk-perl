@@ -53,8 +53,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ela
 
 =head2 B<REQUIRED> CustomerNodeEndpointList => ArrayRef[L<Paws::ElastiCache::CustomerNodeEndpoint>]
 
-List of endpoints from which data should be migrated. For Redis
-(cluster mode disabled), list should have only one element.
+List of endpoints from which data should be migrated. For Valkey or
+Redis OSS (cluster mode disabled), the list should have only one
+element.
 
 
 

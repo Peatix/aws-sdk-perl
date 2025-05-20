@@ -39,8 +39,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AppRunner::
 
 =head1 DESCRIPTION
 
-Provides summary information for an operation that occurred on an AWS
-App Runner service.
+Provides summary information for an operation that occurred on an App
+Runner service.
 
 =head1 ATTRIBUTES
 

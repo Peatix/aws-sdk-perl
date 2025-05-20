@@ -31,8 +31,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $workmail = Paws->service('WorkMail');
     my $PutMailboxPermissionsResponse = $workmail->PutMailboxPermissions(
-      EntityId         => 'MyWorkMailIdentifier',
-      GranteeId        => 'MyWorkMailIdentifier',
+      EntityId         => 'MyEntityIdentifier',
+      GranteeId        => 'MyEntityIdentifier',
       OrganizationId   => 'MyOrganizationId',
       PermissionValues => [
         'FULL_ACCESS', ...    # values: FULL_ACCESS, SEND_AS, SEND_ON_BEHALF
@@ -48,8 +48,30 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/wor
 
 =head2 B<REQUIRED> EntityId => Str
 
-The identifier of the user, group, or resource for which to update
-mailbox permissions.
+The identifier of the user or resource for which to update mailbox
+permissions.
+
+The identifier can be I<UserId, ResourceID, or Group Id>, I<Username,
+Resourcename, or Groupname>, or I<email>.
+
+=over
+
+=item *
+
+Entity ID: 12345678-1234-1234-1234-123456789012,
+r-0123456789a0123456789b0123456789, or
+S-1-1-12-1234567890-123456789-123456789-1234
+
+=item *
+
+Email address: entity@domain.tld
+
+=item *
+
+Entity name: entity
+
+=back
+
 
 
 
@@ -57,6 +79,28 @@ mailbox permissions.
 
 The identifier of the user, group, or resource to which to grant the
 permissions.
+
+The identifier can be I<UserId, ResourceID, or Group Id>, I<Username,
+Resourcename, or Groupname>, or I<email>.
+
+=over
+
+=item *
+
+Grantee ID: 12345678-1234-1234-1234-123456789012,
+r-0123456789a0123456789b0123456789, or
+S-1-1-12-1234567890-123456789-123456789-1234
+
+=item *
+
+Email address: grantee@domain.tld
+
+=item *
+
+Grantee name: grantee
+
+=back
+
 
 
 

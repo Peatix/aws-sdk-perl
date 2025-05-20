@@ -1,7 +1,8 @@
 
 package Paws::EC2::UnassignIpv6Addresses;
   use Moose;
-  has Ipv6Addresses => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'ipv6Addresses' , required => 1);
+  has Ipv6Addresses => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'ipv6Addresses' );
+  has Ipv6Prefixes => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'Ipv6Prefix' );
   has NetworkInterfaceId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'networkInterfaceId' , required => 1);
 
   use MooseX::ClassAttribute;
@@ -29,15 +30,17 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $ec2 = Paws->service('EC2');
     my $UnassignIpv6AddressesResult = $ec2->UnassignIpv6Addresses(
-      Ipv6Addresses      => [ 'MyString', ... ],
       NetworkInterfaceId => 'MyNetworkInterfaceId',
-
+      Ipv6Addresses      => [ 'MyString', ... ],    # OPTIONAL
+      Ipv6Prefixes       => [ 'MyString', ... ],    # OPTIONAL
     );
 
     # Results:
     my $NetworkInterfaceId = $UnassignIpv6AddressesResult->NetworkInterfaceId;
     my $UnassignedIpv6Addresses =
       $UnassignIpv6AddressesResult->UnassignedIpv6Addresses;
+    my $UnassignedIpv6Prefixes =
+      $UnassignIpv6AddressesResult->UnassignedIpv6Prefixes;
 
     # Returns a L<Paws::EC2::UnassignIpv6AddressesResult> object.
 
@@ -47,9 +50,15 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ec2
 =head1 ATTRIBUTES
 
 
-=head2 B<REQUIRED> Ipv6Addresses => ArrayRef[Str|Undef]
+=head2 Ipv6Addresses => ArrayRef[Str|Undef]
 
 The IPv6 addresses to unassign from the network interface.
+
+
+
+=head2 Ipv6Prefixes => ArrayRef[Str|Undef]
+
+The IPv6 prefixes to unassign from the network interface.
 
 
 

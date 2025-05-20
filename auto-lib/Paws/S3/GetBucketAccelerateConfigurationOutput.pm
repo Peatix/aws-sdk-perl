@@ -1,6 +1,7 @@
 
 package Paws::S3::GetBucketAccelerateConfigurationOutput;
   use Moose;
+  has RequestCharged => (is => 'ro', isa => 'Str', header_name => 'x-amz-request-charged', traits => ['ParamInHeader']);
   has Status => (is => 'ro', isa => 'Str');
 
 
@@ -15,6 +16,12 @@ Paws::S3::GetBucketAccelerateConfigurationOutput
 
 =head1 ATTRIBUTES
 
+
+=head2 RequestCharged => Str
+
+
+
+Valid values are: C<"requester">
 
 =head2 Status => Str
 

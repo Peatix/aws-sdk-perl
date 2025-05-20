@@ -3,23 +3,25 @@ package Paws::MQ::CreateBrokerInput;
   use Moose;
   has AuthenticationStrategy => (is => 'ro', isa => 'Str', request_name => 'authenticationStrategy', traits => ['NameInRequest']);
   has AutoMinorVersionUpgrade => (is => 'ro', isa => 'Bool', request_name => 'autoMinorVersionUpgrade', traits => ['NameInRequest']);
-  has BrokerName => (is => 'ro', isa => 'Str', request_name => 'brokerName', traits => ['NameInRequest']);
+  has BrokerName => (is => 'ro', isa => 'Str', request_name => 'brokerName', traits => ['NameInRequest'], required => 1);
   has Configuration => (is => 'ro', isa => 'Paws::MQ::ConfigurationId', request_name => 'configuration', traits => ['NameInRequest']);
   has CreatorRequestId => (is => 'ro', isa => 'Str', request_name => 'creatorRequestId', traits => ['NameInRequest']);
-  has DeploymentMode => (is => 'ro', isa => 'Str', request_name => 'deploymentMode', traits => ['NameInRequest']);
+  has DataReplicationMode => (is => 'ro', isa => 'Str', request_name => 'dataReplicationMode', traits => ['NameInRequest']);
+  has DataReplicationPrimaryBrokerArn => (is => 'ro', isa => 'Str', request_name => 'dataReplicationPrimaryBrokerArn', traits => ['NameInRequest']);
+  has DeploymentMode => (is => 'ro', isa => 'Str', request_name => 'deploymentMode', traits => ['NameInRequest'], required => 1);
   has EncryptionOptions => (is => 'ro', isa => 'Paws::MQ::EncryptionOptions', request_name => 'encryptionOptions', traits => ['NameInRequest']);
-  has EngineType => (is => 'ro', isa => 'Str', request_name => 'engineType', traits => ['NameInRequest']);
+  has EngineType => (is => 'ro', isa => 'Str', request_name => 'engineType', traits => ['NameInRequest'], required => 1);
   has EngineVersion => (is => 'ro', isa => 'Str', request_name => 'engineVersion', traits => ['NameInRequest']);
-  has HostInstanceType => (is => 'ro', isa => 'Str', request_name => 'hostInstanceType', traits => ['NameInRequest']);
+  has HostInstanceType => (is => 'ro', isa => 'Str', request_name => 'hostInstanceType', traits => ['NameInRequest'], required => 1);
   has LdapServerMetadata => (is => 'ro', isa => 'Paws::MQ::LdapServerMetadataInput', request_name => 'ldapServerMetadata', traits => ['NameInRequest']);
   has Logs => (is => 'ro', isa => 'Paws::MQ::Logs', request_name => 'logs', traits => ['NameInRequest']);
   has MaintenanceWindowStartTime => (is => 'ro', isa => 'Paws::MQ::WeeklyStartTime', request_name => 'maintenanceWindowStartTime', traits => ['NameInRequest']);
-  has PubliclyAccessible => (is => 'ro', isa => 'Bool', request_name => 'publiclyAccessible', traits => ['NameInRequest']);
+  has PubliclyAccessible => (is => 'ro', isa => 'Bool', request_name => 'publiclyAccessible', traits => ['NameInRequest'], required => 1);
   has SecurityGroups => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'securityGroups', traits => ['NameInRequest']);
   has StorageType => (is => 'ro', isa => 'Str', request_name => 'storageType', traits => ['NameInRequest']);
   has SubnetIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'subnetIds', traits => ['NameInRequest']);
   has Tags => (is => 'ro', isa => 'Paws::MQ::__mapOf__string', request_name => 'tags', traits => ['NameInRequest']);
-  has Users => (is => 'ro', isa => 'ArrayRef[Paws::MQ::User]', request_name => 'users', traits => ['NameInRequest']);
+  has Users => (is => 'ro', isa => 'ArrayRef[Paws::MQ::User]', request_name => 'users', traits => ['NameInRequest'], required => 1);
 
 1;
 
@@ -51,31 +53,40 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::MQ::CreateB
 
 =head1 DESCRIPTION
 
-Required. The version of the broker engine. For a list of supported
-engine versions, see
-https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/broker-engine.html
+Creates a broker.
 
 =head1 ATTRIBUTES
 
 
 =head2 AuthenticationStrategy => Str
 
-The authentication strategy used to secure the broker.
+Optional. The authentication strategy used to secure the broker. The
+default is SIMPLE.
 
 
 =head2 AutoMinorVersionUpgrade => Bool
 
-Required. Enables automatic upgrades to new minor versions for brokers,
-as Apache releases the versions. The automatic upgrades occur during
-the maintenance window of the broker or after a manual broker reboot.
+Enables automatic upgrades to new patch versions for brokers as new
+versions are released and supported by Amazon MQ. Automatic upgrades
+occur during the scheduled maintenance window or after a manual broker
+reboot. Set to true by default, if no value is specified.
+
+Must be set to true for ActiveMQ brokers version 5.18 and above and for
+RabbitMQ brokers version 3.13 and above.
 
 
-=head2 BrokerName => Str
+=head2 B<REQUIRED> BrokerName => Str
 
-Required. The name of the broker. This value must be unique in your AWS
-account, 1-50 characters long, must contain only letters, numbers,
-dashes, and underscores, and must not contain whitespaces, brackets,
-wildcard characters, or special characters.
+Required. The broker's name. This value must be unique in your Amazon
+Web Services account, 1-50 characters long, must contain only letters,
+numbers, dashes, and underscores, and must not contain white spaces,
+brackets, wildcard characters, or special characters.
+
+Do not add personally identifiable information (PII) or other
+confidential or sensitive information in broker names. Broker names are
+accessible to other Amazon Web Services services, including CloudWatch
+Logs. Broker names are not intended to be used for private or sensitive
+data.
 
 
 =head2 Configuration => L<Paws::MQ::ConfigurationId>
@@ -86,15 +97,28 @@ A list of information about the configuration.
 =head2 CreatorRequestId => Str
 
 The unique ID that the requester receives for the created broker.
-Amazon MQ passes your ID with the API action. Note: We recommend using
-a Universally Unique Identifier (UUID) for the creatorRequestId. You
-may omit the creatorRequestId if your application doesn't require
-idempotency.
+Amazon MQ passes your ID with the API action.
+
+We recommend using a Universally Unique Identifier (UUID) for the
+creatorRequestId. You may omit the creatorRequestId if your application
+doesn't require idempotency.
 
 
-=head2 DeploymentMode => Str
+=head2 DataReplicationMode => Str
 
-Required. The deployment mode of the broker.
+Defines whether this broker is a part of a data replication pair.
+
+
+=head2 DataReplicationPrimaryBrokerArn => Str
+
+The Amazon Resource Name (ARN) of the primary broker that is used to
+replicate data from in a data replication pair, and is applied to the
+replica broker. Must be set when dataReplicationMode is set to CRDR.
+
+
+=head2 B<REQUIRED> DeploymentMode => Str
+
+Required. The broker's deployment mode.
 
 
 =head2 EncryptionOptions => L<Paws::MQ::EncryptionOptions>
@@ -102,28 +126,33 @@ Required. The deployment mode of the broker.
 Encryption options for the broker.
 
 
-=head2 EngineType => Str
+=head2 B<REQUIRED> EngineType => Str
 
-Required. The type of broker engine. Note: Currently, Amazon MQ
-supports ACTIVEMQ and RABBITMQ.
+Required. The type of broker engine. Currently, Amazon MQ supports
+ACTIVEMQ and RABBITMQ.
 
 
 =head2 EngineVersion => Str
 
-Required. The version of the broker engine. For a list of supported
-engine versions, see
-https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/broker-engine.html
+The broker engine version. Defaults to the latest available version for
+the specified broker engine type. For more information, see the
+ActiveMQ version management
+(https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/activemq-version-management.html)
+and the RabbitMQ version management
+(https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/rabbitmq-version-management.html)
+sections in the Amazon MQ Developer Guide.
 
 
-=head2 HostInstanceType => Str
+=head2 B<REQUIRED> HostInstanceType => Str
 
 Required. The broker's instance type.
 
 
 =head2 LdapServerMetadata => L<Paws::MQ::LdapServerMetadataInput>
 
-The metadata of the LDAP server used to authenticate and authorize
-connections to the broker.
+Optional. The metadata of the LDAP server used to authenticate and
+authorize connections to the broker. Does not apply to RabbitMQ
+brokers.
 
 
 =head2 Logs => L<Paws::MQ::Logs>
@@ -136,16 +165,16 @@ Enables Amazon CloudWatch logging for brokers.
 The parameters that determine the WeeklyStartTime.
 
 
-=head2 PubliclyAccessible => Bool
+=head2 B<REQUIRED> PubliclyAccessible => Bool
 
-Required. Enables connections from applications outside of the VPC that
-hosts the broker's subnets.
+Enables connections from applications outside of the VPC that hosts the
+broker's subnets. Set to false by default, if no value is provided.
 
 
 =head2 SecurityGroups => ArrayRef[Str|Undef]
 
-The list of security groups (1 minimum, 5 maximum) that authorizes
-connections to brokers.
+The list of rules (1 minimum, 125 maximum) that authorize connections
+to brokers.
 
 
 =head2 StorageType => Str
@@ -156,12 +185,22 @@ The broker's storage type.
 =head2 SubnetIds => ArrayRef[Str|Undef]
 
 The list of groups that define which subnets and IP ranges the broker
-can use from different Availability Zones. A SINGLE_INSTANCE deployment
+can use from different Availability Zones. If you specify more than one
+subnet, the subnets must be in different Availability Zones. Amazon MQ
+will not be able to create VPC endpoints for your broker with multiple
+subnets in the same Availability Zone. A SINGLE_INSTANCE deployment
 requires one subnet (for example, the default subnet). An
-ACTIVE_STANDBY_MULTI_AZ deployment (ACTIVEMQ) requires two subnets. A
-CLUSTER_MULTI_AZ deployment (RABBITMQ) has no subnet requirements when
-deployed with public accessibility, deployment without public
-accessibility requires at least one subnet.
+ACTIVE_STANDBY_MULTI_AZ Amazon MQ for ActiveMQ deployment requires two
+subnets. A CLUSTER_MULTI_AZ Amazon MQ for RabbitMQ deployment has no
+subnet requirements when deployed with public accessibility. Deployment
+without public accessibility requires at least one subnet.
+
+If you specify subnets in a shared VPC
+(https://docs.aws.amazon.com/vpc/latest/userguide/vpc-sharing.html) for
+a RabbitMQ broker, the associated VPC to which the specified subnets
+belong must be owned by your Amazon Web Services account. Amazon MQ
+will not be able to create VPC endpoints in VPCs that are not owned by
+your Amazon Web Services account.
 
 
 =head2 Tags => L<Paws::MQ::__mapOf__string>
@@ -169,16 +208,13 @@ accessibility requires at least one subnet.
 Create tags when creating the broker.
 
 
-=head2 Users => ArrayRef[L<Paws::MQ::User>]
+=head2 B<REQUIRED> Users => ArrayRef[L<Paws::MQ::User>]
 
-Required. The list of broker users (persons or applications) who can
-access queues and topics. For RabbitMQ brokers, one and only one
+The list of broker users (persons or applications) who can access
+queues and topics. For Amazon MQ for RabbitMQ brokers, one and only one
 administrative user is accepted and created when a broker is first
 provisioned. All subsequent broker users are created by making RabbitMQ
-API calls directly to brokers or via the RabbitMQ Web Console. This
-value can contain only alphanumeric characters, dashes, periods,
-underscores, and tildes (- . _ ~). This value must be 2-100 characters
-long.
+API calls directly to brokers or via the RabbitMQ web console.
 
 
 

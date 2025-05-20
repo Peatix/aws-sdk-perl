@@ -36,16 +36,16 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::KinesisAnal
 
 =head1 DESCRIPTION
 
-Describes checkpointing parameters for a Flink-based Kinesis Data
-Analytics application.
+Describes checkpointing parameters for a Managed Service for Apache
+Flink application.
 
 =head1 ATTRIBUTES
 
 
 =head2 CheckpointingEnabled => Bool
 
-Describes whether checkpointing is enabled for a Flink-based Kinesis
-Data Analytics application.
+Describes whether checkpointing is enabled for a Managed Service for
+Apache Flink application.
 
 If C<CheckpointConfiguration.ConfigurationType> is C<DEFAULT>, the
 application will use a C<CheckpointingEnabled> value of C<true>, even
@@ -66,7 +66,7 @@ code.
 =head2 ConfigurationType => Str
 
 Describes whether the application uses the default checkpointing
-behavior in Kinesis Data Analytics.
+behavior in Managed Service for Apache Flink.
 
 If this value is set to C<DEFAULT>, the application will use the
 following values, even if they are set to other values using APIs or

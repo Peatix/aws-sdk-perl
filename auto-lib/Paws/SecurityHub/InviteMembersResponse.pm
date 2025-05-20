@@ -17,8 +17,9 @@ Paws::SecurityHub::InviteMembersResponse
 
 =head2 UnprocessedAccounts => ArrayRef[L<Paws::SecurityHub::Result>]
 
-The list of AWS accounts that could not be processed. For each account,
-the list includes the account ID and the email address.
+The list of Amazon Web Services accounts that could not be processed.
+For each account, the list includes the account ID and the email
+address.
 
 
 =head2 _request_id => Str

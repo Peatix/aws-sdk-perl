@@ -2,14 +2,17 @@
 package Paws::EC2::CopyImage;
   use Moose;
   has ClientToken => (is => 'ro', isa => 'Str');
+  has CopyImageTags => (is => 'ro', isa => 'Bool');
   has Description => (is => 'ro', isa => 'Str');
   has DestinationOutpostArn => (is => 'ro', isa => 'Str');
   has DryRun => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'dryRun' );
   has Encrypted => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'encrypted' );
   has KmsKeyId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'kmsKeyId' );
   has Name => (is => 'ro', isa => 'Str', required => 1);
+  has SnapshotCopyCompletionDurationMinutes => (is => 'ro', isa => 'Int');
   has SourceImageId => (is => 'ro', isa => 'Str', required => 1);
   has SourceRegion => (is => 'ro', isa => 'Str', required => 1);
+  has TagSpecifications => (is => 'ro', isa => 'ArrayRef[Paws::EC2::TagSpecification]', traits => ['NameInRequest'], request_name => 'TagSpecification' );
 
   use MooseX::ClassAttribute;
 
@@ -65,6 +68,30 @@ in the I<Amazon EC2 API Reference>.
 
 
 
+=head2 CopyImageTags => Bool
+
+Indicates whether to include your user-defined AMI tags when copying
+the AMI.
+
+The following tags will not be copied:
+
+=over
+
+=item *
+
+System tags (prefixed with C<aws:>)
+
+=item *
+
+For public and shared AMIs, user-defined tags that are attached by
+other Amazon Web Services accounts
+
+=back
+
+Default: Your user-defined AMI tags are not copied.
+
+
+
 =head2 Description => Str
 
 A description for the new AMI in the destination Region.
@@ -74,14 +101,15 @@ A description for the new AMI in the destination Region.
 =head2 DestinationOutpostArn => Str
 
 The Amazon Resource Name (ARN) of the Outpost to which to copy the AMI.
-Only specify this parameter when copying an AMI from an AWS Region to
-an Outpost. The AMI must be in the Region of the destination Outpost.
-You cannot copy an AMI from an Outpost to a Region, from one Outpost to
-another, or within the same Outpost.
+Only specify this parameter when copying an AMI from an Amazon Web
+Services Region to an Outpost. The AMI must be in the Region of the
+destination Outpost. You cannot copy an AMI from an Outpost to a
+Region, from one Outpost to another, or within the same Outpost.
 
-For more information, see Copying AMIs from an AWS Region to an Outpost
-(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/snapshots-outposts.html#copy-amis)
-in the I<Amazon Elastic Compute Cloud User Guide>.
+For more information, see Copy AMIs from an Amazon Web Services Region
+to an Outpost
+(https://docs.aws.amazon.com/ebs/latest/userguide/snapshots-outposts.html#copy-amis)
+in the I<Amazon EBS User Guide>.
 
 
 
@@ -99,22 +127,23 @@ C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
 Specifies whether the destination snapshots of the copied image should
 be encrypted. You can encrypt a copy of an unencrypted snapshot, but
 you cannot create an unencrypted copy of an encrypted snapshot. The
-default CMK for EBS is used unless you specify a non-default AWS Key
-Management Service (AWS KMS) CMK using C<KmsKeyId>. For more
-information, see Amazon EBS Encryption
-(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html)
-in the I<Amazon Elastic Compute Cloud User Guide>.
+default KMS key for Amazon EBS is used unless you specify a non-default
+Key Management Service (KMS) KMS key using C<KmsKeyId>. For more
+information, see Use encryption with EBS-backed AMIs
+(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIEncryption.html)
+in the I<Amazon EC2 User Guide>.
 
 
 
 =head2 KmsKeyId => Str
 
-The identifier of the symmetric AWS Key Management Service (AWS KMS)
-customer master key (CMK) to use when creating encrypted volumes. If
-this parameter is not specified, your AWS managed CMK for EBS is used.
-If you specify a CMK, you must also set the encrypted state to C<true>.
+The identifier of the symmetric Key Management Service (KMS) KMS key to
+use when creating encrypted volumes. If this parameter is not
+specified, your Amazon Web Services managed KMS key for Amazon EBS is
+used. If you specify a KMS key, you must also set the encrypted state
+to C<true>.
 
-You can specify a CMK using any of the following:
+You can specify a KMS key using any of the following:
 
 =over
 
@@ -138,19 +167,36 @@ arn:aws:kms:us-east-1:012345678910:alias/ExampleAlias.
 
 =back
 
-AWS authenticates the CMK asynchronously. Therefore, if you specify an
-identifier that is not valid, the action can appear to complete, but
-eventually fails.
+Amazon Web Services authenticates the KMS key asynchronously.
+Therefore, if you specify an identifier that is not valid, the action
+can appear to complete, but eventually fails.
 
-The specified CMK must exist in the destination Region.
+The specified KMS key must exist in the destination Region.
 
-Amazon EBS does not support asymmetric CMKs.
+Amazon EBS does not support asymmetric KMS keys.
 
 
 
 =head2 B<REQUIRED> Name => Str
 
 The name of the new AMI in the destination Region.
+
+
+
+=head2 SnapshotCopyCompletionDurationMinutes => Int
+
+Specify a completion duration, in 15 minute increments, to initiate a
+time-based AMI copy. The specified completion duration applies to each
+of the snapshots associated with the AMI. Each snapshot associated with
+the AMI will be completed within the specified completion duration,
+with copy throughput automatically adjusted for each snapshot based on
+its size to meet the timing target.
+
+If you do not specify a value, the AMI copy operation is completed on a
+best-effort basis.
+
+For more information, see Time-based copies
+(https://docs.aws.amazon.com/ebs/latest/userguide/time-based-copies.html).
 
 
 
@@ -163,6 +209,31 @@ The ID of the AMI to copy.
 =head2 B<REQUIRED> SourceRegion => Str
 
 The name of the Region that contains the AMI to copy.
+
+
+
+=head2 TagSpecifications => ArrayRef[L<Paws::EC2::TagSpecification>]
+
+The tags to apply to the new AMI and new snapshots. You can tag the
+AMI, the snapshots, or both.
+
+=over
+
+=item *
+
+To tag the new AMI, the value for C<ResourceType> must be C<image>.
+
+=item *
+
+To tag the new snapshots, the value for C<ResourceType> must be
+C<snapshot>. The same tag is applied to all the new snapshots.
+
+=back
+
+If you specify other values for C<ResourceType>, the request fails.
+
+To tag an AMI or snapshot after it has been created, see CreateTags
+(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateTags.html).
 
 
 

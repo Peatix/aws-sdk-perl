@@ -38,9 +38,6 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AppIntegrat
 
 =head1 DESCRIPTION
 
-The Amazon AppIntegrations APIs are in preview release and are subject
-to change.
-
 The event integration association.
 
 =head1 ATTRIBUTES
@@ -59,7 +56,7 @@ integration.
 
 =head2 EventBridgeRuleName => Str
 
-The name of the Eventbridge rule.
+The name of the EventBridge rule.
 
 
 =head2 EventIntegrationAssociationArn => Str

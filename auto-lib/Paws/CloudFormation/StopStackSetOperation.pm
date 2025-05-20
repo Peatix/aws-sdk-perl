@@ -61,11 +61,11 @@ If you are signed in to the management account, specify C<SELF>.
 If you are signed in to a delegated administrator account, specify
 C<DELEGATED_ADMIN>.
 
-Your AWS account must be registered as a delegated administrator in the
-management account. For more information, see Register a delegated
-administrator
+Your Amazon Web Services account must be registered as a delegated
+administrator in the management account. For more information, see
+Register a delegated administrator
 (https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-delegated-admin.html)
-in the I<AWS CloudFormation User Guide>.
+in the I<CloudFormation User Guide>.
 
 =back
 

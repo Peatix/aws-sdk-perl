@@ -32,15 +32,17 @@ An identifier for a specific request to create an export.
 =head2 ExportStatus => Str
 
 The status of the export. When the status is C<Completed>, you can use
-the operation to get the pre-signed S3 URL link to your exported bot or
-bot locale.
+the DescribeExport
+(https://docs.aws.amazon.com/lexv2/latest/APIReference/API_DescribeExport.html)
+operation to get the pre-signed S3 URL link to your exported bot or bot
+locale.
 
 Valid values are: C<"InProgress">, C<"Completed">, C<"Failed">, C<"Deleting">
 =head2 FileFormat => Str
 
 The file format used for the bot or bot locale definition files.
 
-Valid values are: C<"LexJson">
+Valid values are: C<"LexJson">, C<"TSV">, C<"CSV">
 =head2 ResourceSpecification => L<Paws::LexModelsV2::ExportResourceSpecification>
 
 A description of the type of resource that was exported, either a bot

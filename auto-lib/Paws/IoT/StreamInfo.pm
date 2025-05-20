@@ -67,7 +67,7 @@ The date when the stream was last updated.
 
 =head2 RoleArn => Str
 
-An IAM role AWS IoT assumes to access your S3 files.
+An IAM role IoT assumes to access your S3 files.
 
 
 =head2 StreamArn => Str

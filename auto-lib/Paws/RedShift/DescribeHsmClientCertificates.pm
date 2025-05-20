@@ -60,7 +60,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/red
 
 The identifier of a specific HSM client certificate for which you want
 information. If no identifier is specified, information is returned for
-all HSM client certificates owned by your AWS customer account.
+all HSM client certificates owned by your Amazon Web Services account.
 
 
 
@@ -69,10 +69,10 @@ all HSM client certificates owned by your AWS customer account.
 An optional parameter that specifies the starting point to return a set
 of response records. When the results of a
 DescribeHsmClientCertificates request exceed the value specified in
-C<MaxRecords>, AWS returns a value in the C<Marker> field of the
-response. You can retrieve the next set of response records by
-providing the returned marker value in the C<Marker> parameter and
-retrying the request.
+C<MaxRecords>, Amazon Web Services returns a value in the C<Marker>
+field of the response. You can retrieve the next set of response
+records by providing the returned marker value in the C<Marker>
+parameter and retrying the request.
 
 
 

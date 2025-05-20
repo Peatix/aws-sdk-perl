@@ -7,7 +7,8 @@ package Paws::CostExplorer::AnomalySubscription;
   has Subscribers => (is => 'ro', isa => 'ArrayRef[Paws::CostExplorer::Subscriber]', required => 1);
   has SubscriptionArn => (is => 'ro', isa => 'Str');
   has SubscriptionName => (is => 'ro', isa => 'Str', required => 1);
-  has Threshold => (is => 'ro', isa => 'Num', required => 1);
+  has Threshold => (is => 'ro', isa => 'Num');
+  has ThresholdExpression => (is => 'ro', isa => 'Paws::CostExplorer::Expression');
 
 1;
 
@@ -28,7 +29,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::CostExplorer::AnomalySubscription object:
 
-  $service_obj->Method(Att1 => { AccountId => $value, ..., Threshold => $value  });
+  $service_obj->Method(Att1 => { AccountId => $value, ..., ThresholdExpression => $value  });
 
 =head3 Results returned from an API call
 
@@ -39,10 +40,25 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CostExplore
 
 =head1 DESCRIPTION
 
-The association between a monitor, threshold, and list of subscribers
-used to deliver notifications about anomalies detected by a monitor
-that exceeds a threshold. The content consists of the detailed metadata
-and the current status of the C<AnomalySubscription> object.
+An C<AnomalySubscription> resource (also referred to as an alert
+subscription) sends notifications about specific anomalies that meet an
+alerting criteria defined by you.
+
+You can specify the frequency of the alerts and the subscribers to
+notify.
+
+Anomaly subscriptions can be associated with one or more
+C<AnomalyMonitor>
+(https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_AnomalyMonitor.html)
+resources, and they only send notifications about anomalies detected by
+those associated monitors. You can also configure a threshold to
+further control which anomalies are included in the notifications.
+
+Anomalies that donE<rsquo>t exceed the chosen threshold and therefore
+donE<rsquo>t trigger notifications from an anomaly subscription will
+still be available on the console and from the C<GetAnomalies>
+(https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_GetAnomalies.html)
+API.
 
 =head1 ATTRIBUTES
 
@@ -54,7 +70,11 @@ Your unique account identifier.
 
 =head2 B<REQUIRED> Frequency => Str
 
-The frequency at which anomaly reports are sent over email.
+The frequency that anomaly notifications are sent. Notifications are
+sent either over email (for DAILY and WEEKLY frequencies) or SNS (for
+IMMEDIATE frequency). For more information, see Creating an Amazon SNS
+topic for anomaly notifications
+(https://docs.aws.amazon.com/cost-management/latest/userguide/ad-SNS.html).
 
 
 =head2 B<REQUIRED> MonitorArnList => ArrayRef[Str|Undef]
@@ -77,10 +97,75 @@ The C<AnomalySubscription> Amazon Resource Name (ARN).
 The name for the subscription.
 
 
-=head2 B<REQUIRED> Threshold => Num
+=head2 Threshold => Num
 
-The dollar value that triggers a notification if the threshold is
-exceeded.
+(deprecated)
+
+An absolute dollar value that must be exceeded by the anomaly's total
+impact (see Impact
+(https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Impact.html)
+for more details) for an anomaly notification to be generated.
+
+This field has been deprecated. To specify a threshold, use
+ThresholdExpression. Continued use of Threshold will be treated as
+shorthand syntax for a ThresholdExpression.
+
+One of Threshold or ThresholdExpression is required for this resource.
+You cannot specify both.
+
+
+=head2 ThresholdExpression => L<Paws::CostExplorer::Expression>
+
+An Expression
+(https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html)
+object used to specify the anomalies that you want to generate alerts
+for. This supports dimensions and nested expressions. The supported
+dimensions are C<ANOMALY_TOTAL_IMPACT_ABSOLUTE> and
+C<ANOMALY_TOTAL_IMPACT_PERCENTAGE>, corresponding to an
+anomalyE<rsquo>s TotalImpact and TotalImpactPercentage, respectively
+(see Impact
+(https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Impact.html)
+for more details). The supported nested expression types are C<AND> and
+C<OR>. The match option C<GREATER_THAN_OR_EQUAL> is required. Values
+must be numbers between 0 and 10,000,000,000 in string format.
+
+One of Threshold or ThresholdExpression is required for this resource.
+You cannot specify both.
+
+The following are examples of valid ThresholdExpressions:
+
+=over
+
+=item *
+
+Absolute threshold: C<{ "Dimensions": { "Key":
+"ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [
+"GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }>
+
+=item *
+
+Percentage threshold: C<{ "Dimensions": { "Key":
+"ANOMALY_TOTAL_IMPACT_PERCENTAGE", "MatchOptions": [
+"GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }>
+
+=item *
+
+C<AND> two thresholds together: C<{ "And": [ { "Dimensions": { "Key":
+"ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [
+"GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }, { "Dimensions": {
+"Key": "ANOMALY_TOTAL_IMPACT_PERCENTAGE", "MatchOptions": [
+"GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } } ] }>
+
+=item *
+
+C<OR> two thresholds together: C<{ "Or": [ { "Dimensions": { "Key":
+"ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [
+"GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }, { "Dimensions": {
+"Key": "ANOMALY_TOTAL_IMPACT_PERCENTAGE", "MatchOptions": [
+"GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } } ] }>
+
+=back
+
 
 
 

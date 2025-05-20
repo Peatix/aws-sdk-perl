@@ -39,7 +39,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SecurityHub
 The severity of the finding.
 
 The finding provider can provide the initial severity. The finding
-provider can only update the severity if it has not been updated using
+provider can only update the severity if it hasn't been updated using
 C<BatchUpdateFindings>.
 
 The finding must have either C<Label> or C<Normalized> populated. If
@@ -81,7 +81,7 @@ escalating.
 
 =back
 
-If you provide C<Normalized> and do not provide C<Label>, then C<Label>
+If you provide C<Normalized> and don't provide C<Label>, then C<Label>
 is set automatically as follows.
 
 =over
@@ -112,10 +112,12 @@ is set automatically as follows.
 
 =head2 Normalized => Int
 
-Deprecated. The normalized severity of a finding. This attribute is
-being deprecated. Instead of providing C<Normalized>, provide C<Label>.
+Deprecated. The normalized severity of a finding. Instead of providing
+C<Normalized>, provide C<Label>.
 
-If you provide C<Label> and do not provide C<Normalized>, then
+The value of C<Normalized> can be an integer between C<0> and C<100>.
+
+If you provide C<Label> and don't provide C<Normalized>, then
 C<Normalized> is set automatically as follows.
 
 =over
@@ -149,14 +151,16 @@ C<CRITICAL> - 90
 The native severity from the finding product that generated the
 finding.
 
+Length Constraints: Minimum length of 1. Maximum length of 64.
+
 
 =head2 Product => Num
 
-Deprecated. This attribute is being deprecated. Instead of providing
-C<Product>, provide C<Original>.
+Deprecated. This attribute isn't included in findings. Instead of
+providing C<Product>, provide C<Original>.
 
-The native severity as defined by the AWS service or integrated partner
-product that generated the finding.
+The native severity as defined by the Amazon Web Services service or
+integrated partner product that generated the finding.
 
 
 

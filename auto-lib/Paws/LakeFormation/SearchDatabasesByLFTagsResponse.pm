@@ -5,6 +5,7 @@ package Paws::LakeFormation::SearchDatabasesByLFTagsResponse;
   has NextToken => (is => 'ro', isa => 'Str');
 
   has _request_id => (is => 'ro', isa => 'Str');
+1;
 
 ### main pod documentation begin ###
 
@@ -17,7 +18,7 @@ Paws::LakeFormation::SearchDatabasesByLFTagsResponse
 
 =head2 DatabaseList => ArrayRef[L<Paws::LakeFormation::TaggedDatabase>]
 
-A list of databases that meet the tag conditions.
+A list of databases that meet the LF-tag conditions.
 
 
 =head2 NextToken => Str
@@ -31,4 +32,3 @@ last.
 
 =cut
 
-1;

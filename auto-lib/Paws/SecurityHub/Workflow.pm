@@ -33,16 +33,20 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SecurityHub
 
 =head1 DESCRIPTION
 
-Provides information about the status of the investigation into a
-finding.
+Provides details about the status of the investigation into a finding.
 
 =head1 ATTRIBUTES
 
 
 =head2 Status => Str
 
-The status of the investigation into the finding. The allowed values
-are the following.
+The status of the investigation into the finding. The workflow status
+is specific to an individual finding. It does not affect the generation
+of new findings. For example, setting the workflow status to
+C<SUPPRESSED> or C<RESOLVED> does not prevent a new finding for the
+same issue.
+
+The allowed values are the following.
 
 =over
 
@@ -74,8 +78,8 @@ owner, and needs intervention from the resource owner.
 
 =item *
 
-C<SUPPRESSED> - The finding will not be reviewed again and will not be
-acted upon.
+C<SUPPRESSED> - Indicates that you reviewed the finding and don't
+believe that any action is needed. The finding is no longer updated.
 
 =item *
 

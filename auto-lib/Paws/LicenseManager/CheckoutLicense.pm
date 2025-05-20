@@ -56,6 +56,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $EntitlementsAllowed = $CheckoutLicenseResponse->EntitlementsAllowed;
     my $Expiration          = $CheckoutLicenseResponse->Expiration;
     my $IssuedAt            = $CheckoutLicenseResponse->IssuedAt;
+    my $LicenseArn          = $CheckoutLicenseResponse->LicenseArn;
     my $LicenseConsumptionToken =
       $CheckoutLicenseResponse->LicenseConsumptionToken;
     my $NodeId      = $CheckoutLicenseResponse->NodeId;
@@ -79,7 +80,7 @@ License beneficiary.
 
 Checkout type.
 
-Valid values are: C<"PROVISIONAL">
+Valid values are: C<"PROVISIONAL">, C<"PERPETUAL">
 
 =head2 B<REQUIRED> ClientToken => Str
 

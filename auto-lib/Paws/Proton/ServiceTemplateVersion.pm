@@ -12,6 +12,7 @@ package Paws::Proton::ServiceTemplateVersion;
   has Schema => (is => 'ro', isa => 'Str', request_name => 'schema', traits => ['NameInRequest']);
   has Status => (is => 'ro', isa => 'Str', request_name => 'status', traits => ['NameInRequest'], required => 1);
   has StatusMessage => (is => 'ro', isa => 'Str', request_name => 'statusMessage', traits => ['NameInRequest']);
+  has SupportedComponentSources => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'supportedComponentSources', traits => ['NameInRequest']);
   has TemplateName => (is => 'ro', isa => 'Str', request_name => 'templateName', traits => ['NameInRequest'], required => 1);
 
 1;
@@ -44,7 +45,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Proton::Ser
 
 =head1 DESCRIPTION
 
-The version of a service template detail data.
+Detailed data of an Proton service template version resource.
 
 =head1 ATTRIBUTES
 
@@ -77,18 +78,18 @@ The time when the version of a service template was last modified.
 
 =head2 B<REQUIRED> MajorVersion => Str
 
-The ID of the latest major version that's associated with the version
-of a service template.
+The latest major version that's associated with the version of a
+service template.
 
 
 =head2 B<REQUIRED> MinorVersion => Str
 
-The ID of the minor version of a service template.
+The minor version of a service template.
 
 
 =head2 RecommendedMinorVersion => Str
 
-The ID of the recommended minor version of the service template.
+The recommended minor version of the service template.
 
 
 =head2 Schema => Str
@@ -104,6 +105,17 @@ The service template version status.
 =head2 StatusMessage => Str
 
 A service template version status message.
+
+
+=head2 SupportedComponentSources => ArrayRef[Str|Undef]
+
+An array of supported component sources. Components with supported
+sources can be attached to service instances based on this service
+template version.
+
+For more information about components, see Proton components
+(https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html)
+in the I<Proton User Guide>.
 
 
 =head2 B<REQUIRED> TemplateName => Str

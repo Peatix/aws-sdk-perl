@@ -19,7 +19,7 @@ Paws::Route53::GetHealthCheckResponse
 =head2 B<REQUIRED> HealthCheck => L<Paws::Route53::HealthCheck>
 
 A complex type that contains information about one health check that is
-associated with the current AWS account.
+associated with the current Amazon Web Services account.
 
 
 

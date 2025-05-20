@@ -55,13 +55,27 @@ Valid values for C<Metric> are:
 
 =item *
 
-C<db.load.avg> - a scaled representation of the number of active
+C<db.load.avg> - A scaled representation of the number of active
 sessions for the database engine.
 
 =item *
 
-C<db.sampledload.avg> - the raw number of active sessions for the
+C<db.sampledload.avg> - The raw number of active sessions for the
 database engine.
+
+=item *
+
+The counter metrics listed in Performance Insights operating system
+counters
+(https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_PerfInsights_Counters.html#USER_PerfInsights_Counters.OS)
+in the I<Amazon Aurora User Guide>.
+
+=item *
+
+The counter metrics listed in Performance Insights operating system
+counters
+(https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PerfInsights_Counters.html#USER_PerfInsights_Counters.OS)
+in the I<Amazon RDS User Guide>.
 
 =back
 

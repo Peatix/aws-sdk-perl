@@ -42,7 +42,7 @@ A structure that contains information about a canary run.
 
 =head2 ActiveTracing => Bool
 
-Displays whether this canary run used active AWS X-Ray tracing.
+Displays whether this canary run used active X-Ray tracing.
 
 
 =head2 MemoryInMB => Int

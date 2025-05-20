@@ -35,8 +35,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SageMaker::
 
 =head1 DESCRIPTION
 
-A custom SageMaker image. For more information, see Bring your own
-SageMaker image
+A custom SageMaker AI image. For more information, see Bring your own
+SageMaker AI image
 (https://docs.aws.amazon.com/sagemaker/latest/dg/studio-byoi.html).
 
 =head1 ATTRIBUTES

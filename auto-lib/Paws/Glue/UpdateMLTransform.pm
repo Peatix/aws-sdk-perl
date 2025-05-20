@@ -176,7 +176,7 @@ memory and a 128GB disk, and 1 executor per worker.
 =back
 
 
-Valid values are: C<"Standard">, C<"G.1X">, C<"G.2X">
+Valid values are: C<"Standard">, C<"G.1X">, C<"G.2X">, C<"G.025X">, C<"G.4X">, C<"G.8X">, C<"Z.2X">
 
 
 =head1 SEE ALSO

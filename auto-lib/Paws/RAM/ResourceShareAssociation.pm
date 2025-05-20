@@ -41,42 +41,85 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::RAM::Resour
 
 =head1 DESCRIPTION
 
-Describes an association with a resource share.
+Describes an association between a resource share and either a
+principal or a resource.
 
 =head1 ATTRIBUTES
 
 
 =head2 AssociatedEntity => Str
 
-The associated entity. For resource associations, this is the ARN of
-the resource. For principal associations, this is the ID of an AWS
-account or the ARN of an OU or organization from AWS Organizations.
+The associated entity. This can be either of the following:
+
+=over
+
+=item *
+
+For a resource association, this is the Amazon Resource Name (ARN)
+(https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+of the resource.
+
+=item *
+
+For principal associations, this is one of the following:
+
+=over
+
+=item *
+
+The ID of an Amazon Web Services account
+
+=item *
+
+The Amazon Resource Name (ARN)
+(https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+of an organization in Organizations
+
+=item *
+
+The ARN of an organizational unit (OU) in Organizations
+
+=item *
+
+The ARN of an IAM role
+
+=item *
+
+The ARN of an IAM user
+
+=back
+
+=back
+
 
 
 =head2 AssociationType => Str
 
-The association type.
+The type of entity included in this association.
 
 
 =head2 CreationTime => Str
 
-The time when the association was created.
+The date and time when the association was created.
 
 
 =head2 External => Bool
 
-Indicates whether the principal belongs to the same AWS organization as
-the AWS account that owns the resource share.
+Indicates whether the principal belongs to the same organization in
+Organizations as the Amazon Web Services account that owns the resource
+share.
 
 
 =head2 LastUpdatedTime => Str
 
-The time when the association was last updated.
+The date and time when the association was last updated.
 
 
 =head2 ResourceShareArn => Str
 
-The Amazon Resource Name (ARN) of the resource share.
+The Amazon Resource Name (ARN)
+(https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+of the resource share.
 
 
 =head2 ResourceShareName => Str
@@ -86,7 +129,7 @@ The name of the resource share.
 
 =head2 Status => Str
 
-The status of the association.
+The current status of the association.
 
 
 =head2 StatusMessage => Str

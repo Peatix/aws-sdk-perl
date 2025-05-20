@@ -47,13 +47,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/aud
 
 =head2 DelegatedAdminAccount => Str
 
-The delegated administrator account for AWS Audit Manager.
+The delegated administrator account for Audit Manager.
 
 
 
 =head2 KmsKey => Str
 
-The AWS KMS key details.
+The KMS key details.
 
 
 

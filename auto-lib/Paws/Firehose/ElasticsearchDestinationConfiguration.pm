@@ -4,6 +4,7 @@ package Paws::Firehose::ElasticsearchDestinationConfiguration;
   has BufferingHints => (is => 'ro', isa => 'Paws::Firehose::ElasticsearchBufferingHints');
   has CloudWatchLoggingOptions => (is => 'ro', isa => 'Paws::Firehose::CloudWatchLoggingOptions');
   has ClusterEndpoint => (is => 'ro', isa => 'Str');
+  has DocumentIdOptions => (is => 'ro', isa => 'Paws::Firehose::DocumentIdOptions');
   has DomainARN => (is => 'ro', isa => 'Str');
   has IndexName => (is => 'ro', isa => 'Str', required => 1);
   has IndexRotationPeriod => (is => 'ro', isa => 'Str');
@@ -45,7 +46,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Firehose::E
 
 =head1 DESCRIPTION
 
-Describes the configuration of a destination in Amazon ES.
+Describes the configuration of a destination in Amazon OpenSearch
+Service.
 
 =head1 ATTRIBUTES
 
@@ -58,7 +60,7 @@ C<ElasticsearchBufferingHints> are used.
 
 =head2 CloudWatchLoggingOptions => L<Paws::Firehose::CloudWatchLoggingOptions>
 
-The Amazon CloudWatch logging options for your delivery stream.
+The Amazon CloudWatch logging options for your Firehose stream.
 
 
 =head2 ClusterEndpoint => Str
@@ -67,13 +69,20 @@ The endpoint to use when communicating with the cluster. Specify either
 this C<ClusterEndpoint> or the C<DomainARN> field.
 
 
+=head2 DocumentIdOptions => L<Paws::Firehose::DocumentIdOptions>
+
+Indicates the method for setting up document ID. The supported methods
+are Firehose generated document ID and OpenSearch Service generated
+document ID.
+
+
 =head2 DomainARN => Str
 
-The ARN of the Amazon ES domain. The IAM role must have permissions for
-C<DescribeElasticsearchDomain>, C<DescribeElasticsearchDomains>, and
-C<DescribeElasticsearchDomainConfig> after assuming the role specified
-in B<RoleARN>. For more information, see Amazon Resource Names (ARNs)
-and AWS Service Namespaces
+The ARN of the Amazon OpenSearch Service domain. The IAM role must have
+permissions for C<DescribeDomain>, C<DescribeDomains>, and
+C<DescribeDomainConfig> after assuming the role specified in
+B<RoleARN>. For more information, see Amazon Resource Names (ARNs) and
+Amazon Web Services Service Namespaces
 (https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
 
 Specify either C<ClusterEndpoint> or C<DomainARN>.
@@ -88,7 +97,8 @@ The Elasticsearch index name.
 
 The Elasticsearch index rotation period. Index rotation appends a
 timestamp to the C<IndexName> to facilitate the expiration of old data.
-For more information, see Index Rotation for the Amazon ES Destination
+For more information, see Index Rotation for the Amazon OpenSearch
+Service Destination
 (https://docs.aws.amazon.com/firehose/latest/dev/basic-deliver.html#es-index-rotation).
 The default value is C<OneDay>.
 
@@ -100,35 +110,37 @@ The data processing configuration.
 
 =head2 RetryOptions => L<Paws::Firehose::ElasticsearchRetryOptions>
 
-The retry behavior in case Kinesis Data Firehose is unable to deliver
-documents to Amazon ES. The default value is 300 (5 minutes).
+The retry behavior in case Firehose is unable to deliver documents to
+Amazon OpenSearch Service. The default value is 300 (5 minutes).
 
 
 =head2 B<REQUIRED> RoleARN => Str
 
-The Amazon Resource Name (ARN) of the IAM role to be assumed by Kinesis
-Data Firehose for calling the Amazon ES Configuration API and for
-indexing documents. For more information, see Grant Kinesis Data
-Firehose Access to an Amazon S3 Destination
+The Amazon Resource Name (ARN) of the IAM role to be assumed by
+Firehose for calling the Amazon OpenSearch Service Configuration API
+and for indexing documents. For more information, see Grant Firehose
+Access to an Amazon S3 Destination
 (https://docs.aws.amazon.com/firehose/latest/dev/controlling-access.html#using-iam-s3)
-and Amazon Resource Names (ARNs) and AWS Service Namespaces
+and Amazon Resource Names (ARNs) and Amazon Web Services Service
+Namespaces
 (https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
 
 
 =head2 S3BackupMode => Str
 
 Defines how documents should be delivered to Amazon S3. When it is set
-to C<FailedDocumentsOnly>, Kinesis Data Firehose writes any documents
-that could not be indexed to the configured Amazon S3 destination, with
-C<elasticsearch-failed/> appended to the key prefix. When set to
-C<AllDocuments>, Kinesis Data Firehose delivers all incoming records to
-Amazon S3, and also writes failed documents with
-C<elasticsearch-failed/> appended to the prefix. For more information,
-see Amazon S3 Backup for the Amazon ES Destination
+to C<FailedDocumentsOnly>, Firehose writes any documents that could not
+be indexed to the configured Amazon S3 destination, with
+C<AmazonOpenSearchService-failed/> appended to the key prefix. When set
+to C<AllDocuments>, Firehose delivers all incoming records to Amazon
+S3, and also writes failed documents with
+C<AmazonOpenSearchService-failed/> appended to the prefix. For more
+information, see Amazon S3 Backup for the Amazon OpenSearch Service
+Destination
 (https://docs.aws.amazon.com/firehose/latest/dev/basic-deliver.html#es-s3-backup).
 Default value is C<FailedDocumentsOnly>.
 
-You can't change this backup mode after you create the delivery stream.
+You can't change this backup mode after you create the Firehose stream.
 
 
 =head2 B<REQUIRED> S3Configuration => L<Paws::Firehose::S3DestinationConfiguration>
@@ -140,15 +152,15 @@ The configuration for the backup Amazon S3 location.
 
 The Elasticsearch type name. For Elasticsearch 6.x, there can be only
 one type per index. If you try to specify a new type for an existing
-index that already has another type, Kinesis Data Firehose returns an
-error during run time.
+index that already has another type, Firehose returns an error during
+run time.
 
 For Elasticsearch 7.x, don't specify a C<TypeName>.
 
 
 =head2 VpcConfiguration => L<Paws::Firehose::VpcConfiguration>
 
-The details of the VPC of the Amazon ES destination.
+The details of the VPC of the Amazon destination.
 
 
 

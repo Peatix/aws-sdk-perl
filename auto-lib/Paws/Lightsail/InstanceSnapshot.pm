@@ -55,13 +55,13 @@ Describes an instance snapshot.
 
 =head2 Arn => Str
 
-The Amazon Resource Name (ARN) of the snapshot (e.g.,
-C<arn:aws:lightsail:us-east-2:123456789101:InstanceSnapshot/d23b5706-3322-4d83-81e5-12345EXAMPLE>).
+The Amazon Resource Name (ARN) of the snapshot
+(C<arn:aws:lightsail:us-east-2:123456789101:InstanceSnapshot/d23b5706-3322-4d83-81e5-12345EXAMPLE>).
 
 
 =head2 CreatedAt => Str
 
-The timestamp when the snapshot was created (e.g., C<1479907467.024>).
+The timestamp when the snapshot was created (C<1479907467.024>).
 
 
 =head2 FromAttachedDisks => ArrayRef[L<Paws::Lightsail::Disk>]
@@ -72,21 +72,21 @@ disks.
 
 =head2 FromBlueprintId => Str
 
-The blueprint ID from which you created the snapshot (e.g.,
-C<os_debian_8_3>). A blueprint is a virtual private server (or
+The blueprint ID from which you created the snapshot
+(C<amazon_linux_2023>). A blueprint is a virtual private server (or
 I<instance>) image used to create instances quickly.
 
 
 =head2 FromBundleId => Str
 
-The bundle ID from which you created the snapshot (e.g., C<micro_1_0>).
+The bundle ID from which you created the snapshot (C<micro_x_x>).
 
 
 =head2 FromInstanceArn => Str
 
 The Amazon Resource Name (ARN) of the instance from which the snapshot
-was created (e.g.,
-C<arn:aws:lightsail:us-east-2:123456789101:Instance/64b8404c-ccb1-430b-8daf-12345EXAMPLE>).
+was created
+(C<arn:aws:lightsail:us-east-2:123456789101:Instance/64b8404c-ccb1-430b-8daf-12345EXAMPLE>).
 
 
 =head2 FromInstanceName => Str
@@ -144,8 +144,8 @@ more easily.
 =head2 Tags => ArrayRef[L<Paws::Lightsail::Tag>]
 
 The tag keys and optional values for the resource. For more information
-about tags in Lightsail, see the Lightsail Dev Guide
-(https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-tags).
+about tags in Lightsail, see the Amazon Lightsail Developer Guide
+(https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-tags).
 
 
 

@@ -28,13 +28,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $batch = Paws->service('Batch');
-    my $ListTagsForResourceResponse = $batch->ListTagsForResource(
-      ResourceArn => 'MyString',
-
-    );
+    # ListTagsForResource Example
+    # This demonstrates calling the ListTagsForResource action.
+    my $ListTagsForResourceResponse =
+      $batch->ListTagsForResource( 'ResourceArn' =>
+        'arn:aws:batch:us-east-1:123456789012:job-definition/sleep30:1' );
 
     # Results:
-    my $Tags = $ListTagsForResourceResponse->Tags;
+    my $tags = $ListTagsForResourceResponse->tags;
 
     # Returns a L<Paws::Batch::ListTagsForResourceResponse> object.
 
@@ -47,9 +48,10 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/bat
 =head2 B<REQUIRED> ResourceArn => Str
 
 The Amazon Resource Name (ARN) that identifies the resource that tags
-are listed for. AWS Batch resources that support tags are compute
-environments, jobs, job definitions, and job queues. ARNs for child
-jobs of array and multi-node parallel (MNP) jobs are not supported.
+are listed for. Batch resources that support tags are compute
+environments, jobs, job definitions, job queues, and scheduling
+policies. ARNs for child jobs of array and multi-node parallel (MNP)
+jobs aren't supported.
 
 
 

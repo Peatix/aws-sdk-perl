@@ -50,8 +50,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/dat
 
 =head2 B<REQUIRED> LocationArn => Str
 
-The Amazon Resource Name (ARN) of the Amazon S3 bucket location to
-describe.
+Specifies the Amazon Resource Name (ARN) of the Amazon S3 location.
 
 
 

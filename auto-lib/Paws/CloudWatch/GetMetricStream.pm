@@ -38,11 +38,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $ExcludeFilters = $GetMetricStreamOutput->ExcludeFilters;
     my $FirehoseArn    = $GetMetricStreamOutput->FirehoseArn;
     my $IncludeFilters = $GetMetricStreamOutput->IncludeFilters;
+    my $IncludeLinkedAccountsMetrics =
+      $GetMetricStreamOutput->IncludeLinkedAccountsMetrics;
     my $LastUpdateDate = $GetMetricStreamOutput->LastUpdateDate;
     my $Name           = $GetMetricStreamOutput->Name;
     my $OutputFormat   = $GetMetricStreamOutput->OutputFormat;
     my $RoleArn        = $GetMetricStreamOutput->RoleArn;
     my $State          = $GetMetricStreamOutput->State;
+    my $StatisticsConfigurations =
+      $GetMetricStreamOutput->StatisticsConfigurations;
 
     # Returns a L<Paws::CloudWatch::GetMetricStreamOutput> object.
 

@@ -11,6 +11,7 @@ package Paws::GreengrassV2::GetDeploymentResponse;
   has IotJobConfiguration => (is => 'ro', isa => 'Paws::GreengrassV2::DeploymentIoTJobConfiguration', traits => ['NameInRequest'], request_name => 'iotJobConfiguration');
   has IotJobId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'iotJobId');
   has IsLatestForTarget => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'isLatestForTarget');
+  has ParentTargetArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'parentTargetArn');
   has RevisionId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'revisionId');
   has Tags => (is => 'ro', isa => 'Paws::GreengrassV2::TagMap', traits => ['NameInRequest'], request_name => 'tags');
   has TargetArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'targetArn');
@@ -49,12 +50,6 @@ The ID of the deployment.
 
 The name of the deployment.
 
-You can create deployments without names. If you create a deployment
-without a name, the AWS IoT Greengrass V2 console shows the deployment
-name as C<E<lt>targetTypeE<gt>:E<lt>targetNameE<gt>>, where
-C<targetType> and C<targetName> are the type and name of the deployment
-target.
-
 
 =head2 DeploymentPolicies => L<Paws::GreengrassV2::DeploymentPolicies>
 
@@ -71,7 +66,7 @@ Valid values are: C<"ACTIVE">, C<"COMPLETED">, C<"CANCELED">, C<"FAILED">, C<"IN
 
 The ARN
 (https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
-of the AWS IoT job that applies the deployment to target devices.
+of the IoT job that applies the deployment to target devices.
 
 
 =head2 IotJobConfiguration => L<Paws::GreengrassV2::DeploymentIoTJobConfiguration>
@@ -83,13 +78,19 @@ for the deployment configuration.
 
 =head2 IotJobId => Str
 
-The ID of the AWS IoT job that applies the deployment to target
-devices.
+The ID of the IoT job that applies the deployment to target devices.
 
 
 =head2 IsLatestForTarget => Bool
 
 Whether or not the deployment is the latest revision for its target.
+
+
+=head2 ParentTargetArn => Str
+
+The parent deployment's target ARN
+(https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+within a subdeployment.
 
 
 =head2 RevisionId => Str
@@ -102,14 +103,14 @@ The revision number of the deployment.
 A list of key-value pairs that contain metadata for the resource. For
 more information, see Tag your resources
 (https://docs.aws.amazon.com/greengrass/v2/developerguide/tag-resources.html)
-in the I<AWS IoT Greengrass V2 Developer Guide>.
+in the I<IoT Greengrass V2 Developer Guide>.
 
 
 =head2 TargetArn => Str
 
 The ARN
 (https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
-of the target AWS IoT thing or thing group.
+of the target IoT thing or thing group.
 
 
 =head2 _request_id => Str

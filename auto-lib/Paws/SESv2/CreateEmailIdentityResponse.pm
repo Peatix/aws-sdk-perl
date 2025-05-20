@@ -25,7 +25,8 @@ identity.
 
 =head2 IdentityType => Str
 
-The email identity type.
+The email identity type. Note: the C<MANAGED_DOMAIN> identity type is
+not supported.
 
 Valid values are: C<"EMAIL_ADDRESS">, C<"DOMAIN">, C<"MANAGED_DOMAIN">
 =head2 VerifiedForSendingStatus => Bool

@@ -2,6 +2,7 @@
 package Paws::Kafka::Tls;
   use Moose;
   has CertificateAuthorityArnList => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'certificateAuthorityArnList', traits => ['NameInRequest']);
+  has Enabled => (is => 'ro', isa => 'Bool', request_name => 'enabled', traits => ['NameInRequest']);
 
 1;
 
@@ -22,7 +23,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::Kafka::Tls object:
 
-  $service_obj->Method(Att1 => { CertificateAuthorityArnList => $value, ..., CertificateAuthorityArnList => $value  });
+  $service_obj->Method(Att1 => { CertificateAuthorityArnList => $value, ..., Enabled => $value  });
 
 =head3 Results returned from an API call
 
@@ -41,6 +42,11 @@ Details for client authentication using TLS.
 =head2 CertificateAuthorityArnList => ArrayRef[Str|Undef]
 
 List of ACM Certificate Authority ARNs.
+
+
+=head2 Enabled => Bool
+
+Specifies whether you want to turn on or turn off TLS authentication.
 
 
 

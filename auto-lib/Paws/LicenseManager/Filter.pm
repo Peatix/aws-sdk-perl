@@ -48,7 +48,8 @@ Name of the filter. Filter names are case-sensitive.
 
 =head2 Values => ArrayRef[Str|Undef]
 
-Filter values. Filter values are case-sensitive.
+The value of the filter, which is case-sensitive. You can only specify
+one value for the filter.
 
 
 

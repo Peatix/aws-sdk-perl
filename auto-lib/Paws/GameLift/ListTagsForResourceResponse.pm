@@ -16,8 +16,7 @@ Paws::GameLift::ListTagsForResourceResponse
 
 =head2 Tags => ArrayRef[L<Paws::GameLift::Tag>]
 
-The collection of tags that have been assigned to the specified
-resource.
+The collection of tags assigned to the resource.
 
 
 =head2 _request_id => Str

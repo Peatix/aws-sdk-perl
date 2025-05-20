@@ -36,7 +36,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Snowball::T
 
 An object that represents the service or services on the Snow Family
 device that your transferred data will be exported from or imported
-into. AWS Snow Family supports Amazon S3 and NFS (Network File System).
+into. Amazon Web Services Snow Family supports Amazon S3 and NFS
+(Network File System).
 
 =head1 ATTRIBUTES
 

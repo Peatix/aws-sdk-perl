@@ -17,7 +17,7 @@ Paws::Synthetics::GetCanaryResponse
 
 =head2 Canary => L<Paws::Synthetics::Canary>
 
-A strucure that contains the full information about the canary.
+A structure that contains the full information about the canary.
 
 
 =head2 _request_id => Str

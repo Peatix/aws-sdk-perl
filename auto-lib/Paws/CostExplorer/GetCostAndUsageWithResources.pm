@@ -1,6 +1,7 @@
 
 package Paws::CostExplorer::GetCostAndUsageWithResources;
   use Moose;
+  has BillingViewArn => (is => 'ro', isa => 'Str');
   has Filter => (is => 'ro', isa => 'Paws::CostExplorer::Expression', required => 1);
   has Granularity => (is => 'ro', isa => 'Str', required => 1);
   has GroupBy => (is => 'ro', isa => 'ArrayRef[Paws::CostExplorer::GroupDefinition]');
@@ -40,7 +41,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           Key          => 'MyCostCategoryName',     # min: 1, max: 50; OPTIONAL
           MatchOptions => [
             'EQUALS',
-            ... # values: EQUALS, ABSENT, STARTS_WITH, ENDS_WITH, CONTAINS, CASE_SENSITIVE, CASE_INSENSITIVE
+            ... # values: EQUALS, ABSENT, STARTS_WITH, ENDS_WITH, CONTAINS, CASE_SENSITIVE, CASE_INSENSITIVE, GREATER_THAN_OR_EQUAL
           ],    # OPTIONAL
           Values => [
             'MyValue', ...    # max: 1024
@@ -48,10 +49,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },    # OPTIONAL
         Dimensions => {
           Key => 'AZ'
-          , # values: AZ, INSTANCE_TYPE, LINKED_ACCOUNT, LINKED_ACCOUNT_NAME, OPERATION, PURCHASE_TYPE, REGION, SERVICE, SERVICE_CODE, USAGE_TYPE, USAGE_TYPE_GROUP, RECORD_TYPE, OPERATING_SYSTEM, TENANCY, SCOPE, PLATFORM, SUBSCRIPTION_ID, LEGAL_ENTITY_NAME, DEPLOYMENT_OPTION, DATABASE_ENGINE, CACHE_ENGINE, INSTANCE_TYPE_FAMILY, BILLING_ENTITY, RESERVATION_ID, RESOURCE_ID, RIGHTSIZING_TYPE, SAVINGS_PLANS_TYPE, SAVINGS_PLAN_ARN, PAYMENT_OPTION, AGREEMENT_END_DATE_TIME_AFTER, AGREEMENT_END_DATE_TIME_BEFORE; OPTIONAL
+          , # values: AZ, INSTANCE_TYPE, LINKED_ACCOUNT, LINKED_ACCOUNT_NAME, OPERATION, PURCHASE_TYPE, REGION, SERVICE, SERVICE_CODE, USAGE_TYPE, USAGE_TYPE_GROUP, RECORD_TYPE, OPERATING_SYSTEM, TENANCY, SCOPE, PLATFORM, SUBSCRIPTION_ID, LEGAL_ENTITY_NAME, DEPLOYMENT_OPTION, DATABASE_ENGINE, CACHE_ENGINE, INSTANCE_TYPE_FAMILY, BILLING_ENTITY, RESERVATION_ID, RESOURCE_ID, RIGHTSIZING_TYPE, SAVINGS_PLANS_TYPE, SAVINGS_PLAN_ARN, PAYMENT_OPTION, AGREEMENT_END_DATE_TIME_AFTER, AGREEMENT_END_DATE_TIME_BEFORE, INVOICING_ENTITY, ANOMALY_TOTAL_IMPACT_ABSOLUTE, ANOMALY_TOTAL_IMPACT_PERCENTAGE; OPTIONAL
           MatchOptions => [
             'EQUALS',
-            ... # values: EQUALS, ABSENT, STARTS_WITH, ENDS_WITH, CONTAINS, CASE_SENSITIVE, CASE_INSENSITIVE
+            ... # values: EQUALS, ABSENT, STARTS_WITH, ENDS_WITH, CONTAINS, CASE_SENSITIVE, CASE_INSENSITIVE, GREATER_THAN_OR_EQUAL
           ],    # OPTIONAL
           Values => [
             'MyValue', ...    # max: 1024
@@ -63,7 +64,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           Key          => 'MyTagKey',     # max: 1024; OPTIONAL
           MatchOptions => [
             'EQUALS',
-            ... # values: EQUALS, ABSENT, STARTS_WITH, ENDS_WITH, CONTAINS, CASE_SENSITIVE, CASE_INSENSITIVE
+            ... # values: EQUALS, ABSENT, STARTS_WITH, ENDS_WITH, CONTAINS, CASE_SENSITIVE, CASE_INSENSITIVE, GREATER_THAN_OR_EQUAL
           ],    # OPTIONAL
           Values => [
             'MyValue', ...    # max: 1024
@@ -76,7 +77,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         Start => 'MyYearMonthDay',    # max: 40
 
       },
-      GroupBy => [
+      BillingViewArn => 'MyBillingViewArn',    # OPTIONAL
+      GroupBy        => [
         {
           Key  => 'MyGroupDefinitionKey',    # max: 1024; OPTIONAL
           Type => 'DIMENSION', # values: DIMENSION, TAG, COST_CATEGORY; OPTIONAL
@@ -105,6 +107,17 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ce/
 =head1 ATTRIBUTES
 
 
+=head2 BillingViewArn => Str
+
+The Amazon Resource Name (ARN) that uniquely identifies a specific
+billing view. The ARN is used to specify which particular billing view
+you want to interact with or retrieve information from when making API
+calls related to Amazon Web Services Billing and Cost Management
+features. The BillingViewArn can be retrieved by calling the
+ListBillingViews API.
+
+
+
 =head2 B<REQUIRED> Filter => L<Paws::CostExplorer::Expression>
 
 Filters Amazon Web Services costs by different dimensions. For example,
@@ -114,18 +127,20 @@ C<Expression> objects to define any combination of dimension filters.
 For more information, see Expression
 (https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html).
 
-The C<GetCostAndUsageWithResources> operation requires that you either
-group by or filter by a C<ResourceId>. It requires the Expression
-(https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html)
-C<"SERVICE = Amazon Elastic Compute Cloud - Compute"> in the filter.
+Valid values for C<MatchOptions> for C<Dimensions> are C<EQUALS> and
+C<CASE_SENSITIVE>.
+
+Valid values for C<MatchOptions> for C<CostCategories> and C<Tags> are
+C<EQUALS>, C<ABSENT>, and C<CASE_SENSITIVE>. Default values are
+C<EQUALS> and C<CASE_SENSITIVE>.
 
 
 
 =head2 B<REQUIRED> Granularity => Str
 
-Sets the AWS cost granularity to C<MONTHLY>, C<DAILY>, or C<HOURLY>. If
-C<Granularity> isn't set, the response object doesn't include the
-C<Granularity>, C<MONTHLY>, C<DAILY>, or C<HOURLY>.
+Sets the Amazon Web Services cost granularity to C<MONTHLY>, C<DAILY>,
+or C<HOURLY>. If C<Granularity> isn't set, the response object doesn't
+include the C<Granularity>, C<MONTHLY>, C<DAILY>, or C<HOURLY>.
 
 Valid values are: C<"DAILY">, C<"MONTHLY">, C<"HOURLY">
 
@@ -151,8 +166,8 @@ If you return the C<UsageQuantity> metric, the service aggregates all
 usage numbers without taking the units into account. For example, if
 you aggregate C<usageQuantity> across all of Amazon EC2, the results
 aren't meaningful because Amazon EC2 compute hours and data transfer
-are measured in different units (for example, hours vs. GB). To get
-more meaningful C<UsageQuantity> metrics, filter by C<UsageType> or
+are measured in different units (for example, hour or GB). To get more
+meaningful C<UsageQuantity> metrics, filter by C<UsageType> or
 C<UsageTypeGroups>.
 
 C<Metrics> is required for C<GetCostAndUsageWithResources> requests.
@@ -161,9 +176,9 @@ C<Metrics> is required for C<GetCostAndUsageWithResources> requests.
 
 =head2 NextPageToken => Str
 
-The token to retrieve the next set of results. AWS provides the token
-when the response from a previous call has more results than the
-maximum page size.
+The token to retrieve the next set of results. Amazon Web Services
+provides the token when the response from a previous call has more
+results than the maximum page size.
 
 
 

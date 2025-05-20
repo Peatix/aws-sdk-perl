@@ -27,10 +27,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $kms = Paws->service('KMS');
+# To connect a custom key store to its CloudHSM cluster
+# This example connects an AWS KMS custom key store to its AWS CloudHSM cluster.
+# This operation does not return any data. To verify that the custom key store
+# is connected, use the <code>DescribeCustomKeyStores</code> operation.
     my $ConnectCustomKeyStoreResponse = $kms->ConnectCustomKeyStore(
-      CustomKeyStoreId => 'MyCustomKeyStoreIdType',
+      'CustomKeyStoreId' => 'cks-1234567890abcdef0' );
 
-    );
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/kms/ConnectCustomKeyStore>

@@ -1,0 +1,88 @@
+
+package Paws::IoTFleetWise::GetVehicleStatus;
+  use Moose;
+  has MaxResults => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'maxResults' );
+  has NextToken => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'nextToken' );
+  has VehicleName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'vehicleName' , required => 1);
+
+  use MooseX::ClassAttribute;
+
+  class_has _api_call => (isa => 'Str', is => 'ro', default => 'GetVehicleStatus');
+  class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::IoTFleetWise::GetVehicleStatusResponse');
+  class_has _result_key => (isa => 'Str', is => 'ro');
+1;
+
+### main pod documentation begin ###
+
+=head1 NAME
+
+Paws::IoTFleetWise::GetVehicleStatus - Arguments for method GetVehicleStatus on L<Paws::IoTFleetWise>
+
+=head1 DESCRIPTION
+
+This class represents the parameters used for calling the method GetVehicleStatus on the
+L<AWS IoT FleetWise|Paws::IoTFleetWise> service. Use the attributes of this class
+as arguments to method GetVehicleStatus.
+
+You shouldn't make instances of this class. Each attribute should be used as a named argument in the call to GetVehicleStatus.
+
+=head1 SYNOPSIS
+
+    my $iotfleetwise = Paws->service('IoTFleetWise');
+    my $GetVehicleStatusResponse = $iotfleetwise->GetVehicleStatus(
+      VehicleName => 'MyvehicleName',
+      MaxResults  => 1,                 # OPTIONAL
+      NextToken   => 'MynextToken',     # OPTIONAL
+    );
+
+    # Results:
+    my $Campaigns = $GetVehicleStatusResponse->Campaigns;
+    my $NextToken = $GetVehicleStatusResponse->NextToken;
+
+    # Returns a L<Paws::IoTFleetWise::GetVehicleStatusResponse> object.
+
+Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
+For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/iotfleetwise/GetVehicleStatus>
+
+=head1 ATTRIBUTES
+
+
+=head2 MaxResults => Int
+
+The maximum number of items to return, between 1 and 100, inclusive.
+This parameter is only supported for resources of type C<CAMPAIGN>.
+
+
+
+=head2 NextToken => Str
+
+A pagination token for the next set of results.
+
+If the results of a search are large, only a portion of the results are
+returned, and a C<nextToken> pagination token is returned in the
+response. To retrieve the next set of results, reissue the search
+request and include the returned token. When all results have been
+returned, the response does not contain a pagination token value. This
+parameter is only supported for resources of type C<CAMPAIGN>.
+
+
+
+=head2 B<REQUIRED> VehicleName => Str
+
+The ID of the vehicle to retrieve information about.
+
+
+
+
+=head1 SEE ALSO
+
+This class forms part of L<Paws>, documenting arguments for method GetVehicleStatus in L<Paws::IoTFleetWise>
+
+=head1 BUGS and CONTRIBUTIONS
+
+The source code is located here: L<https://github.com/pplu/aws-sdk-perl>
+
+Please report bugs to: L<https://github.com/pplu/aws-sdk-perl/issues>
+
+=cut
+

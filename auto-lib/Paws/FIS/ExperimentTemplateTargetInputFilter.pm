@@ -34,8 +34,12 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::FIS::Experi
 
 =head1 DESCRIPTION
 
-Describes a filter used for the target resource input in an experiment
+Specifies a filter used for the target resource input in an experiment
 template.
+
+For more information, see Resource filters
+(https://docs.aws.amazon.com/fis/latest/userguide/targets.html#target-filters)
+in the I<Fault Injection Service User Guide>.
 
 =head1 ATTRIBUTES
 

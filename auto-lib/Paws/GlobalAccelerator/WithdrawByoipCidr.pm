@@ -47,6 +47,10 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/glo
 
 The address range, in CIDR notation.
 
+For more information, see Bring your own IP addresses (BYOIP)
+(https://docs.aws.amazon.com/global-accelerator/latest/dg/using-byoip.html)
+in the Global Accelerator Developer Guide.
+
 
 
 

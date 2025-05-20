@@ -58,24 +58,26 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/rds
 =head2 AvailabilityZoneGroup => Str
 
 The Availability Zone group associated with a Local Zone. Specify this
-parameter to retrieve available offerings for the Local Zones in the
+parameter to retrieve available options for the Local Zones in the
 group.
 
-Omit this parameter to show the available offerings in the specified
+Omit this parameter to show the available options in the specified
 Amazon Web Services Region.
+
+This setting doesn't apply to RDS Custom DB instances.
 
 
 
 =head2 DBInstanceClass => Str
 
-The DB instance class filter value. Specify this parameter to show only
-the available offerings matching the specified DB instance class.
+A filter to include only the available options for the specified DB
+instance class.
 
 
 
 =head2 B<REQUIRED> Engine => Str
 
-The name of the engine to retrieve DB instance options for.
+The name of the database engine to describe DB instance options for.
 
 Valid Values:
 
@@ -83,15 +85,35 @@ Valid Values:
 
 =item *
 
-C<aurora> (for MySQL 5.6-compatible Aurora)
-
-=item *
-
-C<aurora-mysql> (for MySQL 5.7-compatible Aurora)
+C<aurora-mysql>
 
 =item *
 
 C<aurora-postgresql>
+
+=item *
+
+C<custom-oracle-ee>
+
+=item *
+
+C<custom-oracle-ee-cdb>
+
+=item *
+
+C<custom-oracle-se2>
+
+=item *
+
+C<custom-oracle-se2-cdb>
+
+=item *
+
+C<db2-ae>
+
+=item *
+
+C<db2-se>
 
 =item *
 
@@ -144,8 +166,8 @@ C<sqlserver-web>
 
 =head2 EngineVersion => Str
 
-The engine version filter value. Specify this parameter to show only
-the available offerings matching the specified engine version.
+A filter to include only the available options for the specified engine
+version.
 
 
 
@@ -157,8 +179,10 @@ This parameter isn't currently supported.
 
 =head2 LicenseModel => Str
 
-The license model filter value. Specify this parameter to show only the
-available offerings matching the specified license model.
+A filter to include only the available options for the specified
+license model.
+
+RDS Custom supports only the BYOL licensing model.
 
 
 
@@ -167,7 +191,7 @@ available offerings matching the specified license model.
 An optional pagination token provided by a previous
 DescribeOrderableDBInstanceOptions request. If this parameter is
 specified, the response includes only records beyond the marker, up to
-the value specified by C<MaxRecords> .
+the value specified by C<MaxRecords>.
 
 
 
@@ -180,13 +204,17 @@ retrieve the remaining results.
 
 Default: 100
 
-Constraints: Minimum 20, maximum 100.
+Constraints: Minimum 20, maximum 1000.
 
 
 
 =head2 Vpc => Bool
 
-A value that indicates whether to show only VPC or non-VPC offerings.
+Specifies whether to show only VPC or non-VPC offerings. RDS Custom
+supports only VPC offerings.
+
+RDS Custom supports only VPC offerings. If you describe non-VPC
+offerings for RDS Custom, the output shows VPC offerings.
 
 
 

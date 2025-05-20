@@ -41,8 +41,8 @@ An object that contains details about the action of a contact list.
 
 =head2 B<REQUIRED> ContactListImportAction => Str
 
-E<gt>The type of action that you want to perform on the addresses.
-Acceptable values:
+E<gt>The type of action to perform on the addresses. The following are
+the possible values:
 
 =over
 

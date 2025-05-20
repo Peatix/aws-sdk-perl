@@ -55,8 +55,9 @@ New or modified text that describes the data catalog.
 =head2 B<REQUIRED> Name => Str
 
 The name of the data catalog to update. The catalog name must be unique
-for the AWS account and can use a maximum of 128 alphanumeric,
-underscore, at sign, or hyphen characters.
+for the Amazon Web Services account and can use a maximum of 127
+alphanumeric, underscore, at sign, or hyphen characters. The remainder
+of the length constraint of 256 is reserved for use by Athena.
 
 
 
@@ -107,13 +108,10 @@ C<function=I<lambda_arn>>
 =head2 B<REQUIRED> Type => Str
 
 Specifies the type of data catalog to update. Specify C<LAMBDA> for a
-federated catalog or C<HIVE> for an external hive metastore.
+federated catalog, C<HIVE> for an external hive metastore, or C<GLUE>
+for an Glue Data Catalog.
 
-Do not use the C<GLUE> type. This refers to the C<AwsDataCatalog> that
-already exists in your account, of which you can have only one.
-Specifying the C<GLUE> type will result in an C<INVALID_INPUT> error.
-
-Valid values are: C<"LAMBDA">, C<"GLUE">, C<"HIVE">
+Valid values are: C<"LAMBDA">, C<"GLUE">, C<"HIVE">, C<"FEDERATED">
 
 
 =head1 SEE ALSO

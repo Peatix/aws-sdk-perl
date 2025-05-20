@@ -50,8 +50,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ssm
 
 =head2 B<REQUIRED> IncidentRecordArn => Str
 
-The Amazon Resource Name (ARN) of the incident record that you are
-listing related items for.
+The Amazon Resource Name (ARN) of the incident record containing the
+listed related items.
 
 
 
@@ -63,7 +63,8 @@ The maximum number of related items per page.
 
 =head2 NextToken => Str
 
-The pagination token to continue to the next page of results.
+The pagination token for the next set of items to return. (You received
+this token from a previous call.)
 
 
 

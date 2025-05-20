@@ -37,7 +37,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::GlobalAccel
 =head1 DESCRIPTION
 
 A complex type for the endpoint group for a custom routing accelerator.
-An AWS Region can have only one endpoint group for a specific listener.
+An Amazon Web Services Region can have only one endpoint group for a
+specific listener.
 
 =head1 ATTRIBUTES
 
@@ -63,7 +64,7 @@ The Amazon Resource Name (ARN) of the endpoint group.
 
 =head2 EndpointGroupRegion => Str
 
-The AWS Region where the endpoint group is located.
+The Amazon Web Services Region where the endpoint group is located.
 
 
 

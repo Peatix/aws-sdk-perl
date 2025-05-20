@@ -40,7 +40,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/tra
 
 =head2 B<REQUIRED> VocabularyFilterName => Str
 
-The name of the vocabulary filter to remove.
+The name of the custom vocabulary filter you want to delete. Custom
+vocabulary filter names are case sensitive.
 
 
 

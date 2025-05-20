@@ -36,10 +36,10 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Firehose::B
 
 Describes hints for the buffering to perform before delivering data to
 the destination. These options are treated as hints, and therefore
-Kinesis Data Firehose might choose to use different values when it is
-optimal. The C<SizeInMBs> and C<IntervalInSeconds> parameters are
-optional. However, if specify a value for one of them, you must also
-provide a value for the other.
+Firehose might choose to use different values when it is optimal. The
+C<SizeInMBs> and C<IntervalInSeconds> parameters are optional. However,
+if specify a value for one of them, you must also provide a value for
+the other.
 
 =head1 ATTRIBUTES
 
@@ -60,7 +60,7 @@ optional but if you specify a value for it, you must also specify a
 value for C<IntervalInSeconds>, and vice versa.
 
 We recommend setting this parameter to a value greater than the amount
-of data you typically ingest into the delivery stream in 10 seconds.
+of data you typically ingest into the Firehose stream in 10 seconds.
 For example, if you typically ingest data at 1 MiB/sec, the value
 should be 10 MiB or higher.
 

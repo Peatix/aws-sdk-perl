@@ -34,24 +34,33 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     # Results:
     my $AppNetworkAccessType = $DescribeDomainResponse->AppNetworkAccessType;
+    my $AppSecurityGroupManagement =
+      $DescribeDomainResponse->AppSecurityGroupManagement;
     my $AuthMode             = $DescribeDomainResponse->AuthMode;
     my $CreationTime         = $DescribeDomainResponse->CreationTime;
+    my $DefaultSpaceSettings = $DescribeDomainResponse->DefaultSpaceSettings;
     my $DefaultUserSettings  = $DescribeDomainResponse->DefaultUserSettings;
     my $DomainArn            = $DescribeDomainResponse->DomainArn;
     my $DomainId             = $DescribeDomainResponse->DomainId;
     my $DomainName           = $DescribeDomainResponse->DomainName;
+    my $DomainSettings       = $DescribeDomainResponse->DomainSettings;
     my $FailureReason        = $DescribeDomainResponse->FailureReason;
     my $HomeEfsFileSystemId  = $DescribeDomainResponse->HomeEfsFileSystemId;
     my $HomeEfsFileSystemKmsKeyId =
       $DescribeDomainResponse->HomeEfsFileSystemKmsKeyId;
     my $KmsKeyId         = $DescribeDomainResponse->KmsKeyId;
     my $LastModifiedTime = $DescribeDomainResponse->LastModifiedTime;
+    my $SecurityGroupIdForDomainBoundary =
+      $DescribeDomainResponse->SecurityGroupIdForDomainBoundary;
+    my $SingleSignOnApplicationArn =
+      $DescribeDomainResponse->SingleSignOnApplicationArn;
     my $SingleSignOnManagedApplicationInstanceId =
       $DescribeDomainResponse->SingleSignOnManagedApplicationInstanceId;
-    my $Status    = $DescribeDomainResponse->Status;
-    my $SubnetIds = $DescribeDomainResponse->SubnetIds;
-    my $Url       = $DescribeDomainResponse->Url;
-    my $VpcId     = $DescribeDomainResponse->VpcId;
+    my $Status         = $DescribeDomainResponse->Status;
+    my $SubnetIds      = $DescribeDomainResponse->SubnetIds;
+    my $TagPropagation = $DescribeDomainResponse->TagPropagation;
+    my $Url            = $DescribeDomainResponse->Url;
+    my $VpcId          = $DescribeDomainResponse->VpcId;
 
     # Returns a L<Paws::SageMaker::DescribeDomainResponse> object.
 

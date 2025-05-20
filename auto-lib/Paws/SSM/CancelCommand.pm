@@ -47,8 +47,8 @@ The ID of the command you want to cancel.
 
 =head2 InstanceIds => ArrayRef[Str|Undef]
 
-(Optional) A list of instance IDs on which you want to cancel the
-command. If not provided, the command is canceled on every instance on
+(Optional) A list of managed node IDs on which you want to cancel the
+command. If not provided, the command is canceled on every node on
 which it was requested.
 
 

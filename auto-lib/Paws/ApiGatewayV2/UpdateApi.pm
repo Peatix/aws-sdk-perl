@@ -8,6 +8,7 @@ package Paws::ApiGatewayV2::UpdateApi;
   has Description => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'description');
   has DisableExecuteApiEndpoint => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'disableExecuteApiEndpoint');
   has DisableSchemaValidation => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'disableSchemaValidation');
+  has IpAddressType => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'ipAddressType');
   has Name => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'name');
   has RouteKey => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'routeKey');
   has RouteSelectionExpression => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'routeSelectionExpression');
@@ -54,6 +55,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       Description    => 'MyStringWithLengthBetween0And1024',    # OPTIONAL
       DisableExecuteApiEndpoint => 1,                           # OPTIONAL
       DisableSchemaValidation   => 1,                           # OPTIONAL
+      IpAddressType             => 'ipv4',                      # OPTIONAL
       Name                     => 'MyStringWithLengthBetween1And128', # OPTIONAL
       RouteKey                 => 'MySelectionKey',                   # OPTIONAL
       RouteSelectionExpression => 'MySelectionExpression',            # OPTIONAL
@@ -74,6 +76,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       $UpdateApiResponse->DisableExecuteApiEndpoint;
     my $DisableSchemaValidation  = $UpdateApiResponse->DisableSchemaValidation;
     my $ImportInfo               = $UpdateApiResponse->ImportInfo;
+    my $IpAddressType            = $UpdateApiResponse->IpAddressType;
     my $Name                     = $UpdateApiResponse->Name;
     my $ProtocolType             = $UpdateApiResponse->ProtocolType;
     my $RouteSelectionExpression = $UpdateApiResponse->RouteSelectionExpression;
@@ -146,6 +149,12 @@ Avoid validating models when creating a deployment. Supported only for
 WebSocket APIs.
 
 
+
+=head2 IpAddressType => Str
+
+The IP address types that can invoke your API or domain name.
+
+Valid values are: C<"ipv4">, C<"dualstack">
 
 =head2 Name => Str
 

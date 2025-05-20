@@ -49,7 +49,7 @@ The ID of the AMI that is being stored.
 
 =head2 Bucket => Str
 
-The name of the S3 bucket that contains the stored AMI object.
+The name of the Amazon S3 bucket that contains the stored AMI object.
 
 
 =head2 ProgressPercentage => Int

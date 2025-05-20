@@ -18,17 +18,19 @@ Paws::MediaConnect::ListEntitlementsResponse
 
 =head2 Entitlements => ArrayRef[L<Paws::MediaConnect::ListedEntitlement>]
 
-A list of entitlements that have been granted to you from other AWS
-accounts.
+A list of entitlements that have been granted to you from other Amazon
+Web Services accounts.
 
 
 =head2 NextToken => Str
 
-The token that identifies which batch of results that you want to see.
-For example, you submit a ListEntitlements request with MaxResults set
-at 5. The service returns the first batch of results (up to 5) and a
-NextToken value. To see the next batch of results, you can submit the
-ListEntitlements request a second time and specify the NextToken value.
+The token that identifies the batch of results that you want to see.
+
+For example, you submit a ListEntitlements request with C<MaxResults>
+set at 5. The service returns the first batch of results (up to 5) and
+a NextToken value. To see the next batch of results, you can submit the
+C<ListEntitlements> request a second time and specify the C<NextToken>
+value.
 
 
 =head2 _request_id => Str

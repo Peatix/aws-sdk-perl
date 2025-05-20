@@ -1,6 +1,7 @@
 
 package Paws::Backup::DescribeRecoveryPoint;
   use Moose;
+  has BackupVaultAccountId => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'backupVaultAccountId');
   has BackupVaultName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'backupVaultName', required => 1);
   has RecoveryPointArn => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'recoveryPointArn', required => 1);
 
@@ -30,9 +31,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $backup = Paws->service('Backup');
     my $DescribeRecoveryPointOutput = $backup->DescribeRecoveryPoint(
-      BackupVaultName  => 'MyBackupVaultName',
-      RecoveryPointArn => 'MyARN',
-
+      BackupVaultName      => 'MyBackupVaultName',
+      RecoveryPointArn     => 'MyARN',
+      BackupVaultAccountId => 'MyAccountId',         # OPTIONAL
     );
 
     # Results:
@@ -41,20 +42,30 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $BackupVaultName     = $DescribeRecoveryPointOutput->BackupVaultName;
     my $CalculatedLifecycle = $DescribeRecoveryPointOutput->CalculatedLifecycle;
     my $CompletionDate      = $DescribeRecoveryPointOutput->CompletionDate;
-    my $CreatedBy           = $DescribeRecoveryPointOutput->CreatedBy;
-    my $CreationDate        = $DescribeRecoveryPointOutput->CreationDate;
-    my $EncryptionKeyArn    = $DescribeRecoveryPointOutput->EncryptionKeyArn;
-    my $IamRoleArn          = $DescribeRecoveryPointOutput->IamRoleArn;
-    my $IsEncrypted         = $DescribeRecoveryPointOutput->IsEncrypted;
-    my $LastRestoreTime     = $DescribeRecoveryPointOutput->LastRestoreTime;
-    my $Lifecycle           = $DescribeRecoveryPointOutput->Lifecycle;
-    my $RecoveryPointArn    = $DescribeRecoveryPointOutput->RecoveryPointArn;
-    my $ResourceArn         = $DescribeRecoveryPointOutput->ResourceArn;
-    my $ResourceType        = $DescribeRecoveryPointOutput->ResourceType;
+    my $CompositeMemberIdentifier =
+      $DescribeRecoveryPointOutput->CompositeMemberIdentifier;
+    my $CreatedBy          = $DescribeRecoveryPointOutput->CreatedBy;
+    my $CreationDate       = $DescribeRecoveryPointOutput->CreationDate;
+    my $EncryptionKeyArn   = $DescribeRecoveryPointOutput->EncryptionKeyArn;
+    my $IamRoleArn         = $DescribeRecoveryPointOutput->IamRoleArn;
+    my $IndexStatus        = $DescribeRecoveryPointOutput->IndexStatus;
+    my $IndexStatusMessage = $DescribeRecoveryPointOutput->IndexStatusMessage;
+    my $IsEncrypted        = $DescribeRecoveryPointOutput->IsEncrypted;
+    my $IsParent           = $DescribeRecoveryPointOutput->IsParent;
+    my $LastRestoreTime    = $DescribeRecoveryPointOutput->LastRestoreTime;
+    my $Lifecycle          = $DescribeRecoveryPointOutput->Lifecycle;
+    my $ParentRecoveryPointArn =
+      $DescribeRecoveryPointOutput->ParentRecoveryPointArn;
+    my $RecoveryPointArn = $DescribeRecoveryPointOutput->RecoveryPointArn;
+    my $ResourceArn      = $DescribeRecoveryPointOutput->ResourceArn;
+    my $ResourceName     = $DescribeRecoveryPointOutput->ResourceName;
+    my $ResourceType     = $DescribeRecoveryPointOutput->ResourceType;
     my $SourceBackupVaultArn =
       $DescribeRecoveryPointOutput->SourceBackupVaultArn;
-    my $Status       = $DescribeRecoveryPointOutput->Status;
-    my $StorageClass = $DescribeRecoveryPointOutput->StorageClass;
+    my $Status        = $DescribeRecoveryPointOutput->Status;
+    my $StatusMessage = $DescribeRecoveryPointOutput->StatusMessage;
+    my $StorageClass  = $DescribeRecoveryPointOutput->StorageClass;
+    my $VaultType     = $DescribeRecoveryPointOutput->VaultType;
 
     # Returns a L<Paws::Backup::DescribeRecoveryPointOutput> object.
 
@@ -64,12 +75,17 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/bac
 =head1 ATTRIBUTES
 
 
+=head2 BackupVaultAccountId => Str
+
+The account ID of the specified backup vault.
+
+
+
 =head2 B<REQUIRED> BackupVaultName => Str
 
 The name of a logical container where backups are stored. Backup vaults
 are identified by names that are unique to the account used to create
-them and the AWS Region where they are created. They consist of
-lowercase letters, numbers, and hyphens.
+them and the Amazon Web Services Region where they are created.
 
 
 

@@ -2,6 +2,8 @@
 package Paws::EC2::AssignPrivateIpAddresses;
   use Moose;
   has AllowReassignment => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'allowReassignment' );
+  has Ipv4PrefixCount => (is => 'ro', isa => 'Int');
+  has Ipv4Prefixes => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'Ipv4Prefix' );
   has NetworkInterfaceId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'networkInterfaceId' , required => 1);
   has PrivateIpAddresses => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'privateIpAddress' );
   has SecondaryPrivateIpAddressCount => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'secondaryPrivateIpAddressCount' );
@@ -63,6 +65,21 @@ network interface.
 
 
 
+=head2 Ipv4PrefixCount => Int
+
+The number of IPv4 prefixes that Amazon Web Services automatically
+assigns to the network interface. You can't use this option if you use
+the C<Ipv4 Prefixes> option.
+
+
+
+=head2 Ipv4Prefixes => ArrayRef[Str|Undef]
+
+One or more IPv4 prefixes assigned to the network interface. You can't
+use this option if you use the C<Ipv4PrefixCount> option.
+
+
+
 =head2 B<REQUIRED> NetworkInterfaceId => Str
 
 The ID of the network interface.
@@ -71,9 +88,9 @@ The ID of the network interface.
 
 =head2 PrivateIpAddresses => ArrayRef[Str|Undef]
 
-One or more IP addresses to be assigned as a secondary private IP
-address to the network interface. You can't specify this parameter when
-also specifying a number of secondary IP addresses.
+The IP addresses to be assigned as a secondary private IP address to
+the network interface. You can't specify this parameter when also
+specifying a number of secondary IP addresses.
 
 If you don't specify an IP address, Amazon EC2 automatically selects an
 IP address within the subnet range.

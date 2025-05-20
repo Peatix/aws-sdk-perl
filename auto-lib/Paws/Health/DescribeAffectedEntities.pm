@@ -37,10 +37,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ],    # min: 1, max: 10
         EntityArns => [
           'MyentityArn', ...    # max: 1600
-        ],    # min: 1, max: 100; OPTIONAL
+        ],    # min: 1, max: 99; OPTIONAL
         EntityValues => [
           'MyentityValue', ...    # max: 1224
-        ],    # min: 1, max: 100; OPTIONAL
+        ],    # min: 1, max: 99; OPTIONAL
         LastUpdatedTimes => [
           {
             From => '1970-01-01T01:00:00',    # OPTIONAL
@@ -49,8 +49,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           ...
         ],    # min: 1, max: 10; OPTIONAL
         StatusCodes => [
-          'IMPAIRED', ...    # values: IMPAIRED, UNIMPAIRED, UNKNOWN
-        ],    # min: 1, max: 3; OPTIONAL
+          'IMPAIRED',
+          ...    # values: IMPAIRED, UNIMPAIRED, UNKNOWN, PENDING, RESOLVED
+        ],    # min: 1, max: 5; OPTIONAL
         Tags => [
           {
             'MytagKey' => 'MytagValue',    # key: max: 127, value: max: 255

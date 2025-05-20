@@ -34,11 +34,11 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::TimestreamQ
 
 =head1 DESCRIPTION
 
-The timeseries datatype represents the values of a measure over time. A
-time series is an array of rows of timestamps and measure values, with
-rows sorted in ascending order of time. A TimeSeriesDataPoint is a
-single data point in the timeseries. It represents a tuple of (time,
-measure value) in a timeseries.
+The timeseries data type represents the values of a measure over time.
+A time series is an array of rows of timestamps and measure values,
+with rows sorted in ascending order of time. A TimeSeriesDataPoint is a
+single data point in the time series. It represents a tuple of (time,
+measure value) in a time series.
 
 =head1 ATTRIBUTES
 

@@ -35,8 +35,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Connect::Cu
 =head1 DESCRIPTION
 
 Contains information about a real-time metric. For a description of
-each metric, see Real-time Metrics Definitions
-(https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html)
+each metric, see Metrics definitions
+(https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html)
 in the I<Amazon Connect Administrator Guide>.
 
 =head1 ATTRIBUTES

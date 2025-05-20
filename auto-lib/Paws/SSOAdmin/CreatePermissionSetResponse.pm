@@ -16,7 +16,7 @@ Paws::SSOAdmin::CreatePermissionSetResponse
 
 =head2 PermissionSet => L<Paws::SSOAdmin::PermissionSet>
 
-Defines the level of access on an AWS account.
+Defines the level of access on an Amazon Web Services account.
 
 
 =head2 _request_id => Str

@@ -37,15 +37,16 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::EMR::AutoSc
 
 An automatic scaling policy for a core instance group or task instance
 group in an Amazon EMR cluster. The automatic scaling policy defines
-how an instance group dynamically adds and terminates EC2 instances in
-response to the value of a CloudWatch metric. See PutAutoScalingPolicy.
+how an instance group dynamically adds and terminates Amazon EC2
+instances in response to the value of a CloudWatch metric. See
+PutAutoScalingPolicy.
 
 =head1 ATTRIBUTES
 
 
 =head2 Constraints => L<Paws::EMR::ScalingConstraints>
 
-The upper and lower EC2 instance limits for an automatic scaling
+The upper and lower Amazon EC2 instance limits for an automatic scaling
 policy. Automatic scaling activity will not cause an instance group to
 grow above or below these limits.
 

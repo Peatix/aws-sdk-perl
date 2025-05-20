@@ -7,6 +7,7 @@ package Paws::LookoutMetrics::DescribeAnomalyDetectorResponse;
   has AnomalyDetectorName => (is => 'ro', isa => 'Str');
   has CreationTime => (is => 'ro', isa => 'Str');
   has FailureReason => (is => 'ro', isa => 'Str');
+  has FailureType => (is => 'ro', isa => 'Str');
   has KmsKeyArn => (is => 'ro', isa => 'Str');
   has LastModificationTime => (is => 'ro', isa => 'Str');
   has Status => (is => 'ro', isa => 'Str');
@@ -50,9 +51,14 @@ The time at which the detector was created.
 
 =head2 FailureReason => Str
 
-The reason that the detector failed, if any.
+The reason that the detector failed.
 
 
+=head2 FailureType => Str
+
+The process that caused the detector to fail.
+
+Valid values are: C<"ACTIVATION_FAILURE">, C<"BACK_TEST_ACTIVATION_FAILURE">, C<"DELETION_FAILURE">, C<"DEACTIVATION_FAILURE">
 =head2 KmsKeyArn => Str
 
 The ARN of the KMS key to use to encrypt your data.
@@ -67,7 +73,7 @@ The time at which the detector was last modified.
 
 The status of the detector.
 
-Valid values are: C<"ACTIVE">, C<"ACTIVATING">, C<"DELETING">, C<"FAILED">, C<"INACTIVE">, C<"LEARNING">, C<"BACK_TEST_ACTIVATING">, C<"BACK_TEST_ACTIVE">, C<"BACK_TEST_COMPLETE">
+Valid values are: C<"ACTIVE">, C<"ACTIVATING">, C<"DELETING">, C<"FAILED">, C<"INACTIVE">, C<"LEARNING">, C<"BACK_TEST_ACTIVATING">, C<"BACK_TEST_ACTIVE">, C<"BACK_TEST_COMPLETE">, C<"DEACTIVATED">, C<"DEACTIVATING">
 =head2 _request_id => Str
 
 

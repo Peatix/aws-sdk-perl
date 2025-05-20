@@ -2,6 +2,7 @@
 package Paws::Glue::StartWorkflowRun;
   use Moose;
   has Name => (is => 'ro', isa => 'Str', required => 1);
+  has RunProperties => (is => 'ro', isa => 'Paws::Glue::WorkflowRunProperties');
 
   use MooseX::ClassAttribute;
 
@@ -28,8 +29,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $glue = Paws->service('Glue');
     my $StartWorkflowRunResponse = $glue->StartWorkflowRun(
-      Name => 'MyNameString',
-
+      Name          => 'MyNameString',
+      RunProperties => {
+        'MyIdString' => 'MyGenericString',    # key: min: 1, max: 255
+      },    # OPTIONAL
     );
 
     # Results:
@@ -46,6 +49,17 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/glu
 =head2 B<REQUIRED> Name => Str
 
 The name of the workflow to start.
+
+
+
+=head2 RunProperties => L<Paws::Glue::WorkflowRunProperties>
+
+The workflow run properties for the new workflow run.
+
+Run properties may be logged. Do not pass plaintext secrets as
+properties. Retrieve secrets from a Glue Connection, Amazon Web
+Services Secrets Manager or other secret management mechanism if you
+intend to use them within the workflow run.
 
 
 

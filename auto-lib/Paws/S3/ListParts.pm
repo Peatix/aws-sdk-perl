@@ -7,6 +7,9 @@ package Paws::S3::ListParts;
   has MaxParts => (is => 'ro', isa => 'Int', query_name => 'max-parts', traits => ['ParamInQuery']);
   has PartNumberMarker => (is => 'ro', isa => 'Int', query_name => 'part-number-marker', traits => ['ParamInQuery']);
   has RequestPayer => (is => 'ro', isa => 'Str', header_name => 'x-amz-request-payer', traits => ['ParamInHeader']);
+  has SSECustomerAlgorithm => (is => 'ro', isa => 'Str', header_name => 'x-amz-server-side-encryption-customer-algorithm', traits => ['ParamInHeader']);
+  has SSECustomerKey => (is => 'ro', isa => 'Str', header_name => 'x-amz-server-side-encryption-customer-key', traits => ['ParamInHeader']);
+  has SSECustomerKeyMD5 => (is => 'ro', isa => 'Str', header_name => 'x-amz-server-side-encryption-customer-key-MD5', traits => ['ParamInHeader']);
   has UploadId => (is => 'ro', isa => 'Str', query_name => 'uploadId', traits => ['ParamInQuery'], required => 1);
 
 
@@ -65,22 +68,42 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/s3/
 
 The name of the bucket to which the parts are being uploaded.
 
-When using this action with an access point, you must direct requests
-to the access point hostname. The access point hostname takes the form
+B<Directory buckets> - When you use this operation with a directory
+bucket, you must use virtual-hosted-style requests in the format C<
+I<Bucket-name>.s3express-I<zone-id>.I<region-code>.amazonaws.com>.
+Path-style requests are not supported. Directory bucket names must be
+unique in the chosen Zone (Availability Zone or Local Zone). Bucket
+names must follow the format C< I<bucket-base-name>--I<zone-id>--x-s3>
+(for example, C< I<amzn-s3-demo-bucket>--I<usw2-az1>--x-s3>). For
+information about bucket naming restrictions, see Directory bucket
+naming rules
+(https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-bucket-naming-rules.html)
+in the I<Amazon S3 User Guide>.
+
+B<Access points> - When you use this action with an access point for
+general purpose buckets, you must provide the alias of the access point
+in place of the bucket name or specify the access point ARN. When you
+use this action with an access point for directory buckets, you must
+provide the access point name in place of the bucket name. When using
+the access point ARN, you must direct requests to the access point
+hostname. The access point hostname takes the form
 I<AccessPointName>-I<AccountId>.s3-accesspoint.I<Region>.amazonaws.com.
-When using this action with an access point through the AWS SDKs, you
-provide the access point ARN in place of the bucket name. For more
-information about access point ARNs, see Using access points
+When using this action with an access point through the Amazon Web
+Services SDKs, you provide the access point ARN in place of the bucket
+name. For more information about access point ARNs, see Using access
+points
 (https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html)
 in the I<Amazon S3 User Guide>.
 
-When using this action with Amazon S3 on Outposts, you must direct
-requests to the S3 on Outposts hostname. The S3 on Outposts hostname
-takes the form
-I<AccessPointName>-I<AccountId>.I<outpostID>.s3-outposts.I<Region>.amazonaws.com.
-When using this action using S3 on Outposts through the AWS SDKs, you
-provide the Outposts bucket ARN in place of the bucket name. For more
-information about S3 on Outposts ARNs, see Using S3 on Outposts
+Object Lambda access points are not supported by directory buckets.
+
+B<S3 on Outposts> - When you use this action with S3 on Outposts, you
+must direct requests to the S3 on Outposts hostname. The S3 on Outposts
+hostname takes the form C<
+I<AccessPointName>-I<AccountId>.I<outpostID>.s3-outposts.I<Region>.amazonaws.com>.
+When you use this action with S3 on Outposts, the destination bucket
+must be the Outposts access point ARN or the access point alias. For
+more information about S3 on Outposts, see What is S3 on Outposts?
 (https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html)
 in the I<Amazon S3 User Guide>.
 
@@ -88,9 +111,9 @@ in the I<Amazon S3 User Guide>.
 
 =head2 ExpectedBucketOwner => Str
 
-The account ID of the expected bucket owner. If the bucket is owned by
-a different account, the request will fail with an HTTP C<403 (Access
-Denied)> error.
+The account ID of the expected bucket owner. If the account ID that you
+provide does not match the actual owner of the bucket, the request
+fails with the HTTP status code C<403 Forbidden> (access denied).
 
 
 
@@ -118,6 +141,43 @@ higher part numbers will be listed.
 
 
 Valid values are: C<"requester">
+
+=head2 SSECustomerAlgorithm => Str
+
+The server-side encryption (SSE) algorithm used to encrypt the object.
+This parameter is needed only when the object was created using a
+checksum algorithm. For more information, see Protecting data using
+SSE-C keys
+(https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html)
+in the I<Amazon S3 User Guide>.
+
+This functionality is not supported for directory buckets.
+
+
+
+=head2 SSECustomerKey => Str
+
+The server-side encryption (SSE) customer managed key. This parameter
+is needed only when the object was created using a checksum algorithm.
+For more information, see Protecting data using SSE-C keys
+(https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html)
+in the I<Amazon S3 User Guide>.
+
+This functionality is not supported for directory buckets.
+
+
+
+=head2 SSECustomerKeyMD5 => Str
+
+The MD5 server-side encryption (SSE) customer managed key. This
+parameter is needed only when the object was created using a checksum
+algorithm. For more information, see Protecting data using SSE-C keys
+(https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html)
+in the I<Amazon S3 User Guide>.
+
+This functionality is not supported for directory buckets.
+
+
 
 =head2 B<REQUIRED> UploadId => Str
 

@@ -3,12 +3,17 @@ package Paws::MQ::UpdateBrokerOutput;
   use Moose;
   has AuthenticationStrategy => (is => 'ro', isa => 'Str', request_name => 'authenticationStrategy', traits => ['NameInRequest']);
   has AutoMinorVersionUpgrade => (is => 'ro', isa => 'Bool', request_name => 'autoMinorVersionUpgrade', traits => ['NameInRequest']);
-  has BrokerId => (is => 'ro', isa => 'Str', request_name => 'brokerId', traits => ['NameInRequest']);
+  has BrokerId => (is => 'ro', isa => 'Str', request_name => 'brokerId', traits => ['NameInRequest'], required => 1);
   has Configuration => (is => 'ro', isa => 'Paws::MQ::ConfigurationId', request_name => 'configuration', traits => ['NameInRequest']);
+  has DataReplicationMetadata => (is => 'ro', isa => 'Paws::MQ::DataReplicationMetadataOutput', request_name => 'dataReplicationMetadata', traits => ['NameInRequest']);
+  has DataReplicationMode => (is => 'ro', isa => 'Str', request_name => 'dataReplicationMode', traits => ['NameInRequest']);
   has EngineVersion => (is => 'ro', isa => 'Str', request_name => 'engineVersion', traits => ['NameInRequest']);
   has HostInstanceType => (is => 'ro', isa => 'Str', request_name => 'hostInstanceType', traits => ['NameInRequest']);
   has LdapServerMetadata => (is => 'ro', isa => 'Paws::MQ::LdapServerMetadataOutput', request_name => 'ldapServerMetadata', traits => ['NameInRequest']);
   has Logs => (is => 'ro', isa => 'Paws::MQ::Logs', request_name => 'logs', traits => ['NameInRequest']);
+  has MaintenanceWindowStartTime => (is => 'ro', isa => 'Paws::MQ::WeeklyStartTime', request_name => 'maintenanceWindowStartTime', traits => ['NameInRequest']);
+  has PendingDataReplicationMetadata => (is => 'ro', isa => 'Paws::MQ::DataReplicationMetadataOutput', request_name => 'pendingDataReplicationMetadata', traits => ['NameInRequest']);
+  has PendingDataReplicationMode => (is => 'ro', isa => 'Str', request_name => 'pendingDataReplicationMode', traits => ['NameInRequest']);
   has SecurityGroups => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'securityGroups', traits => ['NameInRequest']);
 
 1;
@@ -48,15 +53,19 @@ Returns information about the updated broker.
 
 =head2 AuthenticationStrategy => Str
 
-The authentication strategy used to secure the broker.
+Optional. The authentication strategy used to secure the broker. The
+default is SIMPLE.
 
 
 =head2 AutoMinorVersionUpgrade => Bool
 
-The new value of automatic upgrades to new minor version for brokers.
+Enables automatic upgrades to new patch versions for brokers as new
+versions are released and supported by Amazon MQ. Automatic upgrades
+occur during the scheduled maintenance window or after a manual broker
+reboot.
 
 
-=head2 BrokerId => Str
+=head2 B<REQUIRED> BrokerId => Str
 
 Required. The unique ID that Amazon MQ generates for the broker.
 
@@ -66,30 +75,62 @@ Required. The unique ID that Amazon MQ generates for the broker.
 The ID of the updated configuration.
 
 
+=head2 DataReplicationMetadata => L<Paws::MQ::DataReplicationMetadataOutput>
+
+The replication details of the data replication-enabled broker. Only
+returned if dataReplicationMode is set to CRDR.
+
+
+=head2 DataReplicationMode => Str
+
+Describes whether this broker is a part of a data replication pair.
+
+
 =head2 EngineVersion => Str
 
-The version of the broker engine to upgrade to. For a list of supported
-engine versions, see
-https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/broker-engine.html
+The broker engine version to upgrade to. For more information, see the
+ActiveMQ version management
+(https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/activemq-version-management.html)
+and the RabbitMQ version management
+(https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/rabbitmq-version-management.html)
+sections in the Amazon MQ Developer Guide.
 
 
 =head2 HostInstanceType => Str
 
-The host instance type of the broker to upgrade to. For a list of
-supported instance types, see
-https://docs.aws.amazon.com/amazon-mq/latest/developer-guide//broker.html#broker-instance-types
+The broker's host instance type to upgrade to. For a list of supported
+instance types, see Broker instance types
+(https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/broker.html#broker-instance-types).
 
 
 =head2 LdapServerMetadata => L<Paws::MQ::LdapServerMetadataOutput>
 
-The metadata of the LDAP server used to authenticate and authorize
-connections to the broker.
+Optional. The metadata of the LDAP server used to authenticate and
+authorize connections to the broker. Does not apply to RabbitMQ
+brokers.
 
 
 =head2 Logs => L<Paws::MQ::Logs>
 
 The list of information about logs to be enabled for the specified
 broker.
+
+
+=head2 MaintenanceWindowStartTime => L<Paws::MQ::WeeklyStartTime>
+
+The parameters that determine the WeeklyStartTime.
+
+
+=head2 PendingDataReplicationMetadata => L<Paws::MQ::DataReplicationMetadataOutput>
+
+The pending replication details of the data replication-enabled broker.
+Only returned if pendingDataReplicationMode is set to CRDR.
+
+
+=head2 PendingDataReplicationMode => Str
+
+Describes whether this broker will be a part of a data replication pair
+after reboot.
 
 
 =head2 SecurityGroups => ArrayRef[Str|Undef]

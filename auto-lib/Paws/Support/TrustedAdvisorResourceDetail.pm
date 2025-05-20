@@ -45,8 +45,8 @@ check.
 
 =head2 IsSuppressed => Bool
 
-Specifies whether the AWS resource was ignored by Trusted Advisor
-because it was marked as suppressed by the user.
+Specifies whether the Amazon Web Services resource was ignored by
+Trusted Advisor because it was marked as suppressed by the user.
 
 
 =head2 B<REQUIRED> Metadata => ArrayRef[Str|Undef]
@@ -61,7 +61,8 @@ just summary data.
 
 =head2 Region => Str
 
-The AWS Region in which the identified resource is located.
+The Amazon Web Services Region in which the identified resource is
+located.
 
 
 =head2 B<REQUIRED> ResourceId => Str

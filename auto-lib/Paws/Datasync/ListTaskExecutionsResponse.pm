@@ -17,13 +17,13 @@ Paws::Datasync::ListTaskExecutionsResponse
 
 =head2 NextToken => Str
 
-An opaque string that indicates the position at which to begin
-returning the next list of executed tasks.
+The opaque string that indicates the position to begin the next list of
+results in the response.
 
 
 =head2 TaskExecutions => ArrayRef[L<Paws::Datasync::TaskExecutionListEntry>]
 
-A list of executed tasks.
+A list of the task's executions.
 
 
 =head2 _request_id => Str

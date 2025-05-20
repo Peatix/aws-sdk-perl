@@ -1,9 +1,11 @@
 
 package Paws::ServiceQuotas::RequestServiceQuotaIncrease;
   use Moose;
+  has ContextId => (is => 'ro', isa => 'Str');
   has DesiredValue => (is => 'ro', isa => 'Num', required => 1);
   has QuotaCode => (is => 'ro', isa => 'Str', required => 1);
   has ServiceCode => (is => 'ro', isa => 'Str', required => 1);
+  has SupportCaseAllowed => (is => 'ro', isa => 'Bool');
 
   use MooseX::ClassAttribute;
 
@@ -31,10 +33,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $servicequotas = Paws->service('ServiceQuotas');
     my $RequestServiceQuotaIncreaseResponse =
       $servicequotas->RequestServiceQuotaIncrease(
-      DesiredValue => 1,
-      QuotaCode    => 'MyQuotaCode',
-      ServiceCode  => 'MyServiceCode',
-
+      DesiredValue       => 1,
+      QuotaCode          => 'MyQuotaCode',
+      ServiceCode        => 'MyServiceCode',
+      ContextId          => 'MyQuotaContextId',    # OPTIONAL
+      SupportCaseAllowed => 1,                     # OPTIONAL
       );
 
     # Results:
@@ -48,21 +51,44 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ser
 =head1 ATTRIBUTES
 
 
+=head2 ContextId => Str
+
+Specifies the resource with an Amazon Resource Name (ARN).
+
+
+
 =head2 B<REQUIRED> DesiredValue => Num
 
-The new, increased value for the quota.
+Specifies the new, increased value for the quota.
 
 
 
 =head2 B<REQUIRED> QuotaCode => Str
 
-The quota identifier.
+Specifies the quota identifier. To find the quota code for a specific
+quota, use the ListServiceQuotas operation, and look for the
+C<QuotaCode> response in the output for the quota you want.
 
 
 
 =head2 B<REQUIRED> ServiceCode => Str
 
-The service identifier.
+Specifies the service identifier. To find the service code value for an
+Amazon Web Services service, use the ListServices operation.
+
+
+
+=head2 SupportCaseAllowed => Bool
+
+Specifies if an Amazon Web Services Support case can be opened for the
+quota increase request. This parameter is optional.
+
+By default, this flag is set to C<True> and Amazon Web Services may
+create a support case for some quota increase requests. You can set
+this flag to C<False> if you do not want a support case created when
+you request a quota increase. If you set the flag to C<False>, Amazon
+Web Services does not open a support case and updates the request
+status to C<Not approved>.
 
 
 

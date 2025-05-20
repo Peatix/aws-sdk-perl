@@ -31,7 +31,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $DeleteArtifactResponse = $api . sagemaker->DeleteArtifact(
       ArtifactArn => 'MyArtifactArn',    # OPTIONAL
       Source      => {
-        SourceUri   => 'MyString2048',    # max: 2048
+        SourceUri   => 'MySourceUri',    # min: 1, max: 2048
         SourceTypes => [
           {
             SourceIdType =>

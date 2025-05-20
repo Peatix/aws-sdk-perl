@@ -8,6 +8,7 @@ package Paws::WorkSpaces::WorkspaceRequest;
   has UserName => (is => 'ro', isa => 'Str', required => 1);
   has UserVolumeEncryptionEnabled => (is => 'ro', isa => 'Bool');
   has VolumeEncryptionKey => (is => 'ro', isa => 'Str');
+  has WorkspaceName => (is => 'ro', isa => 'Str');
   has WorkspaceProperties => (is => 'ro', isa => 'Paws::WorkSpaces::WorkspaceProperties');
 
 1;
@@ -53,9 +54,9 @@ DescribeWorkspaceBundles to list the available bundles.
 
 =head2 B<REQUIRED> DirectoryId => Str
 
-The identifier of the AWS Directory Service directory for the
-WorkSpace. You can use DescribeWorkspaceDirectories to list the
-available directories.
+The identifier of the Directory Service directory for the WorkSpace.
+You can use DescribeWorkspaceDirectories to list the available
+directories.
 
 
 =head2 RootVolumeEncryptionEnabled => Bool
@@ -71,7 +72,14 @@ The tags for the WorkSpace.
 =head2 B<REQUIRED> UserName => Str
 
 The user name of the user for the WorkSpace. This user name must exist
-in the AWS Directory Service directory for the WorkSpace.
+in the Directory Service directory for the WorkSpace.
+
+The username is not case-sensitive, but we recommend matching the case
+in the Directory Service directory to avoid potential
+incompatibilities.
+
+The reserved keyword, C<[UNDEFINED]>, is used when creating
+user-decoupled WorkSpaces.
 
 
 =head2 UserVolumeEncryptionEnabled => Bool
@@ -81,9 +89,17 @@ Indicates whether the data stored on the user volume is encrypted.
 
 =head2 VolumeEncryptionKey => Str
 
-The symmetric AWS KMS customer master key (CMK) used to encrypt data
-stored on your WorkSpace. Amazon WorkSpaces does not support asymmetric
-CMKs.
+The ARN of the symmetric KMS key used to encrypt data stored on your
+WorkSpace. Amazon WorkSpaces does not support asymmetric KMS keys.
+
+
+=head2 WorkspaceName => Str
+
+The name of the user-decoupled WorkSpace.
+
+C<WorkspaceName> is required if C<UserName> is C<[UNDEFINED]> for
+user-decoupled WorkSpaces. C<WorkspaceName> is not applicable if
+C<UserName> is specified for user-assigned WorkSpaces.
 
 
 =head2 WorkspaceProperties => L<Paws::WorkSpaces::WorkspaceProperties>

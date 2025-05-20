@@ -70,7 +70,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/mac
 
 =head2 B<REQUIRED> Action => Str
 
-The action to perform on findings that meet the filter criteria
+The action to perform on findings that match the filter criteria
 (findingCriteria). Valid values are: ARCHIVE, suppress (automatically
 archive) the findings; and, NOOP, don't perform any action on the
 findings.
@@ -91,8 +91,8 @@ as 512 characters.
 
 We strongly recommend that you avoid including any sensitive data in
 the description of a filter. Other users of your account might be able
-to see the filter's description, depending on the actions that they're
-allowed to perform in Amazon Macie.
+to see this description, depending on the actions that they're allowed
+to perform in Amazon Macie.
 
 
 
@@ -109,8 +109,8 @@ characters and can contain as many as 64 characters.
 
 We strongly recommend that you avoid including any sensitive data in
 the name of a filter. Other users of your account might be able to see
-the filter's name, depending on the actions that they're allowed to
-perform in Amazon Macie.
+this name, depending on the actions that they're allowed to perform in
+Amazon Macie.
 
 
 

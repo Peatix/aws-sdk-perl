@@ -61,24 +61,23 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/eks
 
 =head2 ClientRequestToken => Str
 
-Unique, case-sensitive identifier that you provide to ensure the
+A unique, case-sensitive identifier that you provide to ensure the
 idempotency of the request.
 
 
 
 =head2 B<REQUIRED> ClusterName => Str
 
-The name of the Amazon EKS cluster that is associated with the managed
-node group to update.
+The name of your cluster.
 
 
 
 =head2 Force => Bool
 
-Force the update if the existing node group's pods are unable to be
-drained due to a pod disruption budget issue. If an update fails
-because pods could not be drained, you can force the update after it
-fails to terminate the old node whether or not any pods are running on
+Force the update if any C<Pod> on the existing node group can't be
+drained due to a C<Pod> disruption budget issue. If an update fails
+because all Pods can't be drained, you can force the update after it
+fails to terminate the old node whether or not any C<Pod> is running on
 the node.
 
 
@@ -87,7 +86,9 @@ the node.
 
 An object representing a node group's launch template specification.
 You can only update a node group using a launch template if the node
-group was originally deployed with a launch template.
+group was originally deployed with a launch template. When updating,
+you must specify the same launch template ID or name that was used to
+create the node group.
 
 
 
@@ -101,16 +102,22 @@ The name of the managed node group to update.
 
 The AMI version of the Amazon EKS optimized AMI to use for the update.
 By default, the latest available AMI version for the node group's
-Kubernetes version is used. For more information, see Amazon EKS
-optimized Amazon Linux 2 AMI versions
+Kubernetes version is used. For information about Linux versions, see
+Amazon EKS optimized Amazon Linux AMI versions
 (https://docs.aws.amazon.com/eks/latest/userguide/eks-linux-ami-versions.html)
-in the I<Amazon EKS User Guide>. If you specify C<launchTemplate>, and
-your launch template uses a custom AMI, then don't specify
-C<releaseVersion>, or the node group update will fail. For more
-information about using launch templates with Amazon EKS, see Launch
-template support
+in the I<Amazon EKS User Guide>. Amazon EKS managed node groups support
+the November 2022 and later releases of the Windows AMIs. For
+information about Windows versions, see Amazon EKS optimized Windows
+AMI versions
+(https://docs.aws.amazon.com/eks/latest/userguide/eks-ami-versions-windows.html)
+in the I<Amazon EKS User Guide>.
+
+If you specify C<launchTemplate>, and your launch template uses a
+custom AMI, then don't specify C<releaseVersion>, or the node group
+update will fail. For more information about using launch templates
+with Amazon EKS, see Customizing managed nodes with launch templates
 (https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html)
-in the Amazon EKS User Guide.
+in the I<Amazon EKS User Guide>.
 
 
 
@@ -123,9 +130,9 @@ to the latest AMI version of the cluster's Kubernetes version. If you
 specify C<launchTemplate>, and your launch template uses a custom AMI,
 then don't specify C<version>, or the node group update will fail. For
 more information about using launch templates with Amazon EKS, see
-Launch template support
+Customizing managed nodes with launch templates
 (https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html)
-in the Amazon EKS User Guide.
+in the I<Amazon EKS User Guide>.
 
 
 

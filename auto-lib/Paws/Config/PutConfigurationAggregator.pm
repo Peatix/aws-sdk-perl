@@ -2,6 +2,7 @@
 package Paws::Config::PutConfigurationAggregator;
   use Moose;
   has AccountAggregationSources => (is => 'ro', isa => 'ArrayRef[Paws::Config::AccountAggregationSource]');
+  has AggregatorFilters => (is => 'ro', isa => 'Paws::Config::AggregatorFilters');
   has ConfigurationAggregatorName => (is => 'ro', isa => 'Str', required => 1);
   has OrganizationAggregationSource => (is => 'ro', isa => 'Paws::Config::OrganizationAggregationSource');
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::Config::Tag]');
@@ -41,6 +42,20 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },
         ...
       ],    # OPTIONAL
+      AggregatorFilters => {
+        ResourceType => {
+          Type  => 'INCLUDE',    # values: INCLUDE; OPTIONAL
+          Value => [
+            'MyResourceTypeValue', ...    # min: 1, max: 256
+          ],    # OPTIONAL
+        },    # OPTIONAL
+        ServicePrincipal => {
+          Type  => 'INCLUDE',    # values: INCLUDE; OPTIONAL
+          Value => [
+            'MyServicePrincipalValue', ...    # min: 1, max: 128
+          ],    # OPTIONAL
+        },    # OPTIONAL
+      },    # OPTIONAL
       OrganizationAggregationSource => {
         RoleArn       => 'MyString',
         AllAwsRegions => 1,                      # OPTIONAL
@@ -70,6 +85,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/con
 =head2 AccountAggregationSources => ArrayRef[L<Paws::Config::AccountAggregationSource>]
 
 A list of AccountAggregationSource object.
+
+
+
+=head2 AggregatorFilters => L<Paws::Config::AggregatorFilters>
+
+An object to filter configuration recorders in an aggregator. Either
+C<ResourceType> or C<ServicePrincipal> is required.
 
 
 

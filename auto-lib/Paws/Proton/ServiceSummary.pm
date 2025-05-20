@@ -40,7 +40,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Proton::Ser
 
 =head1 DESCRIPTION
 
-A summary of the service detail data.
+Summary data of an Proton service resource.
 
 =head1 ATTRIBUTES
 

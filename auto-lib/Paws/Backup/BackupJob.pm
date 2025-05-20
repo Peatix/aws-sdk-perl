@@ -14,9 +14,14 @@ package Paws::Backup::BackupJob;
   has CreationDate => (is => 'ro', isa => 'Str');
   has ExpectedCompletionDate => (is => 'ro', isa => 'Str');
   has IamRoleArn => (is => 'ro', isa => 'Str');
+  has InitiationDate => (is => 'ro', isa => 'Str');
+  has IsParent => (is => 'ro', isa => 'Bool');
+  has MessageCategory => (is => 'ro', isa => 'Str');
+  has ParentJobId => (is => 'ro', isa => 'Str');
   has PercentDone => (is => 'ro', isa => 'Str');
   has RecoveryPointArn => (is => 'ro', isa => 'Str');
   has ResourceArn => (is => 'ro', isa => 'Str');
+  has ResourceName => (is => 'ro', isa => 'Str');
   has ResourceType => (is => 'ro', isa => 'Str');
   has StartBy => (is => 'ro', isa => 'Str');
   has State => (is => 'ro', isa => 'Str');
@@ -64,19 +69,20 @@ The account ID that owns the backup job.
 
 =head2 BackupJobId => Str
 
-Uniquely identifies a request to AWS Backup to back up a resource.
+Uniquely identifies a request to Backup to back up a resource.
 
 
 =head2 BackupOptions => L<Paws::Backup::BackupOptions>
 
 Specifies the backup option for a selected resource. This option is
-only available for Windows VSS backup jobs.
+only available for Windows Volume Shadow Copy Service (VSS) backup
+jobs.
 
-Valid values: Set to C<"WindowsVSSE<rdquo>:E<ldquo>enabled"> to enable
-WindowsVSS backup option and create a VSS Windows backup. Set to
-E<ldquo>WindowsVSSE<rdquo>:E<rdquo>disabledE<rdquo> to create a regular
-backup. If you specify an invalid option, you get an
-C<InvalidParameterValueException> exception.
+Valid values: Set to C<"WindowsVSS":"enabled"> to enable the
+C<WindowsVSS> backup option and create a Windows VSS backup. Set to
+C<"WindowsVSS":"disabled"> to create a regular backup. If you specify
+an invalid option, you get an C<InvalidParameterValueException>
+exception.
 
 
 =head2 BackupSizeInBytes => Int
@@ -93,15 +99,14 @@ Represents the type of backup for a backup job.
 
 An Amazon Resource Name (ARN) that uniquely identifies a backup vault;
 for example,
-C<arn:aws:backup:us-east-1:123456789012:vault:aBackupVault>.
+C<arn:aws:backup:us-east-1:123456789012:backup-vault:aBackupVault>.
 
 
 =head2 BackupVaultName => Str
 
 The name of a logical container where backups are stored. Backup vaults
 are identified by names that are unique to the account used to create
-them and the AWS Region where they are created. They consist of
-lowercase letters, numbers, and hyphens.
+them and the Amazon Web Services Region where they are created.
 
 
 =head2 BytesTransferred => Int
@@ -151,6 +156,38 @@ C<arn:aws:iam::123456789012:role/AWSBackupRDSAccess>. Role names
 without those strings lack permissions to perform backup jobs.
 
 
+=head2 InitiationDate => Str
+
+The date on which the backup job was initiated.
+
+
+=head2 IsParent => Bool
+
+This is a boolean value indicating this is a parent (composite) backup
+job.
+
+
+=head2 MessageCategory => Str
+
+This parameter is the job count for the specified message category.
+
+Example strings may include C<AccessDenied>, C<SUCCESS>,
+C<AGGREGATE_ALL>, and C<INVALIDPARAMETERS>. See Monitoring
+(https://docs.aws.amazon.com/aws-backup/latest/devguide/monitoring.html)
+for a list of MessageCategory strings.
+
+The the value ANY returns count of all message categories.
+
+C<AGGREGATE_ALL> aggregates job counts for all message categories and
+returns the sum.
+
+
+=head2 ParentJobId => Str
+
+This uniquely identifies a request to Backup to back up a resource. The
+return will be the parent (composite) job ID.
+
+
 =head2 PercentDone => Str
 
 Contains an estimated percentage complete of a job at the time the job
@@ -169,12 +206,19 @@ An ARN that uniquely identifies a resource. The format of the ARN
 depends on the resource type.
 
 
+=head2 ResourceName => Str
+
+The non-unique name of the resource that belongs to the specified
+backup.
+
+
 =head2 ResourceType => Str
 
-The type of AWS resource to be backed up; for example, an Amazon
-Elastic Block Store (Amazon EBS) volume or an Amazon Relational
-Database Service (Amazon RDS) database. For VSS Windows backups, the
-only supported resource type is Amazon EC2.
+The type of Amazon Web Services resource to be backed up; for example,
+an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon
+Relational Database Service (Amazon RDS) database. For Windows Volume
+Shadow Copy Service (VSS) backups, the only supported resource type is
+Amazon EC2.
 
 
 =head2 StartBy => Str
@@ -190,7 +234,7 @@ C<StartBy> is accurate to milliseconds. For example, the value
 
 =head2 State => Str
 
-The current state of a resource recovery point.
+The current state of a backup job.
 
 
 =head2 StatusMessage => Str

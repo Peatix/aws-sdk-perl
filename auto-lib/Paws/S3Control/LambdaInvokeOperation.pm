@@ -2,6 +2,8 @@
 package Paws::S3Control::LambdaInvokeOperation;
   use Moose;
   has FunctionArn => (is => 'ro', isa => 'Str');
+  has InvocationSchemaVersion => (is => 'ro', isa => 'Str');
+  has UserArguments => (is => 'ro', isa => 'Paws::S3Control::UserArguments');
 
 1;
 
@@ -22,7 +24,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::S3Control::LambdaInvokeOperation object:
 
-  $service_obj->Method(Att1 => { FunctionArn => $value, ..., FunctionArn => $value  });
+  $service_obj->Method(Att1 => { FunctionArn => $value, ..., UserArguments => $value  });
 
 =head3 Results returned from an API call
 
@@ -40,8 +42,42 @@ Contains the configuration parameters for a C<Lambda Invoke> operation.
 
 =head2 FunctionArn => Str
 
-The Amazon Resource Name (ARN) for the AWS Lambda function that the
+The Amazon Resource Name (ARN) for the Lambda function that the
 specified job will invoke on every object in the manifest.
+
+
+=head2 InvocationSchemaVersion => Str
+
+Specifies the schema version for the payload that Batch Operations
+sends when invoking an Lambda function. Version C<1.0> is the default.
+Version C<2.0> is required when you use Batch Operations to invoke
+Lambda functions that act on directory buckets, or if you need to
+specify C<UserArguments>. For more information, see Automate object
+processing in Amazon S3 directory buckets with S3 Batch Operations and
+Lambda
+(https://aws.amazon.com/blogs/storage/automate-object-processing-in-amazon-s3-directory-buckets-with-s3-batch-operations-and-aws-lambda/)
+in the I<Amazon Web Services Storage Blog>.
+
+Ensure that your Lambda function code expects
+C<InvocationSchemaVersion> B<2.0> and uses bucket name rather than
+bucket ARN. If the C<InvocationSchemaVersion> does not match what your
+Lambda function expects, your function might not work as expected.
+
+B<Directory buckets> - To initiate Amazon Web Services Lambda function
+to perform custom actions on objects in directory buckets, you must
+specify C<2.0>.
+
+
+=head2 UserArguments => L<Paws::S3Control::UserArguments>
+
+Key-value pairs that are passed in the payload that Batch Operations
+sends when invoking an Lambda function. You must specify
+C<InvocationSchemaVersion> B<2.0> for C<LambdaInvoke> operations that
+include C<UserArguments>. For more information, see Automate object
+processing in Amazon S3 directory buckets with S3 Batch Operations and
+Lambda
+(https://aws.amazon.com/blogs/storage/automate-object-processing-in-amazon-s3-directory-buckets-with-s3-batch-operations-and-aws-lambda/)
+in the I<Amazon Web Services Storage Blog>.
 
 
 

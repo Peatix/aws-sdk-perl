@@ -8,6 +8,7 @@ package Paws::LookoutEquipment::DescribeInferenceSchedulerResponse;
   has DataUploadFrequency => (is => 'ro', isa => 'Str');
   has InferenceSchedulerArn => (is => 'ro', isa => 'Str');
   has InferenceSchedulerName => (is => 'ro', isa => 'Str');
+  has LatestInferenceResult => (is => 'ro', isa => 'Str');
   has ModelArn => (is => 'ro', isa => 'Str');
   has ModelName => (is => 'ro', isa => 'Str');
   has RoleArn => (is => 'ro', isa => 'Str');
@@ -78,15 +79,23 @@ described.
 The name of the inference scheduler being described.
 
 
+=head2 LatestInferenceResult => Str
+
+Indicates whether the latest execution for the inference scheduler was
+Anomalous (anomalous events found) or Normal (no anomalous events
+found).
+
+Valid values are: C<"ANOMALOUS">, C<"NORMAL">
 =head2 ModelArn => Str
 
-The Amazon Resource Name (ARN) of the ML model of the inference
-scheduler being described.
+The Amazon Resource Name (ARN) of the machine learning model of the
+inference scheduler being described.
 
 
 =head2 ModelName => Str
 
-The name of the ML model of the inference scheduler being described.
+The name of the machine learning model of the inference scheduler being
+described.
 
 
 =head2 RoleArn => Str
@@ -97,8 +106,8 @@ data source for the inference scheduler being described.
 
 =head2 ServerSideKmsKeyId => Str
 
-Provides the identifier of the AWS KMS customer master key (CMK) used
-to encrypt inference scheduler data by Amazon Lookout for Equipment.
+Provides the identifier of the KMS key used to encrypt inference
+scheduler data by Amazon Lookout for Equipment.
 
 
 =head2 Status => Str

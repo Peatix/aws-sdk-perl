@@ -18,17 +18,19 @@ Paws::MediaConnect::ListOfferingsResponse
 
 =head2 NextToken => Str
 
-The token that identifies which batch of results that you want to see.
-For example, you submit a ListOfferings request with MaxResults set at
-5. The service returns the first batch of results (up to 5) and a
-NextToken value. To see the next batch of results, you can submit the
-ListOfferings request a second time and specify the NextToken value.
+The token that identifies the batch of results that you want to see.
+
+For example, you submit a C<ListOfferings> request with C<MaxResults>
+set at 5. The service returns the first batch of results (up to 5) and
+a C<NextToken> value. To see the next batch of results, you can submit
+the C<ListOfferings> request a second time and specify the C<NextToken>
+value.
 
 
 =head2 Offerings => ArrayRef[L<Paws::MediaConnect::Offering>]
 
 A list of offerings that are available to this account in the current
-AWS Region.
+Amazon Web Services Region.
 
 
 =head2 _request_id => Str

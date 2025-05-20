@@ -33,22 +33,20 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::MediaConver
 
 =head1 DESCRIPTION
 
-Optional when you set AVC-Intra class (avcIntraClass) to Class 4K/2K
-(CLASS_4K_2K). When you set AVC-Intra class to a different value, this
-object isn't allowed.
+Optional when you set AVC-Intra class to Class 4K/2K. When you set
+AVC-Intra class to a different value, this object isn't allowed.
 
 =head1 ATTRIBUTES
 
 
 =head2 QualityTuningLevel => Str
 
-Optional. Use Quality tuning level (qualityTuningLevel) to choose how
-many transcoding passes MediaConvert does with your video. When you
-choose Multi-pass (MULTI_PASS), your video quality is better and your
-output bitrate is more accurate. That is, the actual bitrate of your
-output is closer to the target bitrate defined in the specification.
-When you choose Single-pass (SINGLE_PASS), your encoding time is
-faster. The default behavior is Single-pass (SINGLE_PASS).
+Optional. Use Quality tuning level to choose how many transcoding
+passes MediaConvert does with your video. When you choose Multi-pass,
+your video quality is better and your output bitrate is more accurate.
+That is, the actual bitrate of your output is closer to the target
+bitrate defined in the specification. When you choose Single-pass, your
+encoding time is faster. The default behavior is Single-pass.
 
 
 

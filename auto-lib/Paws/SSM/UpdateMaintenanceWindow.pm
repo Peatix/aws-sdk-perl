@@ -88,7 +88,8 @@ tasks can be defined for those targets.
 =head2 Cutoff => Int
 
 The number of hours before the end of the maintenance window that
-Systems Manager stops scheduling new tasks for execution.
+Amazon Web Services Systems Manager stops scheduling new tasks for
+execution.
 
 
 
@@ -113,8 +114,9 @@ Whether the maintenance window is enabled.
 =head2 EndDate => Str
 
 The date and time, in ISO-8601 Extended format, for when you want the
-maintenance window to become inactive. EndDate allows you to set a date
-and time in the future when the maintenance window will no longer run.
+maintenance window to become inactive. C<EndDate> allows you to set a
+date and time in the future when the maintenance window will no longer
+run.
 
 
 
@@ -126,9 +128,9 @@ The name of the maintenance window.
 
 =head2 Replace => Bool
 
-If True, then all fields that are required by the
-CreateMaintenanceWindow action are also required for this API request.
-Optional fields that are not specified are set to null.
+If C<True>, then all fields that are required by the
+CreateMaintenanceWindow operation are also required for this API
+request. Optional fields that aren't specified are set to null.
 
 
 
@@ -141,7 +143,7 @@ expression.
 
 =head2 ScheduleOffset => Int
 
-The number of days to wait after the date and time specified by a CRON
+The number of days to wait after the date and time specified by a cron
 expression before running the maintenance window.
 
 For example, the following cron expression schedules a maintenance
@@ -166,11 +168,12 @@ information, see the Time Zone Database
 
 =head2 StartDate => Str
 
-The time zone that the scheduled maintenance window executions are
-based on, in Internet Assigned Numbers Authority (IANA) format. For
-example: "America/Los_Angeles", "UTC", or "Asia/Seoul". For more
-information, see the Time Zone Database
-(https://www.iana.org/time-zones) on the IANA website.
+The date and time, in ISO-8601 Extended format, for when you want the
+maintenance window to become active. C<StartDate> allows you to delay
+activation of the maintenance window until the specified future date.
+
+When using a rate schedule, if you provide a start date that occurs in
+the past, the current date and time are used as the start date.
 
 
 

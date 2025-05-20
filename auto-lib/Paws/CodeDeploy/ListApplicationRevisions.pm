@@ -57,8 +57,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/cod
 
 =head2 B<REQUIRED> ApplicationName => Str
 
-The name of an AWS CodeDeploy application associated with the IAM user
-or AWS account.
+The name of an CodeDeploy application associated with the user or
+Amazon Web Services account.
 
 
 
@@ -120,7 +120,7 @@ The column name to use to sort the list results:
 =item *
 
 C<registerTime>: Sort by the time the revisions were registered with
-AWS CodeDeploy.
+CodeDeploy.
 
 =item *
 

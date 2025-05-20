@@ -52,8 +52,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ec2
 
 =head2 ConnectionEvents => ArrayRef[Str|Undef]
 
-One or more events for the endpoint. Valid values are C<Accept>,
-C<Connect>, C<Delete>, and C<Reject>.
+The events for the endpoint. Valid values are C<Accept>, C<Connect>,
+C<Delete>, and C<Reject>.
 
 
 

@@ -1,6 +1,7 @@
 
 package Paws::IVS::ListStreams;
   use Moose;
+  has FilterBy => (is => 'ro', isa => 'Paws::IVS::StreamFilters', traits => ['NameInRequest'], request_name => 'filterBy');
   has MaxResults => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'maxResults');
   has NextToken => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'nextToken');
 
@@ -30,6 +31,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $ivs = Paws->service('IVS');
     my $ListStreamsResponse = $ivs->ListStreams(
+      FilterBy => {
+        Health => 'HEALTHY',    # values: HEALTHY, STARVING, UNKNOWN; OPTIONAL
+      },    # OPTIONAL
       MaxResults => 1,                      # OPTIONAL
       NextToken  => 'MyPaginationToken',    # OPTIONAL
     );
@@ -46,9 +50,15 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ivs
 =head1 ATTRIBUTES
 
 
+=head2 FilterBy => L<Paws::IVS::StreamFilters>
+
+Filters the stream list to match the specified criterion.
+
+
+
 =head2 MaxResults => Int
 
-Maximum number of streams to return. Default: 50.
+Maximum number of streams to return. Default: 100.
 
 
 

@@ -28,9 +28,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $kms = Paws->service('KMS');
-  # To create an alias
-  # The following example creates an alias for the specified customer master key
-  # (CMK).
+    # To create an alias
+    # The following example creates an alias for the specified KMS key.
     $kms->CreateAlias(
       'AliasName'   => 'alias/ExampleAlias',
       'TargetKeyId' => '1234abcd-12ab-34cd-56ef-1234567890ab'
@@ -48,28 +47,33 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/kms
 Specifies the alias name. This value must begin with C<alias/> followed
 by a name, such as C<alias/ExampleAlias>.
 
+Do not include confidential or sensitive information in this field.
+This field may be displayed in plaintext in CloudTrail logs and other
+output.
+
 The C<AliasName> value must be string of 1-256 characters. It can
 contain only alphanumeric characters, forward slashes (/), underscores
 (_), and dashes (-). The alias name cannot begin with C<alias/aws/>.
-The C<alias/aws/> prefix is reserved for AWS managed CMKs
+The C<alias/aws/> prefix is reserved for Amazon Web Services managed
+keys
 (https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk).
 
 
 
 =head2 B<REQUIRED> TargetKeyId => Str
 
-Associates the alias with the specified customer managed CMK
+Associates the alias with the specified customer managed key
 (https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#customer-cmk).
-The CMK must be in the same AWS Region.
+The KMS key must be in the same Amazon Web Services Region.
 
-A valid CMK ID is required. If you supply a null or empty string value,
+A valid key ID is required. If you supply a null or empty string value,
 this operation returns an error.
 
 For help finding the key ID and ARN, see Finding the Key ID and ARN
 (https://docs.aws.amazon.com/kms/latest/developerguide/viewing-keys.html#find-cmk-id-arn)
-in the I<AWS Key Management Service Developer Guide>.
+in the I< I<Key Management Service Developer Guide> >.
 
-Specify the key ID or key ARN of the CMK.
+Specify the key ID or key ARN of the KMS key.
 
 For example:
 
@@ -86,7 +90,8 @@ C<arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab>
 
 =back
 
-To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
+To get the key ID and key ARN for a KMS key, use ListKeys or
+DescribeKey.
 
 
 

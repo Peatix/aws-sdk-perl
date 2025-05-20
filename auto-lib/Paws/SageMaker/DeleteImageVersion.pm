@@ -1,8 +1,9 @@
 
 package Paws::SageMaker::DeleteImageVersion;
   use Moose;
+  has Alias => (is => 'ro', isa => 'Str');
   has ImageName => (is => 'ro', isa => 'Str', required => 1);
-  has Version => (is => 'ro', isa => 'Int', required => 1);
+  has Version => (is => 'ro', isa => 'Int');
 
   use MooseX::ClassAttribute;
 
@@ -30,8 +31,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $api.sagemaker = Paws->service('SageMaker');
     my $DeleteImageVersionResponse = $api . sagemaker->DeleteImageVersion(
       ImageName => 'MyImageName',
-      Version   => 1,
-
+      Alias     => 'MySageMakerImageVersionAlias',    # OPTIONAL
+      Version   => 1,                                 # OPTIONAL
     );
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
@@ -40,13 +41,19 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 =head1 ATTRIBUTES
 
 
+=head2 Alias => Str
+
+The alias of the image to delete.
+
+
+
 =head2 B<REQUIRED> ImageName => Str
 
-The name of the image.
+The name of the image to delete.
 
 
 
-=head2 B<REQUIRED> Version => Int
+=head2 Version => Int
 
 The version to delete.
 

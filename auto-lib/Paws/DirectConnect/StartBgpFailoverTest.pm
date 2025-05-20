@@ -57,7 +57,7 @@ The BGP peers to place in the DOWN state.
 
 The time in minutes that the virtual interface failover test will last.
 
-Maximum value: 180 minutes (3 hours).
+Maximum value: 4,320 minutes (72 hours).
 
 Default: 180 minutes (3 hours).
 

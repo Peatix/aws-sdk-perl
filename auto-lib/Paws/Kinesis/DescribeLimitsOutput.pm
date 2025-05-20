@@ -1,6 +1,8 @@
 
 package Paws::Kinesis::DescribeLimitsOutput;
   use Moose;
+  has OnDemandStreamCount => (is => 'ro', isa => 'Int', required => 1);
+  has OnDemandStreamCountLimit => (is => 'ro', isa => 'Int', required => 1);
   has OpenShardCount => (is => 'ro', isa => 'Int', required => 1);
   has ShardLimit => (is => 'ro', isa => 'Int', required => 1);
 
@@ -13,6 +15,16 @@ package Paws::Kinesis::DescribeLimitsOutput;
 Paws::Kinesis::DescribeLimitsOutput
 
 =head1 ATTRIBUTES
+
+
+=head2 B<REQUIRED> OnDemandStreamCount => Int
+
+Indicates the number of data streams with the on-demand capacity mode.
+
+
+=head2 B<REQUIRED> OnDemandStreamCountLimit => Int
+
+The maximum number of data streams with the on-demand capacity mode.
 
 
 =head2 B<REQUIRED> OpenShardCount => Int

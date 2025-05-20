@@ -52,7 +52,7 @@ is launched.
 
 =head2 NoDevice => Str
 
-suppress the specified device included in the block device mapping.
+Suppresses the specified device included in the block device mapping.
 
 
 =head2 VirtualName => Str

@@ -10,6 +10,7 @@ package Paws::DMS::StartReplicationTaskAssessmentRun;
   has ResultLocationBucket => (is => 'ro', isa => 'Str', required => 1);
   has ResultLocationFolder => (is => 'ro', isa => 'Str');
   has ServiceAccessRoleArn => (is => 'ro', isa => 'Str', required => 1);
+  has Tags => (is => 'ro', isa => 'ArrayRef[Paws::DMS::Tag]');
 
   use MooseX::ClassAttribute;
 
@@ -46,6 +47,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       ResultEncryptionMode => 'MyString',             # OPTIONAL
       ResultKmsKeyArn      => 'MyString',             # OPTIONAL
       ResultLocationFolder => 'MyString',             # OPTIONAL
+      Tags                 => [
+        {
+          Key         => 'MyString',
+          ResourceArn => 'MyString',
+          Value       => 'MyString',
+        },
+        ...
+      ],                                              # OPTIONAL
       );
 
     # Results:
@@ -70,14 +79,14 @@ Unique name to identify the assessment run.
 
 Space-separated list of names for specific individual assessments that
 you want to exclude. These names come from the default list of
-individual assessments that AWS DMS supports for the associated
-migration task. This task is specified by C<ReplicationTaskArn>.
+individual assessments that DMS supports for the associated migration
+task. This task is specified by C<ReplicationTaskArn>.
 
 You can't set a value for C<Exclude> if you also set a value for
 C<IncludeOnly> in the API operation.
 
-To identify the names of the default individual assessments that AWS
-DMS supports for the associated migration task, run the
+To identify the names of the default individual assessments that DMS
+supports for the associated migration task, run the
 C<DescribeApplicableIndividualAssessments> operation using its own
 C<ReplicationTaskArn> request parameter.
 
@@ -87,14 +96,14 @@ C<ReplicationTaskArn> request parameter.
 
 Space-separated list of names for specific individual assessments that
 you want to include. These names come from the default list of
-individual assessments that AWS DMS supports for the associated
-migration task. This task is specified by C<ReplicationTaskArn>.
+individual assessments that DMS supports for the associated migration
+task. This task is specified by C<ReplicationTaskArn>.
 
 You can't set a value for C<IncludeOnly> if you also set a value for
 C<Exclude> in the API operation.
 
-To identify the names of the default individual assessments that AWS
-DMS supports for the associated migration task, run the
+To identify the names of the default individual assessments that DMS
+supports for the associated migration task, run the
 C<DescribeApplicableIndividualAssessments> operation using its own
 C<ReplicationTaskArn> request parameter.
 
@@ -110,9 +119,9 @@ premigration assessment run that you want to start.
 =head2 ResultEncryptionMode => Str
 
 Encryption mode that you can specify to encrypt the results of this
-assessment run. If you don't specify this request parameter, AWS DMS
-stores the assessment run results without encryption. You can specify
-one of the options following:
+assessment run. If you don't specify this request parameter, DMS stores
+the assessment run results without encryption. You can specify one of
+the options following:
 
 =over
 
@@ -123,9 +132,9 @@ by Amazon S3.
 
 =item *
 
-C<"SSE_KMS"> E<ndash> AWS Key Management Service (AWS KMS) encryption.
-This encryption can use either a custom KMS encryption key that you
-specify or the default KMS encryption key that DMS provides.
+C<"SSE_KMS"> E<ndash> Key Management Service (KMS) encryption. This
+encryption can use either a custom KMS encryption key that you specify
+or the default KMS encryption key that DMS provides.
 
 =back
 
@@ -141,21 +150,29 @@ C<ResultEncryptionMode> to C<"SSE_KMS>".
 
 =head2 B<REQUIRED> ResultLocationBucket => Str
 
-Amazon S3 bucket where you want AWS DMS to store the results of this
+Amazon S3 bucket where you want DMS to store the results of this
 assessment run.
 
 
 
 =head2 ResultLocationFolder => Str
 
-Folder within an Amazon S3 bucket where you want AWS DMS to store the
+Folder within an Amazon S3 bucket where you want DMS to store the
 results of this assessment run.
 
 
 
 =head2 B<REQUIRED> ServiceAccessRoleArn => Str
 
-ARN of a service role needed to start the assessment run.
+ARN of the service role needed to start the assessment run. The role
+must allow the C<iam:PassRole> action.
+
+
+
+=head2 Tags => ArrayRef[L<Paws::DMS::Tag>]
+
+One or more tags to be assigned to the premigration assessment run that
+you want to start.
 
 
 

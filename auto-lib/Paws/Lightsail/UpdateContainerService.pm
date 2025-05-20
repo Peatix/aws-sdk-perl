@@ -3,6 +3,7 @@ package Paws::Lightsail::UpdateContainerService;
   use Moose;
   has IsDisabled => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'isDisabled' );
   has Power => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'power' );
+  has PrivateRegistryAccess => (is => 'ro', isa => 'Paws::Lightsail::PrivateRegistryAccessRequest', traits => ['NameInRequest'], request_name => 'privateRegistryAccess' );
   has PublicDomainNames => (is => 'ro', isa => 'Paws::Lightsail::ContainerServicePublicDomains', traits => ['NameInRequest'], request_name => 'publicDomainNames' );
   has Scale => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'scale' );
   has ServiceName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'serviceName' , required => 1);
@@ -32,9 +33,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $lightsail = Paws->service('Lightsail');
     my $UpdateContainerServiceResult = $lightsail->UpdateContainerService(
-      ServiceName       => 'MyContainerServiceName',
-      IsDisabled        => 1,                                         # OPTIONAL
-      Power             => 'nano',                                    # OPTIONAL
+      ServiceName           => 'MyContainerServiceName',
+      IsDisabled            => 1,                          # OPTIONAL
+      Power                 => 'nano',                     # OPTIONAL
+      PrivateRegistryAccess => {
+        EcrImagePullerRole => { IsActive => 1, },          # OPTIONAL
+      },    # OPTIONAL
       PublicDomainNames => { 'Mystring' => [ 'Mystring', ... ], },    # OPTIONAL
       Scale             => 1,                                         # OPTIONAL
     );
@@ -70,6 +74,19 @@ Use the C<GetContainerServicePowers> action to view the specifications
 of each power option.
 
 Valid values are: C<"nano">, C<"micro">, C<"small">, C<"medium">, C<"large">, C<"xlarge">
+
+=head2 PrivateRegistryAccess => L<Paws::Lightsail::PrivateRegistryAccessRequest>
+
+An object to describe the configuration for the container service to
+access private container image repositories, such as Amazon Elastic
+Container Registry (Amazon ECR) private repositories.
+
+For more information, see Configuring access to an Amazon ECR private
+repository for an Amazon Lightsail container service
+(https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-container-service-ecr-private-repo-access)
+in the I<Amazon Lightsail Developer Guide>.
+
+
 
 =head2 PublicDomainNames => L<Paws::Lightsail::ContainerServicePublicDomains>
 

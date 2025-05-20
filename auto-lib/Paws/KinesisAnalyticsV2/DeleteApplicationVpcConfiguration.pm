@@ -43,6 +43,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       $DeleteApplicationVpcConfigurationResponse->ApplicationARN;
     my $ApplicationVersionId =
       $DeleteApplicationVpcConfigurationResponse->ApplicationVersionId;
+    my $OperationId = $DeleteApplicationVpcConfigurationResponse->OperationId;
 
 # Returns a L<Paws::KinesisAnalyticsV2::DeleteApplicationVpcConfigurationResponse> object.
 

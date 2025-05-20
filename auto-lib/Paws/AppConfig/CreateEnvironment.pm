@@ -32,27 +32,18 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $appconfig = Paws->service('AppConfig');
+ # To create an environment
+ # The following create-environment example creates an AWS AppConfig environment
+ # named Example-Environment using the application you created using
+ # create-application
     my $Environment = $appconfig->CreateEnvironment(
-      ApplicationId => 'MyId',
-      Name          => 'MyName',
-      Description   => 'MyDescription',    # OPTIONAL
-      Monitors      => [
-        {
-          AlarmArn     => 'MyArn',        # min: 20, max: 2048; OPTIONAL
-          AlarmRoleArn => 'MyRoleArn',    # min: 20, max: 2048; OPTIONAL
-        },
-        ...
-      ],    # OPTIONAL
-      Tags => {
-        'MyTagKey' => 'MyTagValue',    # key: min: 1, max: 128, value: max: 256
-      },    # OPTIONAL
+      'ApplicationId' => '339ohji',
+      'Name'          => 'Example-Environment'
     );
 
     # Results:
     my $ApplicationId = $Environment->ApplicationId;
-    my $Description   = $Environment->Description;
     my $Id            = $Environment->Id;
-    my $Monitors      = $Environment->Monitors;
     my $Name          = $Environment->Name;
     my $State         = $Environment->State;
 

@@ -1,7 +1,9 @@
 
 package Paws::Personalize::CreateSolutionVersion;
   use Moose;
+  has Name => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'name' );
   has SolutionArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'solutionArn' , required => 1);
+  has Tags => (is => 'ro', isa => 'ArrayRef[Paws::Personalize::Tag]', traits => ['NameInRequest'], request_name => 'tags' );
   has TrainingMode => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'trainingMode' );
 
   use MooseX::ClassAttribute;
@@ -29,7 +31,16 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $personalize = Paws->service('Personalize');
     my $CreateSolutionVersionResponse = $personalize->CreateSolutionVersion(
-      SolutionArn  => 'MyArn',
+      SolutionArn => 'MyArn',
+      Name        => 'MyName',    # OPTIONAL
+      Tags        => [
+        {
+          TagKey   => 'MyTagKey',      # min: 1, max: 128
+          TagValue => 'MyTagValue',    # max: 256
+
+        },
+        ...
+      ],    # OPTIONAL
       TrainingMode => 'FULL',    # OPTIONAL
     );
 
@@ -44,6 +55,12 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/per
 =head1 ATTRIBUTES
 
 
+=head2 Name => Str
+
+The name of the solution version.
+
+
+
 =head2 B<REQUIRED> SolutionArn => Str
 
 The Amazon Resource Name (ARN) of the solution containing the training
@@ -51,24 +68,41 @@ configuration information.
 
 
 
+=head2 Tags => ArrayRef[L<Paws::Personalize::Tag>]
+
+A list of tags
+(https://docs.aws.amazon.com/personalize/latest/dg/tagging-resources.html)
+to apply to the solution version.
+
+
+
 =head2 TrainingMode => Str
 
 The scope of training to be performed when creating the solution
-version. The C<FULL> option trains the solution version based on the
-entirety of the input solution's training data, while the C<UPDATE>
-option processes only the data that has changed in comparison to the
-input solution. Choose C<UPDATE> when you want to incrementally update
-your solution version instead of creating an entirely new one.
+version. The default is C<FULL>. This creates a completely new model
+based on the entirety of the training data from the datasets in your
+dataset group.
+
+If you use User-Personalization
+(https://docs.aws.amazon.com/personalize/latest/dg/native-recipe-new-item-USER_PERSONALIZATION.html),
+you can specify a training mode of C<UPDATE>. This updates the model to
+consider new items for recommendations. It is not a full retraining.
+You should still complete a full retraining weekly. If you specify
+C<UPDATE>, Amazon Personalize will stop automatic updates for the
+solution version. To resume updates, create a new solution with
+training mode set to C<FULL> and deploy it in a campaign. For more
+information about automatic updates, see Automatic updates
+(https://docs.aws.amazon.com/personalize/latest/dg/use-case-recipe-features.html#maintaining-with-automatic-updates).
 
 The C<UPDATE> option can only be used when you already have an active
 solution version created from the input solution using the C<FULL>
 option and the input solution was trained with the User-Personalization
 (https://docs.aws.amazon.com/personalize/latest/dg/native-recipe-new-item-USER_PERSONALIZATION.html)
-recipe or the HRNN-Coldstart
+recipe or the legacy HRNN-Coldstart
 (https://docs.aws.amazon.com/personalize/latest/dg/native-recipe-hrnn-coldstart.html)
 recipe.
 
-Valid values are: C<"FULL">, C<"UPDATE">
+Valid values are: C<"FULL">, C<"UPDATE">, C<"AUTOTRAIN">
 
 
 =head1 SEE ALSO

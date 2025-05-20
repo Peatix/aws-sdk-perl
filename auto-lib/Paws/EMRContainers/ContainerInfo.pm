@@ -41,7 +41,7 @@ endpoint.
 
 =head2 EksInfo => L<Paws::EMRContainers::EksInfo>
 
-The information about the EKS cluster.
+The information about the Amazon EKS cluster.
 
 
 

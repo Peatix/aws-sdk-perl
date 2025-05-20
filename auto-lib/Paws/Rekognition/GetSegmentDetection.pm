@@ -37,12 +37,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     # Results:
     my $AudioMetadata = $GetSegmentDetectionResponse->AudioMetadata;
+    my $JobId         = $GetSegmentDetectionResponse->JobId;
     my $JobStatus     = $GetSegmentDetectionResponse->JobStatus;
+    my $JobTag        = $GetSegmentDetectionResponse->JobTag;
     my $NextToken     = $GetSegmentDetectionResponse->NextToken;
     my $Segments      = $GetSegmentDetectionResponse->Segments;
     my $SelectedSegmentTypes =
       $GetSegmentDetectionResponse->SelectedSegmentTypes;
     my $StatusMessage = $GetSegmentDetectionResponse->StatusMessage;
+    my $Video         = $GetSegmentDetectionResponse->Video;
     my $VideoMetadata = $GetSegmentDetectionResponse->VideoMetadata;
 
     # Returns a L<Paws::Rekognition::GetSegmentDetectionResponse> object.

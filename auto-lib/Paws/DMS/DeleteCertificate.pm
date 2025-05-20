@@ -45,7 +45,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/dms
 
 =head2 B<REQUIRED> CertificateArn => Str
 
-The Amazon Resource Name (ARN) of the deleted certificate.
+The Amazon Resource Name (ARN) of the certificate.
 
 
 

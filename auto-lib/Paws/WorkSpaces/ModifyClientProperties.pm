@@ -30,6 +30,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $workspaces = Paws->service('WorkSpaces');
     my $ModifyClientPropertiesResult = $workspaces->ModifyClientProperties(
       ClientProperties => {
+        LogUploadEnabled => 'ENABLED',    # values: ENABLED, DISABLED; OPTIONAL
         ReconnectEnabled => 'ENABLED',    # values: ENABLED, DISABLED; OPTIONAL
       },
       ResourceId => 'MyNonEmptyString',

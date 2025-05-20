@@ -8,7 +8,7 @@ package Paws::EC2::DeleteSecurityGroup;
   use MooseX::ClassAttribute;
 
   class_has _api_call => (isa => 'Str', is => 'ro', default => 'DeleteSecurityGroup');
-  class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::API::Response');
+  class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::EC2::DeleteSecurityGroupResult');
   class_has _result_key => (isa => 'Str', is => 'ro');
 1;
 
@@ -31,7 +31,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $ec2 = Paws->service('EC2');
     # To delete a security group
     # This example deletes the specified security group.
-    $ec2->DeleteSecurityGroup( 'GroupId' => 'sg-903004f8' );
+    my $DeleteSecurityGroupResult =
+      $ec2->DeleteSecurityGroup( 'GroupId' => 'sg-903004f8' );
 
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
@@ -51,14 +52,15 @@ C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
 
 =head2 GroupId => Str
 
-The ID of the security group. Required for a nondefault VPC.
+The ID of the security group.
 
 
 
 =head2 GroupName => Str
 
-[EC2-Classic, default VPC] The name of the security group. You can
-specify either the security group name or the security group ID.
+[Default VPC] The name of the security group. You can specify either
+the security group name or the security group ID. For security groups
+in a nondefault VPC, you must specify the security group ID.
 
 
 

@@ -48,7 +48,9 @@ Contains summary information about the associated AppIntegrations.
 =head2 InstanceId => Str
 
 The identifier of the Amazon Connect instance. You can find the
-instanceId in the ARN of the instance.
+instance ID
+(https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html)
+in the Amazon Resource Name (ARN) of the instance.
 
 
 =head2 IntegrationArn => Str

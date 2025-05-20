@@ -3,6 +3,7 @@ package Paws::MediaConvert::NoiseReducerTemporalFilterSettings;
   use Moose;
   has AggressiveMode => (is => 'ro', isa => 'Int', request_name => 'aggressiveMode', traits => ['NameInRequest']);
   has PostTemporalSharpening => (is => 'ro', isa => 'Str', request_name => 'postTemporalSharpening', traits => ['NameInRequest']);
+  has PostTemporalSharpeningStrength => (is => 'ro', isa => 'Str', request_name => 'postTemporalSharpeningStrength', traits => ['NameInRequest']);
   has Speed => (is => 'ro', isa => 'Int', request_name => 'speed', traits => ['NameInRequest']);
   has Strength => (is => 'ro', isa => 'Int', request_name => 'strength', traits => ['NameInRequest']);
 
@@ -50,13 +51,24 @@ more aggressively and creates better VQ for low bitrate outputs.
 
 =head2 PostTemporalSharpening => Str
 
-Optional. When you set Noise reducer (noiseReducer) to Temporal
-(TEMPORAL), you can use this setting to apply sharpening. The default
-behavior, Auto (AUTO), allows the transcoder to determine whether to
-apply filtering, depending on input type and quality. When you set
-Noise reducer to Temporal, your output bandwidth is reduced. When Post
-temporal sharpening is also enabled, that bandwidth reduction is
-smaller.
+When you set Noise reducer to Temporal, the bandwidth and sharpness of
+your output is reduced. You can optionally use Post temporal sharpening
+to apply sharpening to the edges of your output. Note that Post
+temporal sharpening will also make the bandwidth reduction from the
+Noise reducer smaller. The default behavior, Auto, allows the
+transcoder to determine whether to apply sharpening, depending on your
+input type and quality. When you set Post temporal sharpening to
+Enabled, specify how much sharpening is applied using Post temporal
+sharpening strength. Set Post temporal sharpening to Disabled to not
+apply sharpening.
+
+
+=head2 PostTemporalSharpeningStrength => Str
+
+Use Post temporal sharpening strength to define the amount of
+sharpening the transcoder applies to your output. Set Post temporal
+sharpening strength to Low, Medium, or High to indicate the amount of
+sharpening.
 
 
 =head2 Speed => Int

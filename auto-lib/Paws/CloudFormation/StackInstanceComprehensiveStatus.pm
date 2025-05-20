@@ -45,7 +45,7 @@ The detailed status of the stack instance.
 =item *
 
 C<CANCELLED>: The operation in the specified account and Region has
-been cancelled. This is either because a user has stopped the stack set
+been canceled. This is either because a user has stopped the stack set
 operation, or because the failure tolerance of the stack set operation
 has been exceeded.
 
@@ -55,6 +55,15 @@ C<FAILED>: The operation in the specified account and Region failed. If
 the stack set operation fails in enough accounts within a Region, the
 failure tolerance for the stack set operation as a whole might be
 exceeded.
+
+=item *
+
+C<FAILED_IMPORT>: The import of the stack instance in the specified
+account and Region failed and left the stack in an unstable state. Once
+the issues causing the failure are fixed, the import operation can be
+retried. If enough stack set operations fail in enough accounts within
+a Region, the failure tolerance for the stack set operation as a whole
+might be exceeded.
 
 =item *
 
@@ -73,6 +82,12 @@ to start.
 
 C<RUNNING>: The operation in the specified account and Region is
 currently in progress.
+
+=item *
+
+C<SKIPPED_SUSPENDED_ACCOUNT>: The operation in the specified account
+and Region has been skipped because the account was suspended at the
+time of the operation.
 
 =item *
 

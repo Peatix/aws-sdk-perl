@@ -43,26 +43,23 @@ You can choose to list public or private namespaces.
 
 =head2 Condition => Str
 
-The operator that you want to use to determine whether
-C<ListNamespaces> returns a namespace. Valid values for C<condition>
-include:
+Specify the operator that you want to use to determine whether a
+namespace matches the specified value. Valid values for C<Condition>
+are one of the following.
 
 =over
 
-=item EQ
+=item *
 
-When you specify C<EQ> for the condition, you can choose to list only
-public namespaces or private namespaces, but not both. C<EQ> is the
-default condition and can be omitted.
+C<EQ>: When you specify C<EQ> for C<Condition>, you can specify only
+one value. C<EQ> is supported for C<TYPE>, C<NAME>, and C<HTTP_NAME>.
+C<EQ> is the default condition and can be omitted.
 
-=item IN
+=item *
 
-When you specify C<IN> for the condition, you can choose to list public
-namespaces, private namespaces, or both.
-
-=item BETWEEN
-
-Not applicable
+C<BEGINS_WITH>: When you specify C<BEGINS_WITH> for C<Condition>, you
+can specify only one value. C<BEGINS_WITH> is supported for C<TYPE>,
+C<NAME>, and C<HTTP_NAME>.
 
 =back
 
@@ -70,16 +67,49 @@ Not applicable
 
 =head2 B<REQUIRED> Name => Str
 
-Specify C<TYPE>.
+Specify the namespaces that you want to get using one of the following.
+
+=over
+
+=item *
+
+C<TYPE>: Gets the namespaces of the specified type.
+
+=item *
+
+C<NAME>: Gets the namespaces with the specified name.
+
+=item *
+
+C<HTTP_NAME>: Gets the namespaces with the specified HTTP name.
+
+=back
+
 
 
 =head2 B<REQUIRED> Values => ArrayRef[Str|Undef]
 
-If you specify C<EQ> for C<Condition>, specify either C<DNS_PUBLIC> or
-C<DNS_PRIVATE>.
+Specify the values that are applicable to the value that you specify
+for C<Name>.
 
-If you specify C<IN> for C<Condition>, you can specify C<DNS_PUBLIC>,
-C<DNS_PRIVATE>, or both.
+=over
+
+=item *
+
+C<TYPE>: Specify C<HTTP>, C<DNS_PUBLIC>, or C<DNS_PRIVATE>.
+
+=item *
+
+C<NAME>: Specify the name of the namespace, which is found in
+C<Namespace.Name>.
+
+=item *
+
+C<HTTP_NAME>: Specify the HTTP name of the namespace, which is found in
+C<Namespace.Properties.HttpProperties.HttpName>.
+
+=back
+
 
 
 

@@ -45,8 +45,8 @@ The logs can be sent to CloudWatch Logs or an Amazon S3 bucket.
 
 =head2 CloudWatchEncryptionEnabled => Bool
 
-Whether or not to enable encryption on the CloudWatch logs. If not
-specified, encryption will be disabled.
+Determines whether to use encryption on the CloudWatch logs. If not
+specified, encryption will be off.
 
 
 =head2 CloudWatchLogGroupName => Str
@@ -65,8 +65,8 @@ The S3 bucket must already be created.
 
 =head2 S3EncryptionEnabled => Bool
 
-Whether or not to enable encryption on the CloudWatch logs. If not
-specified, encryption will be disabled.
+Determines whether to use encryption on the S3 logs. If not specified,
+encryption is not used.
 
 
 =head2 S3KeyPrefix => Str

@@ -34,20 +34,20 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::GameLift::T
 
 =head1 DESCRIPTION
 
-A label that can be assigned to a GameLift resource.
+A label that you can assign to a Amazon GameLift resource.
 
 B<Learn more>
 
-Tagging AWS Resources
+Tagging Amazon Web Services Resources
 (https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the
-I<AWS General Reference>
+I<Amazon Web Services General Reference>
 
-AWS Tagging Strategies
+Amazon Web Services Tagging Strategies
 (http://aws.amazon.com/answers/account-management/aws-tagging-strategies/)
 
 B<Related actions>
 
-TagResource | UntagResource | ListTagsForResource | All APIs by task
+All APIs by task
 (https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-awssdk.html#reference-awssdk-resources-fleets)
 
 =head1 ATTRIBUTES
@@ -55,14 +55,14 @@ TagResource | UntagResource | ListTagsForResource | All APIs by task
 
 =head2 B<REQUIRED> Key => Str
 
-The key for a developer-defined key:value pair for tagging an AWS
-resource.
+The key for a developer-defined key value pair for tagging an Amazon
+Web Services resource.
 
 
 =head2 B<REQUIRED> Value => Str
 
-The value for a developer-defined key:value pair for tagging an AWS
-resource.
+The value for a developer-defined key value pair for tagging an Amazon
+Web Services resource.
 
 
 

@@ -71,7 +71,7 @@ One of the following values:
 
 =item Auto
 
-Amazon SageMaker hyperparameter tuning chooses the best scale for the
+SageMaker hyperparameter tuning chooses the best scale for the
 hyperparameter.
 
 =item Linear

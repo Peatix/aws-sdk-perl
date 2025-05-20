@@ -3,6 +3,8 @@ package Paws::SageMaker::OnlineStoreConfig;
   use Moose;
   has EnableOnlineStore => (is => 'ro', isa => 'Bool');
   has SecurityConfig => (is => 'ro', isa => 'Paws::SageMaker::OnlineStoreSecurityConfig');
+  has StorageType => (is => 'ro', isa => 'Str');
+  has TtlDuration => (is => 'ro', isa => 'Paws::SageMaker::TtlDuration');
 
 1;
 
@@ -23,7 +25,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::SageMaker::OnlineStoreConfig object:
 
-  $service_obj->Method(Att1 => { EnableOnlineStore => $value, ..., SecurityConfig => $value  });
+  $service_obj->Method(Att1 => { EnableOnlineStore => $value, ..., TtlDuration => $value  });
 
 =head3 Results returned from an API call
 
@@ -37,7 +39,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SageMaker::
 Use this to specify the Amazon Web Services Key Management Service
 (KMS) Key ID, or C<KMSKeyId>, for at rest data encryption. You can turn
 C<OnlineStore> on or off by specifying the C<EnableOnlineStore> flag at
-General Assembly; the default value is C<False>.
+General Assembly.
+
+The default value is C<False>.
 
 =head1 ATTRIBUTES
 
@@ -55,6 +59,35 @@ The default value is C<False>.
 
 Use to specify KMS Key ID (C<KMSKeyId>) for at-rest encryption of your
 C<OnlineStore>.
+
+
+=head2 StorageType => Str
+
+Option for different tiers of low latency storage for real-time data
+retrieval.
+
+=over
+
+=item *
+
+C<Standard>: A managed low latency data store for feature groups.
+
+=item *
+
+C<InMemory>: A managed data store for feature groups that supports very
+low latency retrieval.
+
+=back
+
+
+
+=head2 TtlDuration => L<Paws::SageMaker::TtlDuration>
+
+Time to live duration, where the record is hard deleted after the
+expiration time is reached; C<ExpiresAt> = C<EventTime> +
+C<TtlDuration>. For information on HardDelete, see the DeleteRecord
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_feature_store_DeleteRecord.html)
+API in the Amazon SageMaker API Reference guide.
 
 
 

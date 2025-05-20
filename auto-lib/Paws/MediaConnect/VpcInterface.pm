@@ -38,7 +38,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::MediaConnec
 
 =head1 DESCRIPTION
 
-The settings for a VPC Source.
+The settings for a VPC source.
 
 =head1 ATTRIBUTES
 
@@ -46,7 +46,7 @@ The settings for a VPC Source.
 =head2 B<REQUIRED> Name => Str
 
 Immutable and has to be a unique against other VpcInterfaces in this
-Flow
+Flow.
 
 
 =head2 B<REQUIRED> NetworkInterfaceIds => ArrayRef[Str|Undef]
@@ -62,7 +62,7 @@ The type of network interface.
 
 =head2 B<REQUIRED> RoleArn => Str
 
-Role Arn MediaConnect can assumes to create ENIs in customer's account
+A role Arn MediaConnect can assume to create ENIs in your account.
 
 
 =head2 B<REQUIRED> SecurityGroupIds => ArrayRef[Str|Undef]
@@ -72,7 +72,7 @@ Security Group IDs to be used on ENI.
 
 =head2 B<REQUIRED> SubnetId => Str
 
-Subnet must be in the AZ of the Flow
+Subnet must be in the AZ of the Flow.
 
 
 

@@ -34,8 +34,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $ListBotsResponse = $models - v2 -lex->ListBots(
       Filters => [
         {
-          Name     => 'BotName',    # values: BotName
-          Operator => 'CO',         # values: CO, EQ
+          Name     => 'BotName',    # values: BotName, BotType
+          Operator => 'CO',         # values: CO, EQ, NE
           Values   => [
             'MyFilterValue', ...    # min: 1, max: 100
           ],    # min: 1, max: 1
@@ -84,8 +84,12 @@ results are returned.
 
 If the response from the C<ListBots> operation contains more results
 than specified in the C<maxResults> parameter, a token is returned in
-the response. Use that token in the C<nextToken> parameter to return
-the next page of results.
+the response.
+
+Use the returned token in the C<nextToken> parameter of a C<ListBots>
+request to return the next page of results. For a complete set of
+results, call the C<ListBots> operation until the C<nextToken> returned
+in the response is null.
 
 
 

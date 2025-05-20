@@ -3,7 +3,7 @@ package Paws::LookoutEquipment::CreateDataset;
   use Moose;
   has ClientToken => (is => 'ro', isa => 'Str', required => 1);
   has DatasetName => (is => 'ro', isa => 'Str', required => 1);
-  has DatasetSchema => (is => 'ro', isa => 'Paws::LookoutEquipment::DatasetSchema', required => 1);
+  has DatasetSchema => (is => 'ro', isa => 'Paws::LookoutEquipment::DatasetSchema');
   has ServerSideKmsKeyId => (is => 'ro', isa => 'Str');
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::LookoutEquipment::Tag]');
 
@@ -37,7 +37,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       DatasetSchema => {
         InlineDataSchema =>
           'MyInlineDataSchema',    # min: 1, max: 1000000; OPTIONAL
-      },
+      },    # OPTIONAL
       ServerSideKmsKeyId => 'MyNameOrArn',    # OPTIONAL
       Tags               => [
         {
@@ -75,7 +75,7 @@ The name of the dataset being created.
 
 
 
-=head2 B<REQUIRED> DatasetSchema => L<Paws::LookoutEquipment::DatasetSchema>
+=head2 DatasetSchema => L<Paws::LookoutEquipment::DatasetSchema>
 
 A JSON description of the data that is in each time series dataset,
 including names, column names, and data types.
@@ -84,8 +84,8 @@ including names, column names, and data types.
 
 =head2 ServerSideKmsKeyId => Str
 
-Provides the identifier of the AWS KMS customer master key (CMK) used
-to encrypt dataset data by Amazon Lookout for Equipment.
+Provides the identifier of the KMS key used to encrypt dataset data by
+Amazon Lookout for Equipment.
 
 
 

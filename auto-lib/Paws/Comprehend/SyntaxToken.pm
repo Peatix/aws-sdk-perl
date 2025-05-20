@@ -60,7 +60,9 @@ character in the word.
 
 Provides the part of speech label and the confidence level that Amazon
 Comprehend has that the part of speech was correctly identified. For
-more information, see how-syntax.
+more information, see Syntax
+(https://docs.aws.amazon.com/comprehend/latest/dg/how-syntax.html) in
+the Comprehend Developer Guide.
 
 
 =head2 Text => Str

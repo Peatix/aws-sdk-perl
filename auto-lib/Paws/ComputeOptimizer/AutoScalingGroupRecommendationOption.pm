@@ -2,9 +2,13 @@
 package Paws::ComputeOptimizer::AutoScalingGroupRecommendationOption;
   use Moose;
   has Configuration => (is => 'ro', isa => 'Paws::ComputeOptimizer::AutoScalingGroupConfiguration', request_name => 'configuration', traits => ['NameInRequest']);
+  has InstanceGpuInfo => (is => 'ro', isa => 'Paws::ComputeOptimizer::GpuInfo', request_name => 'instanceGpuInfo', traits => ['NameInRequest']);
+  has MigrationEffort => (is => 'ro', isa => 'Str', request_name => 'migrationEffort', traits => ['NameInRequest']);
   has PerformanceRisk => (is => 'ro', isa => 'Num', request_name => 'performanceRisk', traits => ['NameInRequest']);
   has ProjectedUtilizationMetrics => (is => 'ro', isa => 'ArrayRef[Paws::ComputeOptimizer::UtilizationMetric]', request_name => 'projectedUtilizationMetrics', traits => ['NameInRequest']);
   has Rank => (is => 'ro', isa => 'Int', request_name => 'rank', traits => ['NameInRequest']);
+  has SavingsOpportunity => (is => 'ro', isa => 'Paws::ComputeOptimizer::SavingsOpportunity', request_name => 'savingsOpportunity', traits => ['NameInRequest']);
+  has SavingsOpportunityAfterDiscounts => (is => 'ro', isa => 'Paws::ComputeOptimizer::AutoScalingGroupSavingsOpportunityAfterDiscounts', request_name => 'savingsOpportunityAfterDiscounts', traits => ['NameInRequest']);
 
 1;
 
@@ -25,7 +29,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::ComputeOptimizer::AutoScalingGroupRecommendationOption object:
 
-  $service_obj->Method(Att1 => { Configuration => $value, ..., Rank => $value  });
+  $service_obj->Method(Att1 => { Configuration => $value, ..., SavingsOpportunityAfterDiscounts => $value  });
 
 =head3 Results returned from an API call
 
@@ -46,6 +50,26 @@ Describes a recommendation option for an Auto Scaling group.
 An array of objects that describe an Auto Scaling group configuration.
 
 
+=head2 InstanceGpuInfo => L<Paws::ComputeOptimizer::GpuInfo>
+
+Describes the GPU accelerator settings for the recommended instance
+type of the Auto Scaling group.
+
+
+=head2 MigrationEffort => Str
+
+The level of effort required to migrate from the current instance type
+to the recommended instance type.
+
+For example, the migration effort is C<Low> if Amazon EMR is the
+inferred workload type and an Amazon Web Services Graviton instance
+type is recommended. The migration effort is C<Medium> if a workload
+type couldn't be inferred but an Amazon Web Services Graviton instance
+type is recommended. The migration effort is C<VeryLow> if both the
+current and recommended instance types are of the same CPU
+architecture.
+
+
 =head2 PerformanceRisk => Num
 
 The performance risk of the Auto Scaling group configuration
@@ -60,11 +84,11 @@ The performance risk of the recommended instance is calculated as the
 maximum performance risk score across the analyzed resource
 specifications.
 
-The value ranges from 0 to 5, with 0 meaning that the recommended
-resource is predicted to always provide enough hardware capability. The
-higher the performance risk is, the more likely you should validate
-whether the recommended resource meets the performance requirements of
-your workload before migrating your resource.
+The value ranges from C<0> - C<4>, with C<0> meaning that the
+recommended resource is predicted to always provide enough hardware
+capability. The higher the performance risk is, the more likely you
+should validate whether the recommendation will meet the performance
+requirements of your workload before migrating your resource.
 
 
 =head2 ProjectedUtilizationMetrics => ArrayRef[L<Paws::ComputeOptimizer::UtilizationMetric>]
@@ -85,6 +109,21 @@ CloudWatch Agent
 The rank of the Auto Scaling group recommendation option.
 
 The top recommendation option is ranked as C<1>.
+
+
+=head2 SavingsOpportunity => L<Paws::ComputeOptimizer::SavingsOpportunity>
+
+An object that describes the savings opportunity for the Auto Scaling
+group recommendation option. Savings opportunity includes the estimated
+monthly savings amount and percentage.
+
+
+=head2 SavingsOpportunityAfterDiscounts => L<Paws::ComputeOptimizer::AutoScalingGroupSavingsOpportunityAfterDiscounts>
+
+An object that describes the savings opportunity for the Auto Scaling
+group recommendation option that includes Savings Plans and Reserved
+Instances discounts. Savings opportunity includes the estimated monthly
+savings and percentage.
 
 
 

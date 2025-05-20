@@ -128,7 +128,7 @@ Valid values are: C<"Ascending">, C<"Descending">
 
 A filter that returns only tuning jobs with the specified status.
 
-Valid values are: C<"Completed">, C<"InProgress">, C<"Failed">, C<"Stopped">, C<"Stopping">
+Valid values are: C<"Completed">, C<"InProgress">, C<"Failed">, C<"Stopped">, C<"Stopping">, C<"Deleting">, C<"DeleteFailed">
 
 
 =head1 SEE ALSO

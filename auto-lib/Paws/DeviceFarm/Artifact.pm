@@ -109,26 +109,6 @@ fuzz test.
 
 =item *
 
-CALABASH_JSON_OUTPUT
-
-=item *
-
-CALABASH_PRETTY_OUTPUT
-
-=item *
-
-CALABASH_STANDARD_OUTPUT
-
-=item *
-
-CALABASH_JAVA_XML_OUTPUT
-
-=item *
-
-AUTOMATION_OUTPUT
-
-=item *
-
 APPIUM_SERVER_OUTPUT
 
 =item *
@@ -146,14 +126,6 @@ APPIUM_PYTHON_OUTPUT
 =item *
 
 APPIUM_PYTHON_XML_OUTPUT
-
-=item *
-
-EXPLORER_EVENT_LOG
-
-=item *
-
-EXPLORER_SUMMARY_LOG
 
 =item *
 

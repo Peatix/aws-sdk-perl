@@ -76,7 +76,7 @@ The Cost Category's effective start date.
 
 =head2 NumberOfRules => Int
 
-The number of rules associated with a specific Cost Category.
+The number of rules that are associated with a specific Cost Category.
 
 
 =head2 ProcessingStatus => ArrayRef[L<Paws::CostExplorer::CostCategoryProcessingStatus>]

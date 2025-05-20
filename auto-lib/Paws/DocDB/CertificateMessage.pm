@@ -18,7 +18,7 @@ Paws::DocDB::CertificateMessage
 
 =head2 Certificates => ArrayRef[L<Paws::DocDB::Certificate>]
 
-A list of certificates for this account.
+A list of certificates for this Amazon Web Services account.
 
 
 =head2 Marker => Str

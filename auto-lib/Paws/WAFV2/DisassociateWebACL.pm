@@ -50,17 +50,37 @@ The ARN must be in one of the following formats:
 =item *
 
 For an Application Load Balancer:
-C<arn:aws:elasticloadbalancing:I<region>:I<account-id>:loadbalancer/app/I<load-balancer-name>/I<load-balancer-id>>
+C<arn:I<partition>:elasticloadbalancing:I<region>:I<account-id>:loadbalancer/app/I<load-balancer-name>/I<load-balancer-id>>
 
 =item *
 
 For an Amazon API Gateway REST API:
-C<arn:aws:apigateway:I<region>::/restapis/I<api-id>/stages/I<stage-name>>
+C<arn:I<partition>:apigateway:I<region>::/restapis/I<api-id>/stages/I<stage-name>>
 
 =item *
 
 For an AppSync GraphQL API:
-C<arn:aws:appsync:I<region>:I<account-id>:apis/I<GraphQLApiId>>
+C<arn:I<partition>:appsync:I<region>:I<account-id>:apis/I<GraphQLApiId>>
+
+=item *
+
+For an Amazon Cognito user pool:
+C<arn:I<partition>:cognito-idp:I<region>:I<account-id>:userpool/I<user-pool-id>>
+
+=item *
+
+For an App Runner service:
+C<arn:I<partition>:apprunner:I<region>:I<account-id>:service/I<apprunner-service-name>/I<apprunner-service-id>>
+
+=item *
+
+For an Amazon Web Services Verified Access instance:
+C<arn:I<partition>:ec2:I<region>:I<account-id>:verified-access-instance/I<instance-id>>
+
+=item *
+
+For an Amplify application:
+C<arn:I<partition>:amplify:I<region>:I<account-id>:apps/I<app-id>>
 
 =back
 

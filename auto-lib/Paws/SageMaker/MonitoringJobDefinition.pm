@@ -66,13 +66,13 @@ image.
 =head2 B<REQUIRED> MonitoringInputs => ArrayRef[L<Paws::SageMaker::MonitoringInput>]
 
 The array of inputs for the monitoring job. Currently we support
-monitoring an Amazon SageMaker Endpoint.
+monitoring an Amazon SageMaker AI Endpoint.
 
 
 =head2 B<REQUIRED> MonitoringOutputConfig => L<Paws::SageMaker::MonitoringOutputConfig>
 
 The array of outputs from the monitoring job to be uploaded to Amazon
-Simple Storage Service (Amazon S3).
+S3.
 
 
 =head2 B<REQUIRED> MonitoringResources => L<Paws::SageMaker::MonitoringResources>
@@ -89,8 +89,8 @@ Specifies networking options for an monitoring job.
 
 =head2 B<REQUIRED> RoleArn => Str
 
-The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can
-assume to perform tasks on your behalf.
+The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker AI
+can assume to perform tasks on your behalf.
 
 
 =head2 StoppingCondition => L<Paws::SageMaker::MonitoringStoppingCondition>

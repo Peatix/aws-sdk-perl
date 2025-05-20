@@ -29,17 +29,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $fsx = Paws->service('FSX');
-    my $DescribeFileSystemsResponse = $fsx->DescribeFileSystems(
-      FileSystemIds => [
-        'MyFileSystemId', ...    # min: 11, max: 21
-      ],    # OPTIONAL
-      MaxResults => 1,                # OPTIONAL
-      NextToken  => 'MyNextToken',    # OPTIONAL
-    );
+    # To describe an Amazon FSx file system
+    # This operation describes all of the Amazon FSx file systems in an account.
+    my $DescribeFileSystemsResponse = $fsx->DescribeFileSystems();
 
     # Results:
     my $FileSystems = $DescribeFileSystemsResponse->FileSystems;
-    my $NextToken   = $DescribeFileSystemsResponse->NextToken;
 
     # Returns a L<Paws::FSX::DescribeFileSystemsResponse> object.
 
@@ -69,8 +64,8 @@ items per page.
 =head2 NextToken => Str
 
 Opaque pagination token returned from a previous C<DescribeFileSystems>
-operation (String). If a token present, the action continues the list
-from where the returning call left off.
+operation (String). If a token present, the operation continues the
+list from where the returning call left off.
 
 
 

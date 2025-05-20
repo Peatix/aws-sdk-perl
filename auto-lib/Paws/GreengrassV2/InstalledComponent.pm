@@ -4,8 +4,12 @@ package Paws::GreengrassV2::InstalledComponent;
   has ComponentName => (is => 'ro', isa => 'Str', request_name => 'componentName', traits => ['NameInRequest']);
   has ComponentVersion => (is => 'ro', isa => 'Str', request_name => 'componentVersion', traits => ['NameInRequest']);
   has IsRoot => (is => 'ro', isa => 'Bool', request_name => 'isRoot', traits => ['NameInRequest']);
+  has LastInstallationSource => (is => 'ro', isa => 'Str', request_name => 'lastInstallationSource', traits => ['NameInRequest']);
+  has LastReportedTimestamp => (is => 'ro', isa => 'Str', request_name => 'lastReportedTimestamp', traits => ['NameInRequest']);
+  has LastStatusChangeTimestamp => (is => 'ro', isa => 'Str', request_name => 'lastStatusChangeTimestamp', traits => ['NameInRequest']);
   has LifecycleState => (is => 'ro', isa => 'Str', request_name => 'lifecycleState', traits => ['NameInRequest']);
   has LifecycleStateDetails => (is => 'ro', isa => 'Str', request_name => 'lifecycleStateDetails', traits => ['NameInRequest']);
+  has LifecycleStatusCodes => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'lifecycleStatusCodes', traits => ['NameInRequest']);
 
 1;
 
@@ -26,7 +30,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::GreengrassV2::InstalledComponent object:
 
-  $service_obj->Method(Att1 => { ComponentName => $value, ..., LifecycleStateDetails => $value  });
+  $service_obj->Method(Att1 => { ComponentName => $value, ..., LifecycleStatusCodes => $value  });
 
 =head3 Results returned from an API call
 
@@ -37,8 +41,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::GreengrassV
 
 =head1 DESCRIPTION
 
-Contains information about a component on a AWS IoT Greengrass core
-device.
+Contains information about a component on a Greengrass core device.
 
 =head1 ATTRIBUTES
 
@@ -58,6 +61,36 @@ The version of the component.
 Whether or not the component is a root component.
 
 
+=head2 LastInstallationSource => Str
+
+The most recent deployment source that brought the component to the
+Greengrass core device. For a thing group deployment or thing
+deployment, the source will be the ID of the last deployment that
+contained the component. For local deployments it will be C<LOCAL>.
+
+Any deployment will attempt to reinstall currently broken components on
+the device, which will update the last installation source.
+
+
+=head2 LastReportedTimestamp => Str
+
+The last time the Greengrass core device sent a message containing a
+component's state to the Amazon Web Services Cloud.
+
+A component does not need to see a state change for this field to
+update.
+
+
+=head2 LastStatusChangeTimestamp => Str
+
+The status of how current the data is.
+
+This response is based off of component state changes. The status
+reflects component disruptions and deployments. If a component only
+sees a configuration update during a deployment, it might not undergo a
+state change and this status would not be updated.
+
+
 =head2 LifecycleState => Str
 
 The lifecycle state of the component.
@@ -65,7 +98,18 @@ The lifecycle state of the component.
 
 =head2 LifecycleStateDetails => Str
 
-The details about the lifecycle state of the component.
+A detailed response about the lifecycle state of the component that
+explains the reason why a component has an error or is broken.
+
+
+=head2 LifecycleStatusCodes => ArrayRef[Str|Undef]
+
+The status codes that indicate the reason for failure whenever the
+C<lifecycleState> has an error or is in a broken state.
+
+Greengrass nucleus v2.8.0 or later is required to get an accurate
+C<lifecycleStatusCodes> response. This response can be inaccurate in
+earlier Greengrass nucleus versions.
 
 
 

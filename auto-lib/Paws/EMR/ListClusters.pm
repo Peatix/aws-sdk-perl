@@ -22,7 +22,7 @@ Paws::EMR::ListClusters - Arguments for method ListClusters on L<Paws::EMR>
 =head1 DESCRIPTION
 
 This class represents the parameters used for calling the method ListClusters on the
-L<Amazon Elastic MapReduce|Paws::EMR> service. Use the attributes of this class
+L<Amazon EMR|Paws::EMR> service. Use the attributes of this class
 as arguments to method ListClusters.
 
 You shouldn't make instances of this class. Each attribute should be used as a named argument in the call to ListClusters.
@@ -54,7 +54,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ela
 
 =head2 ClusterStates => ArrayRef[Str|Undef]
 
-The cluster state filters to apply when listing clusters.
+The cluster state filters to apply when listing clusters. Clusters that
+change state while this action runs may be not be returned as expected
+in the list of clusters.
 
 
 

@@ -66,7 +66,7 @@ does not apply here.
 
 =head2 B<REQUIRED> RestApiId => Str
 
-[Required] The string identifier of the associated RestApi.
+The string identifier of the associated RestApi.
 
 
 

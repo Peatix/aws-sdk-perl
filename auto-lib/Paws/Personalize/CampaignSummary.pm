@@ -39,7 +39,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Personalize
 =head1 DESCRIPTION
 
 Provides a summary of the properties of a campaign. For a complete
-listing, call the DescribeCampaign API.
+listing, call the DescribeCampaign
+(https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeCampaign.html)
+API.
 
 =head1 ATTRIBUTES
 

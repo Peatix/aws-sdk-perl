@@ -12,6 +12,7 @@ package Paws::Lightsail::Instance;
   has Ipv6Addresses => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'ipv6Addresses', traits => ['NameInRequest']);
   has IsStaticIp => (is => 'ro', isa => 'Bool', request_name => 'isStaticIp', traits => ['NameInRequest']);
   has Location => (is => 'ro', isa => 'Paws::Lightsail::ResourceLocation', request_name => 'location', traits => ['NameInRequest']);
+  has MetadataOptions => (is => 'ro', isa => 'Paws::Lightsail::InstanceMetadataOptions', request_name => 'metadataOptions', traits => ['NameInRequest']);
   has Name => (is => 'ro', isa => 'Str', request_name => 'name', traits => ['NameInRequest']);
   has Networking => (is => 'ro', isa => 'Paws::Lightsail::InstanceNetworking', request_name => 'networking', traits => ['NameInRequest']);
   has PrivateIpAddress => (is => 'ro', isa => 'Str', request_name => 'privateIpAddress', traits => ['NameInRequest']);
@@ -65,29 +66,29 @@ An array of objects representing the add-ons enabled on the instance.
 
 =head2 Arn => Str
 
-The Amazon Resource Name (ARN) of the instance (e.g.,
-C<arn:aws:lightsail:us-east-2:123456789101:Instance/244ad76f-8aad-4741-809f-12345EXAMPLE>).
+The Amazon Resource Name (ARN) of the instance
+(C<arn:aws:lightsail:us-east-2:123456789101:Instance/244ad76f-8aad-4741-809f-12345EXAMPLE>).
 
 
 =head2 BlueprintId => Str
 
-The blueprint ID (e.g., C<os_amlinux_2016_03>).
+The blueprint ID (C<amazon_linux_2023>).
 
 
 =head2 BlueprintName => Str
 
-The friendly name of the blueprint (e.g., C<Amazon Linux>).
+The friendly name of the blueprint (C<Amazon Linux 2023>).
 
 
 =head2 BundleId => Str
 
-The bundle for the instance (e.g., C<micro_1_0>).
+The bundle for the instance (C<micro_x_x>).
 
 
 =head2 CreatedAt => Str
 
-The timestamp when the instance was created (e.g., C<1479734909.17>) in
-Unix time format.
+The timestamp when the instance was created (C<1479734909.17>) in Unix
+time format.
 
 
 =head2 Hardware => L<Paws::Lightsail::InstanceHardware>
@@ -99,8 +100,8 @@ The size of the vCPU and the amount of RAM for the instance.
 
 The IP address type of the instance.
 
-The possible values are C<ipv4> for IPv4 only, and C<dualstack> for
-IPv4 and IPv6.
+The possible values are C<ipv4> for IPv4 only, C<ipv6> for IPv6 only,
+and C<dualstack> for IPv4 and IPv6.
 
 
 =head2 Ipv6Addresses => ArrayRef[Str|Undef]
@@ -119,9 +120,14 @@ assigned to it.
 The region name and Availability Zone where the instance is located.
 
 
+=head2 MetadataOptions => L<Paws::Lightsail::InstanceMetadataOptions>
+
+The metadata options for the Amazon Lightsail instance.
+
+
 =head2 Name => Str
 
-The name the user gave the instance (e.g., C<Amazon_Linux-1GB-Ohio-1>).
+The name the user gave the instance (C<Amazon_Linux_2023-1>).
 
 
 =head2 Networking => L<Paws::Lightsail::InstanceNetworking>
@@ -147,13 +153,13 @@ The type of resource (usually C<Instance>).
 
 =head2 SshKeyName => Str
 
-The name of the SSH key being used to connect to the instance (e.g.,
-C<LightsailDefaultKeyPair>).
+The name of the SSH key being used to connect to the instance
+(C<LightsailDefaultKeyPair>).
 
 
 =head2 State => L<Paws::Lightsail::InstanceState>
 
-The status code and the state (e.g., C<running>) for the instance.
+The status code and the state (C<running>) for the instance.
 
 
 =head2 SupportCode => Str
@@ -167,13 +173,13 @@ more easily.
 =head2 Tags => ArrayRef[L<Paws::Lightsail::Tag>]
 
 The tag keys and optional values for the resource. For more information
-about tags in Lightsail, see the Lightsail Dev Guide
-(https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-tags).
+about tags in Lightsail, see the Amazon Lightsail Developer Guide
+(https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-tags).
 
 
 =head2 Username => Str
 
-The user name for connecting to the instance (e.g., C<ec2-user>).
+The user name for connecting to the instance (C<ec2-user>).
 
 
 

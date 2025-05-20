@@ -53,6 +53,8 @@ The details of network-related information about a finding.
 
 The destination domain of network-related information about a finding.
 
+Length Constraints: Minimum of 1. Maximum of 128.
+
 
 =head2 DestinationIpV4 => Str
 
@@ -85,10 +87,14 @@ The range of open ports that is present on the network.
 
 The protocol of network-related information about a finding.
 
+Length Constraints: Minimum of 1. Maximum of 16.
+
 
 =head2 SourceDomain => Str
 
 The source domain of network-related information about a finding.
+
+Length Constraints: Minimum of 1. Maximum of 128.
 
 
 =head2 SourceIpV4 => Str

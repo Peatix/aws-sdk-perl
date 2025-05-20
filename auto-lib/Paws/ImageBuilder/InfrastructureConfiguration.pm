@@ -5,11 +5,13 @@ package Paws::ImageBuilder::InfrastructureConfiguration;
   has DateCreated => (is => 'ro', isa => 'Str', request_name => 'dateCreated', traits => ['NameInRequest']);
   has DateUpdated => (is => 'ro', isa => 'Str', request_name => 'dateUpdated', traits => ['NameInRequest']);
   has Description => (is => 'ro', isa => 'Str', request_name => 'description', traits => ['NameInRequest']);
+  has InstanceMetadataOptions => (is => 'ro', isa => 'Paws::ImageBuilder::InstanceMetadataOptions', request_name => 'instanceMetadataOptions', traits => ['NameInRequest']);
   has InstanceProfileName => (is => 'ro', isa => 'Str', request_name => 'instanceProfileName', traits => ['NameInRequest']);
   has InstanceTypes => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'instanceTypes', traits => ['NameInRequest']);
   has KeyPair => (is => 'ro', isa => 'Str', request_name => 'keyPair', traits => ['NameInRequest']);
   has Logging => (is => 'ro', isa => 'Paws::ImageBuilder::Logging', request_name => 'logging', traits => ['NameInRequest']);
   has Name => (is => 'ro', isa => 'Str', request_name => 'name', traits => ['NameInRequest']);
+  has Placement => (is => 'ro', isa => 'Paws::ImageBuilder::Placement', request_name => 'placement', traits => ['NameInRequest']);
   has ResourceTags => (is => 'ro', isa => 'Paws::ImageBuilder::ResourceTagMap', request_name => 'resourceTags', traits => ['NameInRequest']);
   has SecurityGroupIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'securityGroupIds', traits => ['NameInRequest']);
   has SnsTopicArn => (is => 'ro', isa => 'Str', request_name => 'snsTopicArn', traits => ['NameInRequest']);
@@ -72,6 +74,12 @@ The date on which the infrastructure configuration was last updated.
 The description of the infrastructure configuration.
 
 
+=head2 InstanceMetadataOptions => L<Paws::ImageBuilder::InstanceMetadataOptions>
+
+The instance metadata option settings for the infrastructure
+configuration.
+
+
 =head2 InstanceProfileName => Str
 
 The instance profile of the infrastructure configuration.
@@ -97,6 +105,12 @@ The logging configuration of the infrastructure configuration.
 The name of the infrastructure configuration.
 
 
+=head2 Placement => L<Paws::ImageBuilder::Placement>
+
+The instance placement settings that define where the instances that
+are launched from your image will run.
+
+
 =head2 ResourceTags => L<Paws::ImageBuilder::ResourceTagMap>
 
 The tags attached to the resource created by Image Builder.
@@ -109,8 +123,13 @@ The security group IDs of the infrastructure configuration.
 
 =head2 SnsTopicArn => Str
 
-The SNS topic Amazon Resource Name (ARN) of the infrastructure
-configuration.
+The Amazon Resource Name (ARN) for the SNS topic to which we send image
+build event notifications.
+
+EC2 Image Builder is unable to send notifications to SNS topics that
+are encrypted using keys from other accounts. The key that is used to
+encrypt the SNS topic must reside in the account that the Image Builder
+service runs under.
 
 
 =head2 SubnetId => Str

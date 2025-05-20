@@ -3,9 +3,12 @@ package Paws::Connect::Queue;
   use Moose;
   has Description => (is => 'ro', isa => 'Str');
   has HoursOfOperationId => (is => 'ro', isa => 'Str');
+  has LastModifiedRegion => (is => 'ro', isa => 'Str');
+  has LastModifiedTime => (is => 'ro', isa => 'Str');
   has MaxContacts => (is => 'ro', isa => 'Int');
   has Name => (is => 'ro', isa => 'Str');
   has OutboundCallerConfig => (is => 'ro', isa => 'Paws::Connect::OutboundCallerConfig');
+  has OutboundEmailConfig => (is => 'ro', isa => 'Paws::Connect::OutboundEmailConfig');
   has QueueArn => (is => 'ro', isa => 'Str');
   has QueueId => (is => 'ro', isa => 'Str');
   has Status => (is => 'ro', isa => 'Str');
@@ -56,6 +59,16 @@ The description of the queue.
 The identifier for the hours of operation.
 
 
+=head2 LastModifiedRegion => Str
+
+The Amazon Web Services Region where this resource was last modified.
+
+
+=head2 LastModifiedTime => Str
+
+The timestamp when this resource was last modified.
+
+
 =head2 MaxContacts => Int
 
 The maximum number of contacts that can be in the queue before it is
@@ -70,6 +83,11 @@ The name of the queue.
 =head2 OutboundCallerConfig => L<Paws::Connect::OutboundCallerConfig>
 
 The outbound caller ID name, number, and outbound whisper flow.
+
+
+=head2 OutboundEmailConfig => L<Paws::Connect::OutboundEmailConfig>
+
+The outbound email address ID for a specified queue.
 
 
 =head2 QueueArn => Str
@@ -89,7 +107,8 @@ The status of the queue.
 
 =head2 Tags => L<Paws::Connect::TagMap>
 
-One or more tags.
+The tags used to organize, track, or control access for this resource.
+For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
 
 
 

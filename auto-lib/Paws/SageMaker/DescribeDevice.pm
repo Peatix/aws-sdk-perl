@@ -36,6 +36,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     );
 
     # Results:
+    my $AgentVersion     = $DescribeDeviceResponse->AgentVersion;
     my $Description      = $DescribeDeviceResponse->Description;
     my $DeviceArn        = $DescribeDeviceResponse->DeviceArn;
     my $DeviceFleetName  = $DescribeDeviceResponse->DeviceFleetName;

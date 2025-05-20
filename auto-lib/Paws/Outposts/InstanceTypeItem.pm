@@ -2,6 +2,7 @@
 package Paws::Outposts::InstanceTypeItem;
   use Moose;
   has InstanceType => (is => 'ro', isa => 'Str');
+  has VCPUs => (is => 'ro', isa => 'Int');
 
 1;
 
@@ -22,7 +23,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::Outposts::InstanceTypeItem object:
 
-  $service_obj->Method(Att1 => { InstanceType => $value, ..., InstanceType => $value  });
+  $service_obj->Method(Att1 => { InstanceType => $value, ..., VCPUs => $value  });
 
 =head3 Results returned from an API call
 
@@ -41,6 +42,11 @@ Information about an instance type.
 =head2 InstanceType => Str
 
 
+
+
+=head2 VCPUs => Int
+
+The number of default VCPUs in an instance type.
 
 
 

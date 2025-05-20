@@ -1,6 +1,7 @@
 
 package Paws::ConnectParticipant::GetAttachmentResponse;
   use Moose;
+  has AttachmentSizeInBytes => (is => 'ro', isa => 'Int', required => 1);
   has Url => (is => 'ro', isa => 'Str');
   has UrlExpiry => (is => 'ro', isa => 'Str');
 
@@ -16,10 +17,16 @@ Paws::ConnectParticipant::GetAttachmentResponse
 =head1 ATTRIBUTES
 
 
+=head2 B<REQUIRED> AttachmentSizeInBytes => Int
+
+The size of the attachment in bytes.
+
+
 =head2 Url => Str
 
-The pre-signed URL using which file would be downloaded from Amazon S3
-by the API caller.
+This is the pre-signed URL that can be used for uploading the file to
+Amazon S3 when used in response to StartAttachmentUpload
+(https://docs.aws.amazon.com/connect-participant/latest/APIReference/API_StartAttachmentUpload.html).
 
 
 =head2 UrlExpiry => Str

@@ -57,7 +57,7 @@ value or a slash delimited list of version values (1/2/3).
 =head2 StaticKeyValue => Str
 
 Relates to DRM implementation. Use a 32-character hexidecimal string to
-specify Key Value (StaticKeyValue).
+specify Key Value.
 
 
 =head2 Url => Str

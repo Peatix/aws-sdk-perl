@@ -16,8 +16,7 @@ Paws::Datasync::StartTaskExecutionResponse
 
 =head2 TaskExecutionArn => Str
 
-The Amazon Resource Name (ARN) of the specific task execution that was
-started.
+The ARN of the running task execution.
 
 
 =head2 _request_id => Str

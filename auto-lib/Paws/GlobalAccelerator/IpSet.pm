@@ -2,6 +2,7 @@
 package Paws::GlobalAccelerator::IpSet;
   use Moose;
   has IpAddresses => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has IpAddressFamily => (is => 'ro', isa => 'Str');
   has IpFamily => (is => 'ro', isa => 'Str');
 
 1;
@@ -45,9 +46,14 @@ The array of IP addresses in the IP address set. An IP address set can
 have a maximum of two IP addresses.
 
 
-=head2 IpFamily => Str
+=head2 IpAddressFamily => Str
 
 The types of IP addresses included in this IP set.
+
+
+=head2 IpFamily => Str
+
+IpFamily is deprecated and has been replaced by IpAddressFamily.
 
 
 

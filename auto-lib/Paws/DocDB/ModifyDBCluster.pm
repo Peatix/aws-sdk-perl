@@ -1,6 +1,7 @@
 
 package Paws::DocDB::ModifyDBCluster;
   use Moose;
+  has AllowMajorVersionUpgrade => (is => 'ro', isa => 'Bool');
   has ApplyImmediately => (is => 'ro', isa => 'Bool');
   has BackupRetentionPeriod => (is => 'ro', isa => 'Int');
   has CloudwatchLogsExportConfiguration => (is => 'ro', isa => 'Paws::DocDB::CloudwatchLogsExportConfiguration');
@@ -8,11 +9,15 @@ package Paws::DocDB::ModifyDBCluster;
   has DBClusterParameterGroupName => (is => 'ro', isa => 'Str');
   has DeletionProtection => (is => 'ro', isa => 'Bool');
   has EngineVersion => (is => 'ro', isa => 'Str');
+  has ManageMasterUserPassword => (is => 'ro', isa => 'Bool');
   has MasterUserPassword => (is => 'ro', isa => 'Str');
+  has MasterUserSecretKmsKeyId => (is => 'ro', isa => 'Str');
   has NewDBClusterIdentifier => (is => 'ro', isa => 'Str');
   has Port => (is => 'ro', isa => 'Int');
   has PreferredBackupWindow => (is => 'ro', isa => 'Str');
   has PreferredMaintenanceWindow => (is => 'ro', isa => 'Str');
+  has RotateMasterUserPassword => (is => 'ro', isa => 'Bool');
+  has StorageType => (is => 'ro', isa => 'Str');
   has VpcSecurityGroupIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
 
   use MooseX::ClassAttribute;
@@ -41,6 +46,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $rds = Paws->service('DocDB');
     my $ModifyDBClusterResult = $rds->ModifyDBCluster(
       DBClusterIdentifier               => 'MyString',
+      AllowMajorVersionUpgrade          => 1,            # OPTIONAL
       ApplyImmediately                  => 1,            # OPTIONAL
       BackupRetentionPeriod             => 1,            # OPTIONAL
       CloudwatchLogsExportConfiguration => {
@@ -50,11 +56,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       DBClusterParameterGroupName => 'MyString',             # OPTIONAL
       DeletionProtection          => 1,                      # OPTIONAL
       EngineVersion               => 'MyString',             # OPTIONAL
+      ManageMasterUserPassword    => 1,                      # OPTIONAL
       MasterUserPassword          => 'MyString',             # OPTIONAL
+      MasterUserSecretKmsKeyId    => 'MyString',             # OPTIONAL
       NewDBClusterIdentifier      => 'MyString',             # OPTIONAL
       Port                        => 1,                      # OPTIONAL
       PreferredBackupWindow       => 'MyString',             # OPTIONAL
       PreferredMaintenanceWindow  => 'MyString',             # OPTIONAL
+      RotateMasterUserPassword    => 1,                      # OPTIONAL
+      StorageType                 => 'MyString',             # OPTIONAL
       VpcSecurityGroupIds         => [ 'MyString', ... ],    # OPTIONAL
     );
 
@@ -67,6 +77,16 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/rds/ModifyDBCluster>
 
 =head1 ATTRIBUTES
+
+
+=head2 AllowMajorVersionUpgrade => Bool
+
+A value that indicates whether major version upgrades are allowed.
+
+Constraints: You must allow major version upgrades when specifying a
+value for the C<EngineVersion> parameter that is a different major
+version than the DB cluster's current version.
+
 
 
 =head2 ApplyImmediately => Bool
@@ -154,7 +174,30 @@ clusters from being accidentally deleted.
 =head2 EngineVersion => Str
 
 The version number of the database engine to which you want to upgrade.
-Modifying engine version is not supported on Amazon DocumentDB.
+Changing this parameter results in an outage. The change is applied
+during the next maintenance window unless C<ApplyImmediately> is
+enabled.
+
+To list all of the available engine versions for Amazon DocumentDB use
+the following command:
+
+C<aws docdb describe-db-engine-versions --engine docdb --query
+"DBEngineVersions[].EngineVersion">
+
+
+
+=head2 ManageMasterUserPassword => Bool
+
+Specifies whether to manage the master user password with Amazon Web
+Services Secrets Manager. If the cluster doesn't manage the master user
+password with Amazon Web Services Secrets Manager, you can turn on this
+management. In this case, you can't specify C<MasterUserPassword>. If
+the cluster already manages the master user password with Amazon Web
+Services Secrets Manager, and you specify that the master user password
+is not managed with Amazon Web Services Secrets Manager, then you must
+specify C<MasterUserPassword>. In this case, Amazon DocumentDB deletes
+the secret and uses the new password for the master user specified by
+C<MasterUserPassword>.
 
 
 
@@ -165,6 +208,46 @@ any printable ASCII character except forward slash (/), double quote
 ("), or the "at" symbol (@).
 
 Constraints: Must contain from 8 to 100 characters.
+
+
+
+=head2 MasterUserSecretKmsKeyId => Str
+
+The Amazon Web Services KMS key identifier to encrypt a secret that is
+automatically generated and managed in Amazon Web Services Secrets
+Manager.
+
+This setting is valid only if both of the following conditions are met:
+
+=over
+
+=item *
+
+The cluster doesn't manage the master user password in Amazon Web
+Services Secrets Manager. If the cluster already manages the master
+user password in Amazon Web Services Secrets Manager, you can't change
+the KMS key that is used to encrypt the secret.
+
+=item *
+
+You are enabling C<ManageMasterUserPassword> to manage the master user
+password in Amazon Web Services Secrets Manager. If you are turning on
+C<ManageMasterUserPassword> and don't specify
+C<MasterUserSecretKmsKeyId>, then the C<aws/secretsmanager> KMS key is
+used to encrypt the secret. If the secret is in a different Amazon Web
+Services account, then you can't use the C<aws/secretsmanager> KMS key
+to encrypt the secret, and you must use a customer managed KMS key.
+
+=back
+
+The Amazon Web Services KMS key identifier is the key ARN, key ID,
+alias ARN, or alias name for the KMS key. To use a KMS key in a
+different Amazon Web Services account, specify the key ARN or alias
+ARN.
+
+There is a default KMS key for your Amazon Web Services account. Your
+Amazon Web Services account has a different default KMS key for each
+Amazon Web Services Region.
 
 
 
@@ -212,7 +295,7 @@ automated backups are enabled, using the C<BackupRetentionPeriod>
 parameter.
 
 The default is a 30-minute window selected at random from an 8-hour
-block of time for each Region.
+block of time for each Amazon Web Services Region.
 
 Constraints:
 
@@ -247,11 +330,40 @@ Universal Coordinated Time (UTC).
 Format: C<ddd:hh24:mi-ddd:hh24:mi>
 
 The default is a 30-minute window selected at random from an 8-hour
-block of time for each Region, occurring on a random day of the week.
+block of time for each Amazon Web Services Region, occurring on a
+random day of the week.
 
 Valid days: Mon, Tue, Wed, Thu, Fri, Sat, Sun
 
 Constraints: Minimum 30-minute window.
+
+
+
+=head2 RotateMasterUserPassword => Bool
+
+Specifies whether to rotate the secret managed by Amazon Web Services
+Secrets Manager for the master user password.
+
+This setting is valid only if the master user password is managed by
+Amazon DocumentDB in Amazon Web Services Secrets Manager for the
+cluster. The secret value contains the updated password.
+
+Constraint: You must apply the change immediately when rotating the
+master user password.
+
+
+
+=head2 StorageType => Str
+
+The storage type to associate with the DB cluster.
+
+For information on storage types for Amazon DocumentDB clusters, see
+Cluster storage configurations in the I<Amazon DocumentDB Developer
+Guide>.
+
+Valid values for storage type - C<standard | iopt1>
+
+Default value is C<standard>
 
 
 

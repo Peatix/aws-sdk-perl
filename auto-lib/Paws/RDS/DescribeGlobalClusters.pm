@@ -58,20 +58,14 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/rds
 
 =head2 Filters => ArrayRef[L<Paws::RDS::Filter>]
 
-A filter that specifies one or more global DB clusters to describe.
+A filter that specifies one or more global database clusters to
+describe. This parameter is case-sensitive.
 
-Supported filters:
+Currently, the only supported filter is C<region>.
 
-=over
-
-=item *
-
-C<db-cluster-id> - Accepts DB cluster identifiers and DB cluster Amazon
-Resource Names (ARNs). The results list will only include information
-about the DB clusters identified by these ARNs.
-
-=back
-
+If used, the request returns information about any global cluster with
+at least one member (primary or secondary) in the specified Amazon Web
+Services Regions.
 
 
 

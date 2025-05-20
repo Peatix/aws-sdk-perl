@@ -126,7 +126,8 @@ Specifies the pending port for the DB instance.
 
 =head2 StorageType => Str
 
-Specifies the storage type to be associated with the DB instance.
+Not applicable. In Neptune the storage type is managed at the DB
+Cluster level.
 
 
 

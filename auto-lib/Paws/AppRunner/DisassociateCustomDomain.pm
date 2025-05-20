@@ -35,9 +35,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     );
 
     # Results:
-    my $CustomDomain = $DisassociateCustomDomainResponse->CustomDomain;
-    my $DNSTarget    = $DisassociateCustomDomainResponse->DNSTarget;
-    my $ServiceArn   = $DisassociateCustomDomainResponse->ServiceArn;
+    my $CustomDomain  = $DisassociateCustomDomainResponse->CustomDomain;
+    my $DNSTarget     = $DisassociateCustomDomainResponse->DNSTarget;
+    my $ServiceArn    = $DisassociateCustomDomainResponse->ServiceArn;
+    my $VpcDNSTargets = $DisassociateCustomDomainResponse->VpcDNSTargets;
 
     # Returns a L<Paws::AppRunner::DisassociateCustomDomainResponse> object.
 

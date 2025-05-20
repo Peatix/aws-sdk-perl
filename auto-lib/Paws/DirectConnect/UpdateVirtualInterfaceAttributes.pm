@@ -1,8 +1,10 @@
 
 package Paws::DirectConnect::UpdateVirtualInterfaceAttributes;
   use Moose;
+  has EnableSiteLink => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'enableSiteLink' );
   has Mtu => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'mtu' );
   has VirtualInterfaceId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'virtualInterfaceId' , required => 1);
+  has VirtualInterfaceName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'virtualInterfaceName' );
 
   use MooseX::ClassAttribute;
 
@@ -29,8 +31,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $directconnect = Paws->service('DirectConnect');
     my $VirtualInterface = $directconnect->UpdateVirtualInterfaceAttributes(
-      VirtualInterfaceId => 'MyVirtualInterfaceId',
-      Mtu                => 1,                        # OPTIONAL
+      VirtualInterfaceId   => 'MyVirtualInterfaceId',
+      EnableSiteLink       => 1,                           # OPTIONAL
+      Mtu                  => 1,                           # OPTIONAL
+      VirtualInterfaceName => 'MyVirtualInterfaceName',    # OPTIONAL
     );
 
     # Results:
@@ -40,6 +44,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $Asn                    = $VirtualInterface->Asn;
     my $AuthKey                = $VirtualInterface->AuthKey;
     my $AwsDeviceV2            = $VirtualInterface->AwsDeviceV2;
+    my $AwsLogicalDeviceId     = $VirtualInterface->AwsLogicalDeviceId;
     my $BgpPeers               = $VirtualInterface->BgpPeers;
     my $ConnectionId           = $VirtualInterface->ConnectionId;
     my $CustomerAddress        = $VirtualInterface->CustomerAddress;
@@ -51,6 +56,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $OwnerAccount           = $VirtualInterface->OwnerAccount;
     my $Region                 = $VirtualInterface->Region;
     my $RouteFilterPrefixes    = $VirtualInterface->RouteFilterPrefixes;
+    my $SiteLinkEnabled        = $VirtualInterface->SiteLinkEnabled;
     my $Tags                   = $VirtualInterface->Tags;
     my $VirtualGatewayId       = $VirtualInterface->VirtualGatewayId;
     my $VirtualInterfaceId     = $VirtualInterface->VirtualInterfaceId;
@@ -67,16 +73,28 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/dir
 =head1 ATTRIBUTES
 
 
+=head2 EnableSiteLink => Bool
+
+Indicates whether to enable or disable SiteLink.
+
+
+
 =head2 Mtu => Int
 
 The maximum transmission unit (MTU), in bytes. The supported values are
-1500 and 9001. The default value is 1500.
+1500 and 8500. The default value is 1500.
 
 
 
 =head2 B<REQUIRED> VirtualInterfaceId => Str
 
 The ID of the virtual private interface.
+
+
+
+=head2 VirtualInterfaceName => Str
+
+The name of the virtual private interface.
 
 
 

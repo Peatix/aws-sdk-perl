@@ -43,9 +43,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $CreateOTAUpdateResponse = $iot->CreateOTAUpdate(
       Files => [
         {
-          Attributes  => { 'MyAttributeKey' => 'MyValue', },    # OPTIONAL
+          Attributes => {
+            'MyAttributeKey' => 'MyValue',    # , value: max: 4096
+          },    # OPTIONAL
           CodeSigning => {
-            AwsSignerJobId    => 'MySigningJobId',              # OPTIONAL
+            AwsSignerJobId    => 'MySigningJobId',    # OPTIONAL
             CustomCodeSigning => {
               CertificateChain => {
                 CertificateName => 'MyCertificateName',    # OPTIONAL
@@ -93,8 +95,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       OtaUpdateId          => 'MyOTAUpdateId',
       RoleArn              => 'MyRoleArn',
       Targets              => [ 'MyTarget', ... ],
-      AdditionalParameters => { 'MyAttributeKey' => 'MyValue', },    # OPTIONAL
-      AwsJobAbortConfig    => {
+      AdditionalParameters => {
+        'MyAttributeKey' => 'MyValue',    # , value: max: 4096
+      },    # OPTIONAL
+      AwsJobAbortConfig => {
         AbortCriteriaList => [
           {
             Action      => 'CANCEL',  # values: CANCEL
@@ -132,7 +136,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       Tags => [
         {
           Key   => 'MyTagKey',      # min: 1, max: 128
-          Value => 'MyTagValue',    # min: 1, max: 256; OPTIONAL
+          Value => 'MyTagValue',    # max: 256; OPTIONAL
         },
         ...
       ],    # OPTIONAL
@@ -156,7 +160,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/iot
 
 =head2 AdditionalParameters => L<Paws::IoT::AdditionalParameterMap>
 
-A list of additional OTA update parameters which are name-value pairs.
+A list of additional OTA update parameters, which are name-value pairs.
+They won't be sent to devices as a part of the Job document.
 
 
 
@@ -216,8 +221,9 @@ the target device can choose the protocol.
 
 =head2 B<REQUIRED> RoleArn => Str
 
-The IAM role that grants AWS IoT access to the Amazon S3, AWS IoT jobs
-and AWS Code Signing resources to create an OTA update job.
+The IAM role that grants Amazon Web Services IoT Core access to the
+Amazon S3, IoT jobs and Amazon Web Services Code Signing resources to
+create an OTA update job.
 
 
 

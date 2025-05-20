@@ -36,7 +36,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::MediaConver
 Settings for SCTE-35 signals from ESAM. Include this in your job
 settings to put SCTE-35 markers in your HLS and transport stream
 outputs at the insertion points that you specify in an ESAM XML
-document. Provide the document in the setting SCC XML (sccXml).
+document. Provide the document in the setting SCC XML.
 
 =head1 ATTRIBUTES
 

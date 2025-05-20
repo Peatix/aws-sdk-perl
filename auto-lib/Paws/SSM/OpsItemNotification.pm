@@ -40,8 +40,9 @@ A notification about the OpsItem.
 
 =head2 Arn => Str
 
-The Amazon Resource Name (ARN) of an SNS topic where notifications are
-sent when this OpsItem is edited or changed.
+The Amazon Resource Name (ARN) of an Amazon Simple Notification Service
+(Amazon SNS) topic where notifications are sent when this OpsItem is
+edited or changed.
 
 
 

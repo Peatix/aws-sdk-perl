@@ -6,6 +6,9 @@ package Paws::EC2::DescribeImages;
   has Filters => (is => 'ro', isa => 'ArrayRef[Paws::EC2::Filter]', traits => ['NameInRequest'], request_name => 'Filter' );
   has ImageIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'ImageId' );
   has IncludeDeprecated => (is => 'ro', isa => 'Bool');
+  has IncludeDisabled => (is => 'ro', isa => 'Bool');
+  has MaxResults => (is => 'ro', isa => 'Int');
+  has NextToken => (is => 'ro', isa => 'Str');
   has Owners => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'Owner' );
 
   use MooseX::ClassAttribute;
@@ -60,8 +63,31 @@ C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
 =head2 ExecutableUsers => ArrayRef[Str|Undef]
 
 Scopes the images by users with explicit launch permissions. Specify an
-AWS account ID, C<self> (the sender of the request), or C<all> (public
-AMIs).
+Amazon Web Services account ID, C<self> (the sender of the request), or
+C<all> (public AMIs).
+
+=over
+
+=item *
+
+If you specify an Amazon Web Services account ID that is not your own,
+only AMIs shared with that specific Amazon Web Services account ID are
+returned. However, AMIs that are shared with the accountE<rsquo>s
+organization or organizational unit (OU) are not returned.
+
+=item *
+
+If you specify C<self> or your own Amazon Web Services account ID, AMIs
+shared with your account are returned. In addition, AMIs that are
+shared with the organization or OU of which you are member are also
+returned.
+
+=item *
+
+If you specify C<all>, all public AMIs are returned.
+
+=back
+
 
 
 
@@ -74,7 +100,7 @@ The filters.
 =item *
 
 C<architecture> - The image architecture (C<i386> | C<x86_64> |
-C<arm64>).
+C<arm64> | C<x86_64_mac> | C<arm64_mac>).
 
 =item *
 
@@ -90,22 +116,30 @@ block device mapping (for example, C</dev/sdh> or C<xvdh>).
 =item *
 
 C<block-device-mapping.snapshot-id> - The ID of the snapshot used for
-the EBS volume.
+the Amazon EBS volume.
 
 =item *
 
-C<block-device-mapping.volume-size> - The volume size of the EBS
+C<block-device-mapping.volume-size> - The volume size of the Amazon EBS
 volume, in GiB.
 
 =item *
 
-C<block-device-mapping.volume-type> - The volume type of the EBS volume
-(C<gp2> | C<io1> | C<io2> | C<st1 >| C<sc1> | C<standard>).
+C<block-device-mapping.volume-type> - The volume type of the Amazon EBS
+volume (C<io1> | C<io2> | C<gp2> | C<gp3> | C<sc1 >| C<st1> |
+C<standard>).
 
 =item *
 
 C<block-device-mapping.encrypted> - A Boolean that indicates whether
-the EBS volume is encrypted.
+the Amazon EBS volume is encrypted.
+
+=item *
+
+C<creation-date> - The time when the image was created, in the ISO 8601
+format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for example,
+C<2021-09-29T11:04:43.305Z>. You can use a wildcard (C<*>), for
+example, C<2021-09-29T*>, which matches an entire day.
 
 =item *
 
@@ -120,6 +154,11 @@ with ENA is enabled.
 =item *
 
 C<hypervisor> - The hypervisor type (C<ovm> | C<xen>).
+
+=item *
+
+C<image-allowed> - A Boolean that indicates whether the image meets the
+criteria specified for Allowed AMIs.
 
 =item *
 
@@ -147,20 +186,21 @@ C<name> - The name of the AMI (provided during image creation).
 
 =item *
 
-C<owner-alias> - The owner alias (C<amazon> | C<aws-marketplace>). The
-valid aliases are defined in an Amazon-maintained list. This is not the
-AWS account alias that can be set using the IAM console. We recommend
-that you use the B<Owner> request parameter instead of this filter.
+C<owner-alias> - The owner alias (C<amazon> | C<aws-backup-vault> |
+C<aws-marketplace>). The valid aliases are defined in an
+Amazon-maintained list. This is not the Amazon Web Services account
+alias that can be set using the IAM console. We recommend that you use
+the B<Owner> request parameter instead of this filter.
 
 =item *
 
-C<owner-id> - The AWS account ID of the owner. We recommend that you
-use the B<Owner> request parameter instead of this filter.
+C<owner-id> - The Amazon Web Services account ID of the owner. We
+recommend that you use the B<Owner> request parameter instead of this
+filter.
 
 =item *
 
-C<platform> - The platform. To only list Windows-based AMIs, use
-C<windows>.
+C<platform> - The platform. The only supported value is C<windows>.
 
 =item *
 
@@ -168,8 +208,7 @@ C<product-code> - The product code.
 
 =item *
 
-C<product-code.type> - The type of the product code (C<devpay> |
-C<marketplace>).
+C<product-code.type> - The type of the product code (C<marketplace>).
 
 =item *
 
@@ -184,6 +223,22 @@ example, C</dev/sda1>).
 
 C<root-device-type> - The type of the root device volume (C<ebs> |
 C<instance-store>).
+
+=item *
+
+C<source-image-id> - The ID of the source AMI from which the AMI was
+created.
+
+=item *
+
+C<source-image-region> - The Region of the source AMI.
+
+=item *
+
+C<source-instance-id> - The ID of the instance that the AMI was created
+from if the AMI was created using CreateImage. This filter is
+applicable only if the AMI was created using CreateImage
+(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateImage.html).
 
 =item *
 
@@ -205,7 +260,7 @@ networking with the Intel 82599 VF interface is enabled.
 
 =item *
 
-C<tag>:E<lt>keyE<gt> - The key/value combination of a tag assigned to
+C<tag:E<lt>keyE<gt>> - The key/value combination of a tag assigned to
 the resource. Use the tag key in the filter name and the tag value as
 the filter value. For example, to find all resources that have a tag
 with the key C<Owner> and the value C<TeamA>, specify C<tag:Owner> for
@@ -237,22 +292,46 @@ Default: Describes all images available to you.
 
 =head2 IncludeDeprecated => Bool
 
-If C<true>, all deprecated AMIs are included in the response. If
-C<false>, no deprecated AMIs are included in the response. If no value
-is specified, the default value is C<false>.
+Specifies whether to include deprecated AMIs.
+
+Default: No deprecated AMIs are included in the response.
 
 If you are the AMI owner, all deprecated AMIs appear in the response
-regardless of the value (C<true> or C<false>) that you set for this
-parameter.
+regardless of what you specify for this parameter.
+
+
+
+=head2 IncludeDisabled => Bool
+
+Specifies whether to include disabled AMIs.
+
+Default: No disabled AMIs are included in the response.
+
+
+
+=head2 MaxResults => Int
+
+The maximum number of items to return for this request. To get the next
+page of items, make another request with the token returned in the
+output. For more information, see Pagination
+(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Query-Requests.html#api-pagination).
+
+
+
+=head2 NextToken => Str
+
+The token returned from a previous paginated request. Pagination
+continues from the end of the items returned by the previous request.
 
 
 
 =head2 Owners => ArrayRef[Str|Undef]
 
 Scopes the results to images with the specified owners. You can specify
-a combination of AWS account IDs, C<self>, C<amazon>, and
-C<aws-marketplace>. If you omit this parameter, the results include all
-images for which you have launch permissions, regardless of ownership.
+a combination of Amazon Web Services account IDs, C<self>, C<amazon>,
+C<aws-backup-vault>, and C<aws-marketplace>. If you omit this
+parameter, the results include all images for which you have launch
+permissions, regardless of ownership.
 
 
 

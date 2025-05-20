@@ -2,6 +2,7 @@
 package Paws::Comprehend::Entity;
   use Moose;
   has BeginOffset => (is => 'ro', isa => 'Int');
+  has BlockReferences => (is => 'ro', isa => 'ArrayRef[Paws::Comprehend::BlockReference]');
   has EndOffset => (is => 'ro', isa => 'Int');
   has Score => (is => 'ro', isa => 'Num');
   has Text => (is => 'ro', isa => 'Str');
@@ -44,20 +45,24 @@ Provides information about an entity.
 
 =head2 BeginOffset => Int
 
-A character offset in the input text that shows where the entity begins
-(the first character is at position 0). The offset returns the position
-of each UTF-8 code point in the string. A I<code point> is the abstract
-character from a particular graphical representation. For example, a
-multi-byte UTF-8 character maps to a single code point.
+The zero-based offset from the beginning of the source text to the
+first character in the entity.
+
+This field is empty for non-text input.
+
+
+=head2 BlockReferences => ArrayRef[L<Paws::Comprehend::BlockReference>]
+
+A reference to each block for this entity. This field is empty for
+plain-text input.
 
 
 =head2 EndOffset => Int
 
-A character offset in the input text that shows where the entity ends.
-The offset returns the position of each UTF-8 code point in the string.
-A I<code point> is the abstract character from a particular graphical
-representation. For example, a multi-byte UTF-8 character maps to a
-single code point.
+The zero-based offset from the beginning of the source text to the last
+character in the entity.
+
+This field is empty for non-text input.
 
 
 =head2 Score => Num
@@ -73,7 +78,11 @@ The text of the entity.
 
 =head2 Type => Str
 
-The entity's type.
+The entity type. For entity detection using the built-in model, this
+field contains one of the standard entity types listed below.
+
+For custom entity detection, this field contains one of the entity
+types that you specified when you trained your custom model.
 
 
 

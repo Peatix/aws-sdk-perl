@@ -33,9 +33,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::MediaConver
 
 =head1 DESCRIPTION
 
-Required when you set (Profile) under
-(VideoDescription)E<gt>(CodecSettings)E<gt>(XavcSettings) to the value
-XAVC_4K_INTRA_VBR.
+Required when you set Profile to the value XAVC_4K_INTRA_VBR.
 
 =head1 ATTRIBUTES
 

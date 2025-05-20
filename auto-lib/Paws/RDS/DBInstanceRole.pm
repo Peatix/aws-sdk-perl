@@ -35,8 +35,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::RDS::DBInst
 
 =head1 DESCRIPTION
 
-Describes an Amazon Web Services Identity and Access Management (IAM)
-role that is associated with a DB instance.
+Information about an Amazon Web Services Identity and Access Management
+(IAM) role that is associated with a DB instance.
 
 =head1 ATTRIBUTES
 
@@ -44,8 +44,8 @@ role that is associated with a DB instance.
 =head2 FeatureName => Str
 
 The name of the feature associated with the Amazon Web Services
-Identity and Access Management (IAM) role. For the list of supported
-feature names, see C<DBEngineVersion>.
+Identity and Access Management (IAM) role. For information about
+supported feature names, see C<DBEngineVersion>.
 
 
 =head2 RoleArn => Str
@@ -56,8 +56,8 @@ the DB instance.
 
 =head2 Status => Str
 
-Describes the state of association between the IAM role and the DB
-instance. The Status property returns one of the following values:
+Information about the state of association between the IAM role and the
+DB instance. The Status property returns one of the following values:
 
 =over
 

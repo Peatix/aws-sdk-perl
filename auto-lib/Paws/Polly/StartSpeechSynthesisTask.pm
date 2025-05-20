@@ -69,11 +69,12 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/pol
 
 =head2 Engine => Str
 
-Specifies the engine (C<standard> or C<neural>) for Amazon Polly to use
-when processing input text for speech synthesis. Using a voice that is
-not supported for the engine selected will result in an error.
+Specifies the engine (C<standard>, C<neural>, C<long-form> or
+C<generative>) for Amazon Polly to use when processing input text for
+speech synthesis. Using a voice that is not supported for the engine
+selected will result in an error.
 
-Valid values are: C<"standard">, C<"neural">
+Valid values are: C<"standard">, C<"neural">, C<"long-form">, C<"generative">
 
 =head2 LanguageCode => Str
 
@@ -82,14 +83,14 @@ necessary if using a bilingual voice, such as Aditi, which can be used
 for either Indian English (en-IN) or Hindi (hi-IN).
 
 If a bilingual voice is used and no language code is specified, Amazon
-Polly will use the default language of the bilingual voice. The default
+Polly uses the default language of the bilingual voice. The default
 language for any voice is the one returned by the DescribeVoices
 (https://docs.aws.amazon.com/polly/latest/dg/API_DescribeVoices.html)
 operation for the C<LanguageCode> parameter. For example, if no
 language code is specified, Aditi will use Indian English rather than
 Hindi.
 
-Valid values are: C<"arb">, C<"cmn-CN">, C<"cy-GB">, C<"da-DK">, C<"de-DE">, C<"en-AU">, C<"en-GB">, C<"en-GB-WLS">, C<"en-IN">, C<"en-US">, C<"es-ES">, C<"es-MX">, C<"es-US">, C<"fr-CA">, C<"fr-FR">, C<"is-IS">, C<"it-IT">, C<"ja-JP">, C<"hi-IN">, C<"ko-KR">, C<"nb-NO">, C<"nl-NL">, C<"pl-PL">, C<"pt-BR">, C<"pt-PT">, C<"ro-RO">, C<"ru-RU">, C<"sv-SE">, C<"tr-TR">
+Valid values are: C<"arb">, C<"cmn-CN">, C<"cy-GB">, C<"da-DK">, C<"de-DE">, C<"en-AU">, C<"en-GB">, C<"en-GB-WLS">, C<"en-IN">, C<"en-US">, C<"es-ES">, C<"es-MX">, C<"es-US">, C<"fr-CA">, C<"fr-FR">, C<"is-IS">, C<"it-IT">, C<"ja-JP">, C<"hi-IN">, C<"ko-KR">, C<"nb-NO">, C<"nl-NL">, C<"pl-PL">, C<"pt-BR">, C<"pt-PT">, C<"ro-RO">, C<"ru-RU">, C<"sv-SE">, C<"tr-TR">, C<"en-NZ">, C<"en-ZA">, C<"ca-ES">, C<"de-AT">, C<"yue-CN">, C<"ar-AE">, C<"fi-FI">, C<"en-IE">, C<"nl-BE">, C<"fr-BE">, C<"cs-CZ">, C<"de-CH">, C<"en-SG">
 
 =head2 LexiconNames => ArrayRef[Str|Undef]
 
@@ -125,7 +126,9 @@ The audio frequency specified in Hz.
 
 The valid values for mp3 and ogg_vorbis are "8000", "16000", "22050",
 and "24000". The default value for standard voices is "22050". The
-default value for neural voices is "24000".
+default value for neural voices is "24000". The default value for
+long-form voices is "24000". The default value for generative voices is
+"24000".
 
 Valid values for pcm are "8000" and "16000" The default value is
 "16000".
@@ -163,7 +166,7 @@ Valid values are: C<"ssml">, C<"text">
 
 Voice ID to use for the synthesis.
 
-Valid values are: C<"Aditi">, C<"Amy">, C<"Astrid">, C<"Bianca">, C<"Brian">, C<"Camila">, C<"Carla">, C<"Carmen">, C<"Celine">, C<"Chantal">, C<"Conchita">, C<"Cristiano">, C<"Dora">, C<"Emma">, C<"Enrique">, C<"Ewa">, C<"Filiz">, C<"Gabrielle">, C<"Geraint">, C<"Giorgio">, C<"Gwyneth">, C<"Hans">, C<"Ines">, C<"Ivy">, C<"Jacek">, C<"Jan">, C<"Joanna">, C<"Joey">, C<"Justin">, C<"Karl">, C<"Kendra">, C<"Kevin">, C<"Kimberly">, C<"Lea">, C<"Liv">, C<"Lotte">, C<"Lucia">, C<"Lupe">, C<"Mads">, C<"Maja">, C<"Marlene">, C<"Mathieu">, C<"Matthew">, C<"Maxim">, C<"Mia">, C<"Miguel">, C<"Mizuki">, C<"Naja">, C<"Nicole">, C<"Olivia">, C<"Penelope">, C<"Raveena">, C<"Ricardo">, C<"Ruben">, C<"Russell">, C<"Salli">, C<"Seoyeon">, C<"Takumi">, C<"Tatyana">, C<"Vicki">, C<"Vitoria">, C<"Zeina">, C<"Zhiyu">
+Valid values are: C<"Aditi">, C<"Amy">, C<"Astrid">, C<"Bianca">, C<"Brian">, C<"Camila">, C<"Carla">, C<"Carmen">, C<"Celine">, C<"Chantal">, C<"Conchita">, C<"Cristiano">, C<"Dora">, C<"Emma">, C<"Enrique">, C<"Ewa">, C<"Filiz">, C<"Gabrielle">, C<"Geraint">, C<"Giorgio">, C<"Gwyneth">, C<"Hans">, C<"Ines">, C<"Ivy">, C<"Jacek">, C<"Jan">, C<"Joanna">, C<"Joey">, C<"Justin">, C<"Karl">, C<"Kendra">, C<"Kevin">, C<"Kimberly">, C<"Lea">, C<"Liv">, C<"Lotte">, C<"Lucia">, C<"Lupe">, C<"Mads">, C<"Maja">, C<"Marlene">, C<"Mathieu">, C<"Matthew">, C<"Maxim">, C<"Mia">, C<"Miguel">, C<"Mizuki">, C<"Naja">, C<"Nicole">, C<"Olivia">, C<"Penelope">, C<"Raveena">, C<"Ricardo">, C<"Ruben">, C<"Russell">, C<"Salli">, C<"Seoyeon">, C<"Takumi">, C<"Tatyana">, C<"Vicki">, C<"Vitoria">, C<"Zeina">, C<"Zhiyu">, C<"Aria">, C<"Ayanda">, C<"Arlet">, C<"Hannah">, C<"Arthur">, C<"Daniel">, C<"Liam">, C<"Pedro">, C<"Kajal">, C<"Hiujin">, C<"Laura">, C<"Elin">, C<"Ida">, C<"Suvi">, C<"Ola">, C<"Hala">, C<"Andres">, C<"Sergio">, C<"Remi">, C<"Adriano">, C<"Thiago">, C<"Ruth">, C<"Stephen">, C<"Kazuha">, C<"Tomoko">, C<"Niamh">, C<"Sofie">, C<"Lisa">, C<"Isabelle">, C<"Zayd">, C<"Danielle">, C<"Gregory">, C<"Burcu">, C<"Jitka">, C<"Sabrina">, C<"Jasmine">, C<"Jihye">
 
 
 =head1 SEE ALSO

@@ -1,14 +1,19 @@
 
 package Paws::Synthetics::UpdateCanary;
   use Moose;
+  has ArtifactConfig => (is => 'ro', isa => 'Paws::Synthetics::ArtifactConfigInput');
+  has ArtifactS3Location => (is => 'ro', isa => 'Str');
   has Code => (is => 'ro', isa => 'Paws::Synthetics::CanaryCodeInput');
+  has DryRunId => (is => 'ro', isa => 'Str');
   has ExecutionRoleArn => (is => 'ro', isa => 'Str');
   has FailureRetentionPeriodInDays => (is => 'ro', isa => 'Int');
   has Name => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'name', required => 1);
+  has ProvisionedResourceCleanup => (is => 'ro', isa => 'Str');
   has RunConfig => (is => 'ro', isa => 'Paws::Synthetics::CanaryRunConfigInput');
   has RuntimeVersion => (is => 'ro', isa => 'Str');
   has Schedule => (is => 'ro', isa => 'Paws::Synthetics::CanaryScheduleInput');
   has SuccessRetentionPeriodInDays => (is => 'ro', isa => 'Int');
+  has VisualReference => (is => 'ro', isa => 'Paws::Synthetics::VisualReferenceInput');
   has VpcConfig => (is => 'ro', isa => 'Paws::Synthetics::VpcConfigInput');
 
   use MooseX::ClassAttribute;
@@ -37,16 +42,25 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $synthetics = Paws->service('Synthetics');
     my $UpdateCanaryResponse = $synthetics->UpdateCanary(
-      Name => 'MyCanaryName',
-      Code => {
-        Handler   => 'MyString',    # min: 1, max: 1024
-        S3Bucket  => 'MyString',    # min: 1, max: 1024
-        S3Key     => 'MyString',    # min: 1, max: 1024
-        S3Version => 'MyString',    # min: 1, max: 1024
-        ZipFile   => 'BlobBlob',    # min: 1, max: 10000000; OPTIONAL
+      Name           => 'MyCanaryName',
+      ArtifactConfig => {
+        S3Encryption => {
+          EncryptionMode => 'SSE_S3',        # values: SSE_S3, SSE_KMS; OPTIONAL
+          KmsKeyArn      => 'MyKmsKeyArn',   # min: 1, max: 2048; OPTIONAL
+        },    # OPTIONAL
       },    # OPTIONAL
+      ArtifactS3Location => 'MyString',    # OPTIONAL
+      Code               => {
+        Handler   => 'MyCodeHandler',      # min: 1, max: 128
+        S3Bucket  => 'MyString',           # min: 1, max: 1024
+        S3Key     => 'MyString',           # min: 1, max: 1024
+        S3Version => 'MyString',           # min: 1, max: 1024
+        ZipFile   => 'BlobBlob',           # min: 1, max: 10000000; OPTIONAL
+      },    # OPTIONAL
+      DryRunId                     => 'MyUUID',       # OPTIONAL
       ExecutionRoleArn             => 'MyRoleArn',    # OPTIONAL
       FailureRetentionPeriodInDays => 1,              # OPTIONAL
+      ProvisionedResourceCleanup   => 'AUTOMATIC',    # OPTIONAL
       RunConfig                    => {
         ActiveTracing        => 1,                    # OPTIONAL
         EnvironmentVariables =>
@@ -59,9 +73,26 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       Schedule       => {
         Expression        => 'MyString',    # min: 1, max: 1024
         DurationInSeconds => 1,             # max: 31622400; OPTIONAL
+        RetryConfig       => {
+          MaxRetries => 1,                  # max: 2
+
+        },    # OPTIONAL
       },    # OPTIONAL
       SuccessRetentionPeriodInDays => 1,    # OPTIONAL
-      VpcConfig                    => {
+      VisualReference              => {
+        BaseCanaryRunId => 'MyString',      # min: 1, max: 1024
+        BaseScreenshots => [
+          {
+            ScreenshotName    => 'MyString',    # min: 1, max: 1024
+            IgnoreCoordinates =>
+              [ 'MyBaseScreenshotConfigIgnoreCoordinate', ... ]
+            ,                                   # max: 20; OPTIONAL
+          },
+          ...
+        ],    # OPTIONAL
+      },    # OPTIONAL
+      VpcConfig => {
+        Ipv6AllowedForDualStack => 1,                        # OPTIONAL
         SecurityGroupIds => [ 'MySecurityGroupId', ... ],    # max: 5; OPTIONAL
         SubnetIds        => [ 'MySubnetId',        ... ],    # max: 16; OPTIONAL
       },    # OPTIONAL
@@ -73,11 +104,38 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/syn
 =head1 ATTRIBUTES
 
 
+=head2 ArtifactConfig => L<Paws::Synthetics::ArtifactConfigInput>
+
+A structure that contains the configuration for canary artifacts,
+including the encryption-at-rest settings for artifacts that the canary
+uploads to Amazon S3.
+
+
+
+=head2 ArtifactS3Location => Str
+
+The location in Amazon S3 where Synthetics stores artifacts from the
+test runs of this canary. Artifacts include the log file, screenshots,
+and HAR files. The name of the S3 bucket can't include a period (.).
+
+
+
 =head2 Code => L<Paws::Synthetics::CanaryCodeInput>
 
 A structure that includes the entry point from which the canary should
 start running your script. If the script is stored in an S3 bucket, the
 bucket name, key, and version are also included.
+
+
+
+=head2 DryRunId => Str
+
+Update the existing canary using the updated configurations from the
+DryRun associated with the DryRunId.
+
+When you use the C<dryRunId> field when updating a canary, the only
+other field you can provide is the C<Schedule>. Adding any other field
+will thrown an exception.
 
 
 
@@ -126,6 +184,11 @@ C<logs:CreateLogStream>
 
 The number of days to retain data about failed runs of this canary.
 
+This setting affects the range of information returned by GetCanaryRuns
+(https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_GetCanaryRuns.html),
+as well as the range of information displayed in the Synthetics
+console.
+
 
 
 =head2 B<REQUIRED> Name => Str
@@ -138,10 +201,28 @@ You cannot change the name of a canary that has already been created.
 
 
 
+=head2 ProvisionedResourceCleanup => Str
+
+Specifies whether to also delete the Lambda functions and layers used
+by this canary when the canary is deleted.
+
+If the value of this parameter is C<OFF>, then the value of the
+C<DeleteLambda> parameter of the DeleteCanary
+(https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_DeleteCanary.html)
+operation determines whether the Lambda functions and layers will be
+deleted.
+
+Valid values are: C<"AUTOMATIC">, C<"OFF">
+
 =head2 RunConfig => L<Paws::Synthetics::CanaryRunConfigInput>
 
 A structure that contains the timeout value that is used for each
 individual run of the canary.
+
+Environment variable keys and values are encrypted at rest using Amazon
+Web Services owned KMS keys. However, the environment variables are not
+encrypted on the client side. Do not store sensitive information in
+them.
 
 
 
@@ -164,6 +245,27 @@ run, and when these runs are to stop.
 =head2 SuccessRetentionPeriodInDays => Int
 
 The number of days to retain data about successful runs of this canary.
+
+This setting affects the range of information returned by GetCanaryRuns
+(https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_GetCanaryRuns.html),
+as well as the range of information displayed in the Synthetics
+console.
+
+
+
+=head2 VisualReference => L<Paws::Synthetics::VisualReferenceInput>
+
+Defines the screenshots to use as the baseline for comparisons during
+visual monitoring comparisons during future runs of this canary. If you
+omit this parameter, no changes are made to any baseline screenshots
+that the canary might be using already.
+
+Visual monitoring is supported only on canaries running the
+B<syn-puppeteer-node-3.2> runtime or later. For more information, see
+Visual monitoring
+(https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Library_SyntheticsLogger_VisualTesting.html)
+and Visual monitoring blueprint
+(https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_Blueprints_VisualTesting.html)
 
 
 

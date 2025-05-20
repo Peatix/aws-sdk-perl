@@ -46,18 +46,23 @@ more endpoints, such as load balancers.
 =head2 ClientIPPreservationEnabled => Bool
 
 Indicates whether client IP address preservation is enabled for an
-Application Load Balancer endpoint. The value is true or false. The
-default value is true for new accelerators.
+endpoint. The value is true or false. The default value is true for
+Application Load Balancers endpoints.
 
 If the value is set to true, the client's IP address is preserved in
 the C<X-Forwarded-For> request header as traffic travels to
-applications on the Application Load Balancer endpoint fronted by the
-accelerator.
+applications on the endpoint fronted by the accelerator.
 
-For more information, see Viewing Client IP Addresses in AWS Global
+Client IP address preservation is supported, in specific Amazon Web
+Services Regions, for endpoints that are Application Load Balancers,
+Amazon EC2 instances, and Network Load Balancers with security groups.
+IMPORTANT: You cannot use client IP address preservation with Network
+Load Balancers with TLS listeners.
+
+For more information, see Preserve client IP addresses in Global
 Accelerator
-(https://docs.aws.amazon.com/global-accelerator/latest/dg/introduction-how-it-works-client-ip.html)
-in the I<AWS Global Accelerator Developer Guide>.
+(https://docs.aws.amazon.com/global-accelerator/latest/dg/preserve-client-ip-address.html)
+in the I<Global Accelerator Developer Guide>.
 
 
 =head2 EndpointId => Str
@@ -84,14 +89,14 @@ The health status of the endpoint.
 =head2 Weight => Int
 
 The weight associated with the endpoint. When you add weights to
-endpoints, you configure AWS Global Accelerator to route traffic based
-on proportions that you specify. For example, you might specify
-endpoint weights of 4, 5, 5, and 6 (sum=20). The result is that 4/20 of
-your traffic, on average, is routed to the first endpoint, 5/20 is
-routed both to the second and third endpoints, and 6/20 is routed to
-the last endpoint. For more information, see Endpoint Weights
+endpoints, you configure Global Accelerator to route traffic based on
+proportions that you specify. For example, you might specify endpoint
+weights of 4, 5, 5, and 6 (sum=20). The result is that 4/20 of your
+traffic, on average, is routed to the first endpoint, 5/20 is routed
+both to the second and third endpoints, and 6/20 is routed to the last
+endpoint. For more information, see Endpoint weights
 (https://docs.aws.amazon.com/global-accelerator/latest/dg/about-endpoints-endpoint-weights.html)
-in the I<AWS Global Accelerator Developer Guide>.
+in the I<Global Accelerator Developer Guide>.
 
 
 

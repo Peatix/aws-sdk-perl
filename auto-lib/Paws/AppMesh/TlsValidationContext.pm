@@ -43,7 +43,14 @@ Transport Layer Security (TLS) negotiation.
 =head2 SubjectAlternativeNames => L<Paws::AppMesh::SubjectAlternativeNames>
 
 A reference to an object that represents the SANs for a Transport Layer
-Security (TLS) validation context.
+Security (TLS) validation context. If you don't specify SANs on the
+I<terminating> mesh endpoint, the Envoy proxy for that node doesn't
+verify the SAN on a peer client certificate. If you don't specify SANs
+on the I<originating> mesh endpoint, the SAN on the certificate
+provided by the terminating endpoint must match the mesh endpoint
+service discovery configuration. Since SPIRE vended certificates have a
+SPIFFE ID as a name, you must set the SAN since the name doesn't match
+the service discovery name.
 
 
 =head2 B<REQUIRED> Trust => L<Paws::AppMesh::TlsValidationContextTrust>

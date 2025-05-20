@@ -1,6 +1,7 @@
 
 package Paws::SageMaker::DescribeDeviceResponse;
   use Moose;
+  has AgentVersion => (is => 'ro', isa => 'Str');
   has Description => (is => 'ro', isa => 'Str');
   has DeviceArn => (is => 'ro', isa => 'Str');
   has DeviceFleetName => (is => 'ro', isa => 'Str', required => 1);
@@ -21,6 +22,11 @@ package Paws::SageMaker::DescribeDeviceResponse;
 Paws::SageMaker::DescribeDeviceResponse
 
 =head1 ATTRIBUTES
+
+
+=head2 AgentVersion => Str
+
+Edge Manager agent version.
 
 
 =head2 Description => Str

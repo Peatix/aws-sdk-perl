@@ -3,6 +3,8 @@ package Paws::WAFV2::RuleAction;
   use Moose;
   has Allow => (is => 'ro', isa => 'Paws::WAFV2::AllowAction');
   has Block => (is => 'ro', isa => 'Paws::WAFV2::BlockAction');
+  has Captcha => (is => 'ro', isa => 'Paws::WAFV2::CaptchaAction');
+  has Challenge => (is => 'ro', isa => 'Paws::WAFV2::ChallengeAction');
   has Count => (is => 'ro', isa => 'Paws::WAFV2::CountAction');
 
 1;
@@ -52,9 +54,20 @@ Instructs WAF to allow the web request.
 Instructs WAF to block the web request.
 
 
+=head2 Captcha => L<Paws::WAFV2::CaptchaAction>
+
+Instructs WAF to run a C<CAPTCHA> check against the web request.
+
+
+=head2 Challenge => L<Paws::WAFV2::ChallengeAction>
+
+Instructs WAF to run a C<Challenge> check against the web request.
+
+
 =head2 Count => L<Paws::WAFV2::CountAction>
 
-Instructs WAF to count the web request and allow it.
+Instructs WAF to count the web request and then continue evaluating the
+request using the remaining rules in the web ACL.
 
 
 

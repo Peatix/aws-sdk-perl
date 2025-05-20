@@ -35,16 +35,16 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $networkmanager = Paws->service('NetworkManager');
     my $CreateConnectionResponse = $networkmanager->CreateConnection(
-      ConnectedDeviceId => 'MyString',
-      DeviceId          => 'MyString',
-      GlobalNetworkId   => 'MyString',
-      ConnectedLinkId   => 'MyString',    # OPTIONAL
-      Description       => 'MyString',    # OPTIONAL
-      LinkId            => 'MyString',    # OPTIONAL
+      ConnectedDeviceId => 'MyDeviceId',
+      DeviceId          => 'MyDeviceId',
+      GlobalNetworkId   => 'MyGlobalNetworkId',
+      ConnectedLinkId   => 'MyLinkId',               # OPTIONAL
+      Description       => 'MyConstrainedString',    # OPTIONAL
+      LinkId            => 'MyLinkId',               # OPTIONAL
       Tags              => [
         {
-          Key   => 'MyTagKey',      # OPTIONAL
-          Value => 'MyTagValue',    # OPTIONAL
+          Key   => 'MyTagKey',      # max: 10000000; OPTIONAL
+          Value => 'MyTagValue',    # max: 10000000; OPTIONAL
         },
         ...
       ],    # OPTIONAL

@@ -33,9 +33,13 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::WAFV2::Sing
 
 =head1 DESCRIPTION
 
-One query argument in a web request, identified by name, for example
-I<UserName> or I<SalesRegion>. The name can be up to 30 characters long
-and isn't case sensitive.
+Inspect one query argument in the web request, identified by name, for
+example I<UserName> or I<SalesRegion>. The name isn't case sensitive.
+
+This is used to indicate the web request component to inspect, in the
+FieldToMatch specification.
+
+Example JSON: C<"SingleQueryArgument": { "Name": "myArgument" }>
 
 =head1 ATTRIBUTES
 

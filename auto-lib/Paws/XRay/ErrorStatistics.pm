@@ -49,7 +49,7 @@ status codes.
 
 =head2 ThrottleCount => Int
 
-The number of requests that failed with a 419 throttling status code.
+The number of requests that failed with a 429 throttling status code.
 
 
 =head2 TotalCount => Int

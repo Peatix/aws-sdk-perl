@@ -80,8 +80,8 @@ The ID of the resource.
 
 =head2 ResourceOwnerId => Str
 
-The ID of the AWS account that owns the transit gateway multicast
-domain group resource.
+The ID of the Amazon Web Services account that owns the transit gateway
+multicast domain group resource.
 
 
 =head2 ResourceType => Str

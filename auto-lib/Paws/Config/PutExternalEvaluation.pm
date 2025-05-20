@@ -49,7 +49,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/con
 
 =head2 B<REQUIRED> ConfigRuleName => Str
 
-The name of the AWS Config rule.
+The name of the Config rule.
 
 
 

@@ -9,6 +9,7 @@ package Paws::SageMaker::DescribeContextResponse;
   has Description => (is => 'ro', isa => 'Str');
   has LastModifiedBy => (is => 'ro', isa => 'Paws::SageMaker::UserContext');
   has LastModifiedTime => (is => 'ro', isa => 'Str');
+  has LineageGroupArn => (is => 'ro', isa => 'Str');
   has Properties => (is => 'ro', isa => 'Paws::SageMaker::LineageEntityParameters');
   has Source => (is => 'ro', isa => 'Paws::SageMaker::ContextSource');
 
@@ -61,6 +62,11 @@ The description of the context.
 =head2 LastModifiedTime => Str
 
 When the context was last modified.
+
+
+=head2 LineageGroupArn => Str
+
+The Amazon Resource Name (ARN) of the lineage group.
 
 
 =head2 Properties => L<Paws::SageMaker::LineageEntityParameters>

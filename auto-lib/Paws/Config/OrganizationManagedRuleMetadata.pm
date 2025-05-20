@@ -41,28 +41,28 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Config::Org
 =head1 DESCRIPTION
 
 An object that specifies organization managed rule metadata such as
-resource type and ID of AWS resource along with the rule identifier. It
-also provides the frequency with which you want AWS Config to run
-evaluations for the rule if the trigger type is periodic.
+resource type and ID of Amazon Web Services resource along with the
+rule identifier. It also provides the frequency with which you want
+Config to run evaluations for the rule if the trigger type is periodic.
 
 =head1 ATTRIBUTES
 
 
 =head2 Description => Str
 
-The description that you provide for organization config rule.
+The description that you provide for your organization Config rule.
 
 
 =head2 InputParameters => Str
 
-A string, in JSON format, that is passed to organization config rule
-Lambda function.
+A string, in JSON format, that is passed to your organization Config
+rule Lambda function.
 
 
 =head2 MaximumExecutionFrequency => Str
 
-The maximum frequency with which AWS Config runs evaluations for a
-rule. You are using an AWS managed rule that is triggered at a periodic
+The maximum frequency with which Config runs evaluations for a rule.
+This is for an Config managed rule that is triggered at a periodic
 frequency.
 
 By default, rules with a periodic trigger are evaluated every 24 hours.
@@ -72,19 +72,19 @@ C<MaximumExecutionFrequency> parameter.
 
 =head2 ResourceIdScope => Str
 
-The ID of the AWS resource that was evaluated.
+The ID of the Amazon Web Services resource that was evaluated.
 
 
 =head2 ResourceTypesScope => ArrayRef[Str|Undef]
 
-The type of the AWS resource that was evaluated.
+The type of the Amazon Web Services resource that was evaluated.
 
 
 =head2 B<REQUIRED> RuleIdentifier => Str
 
 For organization config managed rules, a predefined identifier from a
 list. For example, C<IAM_PASSWORD_POLICY> is a managed rule. To
-reference a managed rule, see Using AWS Managed Config Rules
+reference a managed rule, see Using Config managed rules
 (https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config_use-managed-rules.html).
 
 

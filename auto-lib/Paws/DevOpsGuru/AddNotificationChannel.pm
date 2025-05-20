@@ -33,7 +33,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         Sns => {
           TopicArn => 'MyTopicArn',    # min: 36, max: 1024; OPTIONAL
         },
-
+        Filters => {
+          MessageTypes => [
+            'NEW_INSIGHT',
+            ... # values: NEW_INSIGHT, CLOSED_INSIGHT, NEW_ASSOCIATION, SEVERITY_UPGRADED, NEW_RECOMMENDATION
+          ],    # max: 5; OPTIONAL
+          Severities => [
+            'LOW', ...    # values: LOW, MEDIUM, HIGH
+          ],    # max: 3; OPTIONAL
+        },    # OPTIONAL
       },
 
     );

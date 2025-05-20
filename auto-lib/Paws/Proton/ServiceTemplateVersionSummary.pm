@@ -42,7 +42,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Proton::Ser
 
 =head1 DESCRIPTION
 
-A summary of the service template version detail data.
+Summary data of an Proton service template version resource.
 
 =head1 ATTRIBUTES
 
@@ -69,18 +69,18 @@ The time when the version of a service template was last modified.
 
 =head2 B<REQUIRED> MajorVersion => Str
 
-The ID of the latest major version that's associated with the version
-of a service template.
+The latest major version that's associated with the version of a
+service template.
 
 
 =head2 B<REQUIRED> MinorVersion => Str
 
-The ID of the minor version of a service template.
+The minor version of a service template.
 
 
 =head2 RecommendedMinorVersion => Str
 
-The ID of the recommended minor version of the service template.
+The recommended minor version of the service template.
 
 
 =head2 B<REQUIRED> Status => Str

@@ -5,7 +5,7 @@ package Paws::LocationService::ListRouteCalculatorsResponseEntry;
   has CreateTime => (is => 'ro', isa => 'Str', required => 1);
   has DataSource => (is => 'ro', isa => 'Str', required => 1);
   has Description => (is => 'ro', isa => 'Str', required => 1);
-  has PricingPlan => (is => 'ro', isa => 'Str', required => 1);
+  has PricingPlan => (is => 'ro', isa => 'Str');
   has UpdateTime => (is => 'ro', isa => 'Str', required => 1);
 
 1;
@@ -38,7 +38,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::LocationSer
 
 =head1 DESCRIPTION
 
-A route calculator resource listed in your AWS account.
+A route calculator resource listed in your Amazon Web Services account.
 
 =head1 ATTRIBUTES
 
@@ -77,6 +77,10 @@ C<Esri>
 
 =item *
 
+C<Grab>
+
+=item *
+
 C<Here>
 
 =back
@@ -91,13 +95,9 @@ data providers
 The optional description of the route calculator resource.
 
 
-=head2 B<REQUIRED> PricingPlan => Str
+=head2 PricingPlan => Str
 
-The pricing plan for the specified route calculator resource.
-
-For additional details and restrictions on each pricing plan option,
-see Amazon Location Service pricing
-(https://aws.amazon.com/location/pricing/).
+Always returns C<RequestBasedUsage>.
 
 
 =head2 B<REQUIRED> UpdateTime => Str

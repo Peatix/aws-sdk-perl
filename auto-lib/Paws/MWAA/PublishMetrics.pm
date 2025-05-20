@@ -66,14 +66,16 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/air
 
 =head2 B<REQUIRED> EnvironmentName => Str
 
-Publishes environment metric data to Amazon CloudWatch.
+B<Internal only>. The name of the environment.
 
 
 
 =head2 B<REQUIRED> MetricData => ArrayRef[L<Paws::MWAA::MetricDatum>]
 
-Publishes metric data points to Amazon CloudWatch. CloudWatch
-associates the data points with the specified metrica.
+B<Internal only>. Publishes metrics to Amazon CloudWatch. To learn more
+about the metrics published to Amazon CloudWatch, see Amazon MWAA
+performance metrics in Amazon CloudWatch
+(https://docs.aws.amazon.com/mwaa/latest/userguide/cw-metrics.html).
 
 
 

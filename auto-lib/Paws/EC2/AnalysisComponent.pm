@@ -2,6 +2,7 @@ package Paws::EC2::AnalysisComponent;
   use Moose;
   has Arn => (is => 'ro', isa => 'Str', request_name => 'arn', traits => ['NameInRequest']);
   has Id => (is => 'ro', isa => 'Str', request_name => 'id', traits => ['NameInRequest']);
+  has Name => (is => 'ro', isa => 'Str', request_name => 'name', traits => ['NameInRequest']);
 1;
 
 ### main pod documentation begin ###
@@ -21,7 +22,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::EC2::AnalysisComponent object:
 
-  $service_obj->Method(Att1 => { Arn => $value, ..., Id => $value  });
+  $service_obj->Method(Att1 => { Arn => $value, ..., Name => $value  });
 
 =head3 Results returned from an API call
 
@@ -45,6 +46,11 @@ The Amazon Resource Name (ARN) of the component.
 =head2 Id => Str
 
 The ID of the component.
+
+
+=head2 Name => Str
+
+The name of the analysis component.
 
 
 

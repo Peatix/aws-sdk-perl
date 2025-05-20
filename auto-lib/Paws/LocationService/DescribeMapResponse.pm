@@ -7,7 +7,7 @@ package Paws::LocationService::DescribeMapResponse;
   has Description => (is => 'ro', isa => 'Str', required => 1);
   has MapArn => (is => 'ro', isa => 'Str', required => 1);
   has MapName => (is => 'ro', isa => 'Str', required => 1);
-  has PricingPlan => (is => 'ro', isa => 'Str', required => 1);
+  has PricingPlan => (is => 'ro', isa => 'Str');
   has Tags => (is => 'ro', isa => 'Paws::LocationService::TagMap');
   has UpdateTime => (is => 'ro', isa => 'Str', required => 1);
 
@@ -47,14 +47,14 @@ The optional description for the map resource.
 
 =head2 B<REQUIRED> MapArn => Str
 
-The Amazon Resource Name (ARN) for the map resource. Used when you need
-to specify a resource across all AWS.
+The Amazon Resource Name (ARN) for the map resource. Used to specify a
+resource across all Amazon Web Services.
 
 =over
 
 =item *
 
-Format example: C<arn:aws:geo:region:account-id:maps/ExampleMap>
+Format example: C<arn:aws:geo:region:account-id:map/ExampleMap>
 
 =back
 
@@ -65,11 +65,9 @@ Format example: C<arn:aws:geo:region:account-id:maps/ExampleMap>
 The map style selected from an available provider.
 
 
-=head2 B<REQUIRED> PricingPlan => Str
+=head2 PricingPlan => Str
 
-The pricing plan selected for the specified map resource.
-
- <p>For additional details and restrictions on each pricing plan option, see the <a href="https://aws.amazon.com/location/pricing/">Amazon Location Service pricing page</a>.</p>
+No longer used. Always returns C<RequestBasedUsage>.
 
 Valid values are: C<"RequestBasedUsage">, C<"MobileAssetTracking">, C<"MobileAssetManagement">
 =head2 Tags => L<Paws::LocationService::TagMap>

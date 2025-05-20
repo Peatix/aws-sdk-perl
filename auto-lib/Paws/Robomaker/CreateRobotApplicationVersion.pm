@@ -3,6 +3,8 @@ package Paws::Robomaker::CreateRobotApplicationVersion;
   use Moose;
   has Application => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'application', required => 1);
   has CurrentRevisionId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'currentRevisionId');
+  has ImageDigest => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'imageDigest');
+  has S3Etags => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 's3Etags');
 
   use MooseX::ClassAttribute;
 
@@ -32,11 +34,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $CreateRobotApplicationVersionResponse =
       $robomaker->CreateRobotApplicationVersion(
       Application       => 'MyArn',
-      CurrentRevisionId => 'MyRevisionId',    # OPTIONAL
+      CurrentRevisionId => 'MyRevisionId',         # OPTIONAL
+      ImageDigest       => 'MyImageDigest',        # OPTIONAL
+      S3Etags           => [ 'MyS3Etag', ... ],    # OPTIONAL
       );
 
     # Results:
     my $Arn           = $CreateRobotApplicationVersionResponse->Arn;
+    my $Environment   = $CreateRobotApplicationVersionResponse->Environment;
     my $LastUpdatedAt = $CreateRobotApplicationVersionResponse->LastUpdatedAt;
     my $Name          = $CreateRobotApplicationVersionResponse->Name;
     my $RevisionId    = $CreateRobotApplicationVersionResponse->RevisionId;
@@ -64,6 +69,20 @@ The application information for the robot application.
 The current revision id for the robot application. If you provide a
 value and it matches the latest revision ID, a new version will be
 created.
+
+
+
+=head2 ImageDigest => Str
+
+A SHA256 identifier for the Docker image that you use for your robot
+application.
+
+
+
+=head2 S3Etags => ArrayRef[Str|Undef]
+
+The Amazon S3 identifier for the zip file bundle that you use for your
+robot application.
 
 
 

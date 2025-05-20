@@ -2,6 +2,7 @@
 package Paws::Kinesis::UpdateShardCountOutput;
   use Moose;
   has CurrentShardCount => (is => 'ro', isa => 'Int');
+  has StreamARN => (is => 'ro', isa => 'Str');
   has StreamName => (is => 'ro', isa => 'Str');
   has TargetShardCount => (is => 'ro', isa => 'Int');
 
@@ -19,6 +20,11 @@ Paws::Kinesis::UpdateShardCountOutput
 =head2 CurrentShardCount => Int
 
 The current number of shards.
+
+
+=head2 StreamARN => Str
+
+The ARN of the stream.
 
 
 =head2 StreamName => Str

@@ -44,14 +44,21 @@ VPC. To control incoming internet traffic, invoke the C<UpdateServer>
 API and attach an Elastic IP address to your server's endpoint.
 
 After May 19, 2021, you won't be able to create a server using
-C<EndpointType=VPC_ENDPOINT> in your Amazon Web Servicesaccount if your
-account hasn't already done so before May 19, 2021. If you have already
-created servers with C<EndpointType=VPC_ENDPOINT> in your Amazon Web
-Servicesaccount on or before May 19, 2021, you will not be affected.
-After this date, use C<EndpointType>=C<VPC>.
+C<EndpointType=VPC_ENDPOINT> in your Amazon Web Services account if
+your account hasn't already done so before May 19, 2021. If you have
+already created servers with C<EndpointType=VPC_ENDPOINT> in your
+Amazon Web Services account on or before May 19, 2021, you will not be
+affected. After this date, use C<EndpointType>=C<VPC>.
 
 For more information, see
 https://docs.aws.amazon.com/transfer/latest/userguide/create-server-in-vpc.html#deprecate-vpc-endpoint.
+
+It is recommended that you use C<VPC> as the C<EndpointType>. With this
+endpoint type, you have the option to directly associate up to three
+Elastic IPv4 addresses (BYO IP included) with your server's endpoint
+and use VPC security groups to restrict traffic by the client's public
+IP address. This is not possible with C<EndpointType> set to
+C<VPC_ENDPOINT>.
 
 =head1 ATTRIBUTES
 
@@ -61,8 +68,54 @@ https://docs.aws.amazon.com/transfer/latest/userguide/create-server-in-vpc.html#
 A list of address allocation IDs that are required to attach an Elastic
 IP address to your server's endpoint.
 
-This property can only be set when C<EndpointType> is set to C<VPC> and
-it is only valid in the C<UpdateServer> API.
+An address allocation ID corresponds to the allocation ID of an Elastic
+IP address. This value can be retrieved from the C<allocationId> field
+from the Amazon EC2 Address
+(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_Address.html)
+data type. One way to retrieve this value is by calling the EC2
+DescribeAddresses
+(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeAddresses.html)
+API.
+
+This parameter is optional. Set this parameter if you want to make your
+VPC endpoint public-facing. For details, see Create an internet-facing
+endpoint for your server
+(https://docs.aws.amazon.com/transfer/latest/userguide/create-server-in-vpc.html#create-internet-facing-endpoint).
+
+This property can only be set as follows:
+
+=over
+
+=item *
+
+C<EndpointType> must be set to C<VPC>
+
+=item *
+
+The Transfer Family server must be offline.
+
+=item *
+
+You cannot set this parameter for Transfer Family servers that use the
+FTP protocol.
+
+=item *
+
+The server must already have C<SubnetIds> populated (C<SubnetIds> and
+C<AddressAllocationIds> cannot be updated simultaneously).
+
+=item *
+
+C<AddressAllocationIds> can't contain duplicates, and must be equal in
+length to C<SubnetIds>. For example, if you have three subnet IDs, you
+must also specify three address allocation IDs.
+
+=item *
+
+Call the C<UpdateServer> API to set or change this parameter.
+
+=back
+
 
 
 =head2 SecurityGroupIds => ArrayRef[Str|Undef]
@@ -92,7 +145,7 @@ This property can only be set when C<EndpointType> is set to C<VPC>.
 
 =head2 VpcEndpointId => Str
 
-The ID of the VPC endpoint.
+The identifier of the VPC endpoint.
 
 This property can only be set when C<EndpointType> is set to
 C<VPC_ENDPOINT>.
@@ -103,7 +156,8 @@ https://docs.aws.amazon.com/transfer/latest/userguide/create-server-in-vpc.html#
 
 =head2 VpcId => Str
 
-The VPC ID of the VPC in which a server's endpoint will be hosted.
+The VPC identifier of the VPC in which a server's endpoint will be
+hosted.
 
 This property can only be set when C<EndpointType> is set to C<VPC>.
 

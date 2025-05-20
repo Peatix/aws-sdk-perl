@@ -31,7 +31,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $wellarchitected = Paws->service('WellArchitected');
     $wellarchitected->AssociateLenses(
       LensAliases => [
-        'MyLensAlias', ...    # min: 1, max: 64
+        'MyLensAlias', ...    # min: 1, max: 128
       ],
       WorkloadId => 'MyWorkloadId',
 

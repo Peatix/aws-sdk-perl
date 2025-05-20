@@ -18,19 +18,19 @@ Paws::CloudFormation::ListTypeRegistrationsOutput
 
 =head2 NextToken => Str
 
-If the request doesn't return all of the remaining results,
-C<NextToken> is set to a token. To retrieve the next set of results,
-call this action again and assign that token to the request object's
-C<NextToken> parameter. If the request returns all results,
-C<NextToken> is set to C<null>.
+If the request doesn't return all the remaining results, C<NextToken>
+is set to a token. To retrieve the next set of results, call this
+action again and assign that token to the request object's C<NextToken>
+parameter. If the request returns all results, C<NextToken> is set to
+C<null>.
 
 
 =head2 RegistrationTokenList => ArrayRef[Str|Undef]
 
 A list of extension registration tokens.
 
-Use C< DescribeTypeRegistration > to return detailed information about
-a type registration request.
+Use DescribeTypeRegistration to return detailed information about a
+type registration request.
 
 
 =head2 _request_id => Str

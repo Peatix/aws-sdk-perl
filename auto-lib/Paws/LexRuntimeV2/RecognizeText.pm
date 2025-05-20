@@ -62,8 +62,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ],    # max: 20; OPTIONAL
         DialogAction => {
           Type => 'Close'
-          ,   # values: Close, ConfirmIntent, Delegate, ElicitIntent, ElicitSlot
-          SlotToElicit => 'MyNonEmptyString',    # min: 1
+          , # values: Close, ConfirmIntent, Delegate, ElicitIntent, ElicitSlot, None
+          SlotElicitationStyle =>
+            'Default',   # values: Default, SpellByLetter, SpellByWord; OPTIONAL
+          SlotToElicit    => 'MyNonEmptyString',    # min: 1
+          SubSlotToElicit => {
+            Name            => 'MyNonEmptyString',    # min: 1
+            SubSlotToElicit => <ElicitSubSlot>,
+          },    # OPTIONAL
         },    # OPTIONAL
         Intent => {
           Name              => 'MyNonEmptyString',    # min: 1
@@ -71,8 +77,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             'Confirmed',    # values: Confirmed, Denied, None; OPTIONAL
           Slots => {
             'MyNonEmptyString' => {
-              Shape => 'Scalar',    # values: Scalar, List; OPTIONAL
-              Value => {
+              Shape    => 'Scalar',  # values: Scalar, List, Composite; OPTIONAL
+              SubSlots => <Slots>,
+              Value    => {
                 InterpretedValue => 'MyNonEmptyString',    # min: 1
                 OriginalValue    => 'MyNonEmptyString',    # min: 1
                 ResolvedValues   => [
@@ -83,21 +90,38 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             },    # key: min: 1
           },    # OPTIONAL
           State => 'Failed'
-          , # values: Failed, Fulfilled, InProgress, ReadyForFulfillment, Waiting; OPTIONAL
+          , # values: Failed, Fulfilled, InProgress, ReadyForFulfillment, Waiting, FulfillmentInProgress; OPTIONAL
         },    # OPTIONAL
         OriginatingRequestId => 'MyNonEmptyString',    # min: 1
-        SessionAttributes    => {
-          'MyNonEmptyString' => 'MyString',            # key: min: 1
+        RuntimeHints         => {
+          SlotHints => {
+            'MyName' => {
+              'MyName' => {
+                RuntimeHintValues => [
+                  {
+                    Phrase => 'MyRuntimeHintPhrase',    # min: 1, max: 140
+
+                  },
+                  ...
+                ],    # min: 1, max: 100; OPTIONAL
+                SubSlotHints => <SlotHintsSlotMap>,
+              },    # key: min: 1, max: 100
+            },    # key: min: 1, max: 100
+          },    # OPTIONAL
+        },    # OPTIONAL
+        SessionAttributes => {
+          'MyNonEmptyString' => 'MyString',    # key: min: 1
         },
       },    # OPTIONAL
     );
 
     # Results:
-    my $Interpretations   = $RecognizeTextResponse->Interpretations;
-    my $Messages          = $RecognizeTextResponse->Messages;
-    my $RequestAttributes = $RecognizeTextResponse->RequestAttributes;
-    my $SessionId         = $RecognizeTextResponse->SessionId;
-    my $SessionState      = $RecognizeTextResponse->SessionState;
+    my $Interpretations     = $RecognizeTextResponse->Interpretations;
+    my $Messages            = $RecognizeTextResponse->Messages;
+    my $RecognizedBotMember = $RecognizeTextResponse->RecognizedBotMember;
+    my $RequestAttributes   = $RecognizeTextResponse->RequestAttributes;
+    my $SessionId           = $RecognizeTextResponse->SessionId;
+    my $SessionState        = $RecognizeTextResponse->SessionState;
 
     # Returns a L<Paws::LexRuntimeV2::RecognizeTextResponse> object.
 

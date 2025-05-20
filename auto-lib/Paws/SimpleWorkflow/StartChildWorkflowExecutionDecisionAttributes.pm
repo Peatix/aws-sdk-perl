@@ -194,7 +194,7 @@ registration time then a fault is returned.
 The specified string must not start or end with whitespace. It must not
 contain a C<:> (colon), C</> (slash), C<|> (vertical bar), or any
 control characters (C<\u0000-\u001f> | C<\u007f-\u009f>). Also, it must
-not contain the literal string C<arn>.
+I<not> be the literal string C<arn>.
 
 
 =head2 TaskPriority => Str
@@ -233,10 +233,9 @@ is returned.
 
 The C<workflowId> of the workflow execution.
 
-The specified string must not start or end with whitespace. It must not
-contain a C<:> (colon), C</> (slash), C<|> (vertical bar), or any
-control characters (C<\u0000-\u001f> | C<\u007f-\u009f>). Also, it must
-not contain the literal string C<arn>.
+The specified string must not contain a C<:> (colon), C</> (slash),
+C<|> (vertical bar), or any control characters (C<\u0000-\u001f> |
+C<\u007f-\u009f>). Also, it must I<not> be the literal string C<arn>.
 
 
 =head2 B<REQUIRED> WorkflowType => L<Paws::SimpleWorkflow::WorkflowType>

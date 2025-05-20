@@ -55,14 +55,15 @@ The name of the Auto Scaling group.
 
 The type of event that causes the notification to be sent. To query the
 notification types supported by Amazon EC2 Auto Scaling, call the
-DescribeAutoScalingNotificationTypes API.
+DescribeAutoScalingNotificationTypes
+(https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeAutoScalingNotificationTypes.html)
+API.
 
 
 
 =head2 B<REQUIRED> TopicARN => Str
 
-The Amazon Resource Name (ARN) of the Amazon Simple Notification
-Service (Amazon SNS) topic.
+The Amazon Resource Name (ARN) of the Amazon SNS topic.
 
 
 

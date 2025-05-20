@@ -66,18 +66,19 @@ C<ApplyImmediately=False> is not currently supported.
 =head2 NewReplicaCount => Int
 
 The number of read replica nodes you want at the completion of this
-operation. For Redis (cluster mode disabled) replication groups, this
-is the number of replica nodes in the replication group. For Redis
-(cluster mode enabled) replication groups, this is the number of
-replica nodes in each of the replication group's node groups.
+operation. For Valkey or Redis OSS (cluster mode disabled) replication
+groups, this is the number of replica nodes in the replication group.
+For Valkey or Redis OSS (cluster mode enabled) replication groups, this
+is the number of replica nodes in each of the replication group's node
+groups.
 
 
 
 =head2 ReplicaConfiguration => ArrayRef[L<Paws::ElastiCache::ConfigureShard>]
 
 A list of C<ConfigureShard> objects that can be used to configure each
-shard in a Redis (cluster mode enabled) replication group. The
-C<ConfigureShard> has three members: C<NewReplicaCount>,
+shard in a Valkey or Redis OSS (cluster mode enabled) replication
+group. The C<ConfigureShard> has three members: C<NewReplicaCount>,
 C<NodeGroupId>, and C<PreferredAvailabilityZones>.
 
 

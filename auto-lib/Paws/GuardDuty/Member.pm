@@ -2,6 +2,7 @@
 package Paws::GuardDuty::Member;
   use Moose;
   has AccountId => (is => 'ro', isa => 'Str', request_name => 'accountId', traits => ['NameInRequest'], required => 1);
+  has AdministratorId => (is => 'ro', isa => 'Str', request_name => 'administratorId', traits => ['NameInRequest']);
   has DetectorId => (is => 'ro', isa => 'Str', request_name => 'detectorId', traits => ['NameInRequest']);
   has Email => (is => 'ro', isa => 'Str', request_name => 'email', traits => ['NameInRequest'], required => 1);
   has InvitedAt => (is => 'ro', isa => 'Str', request_name => 'invitedAt', traits => ['NameInRequest']);
@@ -47,6 +48,11 @@ Contains information about the member account.
 =head2 B<REQUIRED> AccountId => Str
 
 The ID of the member account.
+
+
+=head2 AdministratorId => Str
+
+The administrator account ID.
 
 
 =head2 DetectorId => Str

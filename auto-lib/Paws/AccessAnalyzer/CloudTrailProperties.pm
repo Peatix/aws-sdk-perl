@@ -42,7 +42,7 @@ Contains information about CloudTrail access.
 
 =head2 B<REQUIRED> EndTime => Str
 
-The end of the time range for which Access Analyzer reviews your
+The end of the time range for which IAM Access Analyzer reviews your
 CloudTrail events. Events with a timestamp after this time are not
 considered to generate a policy. If this is not included in the
 request, the default value is the current time.
@@ -50,7 +50,7 @@ request, the default value is the current time.
 
 =head2 B<REQUIRED> StartTime => Str
 
-The start of the time range for which Access Analyzer reviews your
+The start of the time range for which IAM Access Analyzer reviews your
 CloudTrail events. Events with a timestamp before this time are not
 considered to generate a policy.
 

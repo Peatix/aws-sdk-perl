@@ -3,15 +3,19 @@ package Paws::Snowball::CreateCluster;
   use Moose;
   has AddressId => (is => 'ro', isa => 'Str', required => 1);
   has Description => (is => 'ro', isa => 'Str');
+  has ForceCreateJobs => (is => 'ro', isa => 'Bool');
   has ForwardingAddressId => (is => 'ro', isa => 'Str');
+  has InitialClusterSize => (is => 'ro', isa => 'Int');
   has JobType => (is => 'ro', isa => 'Str', required => 1);
   has KmsKeyARN => (is => 'ro', isa => 'Str');
+  has LongTermPricingIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has Notification => (is => 'ro', isa => 'Paws::Snowball::Notification');
   has OnDeviceServiceConfiguration => (is => 'ro', isa => 'Paws::Snowball::OnDeviceServiceConfiguration');
   has RemoteManagement => (is => 'ro', isa => 'Str');
-  has Resources => (is => 'ro', isa => 'Paws::Snowball::JobResource', required => 1);
-  has RoleARN => (is => 'ro', isa => 'Str', required => 1);
+  has Resources => (is => 'ro', isa => 'Paws::Snowball::JobResource');
+  has RoleARN => (is => 'ro', isa => 'Str');
   has ShippingOption => (is => 'ro', isa => 'Str', required => 1);
+  has SnowballCapacityPreference => (is => 'ro', isa => 'Str');
   has SnowballType => (is => 'ro', isa => 'Str', required => 1);
   has TaxDocuments => (is => 'ro', isa => 'Paws::Snowball::TaxDocuments');
 
@@ -95,10 +99,27 @@ C<Environmental Data Cluster-01>.
 
 
 
+=head2 ForceCreateJobs => Bool
+
+Force to create cluster when user attempts to overprovision or
+underprovision a cluster. A cluster is overprovisioned or
+underprovisioned if the initial size of the cluster is more
+(overprovisioned) or less (underprovisioned) than what needed to meet
+capacity requirement specified with C<OnDeviceServiceConfiguration>.
+
+
+
 =head2 ForwardingAddressId => Str
 
 The forwarding address ID for a cluster. This field is not supported in
 most regions.
+
+
+
+=head2 InitialClusterSize => Int
+
+If provided, each job will be automatically created and associated with
+the new cluster. If not provided, will be treated as 0.
 
 
 
@@ -120,7 +141,14 @@ Valid values are: C<"IMPORT">, C<"EXPORT">, C<"LOCAL_USE">
 The C<KmsKeyARN> value that you want to associate with this cluster.
 C<KmsKeyARN> values are created by using the CreateKey
 (https://docs.aws.amazon.com/kms/latest/APIReference/API_CreateKey.html)
-API action in AWS Key Management Service (AWS KMS).
+API action in Key Management Service (KMS).
+
+
+
+=head2 LongTermPricingIds => ArrayRef[Str|Undef]
+
+Lists long-term pricing id that will be used to associate with jobs
+automatically created for the new cluster.
 
 
 
@@ -134,8 +162,9 @@ settings for this cluster.
 =head2 OnDeviceServiceConfiguration => L<Paws::Snowball::OnDeviceServiceConfiguration>
 
 Specifies the service or services on the Snow Family device that your
-transferred data will be exported from or imported into. AWS Snow
-Family supports Amazon S3 and NFS (Network File System).
+transferred data will be exported from or imported into. Amazon Web
+Services Snow Family device clusters support Amazon S3 and NFS (Network
+File System).
 
 
 
@@ -147,22 +176,22 @@ C<INSTALLED_AUTOSTART>, remote management will automatically be
 available when the device arrives at your location. Otherwise, you need
 to use the Snowball Client to manage the device.
 
-Valid values are: C<"INSTALLED_ONLY">, C<"INSTALLED_AUTOSTART">
+Valid values are: C<"INSTALLED_ONLY">, C<"INSTALLED_AUTOSTART">, C<"NOT_INSTALLED">
 
-=head2 B<REQUIRED> Resources => L<Paws::Snowball::JobResource>
+=head2 Resources => L<Paws::Snowball::JobResource>
 
 The resources associated with the cluster job. These resources include
-Amazon S3 buckets and optional AWS Lambda functions written in the
-Python language.
+Amazon S3 buckets and optional Lambda functions written in the Python
+language.
 
 
 
-=head2 B<REQUIRED> RoleARN => Str
+=head2 RoleARN => Str
 
 The C<RoleARN> that you want to associate with this cluster. C<RoleArn>
 values are created by using the CreateRole
 (https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html)
-API action in AWS Identity and Access Management (IAM).
+API action in Identity and Access Management (IAM).
 
 
 
@@ -225,12 +254,11 @@ In the US, you have access to one-day shipping and two-day shipping.
 
 Valid values are: C<"SECOND_DAY">, C<"NEXT_DAY">, C<"EXPRESS">, C<"STANDARD">
 
-=head2 B<REQUIRED> SnowballType => Str
+=head2 SnowballCapacityPreference => Str
 
-The type of AWS Snow Family device to use for this cluster.
-
-For cluster jobs, AWS Snow Family currently supports only the C<EDGE>
-device type.
+If your job is being created in one of the US regions, you have the
+option of specifying what size Snow device you'd like for this job. In
+all other regions, Snowballs come with 80 TB in storage capacity.
 
 For more information, see
 "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html"
@@ -238,11 +266,26 @@ For more information, see
 "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html"
 (Snow Family Devices and Capacity) in the I<Snowcone User Guide>.
 
-Valid values are: C<"STANDARD">, C<"EDGE">, C<"EDGE_C">, C<"EDGE_CG">, C<"EDGE_S">, C<"SNC1_HDD">, C<"SNC1_SSD">
+Valid values are: C<"T50">, C<"T80">, C<"T100">, C<"T42">, C<"T98">, C<"T8">, C<"T14">, C<"T32">, C<"NoPreference">, C<"T240">, C<"T13">
+
+=head2 B<REQUIRED> SnowballType => Str
+
+The type of Snow Family devices to use for this cluster.
+
+For cluster jobs, Amazon Web Services Snow Family currently supports
+only the C<EDGE> device type.
+
+For more information, see
+"https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html"
+(Snow Family Devices and Capacity) in the I<Snowcone User Guide> or
+"https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html"
+(Snow Family Devices and Capacity) in the I<Snowcone User Guide>.
+
+Valid values are: C<"STANDARD">, C<"EDGE">, C<"EDGE_C">, C<"EDGE_CG">, C<"EDGE_S">, C<"SNC1_HDD">, C<"SNC1_SSD">, C<"V3_5C">, C<"V3_5S">, C<"RACK_5U_C">
 
 =head2 TaxDocuments => L<Paws::Snowball::TaxDocuments>
 
-The tax documents required in your AWS Region.
+The tax documents required in your Amazon Web Services Region.
 
 
 

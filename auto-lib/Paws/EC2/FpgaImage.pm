@@ -5,6 +5,7 @@ package Paws::EC2::FpgaImage;
   has Description => (is => 'ro', isa => 'Str', request_name => 'description', traits => ['NameInRequest']);
   has FpgaImageGlobalId => (is => 'ro', isa => 'Str', request_name => 'fpgaImageGlobalId', traits => ['NameInRequest']);
   has FpgaImageId => (is => 'ro', isa => 'Str', request_name => 'fpgaImageId', traits => ['NameInRequest']);
+  has InstanceTypes => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'instanceTypes', traits => ['NameInRequest']);
   has Name => (is => 'ro', isa => 'Str', request_name => 'name', traits => ['NameInRequest']);
   has OwnerAlias => (is => 'ro', isa => 'Str', request_name => 'ownerAlias', traits => ['NameInRequest']);
   has OwnerId => (is => 'ro', isa => 'Str', request_name => 'ownerId', traits => ['NameInRequest']);
@@ -75,6 +76,11 @@ The global FPGA image identifier (AGFI ID).
 The FPGA image identifier (AFI ID).
 
 
+=head2 InstanceTypes => ArrayRef[Str|Undef]
+
+The instance types supported by the AFI.
+
+
 =head2 Name => Str
 
 The name of the AFI.
@@ -88,7 +94,7 @@ and C<aws-marketplace>.
 
 =head2 OwnerId => Str
 
-The AWS account ID of the AFI owner.
+The ID of the Amazon Web Services account that owns the AFI.
 
 
 =head2 PciId => L<Paws::EC2::PciId>
@@ -108,7 +114,8 @@ Indicates whether the AFI is public.
 
 =head2 ShellVersion => Str
 
-The version of the AWS Shell that was used to create the bitstream.
+The version of the Amazon Web Services Shell that was used to create
+the bitstream.
 
 
 =head2 State => L<Paws::EC2::FpgaImageState>

@@ -17,7 +17,8 @@ Paws::Support::DescribeSeverityLevelsResponse
 =head2 SeverityLevels => ArrayRef[L<Paws::Support::SeverityLevel>]
 
 The available severity levels for the support case. Available severity
-levels are defined by your service level agreement with AWS.
+levels are defined by your service level agreement with Amazon Web
+Services.
 
 
 =head2 _request_id => Str

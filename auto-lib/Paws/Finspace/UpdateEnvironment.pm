@@ -39,8 +39,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       FederationParameters => {
         ApplicationCallBackURL => 'Myurl',        # min: 1, max: 1000; OPTIONAL
         AttributeMap           => {
-          'MyFederationAttributeKey' =>
-            'Myurl',  # key: min: 1, max: 32, value: min: 1, max: 1000; OPTIONAL
+          'MyFederationAttributeKey' => 'MyFederationAttributeValue'
+          ,    # key: min: 1, max: 32, value: min: 1, max: 1000
         },    # OPTIONAL
         FederationProviderName =>
           'MyFederationProviderName',    # min: 1, max: 32; OPTIONAL

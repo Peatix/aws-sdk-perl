@@ -36,6 +36,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ECS::AwsVpc
 =head1 DESCRIPTION
 
 An object representing the networking details for a task or service.
+For example
+C<awsVpcConfiguration={subnets=["subnet-12344321"],securityGroups=["sg-12344321"]}>.
 
 =head1 ATTRIBUTES
 
@@ -43,23 +45,40 @@ An object representing the networking details for a task or service.
 =head2 AssignPublicIp => Str
 
 Whether the task's elastic network interface receives a public IP
-address. The default value is C<DISABLED>.
+address.
+
+Consider the following when you set this value:
+
+=over
+
+=item *
+
+When you use C<create-service> or C<update-service>, the default is
+C<DISABLED>.
+
+=item *
+
+When the service C<deploymentController> is C<ECS>, the value must be
+C<DISABLED>.
+
+=back
+
 
 
 =head2 SecurityGroups => ArrayRef[Str|Undef]
 
 The IDs of the security groups associated with the task or service. If
-you do not specify a security group, the default security group for the
-VPC is used. There is a limit of 5 security groups that can be
-specified per C<AwsVpcConfiguration>.
+you don't specify a security group, the default security group for the
+VPC is used. There's a limit of 5 security groups that can be
+specified.
 
 All specified security groups must be from the same VPC.
 
 
 =head2 B<REQUIRED> Subnets => ArrayRef[Str|Undef]
 
-The IDs of the subnets associated with the task or service. There is a
-limit of 16 subnets that can be specified per C<AwsVpcConfiguration>.
+The IDs of the subnets associated with the task or service. There's a
+limit of 16 subnets that can be specified.
 
 All specified subnets must be from the same VPC.
 

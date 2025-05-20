@@ -19,13 +19,13 @@ Paws::STS::GetCallerIdentityResponse
 
 =head2 Account => Str
 
-The AWS account ID number of the account that owns or contains the
-calling entity.
+The Amazon Web Services account ID number of the account that owns or
+contains the calling entity.
 
 
 =head2 Arn => Str
 
-The AWS ARN associated with the calling entity.
+The Amazon Web Services ARN associated with the calling entity.
 
 
 =head2 UserId => Str

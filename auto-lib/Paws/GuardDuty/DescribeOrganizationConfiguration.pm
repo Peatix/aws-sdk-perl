@@ -2,6 +2,8 @@
 package Paws::GuardDuty::DescribeOrganizationConfiguration;
   use Moose;
   has DetectorId => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'detectorId', required => 1);
+  has MaxResults => (is => 'ro', isa => 'Int', traits => ['ParamInQuery'], query_name => 'maxResults');
+  has NextToken => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'nextToken');
 
   use MooseX::ClassAttribute;
 
@@ -31,14 +33,19 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $DescribeOrganizationConfigurationResponse =
       $guardduty->DescribeOrganizationConfiguration(
       DetectorId => 'MyDetectorId',
-
+      MaxResults => 1,                # OPTIONAL
+      NextToken  => 'MyString',       # OPTIONAL
       );
 
     # Results:
-    my $AutoEnable  = $DescribeOrganizationConfigurationResponse->AutoEnable;
+    my $AutoEnable = $DescribeOrganizationConfigurationResponse->AutoEnable;
+    my $AutoEnableOrganizationMembers =
+      $DescribeOrganizationConfigurationResponse->AutoEnableOrganizationMembers;
     my $DataSources = $DescribeOrganizationConfigurationResponse->DataSources;
+    my $Features    = $DescribeOrganizationConfigurationResponse->Features;
     my $MemberAccountLimitReached =
       $DescribeOrganizationConfigurationResponse->MemberAccountLimitReached;
+    my $NextToken = $DescribeOrganizationConfigurationResponse->NextToken;
 
 # Returns a L<Paws::GuardDuty::DescribeOrganizationConfigurationResponse> object.
 
@@ -50,8 +57,30 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/gua
 
 =head2 B<REQUIRED> DetectorId => Str
 
-The ID of the detector to retrieve information about the delegated
-administrator from.
+The detector ID of the delegated administrator for which you need to
+retrieve the information.
+
+To find the C<detectorId> in the current Region, see the Settings page
+in the GuardDuty console, or run the ListDetectors
+(https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+API.
+
+
+
+=head2 MaxResults => Int
+
+You can use this parameter to indicate the maximum number of items that
+you want in the response.
+
+
+
+=head2 NextToken => Str
+
+You can use this parameter when paginating results. Set the value of
+this parameter to null on your first call to the list action. For
+subsequent calls to the action, fill C<nextToken> in the request with
+the value of C<NextToken> from the previous response to continue
+listing data.
 
 
 

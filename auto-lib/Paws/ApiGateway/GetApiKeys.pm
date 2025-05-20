@@ -55,8 +55,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 CustomerId => Str
 
-The identifier of a customer in AWS Marketplace or an external system,
-such as a developer portal.
+The identifier of a customer in Amazon Web Services Marketplace or an
+external system, such as a developer portal.
 
 
 

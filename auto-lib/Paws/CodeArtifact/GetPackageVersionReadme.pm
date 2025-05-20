@@ -69,54 +69,62 @@ package version with the requested readme file.
 
 =head2 DomainOwner => Str
 
-The 12-digit account number of the AWS account that owns the domain. It
-does not include dashes or spaces.
+The 12-digit account number of the Amazon Web Services account that
+owns the domain. It does not include dashes or spaces.
 
 
 
 =head2 B<REQUIRED> Format => Str
 
 A format that specifies the type of the package version with the
-requested readme file. The valid values are:
+requested readme file.
 
-=over
-
-=item *
-
-C<npm>
-
-=item *
-
-C<pypi>
-
-=item *
-
-C<maven>
-
-=back
-
-
-Valid values are: C<"npm">, C<"pypi">, C<"maven">, C<"nuget">
+Valid values are: C<"npm">, C<"pypi">, C<"maven">, C<"nuget">, C<"generic">, C<"ruby">, C<"swift">, C<"cargo">
 
 =head2 Namespace => Str
 
-The namespace of the package. The package component that specifies its
-namespace depends on its type. For example:
+The namespace of the package version with the requested readme file.
+The package component that specifies its namespace depends on its type.
+For example:
+
+The namespace is required when requesting the readme from package
+versions of the following formats:
 
 =over
 
 =item *
 
-The namespace of a Maven package is its C<groupId>.
+Maven
 
 =item *
 
-The namespace of an npm package is its C<scope>.
+Swift
 
 =item *
 
-A Python package does not contain a corresponding component, so Python
-packages do not have a namespace.
+generic
+
+=back
+
+=over
+
+=item *
+
+The namespace of a Maven package version is its C<groupId>.
+
+=item *
+
+The namespace of an npm or Swift package version is its C<scope>.
+
+=item *
+
+The namespace of a generic package is its C<namespace>.
+
+=item *
+
+Python, NuGet, Ruby, and Cargo package versions do not contain a
+corresponding component, package versions of those formats do not have
+a namespace.
 
 =back
 

@@ -4,6 +4,11 @@ package Paws::Outposts::Site;
   has AccountId => (is => 'ro', isa => 'Str');
   has Description => (is => 'ro', isa => 'Str');
   has Name => (is => 'ro', isa => 'Str');
+  has Notes => (is => 'ro', isa => 'Str');
+  has OperatingAddressCity => (is => 'ro', isa => 'Str');
+  has OperatingAddressCountryCode => (is => 'ro', isa => 'Str');
+  has OperatingAddressStateOrRegion => (is => 'ro', isa => 'Str');
+  has RackPhysicalProperties => (is => 'ro', isa => 'Paws::Outposts::RackPhysicalProperties');
   has SiteArn => (is => 'ro', isa => 'Str');
   has SiteId => (is => 'ro', isa => 'Str');
   has Tags => (is => 'ro', isa => 'Paws::Outposts::TagMap');
@@ -56,6 +61,33 @@ Information about a site.
 =head2 Name => Str
 
 
+
+
+=head2 Notes => Str
+
+Notes about a site.
+
+
+=head2 OperatingAddressCity => Str
+
+City where the hardware is installed and powered on.
+
+
+=head2 OperatingAddressCountryCode => Str
+
+The ISO-3166 two-letter country code where the hardware is installed
+and powered on.
+
+
+=head2 OperatingAddressStateOrRegion => Str
+
+State or region where the hardware is installed and powered on.
+
+
+=head2 RackPhysicalProperties => L<Paws::Outposts::RackPhysicalProperties>
+
+Information about the physical and logistical details for a rack at the
+site.
 
 
 =head2 SiteArn => Str

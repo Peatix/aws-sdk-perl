@@ -55,9 +55,9 @@ Number of stack outputs
 =back
 
 For more information about these account limits, and other
-CloudFormation limits, see AWS CloudFormation Limits
+CloudFormation limits, see Understand CloudFormation quotas
 (https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cloudformation-limits.html)
-in the I<AWS CloudFormation User Guide>.
+in the I<CloudFormation User Guide>.
 
 =head1 ATTRIBUTES
 
@@ -72,7 +72,7 @@ C<StackOutputsLimit>
 
 =head2 Value => Int
 
-The value that is associated with the account limit name.
+The value that's associated with the account limit name.
 
 
 

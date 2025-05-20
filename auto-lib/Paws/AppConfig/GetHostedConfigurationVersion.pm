@@ -30,20 +30,20 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $appconfig = Paws->service('AppConfig');
+    # To retrieve hosted configuration details
+    # The following get-hosted-configuration-version example retrieves the
+    # configuration details of the AWS AppConfig hosted configuration.
     my $HostedConfigurationVersion = $appconfig->GetHostedConfigurationVersion(
-      ApplicationId          => 'MyId',
-      ConfigurationProfileId => 'MyId',
-      VersionNumber          => 1,
-
+      'ApplicationId'          => '339ohji',
+      'ConfigurationProfileId' => 'ur8hx2f',
+      'VersionNumber'          => 1
     );
 
     # Results:
     my $ApplicationId = $HostedConfigurationVersion->ApplicationId;
     my $ConfigurationProfileId =
       $HostedConfigurationVersion->ConfigurationProfileId;
-    my $Content       = $HostedConfigurationVersion->Content;
     my $ContentType   = $HostedConfigurationVersion->ContentType;
-    my $Description   = $HostedConfigurationVersion->Description;
     my $VersionNumber = $HostedConfigurationVersion->VersionNumber;
 
     # Returns a L<Paws::AppConfig::HostedConfigurationVersion> object.

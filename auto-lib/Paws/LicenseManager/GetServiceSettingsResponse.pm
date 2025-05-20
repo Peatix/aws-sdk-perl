@@ -25,15 +25,14 @@ Indicates whether cross-account discovery is enabled.
 
 =head2 LicenseManagerResourceShareArn => Str
 
-Amazon Resource Name (ARN) of the AWS resource share. The License
-Manager management account provides member accounts with access to this
-share.
+Amazon Resource Name (ARN) of the resource share. The License Manager
+management account provides member accounts with access to this share.
 
 
 =head2 OrganizationConfiguration => L<Paws::LicenseManager::OrganizationConfiguration>
 
-Indicates whether AWS Organizations is integrated with License Manager
-for cross-account discovery.
+Indicates whether Organizations is integrated with License Manager for
+cross-account discovery.
 
 
 =head2 S3BucketArn => Str

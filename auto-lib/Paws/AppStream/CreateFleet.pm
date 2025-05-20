@@ -1,7 +1,7 @@
 
 package Paws::AppStream::CreateFleet;
   use Moose;
-  has ComputeCapacity => (is => 'ro', isa => 'Paws::AppStream::ComputeCapacity', required => 1);
+  has ComputeCapacity => (is => 'ro', isa => 'Paws::AppStream::ComputeCapacity');
   has Description => (is => 'ro', isa => 'Str');
   has DisconnectTimeoutInSeconds => (is => 'ro', isa => 'Int');
   has DisplayName => (is => 'ro', isa => 'Str');
@@ -13,10 +13,15 @@ package Paws::AppStream::CreateFleet;
   has ImageArn => (is => 'ro', isa => 'Str');
   has ImageName => (is => 'ro', isa => 'Str');
   has InstanceType => (is => 'ro', isa => 'Str', required => 1);
+  has MaxConcurrentSessions => (is => 'ro', isa => 'Int');
+  has MaxSessionsPerInstance => (is => 'ro', isa => 'Int');
   has MaxUserDurationInSeconds => (is => 'ro', isa => 'Int');
   has Name => (is => 'ro', isa => 'Str', required => 1);
+  has Platform => (is => 'ro', isa => 'Str');
+  has SessionScriptS3Location => (is => 'ro', isa => 'Paws::AppStream::S3Location');
   has StreamView => (is => 'ro', isa => 'Str');
   has Tags => (is => 'ro', isa => 'Paws::AppStream::Tags');
+  has UsbDeviceFilterStrings => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has VpcConfig => (is => 'ro', isa => 'Paws::AppStream::VpcConfig');
 
   use MooseX::ClassAttribute;
@@ -44,12 +49,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $appstream2 = Paws->service('AppStream');
     my $CreateFleetResult = $appstream2->CreateFleet(
+      InstanceType    => 'MyString',
+      Name            => 'MyName',
       ComputeCapacity => {
-        DesiredInstances => 1,
-
-      },
-      InstanceType               => 'MyString',
-      Name                       => 'MyName',
+        DesiredInstances => 1,    # OPTIONAL
+        DesiredSessions  => 1,    # OPTIONAL
+      },    # OPTIONAL
       Description                => 'MyDescription',    # OPTIONAL
       DisconnectTimeoutInSeconds => 1,                  # OPTIONAL
       DisplayName                => 'MyDisplayName',    # OPTIONAL
@@ -63,12 +68,22 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       IamRoleArn                     => 'MyArn',        # OPTIONAL
       IdleDisconnectTimeoutInSeconds => 1,              # OPTIONAL
       ImageArn                       => 'MyArn',        # OPTIONAL
-      ImageName                      => 'MyString',     # OPTIONAL
+      ImageName                      => 'MyName',       # OPTIONAL
+      MaxConcurrentSessions          => 1,              # OPTIONAL
+      MaxSessionsPerInstance         => 1,              # OPTIONAL
       MaxUserDurationInSeconds       => 1,              # OPTIONAL
-      StreamView                     => 'APP',          # OPTIONAL
-      Tags                           => {
+      Platform                       => 'WINDOWS',      # OPTIONAL
+      SessionScriptS3Location        => {
+        S3Bucket => 'MyS3Bucket',    # min: 3, max: 63
+        S3Key    => 'MyS3Key',       # min: 1, max: 1024; OPTIONAL
+      },    # OPTIONAL
+      StreamView => 'APP',    # OPTIONAL
+      Tags       => {
         'MyTagKey' => 'MyTagValue',    # key: min: 1, max: 128, value: max: 256
       },    # OPTIONAL
+      UsbDeviceFilterStrings => [
+        'MyUsbDeviceFilterString', ...    # max: 100
+      ],    # OPTIONAL
       VpcConfig => {
         SecurityGroupIds => [
           'MyString', ...    # min: 1
@@ -90,9 +105,10 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/app
 =head1 ATTRIBUTES
 
 
-=head2 B<REQUIRED> ComputeCapacity => L<Paws::AppStream::ComputeCapacity>
+=head2 ComputeCapacity => L<Paws::AppStream::ComputeCapacity>
 
-The desired capacity for the fleet.
+The desired capacity for the fleet. This is not allowed for Elastic
+fleets. For Elastic fleets, specify MaxConcurrentSessions instead.
 
 
 
@@ -110,7 +126,7 @@ disconnection or network interruption within this time interval, they
 are connected to their previous session. Otherwise, they are connected
 to a new session with a new streaming instance.
 
-Specify a value between 60 and 360000.
+Specify a value between 60 and 36000.
 
 
 
@@ -123,7 +139,8 @@ The fleet name to display.
 =head2 DomainJoinInfo => L<Paws::AppStream::DomainJoinInfo>
 
 The name of the directory and organizational unit (OU) to use to join
-the fleet to a Microsoft Active Directory domain.
+the fleet to a Microsoft Active Directory domain. This is not allowed
+for Elastic fleets.
 
 
 
@@ -155,7 +172,7 @@ streaming apps.
 =back
 
 
-Valid values are: C<"ALWAYS_ON">, C<"ON_DEMAND">
+Valid values are: C<"ALWAYS_ON">, C<"ON_DEMAND">, C<"ELASTIC">
 
 =head2 IamRoleArn => Str
 
@@ -188,8 +205,8 @@ as user activity. If users continue to be idle after the time interval
 in C<IdleDisconnectTimeoutInSeconds> elapses, they are disconnected.
 
 To prevent users from being disconnected due to inactivity, specify a
-value of 0. Otherwise, specify a value between 60 and 3600. The default
-value is 0.
+value of 0. Otherwise, specify a value between 60 and 36000. The
+default value is 0.
 
 If you enable this feature, we recommend that you specify a value that
 corresponds exactly to a whole number of minutes (for example, 60, 120,
@@ -232,6 +249,14 @@ stream.standard.medium
 =item *
 
 stream.standard.large
+
+=item *
+
+stream.standard.xlarge
+
+=item *
+
+stream.standard.2xlarge
 
 =item *
 
@@ -343,6 +368,34 @@ stream.graphics.g4dn.16xlarge
 
 =item *
 
+stream.graphics.g5.xlarge
+
+=item *
+
+stream.graphics.g5.2xlarge
+
+=item *
+
+stream.graphics.g5.4xlarge
+
+=item *
+
+stream.graphics.g5.8xlarge
+
+=item *
+
+stream.graphics.g5.12xlarge
+
+=item *
+
+stream.graphics.g5.16xlarge
+
+=item *
+
+stream.graphics.g5.24xlarge
+
+=item *
+
 stream.graphics-pro.4xlarge
 
 =item *
@@ -355,6 +408,46 @@ stream.graphics-pro.16xlarge
 
 =back
 
+The following instance types are available for Elastic fleets:
+
+=over
+
+=item *
+
+stream.standard.small
+
+=item *
+
+stream.standard.medium
+
+=item *
+
+stream.standard.large
+
+=item *
+
+stream.standard.xlarge
+
+=item *
+
+stream.standard.2xlarge
+
+=back
+
+
+
+
+=head2 MaxConcurrentSessions => Int
+
+The maximum concurrent sessions of the Elastic fleet. This is required
+for Elastic fleets, and not allowed for other fleet types.
+
+
+
+=head2 MaxSessionsPerInstance => Int
+
+The maximum number of user sessions on an instance. This only applies
+to multi-session fleets.
 
 
 
@@ -366,13 +459,27 @@ minutes before this limit is reached, they are prompted to save any
 open documents before being disconnected. After this time elapses, the
 instance is terminated and replaced by a new instance.
 
-Specify a value between 600 and 360000.
+Specify a value between 600 and 432000.
 
 
 
 =head2 B<REQUIRED> Name => Str
 
 A unique name for the fleet.
+
+
+
+=head2 Platform => Str
+
+The fleet platform. WINDOWS_SERVER_2019 and AMAZON_LINUX2 are supported
+for Elastic fleets.
+
+Valid values are: C<"WINDOWS">, C<"WINDOWS_SERVER_2016">, C<"WINDOWS_SERVER_2019">, C<"WINDOWS_SERVER_2022">, C<"AMAZON_LINUX2">, C<"RHEL8">, C<"ROCKY_LINUX8">
+
+=head2 SessionScriptS3Location => L<Paws::AppStream::S3Location>
+
+The S3 location of the session scripts configuration zip file. This
+only applies to Elastic fleets.
 
 
 
@@ -406,9 +513,19 @@ in the I<Amazon AppStream 2.0 Administration Guide>.
 
 
 
+=head2 UsbDeviceFilterStrings => ArrayRef[Str|Undef]
+
+The USB device filter strings that specify which USB devices a user can
+redirect to the fleet streaming session, when using the Windows native
+client. This is allowed but not required for Elastic fleets.
+
+
+
 =head2 VpcConfig => L<Paws::AppStream::VpcConfig>
 
-The VPC configuration for the fleet.
+The VPC configuration for the fleet. This is required for Elastic
+fleets, but not required for other fleet types. Elastic fleets require
+that you specify at least two subnets in different availability zones.
 
 
 

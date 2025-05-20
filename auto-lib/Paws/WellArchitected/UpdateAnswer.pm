@@ -1,10 +1,12 @@
 
 package Paws::WellArchitected::UpdateAnswer;
   use Moose;
+  has ChoiceUpdates => (is => 'ro', isa => 'Paws::WellArchitected::ChoiceUpdates');
   has IsApplicable => (is => 'ro', isa => 'Bool');
   has LensAlias => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'LensAlias', required => 1);
   has Notes => (is => 'ro', isa => 'Str');
   has QuestionId => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'QuestionId', required => 1);
+  has Reason => (is => 'ro', isa => 'Str');
   has SelectedChoices => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has WorkloadId => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'WorkloadId', required => 1);
 
@@ -34,19 +36,29 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $wellarchitected = Paws->service('WellArchitected');
     my $UpdateAnswerOutput = $wellarchitected->UpdateAnswer(
-      LensAlias       => 'MyLensAlias',
-      QuestionId      => 'MyQuestionId',
-      WorkloadId      => 'MyWorkloadId',
-      IsApplicable    => 1,                # OPTIONAL
-      Notes           => 'MyNotes',        # OPTIONAL
+      LensAlias     => 'MyLensAlias',
+      QuestionId    => 'MyQuestionId',
+      WorkloadId    => 'MyWorkloadId',
+      ChoiceUpdates => {
+        'MyChoiceId' => {
+          Status => 'SELECTED',   # values: SELECTED, NOT_APPLICABLE, UNSELECTED
+          Notes  => 'MyChoiceNotes',    # max: 250; OPTIONAL
+          Reason => 'OUT_OF_SCOPE'
+          , # values: OUT_OF_SCOPE, BUSINESS_PRIORITIES, ARCHITECTURE_CONSTRAINTS, OTHER, NONE; OPTIONAL
+        },    # key: min: 1, max: 64
+      },    # OPTIONAL
+      IsApplicable    => 1,                 # OPTIONAL
+      Notes           => 'MyNotes',         # OPTIONAL
+      Reason          => 'OUT_OF_SCOPE',    # OPTIONAL
       SelectedChoices => [
-        'MyChoiceId', ...                  # min: 1, max: 64
+        'MyChoiceId', ...                   # min: 1, max: 64
       ],    # OPTIONAL
     );
 
     # Results:
     my $Answer     = $UpdateAnswerOutput->Answer;
     my $LensAlias  = $UpdateAnswerOutput->LensAlias;
+    my $LensArn    = $UpdateAnswerOutput->LensArn;
     my $WorkloadId = $UpdateAnswerOutput->WorkloadId;
 
     # Returns a L<Paws::WellArchitected::UpdateAnswerOutput> object.
@@ -55,6 +67,13 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/wellarchitected/UpdateAnswer>
 
 =head1 ATTRIBUTES
+
+
+=head2 ChoiceUpdates => L<Paws::WellArchitected::ChoiceUpdates>
+
+A list of choices to update on a question in your workload. The String
+key corresponds to the choice ID to be updated.
+
 
 
 =head2 IsApplicable => Bool
@@ -80,6 +99,12 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/wel
 
 
 
+
+=head2 Reason => Str
+
+The reason why a question is not applicable to your workload.
+
+Valid values are: C<"OUT_OF_SCOPE">, C<"BUSINESS_PRIORITIES">, C<"ARCHITECTURE_CONSTRAINTS">, C<"OTHER">, C<"NONE">
 
 =head2 SelectedChoices => ArrayRef[Str|Undef]
 

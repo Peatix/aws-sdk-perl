@@ -1,8 +1,11 @@
 package Paws::EC2::VpnConnection;
   use Moose;
   has Category => (is => 'ro', isa => 'Str', request_name => 'category', traits => ['NameInRequest']);
+  has CoreNetworkArn => (is => 'ro', isa => 'Str', request_name => 'coreNetworkArn', traits => ['NameInRequest']);
+  has CoreNetworkAttachmentArn => (is => 'ro', isa => 'Str', request_name => 'coreNetworkAttachmentArn', traits => ['NameInRequest']);
   has CustomerGatewayConfiguration => (is => 'ro', isa => 'Str', request_name => 'customerGatewayConfiguration', traits => ['NameInRequest']);
   has CustomerGatewayId => (is => 'ro', isa => 'Str', request_name => 'customerGatewayId', traits => ['NameInRequest']);
+  has GatewayAssociationState => (is => 'ro', isa => 'Str', request_name => 'gatewayAssociationState', traits => ['NameInRequest']);
   has Options => (is => 'ro', isa => 'Paws::EC2::VpnConnectionOptions', request_name => 'options', traits => ['NameInRequest']);
   has Routes => (is => 'ro', isa => 'ArrayRef[Paws::EC2::VpnStaticRoute]', request_name => 'routes', traits => ['NameInRequest']);
   has State => (is => 'ro', isa => 'Str', request_name => 'state', traits => ['NameInRequest']);
@@ -49,9 +52,19 @@ This class has no description
 
 =head2 Category => Str
 
-The category of the VPN connection. A value of C<VPN> indicates an AWS
-VPN connection. A value of C<VPN-Classic> indicates an AWS Classic VPN
-connection.
+The category of the VPN connection. A value of C<VPN> indicates an
+Amazon Web Services VPN connection. A value of C<VPN-Classic> indicates
+an Amazon Web Services Classic VPN connection.
+
+
+=head2 CoreNetworkArn => Str
+
+The ARN of the core network.
+
+
+=head2 CoreNetworkAttachmentArn => Str
+
+The ARN of the core network attachment.
 
 
 =head2 CustomerGatewayConfiguration => Str
@@ -66,6 +79,11 @@ C<pending> or C<available> state.
 =head2 CustomerGatewayId => Str
 
 The ID of the customer gateway at your end of the VPN connection.
+
+
+=head2 GatewayAssociationState => Str
+
+The current state of the gateway association.
 
 
 =head2 Options => L<Paws::EC2::VpnConnectionOptions>
@@ -110,8 +128,8 @@ The ID of the VPN connection.
 
 =head2 VpnGatewayId => Str
 
-The ID of the virtual private gateway at the AWS side of the VPN
-connection.
+The ID of the virtual private gateway at the Amazon Web Services side
+of the VPN connection.
 
 
 

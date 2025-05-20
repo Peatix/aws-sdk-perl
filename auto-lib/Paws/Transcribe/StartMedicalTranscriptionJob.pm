@@ -2,6 +2,7 @@
 package Paws::Transcribe::StartMedicalTranscriptionJob;
   use Moose;
   has ContentIdentificationType => (is => 'ro', isa => 'Str');
+  has KMSEncryptionContext => (is => 'ro', isa => 'Paws::Transcribe::KMSEncryptionContextMap');
   has LanguageCode => (is => 'ro', isa => 'Str', required => 1);
   has Media => (is => 'ro', isa => 'Paws::Transcribe::Media', required => 1);
   has MediaFormat => (is => 'ro', isa => 'Str');
@@ -12,6 +13,7 @@ package Paws::Transcribe::StartMedicalTranscriptionJob;
   has OutputKey => (is => 'ro', isa => 'Str');
   has Settings => (is => 'ro', isa => 'Paws::Transcribe::MedicalTranscriptionSetting');
   has Specialty => (is => 'ro', isa => 'Str', required => 1);
+  has Tags => (is => 'ro', isa => 'ArrayRef[Paws::Transcribe::Tag]');
   has Type => (is => 'ro', isa => 'Str', required => 1);
 
   use MooseX::ClassAttribute;
@@ -42,25 +44,38 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       $transcribe->StartMedicalTranscriptionJob(
       LanguageCode => 'af-ZA',
       Media        => {
-        MediaFileUri => 'MyUri',    # min: 1, max: 2000; OPTIONAL
+        MediaFileUri         => 'MyUri',    # min: 1, max: 2000; OPTIONAL
+        RedactedMediaFileUri => 'MyUri',    # min: 1, max: 2000; OPTIONAL
       },
       MedicalTranscriptionJobName => 'MyTranscriptionJobName',
       OutputBucketName            => 'MyOutputBucketName',
       Specialty                   => 'PRIMARYCARE',
       Type                        => 'CONVERSATION',
       ContentIdentificationType   => 'PHI',                      # OPTIONAL
-      MediaFormat                 => 'mp3',                      # OPTIONAL
-      MediaSampleRateHertz        => 1,                          # OPTIONAL
-      OutputEncryptionKMSKeyId    => 'MyKMSKeyId',               # OPTIONAL
-      OutputKey                   => 'MyOutputKey',              # OPTIONAL
-      Settings                    => {
+      KMSEncryptionContext        => {
+        'MyNonEmptyString' =>
+          'MyNonEmptyString', # key: min: 1, max: 2000, value: min: 1, max: 2000
+      },    # OPTIONAL
+      MediaFormat              => 'mp3',            # OPTIONAL
+      MediaSampleRateHertz     => 1,                # OPTIONAL
+      OutputEncryptionKMSKeyId => 'MyKMSKeyId',     # OPTIONAL
+      OutputKey                => 'MyOutputKey',    # OPTIONAL
+      Settings                 => {
         ChannelIdentification => 1,              # OPTIONAL
         MaxAlternatives       => 1,              # min: 2, max: 10; OPTIONAL
-        MaxSpeakerLabels      => 1,              # min: 2, max: 10; OPTIONAL
+        MaxSpeakerLabels      => 1,              # min: 2, max: 30; OPTIONAL
         ShowAlternatives      => 1,              # OPTIONAL
         ShowSpeakerLabels     => 1,              # OPTIONAL
         VocabularyName => 'MyVocabularyName',    # min: 1, max: 200; OPTIONAL
       },    # OPTIONAL
+      Tags => [
+        {
+          Key   => 'MyTagKey',      # min: 1, max: 128
+          Value => 'MyTagValue',    # max: 256
+
+        },
+        ...
+      ],    # OPTIONAL
       );
 
     # Results:
@@ -77,21 +92,32 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/tra
 
 =head2 ContentIdentificationType => Str
 
-You can configure Amazon Transcribe Medical to label content in the
-transcription output. If you specify C<PHI>, Amazon Transcribe Medical
-labels the personal health information (PHI) that it identifies in the
-transcription output.
+Labels all personal health information (PHI) identified in your
+transcript. For more information, see Identifying personal health
+information (PHI) in a transcription
+(https://docs.aws.amazon.com/transcribe/latest/dg/phi-id.html).
 
 Valid values are: C<"PHI">
 
+=head2 KMSEncryptionContext => L<Paws::Transcribe::KMSEncryptionContextMap>
+
+A map of plain text, non-secret key:value pairs, known as encryption
+context pairs, that provide an added layer of security for your data.
+For more information, see KMS encryption context
+(https://docs.aws.amazon.com/transcribe/latest/dg/key-management.html#kms-context)
+and Asymmetric keys in KMS
+(https://docs.aws.amazon.com/transcribe/latest/dg/symmetric-asymmetric.html).
+
+
+
 =head2 B<REQUIRED> LanguageCode => Str
 
-The language code for the language spoken in the input media file. US
-English (en-US) is the valid value for medical transcription jobs. Any
-other value you enter for language code results in a
-C<BadRequestException> error.
+The language code that represents the language spoken in the input
+media file. US English (C<en-US>) is the only valid value for medical
+transcription jobs. Any other value you enter for language code results
+in a C<BadRequestException> error.
 
-Valid values are: C<"af-ZA">, C<"ar-AE">, C<"ar-SA">, C<"cy-GB">, C<"da-DK">, C<"de-CH">, C<"de-DE">, C<"en-AB">, C<"en-AU">, C<"en-GB">, C<"en-IE">, C<"en-IN">, C<"en-US">, C<"en-WL">, C<"es-ES">, C<"es-US">, C<"fa-IR">, C<"fr-CA">, C<"fr-FR">, C<"ga-IE">, C<"gd-GB">, C<"he-IL">, C<"hi-IN">, C<"id-ID">, C<"it-IT">, C<"ja-JP">, C<"ko-KR">, C<"ms-MY">, C<"nl-NL">, C<"pt-BR">, C<"pt-PT">, C<"ru-RU">, C<"ta-IN">, C<"te-IN">, C<"tr-TR">, C<"zh-CN">
+Valid values are: C<"af-ZA">, C<"ar-AE">, C<"ar-SA">, C<"da-DK">, C<"de-CH">, C<"de-DE">, C<"en-AB">, C<"en-AU">, C<"en-GB">, C<"en-IE">, C<"en-IN">, C<"en-US">, C<"en-WL">, C<"es-ES">, C<"es-US">, C<"fa-IR">, C<"fr-CA">, C<"fr-FR">, C<"he-IL">, C<"hi-IN">, C<"id-ID">, C<"it-IT">, C<"ja-JP">, C<"ko-KR">, C<"ms-MY">, C<"nl-NL">, C<"pt-BR">, C<"pt-PT">, C<"ru-RU">, C<"ta-IN">, C<"te-IN">, C<"tr-TR">, C<"zh-CN">, C<"zh-TW">, C<"th-TH">, C<"en-ZA">, C<"en-NZ">, C<"vi-VN">, C<"sv-SE">, C<"ab-GE">, C<"ast-ES">, C<"az-AZ">, C<"ba-RU">, C<"be-BY">, C<"bg-BG">, C<"bn-IN">, C<"bs-BA">, C<"ca-ES">, C<"ckb-IQ">, C<"ckb-IR">, C<"cs-CZ">, C<"cy-WL">, C<"el-GR">, C<"et-ET">, C<"eu-ES">, C<"fi-FI">, C<"gl-ES">, C<"gu-IN">, C<"ha-NG">, C<"hr-HR">, C<"hu-HU">, C<"hy-AM">, C<"is-IS">, C<"ka-GE">, C<"kab-DZ">, C<"kk-KZ">, C<"kn-IN">, C<"ky-KG">, C<"lg-IN">, C<"lt-LT">, C<"lv-LV">, C<"mhr-RU">, C<"mi-NZ">, C<"mk-MK">, C<"ml-IN">, C<"mn-MN">, C<"mr-IN">, C<"mt-MT">, C<"no-NO">, C<"or-IN">, C<"pa-IN">, C<"pl-PL">, C<"ps-AF">, C<"ro-RO">, C<"rw-RW">, C<"si-LK">, C<"sk-SK">, C<"sl-SI">, C<"so-SO">, C<"sr-RS">, C<"su-ID">, C<"sw-BI">, C<"sw-KE">, C<"sw-RW">, C<"sw-TZ">, C<"sw-UG">, C<"tl-PH">, C<"tt-RU">, C<"ug-CN">, C<"uk-UA">, C<"uz-UZ">, C<"wo-SN">, C<"zh-HK">, C<"zu-ZA">
 
 =head2 B<REQUIRED> Media => L<Paws::Transcribe::Media>
 
@@ -101,143 +127,208 @@ Valid values are: C<"af-ZA">, C<"ar-AE">, C<"ar-SA">, C<"cy-GB">, C<"da-DK">, C<
 
 =head2 MediaFormat => Str
 
-The audio format of the input media file.
+Specify the format of your input media file.
 
-Valid values are: C<"mp3">, C<"mp4">, C<"wav">, C<"flac">, C<"ogg">, C<"amr">, C<"webm">
+Valid values are: C<"mp3">, C<"mp4">, C<"wav">, C<"flac">, C<"ogg">, C<"amr">, C<"webm">, C<"m4a">
 
 =head2 MediaSampleRateHertz => Int
 
-The sample rate, in Hertz, of the audio track in the input media file.
+The sample rate, in hertz, of the audio track in your input media file.
 
 If you do not specify the media sample rate, Amazon Transcribe Medical
-determines the sample rate. If you specify the sample rate, it must
-match the rate detected by Amazon Transcribe Medical. In most cases,
-you should leave the C<MediaSampleRateHertz> field blank and let Amazon
-Transcribe Medical determine the sample rate.
+determines it for you. If you specify the sample rate, it must match
+the rate detected by Amazon Transcribe Medical; if there's a mismatch
+between the value that you specify and the value detected, your job
+fails. Therefore, in most cases, it's advised to omit
+C<MediaSampleRateHertz> and let Amazon Transcribe Medical determine the
+sample rate.
 
 
 
 =head2 B<REQUIRED> MedicalTranscriptionJobName => Str
 
-The name of the medical transcription job. You can't use the strings
-"C<.>" or "C<..>" by themselves as the job name. The name must also be
-unique within an AWS account. If you try to create a medical
-transcription job with the same name as a previous medical
-transcription job, you get a C<ConflictException> error.
+A unique name, chosen by you, for your medical transcription job. The
+name that you specify is also used as the default name of your
+transcription output file. If you want to specify a different name for
+your transcription output, use the C<OutputKey> parameter.
+
+This name is case sensitive, cannot contain spaces, and must be unique
+within an Amazon Web Services account. If you try to create a new job
+with the same name as an existing job, you get a C<ConflictException>
+error.
 
 
 
 =head2 B<REQUIRED> OutputBucketName => Str
 
-The Amazon S3 location where the transcription is stored.
+The name of the Amazon S3 bucket where you want your medical
+transcription output stored. Do not include the C<S3://> prefix of the
+specified bucket.
 
-You must set C<OutputBucketName> for Amazon Transcribe Medical to store
-the transcription results. Your transcript appears in the S3 location
-you specify. When you call the GetMedicalTranscriptionJob, the
-operation returns this location in the C<TranscriptFileUri> field. The
-S3 bucket must have permissions that allow Amazon Transcribe Medical to
-put files in the bucket. For more information, see Permissions Required
-for IAM User Roles
+If you want your output to go to a sub-folder of this bucket, specify
+it using the C<OutputKey> parameter; C<OutputBucketName> only accepts
+the name of a bucket.
+
+For example, if you want your output stored in
+C<S3://DOC-EXAMPLE-BUCKET>, set C<OutputBucketName> to
+C<DOC-EXAMPLE-BUCKET>. However, if you want your output stored in
+C<S3://DOC-EXAMPLE-BUCKET/test-files/>, set C<OutputBucketName> to
+C<DOC-EXAMPLE-BUCKET> and C<OutputKey> to C<test-files/>.
+
+Note that Amazon Transcribe must have permission to use the specified
+location. You can change Amazon S3 permissions using the Amazon Web
+Services Management Console (https://console.aws.amazon.com/s3). See
+also Permissions Required for IAM User Roles
 (https://docs.aws.amazon.com/transcribe/latest/dg/security_iam_id-based-policy-examples.html#auth-role-iam-user).
-
-You can specify an AWS Key Management Service (KMS) key to encrypt the
-output of your transcription using the C<OutputEncryptionKMSKeyId>
-parameter. If you don't specify a KMS key, Amazon Transcribe Medical
-uses the default Amazon S3 key for server-side encryption of
-transcripts that are placed in your S3 bucket.
 
 
 
 =head2 OutputEncryptionKMSKeyId => Str
 
-The Amazon Resource Name (ARN) of the AWS Key Management Service (KMS)
-key used to encrypt the output of the transcription job. The user
-calling the StartMedicalTranscriptionJob operation must have permission
-to use the specified KMS key.
+The KMS key you want to use to encrypt your medical transcription
+output.
 
-You use either of the following to identify a KMS key in the current
-account:
+If using a key located in the B<current> Amazon Web Services account,
+you can specify your KMS key in one of four ways:
 
 =over
 
-=item *
+=item 1.
 
-KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"
+Use the KMS key ID itself. For example,
+C<1234abcd-12ab-34cd-56ef-1234567890ab>.
 
-=item *
+=item 2.
 
-KMS Key Alias: "alias/ExampleAlias"
+Use an alias for the KMS key ID. For example, C<alias/ExampleAlias>.
+
+=item 3.
+
+Use the Amazon Resource Name (ARN) for the KMS key ID. For example,
+C<arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab>.
+
+=item 4.
+
+Use the ARN for the KMS key alias. For example,
+C<arn:aws:kms:region:account-ID:alias/ExampleAlias>.
 
 =back
 
-You can use either of the following to identify a KMS key in the
-current account or another account:
+If using a key located in a B<different> Amazon Web Services account
+than the current Amazon Web Services account, you can specify your KMS
+key in one of two ways:
 
 =over
 
-=item *
+=item 1.
 
-Amazon Resource Name (ARN) of a KMS key in the current account or
-another account: "arn:aws:kms:region:account
-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab"
+Use the ARN for the KMS key ID. For example,
+C<arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab>.
 
-=item *
+=item 2.
 
-ARN of a KMS Key Alias: "arn:aws:kms:region:account
-ID:alias/ExampleAlias"
+Use the ARN for the KMS key alias. For example,
+C<arn:aws:kms:region:account-ID:alias/ExampleAlias>.
 
 =back
 
-If you don't specify an encryption key, the output of the medical
-transcription job is encrypted with the default Amazon S3 key (SSE-S3).
+If you do not specify an encryption key, your output is encrypted with
+the default Amazon S3 key (SSE-S3).
 
 If you specify a KMS key to encrypt your output, you must also specify
-an output location in the C<OutputBucketName> parameter.
+an output location using the C<OutputLocation> parameter.
+
+Note that the role making the request must have permission to use the
+specified KMS key.
 
 
 
 =head2 OutputKey => Str
 
-You can specify a location in an Amazon S3 bucket to store the output
-of your medical transcription job.
+Use in combination with C<OutputBucketName> to specify the output
+location of your transcript and, optionally, a unique name for your
+output file. The default name for your transcription output is the same
+as the name you specified for your medical transcription job
+(C<MedicalTranscriptionJobName>).
 
-If you don't specify an output key, Amazon Transcribe Medical stores
-the output of your transcription job in the Amazon S3 bucket you
-specified. By default, the object key is
-"your-transcription-job-name.json".
+Here are some examples of how you can use C<OutputKey>:
 
-You can use output keys to specify the Amazon S3 prefix and file name
-of the transcription output. For example, specifying the Amazon S3
-prefix, "folder1/folder2/", as an output key would lead to the output
-being stored as "folder1/folder2/your-transcription-job-name.json". If
-you specify "my-other-job-name.json" as the output key, the object key
-is changed to "my-other-job-name.json". You can use an output key to
-change both the prefix and the file name, for example
-"folder/my-other-job-name.json".
+=over
 
-If you specify an output key, you must also specify an S3 bucket in the
-C<OutputBucketName> parameter.
+=item *
+
+If you specify 'DOC-EXAMPLE-BUCKET' as the C<OutputBucketName> and
+'my-transcript.json' as the C<OutputKey>, your transcription output
+path is C<s3://DOC-EXAMPLE-BUCKET/my-transcript.json>.
+
+=item *
+
+If you specify 'my-first-transcription' as the
+C<MedicalTranscriptionJobName>, 'DOC-EXAMPLE-BUCKET' as the
+C<OutputBucketName>, and 'my-transcript' as the C<OutputKey>, your
+transcription output path is
+C<s3://DOC-EXAMPLE-BUCKET/my-transcript/my-first-transcription.json>.
+
+=item *
+
+If you specify 'DOC-EXAMPLE-BUCKET' as the C<OutputBucketName> and
+'test-files/my-transcript.json' as the C<OutputKey>, your transcription
+output path is
+C<s3://DOC-EXAMPLE-BUCKET/test-files/my-transcript.json>.
+
+=item *
+
+If you specify 'my-first-transcription' as the
+C<MedicalTranscriptionJobName>, 'DOC-EXAMPLE-BUCKET' as the
+C<OutputBucketName>, and 'test-files/my-transcript' as the
+C<OutputKey>, your transcription output path is
+C<s3://DOC-EXAMPLE-BUCKET/test-files/my-transcript/my-first-transcription.json>.
+
+=back
+
+If you specify the name of an Amazon S3 bucket sub-folder that doesn't
+exist, one is created for you.
 
 
 
 =head2 Settings => L<Paws::Transcribe::MedicalTranscriptionSetting>
 
-Optional settings for the medical transcription job.
+Specify additional optional settings in your request, including channel
+identification, alternative transcriptions, and speaker partitioning.
+You can use that to apply custom vocabularies to your transcription
+job.
 
 
 
 =head2 B<REQUIRED> Specialty => Str
 
-The medical specialty of any clinician speaking in the input media.
+Specify the predominant medical specialty represented in your media.
+For batch transcriptions, C<PRIMARYCARE> is the only valid value. If
+you require additional specialties, refer to .
 
 Valid values are: C<"PRIMARYCARE">
 
+=head2 Tags => ArrayRef[L<Paws::Transcribe::Tag>]
+
+Adds one or more custom tags, each in the form of a key:value pair, to
+a new medical transcription job at the time you start this new job.
+
+To learn more about using tags with Amazon Transcribe, refer to Tagging
+resources
+(https://docs.aws.amazon.com/transcribe/latest/dg/tagging.html).
+
+
+
 =head2 B<REQUIRED> Type => Str
 
-The type of speech in the input audio. C<CONVERSATION> refers to
-conversations between two or more speakers, e.g., a conversations
-between doctors and patients. C<DICTATION> refers to single-speaker
-dictated speech, e.g., for clinical notes.
+Specify whether your input media contains only one person
+(C<DICTATION>) or contains a conversation between two people
+(C<CONVERSATION>).
+
+For example, C<DICTATION> could be used for a medical professional
+wanting to transcribe voice memos; C<CONVERSATION> could be used for
+transcribing the doctor-patient dialogue during the patient's office
+visit.
 
 Valid values are: C<"CONVERSATION">, C<"DICTATION">
 

@@ -2,9 +2,10 @@
 package Paws::WorkMail::GetAccessControlEffect;
   use Moose;
   has Action => (is => 'ro', isa => 'Str', required => 1);
+  has ImpersonationRoleId => (is => 'ro', isa => 'Str');
   has IpAddress => (is => 'ro', isa => 'Str', required => 1);
   has OrganizationId => (is => 'ro', isa => 'Str', required => 1);
-  has UserId => (is => 'ro', isa => 'Str', required => 1);
+  has UserId => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -31,11 +32,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $workmail = Paws->service('WorkMail');
     my $GetAccessControlEffectResponse = $workmail->GetAccessControlEffect(
-      Action         => 'MyAccessControlRuleAction',
-      IpAddress      => 'MyIpAddress',
-      OrganizationId => 'MyOrganizationId',
-      UserId         => 'MyWorkMailIdentifier',
-
+      Action              => 'MyAccessControlRuleAction',
+      IpAddress           => 'MyIpAddress',
+      OrganizationId      => 'MyOrganizationId',
+      ImpersonationRoleId => 'MyImpersonationRoleId',       # OPTIONAL
+      UserId              => 'MyWorkMailIdentifier',        # OPTIONAL
     );
 
     # Results:
@@ -58,6 +59,12 @@ C<WebMail>.
 
 
 
+=head2 ImpersonationRoleId => Str
+
+The impersonation role ID.
+
+
+
 =head2 B<REQUIRED> IpAddress => Str
 
 The IPv4 address.
@@ -70,7 +77,7 @@ The identifier for the organization.
 
 
 
-=head2 B<REQUIRED> UserId => Str
+=head2 UserId => Str
 
 The user ID.
 

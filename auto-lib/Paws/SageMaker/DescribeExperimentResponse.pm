@@ -65,7 +65,7 @@ When the experiment was last modified.
 
 =head2 Source => L<Paws::SageMaker::ExperimentSource>
 
-The ARN of the source and, optionally, the type.
+The Amazon Resource Name (ARN) of the source and, optionally, the type.
 
 
 =head2 _request_id => Str

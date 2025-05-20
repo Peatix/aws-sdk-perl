@@ -38,6 +38,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           Type => 'ALLOW_ALL',           # values: ALLOW_ALL, DROP_ALL
 
         },    # OPTIONAL
+        ServiceDiscovery => {
+          IpPreference => 'IPv6_PREFERRED'
+          , # values: IPv6_PREFERRED, IPv4_PREFERRED, IPv4_ONLY, IPv6_ONLY; OPTIONAL
+        },    # OPTIONAL
       },    # OPTIONAL
     );
 

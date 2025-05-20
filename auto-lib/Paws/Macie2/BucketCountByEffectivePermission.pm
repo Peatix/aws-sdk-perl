@@ -37,7 +37,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Macie2::Buc
 =head1 DESCRIPTION
 
 Provides information about the number of S3 buckets that are publicly
-accessible based on a combination of permissions settings for each
+accessible due to a combination of permissions settings for each
 bucket.
 
 =head1 ATTRIBUTES
@@ -64,8 +64,9 @@ access to the bucket.
 =head2 Unknown => Int
 
 The total number of buckets that Amazon Macie wasn't able to evaluate
-permissions settings for. Macie can't determine whether these buckets
-are publicly accessible.
+permissions settings for. For example, the buckets' policies or a quota
+prevented Macie from retrieving the requisite data. Macie can't
+determine whether the buckets are publicly accessible.
 
 
 

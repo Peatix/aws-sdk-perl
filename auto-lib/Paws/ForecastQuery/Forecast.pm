@@ -62,6 +62,11 @@ p90
 
 =back
 
+The default setting is C<["0.1", "0.5", "0.9"]>. Use the optional
+C<ForecastTypes> parameter of the CreateForecast
+(https://docs.aws.amazon.com/forecast/latest/dg/API_CreateForecast.html)
+operation to change the values. The values will vary depending on how
+this is set, with a minimum of C<1> and a maximum of C<5.>
 
 
 

@@ -27,10 +27,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $iam = Paws->service('IAM');
+# To delete an access key for an IAM user
+# The following command sets the STS global endpoint token to version 2. Version
+# 2 tokens are valid in all Regions.
     $iam->SetSecurityTokenServicePreferences(
-      GlobalEndpointTokenVersion => 'v1Token',
+      'GlobalEndpointTokenVersion' => 'v2Token' );
 
-    );
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/iam/SetSecurityTokenServicePreferences>
@@ -41,12 +43,14 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/iam
 =head2 B<REQUIRED> GlobalEndpointTokenVersion => Str
 
 The version of the global endpoint token. Version 1 tokens are valid
-only in AWS Regions that are available by default. These tokens do not
-work in manually enabled Regions, such as Asia Pacific (Hong Kong).
-Version 2 tokens are valid in all Regions. However, version 2 tokens
-are longer and might affect systems where you temporarily store tokens.
+only in Amazon Web Services Regions that are available by default.
+These tokens do not work in manually enabled Regions, such as Asia
+Pacific (Hong Kong). Version 2 tokens are valid in all Regions.
+However, version 2 tokens are longer and might affect systems where you
+temporarily store tokens.
 
-For information, see Activating and deactivating STS in an AWS region
+For information, see Activating and deactivating STS in an Amazon Web
+Services Region
 (https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html)
 in the I<IAM User Guide>.
 

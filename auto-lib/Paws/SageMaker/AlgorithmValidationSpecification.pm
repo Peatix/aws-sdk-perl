@@ -34,8 +34,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SageMaker::
 
 =head1 DESCRIPTION
 
-Specifies configurations for one or more training jobs that Amazon
-SageMaker runs to test the algorithm.
+Specifies configurations for one or more training jobs that SageMaker
+runs to test the algorithm.
 
 =head1 ATTRIBUTES
 
@@ -43,13 +43,13 @@ SageMaker runs to test the algorithm.
 =head2 B<REQUIRED> ValidationProfiles => ArrayRef[L<Paws::SageMaker::AlgorithmValidationProfile>]
 
 An array of C<AlgorithmValidationProfile> objects, each of which
-specifies a training job and batch transform job that Amazon SageMaker
-runs to validate your algorithm.
+specifies a training job and batch transform job that SageMaker runs to
+validate your algorithm.
 
 
 =head2 B<REQUIRED> ValidationRole => Str
 
-The IAM roles that Amazon SageMaker uses to run the training jobs.
+The IAM roles that SageMaker uses to run the training jobs.
 
 
 

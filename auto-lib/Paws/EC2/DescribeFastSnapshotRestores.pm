@@ -79,8 +79,8 @@ C<availability-zone>: The Availability Zone of the snapshot.
 
 =item *
 
-C<owner-id>: The ID of the AWS account that enabled fast snapshot
-restore on the snapshot.
+C<owner-id>: The ID of the Amazon Web Services account that enabled
+fast snapshot restore on the snapshot.
 
 =item *
 
@@ -99,15 +99,17 @@ C<disabled>).
 
 =head2 MaxResults => Int
 
-The maximum number of results to return with a single call. To retrieve
-the remaining results, make another call with the returned C<nextToken>
-value.
+The maximum number of items to return for this request. To get the next
+page of items, make another request with the token returned in the
+output. For more information, see Pagination
+(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Query-Requests.html#api-pagination).
 
 
 
 =head2 NextToken => Str
 
-The token for the next page of results.
+The token returned from a previous paginated request. Pagination
+continues from the end of the items returned by the previous request.
 
 
 

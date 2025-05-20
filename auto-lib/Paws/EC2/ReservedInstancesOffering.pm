@@ -1,6 +1,7 @@
 package Paws::EC2::ReservedInstancesOffering;
   use Moose;
   has AvailabilityZone => (is => 'ro', isa => 'Str', request_name => 'availabilityZone', traits => ['NameInRequest']);
+  has AvailabilityZoneId => (is => 'ro', isa => 'Str', request_name => 'availabilityZoneId', traits => ['NameInRequest']);
   has CurrencyCode => (is => 'ro', isa => 'Str', request_name => 'currencyCode', traits => ['NameInRequest']);
   has Duration => (is => 'ro', isa => 'Int', request_name => 'duration', traits => ['NameInRequest']);
   has FixedPrice => (is => 'ro', isa => 'Num', request_name => 'fixedPrice', traits => ['NameInRequest']);
@@ -53,6 +54,11 @@ This class has no description
 =head2 AvailabilityZone => Str
 
 The Availability Zone in which the Reserved Instance can be used.
+
+
+=head2 AvailabilityZoneId => Str
+
+The ID of the Availability Zone.
 
 
 =head2 CurrencyCode => Str

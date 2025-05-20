@@ -36,40 +36,38 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Datasync::P
 
 =head1 DESCRIPTION
 
-The VPC endpoint, subnet, and security group that an agent uses to
-access IP addresses in a VPC (Virtual Private Cloud).
+Specifies how your DataSync agent connects to Amazon Web Services using
+a virtual private cloud (VPC) service endpoint
+(https://docs.aws.amazon.com/datasync/latest/userguide/choose-service-endpoint.html#choose-service-endpoint-vpc).
+An agent that uses a VPC endpoint isn't accessible over the public
+internet.
 
 =head1 ATTRIBUTES
 
 
 =head2 PrivateLinkEndpoint => Str
 
-The private endpoint that is configured for an agent that has access to
-IP addresses in a PrivateLink
-(https://docs.aws.amazon.com/vpc/latest/userguide/endpoint-service.html).
-An agent that is configured with this endpoint will not be accessible
-over the public internet.
+Specifies the VPC endpoint provided by Amazon Web Services PrivateLink
+(https://docs.aws.amazon.com/vpc/latest/privatelink/privatelink-share-your-services.html)
+that your agent connects to.
 
 
 =head2 SecurityGroupArns => ArrayRef[Str|Undef]
 
-The Amazon Resource Names (ARNs) of the security groups that are
-configured for the EC2 resource that hosts an agent activated in a VPC
-or an agent that has access to a VPC endpoint.
+Specifies the Amazon Resource Names (ARN) of the security group that
+provides DataSync access to your VPC endpoint. You can only specify one
+ARN.
 
 
 =head2 SubnetArns => ArrayRef[Str|Undef]
 
-The Amazon Resource Names (ARNs) of the subnets that are configured for
-an agent activated in a VPC or an agent that has access to a VPC
-endpoint.
+Specifies the ARN of the subnet where your VPC endpoint is located. You
+can only specify one ARN.
 
 
 =head2 VpcEndpointId => Str
 
-The ID of the VPC endpoint that is configured for an agent. An agent
-that is configured with a VPC endpoint will not be accessible over the
-public internet.
+Specifies the ID of the VPC endpoint that your agent connects to.
 
 
 

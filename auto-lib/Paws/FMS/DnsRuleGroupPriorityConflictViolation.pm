@@ -64,7 +64,7 @@ list for the rule groups in your new DNS Firewall policy.
 
 =head2 ViolationTarget => Str
 
-The ID of the VPC.
+Information about the VPC ID.
 
 
 =head2 ViolationTargetDescription => Str

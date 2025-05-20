@@ -85,7 +85,7 @@ is not, the version defaults to "0".
 
 =head2 B<REQUIRED> DocumentId => Str
 
-The unique identifier of the document.
+The identifier of the document.
 
 
 

@@ -36,8 +36,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::GameLift::G
 
 =head1 DESCRIPTION
 
-B<This data type is used with the GameLift FleetIQ and game server
-groups.>
+B<This data type is used with the Amazon GameLift FleetIQ and game
+server groups.>
 
 Additional properties, including status, that describe an EC2 instance
 in a game server group. Instance configurations are set with game
@@ -46,14 +46,6 @@ EC2 launch template that was used when creating the game server group.
 
 Retrieve game server instances for a game server group by calling
 C<DescribeGameServerInstances>.
-
-B<Related actions>
-
-CreateGameServerGroup | ListGameServerGroups | DescribeGameServerGroup
-| UpdateGameServerGroup | DeleteGameServerGroup | ResumeGameServerGroup
-| SuspendGameServerGroup | DescribeGameServerInstances | All APIs by
-task
-(https://docs.aws.amazon.com/gamelift/latest/fleetiqguide/reference-awssdk-fleetiq.html)
 
 =head1 ATTRIBUTES
 
@@ -68,7 +60,7 @@ the game server instance.
 
 A developer-defined identifier for the game server group that includes
 the game server instance. The name is unique for each Region in each
-AWS account.
+Amazon Web Services account.
 
 
 =head2 InstanceId => Str
@@ -80,31 +72,7 @@ IDs use a 17-character format, for example: C<i-1234567890abcdef0>.
 
 =head2 InstanceStatus => Str
 
-Current status of the game server instance.
-
-=over
-
-=item *
-
-B<ACTIVE> -- The instance is viable for hosting game servers.
-
-=item *
-
-B<DRAINING> -- The instance is not viable for hosting game servers.
-Existing game servers are in the process of ending, and new game
-servers are not started on this instance unless no other resources are
-available. When the instance is put in DRAINING, a new instance is
-started up to replace it. Once the instance has no UTILIZED game
-servers, it will be terminated in favor of the new instance.
-
-=item *
-
-B<SPOT_TERMINATING> -- The instance is in the process of shutting down
-due to a Spot instance interruption. No new game servers are started on
-this instance.
-
-=back
-
+Current status of the game server instance
 
 
 

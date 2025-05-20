@@ -8,12 +8,14 @@ package Paws::LexModelsV2::DescribeBotLocaleResponse;
   has CreationDateTime => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'creationDateTime');
   has Description => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'description');
   has FailureReasons => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'failureReasons');
+  has GenerativeAISettings => (is => 'ro', isa => 'Paws::LexModelsV2::GenerativeAISettings', traits => ['NameInRequest'], request_name => 'generativeAISettings');
   has IntentsCount => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'intentsCount');
   has LastBuildSubmittedDateTime => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'lastBuildSubmittedDateTime');
   has LastUpdatedDateTime => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'lastUpdatedDateTime');
   has LocaleId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'localeId');
   has LocaleName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'localeName');
   has NluIntentConfidenceThreshold => (is => 'ro', isa => 'Num', traits => ['NameInRequest'], request_name => 'nluIntentConfidenceThreshold');
+  has RecommendedActions => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'recommendedActions');
   has SlotTypesCount => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'slotTypesCount');
   has VoiceSettings => (is => 'ro', isa => 'Paws::LexModelsV2::VoiceSettings', traits => ['NameInRequest'], request_name => 'voiceSettings');
 
@@ -45,10 +47,10 @@ have taken place for the locale.
 The status of the bot. If the status is C<Failed>, the reasons for the
 failure are listed in the C<failureReasons> field.
 
-Valid values are: C<"Creating">, C<"Building">, C<"Built">, C<"ReadyExpressTesting">, C<"Failed">, C<"Deleting">, C<"NotBuilt">, C<"Importing">
+Valid values are: C<"Creating">, C<"Building">, C<"Built">, C<"ReadyExpressTesting">, C<"Failed">, C<"Deleting">, C<"NotBuilt">, C<"Importing">, C<"Processing">
 =head2 BotVersion => Str
 
-The identifier of the version of the bot associated with the locale.
+The version of the bot associated with the locale.
 
 
 =head2 CreationDateTime => Str
@@ -65,6 +67,12 @@ The description of the locale.
 
 if C<botLocaleStatus> is C<Failed>, Amazon Lex explains why it failed
 to build the bot.
+
+
+=head2 GenerativeAISettings => L<Paws::LexModelsV2::GenerativeAISettings>
+
+Contains settings for Amazon Bedrock's generative AI features for your
+bot locale.
 
 
 =head2 IntentsCount => Int
@@ -97,6 +105,12 @@ The name of the locale.
 The confidence threshold where Amazon Lex inserts the
 C<AMAZON.FallbackIntent> and C<AMAZON.KendraSearchIntent> intents in
 the list of possible intents for an utterance.
+
+
+=head2 RecommendedActions => ArrayRef[Str|Undef]
+
+Recommended actions to take to resolve an error in the
+C<failureReasons> field.
 
 
 =head2 SlotTypesCount => Int

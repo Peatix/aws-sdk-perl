@@ -81,17 +81,18 @@ A name for the update.
 
 =head2 OwnerInformation => Str
 
-User-provided value that will be included in any CloudWatch events
-raised while running tasks for these targets in this maintenance
-window.
+User-provided value that will be included in any Amazon CloudWatch
+Events events raised while running tasks for these targets in this
+maintenance window.
 
 
 
 =head2 Replace => Bool
 
-If True, then all fields that are required by the
-RegisterTargetWithMaintenanceWindow action are also required for this
-API request. Optional fields that are not specified are set to null.
+If C<True>, then all fields that are required by the
+RegisterTargetWithMaintenanceWindow operation are also required for
+this API request. Optional fields that aren't specified are set to
+null.
 
 
 

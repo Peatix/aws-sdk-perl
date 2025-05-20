@@ -52,10 +52,10 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ec2
 =head2 B<REQUIRED> Bucket => Str
 
 The name of the Amazon S3 bucket in which to store the Spot Instance
-data feed. For more information about bucket names, see Rules for
-bucket naming
-(https://docs.aws.amazon.com/AmazonS3/latest/dev/BucketRestrictions.html#bucketnamingrules)
-in the I<Amazon S3 Developer Guide>.
+data feed. For more information about bucket names, see Bucket naming
+rules
+(https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html)
+in the I<Amazon S3 User Guide>.
 
 
 

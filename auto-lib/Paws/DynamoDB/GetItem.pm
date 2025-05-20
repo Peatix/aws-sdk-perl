@@ -185,7 +185,8 @@ Valid values are: C<"INDEXES">, C<"TOTAL">, C<"NONE">
 
 =head2 B<REQUIRED> TableName => Str
 
-The name of the table containing the requested item.
+The name of the table containing the requested item. You can also
+provide the Amazon Resource Name (ARN) of the table in this parameter.
 
 
 

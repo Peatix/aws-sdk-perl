@@ -86,9 +86,9 @@ C<NextToken> to get results as a set of sequential pages.
 
 =head2 Location => Str
 
-A fleet location to get game sessions for. You can specify a fleet's
-home Region or a remote location. Use the AWS Region code format, such
-as C<us-west-2>.
+A fleet location to get game session details for. You can specify a
+fleet's home Region or a remote location. Use the Amazon Web Services
+Region code format, such as C<us-west-2>.
 
 
 

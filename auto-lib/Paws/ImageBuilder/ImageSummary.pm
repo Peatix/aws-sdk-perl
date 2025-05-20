@@ -2,7 +2,11 @@
 package Paws::ImageBuilder::ImageSummary;
   use Moose;
   has Arn => (is => 'ro', isa => 'Str', request_name => 'arn', traits => ['NameInRequest']);
+  has BuildType => (is => 'ro', isa => 'Str', request_name => 'buildType', traits => ['NameInRequest']);
   has DateCreated => (is => 'ro', isa => 'Str', request_name => 'dateCreated', traits => ['NameInRequest']);
+  has DeprecationTime => (is => 'ro', isa => 'Str', request_name => 'deprecationTime', traits => ['NameInRequest']);
+  has ImageSource => (is => 'ro', isa => 'Str', request_name => 'imageSource', traits => ['NameInRequest']);
+  has LifecycleExecutionId => (is => 'ro', isa => 'Str', request_name => 'lifecycleExecutionId', traits => ['NameInRequest']);
   has Name => (is => 'ro', isa => 'Str', request_name => 'name', traits => ['NameInRequest']);
   has OsVersion => (is => 'ro', isa => 'Str', request_name => 'osVersion', traits => ['NameInRequest']);
   has OutputResources => (is => 'ro', isa => 'Paws::ImageBuilder::OutputResources', request_name => 'outputResources', traits => ['NameInRequest']);
@@ -53,9 +57,56 @@ An image summary.
 The Amazon Resource Name (ARN) of the image.
 
 
+=head2 BuildType => Str
+
+Indicates the type of build that created this image. The build can be
+initiated in the following ways:
+
+=over
+
+=item *
+
+B<USER_INITIATED> E<ndash> A manual pipeline build request.
+
+=item *
+
+B<SCHEDULED> E<ndash> A pipeline build initiated by a cron expression
+in the Image Builder pipeline, or from EventBridge.
+
+=item *
+
+B<IMPORT> E<ndash> A VM import created the image to use as the base
+image for the recipe.
+
+=item *
+
+B<IMPORT_ISO> E<ndash> An ISO disk import created the image.
+
+=back
+
+
+
 =head2 DateCreated => Str
 
-The date on which this image was created.
+The date on which Image Builder created this image.
+
+
+=head2 DeprecationTime => Str
+
+The time when deprecation occurs for an image resource. This can be a
+past or future date.
+
+
+=head2 ImageSource => Str
+
+The origin of the base image that Image Builder used to build this
+image.
+
+
+=head2 LifecycleExecutionId => Str
+
+Identifies the last runtime instance of the lifecycle policy to take
+action on the image.
 
 
 =head2 Name => Str
@@ -65,13 +116,15 @@ The name of the image.
 
 =head2 OsVersion => Str
 
-The operating system version of the instance. For example, Amazon Linux
-2, Ubuntu 18, or Microsoft Windows Server 2019.
+The operating system version of the instances that launch from this
+image. For example, Amazon Linux 2, Ubuntu 18, or Microsoft Windows
+Server 2019.
 
 
 =head2 OutputResources => L<Paws::ImageBuilder::OutputResources>
 
-The output resources produced when creating this image.
+The output resources that Image Builder produced when it created this
+image.
 
 
 =head2 Owner => Str
@@ -81,7 +134,7 @@ The owner of the image.
 
 =head2 Platform => Str
 
-The platform of the image.
+The image operating system platform, such as Linux or Windows.
 
 
 =head2 State => L<Paws::ImageBuilder::ImageState>
@@ -91,12 +144,12 @@ The state of the image.
 
 =head2 Tags => L<Paws::ImageBuilder::TagMap>
 
-The tags of the image.
+The tags that apply to this image.
 
 
 =head2 Type => Str
 
-Specifies whether this is an AMI or container image.
+Specifies whether this image produces an AMI or a container image.
 
 
 =head2 Version => Str

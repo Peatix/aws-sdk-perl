@@ -41,6 +41,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $AllowsHostedConnections = $Lag->AllowsHostedConnections;
     my $AwsDevice               = $Lag->AwsDevice;
     my $AwsDeviceV2             = $Lag->AwsDeviceV2;
+    my $AwsLogicalDeviceId      = $Lag->AwsLogicalDeviceId;
     my $Connections             = $Lag->Connections;
     my $ConnectionsBandwidth    = $Lag->ConnectionsBandwidth;
     my $EncryptionMode          = $Lag->EncryptionMode;
@@ -71,7 +72,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/dir
 
 The LAG MAC Security (MACsec) encryption mode.
 
-AWS applies the value to all connections which are part of the LAG.
+Amazon Web Services applies the value to all connections which are part
+of the LAG.
 
 
 

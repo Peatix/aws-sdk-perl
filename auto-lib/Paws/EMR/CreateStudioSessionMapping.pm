@@ -23,7 +23,7 @@ Paws::EMR::CreateStudioSessionMapping - Arguments for method CreateStudioSession
 =head1 DESCRIPTION
 
 This class represents the parameters used for calling the method CreateStudioSessionMapping on the
-L<Amazon Elastic MapReduce|Paws::EMR> service. Use the attributes of this class
+L<Amazon EMR|Paws::EMR> service. Use the attributes of this class
 as arguments to method CreateStudioSessionMapping.
 
 You shouldn't make instances of this class. Each attribute should be used as a named argument in the call to CreateStudioSessionMapping.
@@ -47,13 +47,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ela
 
 =head2 IdentityId => Str
 
-The globally unique identifier (GUID) of the user or group from the AWS
-SSO Identity Store. For more information, see UserId
+The globally unique identifier (GUID) of the user or group from the IAM
+Identity Center Identity Store. For more information, see UserId
 (https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_User.html#singlesignon-Type-User-UserId)
 and GroupId
 (https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_Group.html#singlesignon-Type-Group-GroupId)
-in the I<AWS SSO Identity Store API Reference>. Either C<IdentityName>
-or C<IdentityId> must be specified.
+in the I<IAM Identity Center Identity Store API Reference>. Either
+C<IdentityName> or C<IdentityId> must be specified, but not both.
 
 
 
@@ -63,8 +63,8 @@ The name of the user or group. For more information, see UserName
 (https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_User.html#singlesignon-Type-User-UserName)
 and DisplayName
 (https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_Group.html#singlesignon-Type-Group-DisplayName)
-in the I<AWS SSO Identity Store API Reference>. Either C<IdentityName>
-or C<IdentityId> must be specified.
+in the I<IAM Identity Center Identity Store API Reference>. Either
+C<IdentityName> or C<IdentityId> must be specified, but not both.
 
 
 
@@ -78,8 +78,11 @@ Valid values are: C<"USER">, C<"GROUP">
 =head2 B<REQUIRED> SessionPolicyArn => Str
 
 The Amazon Resource Name (ARN) for the session policy that will be
-applied to the user or group. Session policies refine Studio user
-permissions without the need to use multiple IAM user roles.
+applied to the user or group. You should specify the ARN for the
+session policy that you want to apply, not the ARN of your user role.
+For more information, see Create an Amazon EMR Studio User Role with
+Session Policies
+(https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-studio-user-role.html).
 
 
 

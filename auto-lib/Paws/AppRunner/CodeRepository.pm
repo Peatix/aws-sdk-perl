@@ -4,6 +4,7 @@ package Paws::AppRunner::CodeRepository;
   has CodeConfiguration => (is => 'ro', isa => 'Paws::AppRunner::CodeConfiguration');
   has RepositoryUrl => (is => 'ro', isa => 'Str', required => 1);
   has SourceCodeVersion => (is => 'ro', isa => 'Paws::AppRunner::SourceCodeVersion', required => 1);
+  has SourceDirectory => (is => 'ro', isa => 'Str');
 
 1;
 
@@ -24,7 +25,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::AppRunner::CodeRepository object:
 
-  $service_obj->Method(Att1 => { CodeConfiguration => $value, ..., SourceCodeVersion => $value  });
+  $service_obj->Method(Att1 => { CodeConfiguration => $value, ..., SourceDirectory => $value  });
 
 =head3 Results returned from an API call
 
@@ -45,6 +46,8 @@ Describes a source code repository.
 Configuration for building and running the service from a source code
 repository.
 
+C<CodeConfiguration> is required only for C<CreateService> request.
+
 
 =head2 B<REQUIRED> RepositoryUrl => Str
 
@@ -54,6 +57,14 @@ The location of the repository that contains the source code.
 =head2 B<REQUIRED> SourceCodeVersion => L<Paws::AppRunner::SourceCodeVersion>
 
 The version that should be used within the source code repository.
+
+
+=head2 SourceDirectory => Str
+
+The path of the directory that stores source code and configuration
+files. The build and start commands also execute from here. The path is
+absolute from root and, if not specified, defaults to the repository
+root.
 
 
 

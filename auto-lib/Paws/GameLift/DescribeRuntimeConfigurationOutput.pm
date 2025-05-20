@@ -16,8 +16,8 @@ Paws::GameLift::DescribeRuntimeConfigurationOutput
 
 =head2 RuntimeConfiguration => L<Paws::GameLift::RuntimeConfiguration>
 
-Instructions that describe how server processes should be launched and
-maintained on each instance in the fleet.
+Instructions that describe how server processes are launched and
+maintained on computes in the fleet.
 
 
 =head2 _request_id => Str

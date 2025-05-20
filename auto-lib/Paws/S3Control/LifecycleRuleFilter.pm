@@ -2,6 +2,8 @@
 package Paws::S3Control::LifecycleRuleFilter;
   use Moose;
   has And => (is => 'ro', isa => 'Paws::S3Control::LifecycleRuleAndOperator');
+  has ObjectSizeGreaterThan => (is => 'ro', isa => 'Int');
+  has ObjectSizeLessThan => (is => 'ro', isa => 'Int');
   has Prefix => (is => 'ro', isa => 'Str');
   has Tag => (is => 'ro', isa => 'Paws::S3Control::S3Tag');
 
@@ -45,14 +47,26 @@ The container for the filter of the lifecycle rule.
 The container for the C<AND> condition for the lifecycle rule.
 
 
+=head2 ObjectSizeGreaterThan => Int
+
+Minimum object size to which the rule applies.
+
+
+=head2 ObjectSizeLessThan => Int
+
+Maximum object size to which the rule applies.
+
+
 =head2 Prefix => Str
 
 Prefix identifying one or more objects to which the rule applies.
 
-Replacement must be made for object keys containing special characters
-(such as carriage returns) when using XML requests. For more
-information, see XML related object key constraints
-(https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-xml-related-constraints).
+When you're using XML requests, you must replace special characters
+(such as carriage returns) in object keys with their equivalent XML
+entity codes. For more information, see XML-related object key
+constraints
+(https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-xml-related-constraints)
+in the I<Amazon S3 User Guide>.
 
 
 =head2 Tag => L<Paws::S3Control::S3Tag>

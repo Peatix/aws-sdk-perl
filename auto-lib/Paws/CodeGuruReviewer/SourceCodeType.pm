@@ -44,7 +44,7 @@ Specifies the source code that is analyzed in a code review.
 
 =head2 BranchDiff => L<Paws::CodeGuruReviewer::BranchDiffSourceCodeType>
 
-A type of C<SourceCodeType>
+A type of SourceCodeType
 (https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_SourceCodeType)
 that specifies a source branch name and a destination branch name in an
 associated repository.
@@ -52,7 +52,7 @@ associated repository.
 
 =head2 CommitDiff => L<Paws::CodeGuruReviewer::CommitDiffSourceCodeType>
 
-A C<SourceCodeType>
+A SourceCodeType
 (https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_SourceCodeType)
 that specifies a commit diff created by a pull request on an associated
 repository.
@@ -78,7 +78,7 @@ Information about an associated repository in an S3 bucket that
 includes its name and an C<S3RepositoryDetails> object. The
 C<S3RepositoryDetails> object includes the name of an S3 bucket, an S3
 key for a source code .zip file, and an S3 key for a build artifacts
-.zip file. C<S3BucketRepository> is required in C<SourceCodeType>
+.zip file. C<S3BucketRepository> is required in SourceCodeType
 (https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_SourceCodeType)
 for C<S3BucketRepository> based code reviews.
 

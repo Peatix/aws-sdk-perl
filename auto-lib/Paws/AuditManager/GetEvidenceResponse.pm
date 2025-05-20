@@ -17,7 +17,7 @@ Paws::AuditManager::GetEvidenceResponse
 
 =head2 Evidence => L<Paws::AuditManager::Evidence>
 
-The evidence returned by the C<GetEvidenceResponse> API.
+The evidence that the C<GetEvidence> API returned.
 
 
 =head2 _request_id => Str

@@ -17,10 +17,7 @@ Paws::GameLift::ListFleetsOutput
 
 =head2 FleetIds => ArrayRef[Str|Undef]
 
-A set of fleet IDs that match the list request. You can retrieve
-additional information about all returned fleets by passing this result
-set to a DescribeFleetAttributes, DescribeFleetCapacity, or
-DescribeFleetUtilization call.
+A set of fleet IDs that match the list request.
 
 
 =head2 NextToken => Str

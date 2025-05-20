@@ -53,6 +53,12 @@ data and thing connectivity status data.
 REGISTRY_AND_SHADOW_AND_CONNECTIVITY_STATUS - Your thing index contains
 registry data, shadow data, and thing connectivity status data.
 
+=item *
+
+MULTI_INDEXING_MODE - Your thing index contains multiple data sources.
+For more information, see GetIndexingConfiguration
+(https://docs.aws.amazon.com/iot/latest/apireference/API_GetIndexingConfiguration.html).
+
 =back
 
 

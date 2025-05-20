@@ -67,29 +67,29 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/eks
 
 =head2 ClientRequestToken => Str
 
-Unique, case-sensitive identifier that you provide to ensure the
+A unique, case-sensitive identifier that you provide to ensure the
 idempotency of the request.
 
 
 
 =head2 B<REQUIRED> ClusterName => Str
 
-The name of the cluster to associate the configuration to.
+The name of your cluster.
 
 
 
 =head2 B<REQUIRED> Oidc => L<Paws::EKS::OidcIdentityProviderConfigRequest>
 
-An object that represents an OpenID Connect (OIDC) identity provider
+An object representing an OpenID Connect (OIDC) identity provider
 configuration.
 
 
 
 =head2 Tags => L<Paws::EKS::TagMap>
 
-The metadata to apply to the configuration to assist with
-categorization and organization. Each tag consists of a key and an
-optional value, both of which you define.
+Metadata that assists with categorization and organization. Each tag
+consists of a key and an optional value. You define both. Tags don't
+propagate to any other cluster or Amazon Web Services resources.
 
 
 

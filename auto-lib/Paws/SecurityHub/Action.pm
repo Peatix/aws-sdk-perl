@@ -44,7 +44,7 @@ that was taken on a resource:
 
 =item *
 
-A remote IP address issued an AWS API call
+A remote IP address issued an Amazon Web Services API call
 
 =item *
 

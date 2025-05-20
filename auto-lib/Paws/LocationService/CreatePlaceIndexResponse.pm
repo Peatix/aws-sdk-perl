@@ -27,7 +27,7 @@ C<YYYY-MM-DDThh:mm:ss.sssZ>.
 =head2 B<REQUIRED> IndexArn => Str
 
 The Amazon Resource Name (ARN) for the place index resource. Used to
-specify a resource across all AWS.
+specify a resource across Amazon Web Services.
 
 =over
 

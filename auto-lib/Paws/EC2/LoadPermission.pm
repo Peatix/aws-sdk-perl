@@ -44,7 +44,7 @@ The name of the group.
 
 =head2 UserId => Str
 
-The AWS account ID.
+The Amazon Web Services account ID.
 
 
 

@@ -17,7 +17,7 @@ Paws::IoTAnalytics::DescribeDatasetResponse
 
 =head2 Dataset => L<Paws::IoTAnalytics::Dataset>
 
-An object that contains information about the data set.
+An object that contains information about the dataset.
 
 
 =head2 _request_id => Str

@@ -33,14 +33,14 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::IoTAnalytic
 
 =head1 DESCRIPTION
 
-A single partition.
+A partition dimension defined by an attribute.
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> AttributeName => Str
 
-The attribute name of the partition.
+The name of the attribute that defines a partition dimension.
 
 
 

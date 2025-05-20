@@ -87,8 +87,19 @@ action.
 
 The C<JobRun> timeout in minutes. This is the maximum time that a job
 run can consume resources before it is terminated and enters C<TIMEOUT>
-status. The default is 2,880 minutes (48 hours). This overrides the
-timeout value set in the parent job.
+status. This overrides the timeout value set in the parent job.
+
+Jobs must have timeout values less than 7 days or 10080 minutes.
+Otherwise, the jobs will throw an exception.
+
+When the value is left blank, the timeout is defaulted to 2880 minutes.
+
+Any existing Glue jobs that had a timeout value greater than 7 days
+will be defaulted to 7 days. For instance if you have specified a
+timeout of 20 days for a batch job, it will be stopped on the 7th day.
+
+For streaming jobs, if you have set up a maintenance window, it will be
+restarted during the maintenance window after 7 days.
 
 
 

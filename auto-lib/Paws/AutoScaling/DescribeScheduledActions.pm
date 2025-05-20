@@ -59,7 +59,7 @@ The name of the Auto Scaling group.
 =head2 EndTime => Str
 
 The latest scheduled start time to return. If scheduled action names
-are provided, this parameter is ignored.
+are provided, this property is ignored.
 
 
 
@@ -79,7 +79,7 @@ from a previous call.)
 
 =head2 ScheduledActionNames => ArrayRef[Str|Undef]
 
-The names of one or more scheduled actions. If you omit this parameter,
+The names of one or more scheduled actions. If you omit this property,
 all scheduled actions are described. If you specify an unknown
 scheduled action, it is ignored with no error.
 
@@ -90,7 +90,7 @@ Array Members: Maximum number of 50 actions.
 =head2 StartTime => Str
 
 The earliest scheduled start time to return. If scheduled action names
-are provided, this parameter is ignored.
+are provided, this property is ignored.
 
 
 

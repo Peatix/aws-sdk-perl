@@ -38,7 +38,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::TimestreamQ
 
 Contains the data type of a column in a query result set. The data type
 can be scalar or complex. The supported scalar data types are integers,
-boolean, string, double, timestamp, date, time, and intervals. The
+Boolean, string, double, timestamp, date, time, and intervals. The
 supported complex data types are arrays, rows, and timeseries.
 
 =head1 ATTRIBUTES
@@ -56,8 +56,9 @@ Indicates if the column is a row.
 
 =head2 ScalarType => Str
 
-Indicates if the column is of type string, integer, boolean, double,
-timestamp, date, time.
+Indicates if the column is of type string, integer, Boolean, double,
+timestamp, date, time. For more information, see Supported data types
+(https://docs.aws.amazon.com/timestream/latest/developerguide/supported-data-types.html).
 
 
 =head2 TimeSeriesMeasureValueColumnInfo => L<Paws::TimestreamQuery::ColumnInfo>

@@ -3,8 +3,12 @@ package Paws::Comprehend::DocumentClassifierInputDataConfig;
   use Moose;
   has AugmentedManifests => (is => 'ro', isa => 'ArrayRef[Paws::Comprehend::AugmentedManifestsListItem]');
   has DataFormat => (is => 'ro', isa => 'Str');
+  has DocumentReaderConfig => (is => 'ro', isa => 'Paws::Comprehend::DocumentReaderConfig');
+  has Documents => (is => 'ro', isa => 'Paws::Comprehend::DocumentClassifierDocuments');
+  has DocumentType => (is => 'ro', isa => 'Str');
   has LabelDelimiter => (is => 'ro', isa => 'Str');
   has S3Uri => (is => 'ro', isa => 'Str');
+  has TestS3Uri => (is => 'ro', isa => 'Str');
 
 1;
 
@@ -25,7 +29,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::Comprehend::DocumentClassifierInputDataConfig object:
 
-  $service_obj->Method(Att1 => { AugmentedManifests => $value, ..., S3Uri => $value  });
+  $service_obj->Method(Att1 => { AugmentedManifests => $value, ..., TestS3Uri => $value  });
 
 =head3 Results returned from an API call
 
@@ -38,8 +42,10 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Comprehend:
 
 The input properties for training a document classifier.
 
-For more information on how the input file is formatted, see
-how-document-classification-training-data.
+For more information on how the input file is formatted, see Preparing
+training data
+(https://docs.aws.amazon.com/comprehend/latest/dg/prep-classifier-data.html)
+in the Comprehend Developer Guide.
 
 =head1 ATTRIBUTES
 
@@ -82,6 +88,24 @@ If you don't specify a value, Amazon Comprehend uses C<COMPREHEND_CSV>
 as the default.
 
 
+=head2 DocumentReaderConfig => L<Paws::Comprehend::DocumentReaderConfig>
+
+
+
+
+=head2 Documents => L<Paws::Comprehend::DocumentClassifierDocuments>
+
+The S3 location of the training documents. This parameter is required
+in a request to create a native document model.
+
+
+=head2 DocumentType => Str
+
+The type of input documents for training the model. Provide plain-text
+documents to create a plain-text model, and provide semi-structured
+documents to create a native document model.
+
+
 =head2 LabelDelimiter => Str
 
 Indicates the delimiter used to separate each label for training a
@@ -96,7 +120,7 @@ a single unique label, such as LABELLABELLABEL.
 =head2 S3Uri => Str
 
 The Amazon S3 URI for the input data. The S3 bucket must be in the same
-region as the API endpoint that you are calling. The URI can point to a
+Region as the API endpoint that you are calling. The URI can point to a
 single input file or it can provide the prefix for a collection of
 input files.
 
@@ -107,6 +131,13 @@ of them as input.
 
 This parameter is required if you set C<DataFormat> to
 C<COMPREHEND_CSV>.
+
+
+=head2 TestS3Uri => Str
+
+This specifies the Amazon S3 location that contains the test
+annotations for the document classifier. The URI must be in the same
+Amazon Web Services Region as the API endpoint that you are calling.
 
 
 

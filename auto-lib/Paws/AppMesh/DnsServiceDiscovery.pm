@@ -2,6 +2,7 @@
 package Paws::AppMesh::DnsServiceDiscovery;
   use Moose;
   has Hostname => (is => 'ro', isa => 'Str', request_name => 'hostname', traits => ['NameInRequest'], required => 1);
+  has IpPreference => (is => 'ro', isa => 'Str', request_name => 'ipPreference', traits => ['NameInRequest']);
   has ResponseType => (is => 'ro', isa => 'Str', request_name => 'responseType', traits => ['NameInRequest']);
 
 1;
@@ -43,6 +44,13 @@ your virtual node.
 =head2 B<REQUIRED> Hostname => Str
 
 Specifies the DNS service discovery hostname for the virtual node.
+
+
+=head2 IpPreference => Str
+
+The preferred IP version that this virtual node uses. Setting the IP
+preference on the virtual node only overrides the IP preference set for
+the mesh on this specific node.
 
 
 =head2 ResponseType => Str

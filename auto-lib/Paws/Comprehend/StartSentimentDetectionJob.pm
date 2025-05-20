@@ -7,6 +7,7 @@ package Paws::Comprehend::StartSentimentDetectionJob;
   has JobName => (is => 'ro', isa => 'Str');
   has LanguageCode => (is => 'ro', isa => 'Str', required => 1);
   has OutputDataConfig => (is => 'ro', isa => 'Paws::Comprehend::OutputDataConfig', required => 1);
+  has Tags => (is => 'ro', isa => 'ArrayRef[Paws::Comprehend::Tag]');
   has VolumeKmsKeyId => (is => 'ro', isa => 'Str');
   has VpcConfig => (is => 'ro', isa => 'Paws::Comprehend::VpcConfig');
 
@@ -38,9 +39,18 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       $comprehend->StartSentimentDetectionJob(
       DataAccessRoleArn => 'MyIamRoleArn',
       InputDataConfig   => {
-        S3Uri       => 'MyS3Uri',           # max: 1024
+        S3Uri                => 'MyS3Uri',    # max: 1024
+        DocumentReaderConfig => {
+          DocumentReadAction => 'TEXTRACT_DETECT_DOCUMENT_TEXT'
+          ,   # values: TEXTRACT_DETECT_DOCUMENT_TEXT, TEXTRACT_ANALYZE_DOCUMENT
+          DocumentReadMode => 'SERVICE_DEFAULT'
+          ,    # values: SERVICE_DEFAULT, FORCE_DOCUMENT_READ_ACTION; OPTIONAL
+          FeatureTypes => [
+            'TABLES', ...    # values: TABLES, FORMS
+          ],    # min: 1, max: 2; OPTIONAL
+        },    # OPTIONAL
         InputFormat => 'ONE_DOC_PER_FILE'
-        ,    # values: ONE_DOC_PER_FILE, ONE_DOC_PER_LINE; OPTIONAL
+        ,     # values: ONE_DOC_PER_FILE, ONE_DOC_PER_LINE; OPTIONAL
       },
       LanguageCode     => 'en',
       OutputDataConfig => {
@@ -49,10 +59,17 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       },
       ClientRequestToken => 'MyClientRequestTokenString',    # OPTIONAL
       JobName            => 'MyJobName',                     # OPTIONAL
-      VolumeKmsKeyId     => 'MyKmsKeyId',                    # OPTIONAL
-      VpcConfig          => {
+      Tags               => [
+        {
+          Key   => 'MyTagKey',      # min: 1, max: 128
+          Value => 'MyTagValue',    # max: 256; OPTIONAL
+        },
+        ...
+      ],    # OPTIONAL
+      VolumeKmsKeyId => 'MyKmsKeyId',    # OPTIONAL
+      VpcConfig      => {
         SecurityGroupIds => [
-          'MySecurityGroupId', ...                           # min: 1, max: 32
+          'MySecurityGroupId', ...       # min: 1, max: 32
         ],    # min: 1, max: 5
         Subnets => [
           'MySubnetId', ...    # min: 1, max: 32
@@ -62,6 +79,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       );
 
     # Results:
+    my $JobArn    = $StartSentimentDetectionJobResponse->JobArn;
     my $JobId     = $StartSentimentDetectionJobResponse->JobId;
     my $JobStatus = $StartSentimentDetectionJobResponse->JobStatus;
 
@@ -82,11 +100,10 @@ request token, Amazon Comprehend generates one.
 
 =head2 B<REQUIRED> DataAccessRoleArn => Str
 
-The Amazon Resource Name (ARN) of the AWS Identity and Access
-Management (IAM) role that grants Amazon Comprehend read access to your
-input data. For more information, see
-https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions.html#auth-role-permissions
-(https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions.html#auth-role-permissions).
+The Amazon Resource Name (ARN) of the IAM role that grants Amazon
+Comprehend read access to your input data. For more information, see
+Role-based permissions
+(https://docs.aws.amazon.com/comprehend/latest/dg/security_iam_id-based-policy-examples.html#auth-role-permissions).
 
 
 
@@ -116,12 +133,21 @@ Specifies where to send the output files.
 
 
 
+=head2 Tags => ArrayRef[L<Paws::Comprehend::Tag>]
+
+Tags to associate with the sentiment detection job. A tag is a
+key-value pair that adds metadata to a resource used by Amazon
+Comprehend. For example, a tag with "Sales" as the key might be added
+to a resource to indicate its use by the sales department.
+
+
+
 =head2 VolumeKmsKeyId => Str
 
-ID for the AWS Key Management Service (KMS) key that Amazon Comprehend
-uses to encrypt data on the storage volume attached to the ML compute
-instance(s) that process the analysis job. The VolumeKmsKeyId can be
-either of the following formats:
+ID for the Amazon Web Services Key Management Service (KMS) key that
+Amazon Comprehend uses to encrypt data on the storage volume attached
+to the ML compute instance(s) that process the analysis job. The
+VolumeKmsKeyId can be either of the following formats:
 
 =over
 

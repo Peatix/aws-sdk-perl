@@ -46,8 +46,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/org
 
 =head2 B<REQUIRED> AccountId => Str
 
-The unique identifier (ID) of the AWS account that you want information
-about. You can get the ID from the ListAccounts or
+The unique identifier (ID) of the Amazon Web Services account that you
+want information about. You can get the ID from the ListAccounts or
 ListAccountsForParent operations.
 
 The regex pattern (http://wikipedia.org/wiki/regex) for an account ID

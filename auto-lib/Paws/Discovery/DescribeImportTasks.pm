@@ -32,10 +32,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $DescribeImportTasksResponse = $discovery->DescribeImportTasks(
       Filters => [
         {
-          Name =>
-            'IMPORT_TASK_ID',   # values: IMPORT_TASK_ID, STATUS, NAME; OPTIONAL
+          Name => 'IMPORT_TASK_ID'
+          , # values: IMPORT_TASK_ID, STATUS, NAME, FILE_CLASSIFICATION; OPTIONAL
           Values => [
-            'MyImportTaskFilterValue', ...    # min: 1, max: 100
+            'MyImportTaskFilterValue', ...    # min: 1, max: 255
           ],    # min: 1, max: 100; OPTIONAL
         },
         ...

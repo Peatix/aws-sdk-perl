@@ -28,8 +28,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $kms = Paws->service('KMS');
-    # To list customer master keys (CMKs)
-    # The following example lists CMKs.
+    # To list KMS keys
+    # The following example lists KMS keys.
     my $ListKeysResponse = $kms->ListKeys();
 
     # Results:
@@ -47,8 +47,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/kms
 =head2 Limit => Int
 
 Use this parameter to specify the maximum number of items to return.
-When this value is present, AWS KMS does not return more than the
-specified number of items, but it might return fewer.
+When this value is present, KMS does not return more than the specified
+number of items, but it might return fewer.
 
 This value is optional. If you include a value, it must be between 1
 and 1000, inclusive. If you do not include a value, it defaults to 100.

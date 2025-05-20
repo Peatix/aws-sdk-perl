@@ -20,12 +20,26 @@ Paws::EC2::ImportKeyPairResult
 
 =head2 KeyFingerprint => Str
 
-The MD5 public key fingerprint as specified in section 4 of RFC 4716.
+=over
+
+=item *
+
+For RSA key pairs, the key fingerprint is the MD5 public key
+fingerprint as specified in section 4 of RFC 4716.
+
+=item *
+
+For ED25519 key pairs, the key fingerprint is the base64-encoded
+SHA-256 digest, which is the default for OpenSSH, starting with OpenSSH
+6.8 (http://www.openssh.com/txt/release-6.8).
+
+=back
+
 
 
 =head2 KeyName => Str
 
-The key pair name you provided.
+The key pair name that you provided.
 
 
 =head2 KeyPairId => Str

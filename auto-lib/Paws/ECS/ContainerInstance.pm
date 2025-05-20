@@ -8,6 +8,7 @@ package Paws::ECS::ContainerInstance;
   has CapacityProviderName => (is => 'ro', isa => 'Str', request_name => 'capacityProviderName', traits => ['NameInRequest']);
   has ContainerInstanceArn => (is => 'ro', isa => 'Str', request_name => 'containerInstanceArn', traits => ['NameInRequest']);
   has Ec2InstanceId => (is => 'ro', isa => 'Str', request_name => 'ec2InstanceId', traits => ['NameInRequest']);
+  has HealthStatus => (is => 'ro', isa => 'Paws::ECS::ContainerInstanceHealthStatus', request_name => 'healthStatus', traits => ['NameInRequest']);
   has PendingTasksCount => (is => 'ro', isa => 'Int', request_name => 'pendingTasksCount', traits => ['NameInRequest']);
   has RegisteredAt => (is => 'ro', isa => 'Str', request_name => 'registeredAt', traits => ['NameInRequest']);
   has RegisteredResources => (is => 'ro', isa => 'ArrayRef[Paws::ECS::Resource]', request_name => 'registeredResources', traits => ['NameInRequest']);
@@ -49,8 +50,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ECS::Contai
 
 =head1 DESCRIPTION
 
-An EC2 instance that is running the Amazon ECS agent and has been
-registered with a cluster.
+An Amazon EC2 or External instance that's running the Amazon ECS agent
+and has been registered with a cluster.
 
 =head1 ATTRIBUTES
 
@@ -58,50 +59,55 @@ registered with a cluster.
 =head2 AgentConnected => Bool
 
 This parameter returns C<true> if the agent is connected to Amazon ECS.
-Registered instances with an agent that may be unhealthy or stopped
-return C<false>. Only instances connected to an agent can accept
+An instance with an agent that may be unhealthy or stopped return
+C<false>. Only instances connected to an agent can accept task
 placement requests.
 
 
 =head2 AgentUpdateStatus => Str
 
-The status of the most recent agent update. If an update has never been
+The status of the most recent agent update. If an update wasn't ever
 requested, this value is C<NULL>.
 
 
 =head2 Attachments => ArrayRef[L<Paws::ECS::Attachment>]
 
-The resources attached to a container instance, such as elastic network
-interfaces.
+The resources attached to a container instance, such as an elastic
+network interface.
 
 
 =head2 Attributes => ArrayRef[L<Paws::ECS::Attribute>]
 
 The attributes set for the container instance, either by the Amazon ECS
 container agent at instance registration or manually with the
-PutAttributes operation.
+PutAttributes
+(https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_PutAttributes.html)
+operation.
 
 
 =head2 CapacityProviderName => Str
 
-The capacity provider associated with the container instance.
+The capacity provider that's associated with the container instance.
 
 
 =head2 ContainerInstanceArn => Str
 
-The Amazon Resource Name (ARN) of the container instance. The ARN
-contains the C<arn:aws:ecs> namespace, followed by the Region of the
-container instance, the AWS account ID of the container instance owner,
-the C<container-instance> namespace, and then the container instance
-ID. For example,
-C<arn:aws:ecs:region:aws_account_id:container-instance/container_instance_ID>.
+The Amazon Resource Name (ARN) of the container instance. For more
+information about the ARN format, see Amazon Resource Name (ARN)
+(https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-account-settings.html#ecs-resource-ids)
+in the I<Amazon ECS Developer Guide>.
 
 
 =head2 Ec2InstanceId => Str
 
 The ID of the container instance. For Amazon EC2 instances, this value
 is the Amazon EC2 instance ID. For external instances, this value is
-the AWS Systems Manager managed instance ID.
+the Amazon Web Services Systems Manager managed instance ID.
+
+
+=head2 HealthStatus => L<Paws::ECS::ContainerInstanceHealthStatus>
+
+An object representing the health status of the container instance.
 
 
 =head2 PendingTasksCount => Int
@@ -112,7 +118,8 @@ C<PENDING> status.
 
 =head2 RegisteredAt => Str
 
-The Unix timestamp for when the container instance was registered.
+The Unix timestamp for the time when the container instance was
+registered.
 
 
 =head2 RegisteredResources => ArrayRef[L<Paws::ECS::Resource>]
@@ -129,19 +136,19 @@ agent when it registered the container instance with Amazon ECS.
 =head2 RemainingResources => ArrayRef[L<Paws::ECS::Resource>]
 
 For CPU and memory resource types, this parameter describes the
-remaining CPU and memory that has not already been allocated to tasks
-and is therefore available for new tasks. For port resource types, this
+remaining CPU and memory that wasn't already allocated to tasks and is
+therefore available for new tasks. For port resource types, this
 parameter describes the ports that were reserved by the Amazon ECS
 container agent (at instance registration time) and any task containers
 that have reserved port mappings on the host (with the C<host> or
-C<bridge> network mode). Any port that is not specified here is
+C<bridge> network mode). Any port that's not specified here is
 available for new tasks.
 
 
 =head2 RunningTasksCount => Int
 
-The number of tasks on the container instance that are in the
-C<RUNNING> status.
+The number of tasks on the container instance that have a desired
+status (C<desiredStatus>) of C<RUNNING>.
 
 
 =head2 Status => Str
@@ -162,10 +169,10 @@ elastic network interface is deprovisioned. The instance then
 transitions to an C<INACTIVE> status.
 
 The C<ACTIVE> status indicates that the container instance can accept
-tasks. The C<DRAINING> indicates that new tasks are not placed on the
+tasks. The C<DRAINING> indicates that new tasks aren't placed on the
 container instance and any service tasks running on the container
 instance are removed if possible. For more information, see Container
-Instance Draining
+instance draining
 (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/container-instance-draining.html)
 in the I<Amazon Elastic Container Service Developer Guide>.
 
@@ -179,7 +186,7 @@ The reason that the container instance reached its current status.
 
 The metadata that you apply to the container instance to help you
 categorize and organize them. Each tag consists of a key and an
-optional value, both of which you define.
+optional value. You define both.
 
 The following basic restrictions apply to tags:
 
@@ -217,10 +224,10 @@ Tag keys and values are case-sensitive.
 =item *
 
 Do not use C<aws:>, C<AWS:>, or any upper or lowercase combination of
-such as a prefix for either keys or values as it is reserved for AWS
-use. You cannot edit or delete tag keys or values with this prefix.
-Tags with this prefix do not count against your tags per resource
-limit.
+such as a prefix for either keys or values as it is reserved for Amazon
+Web Services use. You cannot edit or delete tag keys or values with
+this prefix. Tags with this prefix do not count against your tags per
+resource limit.
 
 =back
 
@@ -230,7 +237,7 @@ limit.
 
 The version counter for the container instance. Every time a container
 instance experiences a change that triggers a CloudWatch event, the
-version counter is incremented. If you are replicating your Amazon ECS
+version counter is incremented. If you're replicating your Amazon ECS
 container instance state with CloudWatch Events, you can compare the
 version of a container instance reported by the Amazon ECS APIs with
 the version reported in CloudWatch Events for the container instance

@@ -28,17 +28,17 @@ Do not assume or infer any information from this value.
 
 A list of tags. Each tag consists of a tag key and a tag value.
 
-Tagging or untagging a CMK can allow or deny permission to the CMK. For
-details, see Using ABAC in AWS KMS
+Tagging or untagging a KMS key can allow or deny permission to the KMS
+key. For details, see ABAC for KMS
 (https://docs.aws.amazon.com/kms/latest/developerguide/abac.html) in
-the I<AWS Key Management Service Developer Guide>.
+the I<Key Management Service Developer Guide>.
 
 
 =head2 Truncated => Bool
 
 A flag that indicates whether there are more items in the list. When
 this value is true, the list in this response is truncated. To get more
-items, pass the value of the C<NextMarker> element in thisresponse to
+items, pass the value of the C<NextMarker> element in this response to
 the C<Marker> parameter in a subsequent request.
 
 

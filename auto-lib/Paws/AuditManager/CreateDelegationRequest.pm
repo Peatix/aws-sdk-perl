@@ -36,15 +36,15 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AuditManage
 
 =head1 DESCRIPTION
 
-A collection of attributes used to create a delegation for an
-assessment in AWS Audit Manager.
+A collection of attributes that's used to create a delegation for an
+assessment in Audit Manager.
 
 =head1 ATTRIBUTES
 
 
 =head2 Comment => Str
 
-A comment related to the delegation request.
+A comment that's related to the delegation request.
 
 
 =head2 ControlSetId => Str

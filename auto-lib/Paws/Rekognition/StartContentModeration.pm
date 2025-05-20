@@ -94,14 +94,17 @@ confidence values greater than or equal to 50 percent.
 =head2 NotificationChannel => L<Paws::Rekognition::NotificationChannel>
 
 The Amazon SNS topic ARN that you want Amazon Rekognition Video to
-publish the completion status of the unsafe content analysis to.
+publish the completion status of the content analysis to. The Amazon
+SNS topic must have a topic name that begins with I<AmazonRekognition>
+if you are using the AmazonRekognitionServiceRole permissions policy to
+access the topic.
 
 
 
 =head2 B<REQUIRED> Video => L<Paws::Rekognition::Video>
 
-The video in which you want to detect unsafe content. The video must be
-stored in an Amazon S3 bucket.
+The video in which you want to detect inappropriate, unwanted, or
+offensive content. The video must be stored in an Amazon S3 bucket.
 
 
 

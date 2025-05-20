@@ -5,6 +5,7 @@ package Paws::ElastiCache::User;
   has ARN => (is => 'ro', isa => 'Str');
   has Authentication => (is => 'ro', isa => 'Paws::ElastiCache::Authentication');
   has Engine => (is => 'ro', isa => 'Str');
+  has MinimumEngineVersion => (is => 'ro', isa => 'Str');
   has Status => (is => 'ro', isa => 'Str');
   has UserGroupIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has UserId => (is => 'ro', isa => 'Str');
@@ -39,7 +40,12 @@ Denotes whether the user requires a password to authenticate.
 
 =head2 Engine => Str
 
-The current supported value is Redis.
+The options are valkey or redis.
+
+
+=head2 MinimumEngineVersion => Str
+
+The minimum engine version required, which is Redis OSS 6.0
 
 
 =head2 Status => Str

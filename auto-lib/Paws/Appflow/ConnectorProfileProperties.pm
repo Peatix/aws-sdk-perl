@@ -2,14 +2,17 @@
 package Paws::Appflow::ConnectorProfileProperties;
   use Moose;
   has Amplitude => (is => 'ro', isa => 'Paws::Appflow::AmplitudeConnectorProfileProperties');
+  has CustomConnector => (is => 'ro', isa => 'Paws::Appflow::CustomConnectorProfileProperties');
   has Datadog => (is => 'ro', isa => 'Paws::Appflow::DatadogConnectorProfileProperties');
   has Dynatrace => (is => 'ro', isa => 'Paws::Appflow::DynatraceConnectorProfileProperties');
   has GoogleAnalytics => (is => 'ro', isa => 'Paws::Appflow::GoogleAnalyticsConnectorProfileProperties');
   has Honeycode => (is => 'ro', isa => 'Paws::Appflow::HoneycodeConnectorProfileProperties');
   has InforNexus => (is => 'ro', isa => 'Paws::Appflow::InforNexusConnectorProfileProperties');
   has Marketo => (is => 'ro', isa => 'Paws::Appflow::MarketoConnectorProfileProperties');
+  has Pardot => (is => 'ro', isa => 'Paws::Appflow::PardotConnectorProfileProperties');
   has Redshift => (is => 'ro', isa => 'Paws::Appflow::RedshiftConnectorProfileProperties');
   has Salesforce => (is => 'ro', isa => 'Paws::Appflow::SalesforceConnectorProfileProperties');
+  has SAPOData => (is => 'ro', isa => 'Paws::Appflow::SAPODataConnectorProfileProperties');
   has ServiceNow => (is => 'ro', isa => 'Paws::Appflow::ServiceNowConnectorProfileProperties');
   has Singular => (is => 'ro', isa => 'Paws::Appflow::SingularConnectorProfileProperties');
   has Slack => (is => 'ro', isa => 'Paws::Appflow::SlackConnectorProfileProperties');
@@ -58,6 +61,11 @@ The connector-specific profile properties required by each connector.
 The connector-specific properties required by Amplitude.
 
 
+=head2 CustomConnector => L<Paws::Appflow::CustomConnectorProfileProperties>
+
+The properties required by the custom connector.
+
+
 =head2 Datadog => L<Paws::Appflow::DatadogConnectorProfileProperties>
 
 The connector-specific properties required by Datadog.
@@ -88,6 +96,11 @@ The connector-specific properties required by Infor Nexus.
 The connector-specific properties required by Marketo.
 
 
+=head2 Pardot => L<Paws::Appflow::PardotConnectorProfileProperties>
+
+The connector-specific properties required by Salesforce Pardot.
+
+
 =head2 Redshift => L<Paws::Appflow::RedshiftConnectorProfileProperties>
 
 The connector-specific properties required by Amazon Redshift.
@@ -96,6 +109,11 @@ The connector-specific properties required by Amazon Redshift.
 =head2 Salesforce => L<Paws::Appflow::SalesforceConnectorProfileProperties>
 
 The connector-specific properties required by Salesforce.
+
+
+=head2 SAPOData => L<Paws::Appflow::SAPODataConnectorProfileProperties>
+
+
 
 
 =head2 ServiceNow => L<Paws::Appflow::ServiceNowConnectorProfileProperties>

@@ -23,7 +23,7 @@ The The Amazon Resource Name (ARN) of the code signing configuration.
 
 =head2 B<REQUIRED> FunctionName => Str
 
-The name of the Lambda function.
+The name or ARN of the Lambda function.
 
 B<Name formats>
 

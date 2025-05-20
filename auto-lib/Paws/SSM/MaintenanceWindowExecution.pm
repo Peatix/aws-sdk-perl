@@ -60,8 +60,7 @@ The status of the execution.
 
 =head2 StatusDetails => Str
 
-The details explaining the Status. Only available for certain status
-values.
+The details explaining the status. Not available for all status values.
 
 
 =head2 WindowExecutionId => Str

@@ -30,11 +30,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $groundstation = Paws->service('GroundStation');
     my $GetDataflowEndpointGroupResponse =
       $groundstation->GetDataflowEndpointGroup(
-      DataflowEndpointGroupId => 'MyString',
+      DataflowEndpointGroupId => 'MyUuid',
 
       );
 
     # Results:
+    my $ContactPostPassDurationSeconds =
+      $GetDataflowEndpointGroupResponse->ContactPostPassDurationSeconds;
+    my $ContactPrePassDurationSeconds =
+      $GetDataflowEndpointGroupResponse->ContactPrePassDurationSeconds;
     my $DataflowEndpointGroupArn =
       $GetDataflowEndpointGroupResponse->DataflowEndpointGroupArn;
     my $DataflowEndpointGroupId =

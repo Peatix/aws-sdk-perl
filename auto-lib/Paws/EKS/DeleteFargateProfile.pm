@@ -48,8 +48,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/eks
 
 =head2 B<REQUIRED> ClusterName => Str
 
-The name of the Amazon EKS cluster associated with the Fargate profile
-to delete.
+The name of your cluster.
 
 
 

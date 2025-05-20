@@ -1,7 +1,7 @@
 
 package Paws::Route53Domains::ListDomainsResponse;
   use Moose;
-  has Domains => (is => 'ro', isa => 'ArrayRef[Paws::Route53Domains::DomainSummary]', required => 1);
+  has Domains => (is => 'ro', isa => 'ArrayRef[Paws::Route53Domains::DomainSummary]');
   has NextPageMarker => (is => 'ro', isa => 'Str');
 
   has _request_id => (is => 'ro', isa => 'Str');
@@ -15,9 +15,9 @@ Paws::Route53Domains::ListDomainsResponse
 =head1 ATTRIBUTES
 
 
-=head2 B<REQUIRED> Domains => ArrayRef[L<Paws::Route53Domains::DomainSummary>]
+=head2 Domains => ArrayRef[L<Paws::Route53Domains::DomainSummary>]
 
-A summary of domains.
+A list of domains.
 
 
 =head2 NextPageMarker => Str

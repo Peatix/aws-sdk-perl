@@ -49,6 +49,16 @@ The absolute file path where the tmpfs volume is to be mounted.
 
 The list of tmpfs volume mount options.
 
+Valid values: C<"defaults"> | C<"ro"> | C<"rw"> | C<"suid"> |
+C<"nosuid"> | C<"dev"> | C<"nodev"> |C< "exec"> | C<"noexec"> |
+C<"sync"> | C<"async"> | C<"dirsync"> | C<"remount"> | C<"mand"> |
+C<"nomand"> | C<"atime"> | C<"noatime"> | C<"diratime"> |
+C<"nodiratime"> | C<"bind"> | C<"rbind"> | C<"unbindable"> |
+C<"runbindable"> | C<"private"> | C<"rprivate"> | C<"shared"> |
+C<"rshared"> | C<"slave"> | C<"rslave"> | C<"relatime"> |
+C<"norelatime"> | C<"strictatime"> | C<"nostrictatime"> |C< "mode"> |
+C<"uid"> | C<"gid"> | C<"nr_inodes"> |C< "nr_blocks"> | C<"mpol">
+
 
 =head2 Size => Int
 

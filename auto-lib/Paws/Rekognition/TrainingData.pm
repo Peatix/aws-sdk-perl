@@ -40,8 +40,8 @@ The dataset used for training.
 
 =head2 Assets => ArrayRef[L<Paws::Rekognition::Asset>]
 
-A Sagemaker GroundTruth manifest file that contains the training images
-(assets).
+A manifest file that contains references to the training images and
+ground-truth annotations.
 
 
 

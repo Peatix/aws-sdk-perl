@@ -115,7 +115,7 @@ C<NextToken> parameter is set to C<null>.
 
 The publisher ID of the extension publisher.
 
-Extensions published by Amazon are not assigned a publisher ID.
+Extensions published by Amazon aren't assigned a publisher ID.
 
 
 
@@ -126,7 +126,7 @@ The kind of the extension.
 Conditional: You must specify either C<TypeName> and C<Type>, or
 C<Arn>.
 
-Valid values are: C<"RESOURCE">, C<"MODULE">
+Valid values are: C<"RESOURCE">, C<"MODULE">, C<"HOOK">
 
 =head2 TypeName => Str
 

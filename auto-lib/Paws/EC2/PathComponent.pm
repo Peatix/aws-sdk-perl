@@ -1,15 +1,24 @@
 package Paws::EC2::PathComponent;
   use Moose;
   has AclRule => (is => 'ro', isa => 'Paws::EC2::AnalysisAclRule', request_name => 'aclRule', traits => ['NameInRequest']);
+  has AdditionalDetails => (is => 'ro', isa => 'ArrayRef[Paws::EC2::AdditionalDetail]', request_name => 'additionalDetailSet', traits => ['NameInRequest']);
+  has AttachedTo => (is => 'ro', isa => 'Paws::EC2::AnalysisComponent', request_name => 'attachedTo', traits => ['NameInRequest']);
   has Component => (is => 'ro', isa => 'Paws::EC2::AnalysisComponent', request_name => 'component', traits => ['NameInRequest']);
   has DestinationVpc => (is => 'ro', isa => 'Paws::EC2::AnalysisComponent', request_name => 'destinationVpc', traits => ['NameInRequest']);
+  has ElasticLoadBalancerListener => (is => 'ro', isa => 'Paws::EC2::AnalysisComponent', request_name => 'elasticLoadBalancerListener', traits => ['NameInRequest']);
+  has Explanations => (is => 'ro', isa => 'ArrayRef[Paws::EC2::Explanation]', request_name => 'explanationSet', traits => ['NameInRequest']);
+  has FirewallStatefulRule => (is => 'ro', isa => 'Paws::EC2::FirewallStatefulRule', request_name => 'firewallStatefulRule', traits => ['NameInRequest']);
+  has FirewallStatelessRule => (is => 'ro', isa => 'Paws::EC2::FirewallStatelessRule', request_name => 'firewallStatelessRule', traits => ['NameInRequest']);
   has InboundHeader => (is => 'ro', isa => 'Paws::EC2::AnalysisPacketHeader', request_name => 'inboundHeader', traits => ['NameInRequest']);
   has OutboundHeader => (is => 'ro', isa => 'Paws::EC2::AnalysisPacketHeader', request_name => 'outboundHeader', traits => ['NameInRequest']);
   has RouteTableRoute => (is => 'ro', isa => 'Paws::EC2::AnalysisRouteTableRoute', request_name => 'routeTableRoute', traits => ['NameInRequest']);
   has SecurityGroupRule => (is => 'ro', isa => 'Paws::EC2::AnalysisSecurityGroupRule', request_name => 'securityGroupRule', traits => ['NameInRequest']);
   has SequenceNumber => (is => 'ro', isa => 'Int', request_name => 'sequenceNumber', traits => ['NameInRequest']);
+  has ServiceName => (is => 'ro', isa => 'Str', request_name => 'serviceName', traits => ['NameInRequest']);
   has SourceVpc => (is => 'ro', isa => 'Paws::EC2::AnalysisComponent', request_name => 'sourceVpc', traits => ['NameInRequest']);
   has Subnet => (is => 'ro', isa => 'Paws::EC2::AnalysisComponent', request_name => 'subnet', traits => ['NameInRequest']);
+  has TransitGateway => (is => 'ro', isa => 'Paws::EC2::AnalysisComponent', request_name => 'transitGateway', traits => ['NameInRequest']);
+  has TransitGatewayRouteTableRoute => (is => 'ro', isa => 'Paws::EC2::TransitGatewayRouteTableRoute', request_name => 'transitGatewayRouteTableRoute', traits => ['NameInRequest']);
   has Vpc => (is => 'ro', isa => 'Paws::EC2::AnalysisComponent', request_name => 'vpc', traits => ['NameInRequest']);
 1;
 
@@ -51,6 +60,16 @@ This class has no description
 The network ACL rule.
 
 
+=head2 AdditionalDetails => ArrayRef[L<Paws::EC2::AdditionalDetail>]
+
+The additional details.
+
+
+=head2 AttachedTo => L<Paws::EC2::AnalysisComponent>
+
+The resource to which the path component is attached.
+
+
 =head2 Component => L<Paws::EC2::AnalysisComponent>
 
 The component.
@@ -59,6 +78,26 @@ The component.
 =head2 DestinationVpc => L<Paws::EC2::AnalysisComponent>
 
 The destination VPC.
+
+
+=head2 ElasticLoadBalancerListener => L<Paws::EC2::AnalysisComponent>
+
+The load balancer listener.
+
+
+=head2 Explanations => ArrayRef[L<Paws::EC2::Explanation>]
+
+The explanation codes.
+
+
+=head2 FirewallStatefulRule => L<Paws::EC2::FirewallStatefulRule>
+
+The Network Firewall stateful rule.
+
+
+=head2 FirewallStatelessRule => L<Paws::EC2::FirewallStatelessRule>
+
+The Network Firewall stateless rule.
 
 
 =head2 InboundHeader => L<Paws::EC2::AnalysisPacketHeader>
@@ -86,6 +125,11 @@ The security group rule.
 The sequence number.
 
 
+=head2 ServiceName => Str
+
+The name of the VPC endpoint service.
+
+
 =head2 SourceVpc => L<Paws::EC2::AnalysisComponent>
 
 The source VPC.
@@ -94,6 +138,16 @@ The source VPC.
 =head2 Subnet => L<Paws::EC2::AnalysisComponent>
 
 The subnet.
+
+
+=head2 TransitGateway => L<Paws::EC2::AnalysisComponent>
+
+The transit gateway.
+
+
+=head2 TransitGatewayRouteTableRoute => L<Paws::EC2::TransitGatewayRouteTableRoute>
+
+The route in a transit gateway route table.
 
 
 =head2 Vpc => L<Paws::EC2::AnalysisComponent>

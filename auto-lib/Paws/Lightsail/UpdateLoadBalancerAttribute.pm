@@ -50,20 +50,65 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/lig
 
 =head2 B<REQUIRED> AttributeName => Str
 
-The name of the attribute you want to update. Valid values are below.
+The name of the attribute you want to update.
 
-Valid values are: C<"HealthCheckPath">, C<"SessionStickinessEnabled">, C<"SessionStickiness_LB_CookieDurationSeconds">
+Valid values are: C<"HealthCheckPath">, C<"SessionStickinessEnabled">, C<"SessionStickiness_LB_CookieDurationSeconds">, C<"HttpsRedirectionEnabled">, C<"TlsPolicyName">
 
 =head2 B<REQUIRED> AttributeValue => Str
 
 The value that you want to specify for the attribute name.
 
+The following values are supported depending on what you specify for
+the C<attributeName> request parameter:
+
+=over
+
+=item *
+
+If you specify C<HealthCheckPath> for the C<attributeName> request
+parameter, then the C<attributeValue> request parameter must be the
+path to ping on the target (for example, C</weather/us/wa/seattle>).
+
+=item *
+
+If you specify C<SessionStickinessEnabled> for the C<attributeName>
+request parameter, then the C<attributeValue> request parameter must be
+C<true> to activate session stickiness or C<false> to deactivate
+session stickiness.
+
+=item *
+
+If you specify C<SessionStickiness_LB_CookieDurationSeconds> for the
+C<attributeName> request parameter, then the C<attributeValue> request
+parameter must be an interger that represents the cookie duration in
+seconds.
+
+=item *
+
+If you specify C<HttpsRedirectionEnabled> for the C<attributeName>
+request parameter, then the C<attributeValue> request parameter must be
+C<true> to activate HTTP to HTTPS redirection or C<false> to deactivate
+HTTP to HTTPS redirection.
+
+=item *
+
+If you specify C<TlsPolicyName> for the C<attributeName> request
+parameter, then the C<attributeValue> request parameter must be the
+name of the TLS policy.
+
+Use the GetLoadBalancerTlsPolicies
+(https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_GetLoadBalancerTlsPolicies.html)
+action to get a list of TLS policy names that you can specify.
+
+=back
+
+
 
 
 =head2 B<REQUIRED> LoadBalancerName => Str
 
-The name of the load balancer that you want to modify (e.g.,
-C<my-load-balancer>.
+The name of the load balancer that you want to modify
+(C<my-load-balancer>.
 
 
 

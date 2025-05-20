@@ -78,11 +78,6 @@ The build phase faulted.
 
 The build phase is still in progress.
 
-=item QUEUED
-
-The build has been submitted and is queued behind other submitted
-builds.
-
 =item STOPPED
 
 The build phase stopped.

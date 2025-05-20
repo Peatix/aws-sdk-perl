@@ -2,6 +2,7 @@
 package Paws::Chime::Account;
   use Moose;
   has AccountId => (is => 'ro', isa => 'Str', required => 1);
+  has AccountStatus => (is => 'ro', isa => 'Str');
   has AccountType => (is => 'ro', isa => 'Str');
   has AwsAccountId => (is => 'ro', isa => 'Str', required => 1);
   has CreatedTimestamp => (is => 'ro', isa => 'Str');
@@ -49,6 +50,11 @@ Amazon Chime accounts.
 =head2 B<REQUIRED> AccountId => Str
 
 The Amazon Chime account ID.
+
+
+=head2 AccountStatus => Str
+
+The status of the account.
 
 
 =head2 AccountType => Str

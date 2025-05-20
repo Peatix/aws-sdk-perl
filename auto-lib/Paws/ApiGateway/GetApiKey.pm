@@ -56,7 +56,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 B<REQUIRED> ApiKey => Str
 
-[Required] The identifier of the ApiKey resource.
+The identifier of the ApiKey resource.
 
 
 

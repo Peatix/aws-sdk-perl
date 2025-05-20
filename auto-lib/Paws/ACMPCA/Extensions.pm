@@ -2,6 +2,7 @@
 package Paws::ACMPCA::Extensions;
   use Moose;
   has CertificatePolicies => (is => 'ro', isa => 'ArrayRef[Paws::ACMPCA::PolicyInformation]');
+  has CustomExtensions => (is => 'ro', isa => 'ArrayRef[Paws::ACMPCA::CustomExtension]');
   has ExtendedKeyUsage => (is => 'ro', isa => 'ArrayRef[Paws::ACMPCA::ExtendedKeyUsage]');
   has KeyUsage => (is => 'ro', isa => 'Paws::ACMPCA::KeyUsage');
   has SubjectAlternativeNames => (is => 'ro', isa => 'ArrayRef[Paws::ACMPCA::GeneralName]');
@@ -52,6 +53,14 @@ In an end-entity certificate, these terms indicate the policy under
 which the certificate was issued and the purposes for which it may be
 used. In a CA certificate, these terms limit the set of policies for
 certification paths that include this certificate.
+
+
+=head2 CustomExtensions => ArrayRef[L<Paws::ACMPCA::CustomExtension>]
+
+Contains a sequence of one or more X.509 extensions, each of which
+consists of an object identifier (OID), a base64-encoded value, and the
+critical flag. For more information, see the Global OID reference
+database. (https://oidref.com/2.5.29)
 
 
 =head2 ExtendedKeyUsage => ArrayRef[L<Paws::ACMPCA::ExtendedKeyUsage>]

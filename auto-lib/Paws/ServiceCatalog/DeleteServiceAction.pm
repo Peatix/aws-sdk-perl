@@ -3,6 +3,7 @@ package Paws::ServiceCatalog::DeleteServiceAction;
   use Moose;
   has AcceptLanguage => (is => 'ro', isa => 'Str');
   has Id => (is => 'ro', isa => 'Str', required => 1);
+  has IdempotencyToken => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -29,8 +30,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $servicecatalog = Paws->service('ServiceCatalog');
     my $DeleteServiceActionOutput = $servicecatalog->DeleteServiceAction(
-      Id             => 'MyId',
-      AcceptLanguage => 'MyAcceptLanguage',    # OPTIONAL
+      Id               => 'MyId',
+      AcceptLanguage   => 'MyAcceptLanguage',      # OPTIONAL
+      IdempotencyToken => 'MyIdempotencyToken',    # OPTIONAL
     );
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
@@ -44,10 +46,6 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ser
 The language code.
 
 =over
-
-=item *
-
-C<en> - English (default)
 
 =item *
 
@@ -65,6 +63,15 @@ C<zh> - Chinese
 =head2 B<REQUIRED> Id => Str
 
 The self-service action identifier. For example, C<act-fs7abcd89wxyz>.
+
+
+
+=head2 IdempotencyToken => Str
+
+A unique identifier that you provide to ensure idempotency. If multiple
+requests from the same Amazon Web Services account use the same
+idempotency token, the same response is returned for each repeated
+request.
 
 
 

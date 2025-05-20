@@ -40,7 +40,11 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Macie2::S3B
 
 =head1 DESCRIPTION
 
-Provides information about the S3 bucket that a finding applies to.
+Provides information about the S3 bucket that a finding applies to. If
+a quota prevented Amazon Macie from retrieving and processing all the
+bucket's information prior to generating the finding, the following
+values are UNKNOWN or null: allowsUnencryptedObjectUploads,
+defaultServerSideEncryption, publicAccess, and tags.
 
 =head1 ATTRIBUTES
 
@@ -48,7 +52,7 @@ Provides information about the S3 bucket that a finding applies to.
 =head2 AllowsUnencryptedObjectUploads => Str
 
 Specifies whether the bucket policy for the bucket requires server-side
-encryption of objects when objects are uploaded to the bucket. Possible
+encryption of objects when objects are added to the bucket. Possible
 values are:
 
 =over
@@ -56,25 +60,26 @@ values are:
 =item *
 
 FALSE - The bucket policy requires server-side encryption of new
-objects. PutObject requests must include the
-x-amz-server-side-encryption header and the value for that header must
-be AES256 or aws:kms.
+objects. PutObject requests must include a valid server-side encryption
+header.
 
 =item *
 
 TRUE - The bucket doesn't have a bucket policy or it has a bucket
 policy that doesn't require server-side encryption of new objects. If a
 bucket policy exists, it doesn't require PutObject requests to include
-the x-amz-server-side-encryption header and it doesn't require the
-value for that header to be AES256 or aws:kms.
+a valid server-side encryption header.
 
 =item *
 
 UNKNOWN - Amazon Macie can't determine whether the bucket policy
-requires server-side encryption of objects.
+requires server-side encryption of new objects.
 
 =back
 
+Valid server-side encryption headers are: x-amz-server-side-encryption
+with a value of AES256 or aws:kms, and
+x-amz-server-side-encryption-customer-algorithm with a value of AES256.
 
 
 =head2 Arn => Str
@@ -85,13 +90,14 @@ The Amazon Resource Name (ARN) of the bucket.
 =head2 CreatedAt => Str
 
 The date and time, in UTC and extended ISO 8601 format, when the bucket
-was created.
+was created. This value can also indicate when changes such as edits to
+the bucket's policy were most recently made to the bucket, relative to
+when the finding was created or last updated.
 
 
 =head2 DefaultServerSideEncryption => L<Paws::Macie2::ServerSideEncryption>
 
-The type of server-side encryption that's used by default to encrypt
-objects in the bucket.
+The default server-side encryption settings for the bucket.
 
 
 =head2 Name => Str
@@ -101,8 +107,8 @@ The name of the bucket.
 
 =head2 Owner => L<Paws::Macie2::S3BucketOwner>
 
-The display name and Amazon Web Services account ID for the user who
-owns the bucket.
+The display name and canonical user ID for the Amazon Web Services
+account that owns the bucket.
 
 
 =head2 PublicAccess => L<Paws::Macie2::BucketPublicAccess>

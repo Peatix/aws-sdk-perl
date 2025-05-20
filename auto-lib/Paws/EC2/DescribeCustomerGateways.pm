@@ -79,8 +79,8 @@ C<customer-gateway-id> - The ID of the customer gateway.
 
 =item *
 
-C<ip-address> - The IP address of the customer gateway's
-Internet-routable external interface.
+C<ip-address> - The IP address of the customer gateway device's
+external interface.
 
 =item *
 

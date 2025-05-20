@@ -41,14 +41,14 @@ The encryption configuration for the cluster.
 
 =head2 Provider => L<Paws::EKS::Provider>
 
-AWS Key Management Service (AWS KMS) key. Either the ARN or the alias
-can be used.
+Key Management Service (KMS) key. Either the ARN or the alias can be
+used.
 
 
 =head2 Resources => ArrayRef[Str|Undef]
 
 Specifies the resources to be encrypted. The only supported value is
-"secrets".
+C<secrets>.
 
 
 

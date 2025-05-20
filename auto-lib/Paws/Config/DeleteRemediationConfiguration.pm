@@ -42,8 +42,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/con
 
 =head2 B<REQUIRED> ConfigRuleName => Str
 
-The name of the AWS Config rule for which you want to delete
-remediation configuration.
+The name of the Config rule for which you want to delete remediation
+configuration.
 
 
 

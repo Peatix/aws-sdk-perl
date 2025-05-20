@@ -94,10 +94,6 @@ The language code.
 
 =item *
 
-C<en> - English (default)
-
-=item *
-
 C<jp> - Japanese
 
 =item *
@@ -153,8 +149,8 @@ The product identifier.
 =head2 B<REQUIRED> ProvisionedProductName => Str
 
 A user-friendly name for the provisioned product. This value must be
-unique for the AWS account and cannot be updated after the product is
-provisioned.
+unique for the Amazon Web Services account and cannot be updated after
+the product is provisioned.
 
 
 

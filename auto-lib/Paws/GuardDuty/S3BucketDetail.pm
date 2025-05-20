@@ -7,6 +7,7 @@ package Paws::GuardDuty::S3BucketDetail;
   has Name => (is => 'ro', isa => 'Str', request_name => 'name', traits => ['NameInRequest']);
   has Owner => (is => 'ro', isa => 'Paws::GuardDuty::Owner', request_name => 'owner', traits => ['NameInRequest']);
   has PublicAccess => (is => 'ro', isa => 'Paws::GuardDuty::PublicAccess', request_name => 'publicAccess', traits => ['NameInRequest']);
+  has S3ObjectDetails => (is => 'ro', isa => 'ArrayRef[Paws::GuardDuty::S3ObjectDetail]', request_name => 's3ObjectDetails', traits => ['NameInRequest']);
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::GuardDuty::Tag]', request_name => 'tags', traits => ['NameInRequest']);
   has Type => (is => 'ro', isa => 'Str', request_name => 'type', traits => ['NameInRequest']);
 
@@ -73,6 +74,11 @@ The owner of the S3 bucket.
 =head2 PublicAccess => L<Paws::GuardDuty::PublicAccess>
 
 Describes the public access policies that apply to the S3 bucket.
+
+
+=head2 S3ObjectDetails => ArrayRef[L<Paws::GuardDuty::S3ObjectDetail>]
+
+Information about the S3 object that was scanned.
 
 
 =head2 Tags => ArrayRef[L<Paws::GuardDuty::Tag>]

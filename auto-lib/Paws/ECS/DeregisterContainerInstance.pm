@@ -58,20 +58,19 @@ cluster, the default cluster is assumed.
 =head2 B<REQUIRED> ContainerInstance => Str
 
 The container instance ID or full ARN of the container instance to
-deregister. The ARN contains the C<arn:aws:ecs> namespace, followed by
-the Region of the container instance, the AWS account ID of the
-container instance owner, the C<container-instance> namespace, and then
-the container instance ID. For example,
-C<arn:aws:ecs:region:aws_account_id:container-instance/container_instance_ID>.
+deregister. For more information about the ARN format, see Amazon
+Resource Name (ARN)
+(https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-account-settings.html#ecs-resource-ids)
+in the I<Amazon ECS Developer Guide>.
 
 
 
 =head2 Force => Bool
 
-Forces the deregistration of the container instance. If you have tasks
+Forces the container instance to be deregistered. If you have tasks
 running on the container instance when you deregister it with the
 C<force> option, these tasks remain running until you terminate the
-instance or the tasks stop through some other means, but they are
+instance or the tasks stop through some other means, but they're
 orphaned (no longer monitored or accounted for by Amazon ECS). If an
 orphaned task on your container instance is part of an Amazon ECS
 service, then the service scheduler starts another copy of that task,

@@ -1,7 +1,7 @@
 
 package Paws::Route53Domains::RetrieveDomainAuthCodeResponse;
   use Moose;
-  has AuthCode => (is => 'ro', isa => 'Str', required => 1);
+  has AuthCode => (is => 'ro', isa => 'Str');
 
   has _request_id => (is => 'ro', isa => 'Str');
 
@@ -14,7 +14,7 @@ Paws::Route53Domains::RetrieveDomainAuthCodeResponse
 =head1 ATTRIBUTES
 
 
-=head2 B<REQUIRED> AuthCode => Str
+=head2 AuthCode => Str
 
 The authorization code for the domain.
 

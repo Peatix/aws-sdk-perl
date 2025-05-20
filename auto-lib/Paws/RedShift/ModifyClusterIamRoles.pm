@@ -3,6 +3,7 @@ package Paws::RedShift::ModifyClusterIamRoles;
   use Moose;
   has AddIamRoles => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has ClusterIdentifier => (is => 'ro', isa => 'Str', required => 1);
+  has DefaultIamRoleArn => (is => 'ro', isa => 'Str');
   has RemoveIamRoles => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
 
   use MooseX::ClassAttribute;
@@ -34,8 +35,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       AddIamRoles       => [
         'MyString', ...    # max: 2147483647
       ],    # OPTIONAL
-      RemoveIamRoles => [
-        'MyString', ...    # max: 2147483647
+      DefaultIamRoleArn => 'MyString',    # OPTIONAL
+      RemoveIamRoles    => [
+        'MyString', ...                   # max: 2147483647
       ],    # OPTIONAL
     );
 
@@ -53,8 +55,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/red
 =head2 AddIamRoles => ArrayRef[Str|Undef]
 
 Zero or more IAM roles to associate with the cluster. The roles must be
-in their Amazon Resource Name (ARN) format. You can associate up to 10
-IAM roles with a single cluster in a single request.
+in their Amazon Resource Name (ARN) format.
 
 
 
@@ -65,11 +66,16 @@ disassociate IAM roles.
 
 
 
+=head2 DefaultIamRoleArn => Str
+
+The Amazon Resource Name (ARN) for the IAM role that was set as default
+for the cluster when the cluster was last modified.
+
+
+
 =head2 RemoveIamRoles => ArrayRef[Str|Undef]
 
 Zero or more IAM roles in ARN format to disassociate from the cluster.
-You can disassociate up to 10 IAM roles from a single cluster in a
-single request.
 
 
 

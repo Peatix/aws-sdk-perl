@@ -9,9 +9,13 @@ package Paws::MediaConnect::AddOutputRequest;
   has MediaStreamOutputConfigurations => (is => 'ro', isa => 'ArrayRef[Paws::MediaConnect::MediaStreamOutputConfigurationRequest]', request_name => 'mediaStreamOutputConfigurations', traits => ['NameInRequest']);
   has MinLatency => (is => 'ro', isa => 'Int', request_name => 'minLatency', traits => ['NameInRequest']);
   has Name => (is => 'ro', isa => 'Str', request_name => 'name', traits => ['NameInRequest']);
+  has NdiProgramName => (is => 'ro', isa => 'Str', request_name => 'ndiProgramName', traits => ['NameInRequest']);
+  has NdiSpeedHqQuality => (is => 'ro', isa => 'Int', request_name => 'ndiSpeedHqQuality', traits => ['NameInRequest']);
+  has OutputStatus => (is => 'ro', isa => 'Str', request_name => 'outputStatus', traits => ['NameInRequest']);
   has Port => (is => 'ro', isa => 'Int', request_name => 'port', traits => ['NameInRequest']);
   has Protocol => (is => 'ro', isa => 'Str', request_name => 'protocol', traits => ['NameInRequest'], required => 1);
   has RemoteId => (is => 'ro', isa => 'Str', request_name => 'remoteId', traits => ['NameInRequest']);
+  has SenderControlPort => (is => 'ro', isa => 'Int', request_name => 'senderControlPort', traits => ['NameInRequest']);
   has SmoothingLatency => (is => 'ro', isa => 'Int', request_name => 'smoothingLatency', traits => ['NameInRequest']);
   has StreamId => (is => 'ro', isa => 'Str', request_name => 'streamId', traits => ['NameInRequest']);
   has VpcInterfaceAttachment => (is => 'ro', isa => 'Paws::MediaConnect::VpcInterfaceAttachment', request_name => 'vpcInterfaceAttachment', traits => ['NameInRequest']);
@@ -46,7 +50,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::MediaConnec
 
 =head1 DESCRIPTION
 
-The output that you want to add to this flow.
+A request to add an output to a flow.
 
 =head1 ATTRIBUTES
 
@@ -60,8 +64,8 @@ Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
 
 =head2 Description => Str
 
-A description of the output. This description appears only on the AWS
-Elemental MediaConnect console and will not be seen by the end user.
+A description of the output. This description appears only on the Audit
+Manager console and will not be seen by the end user.
 
 
 =head2 Destination => Str
@@ -72,12 +76,14 @@ The IP address from which video will be sent to output destinations.
 =head2 Encryption => L<Paws::MediaConnect::Encryption>
 
 The type of key used for the encryption. If no keyType is provided, the
-service will use the default setting (static-key).
+service will use the default setting (static-key). Allowable encryption
+types: static-key.
 
 
 =head2 MaxLatency => Int
 
-The maximum latency in milliseconds for Zixi-based streams.
+The maximum latency in milliseconds. This parameter applies only to
+RIST-based and Zixi-based streams.
 
 
 =head2 MediaStreamOutputConfigurations => ArrayRef[L<Paws::MediaConnect::MediaStreamOutputConfigurationRequest>]
@@ -102,6 +108,24 @@ The name of the output. This value must be unique within the current
 flow.
 
 
+=head2 NdiProgramName => Str
+
+A suffix for the names of the NDI sources that the flow creates. If a
+custom name isn't specified, MediaConnect uses the output name.
+
+
+=head2 NdiSpeedHqQuality => Int
+
+A quality setting for the NDI Speed HQ encoder.
+
+
+=head2 OutputStatus => Str
+
+An indication of whether the new output should be enabled or disabled
+as soon as it is created. If you don't specify the outputStatus field
+in your request, MediaConnect sets it to ENABLED.
+
+
 =head2 Port => Int
 
 The port to use when content is distributed to this output.
@@ -111,10 +135,19 @@ The port to use when content is distributed to this output.
 
 The protocol to use for the output.
 
+Elemental MediaConnect no longer supports the Fujitsu QoS protocol.
+This reference is maintained for legacy purposes only.
+
 
 =head2 RemoteId => Str
 
 The remote ID for the Zixi-pull output stream.
+
+
+=head2 SenderControlPort => Int
+
+The port that the flow uses to send outbound requests to initiate
+connection with the sender.
 
 
 =head2 SmoothingLatency => Int
@@ -126,7 +159,7 @@ streams.
 =head2 StreamId => Str
 
 The stream ID that you want to use for this transport. This parameter
-applies only to Zixi-based streams.
+applies only to Zixi and SRT caller-based streams.
 
 
 =head2 VpcInterfaceAttachment => L<Paws::MediaConnect::VpcInterfaceAttachment>

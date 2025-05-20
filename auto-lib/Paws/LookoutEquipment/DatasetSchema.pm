@@ -40,7 +40,7 @@ Provides information about the data schema used with the given dataset.
 
 =head2 InlineDataSchema => Str
 
-
+The data schema used within the given dataset.
 
 
 

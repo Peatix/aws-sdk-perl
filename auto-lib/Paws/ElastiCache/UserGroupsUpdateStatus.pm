@@ -41,12 +41,12 @@ The status of the user group update.
 
 =head2 UserGroupIdsToAdd => ArrayRef[Str|Undef]
 
-The list of user group IDs to add.
+The ID of the user group to add.
 
 
 =head2 UserGroupIdsToRemove => ArrayRef[Str|Undef]
 
-The list of user group IDs to remove.
+The ID of the user group to remove.
 
 
 

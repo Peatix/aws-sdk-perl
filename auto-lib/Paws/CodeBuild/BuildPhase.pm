@@ -78,11 +78,6 @@ The build phase faulted.
 
 The build phase is still in progress.
 
-=item QUEUED
-
-The build has been submitted and is queued behind other submitted
-builds.
-
 =item STOPPED
 
 The build phase stopped.
@@ -105,54 +100,50 @@ The name of the build phase. Valid values include:
 
 =over
 
-=item *
+=item BUILD
 
-C<BUILD>: Core build activities typically occur in this build phase.
+Core build activities typically occur in this build phase.
 
-=item *
+=item COMPLETED
 
-C<COMPLETED>: The build has been completed.
+The build has been completed.
 
-=item *
+=item DOWNLOAD_SOURCE
 
-C<DOWNLOAD_SOURCE>: Source code is being downloaded in this build
-phase.
+Source code is being downloaded in this build phase.
 
-=item *
+=item FINALIZING
 
-C<FINALIZING>: The build process is completing in this build phase.
+The build process is completing in this build phase.
 
-=item *
+=item INSTALL
 
-C<INSTALL>: Installation activities typically occur in this build
-phase.
+Installation activities typically occur in this build phase.
 
-=item *
+=item POST_BUILD
 
-C<POST_BUILD>: Post-build activities typically occur in this build
-phase.
+Post-build activities typically occur in this build phase.
 
-=item *
+=item PRE_BUILD
 
-C<PRE_BUILD>: Pre-build activities typically occur in this build phase.
+Pre-build activities typically occur in this build phase.
 
-=item *
+=item PROVISIONING
 
-C<PROVISIONING>: The build environment is being set up.
+The build environment is being set up.
 
-=item *
+=item QUEUED
 
-C<QUEUED>: The build has been submitted and is queued behind other
-submitted builds.
+The build has been submitted and is queued behind other submitted
+builds.
 
-=item *
+=item SUBMITTED
 
-C<SUBMITTED>: The build has been submitted.
+The build has been submitted.
 
-=item *
+=item UPLOAD_ARTIFACTS
 
-C<UPLOAD_ARTIFACTS>: Build output artifacts are being uploaded to the
-output location.
+Build output artifacts are being uploaded to the output location.
 
 =back
 

@@ -43,14 +43,19 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $ErrorCode         = $DescribeTaskResponse->ErrorCode;
     my $ErrorDetail       = $DescribeTaskResponse->ErrorDetail;
     my $Excludes          = $DescribeTaskResponse->Excludes;
+    my $Includes          = $DescribeTaskResponse->Includes;
+    my $ManifestConfig    = $DescribeTaskResponse->ManifestConfig;
     my $Name              = $DescribeTaskResponse->Name;
     my $Options           = $DescribeTaskResponse->Options;
     my $Schedule          = $DescribeTaskResponse->Schedule;
+    my $ScheduleDetails   = $DescribeTaskResponse->ScheduleDetails;
     my $SourceLocationArn = $DescribeTaskResponse->SourceLocationArn;
     my $SourceNetworkInterfaceArns =
       $DescribeTaskResponse->SourceNetworkInterfaceArns;
-    my $Status  = $DescribeTaskResponse->Status;
-    my $TaskArn = $DescribeTaskResponse->TaskArn;
+    my $Status           = $DescribeTaskResponse->Status;
+    my $TaskArn          = $DescribeTaskResponse->TaskArn;
+    my $TaskMode         = $DescribeTaskResponse->TaskMode;
+    my $TaskReportConfig = $DescribeTaskResponse->TaskReportConfig;
 
     # Returns a L<Paws::Datasync::DescribeTaskResponse> object.
 
@@ -62,7 +67,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/dat
 
 =head2 B<REQUIRED> TaskArn => Str
 
-The Amazon Resource Name (ARN) of the task to describe.
+Specifies the Amazon Resource Name (ARN) of the transfer task that you
+want information about.
 
 
 

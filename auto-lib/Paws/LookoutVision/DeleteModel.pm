@@ -31,9 +31,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $lookoutvision = Paws->service('LookoutVision');
     my $DeleteModelResponse = $lookoutvision->DeleteModel(
-      ModelVersion => 'MyModelVersion',
+      ModelVersion => 'MyModelVersionNoLatest',
       ProjectName  => 'MyProjectName',
-      ClientToken  => 'MyClientToken',    # OPTIONAL
+      ClientToken  => 'MyClientToken',            # OPTIONAL
     );
 
     # Results:
@@ -51,11 +51,17 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/loo
 
 ClientToken is an idempotency token that ensures a call to
 C<DeleteModel> completes only once. You choose the value to pass. For
-example, An issue, such as an network outage, might prevent you from
-getting a response from C<DeleteModel>. In this case, safely retry your
-call to C<DeleteModel> by using the same C<ClientToken> parameter
-value. An error occurs if the other input parameters are not the same
-as in the first request. Using a different value for C<ClientToken> is
+example, an issue might prevent you from getting a response from
+C<DeleteModel>. In this case, safely retry your call to C<DeleteModel>
+by using the same C<ClientToken> parameter value.
+
+If you don't supply a value for ClientToken, the AWS SDK you are using
+inserts a value for you. This prevents retries after a network error
+from making multiple model deletion requests. You'll need to provide
+your own value for other use cases.
+
+An error occurs if the other input parameters are not the same as in
+the first request. Using a different value for C<ClientToken> is
 considered a new call to C<DeleteModel>. An idempotency token is active
 for 8 hours.
 

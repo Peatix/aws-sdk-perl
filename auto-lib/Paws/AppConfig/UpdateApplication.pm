@@ -30,10 +30,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $appconfig = Paws->service('AppConfig');
+    # To update an application
+    # The following update-application example updates the name of the specified
+    # application.
     my $Application = $appconfig->UpdateApplication(
-      ApplicationId => 'MyId',
-      Description   => 'MyDescription',    # OPTIONAL
-      Name          => 'MyName',           # OPTIONAL
+      'ApplicationId' => '339ohji',
+      'Description'   => '',
+      'Name'          => 'Example-Application'
     );
 
     # Results:

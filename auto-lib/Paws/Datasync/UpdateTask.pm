@@ -3,10 +3,13 @@ package Paws::Datasync::UpdateTask;
   use Moose;
   has CloudWatchLogGroupArn => (is => 'ro', isa => 'Str');
   has Excludes => (is => 'ro', isa => 'ArrayRef[Paws::Datasync::FilterRule]');
+  has Includes => (is => 'ro', isa => 'ArrayRef[Paws::Datasync::FilterRule]');
+  has ManifestConfig => (is => 'ro', isa => 'Paws::Datasync::ManifestConfig');
   has Name => (is => 'ro', isa => 'Str');
   has Options => (is => 'ro', isa => 'Paws::Datasync::Options');
   has Schedule => (is => 'ro', isa => 'Paws::Datasync::TaskSchedule');
   has TaskArn => (is => 'ro', isa => 'Str', required => 1);
+  has TaskReportConfig => (is => 'ro', isa => 'Paws::Datasync::TaskReportConfig');
 
   use MooseX::ClassAttribute;
 
@@ -39,10 +42,32 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         {
           FilterType =>
             'SIMPLE_PATTERN',    # values: SIMPLE_PATTERNmax: 128; OPTIONAL
-          Value => 'MyFilterValue',    # max: 409600; OPTIONAL
+          Value => 'MyFilterValue',    # max: 102400; OPTIONAL
         },
         ...
       ],    # OPTIONAL
+      Includes => [
+        {
+          FilterType =>
+            'SIMPLE_PATTERN',    # values: SIMPLE_PATTERNmax: 128; OPTIONAL
+          Value => 'MyFilterValue',    # max: 102400; OPTIONAL
+        },
+        ...
+      ],    # OPTIONAL
+      ManifestConfig => {
+        Action => 'TRANSFER',    # values: TRANSFER; OPTIONAL
+        Format => 'CSV',         # values: CSV; OPTIONAL
+        Source => {
+          S3 => {
+            BucketAccessRoleArn     => 'MyIamRoleArn',        # max: 2048
+            ManifestObjectPath      => 'MyS3Subdirectory',    # max: 4096
+            S3BucketArn             => 'MyS3BucketArn',       # max: 268
+            ManifestObjectVersionId =>
+              'MyS3ObjectVersionId',    # min: 1, max: 100; OPTIONAL
+          },
+
+        },    # OPTIONAL
+      },    # OPTIONAL
       Name    => 'MyTagValue',    # OPTIONAL
       Options => {
         Atime          => 'NONE',    # values: NONE, BEST_EFFORT; OPTIONAL
@@ -50,6 +75,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         Gid      => 'NONE',    # values: NONE, INT_VALUE, NAME, BOTH; OPTIONAL
         LogLevel => 'OFF',     # values: OFF, BASIC, TRANSFER; OPTIONAL
         Mtime    => 'NONE',    # values: NONE, PRESERVE; OPTIONAL
+        ObjectTags           => 'PRESERVE', # values: PRESERVE, NONE; OPTIONAL
         OverwriteMode        => 'ALWAYS',   # values: ALWAYS, NEVER; OPTIONAL
         PosixPermissions     => 'NONE',     # values: NONE, PRESERVE; OPTIONAL
         PreserveDeletedFiles => 'PRESERVE', # values: PRESERVE, REMOVE; OPTIONAL
@@ -64,7 +90,38 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       },    # OPTIONAL
       Schedule => {
         ScheduleExpression => 'MyScheduleExpressionCron',    # max: 256
-
+        Status             => 'ENABLED',   # values: ENABLED, DISABLED; OPTIONAL
+      },    # OPTIONAL
+      TaskReportConfig => {
+        Destination => {
+          S3 => {
+            BucketAccessRoleArn => 'MyIamRoleArn',        # max: 2048
+            S3BucketArn         => 'MyS3BucketArn',       # max: 268
+            Subdirectory        => 'MyS3Subdirectory',    # max: 4096
+          },    # OPTIONAL
+        },    # OPTIONAL
+        ObjectVersionIds => 'INCLUDE',    # values: INCLUDE, NONE; OPTIONAL
+        OutputType => 'SUMMARY_ONLY', # values: SUMMARY_ONLY, STANDARD; OPTIONAL
+        Overrides  => {
+          Deleted => {
+            ReportLevel => 'ERRORS_ONLY'
+            ,    # values: ERRORS_ONLY, SUCCESSES_AND_ERRORS; OPTIONAL
+          },    # OPTIONAL
+          Skipped => {
+            ReportLevel => 'ERRORS_ONLY'
+            ,    # values: ERRORS_ONLY, SUCCESSES_AND_ERRORS; OPTIONAL
+          },    # OPTIONAL
+          Transferred => {
+            ReportLevel => 'ERRORS_ONLY'
+            ,    # values: ERRORS_ONLY, SUCCESSES_AND_ERRORS; OPTIONAL
+          },    # OPTIONAL
+          Verified => {
+            ReportLevel => 'ERRORS_ONLY'
+            ,    # values: ERRORS_ONLY, SUCCESSES_AND_ERRORS; OPTIONAL
+          },    # OPTIONAL
+        },    # OPTIONAL
+        ReportLevel =>
+          'ERRORS_ONLY',   # values: ERRORS_ONLY, SUCCESSES_AND_ERRORS; OPTIONAL
       },    # OPTIONAL
     );
 
@@ -76,23 +133,60 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/dat
 
 =head2 CloudWatchLogGroupArn => Str
 
-The Amazon Resource Name (ARN) of the resource name of the CloudWatch
-LogGroup.
+Specifies the Amazon Resource Name (ARN) of an Amazon CloudWatch log
+group for monitoring your task.
+
+For Enhanced mode tasks, you must use C</aws/datasync> as your log
+group name. For example:
+
+C<arn:aws:logs:us-east-1:111222333444:log-group:/aws/datasync:*>
+
+For more information, see Monitoring data transfers with CloudWatch
+Logs
+(https://docs.aws.amazon.com/datasync/latest/userguide/configure-logging.html).
 
 
 
 =head2 Excludes => ArrayRef[L<Paws::Datasync::FilterRule>]
 
-A list of filter rules that determines which files to exclude from a
-task. The list should contain a single filter string that consists of
-the patterns to exclude. The patterns are delimited by "|" (that is, a
-pipe), for example: C<"/folder1|/folder2">
+Specifies exclude filters that define the files, objects, and folders
+in your source location that you don't want DataSync to transfer. For
+more information and examples, see Specifying what DataSync transfers
+by using filters
+(https://docs.aws.amazon.com/datasync/latest/userguide/filtering.html).
+
+
+
+=head2 Includes => ArrayRef[L<Paws::Datasync::FilterRule>]
+
+Specifies include filters define the files, objects, and folders in
+your source location that you want DataSync to transfer. For more
+information and examples, see Specifying what DataSync transfers by
+using filters
+(https://docs.aws.amazon.com/datasync/latest/userguide/filtering.html).
+
+
+
+=head2 ManifestConfig => L<Paws::Datasync::ManifestConfig>
+
+Configures a manifest, which is a list of files or objects that you
+want DataSync to transfer. For more information and configuration
+examples, see Specifying what DataSync transfers by using a manifest
+(https://docs.aws.amazon.com/datasync/latest/userguide/transferring-with-manifest.html).
+
+When using this parameter, your caller identity (the IAM role that
+you're using DataSync with) must have the C<iam:PassRole> permission.
+The AWSDataSyncFullAccess
+(https://docs.aws.amazon.com/datasync/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-awsdatasyncfullaccess)
+policy includes this permission.
+
+To remove a manifest configuration, specify this parameter as empty.
 
 
 
 =head2 Name => Str
 
-The name of the task to update.
+Specifies the name of your task.
 
 
 
@@ -104,19 +198,32 @@ The name of the task to update.
 
 =head2 Schedule => L<Paws::Datasync::TaskSchedule>
 
-Specifies a schedule used to periodically transfer files from a source
-to a destination location. You can configure your task to execute
-hourly, daily, weekly or on specific days of the week. You control when
-in the day or hour you want the task to execute. The time you specify
-is UTC time. For more information, see Scheduling your task
+Specifies a schedule for when you want your task to run. For more
+information, see Scheduling your task
 (https://docs.aws.amazon.com/datasync/latest/userguide/task-scheduling.html).
 
 
 
 =head2 B<REQUIRED> TaskArn => Str
 
-The Amazon Resource Name (ARN) of the resource name of the task to
-update.
+Specifies the ARN of the task that you want to update.
+
+
+
+=head2 TaskReportConfig => L<Paws::Datasync::TaskReportConfig>
+
+Specifies how you want to configure a task report, which provides
+detailed information about your DataSync transfer. For more
+information, see Monitoring your DataSync transfers with task reports
+(https://docs.aws.amazon.com/datasync/latest/userguide/task-reports.html).
+
+When using this parameter, your caller identity (the IAM role that
+you're using DataSync with) must have the C<iam:PassRole> permission.
+The AWSDataSyncFullAccess
+(https://docs.aws.amazon.com/datasync/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-awsdatasyncfullaccess)
+policy includes this permission.
+
+To remove a task report configuration, specify this parameter as empty.
 
 
 

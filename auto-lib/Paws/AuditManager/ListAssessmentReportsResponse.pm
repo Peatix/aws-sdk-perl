@@ -18,13 +18,13 @@ Paws::AuditManager::ListAssessmentReportsResponse
 
 =head2 AssessmentReports => ArrayRef[L<Paws::AuditManager::AssessmentReportMetadata>]
 
-The list of assessment reports returned by the C<ListAssessmentReports>
-API.
+The list of assessment reports that the C<ListAssessmentReports> API
+returned.
 
 
 =head2 NextToken => Str
 
-The pagination token used to fetch the next set of results.
+The pagination token that's used to fetch the next set of results.
 
 
 =head2 _request_id => Str

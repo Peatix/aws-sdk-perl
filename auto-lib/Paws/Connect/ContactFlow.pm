@@ -4,10 +4,17 @@ package Paws::Connect::ContactFlow;
   has Arn => (is => 'ro', isa => 'Str');
   has Content => (is => 'ro', isa => 'Str');
   has Description => (is => 'ro', isa => 'Str');
+  has FlowContentSha256 => (is => 'ro', isa => 'Str');
   has Id => (is => 'ro', isa => 'Str');
+  has LastModifiedRegion => (is => 'ro', isa => 'Str');
+  has LastModifiedTime => (is => 'ro', isa => 'Str');
   has Name => (is => 'ro', isa => 'Str');
+  has State => (is => 'ro', isa => 'Str');
+  has Status => (is => 'ro', isa => 'Str');
   has Tags => (is => 'ro', isa => 'Paws::Connect::TagMap');
   has Type => (is => 'ro', isa => 'Str');
+  has Version => (is => 'ro', isa => 'Int');
+  has VersionDescription => (is => 'ro', isa => 'Str');
 
 1;
 
@@ -28,7 +35,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::Connect::ContactFlow object:
 
-  $service_obj->Method(Att1 => { Arn => $value, ..., Type => $value  });
+  $service_obj->Method(Att1 => { Arn => $value, ..., VersionDescription => $value  });
 
 =head3 Results returned from an API call
 
@@ -39,47 +46,87 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Connect::Co
 
 =head1 DESCRIPTION
 
-Contains information about a contact flow.
+Contains information about a flow.
 
 =head1 ATTRIBUTES
 
 
 =head2 Arn => Str
 
-The Amazon Resource Name (ARN) of the contact flow.
+The Amazon Resource Name (ARN) of the flow.
 
 
 =head2 Content => Str
 
-The content of the contact flow.
+The JSON string that represents the content of the flow. For an
+example, see Example flow in Amazon Connect Flow language
+(https://docs.aws.amazon.com/connect/latest/APIReference/flow-language-example.html).
+
+Length Constraints: Minimum length of 1. Maximum length of 256000.
 
 
 =head2 Description => Str
 
-The description of the contact flow.
+The description of the flow.
+
+
+=head2 FlowContentSha256 => Str
+
+Indicates the checksum value of the flow content.
 
 
 =head2 Id => Str
 
-The identifier of the contact flow.
+The identifier of the flow.
+
+
+=head2 LastModifiedRegion => Str
+
+The region in which the flow was last modified
+
+
+=head2 LastModifiedTime => Str
+
+The time at which the flow was last modified.
 
 
 =head2 Name => Str
 
-The name of the contact flow.
+The name of the flow.
+
+
+=head2 State => Str
+
+The type of flow.
+
+
+=head2 Status => Str
+
+The status of the flow.
 
 
 =head2 Tags => L<Paws::Connect::TagMap>
 
-One or more tags.
+The tags used to organize, track, or control access for this resource.
+For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
 
 
 =head2 Type => Str
 
-The type of the contact flow. For descriptions of the available types,
-see Choose a Contact Flow Type
+The type of the flow. For descriptions of the available types, see
+Choose a flow type
 (https://docs.aws.amazon.com/connect/latest/adminguide/create-contact-flow.html#contact-flow-types)
 in the I<Amazon Connect Administrator Guide>.
+
+
+=head2 Version => Int
+
+The identifier of the flow version.
+
+
+=head2 VersionDescription => Str
+
+The description of the flow version.
 
 
 

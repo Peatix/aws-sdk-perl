@@ -65,8 +65,7 @@ The status of a tunnel. Valid values are: Open and Closed.
 
 =head2 TunnelArn => Str
 
-The Amazon Resource Name of the tunnel. The tunnel ARN format is
-C<arn:aws:tunnel:E<lt>regionE<gt>:E<lt>account-idE<gt>:tunnel/E<lt>tunnel-idE<gt>>
+The Amazon Resource Name of the tunnel.
 
 
 =head2 TunnelId => Str

@@ -6,6 +6,7 @@ package Paws::IoTWireless::LoRaWANDeviceMetadata;
   has FPort => (is => 'ro', isa => 'Int');
   has Frequency => (is => 'ro', isa => 'Int');
   has Gateways => (is => 'ro', isa => 'ArrayRef[Paws::IoTWireless::LoRaWANGatewayMetadata]');
+  has PublicGateways => (is => 'ro', isa => 'ArrayRef[Paws::IoTWireless::LoRaWANPublicGatewayMetadata]');
   has Timestamp => (is => 'ro', isa => 'Str');
 
 1;
@@ -66,6 +67,11 @@ The device's channel frequency in Hz.
 =head2 Gateways => ArrayRef[L<Paws::IoTWireless::LoRaWANGatewayMetadata>]
 
 Information about the gateways accessed by the device.
+
+
+=head2 PublicGateways => ArrayRef[L<Paws::IoTWireless::LoRaWANPublicGatewayMetadata>]
+
+Information about the LoRaWAN public network accessed by the device.
 
 
 =head2 Timestamp => Str

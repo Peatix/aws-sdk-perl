@@ -50,12 +50,14 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/con
 
 The type of attribute.
 
-Valid values are: C<"INBOUND_CALLS">, C<"OUTBOUND_CALLS">, C<"CONTACTFLOW_LOGS">, C<"CONTACT_LENS">, C<"AUTO_RESOLVE_BEST_VOICES">, C<"USE_CUSTOM_TTS_VOICES">, C<"EARLY_MEDIA">
+Valid values are: C<"INBOUND_CALLS">, C<"OUTBOUND_CALLS">, C<"CONTACTFLOW_LOGS">, C<"CONTACT_LENS">, C<"AUTO_RESOLVE_BEST_VOICES">, C<"USE_CUSTOM_TTS_VOICES">, C<"EARLY_MEDIA">, C<"MULTI_PARTY_CONFERENCE">, C<"HIGH_VOLUME_OUTBOUND">, C<"ENHANCED_CONTACT_MONITORING">, C<"ENHANCED_CHAT_MONITORING">, C<"MULTI_PARTY_CHAT_CONFERENCE">
 
 =head2 B<REQUIRED> InstanceId => Str
 
 The identifier of the Amazon Connect instance. You can find the
-instanceId in the ARN of the instance.
+instance ID
+(https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html)
+in the Amazon Resource Name (ARN) of the instance.
 
 
 

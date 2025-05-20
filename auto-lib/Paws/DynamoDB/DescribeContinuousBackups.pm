@@ -28,7 +28,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $dynamodb = Paws->service('DynamoDB');
     my $DescribeContinuousBackupsOutput = $dynamodb->DescribeContinuousBackups(
-      TableName => 'MyTableName',
+      TableName => 'MyTableArn',
 
     );
 
@@ -48,6 +48,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/dyn
 
 Name of the table for which the customer wants to check the continuous
 backups and point in time recovery settings.
+
+You can also provide the Amazon Resource Name (ARN) of the table in
+this parameter.
 
 
 

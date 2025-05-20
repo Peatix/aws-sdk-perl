@@ -1,6 +1,7 @@
 
 package Paws::Backup::GetRecoveryPointRestoreMetadata;
   use Moose;
+  has BackupVaultAccountId => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'backupVaultAccountId');
   has BackupVaultName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'backupVaultName', required => 1);
   has RecoveryPointArn => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'recoveryPointArn', required => 1);
 
@@ -31,15 +32,16 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $backup = Paws->service('Backup');
     my $GetRecoveryPointRestoreMetadataOutput =
       $backup->GetRecoveryPointRestoreMetadata(
-      BackupVaultName  => 'MyBackupVaultName',
-      RecoveryPointArn => 'MyARN',
-
+      BackupVaultName      => 'MyBackupVaultName',
+      RecoveryPointArn     => 'MyARN',
+      BackupVaultAccountId => 'MyAccountId',         # OPTIONAL
       );
 
     # Results:
     my $BackupVaultArn = $GetRecoveryPointRestoreMetadataOutput->BackupVaultArn;
     my $RecoveryPointArn =
       $GetRecoveryPointRestoreMetadataOutput->RecoveryPointArn;
+    my $ResourceType = $GetRecoveryPointRestoreMetadataOutput->ResourceType;
     my $RestoreMetadata =
       $GetRecoveryPointRestoreMetadataOutput->RestoreMetadata;
 
@@ -51,12 +53,17 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/bac
 =head1 ATTRIBUTES
 
 
+=head2 BackupVaultAccountId => Str
+
+The account ID of the specified backup vault.
+
+
+
 =head2 B<REQUIRED> BackupVaultName => Str
 
 The name of a logical container where backups are stored. Backup vaults
 are identified by names that are unique to the account used to create
-them and the AWS Region where they are created. They consist of
-lowercase letters, numbers, and hyphens.
+them and the Amazon Web Services Region where they are created.
 
 
 

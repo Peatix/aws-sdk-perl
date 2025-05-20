@@ -2,6 +2,7 @@
 package Paws::DynamoDB::ExecuteTransaction;
   use Moose;
   has ClientRequestToken => (is => 'ro', isa => 'Str');
+  has ReturnConsumedCapacity => (is => 'ro', isa => 'Str');
   has TransactStatements => (is => 'ro', isa => 'ArrayRef[Paws::DynamoDB::ParameterizedStatement]', required => 1);
 
   use MooseX::ClassAttribute;
@@ -55,14 +56,18 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             },
             ...
           ],    # min: 1; OPTIONAL
+          ReturnValuesOnConditionCheckFailure =>
+            'ALL_OLD',    # values: ALL_OLD, NONE; OPTIONAL
         },
         ...
       ],
-      ClientRequestToken => 'MyClientRequestToken',    # OPTIONAL
+      ClientRequestToken     => 'MyClientRequestToken',    # OPTIONAL
+      ReturnConsumedCapacity => 'INDEXES',                 # OPTIONAL
     );
 
     # Results:
-    my $Responses = $ExecuteTransactionOutput->Responses;
+    my $ConsumedCapacity = $ExecuteTransactionOutput->ConsumedCapacity;
+    my $Responses        = $ExecuteTransactionOutput->Responses;
 
     # Returns a L<Paws::DynamoDB::ExecuteTransactionOutput> object.
 
@@ -78,6 +83,17 @@ Set this value to get remaining results, if C<NextToken> was returned
 in the statement response.
 
 
+
+=head2 ReturnConsumedCapacity => Str
+
+Determines the level of detail about either provisioned or on-demand
+throughput consumption that is returned in the response. For more
+information, see TransactGetItems
+(https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_TransactGetItems.html)
+and TransactWriteItems
+(https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_TransactWriteItems.html).
+
+Valid values are: C<"INDEXES">, C<"TOTAL">, C<"NONE">
 
 =head2 B<REQUIRED> TransactStatements => ArrayRef[L<Paws::DynamoDB::ParameterizedStatement>]
 

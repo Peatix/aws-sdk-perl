@@ -42,8 +42,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $CreateMLTransformResponse = $glue->CreateMLTransform(
       InputRecordTables => [
         {
-          DatabaseName   => 'MyNameString',    # min: 1, max: 255
-          TableName      => 'MyNameString',    # min: 1, max: 255
+          DatabaseName      => 'MyNameString',    # min: 1, max: 255
+          TableName         => 'MyNameString',    # min: 1, max: 255
+          AdditionalOptions => {
+            'MyNameString' =>
+              'MyDescriptionString',   # key: min: 1, max: 255, value: max: 2048
+          },    # min: 1, max: 10; OPTIONAL
           CatalogId      => 'MyNameString',    # min: 1, max: 255
           ConnectionName => 'MyNameString',    # min: 1, max: 255
         },
@@ -292,7 +296,7 @@ C<MaxCapacity> and C<NumberOfWorkers> must both be at least 1.
 =back
 
 
-Valid values are: C<"Standard">, C<"G.1X">, C<"G.2X">
+Valid values are: C<"Standard">, C<"G.1X">, C<"G.2X">, C<"G.025X">, C<"G.4X">, C<"G.8X">, C<"Z.2X">
 
 
 =head1 SEE ALSO

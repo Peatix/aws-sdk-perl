@@ -1,11 +1,12 @@
 
 package Paws::HealthLake::StartFHIRImportJob;
   use Moose;
-  has ClientToken => (is => 'ro', isa => 'Str', required => 1);
+  has ClientToken => (is => 'ro', isa => 'Str');
   has DataAccessRoleArn => (is => 'ro', isa => 'Str', required => 1);
   has DatastoreId => (is => 'ro', isa => 'Str', required => 1);
   has InputDataConfig => (is => 'ro', isa => 'Paws::HealthLake::InputDataConfig', required => 1);
   has JobName => (is => 'ro', isa => 'Str');
+  has JobOutputDataConfig => (is => 'ro', isa => 'Paws::HealthLake::OutputDataConfig', required => 1);
 
   use MooseX::ClassAttribute;
 
@@ -32,13 +33,20 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $healthlake = Paws->service('HealthLake');
     my $StartFHIRImportJobResponse = $healthlake->StartFHIRImportJob(
-      ClientToken       => 'MyClientTokenString',
       DataAccessRoleArn => 'MyIamRoleArn',
       DatastoreId       => 'MyDatastoreId',
       InputDataConfig   => {
         S3Uri => 'MyS3Uri',    # max: 1024; OPTIONAL
       },
-      JobName => 'MyJobName',    # OPTIONAL
+      JobOutputDataConfig => {
+        S3Configuration => {
+          KmsKeyId => 'MyEncryptionKeyID',    # min: 1, max: 400
+          S3Uri    => 'MyS3Uri',              # max: 1024; OPTIONAL
+
+        },    # OPTIONAL
+      },
+      ClientToken => 'MyClientTokenString',    # OPTIONAL
+      JobName     => 'MyJobName',              # OPTIONAL
     );
 
     # Results:
@@ -54,7 +62,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/hea
 =head1 ATTRIBUTES
 
 
-=head2 B<REQUIRED> ClientToken => Str
+=head2 ClientToken => Str
 
 Optional user provided token used for ensuring idempotency.
 
@@ -62,14 +70,14 @@ Optional user provided token used for ensuring idempotency.
 
 =head2 B<REQUIRED> DataAccessRoleArn => Str
 
-The Amazon Resource Name (ARN) that gives Amazon HealthLake access
+The Amazon Resource Name (ARN) that gives AWS HealthLake access
 permission.
 
 
 
 =head2 B<REQUIRED> DatastoreId => Str
 
-The AWS-generated Data Store ID.
+The AWS-generated data store ID.
 
 
 
@@ -83,6 +91,12 @@ request.
 =head2 JobName => Str
 
 The name of the FHIR Import job in the StartFHIRImport job request.
+
+
+
+=head2 B<REQUIRED> JobOutputDataConfig => L<Paws::HealthLake::OutputDataConfig>
+
+
 
 
 

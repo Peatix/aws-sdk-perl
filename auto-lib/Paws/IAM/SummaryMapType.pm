@@ -9,6 +9,7 @@ package Paws::IAM::SummaryMapType;
   has AccessKeysPerUserQuota => (is => 'ro', isa => 'Int');
   has AccountAccessKeysPresent => (is => 'ro', isa => 'Int');
   has AccountMFAEnabled => (is => 'ro', isa => 'Int');
+  has AccountPasswordPresent => (is => 'ro', isa => 'Int');
   has AccountSigningCertificatesPresent => (is => 'ro', isa => 'Int');
   has AttachedPoliciesPerGroupQuota => (is => 'ro', isa => 'Int');
   has AttachedPoliciesPerRoleQuota => (is => 'ro', isa => 'Int');
@@ -74,6 +75,9 @@ This class has no description
 
 
 =head2 AccountMFAEnabled => Int
+
+
+=head2 AccountPasswordPresent => Int
 
 
 =head2 AccountSigningCertificatesPresent => Int

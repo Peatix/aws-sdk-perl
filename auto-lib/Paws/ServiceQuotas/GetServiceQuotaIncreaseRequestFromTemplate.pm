@@ -52,19 +52,23 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ser
 
 =head2 B<REQUIRED> AwsRegion => Str
 
-The AWS Region.
+Specifies the Amazon Web Services Region for which you made the
+request.
 
 
 
 =head2 B<REQUIRED> QuotaCode => Str
 
-The quota identifier.
+Specifies the quota identifier. To find the quota code for a specific
+quota, use the ListServiceQuotas operation, and look for the
+C<QuotaCode> response in the output for the quota you want.
 
 
 
 =head2 B<REQUIRED> ServiceCode => Str
 
-The service identifier.
+Specifies the service identifier. To find the service code value for an
+Amazon Web Services service, use the ListServices operation.
 
 
 

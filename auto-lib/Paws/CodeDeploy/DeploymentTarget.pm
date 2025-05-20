@@ -67,7 +67,7 @@ EC2/On-premises compute platform.
 
 =head2 LambdaTarget => L<Paws::CodeDeploy::LambdaTarget>
 
-Information about the target for a deployment that uses the AWS Lambda
+Information about the target for a deployment that uses the Lambda
 compute platform.
 
 

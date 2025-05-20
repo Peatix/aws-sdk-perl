@@ -59,23 +59,22 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 B<REQUIRED> Location => L<Paws::ApiGateway::DocumentationPartLocation>
 
-[Required] The location of the targeted API entity of the to-be-created
+The location of the targeted API entity of the to-be-created
 documentation part.
 
 
 
 =head2 B<REQUIRED> Properties => Str
 
-[Required] The new documentation content map of the targeted API
-entity. Enclosed key-value pairs are API-specific, but only
-OpenAPI-compliant key-value pairs can be exported and, hence,
-published.
+The new documentation content map of the targeted API entity. Enclosed
+key-value pairs are API-specific, but only OpenAPI-compliant key-value
+pairs can be exported and, hence, published.
 
 
 
 =head2 B<REQUIRED> RestApiId => Str
 
-[Required] The string identifier of the associated RestApi.
+The string identifier of the associated RestApi.
 
 
 

@@ -39,28 +39,29 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CostExplore
 
 =head1 DESCRIPTION
 
-A specific reservation that AWS recommends for purchase.
+A specific reservation that Amazon Web Services recommends for
+purchase.
 
 =head1 ATTRIBUTES
 
 
 =head2 AccountScope => Str
 
-The account scope that AWS recommends that you purchase this instance
-for. For example, you can purchase this reservation for an entire
-organization in AWS Organizations.
+The account scope that Amazon Web Services recommends that you purchase
+this instance for. For example, you can purchase this reservation for
+an entire organization in Amazon Web Services Organizations.
 
 
 =head2 LookbackPeriodInDays => Str
 
-How many days of previous usage that AWS considers when making this
-recommendation.
+How many days of previous usage that Amazon Web Services considers when
+making this recommendation.
 
 
 =head2 PaymentOption => Str
 
-The payment option for the reservation. For example, C<AllUpfront> or
-C<NoUpfront>.
+The payment option for the reservation (for example, C<AllUpfront> or
+C<NoUpfront>).
 
 
 =head2 RecommendationDetails => ArrayRef[L<Paws::CostExplorer::ReservationPurchaseRecommendationDetail>]

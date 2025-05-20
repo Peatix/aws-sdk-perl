@@ -39,8 +39,18 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       FunctionCode   => 'BlobFunctionBlob',
       FunctionConfig => {
         Comment => 'Mystring',
-        Runtime => 'cloudfront-js-1.0',    # values: cloudfront-js-1.0
+        Runtime =>
+          'cloudfront-js-1.0',    # values: cloudfront-js-1.0, cloudfront-js-2.0
+        KeyValueStoreAssociations => {
+          Quantity => 1,
+          Items    => [
+            {
+              KeyValueStoreARN => 'MyKeyValueStoreARN',    # max: 85
 
+            },
+            ...
+          ],    # OPTIONAL
+        },    # OPTIONAL
       },
       IfMatch => 'Mystring',
       Name    => 'Mystring',

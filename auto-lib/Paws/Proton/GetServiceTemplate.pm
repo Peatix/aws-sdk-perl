@@ -45,7 +45,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/pro
 
 =head2 B<REQUIRED> Name => Str
 
-The name of the service template that you want to get detail data for.
+The name of the service template that you want to get detailed data
+for.
 
 
 

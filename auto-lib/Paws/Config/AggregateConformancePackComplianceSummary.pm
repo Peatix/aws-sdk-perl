@@ -46,7 +46,8 @@ Returns an C<AggregateConformancePackComplianceCount> object.
 
 =head2 GroupName => Str
 
-Groups the result based on AWS Account ID or AWS Region.
+Groups the result based on Amazon Web Services account ID or Amazon Web
+Services Region.
 
 
 

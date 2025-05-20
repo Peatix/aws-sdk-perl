@@ -1,6 +1,7 @@
 
 package Paws::Personalize::CreateSchema;
   use Moose;
+  has Domain => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'domain' );
   has Name => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'name' , required => 1);
   has Schema => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'schema' , required => 1);
 
@@ -31,7 +32,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $CreateSchemaResponse = $personalize->CreateSchema(
       Name   => 'MyName',
       Schema => 'MyAvroSchema',
-
+      Domain => 'ECOMMERCE',      # OPTIONAL
     );
 
     # Results:
@@ -44,6 +45,14 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/per
 
 =head1 ATTRIBUTES
 
+
+=head2 Domain => Str
+
+The domain for the schema. If you are creating a schema for a dataset
+in a Domain dataset group, specify the domain you chose when you
+created the Domain dataset group.
+
+Valid values are: C<"ECOMMERCE">, C<"VIDEO_ON_DEMAND">
 
 =head2 B<REQUIRED> Name => Str
 

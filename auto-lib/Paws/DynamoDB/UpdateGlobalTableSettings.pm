@@ -121,6 +121,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             },    # OPTIONAL
           },    # OPTIONAL
           ReplicaProvisionedReadCapacityUnits => 1,    # min: 1; OPTIONAL
+          ReplicaTableClass                   =>
+            'STANDARD', # values: STANDARD, STANDARD_INFREQUENT_ACCESS; OPTIONAL
         },
         ...
       ],    # OPTIONAL
@@ -149,15 +151,16 @@ billing mode.
 =item *
 
 C<PROVISIONED> - We recommend using C<PROVISIONED> for predictable
-workloads. C<PROVISIONED> sets the billing mode to Provisioned Mode
-(https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadWriteCapacityMode.html#HowItWorks.ProvisionedThroughput.Manual).
+workloads. C<PROVISIONED> sets the billing mode to Provisioned capacity
+mode
+(https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/provisioned-capacity-mode.html).
 
 =item *
 
 C<PAY_PER_REQUEST> - We recommend using C<PAY_PER_REQUEST> for
 unpredictable workloads. C<PAY_PER_REQUEST> sets the billing mode to
-On-Demand Mode
-(https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadWriteCapacityMode.html#HowItWorks.OnDemand).
+On-demand capacity mode
+(https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/on-demand-capacity-mode.html).
 
 =back
 

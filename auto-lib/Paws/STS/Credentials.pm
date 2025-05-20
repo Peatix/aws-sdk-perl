@@ -36,7 +36,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::STS::Creden
 
 =head1 DESCRIPTION
 
-AWS credentials for API authentication.
+Amazon Web Services credentials for API authentication.
 
 =head1 ATTRIBUTES
 

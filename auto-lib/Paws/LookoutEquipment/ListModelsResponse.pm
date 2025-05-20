@@ -24,7 +24,7 @@ model and dataset ARNs, and status.
 =head2 NextToken => Str
 
 An opaque pagination token indicating where to continue the listing of
-ML models.
+machine learning models.
 
 
 =head2 _request_id => Str

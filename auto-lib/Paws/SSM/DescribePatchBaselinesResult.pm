@@ -17,7 +17,7 @@ Paws::SSM::DescribePatchBaselinesResult
 
 =head2 BaselineIdentities => ArrayRef[L<Paws::SSM::PatchBaselineIdentity>]
 
-An array of PatchBaselineIdentity elements.
+An array of C<PatchBaselineIdentity> elements.
 
 
 =head2 NextToken => Str

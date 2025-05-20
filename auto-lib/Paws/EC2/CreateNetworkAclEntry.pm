@@ -48,7 +48,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         'From' => 53,
         'To'   => 53
       },
-      'Protocol'   => 'udp',
+      'Protocol'   => 17,
       'RuleAction' => 'allow',
       'RuleNumber' => 100
     );

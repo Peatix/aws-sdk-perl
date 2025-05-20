@@ -79,13 +79,13 @@ The name of the Global datastore
 
 =head2 B<REQUIRED> NodeGroupCount => Int
 
-The number of node groups you wish to add
+Total number of node groups you want
 
 
 
 =head2 RegionalConfigurations => ArrayRef[L<Paws::ElastiCache::RegionalConfiguration>]
 
-Describes the replication group IDs, the AWS regions where they are
+Describes the replication group IDs, the Amazon regions where they are
 stored and the shard configuration for each that comprise the Global
 datastore
 

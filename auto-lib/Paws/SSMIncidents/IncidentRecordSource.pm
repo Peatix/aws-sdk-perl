@@ -36,7 +36,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SSMIncident
 
 =head1 DESCRIPTION
 
-Details about how the incident record was created and when.
+Details about what created the incident record and when it was created.
 
 =head1 ATTRIBUTES
 
@@ -48,7 +48,8 @@ The principal that started the incident.
 
 =head2 InvokedBy => Str
 
-The principal the assumed the role specified of the C<createdBy>.
+The service principal that assumed the role specified in C<createdBy>.
+If no service principal assumed the role this will be left blank.
 
 
 =head2 ResourceArn => Str
@@ -59,7 +60,7 @@ The resource that caused the incident to be created.
 =head2 B<REQUIRED> Source => Str
 
 The service that started the incident. This can be manually created
-from Incident Manager, automatically created using an AWS CloudWatch
+from Incident Manager, automatically created using an Amazon CloudWatch
 alarm, or Amazon EventBridge event.
 
 

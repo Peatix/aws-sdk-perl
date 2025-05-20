@@ -3,6 +3,7 @@ package Paws::DeviceFarm::CreateProject;
   use Moose;
   has DefaultJobTimeoutMinutes => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'defaultJobTimeoutMinutes' );
   has Name => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'name' , required => 1);
+  has VpcConfig => (is => 'ro', isa => 'Paws::DeviceFarm::VpcConfig', traits => ['NameInRequest'], request_name => 'vpcConfig' );
 
   use MooseX::ClassAttribute;
 
@@ -55,6 +56,12 @@ overridden when scheduling a run.
 =head2 B<REQUIRED> Name => Str
 
 The project's name.
+
+
+
+=head2 VpcConfig => L<Paws::DeviceFarm::VpcConfig>
+
+The VPC security groups and subnets that are attached to a project.
 
 
 

@@ -42,20 +42,20 @@ Represents the settings used to enable server-side encryption.
 
 =head2 Enabled => Bool
 
-Indicates whether server-side encryption is done using an AWS managed
-CMK or an AWS owned CMK. If enabled (true), server-side encryption type
-is set to C<KMS> and an AWS managed CMK is used (AWS KMS charges
-apply). If disabled (false) or not specified, server-side encryption is
-set to AWS owned CMK.
+Indicates whether server-side encryption is done using an Amazon Web
+Services managed key or an Amazon Web Services owned key. If enabled
+(true), server-side encryption type is set to C<KMS> and an Amazon Web
+Services managed key is used (KMS charges apply). If disabled (false)
+or not specified, server-side encryption is set to Amazon Web Services
+owned key.
 
 
 =head2 KMSMasterKeyId => Str
 
-The AWS KMS customer master key (CMK) that should be used for the AWS
-KMS encryption. To specify a CMK, use its key ID, Amazon Resource Name
-(ARN), alias name, or alias ARN. Note that you should only provide this
-parameter if the key is different from the default DynamoDB customer
-master key alias/aws/dynamodb.
+The KMS key that should be used for the KMS encryption. To specify a
+key, use its key ID, Amazon Resource Name (ARN), alias name, or alias
+ARN. Note that you should only provide this parameter if the key is
+different from the default DynamoDB key C<alias/aws/dynamodb>.
 
 
 =head2 SSEType => Str
@@ -66,9 +66,9 @@ Server-side encryption type. The only supported value is:
 
 =item *
 
-C<KMS> - Server-side encryption that uses AWS Key Management Service.
-The key is stored in your account and is managed by AWS KMS (AWS KMS
-charges apply).
+C<KMS> - Server-side encryption that uses Key Management Service. The
+key is stored in your account and is managed by KMS (KMS charges
+apply).
 
 =back
 

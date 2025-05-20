@@ -17,7 +17,8 @@ Paws::ServiceCatalog::ListPortfolioAccessOutput
 
 =head2 AccountIds => ArrayRef[Str|Undef]
 
-Information about the AWS accounts with access to the portfolio.
+Information about the Amazon Web Services accounts with access to the
+portfolio.
 
 
 =head2 NextPageToken => Str

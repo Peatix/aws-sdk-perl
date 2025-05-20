@@ -17,7 +17,7 @@ Paws::HealthLake::ListFHIRDatastoresResponse
 
 =head2 B<REQUIRED> DatastorePropertiesList => ArrayRef[L<Paws::HealthLake::DatastoreProperties>]
 
-All properties associated with the listed Data Stores.
+All properties associated with the listed data stores.
 
 
 =head2 NextToken => Str

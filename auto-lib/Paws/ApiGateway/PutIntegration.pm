@@ -110,10 +110,8 @@ requests to different resources.
 
 =head2 ConnectionId => Str
 
-The (C<id>
-(https://docs.aws.amazon.com/apigateway/api-reference/resource/vpc-link/#id))
-of the VpcLink used for the integration when C<connectionType=VPC_LINK>
-and undefined, otherwise.
+The ID of the VpcLink used for the integration. Specify this value only
+if you specify C<VPC_LINK> as the connection type.
 
 
 
@@ -132,20 +130,6 @@ Specifies how to handle request payload content type conversions.
 Supported values are C<CONVERT_TO_BINARY> and C<CONVERT_TO_TEXT>, with
 the following behaviors:
 
-=over
-
-=item *
-
-C<CONVERT_TO_BINARY>: Converts a request payload from a Base64-encoded
-string to the corresponding binary blob.
-
-=item *
-
-C<CONVERT_TO_TEXT>: Converts a request payload from a binary blob to a
-Base64-encoded string.
-
-=back
-
 If this property is not defined, the request payload will be passed
 through from the method request to integration request without
 modification, provided that the C<passthroughBehavior> is configured to
@@ -161,14 +145,13 @@ Specifies whether credentials are required for a put integration.
 
 =head2 B<REQUIRED> HttpMethod => Str
 
-[Required] Specifies a put integration request's HTTP method.
+Specifies the HTTP method for the integration.
 
 
 
 =head2 IntegrationHttpMethod => Str
 
-Specifies a put integration HTTP method. When the integration type is
-HTTP or AWS, this field is required.
+The HTTP method for the integration.
 
 
 
@@ -179,28 +162,6 @@ Content-Type header in the request, and the available mapping templates
 specified as the C<requestTemplates> property on the Integration
 resource. There are three valid values: C<WHEN_NO_MATCH>,
 C<WHEN_NO_TEMPLATES>, and C<NEVER>.
-
-=over
-
-=item *
-
-C<WHEN_NO_MATCH> passes the request body for unmapped content types
-through to the integration back end without transformation.
-
-=item *
-
-C<NEVER> rejects unmapped content types with an HTTP 415 'Unsupported
-Media Type' response.
-
-=item *
-
-C<WHEN_NO_TEMPLATES> allows pass-through when the integration has NO
-content types mapped to templates. However if there is at least one
-content type defined, unmapped content types will be rejected with the
-same 415 response.
-
-=back
-
 
 
 
@@ -228,13 +189,13 @@ client. The content type value is the key in this map, and the template
 
 =head2 B<REQUIRED> ResourceId => Str
 
-[Required] Specifies a put integration request's resource ID.
+Specifies a put integration request's resource ID.
 
 
 
 =head2 B<REQUIRED> RestApiId => Str
 
-[Required] The string identifier of the associated RestApi.
+The string identifier of the associated RestApi.
 
 
 
@@ -253,49 +214,36 @@ Custom timeout between 50 and 29,000 milliseconds. The default value is
 
 =head2 B<REQUIRED> Type => Str
 
-[Required] Specifies a put integration input's type.
+Specifies a put integration input's type.
 
 Valid values are: C<"HTTP">, C<"AWS">, C<"MOCK">, C<"HTTP_PROXY">, C<"AWS_PROXY">
 
 =head2 Uri => Str
 
 Specifies Uniform Resource Identifier (URI) of the integration
-endpoint.
-
-=over
-
-=item *
-
-For C<HTTP> or C<HTTP_PROXY> integrations, the URI must be a fully
-formed, encoded HTTP(S) URL according to the RFC-3986 specification
-(https://en.wikipedia.org/wiki/Uniform_Resource_Identifier), for either
-standard integration, where C<connectionType> is not C<VPC_LINK>, or
-private integration, where C<connectionType> is C<VPC_LINK>. For a
-private HTTP integration, the URI is not used for routing.
-
-=item *
-
-For C<AWS> or C<AWS_PROXY> integrations, the URI is of the form
-C<arn:aws:apigateway:{region}:{subdomain.service|service}:path|action/{service_api}>.
-Here, C<{Region}> is the API Gateway region (e.g., C<us-east-1>);
-C<{service}> is the name of the integrated AWS service (e.g., C<s3>);
-and C<{subdomain}> is a designated subdomain supported by certain AWS
-service for fast host-name lookup. C<action> can be used for an AWS
-service action-based API, using an
-C<Action={name}&{p1}={v1}&p2={v2}...> query string. The ensuing
-C<{service_api}> refers to a supported action C<{name}> plus any
-required input parameters. Alternatively, C<path> can be used for an
-AWS service path-based API. The ensuing C<service_api> refers to the
-path to an AWS service resource, including the region of the integrated
-AWS service, if applicable. For example, for integration with the S3
-API of C<GetObject
-(https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectGET.html)>,
-the C<uri> can be either
+endpoint. For HTTP or C<HTTP_PROXY> integrations, the URI must be a
+fully formed, encoded HTTP(S) URL according to the RFC-3986
+specification, for either standard integration, where C<connectionType>
+is not C<VPC_LINK>, or private integration, where C<connectionType> is
+C<VPC_LINK>. For a private HTTP integration, the URI is not used for
+routing. For C<AWS> or C<AWS_PROXY> integrations, the URI is of the
+form
+C<arn:aws:apigateway:{region}:{subdomain.service|service}:path|action/{service_api>}.
+Here, {Region} is the API Gateway region (e.g., us-east-1); {service}
+is the name of the integrated Amazon Web Services service (e.g., s3);
+and {subdomain} is a designated subdomain supported by certain Amazon
+Web Services service for fast host-name lookup. action can be used for
+an Amazon Web Services service action-based API, using an
+Action={name}&{p1}={v1}&p2={v2}... query string. The ensuing
+{service_api} refers to a supported action {name} plus any required
+input parameters. Alternatively, path can be used for an Amazon Web
+Services service path-based API. The ensuing service_api refers to the
+path to an Amazon Web Services service resource, including the region
+of the integrated Amazon Web Services service, if applicable. For
+example, for integration with the S3 API of C<GetObject>, the C<uri>
+can be either
 C<arn:aws:apigateway:us-west-2:s3:action/GetObject&Bucket={bucket}&Key={key}>
-or C<arn:aws:apigateway:us-west-2:s3:path/{bucket}/{key}>
-
-=back
-
+or C<arn:aws:apigateway:us-west-2:s3:path/{bucket}/{key}>.
 
 
 

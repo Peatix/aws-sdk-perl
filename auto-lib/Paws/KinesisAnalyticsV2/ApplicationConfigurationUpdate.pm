@@ -3,6 +3,7 @@ package Paws::KinesisAnalyticsV2::ApplicationConfigurationUpdate;
   use Moose;
   has ApplicationCodeConfigurationUpdate => (is => 'ro', isa => 'Paws::KinesisAnalyticsV2::ApplicationCodeConfigurationUpdate');
   has ApplicationSnapshotConfigurationUpdate => (is => 'ro', isa => 'Paws::KinesisAnalyticsV2::ApplicationSnapshotConfigurationUpdate');
+  has ApplicationSystemRollbackConfigurationUpdate => (is => 'ro', isa => 'Paws::KinesisAnalyticsV2::ApplicationSystemRollbackConfigurationUpdate');
   has EnvironmentPropertyUpdates => (is => 'ro', isa => 'Paws::KinesisAnalyticsV2::EnvironmentPropertyUpdates');
   has FlinkApplicationConfigurationUpdate => (is => 'ro', isa => 'Paws::KinesisAnalyticsV2::FlinkApplicationConfigurationUpdate');
   has SqlApplicationConfigurationUpdate => (is => 'ro', isa => 'Paws::KinesisAnalyticsV2::SqlApplicationConfigurationUpdate');
@@ -51,19 +52,24 @@ Describes updates to an application's code configuration.
 
 =head2 ApplicationSnapshotConfigurationUpdate => L<Paws::KinesisAnalyticsV2::ApplicationSnapshotConfigurationUpdate>
 
-Describes whether snapshots are enabled for a Flink-based Kinesis Data
-Analytics application.
+Describes whether snapshots are enabled for a Managed Service for
+Apache Flink application.
+
+
+=head2 ApplicationSystemRollbackConfigurationUpdate => L<Paws::KinesisAnalyticsV2::ApplicationSystemRollbackConfigurationUpdate>
+
+
 
 
 =head2 EnvironmentPropertyUpdates => L<Paws::KinesisAnalyticsV2::EnvironmentPropertyUpdates>
 
-Describes updates to the environment properties for a Flink-based
-Kinesis Data Analytics application.
+Describes updates to the environment properties for a Managed Service
+for Apache Flink application.
 
 
 =head2 FlinkApplicationConfigurationUpdate => L<Paws::KinesisAnalyticsV2::FlinkApplicationConfigurationUpdate>
 
-Describes updates to a Flink-based Kinesis Data Analytics application's
+Describes updates to a Managed Service for Apache Flink application's
 configuration.
 
 
@@ -81,8 +87,8 @@ the application.
 
 =head2 ZeppelinApplicationConfigurationUpdate => L<Paws::KinesisAnalyticsV2::ZeppelinApplicationConfigurationUpdate>
 
-Updates to the configuration of a Kinesis Data Analytics Studio
-notebook.
+Updates to the configuration of a Managed Service for Apache Flink
+Studio notebook.
 
 
 

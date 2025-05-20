@@ -54,7 +54,7 @@ Network configuration properties.
 The Amazon Resource Name (ARN) of the network. For more information
 about ARNs and their format, see Amazon Resource Names (ARNs)
 (https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
-in the I<AWS General Reference>.
+in the I<Amazon Web Services General Reference>.
 
 
 =head2 CreationDate => Str
@@ -112,7 +112,8 @@ in the I<Amazon Managed Blockchain Hyperledger Fabric Developer Guide>.
 
 =head2 VotingPolicy => L<Paws::ManagedBlockchain::VotingPolicy>
 
-The voting rules for the network to decide if a proposal is accepted.
+The voting rules that the network uses to decide if a proposal is
+accepted.
 
 
 =head2 VpcEndpointServiceName => Str

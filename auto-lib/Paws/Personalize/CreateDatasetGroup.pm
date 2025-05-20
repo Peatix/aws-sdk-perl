@@ -1,9 +1,11 @@
 
 package Paws::Personalize::CreateDatasetGroup;
   use Moose;
+  has Domain => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'domain' );
   has KmsKeyArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'kmsKeyArn' );
   has Name => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'name' , required => 1);
   has RoleArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'roleArn' );
+  has Tags => (is => 'ro', isa => 'ArrayRef[Paws::Personalize::Tag]', traits => ['NameInRequest'], request_name => 'tags' );
 
   use MooseX::ClassAttribute;
 
@@ -31,12 +33,22 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $personalize = Paws->service('Personalize');
     my $CreateDatasetGroupResponse = $personalize->CreateDatasetGroup(
       Name      => 'MyName',
+      Domain    => 'ECOMMERCE',      # OPTIONAL
       KmsKeyArn => 'MyKmsKeyArn',    # OPTIONAL
       RoleArn   => 'MyRoleArn',      # OPTIONAL
+      Tags      => [
+        {
+          TagKey   => 'MyTagKey',      # min: 1, max: 128
+          TagValue => 'MyTagValue',    # max: 256
+
+        },
+        ...
+      ],    # OPTIONAL
     );
 
     # Results:
     my $DatasetGroupArn = $CreateDatasetGroupResponse->DatasetGroupArn;
+    my $Domain          = $CreateDatasetGroupResponse->Domain;
 
     # Returns a L<Paws::Personalize::CreateDatasetGroupResponse> object.
 
@@ -46,10 +58,20 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/per
 =head1 ATTRIBUTES
 
 
+=head2 Domain => Str
+
+The domain of the dataset group. Specify a domain to create a Domain
+dataset group. The domain you specify determines the default schemas
+for datasets and the use cases available for recommenders. If you don't
+specify a domain, you create a Custom dataset group with solution
+versions that you deploy with a campaign.
+
+Valid values are: C<"ECOMMERCE">, C<"VIDEO_ON_DEMAND">
+
 =head2 KmsKeyArn => Str
 
-The Amazon Resource Name (ARN) of a KMS key used to encrypt the
-datasets.
+The Amazon Resource Name (ARN) of a Key Management Service (KMS) key
+used to encrypt the datasets.
 
 
 
@@ -61,8 +83,17 @@ The name for the new dataset group.
 
 =head2 RoleArn => Str
 
-The ARN of the IAM role that has permissions to access the KMS key.
-Supplying an IAM role is only valid when also specifying a KMS key.
+The ARN of the Identity and Access Management (IAM) role that has
+permissions to access the Key Management Service (KMS) key. Supplying
+an IAM role is only valid when also specifying a KMS key.
+
+
+
+=head2 Tags => ArrayRef[L<Paws::Personalize::Tag>]
+
+A list of tags
+(https://docs.aws.amazon.com/personalize/latest/dg/tagging-resources.html)
+to apply to the dataset group.
 
 
 

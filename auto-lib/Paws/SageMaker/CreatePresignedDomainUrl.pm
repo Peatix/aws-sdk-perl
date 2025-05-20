@@ -3,7 +3,9 @@ package Paws::SageMaker::CreatePresignedDomainUrl;
   use Moose;
   has DomainId => (is => 'ro', isa => 'Str', required => 1);
   has ExpiresInSeconds => (is => 'ro', isa => 'Int');
+  has LandingUri => (is => 'ro', isa => 'Str');
   has SessionExpirationDurationInSeconds => (is => 'ro', isa => 'Int');
+  has SpaceName => (is => 'ro', isa => 'Str');
   has UserProfileName => (is => 'ro', isa => 'Str', required => 1);
 
   use MooseX::ClassAttribute;
@@ -35,7 +37,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       DomainId                           => 'MyDomainId',
       UserProfileName                    => 'MyUserProfileName',
       ExpiresInSeconds                   => 1,                     # OPTIONAL
+      LandingUri                         => 'MyLandingUri',        # OPTIONAL
       SessionExpirationDurationInSeconds => 1,                     # OPTIONAL
+      SpaceName                          => 'MySpaceName',         # OPTIONAL
       );
 
     # Results:
@@ -62,10 +66,60 @@ defaults to 300.
 
 
 
+=head2 LandingUri => Str
+
+The landing page that the user is directed to when accessing the
+presigned URL. Using this value, users can access Studio or Studio
+Classic, even if it is not the default experience for the domain. The
+supported values are:
+
+=over
+
+=item *
+
+C<studio::relative/path>: Directs users to the relative path in Studio.
+
+=item *
+
+C<app:JupyterServer:relative/path>: Directs users to the relative path
+in the Studio Classic application.
+
+=item *
+
+C<app:JupyterLab:relative/path>: Directs users to the relative path in
+the JupyterLab application.
+
+=item *
+
+C<app:RStudioServerPro:relative/path>: Directs users to the relative
+path in the RStudio application.
+
+=item *
+
+C<app:CodeEditor:relative/path>: Directs users to the relative path in
+the Code Editor, based on Code-OSS, Visual Studio Code - Open Source
+application.
+
+=item *
+
+C<app:Canvas:relative/path>: Directs users to the relative path in the
+Canvas application.
+
+=back
+
+
+
+
 =head2 SessionExpirationDurationInSeconds => Int
 
 The session expiration duration in seconds. This value defaults to
 43200.
+
+
+
+=head2 SpaceName => Str
+
+The name of the space.
 
 
 

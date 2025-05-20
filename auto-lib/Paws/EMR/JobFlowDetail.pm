@@ -64,7 +64,7 @@ AMI, use C<CustomAmiID>.
 An IAM role for automatic scaling policies. The default role is
 C<EMR_AutoScaling_DefaultRole>. The IAM role provides a way for the
 automatic scaling feature to get the required permissions it needs to
-launch and terminate EC2 instances in an instance group.
+launch and terminate Amazon EC2 instances in an instance group.
 
 
 =head2 BootstrapActions => ArrayRef[L<Paws::EMR::BootstrapActionDetail>]
@@ -89,15 +89,14 @@ The job flow identifier.
 
 =head2 JobFlowRole => Str
 
-The IAM role that was specified when the job flow was launched. The EC2
-instances of the job flow assume this role.
+The IAM role that was specified when the job flow was launched. The
+Amazon EC2 instances of the job flow assume this role.
 
 
 =head2 LogEncryptionKmsKeyId => Str
 
-The AWS KMS customer master key (CMK) used for encrypting log files.
-This attribute is only available with EMR version 5.30.0 and later,
-excluding EMR 6.0.0.
+The KMS key used for encrypting log files. This attribute is only
+available with Amazon EMR 5.30.0 and later, excluding 6.0.0.
 
 
 =head2 LogUri => Str
@@ -124,14 +123,14 @@ terminating the Amazon EC2 instances, regardless of the instance-hour
 boundary. With either behavior, Amazon EMR removes the least active
 nodes first and blocks instance termination if it could lead to HDFS
 corruption. C<TERMINATE_AT_TASK_COMPLETION> available only in Amazon
-EMR version 4.1.0 and later, and is the default for versions of Amazon
+EMR releases 4.1.0 and later, and is the default for releases of Amazon
 EMR earlier than 5.1.0.
 
 
 =head2 ServiceRole => Str
 
-The IAM role that is assumed by the Amazon EMR service to access AWS
-resources on your behalf.
+The IAM role that is assumed by the Amazon EMR service to access Amazon
+Web Services resources on your behalf.
 
 
 =head2 Steps => ArrayRef[L<Paws::EMR::StepDetail>]
@@ -148,15 +147,19 @@ flow, this value is empty.
 
 =head2 VisibleToAllUsers => Bool
 
-Indicates whether the cluster is visible to all IAM users of the AWS
-account associated with the cluster. The default value, C<true>,
-indicates that all IAM users in the AWS account can perform cluster
-actions if they have the proper IAM policy permissions. If this value
-is C<false>, only the IAM user that created the cluster can perform
-actions. This value can be changed on a running cluster by using the
-SetVisibleToAllUsers action. You can override the default value of
-C<true> when you create a cluster by using the C<VisibleToAllUsers>
-parameter of the C<RunJobFlow> action.
+Indicates whether the cluster is visible to IAM principals in the
+Amazon Web Services account associated with the cluster. When C<true>,
+IAM principals in the Amazon Web Services account can perform Amazon
+EMR cluster actions that their IAM policies allow. When C<false>, only
+the IAM principal that created the cluster and the Amazon Web Services
+account root user can perform Amazon EMR actions, regardless of IAM
+permissions policies attached to other IAM principals.
+
+The default value is C<true> if a value is not provided when creating a
+cluster using the Amazon EMR API RunJobFlow command, the CLI
+create-cluster
+(https://docs.aws.amazon.com/cli/latest/reference/emr/create-cluster.html)
+command, or the Amazon Web Services Management Console.
 
 
 

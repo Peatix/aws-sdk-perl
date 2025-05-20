@@ -5,6 +5,7 @@ package Paws::SSM::GetPatchBaselineResult;
   has ApprovedPatches => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has ApprovedPatchesComplianceLevel => (is => 'ro', isa => 'Str');
   has ApprovedPatchesEnableNonSecurity => (is => 'ro', isa => 'Bool');
+  has AvailableSecurityUpdatesComplianceStatus => (is => 'ro', isa => 'Str');
   has BaselineId => (is => 'ro', isa => 'Str');
   has CreatedDate => (is => 'ro', isa => 'Str');
   has Description => (is => 'ro', isa => 'Str');
@@ -47,10 +48,20 @@ Valid values are: C<"CRITICAL">, C<"HIGH">, C<"MEDIUM">, C<"LOW">, C<"INFORMATIO
 =head2 ApprovedPatchesEnableNonSecurity => Bool
 
 Indicates whether the list of approved patches includes non-security
-updates that should be applied to the instances. The default value is
-'false'. Applies to Linux instances only.
+updates that should be applied to the managed nodes. The default value
+is C<false>. Applies to Linux managed nodes only.
 
 
+=head2 AvailableSecurityUpdatesComplianceStatus => Str
+
+Indicates the compliance status of managed nodes for which
+security-related patches are available but were not approved. This
+preference is specified when the C<CreatePatchBaseline> or
+C<UpdatePatchBaseline> commands are run.
+
+Applies to Windows Server managed nodes only.
+
+Valid values are: C<"COMPLIANT">, C<"NON_COMPLIANT">
 =head2 BaselineId => Str
 
 The ID of the retrieved patch baseline.
@@ -85,7 +96,7 @@ The name of the patch baseline.
 
 Returns the operating system specified for the patch baseline.
 
-Valid values are: C<"WINDOWS">, C<"AMAZON_LINUX">, C<"AMAZON_LINUX_2">, C<"UBUNTU">, C<"REDHAT_ENTERPRISE_LINUX">, C<"SUSE">, C<"CENTOS">, C<"ORACLE_LINUX">, C<"DEBIAN">, C<"MACOS">
+Valid values are: C<"WINDOWS">, C<"AMAZON_LINUX">, C<"AMAZON_LINUX_2">, C<"AMAZON_LINUX_2022">, C<"UBUNTU">, C<"REDHAT_ENTERPRISE_LINUX">, C<"SUSE">, C<"CENTOS">, C<"ORACLE_LINUX">, C<"DEBIAN">, C<"MACOS">, C<"RASPBIAN">, C<"ROCKY_LINUX">, C<"ALMA_LINUX">, C<"AMAZON_LINUX_2023">
 =head2 PatchGroups => ArrayRef[Str|Undef]
 
 Patch groups included in the patch baseline.
@@ -98,17 +109,17 @@ A list of explicitly rejected patches for the baseline.
 
 =head2 RejectedPatchesAction => Str
 
-The action specified to take on patches included in the RejectedPatches
-list. A patch can be allowed only if it is a dependency of another
-package, or blocked entirely along with packages that include it as a
-dependency.
+The action specified to take on patches included in the
+C<RejectedPatches> list. A patch can be allowed only if it is a
+dependency of another package, or blocked entirely along with packages
+that include it as a dependency.
 
 Valid values are: C<"ALLOW_AS_DEPENDENCY">, C<"BLOCK">
 =head2 Sources => ArrayRef[L<Paws::SSM::PatchSource>]
 
-Information about the patches to use to update the instances, including
-target operating systems and source repositories. Applies to Linux
-instances only.
+Information about the patches to use to update the managed nodes,
+including target operating systems and source repositories. Applies to
+Linux managed nodes only.
 
 
 =head2 _request_id => Str

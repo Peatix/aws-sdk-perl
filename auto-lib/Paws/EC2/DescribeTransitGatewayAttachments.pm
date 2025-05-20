@@ -93,8 +93,8 @@ C<resource-id> - The ID of the resource.
 
 =item *
 
-C<resource-owner-id> - The ID of the AWS account that owns the
-resource.
+C<resource-owner-id> - The ID of the Amazon Web Services account that
+owns the resource.
 
 =item *
 
@@ -118,8 +118,8 @@ C<transit-gateway-id> - The ID of the transit gateway.
 
 =item *
 
-C<transit-gateway-owner-id> - The ID of the AWS account that owns the
-transit gateway.
+C<transit-gateway-owner-id> - The ID of the Amazon Web Services account
+that owns the transit gateway.
 
 =back
 

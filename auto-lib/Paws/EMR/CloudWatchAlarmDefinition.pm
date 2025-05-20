@@ -80,9 +80,9 @@ C<AWS/ElasticMapReduce>.
 
 =head2 B<REQUIRED> Period => Int
 
-The period, in seconds, over which the statistic is applied. EMR
-CloudWatch metrics are emitted every five minutes (300 seconds), so if
-an EMR CloudWatch metric is specified, specify C<300>.
+The period, in seconds, over which the statistic is applied. CloudWatch
+metrics for Amazon EMR are emitted every five minutes (300 seconds), so
+if you specify a CloudWatch metric, specify C<300>.
 
 
 =head2 Statistic => Str

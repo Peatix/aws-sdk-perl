@@ -18,7 +18,7 @@ Paws::ResourceGroups::TagOutput
 
 =head2 Arn => Str
 
-The ARN of the tagged resource.
+The Amazon resource name (ARN) of the tagged resource.
 
 
 =head2 Tags => L<Paws::ResourceGroups::Tags>

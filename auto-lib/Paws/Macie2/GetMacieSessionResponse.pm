@@ -27,30 +27,31 @@ Macie account was created.
 
 =head2 FindingPublishingFrequency => Str
 
-The frequency with which Macie publishes updates to policy findings for
-the account. This includes publishing updates to Security Hub and
-Amazon EventBridge (formerly called Amazon CloudWatch Events).
+The frequency with which Amazon Macie publishes updates to policy
+findings for the account. This includes publishing updates to Security
+Hub and Amazon EventBridge (formerly Amazon CloudWatch Events).
 
 Valid values are: C<"FIFTEEN_MINUTES">, C<"ONE_HOUR">, C<"SIX_HOURS">
 =head2 ServiceRole => Str
 
 The Amazon Resource Name (ARN) of the service-linked role that allows
-Macie to monitor and analyze data in Amazon Web Services resources for
-the account.
+Amazon Macie to monitor and analyze data in Amazon Web Services
+resources for the account.
 
 
 =head2 Status => Str
 
-The current status of the Macie account. Possible values are: PAUSED,
-the account is enabled but all Macie activities are suspended (paused)
-for the account; and, ENABLED, the account is enabled and all Macie
-activities are enabled for the account.
+The current status of the Amazon Macie account. Possible values are:
+PAUSED, the account is enabled but all Macie activities are suspended
+(paused) for the account; and, ENABLED, the account is enabled and all
+Macie activities are enabled for the account.
 
 Valid values are: C<"PAUSED">, C<"ENABLED">
 =head2 UpdatedAt => Str
 
 The date and time, in UTC and extended ISO 8601 format, of the most
-recent change to the status of the Macie account.
+recent change to the status or configuration settings for the Amazon
+Macie account.
 
 
 =head2 _request_id => Str

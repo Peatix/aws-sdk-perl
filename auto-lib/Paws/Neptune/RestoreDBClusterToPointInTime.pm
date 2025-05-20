@@ -12,7 +12,9 @@ package Paws::Neptune::RestoreDBClusterToPointInTime;
   has Port => (is => 'ro', isa => 'Int');
   has RestoreToTime => (is => 'ro', isa => 'Str');
   has RestoreType => (is => 'ro', isa => 'Str');
+  has ServerlessV2ScalingConfiguration => (is => 'ro', isa => 'Paws::Neptune::ServerlessV2ScalingConfiguration');
   has SourceDBClusterIdentifier => (is => 'ro', isa => 'Str', required => 1);
+  has StorageType => (is => 'ro', isa => 'Str');
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::Neptune::Tag]');
   has UseLatestRestorableTime => (is => 'ro', isa => 'Bool');
   has VpcSecurityGroupIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
@@ -43,27 +45,32 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $rds = Paws->service('Neptune');
     my $RestoreDBClusterToPointInTimeResult =
       $rds->RestoreDBClusterToPointInTime(
-      DBClusterIdentifier             => 'MyString',
-      SourceDBClusterIdentifier       => 'MyString',
-      DBClusterParameterGroupName     => 'MyString',               # OPTIONAL
-      DBSubnetGroupName               => 'MyString',               # OPTIONAL
-      DeletionProtection              => 1,                        # OPTIONAL
-      EnableCloudwatchLogsExports     => [ 'MyString', ... ],      # OPTIONAL
-      EnableIAMDatabaseAuthentication => 1,                        # OPTIONAL
-      KmsKeyId                        => 'MyString',               # OPTIONAL
-      OptionGroupName                 => 'MyString',               # OPTIONAL
-      Port                            => 1,                        # OPTIONAL
-      RestoreToTime                   => '1970-01-01T01:00:00',    # OPTIONAL
-      RestoreType                     => 'MyString',               # OPTIONAL
-      Tags                            => [
+      DBClusterIdentifier              => 'MyString',
+      SourceDBClusterIdentifier        => 'MyString',
+      DBClusterParameterGroupName      => 'MyString',               # OPTIONAL
+      DBSubnetGroupName                => 'MyString',               # OPTIONAL
+      DeletionProtection               => 1,                        # OPTIONAL
+      EnableCloudwatchLogsExports      => [ 'MyString', ... ],      # OPTIONAL
+      EnableIAMDatabaseAuthentication  => 1,                        # OPTIONAL
+      KmsKeyId                         => 'MyString',               # OPTIONAL
+      OptionGroupName                  => 'MyString',               # OPTIONAL
+      Port                             => 1,                        # OPTIONAL
+      RestoreToTime                    => '1970-01-01T01:00:00',    # OPTIONAL
+      RestoreType                      => 'MyString',               # OPTIONAL
+      ServerlessV2ScalingConfiguration => {
+        MaxCapacity => 1,                                           # OPTIONAL
+        MinCapacity => 1,                                           # OPTIONAL
+      },    # OPTIONAL
+      StorageType => 'MyString',    # OPTIONAL
+      Tags        => [
         {
           Key   => 'MyString',
           Value => 'MyString',
         },
         ...
-      ],                                                           # OPTIONAL
-      UseLatestRestorableTime => 1,                                # OPTIONAL
-      VpcSecurityGroupIds     => [ 'MyString', ... ],              # OPTIONAL
+      ],                            # OPTIONAL
+      UseLatestRestorableTime => 1,                      # OPTIONAL
+      VpcSecurityGroupIds     => [ 'MyString', ... ],    # OPTIONAL
       );
 
     # Results:
@@ -269,6 +276,16 @@ restored as a full copy of the source DB cluster.
 
 
 
+=head2 ServerlessV2ScalingConfiguration => L<Paws::Neptune::ServerlessV2ScalingConfiguration>
+
+Contains the scaling configuration of a Neptune Serverless DB cluster.
+
+For more information, see Using Amazon Neptune Serverless
+(https://docs.aws.amazon.com/neptune/latest/userguide/neptune-serverless-using.html)
+in the I<Amazon Neptune User Guide>.
+
+
+
 =head2 B<REQUIRED> SourceDBClusterIdentifier => Str
 
 The identifier of the source DB cluster from which to restore.
@@ -283,6 +300,16 @@ Must match the identifier of an existing DBCluster.
 
 =back
 
+
+
+
+=head2 StorageType => Str
+
+Specifies the storage type to be associated with the DB cluster.
+
+Valid values: C<standard>, C<iopt1>
+
+Default: C<standard>
 
 
 

@@ -83,12 +83,22 @@ C<local-gateway-id> - The ID of a local gateway.
 
 =item *
 
+C<local-gateway-route-table-arn> - The Amazon Resource Name (ARN) of
+the local gateway route table.
+
+=item *
+
 C<local-gateway-route-table-id> - The ID of a local gateway route
 table.
 
 =item *
 
 C<outpost-arn> - The Amazon Resource Name (ARN) of the Outpost.
+
+=item *
+
+C<owner-id> - The ID of the Amazon Web Services account that owns the
+local gateway route table.
 
 =item *
 

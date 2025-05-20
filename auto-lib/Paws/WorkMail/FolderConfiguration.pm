@@ -54,7 +54,7 @@ The folder name.
 
 =head2 Period => Int
 
-The period of time at which the folder configuration action is applied.
+The number of days for which the folder-configuration action applies.
 
 
 

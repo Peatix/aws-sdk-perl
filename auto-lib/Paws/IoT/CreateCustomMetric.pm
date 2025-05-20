@@ -40,7 +40,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       Tags               => [
         {
           Key   => 'MyTagKey',      # min: 1, max: 128
-          Value => 'MyTagValue',    # min: 1, max: 256; OPTIONAL
+          Value => 'MyTagValue',    # max: 256; OPTIONAL
         },
         ...
       ],    # OPTIONAL
@@ -62,31 +62,35 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/iot
 
 Each custom metric must have a unique client request token. If you try
 to create a new custom metric that already exists with a different
-token, an exception occurs. If you omit this value, AWS SDKs will
-automatically generate a unique client request.
+token, an exception occurs. If you omit this value, Amazon Web Services
+SDKs will automatically generate a unique client request.
 
 
 
 =head2 DisplayName => Str
 
-Field represents a friendly name in the console for the custom metric;
-it doesn't have to be unique. Don't use this name as the metric
-identifier in the device metric report. Can be updated once defined.
+The friendly name in the console for the custom metric. This name
+doesn't have to be unique. Don't use this name as the metric identifier
+in the device metric report. You can update the friendly name after you
+define it.
 
 
 
 =head2 B<REQUIRED> MetricName => Str
 
 The name of the custom metric. This will be used in the metric report
-submitted from the device/thing. Shouldn't begin with C<aws:>. Cannot
-be updated once defined.
+submitted from the device/thing. The name can't begin with C<aws:>. You
+can't change the name after you define it.
 
 
 
 =head2 B<REQUIRED> MetricType => Str
 
-The type of the custom metric. Types include C<string-list>,
-C<ip-address-list>, C<number-list>, and C<number>.
+The type of the custom metric.
+
+The type C<number> only takes a single metric value as an input, but
+when you submit the metrics value in the DeviceMetrics report, you must
+pass it as an array with a single value.
 
 Valid values are: C<"string-list">, C<"ip-address-list">, C<"number-list">, C<"number">
 

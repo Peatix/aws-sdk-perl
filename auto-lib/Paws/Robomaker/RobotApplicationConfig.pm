@@ -75,6 +75,8 @@ A Boolean indicating whether to use default robot application tools.
 The default tools are rviz, rqt, terminal and rosbag record. The
 default is C<False>.
 
+This API is no longer supported and will throw an error if used.
+
 
 =head2 UseDefaultUploadConfigurations => Bool
 
@@ -83,6 +85,8 @@ default, C<.ros> and C<.gazebo> files are uploaded when the application
 terminates and all ROS topics will be recorded.
 
 If you set this value, you must specify an C<outputLocation>.
+
+This API is no longer supported and will throw an error if used.
 
 
 

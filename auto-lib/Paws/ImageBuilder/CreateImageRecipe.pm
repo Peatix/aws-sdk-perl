@@ -44,10 +44,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           ComponentArn => 'MyComponentVersionArnOrBuildVersionArn',
           Parameters   => [
             {
-              Name  => 'MyComponentParameterName',    # min: 1, max: 256
-              Value => [
-                'MyComponentParameterValue', ...      # min: 1
-              ],
+              Name  => 'MyComponentParameterName',            # min: 1, max: 256
+              Value => [ 'MyComponentParameterValue', ... ],
 
             },
             ...
@@ -70,9 +68,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           Ebs        => {
             DeleteOnTermination => 1,    # OPTIONAL
             Encrypted           => 1,    # OPTIONAL
-            Iops                => 1,    # min: 100, max: 10000; OPTIONAL
+            Iops                => 1,    # min: 100, max: 64000; OPTIONAL
             KmsKeyId   => 'MyNonEmptyString',    # min: 1, max: 1024
             SnapshotId => 'MyNonEmptyString',    # min: 1, max: 1024
+            Throughput => 1,                     # min: 125, max: 1000; OPTIONAL
             VolumeSize => 1,                     # min: 1, max: 16000; OPTIONAL
             VolumeType => 'standard'
             ,    # values: standard, io1, io2, gp2, gp3, sc1, st1; OPTIONAL
@@ -117,13 +116,16 @@ The block device mappings of the image recipe.
 
 =head2 B<REQUIRED> ClientToken => Str
 
-The idempotency token used to make this request idempotent.
+Unique, case-sensitive identifier you provide to ensure idempotency of
+the request. For more information, see Ensuring idempotency
+(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html)
+in the I<Amazon EC2 API Reference>.
 
 
 
 =head2 B<REQUIRED> Components => ArrayRef[L<Paws::ImageBuilder::ComponentConfiguration>]
 
-The components of the image recipe.
+The components included in the image recipe.
 
 
 
@@ -141,20 +143,54 @@ The name of the image recipe.
 
 =head2 B<REQUIRED> ParentImage => Str
 
-The parent image of the image recipe. The value of the string can be
-the ARN of the parent image or an AMI ID. The format for the ARN
-follows this example:
-C<arn:aws:imagebuilder:us-west-2:aws:image/windows-server-2016-english-full-base-x86/x.x.x>.
-You can provide the specific version that you want to use, or you can
-use a wildcard in all of the fields. If you enter an AMI ID for the
-string value, you must have access to the AMI, and the AMI must be in
-the same Region in which you are using Image Builder.
+The base image for customizations specified in the image recipe. You
+can specify the parent image using one of the following options:
+
+=over
+
+=item *
+
+AMI ID
+
+=item *
+
+Image Builder image Amazon Resource Name (ARN)
+
+=item *
+
+Amazon Web Services Systems Manager (SSM) Parameter Store Parameter,
+prefixed by C<ssm:>, followed by the parameter name or ARN.
+
+=item *
+
+Amazon Web Services Marketplace product ID
+
+=back
+
+If you enter an AMI ID or an SSM parameter that contains the AMI ID,
+you must have access to the AMI, and the AMI must be in the source
+Region.
 
 
 
 =head2 B<REQUIRED> SemanticVersion => Str
 
-The semantic version of the image recipe.
+The semantic version of the image recipe. This version follows the
+semantic version syntax.
+
+The semantic version has four nodes:
+E<lt>majorE<gt>.E<lt>minorE<gt>.E<lt>patchE<gt>/E<lt>buildE<gt>. You
+can assign values for the first three, and can filter on all of them.
+
+B<Assignment:> For the first three nodes you can assign any positive
+integer value, including zero, with an upper limit of 2^30-1, or
+1073741823 for each node. Image Builder automatically assigns the build
+number to the fourth node.
+
+B<Patterns:> You can use any numeric pattern that adheres to the
+assignment requirements for the nodes that you can assign. For example,
+you might choose a software version pattern, such as 1.0.0, or a date,
+such as 2021.01.01.
 
 
 

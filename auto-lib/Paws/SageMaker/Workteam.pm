@@ -8,6 +8,7 @@ package Paws::SageMaker::Workteam;
   has NotificationConfiguration => (is => 'ro', isa => 'Paws::SageMaker::NotificationConfiguration');
   has ProductListingIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has SubDomain => (is => 'ro', isa => 'Str');
+  has WorkerAccessConfiguration => (is => 'ro', isa => 'Paws::SageMaker::WorkerAccessConfiguration');
   has WorkforceArn => (is => 'ro', isa => 'Str');
   has WorkteamArn => (is => 'ro', isa => 'Str', required => 1);
   has WorkteamName => (is => 'ro', isa => 'Str', required => 1);
@@ -88,6 +89,12 @@ The Amazon Marketplace identifier for a vendor's work team.
 
 The URI of the labeling job's user interface. Workers open this URI to
 start labeling your data objects.
+
+
+=head2 WorkerAccessConfiguration => L<Paws::SageMaker::WorkerAccessConfiguration>
+
+Describes any access constraints that have been defined for Amazon S3
+resources.
 
 
 =head2 WorkforceArn => Str

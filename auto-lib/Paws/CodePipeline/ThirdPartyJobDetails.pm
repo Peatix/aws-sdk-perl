@@ -48,14 +48,14 @@ The data to be returned by the third party job worker.
 
 =head2 Id => Str
 
-The identifier used to identify the job details in AWS CodePipeline.
+The identifier used to identify the job details in CodePipeline.
 
 
 =head2 Nonce => Str
 
-A system-generated random number that AWS CodePipeline uses to ensure
-that the job is being worked on by only one job worker. Use this number
-in an AcknowledgeThirdPartyJob request.
+A system-generated random number that CodePipeline uses to ensure that
+the job is being worked on by only one job worker. Use this number in
+an AcknowledgeThirdPartyJob request.
 
 
 

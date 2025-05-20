@@ -72,8 +72,13 @@ The idempotency token for the create request.
 
 =head2 B<REQUIRED> DetectorId => Str
 
-The unique ID of the detector of the GuardDuty account that you want to
-create a threatIntelSet for.
+The unique ID of the detector of the GuardDuty account for which you
+want to create a C<ThreatIntelSet>.
+
+To find the C<detectorId> in the current Region, see the Settings page
+in the GuardDuty console, or run the ListDetectors
+(https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+API.
 
 
 
@@ -85,8 +90,7 @@ Valid values are: C<"TXT">, C<"STIX">, C<"OTX_CSV">, C<"ALIEN_VAULT">, C<"PROOF_
 
 =head2 B<REQUIRED> Location => Str
 
-The URI of the file that contains the ThreatIntelSet. For example:
-https://s3.us-west-2.amazonaws.com/my-bucket/my-object-key.
+The URI of the file that contains the ThreatIntelSet.
 
 
 

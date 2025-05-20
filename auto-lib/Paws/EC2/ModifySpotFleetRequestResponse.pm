@@ -17,7 +17,9 @@ Paws::EC2::ModifySpotFleetRequestResponse
 
 =head2 Return => Bool
 
-Is C<true> if the request succeeds, and an error otherwise.
+If the request succeeds, the response returns C<true>. If the request
+fails, no response is returned, and instead an error message is
+returned.
 
 
 =head2 _request_id => Str

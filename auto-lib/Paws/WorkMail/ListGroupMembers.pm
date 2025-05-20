@@ -31,10 +31,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $workmail = Paws->service('WorkMail');
     my $ListGroupMembersResponse = $workmail->ListGroupMembers(
-      GroupId        => 'MyWorkMailIdentifier',
+      GroupId        => 'MyEntityIdentifier',
       OrganizationId => 'MyOrganizationId',
-      MaxResults     => 1,                        # OPTIONAL
-      NextToken      => 'MyNextToken',            # OPTIONAL
+      MaxResults     => 1,                      # OPTIONAL
+      NextToken      => 'MyNextToken',          # OPTIONAL
     );
 
     # Results:
@@ -53,6 +53,27 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/wor
 
 The identifier for the group to which the members (users or groups) are
 associated.
+
+The identifier can accept I<GroupId>, I<Groupname>, or I<email>. The
+following identity formats are available:
+
+=over
+
+=item *
+
+Group ID: 12345678-1234-1234-1234-123456789012 or
+S-1-1-12-1234567890-123456789-123456789-1234
+
+=item *
+
+Email address: group@domain.tld
+
+=item *
+
+Group name: group
+
+=back
+
 
 
 

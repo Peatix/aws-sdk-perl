@@ -3,8 +3,10 @@ package Paws::DynamoDB::CreateReplicationGroupMemberAction;
   use Moose;
   has GlobalSecondaryIndexes => (is => 'ro', isa => 'ArrayRef[Paws::DynamoDB::ReplicaGlobalSecondaryIndex]');
   has KMSMasterKeyId => (is => 'ro', isa => 'Str');
+  has OnDemandThroughputOverride => (is => 'ro', isa => 'Paws::DynamoDB::OnDemandThroughputOverride');
   has ProvisionedThroughputOverride => (is => 'ro', isa => 'Paws::DynamoDB::ProvisionedThroughputOverride');
   has RegionName => (is => 'ro', isa => 'Str', required => 1);
+  has TableClassOverride => (is => 'ro', isa => 'Str');
 
 1;
 
@@ -25,7 +27,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::DynamoDB::CreateReplicationGroupMemberAction object:
 
-  $service_obj->Method(Att1 => { GlobalSecondaryIndexes => $value, ..., RegionName => $value  });
+  $service_obj->Method(Att1 => { GlobalSecondaryIndexes => $value, ..., TableClassOverride => $value  });
 
 =head3 Results returned from an API call
 
@@ -48,11 +50,19 @@ Replica-specific global secondary index settings.
 
 =head2 KMSMasterKeyId => Str
 
-The AWS KMS customer master key (CMK) that should be used for AWS KMS
-encryption in the new replica. To specify a CMK, use its key ID, Amazon
-Resource Name (ARN), alias name, or alias ARN. Note that you should
-only provide this parameter if the key is different from the default
-DynamoDB KMS master key alias/aws/dynamodb.
+The KMS key that should be used for KMS encryption in the new replica.
+To specify a key, use its key ID, Amazon Resource Name (ARN), alias
+name, or alias ARN. Note that you should only provide this parameter if
+the key is different from the default DynamoDB KMS key
+C<alias/aws/dynamodb>.
+
+
+=head2 OnDemandThroughputOverride => L<Paws::DynamoDB::OnDemandThroughputOverride>
+
+The maximum on-demand throughput settings for the specified replica
+table being created. You can only modify C<MaxReadRequestUnits>,
+because you can't modify C<MaxWriteRequestUnits> for individual replica
+tables.
 
 
 =head2 ProvisionedThroughputOverride => L<Paws::DynamoDB::ProvisionedThroughputOverride>
@@ -64,6 +74,12 @@ source table's provisioned throughput settings.
 =head2 B<REQUIRED> RegionName => Str
 
 The Region where the new replica will be created.
+
+
+=head2 TableClassOverride => Str
+
+Replica-specific table class. If not specified, uses the source table's
+table class.
 
 
 

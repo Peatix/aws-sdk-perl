@@ -49,10 +49,10 @@ environment for a blue/green deployment.
 
 =head2 Ec2TagSet => L<Paws::CodeDeploy::EC2TagSet>
 
-Information about the groups of EC2 instance tags that an instance must
-be identified by in order for it to be included in the replacement
-environment for a blue/green deployment. Cannot be used in the same
-call as C<tagFilters>.
+Information about the groups of Amazon EC2 instance tags that an
+instance must be identified by in order for it to be included in the
+replacement environment for a blue/green deployment. Cannot be used in
+the same call as C<tagFilters>.
 
 
 =head2 TagFilters => ArrayRef[L<Paws::CodeDeploy::EC2TagFilter>]

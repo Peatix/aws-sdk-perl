@@ -1,7 +1,7 @@
 
 package Paws::Route53Domains::CheckDomainAvailabilityResponse;
   use Moose;
-  has Availability => (is => 'ro', isa => 'Str', required => 1);
+  has Availability => (is => 'ro', isa => 'Str');
 
   has _request_id => (is => 'ro', isa => 'Str');
 
@@ -14,7 +14,7 @@ Paws::Route53Domains::CheckDomainAvailabilityResponse
 =head1 ATTRIBUTES
 
 
-=head2 B<REQUIRED> Availability => Str
+=head2 Availability => Str
 
 Whether the domain name is available for registering.
 
@@ -43,6 +43,11 @@ the domain name is available. Route 53 can return this response for a
 variety of reasons, for example, the registry is performing
 maintenance. Try again later.
 
+=item INVALID_NAME_FOR_TLD
+
+The TLD isn't valid. For example, it can contain characters that aren't
+allowed.
+
 =item PENDING
 
 The TLD registry didn't return a response in the expected amount of
@@ -68,7 +73,7 @@ The domain name is forbidden.
 =back
 
 
-Valid values are: C<"AVAILABLE">, C<"AVAILABLE_RESERVED">, C<"AVAILABLE_PREORDER">, C<"UNAVAILABLE">, C<"UNAVAILABLE_PREMIUM">, C<"UNAVAILABLE_RESTRICTED">, C<"RESERVED">, C<"DONT_KNOW">
+Valid values are: C<"AVAILABLE">, C<"AVAILABLE_RESERVED">, C<"AVAILABLE_PREORDER">, C<"UNAVAILABLE">, C<"UNAVAILABLE_PREMIUM">, C<"UNAVAILABLE_RESTRICTED">, C<"RESERVED">, C<"DONT_KNOW">, C<"INVALID_NAME_FOR_TLD">, C<"PENDING">
 =head2 _request_id => Str
 
 

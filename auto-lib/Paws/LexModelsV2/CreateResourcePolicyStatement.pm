@@ -112,9 +112,9 @@ the policy with the new values.
 
 =head2 B<REQUIRED> Principal => ArrayRef[L<Paws::LexModelsV2::Principal>]
 
-An IAM principal, such as an IAM users, IAM roles, or AWS services that
-is allowed or denied access to a resource. For more information, see
-AWS JSON policy elements: Principal
+An IAM principal, such as an IAM user, IAM role, or Amazon Web Services
+services that is allowed or denied access to a resource. For more
+information, see Amazon Web Services JSON policy elements: Principal
 (https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html).
 
 

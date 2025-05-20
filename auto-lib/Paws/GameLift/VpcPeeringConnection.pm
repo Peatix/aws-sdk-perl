@@ -39,17 +39,14 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::GameLift::V
 
 =head1 DESCRIPTION
 
-Represents a peering connection between a VPC on one of your AWS
-accounts and the VPC for your Amazon GameLift fleets. This record may
-be for an active peering connection or a pending connection that has
-not yet been established.
+Represents a peering connection between a VPC on one of your Amazon Web
+Services accounts and the VPC for your Amazon GameLift fleets. This
+record may be for an active peering connection or a pending connection
+that has not yet been established.
 
 B<Related actions>
 
-CreateVpcPeeringAuthorization | DescribeVpcPeeringAuthorizations |
-DeleteVpcPeeringAuthorization | CreateVpcPeeringConnection |
-DescribeVpcPeeringConnections | DeleteVpcPeeringConnection | All APIs
-by task
+All APIs by task
 (https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-awssdk.html#reference-awssdk-resources-fleets)
 
 =head1 ATTRIBUTES
@@ -72,7 +69,7 @@ Amazon GameLift VPC for your fleet.
 
 A unique identifier for the VPC that contains the Amazon GameLift fleet
 for this connection. This VPC is managed by Amazon GameLift and does
-not appear in your AWS account.
+not appear in your Amazon Web Services account.
 
 
 =head2 IpV4CidrBlock => Str
@@ -86,10 +83,11 @@ be created.
 =head2 PeerVpcId => Str
 
 A unique identifier for a VPC with resources to be accessed by your
-GameLift fleet. The VPC must be in the same Region as your fleet. To
-look up a VPC ID, use the VPC Dashboard
-(https://console.aws.amazon.com/vpc/) in the AWS Management Console.
-Learn more about VPC peering in VPC Peering with GameLift Fleets
+Amazon GameLift fleet. The VPC must be in the same Region as your
+fleet. To look up a VPC ID, use the VPC Dashboard
+(https://console.aws.amazon.com/vpc/) in the Amazon Web Services
+Management Console. Learn more about VPC peering in VPC Peering with
+Amazon GameLift Fleets
 (https://docs.aws.amazon.com/gamelift/latest/developerguide/vpc-peering.html).
 
 
@@ -103,7 +101,7 @@ connection is pending, successful, or failed.
 
 A unique identifier that is automatically assigned to the connection
 record. This ID is referenced in VPC peering connection events, and is
-used when deleting a connection with DeleteVpcPeeringConnection.
+used when deleting a connection.
 
 
 

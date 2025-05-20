@@ -42,13 +42,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ken
 
 =head2 B<REQUIRED> Id => Str
 
-The identifier of the FAQ to remove.
+The identifier of the FAQ you want to remove.
 
 
 
 =head2 B<REQUIRED> IndexId => Str
 
-The index to remove the FAQ from.
+The identifier of the index for the FAQ.
 
 
 

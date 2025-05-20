@@ -3,6 +3,9 @@ package Paws::Outposts::ListSites;
   use Moose;
   has MaxResults => (is => 'ro', isa => 'Int', traits => ['ParamInQuery'], query_name => 'MaxResults');
   has NextToken => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'NextToken');
+  has OperatingAddressCityFilter => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['ParamInQuery'], query_name => 'OperatingAddressCityFilter');
+  has OperatingAddressCountryCodeFilter => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['ParamInQuery'], query_name => 'OperatingAddressCountryCodeFilter');
+  has OperatingAddressStateOrRegionFilter => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['ParamInQuery'], query_name => 'OperatingAddressStateOrRegionFilter');
 
   use MooseX::ClassAttribute;
 
@@ -30,8 +33,17 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $outposts = Paws->service('Outposts');
     my $ListSitesOutput = $outposts->ListSites(
-      MaxResults => 1,            # OPTIONAL
-      NextToken  => 'MyToken',    # OPTIONAL
+      MaxResults                 => 1,            # OPTIONAL
+      NextToken                  => 'MyToken',    # OPTIONAL
+      OperatingAddressCityFilter => [
+        'MyCity', ...                             # min: 1, max: 50
+      ],    # OPTIONAL
+      OperatingAddressCountryCodeFilter => [
+        'MyCountryCode', ...    # min: 2, max: 2
+      ],    # OPTIONAL
+      OperatingAddressStateOrRegionFilter => [
+        'MyStateOrRegion', ...    # min: 1, max: 50
+      ],    # OPTIONAL
     );
 
     # Results:
@@ -55,6 +67,24 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/out
 =head2 NextToken => Str
 
 
+
+
+
+=head2 OperatingAddressCityFilter => ArrayRef[Str|Undef]
+
+Filters the results by city.
+
+
+
+=head2 OperatingAddressCountryCodeFilter => ArrayRef[Str|Undef]
+
+Filters the results by country code.
+
+
+
+=head2 OperatingAddressStateOrRegionFilter => ArrayRef[Str|Undef]
+
+Filters the results by state or region.
 
 
 

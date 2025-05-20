@@ -31,7 +31,7 @@ can test the bot using the utterances defined for the intents and slot
 types. When the status is C<Built>, the bot is ready for use and can be
 tested using any utterance.
 
-Valid values are: C<"Creating">, C<"Building">, C<"Built">, C<"ReadyExpressTesting">, C<"Failed">, C<"Deleting">, C<"NotBuilt">, C<"Importing">
+Valid values are: C<"Creating">, C<"Building">, C<"Built">, C<"ReadyExpressTesting">, C<"Failed">, C<"Deleting">, C<"NotBuilt">, C<"Importing">, C<"Processing">
 =head2 BotVersion => Str
 
 The version of the bot that was built. This is only the draft version

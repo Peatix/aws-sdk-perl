@@ -88,14 +88,14 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ops
 
 =head2 AgentVersion => Str
 
-The default AWS OpsWorks Stacks agent version. You have the following
+The default OpsWorks Stacks agent version. You have the following
 options:
 
 =over
 
 =item *
 
-Auto-update - Set this parameter to C<LATEST>. AWS OpsWorks Stacks
+Auto-update - Set this parameter to C<LATEST>. OpsWorks Stacks
 automatically installs new agent versions on the stack's instances as
 soon as they are available.
 
@@ -103,8 +103,8 @@ soon as they are available.
 
 Fixed version - Set this parameter to your preferred agent version. To
 update the agent version, you must edit the stack configuration and
-specify a new version. AWS OpsWorks Stacks then automatically installs
-that version on the stack's instances.
+specify a new version. OpsWorks Stacks installs that version on the
+stack's instances.
 
 =back
 
@@ -196,14 +196,14 @@ following:
 =item *
 
 A supported Linux operating system: An Amazon Linux version, such as
-C<Amazon Linux 2018.03>, C<Amazon Linux 2017.09>, C<Amazon Linux
-2017.03>, C<Amazon Linux 2016.09>, C<Amazon Linux 2016.03>, C<Amazon
-Linux 2015.09>, or C<Amazon Linux 2015.03>.
+C<Amazon Linux 2>, C<Amazon Linux 2018.03>, C<Amazon Linux 2017.09>,
+C<Amazon Linux 2017.03>, C<Amazon Linux 2016.09>, C<Amazon Linux
+2016.03>, C<Amazon Linux 2015.09>, or C<Amazon Linux 2015.03>.
 
 =item *
 
-A supported Ubuntu operating system, such as C<Ubuntu 16.04 LTS>,
-C<Ubuntu 14.04 LTS>, or C<Ubuntu 12.04 LTS>.
+A supported Ubuntu operating system, such as C<Ubuntu 18.04 LTS>,
+C<Ubuntu 16.04 LTS>, C<Ubuntu 14.04 LTS>, or C<Ubuntu 12.04 LTS>.
 
 =item *
 
@@ -229,8 +229,9 @@ AMIs with OpsWorks, see Using Custom AMIs
 
 =back
 
-The default option is the stack's current operating system. For more
-information about supported operating systems, see AWS OpsWorks Stacks
+The default option is the stack's current operating system. Not all
+operating systems are supported with all versions of Chef. For more
+information about supported operating systems, see OpsWorks Stacks
 Operating Systems
 (https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-os.html).
 
@@ -248,10 +249,10 @@ Valid values are: C<"ebs">, C<"instance-store">
 =head2 DefaultSshKeyName => Str
 
 A default Amazon EC2 key-pair name. The default value is C<none>. If
-you specify a key-pair name, AWS OpsWorks Stacks installs the public
-key on the instance and you can use the private key with an SSH client
-to log in to the instance. For more information, see Using SSH to
-Communicate with an Instance
+you specify a key-pair name, OpsWorks Stacks installs the public key on
+the instance and you can use the private key with an SSH client to log
+in to the instance. For more information, see Using SSH to Communicate
+with an Instance
 (https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-ssh.html)
 and Managing SSH Access
 (https://docs.aws.amazon.com/opsworks/latest/userguide/security-ssh-access.html).
@@ -336,7 +337,7 @@ returns a host name based on the current theme.
 
 =head2 Name => Str
 
-The stack's new name.
+The stack's new name. Stack names can be a maximum of 64 characters.
 
 
 
@@ -360,27 +361,27 @@ Whether the stack uses custom cookbooks.
 
 =head2 UseOpsworksSecurityGroups => Bool
 
-Whether to associate the AWS OpsWorks Stacks built-in security groups
-with the stack's layers.
+Whether to associate the OpsWorks Stacks built-in security groups with
+the stack's layers.
 
-AWS OpsWorks Stacks provides a standard set of built-in security
-groups, one for each layer, which are associated with layers by
-default. C<UseOpsworksSecurityGroups> allows you to provide your own
-custom security groups instead of using the built-in groups.
+OpsWorks Stacks provides a standard set of built-in security groups,
+one for each layer, which are associated with layers by default.
+C<UseOpsworksSecurityGroups> allows you to provide your own custom
+security groups instead of using the built-in groups.
 C<UseOpsworksSecurityGroups> has the following settings:
 
 =over
 
 =item *
 
-True - AWS OpsWorks Stacks automatically associates the appropriate
+True - OpsWorks Stacks automatically associates the appropriate
 built-in security group with each layer (default setting). You can
 associate additional security groups with a layer after you create it,
 but you cannot delete the built-in security group.
 
 =item *
 
-False - AWS OpsWorks Stacks does not associate built-in security groups
+False - OpsWorks Stacks does not associate built-in security groups
 with layers. You must create appropriate EC2 security groups and
 associate a security group with each layer that you create. However,
 you can still manually associate a built-in security group with a layer

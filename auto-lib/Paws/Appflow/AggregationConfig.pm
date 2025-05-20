@@ -2,6 +2,7 @@
 package Paws::Appflow::AggregationConfig;
   use Moose;
   has AggregationType => (is => 'ro', isa => 'Str', request_name => 'aggregationType', traits => ['NameInRequest']);
+  has TargetFileSize => (is => 'ro', isa => 'Int', request_name => 'targetFileSize', traits => ['NameInRequest']);
 
 1;
 
@@ -22,7 +23,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::Appflow::AggregationConfig object:
 
-  $service_obj->Method(Att1 => { AggregationType => $value, ..., AggregationType => $value  });
+  $service_obj->Method(Att1 => { AggregationType => $value, ..., TargetFileSize => $value  });
 
 =head3 Results returned from an API call
 
@@ -43,6 +44,15 @@ format of your flow data.
 
 Specifies whether Amazon AppFlow aggregates the flow records into a
 single file, or leave them unaggregated.
+
+
+=head2 TargetFileSize => Int
+
+The desired file size, in MB, for each output file that Amazon AppFlow
+writes to the flow destination. For each file, Amazon AppFlow attempts
+to achieve the size that you specify. The actual file sizes might
+differ from this target based on the number and size of the records
+that each file contains.
 
 
 

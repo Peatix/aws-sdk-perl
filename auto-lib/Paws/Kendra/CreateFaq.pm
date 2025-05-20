@@ -5,6 +5,7 @@ package Paws::Kendra::CreateFaq;
   has Description => (is => 'ro', isa => 'Str');
   has FileFormat => (is => 'ro', isa => 'Str');
   has IndexId => (is => 'ro', isa => 'Str', required => 1);
+  has LanguageCode => (is => 'ro', isa => 'Str');
   has Name => (is => 'ro', isa => 'Str', required => 1);
   has RoleArn => (is => 'ro', isa => 'Str', required => 1);
   has S3Path => (is => 'ro', isa => 'Paws::Kendra::S3Path', required => 1);
@@ -43,10 +44,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         Key    => 'MyS3ObjectKey',     # min: 1, max: 1024
 
       },
-      ClientToken => 'MyClientTokenName',    # OPTIONAL
-      Description => 'MyDescription',        # OPTIONAL
-      FileFormat  => 'CSV',                  # OPTIONAL
-      Tags        => [
+      ClientToken  => 'MyClientTokenName',    # OPTIONAL
+      Description  => 'MyDescription',        # OPTIONAL
+      FileFormat   => 'CSV',                  # OPTIONAL
+      LanguageCode => 'MyLanguageCode',       # OPTIONAL
+      Tags         => [
         {
           Key   => 'MyTagKey',      # min: 1, max: 128
           Value => 'MyTagValue',    # max: 256
@@ -70,22 +72,24 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ken
 =head2 ClientToken => Str
 
 A token that you provide to identify the request to create a FAQ.
-Multiple calls to the C<CreateFaqRequest> operation with the same
-client token will create only one FAQ.
+Multiple calls to the C<CreateFaqRequest> API with the same client
+token will create only one FAQ.
 
 
 
 =head2 Description => Str
 
-A description of the FAQ.
+A description for the FAQ.
 
 
 
 =head2 FileFormat => Str
 
-The format of the input file. You can choose between a basic CSV
+The format of the FAQ input file. You can choose between a basic CSV
 format, a CSV format that includes customs attributes in a header, and
 a JSON format that includes custom attributes.
+
+The default format is CSV.
 
 The format must match the format of the file stored in the S3 bucket
 identified in the C<S3Path> parameter.
@@ -97,28 +101,38 @@ Valid values are: C<"CSV">, C<"CSV_WITH_HEADER">, C<"JSON">
 
 =head2 B<REQUIRED> IndexId => Str
 
-The identifier of the index that contains the FAQ.
+The identifier of the index for the FAQ.
+
+
+
+=head2 LanguageCode => Str
+
+The code for a language. This allows you to support a language for the
+FAQ document. English is supported by default. For more information on
+supported languages, including their codes, see Adding documents in
+languages other than English
+(https://docs.aws.amazon.com/kendra/latest/dg/in-adding-languages.html).
 
 
 
 =head2 B<REQUIRED> Name => Str
 
-The name that should be associated with the FAQ.
+A name for the FAQ.
 
 
 
 =head2 B<REQUIRED> RoleArn => Str
 
-The Amazon Resource Name (ARN) of a role with permission to access the
-S3 bucket that contains the FAQs. For more information, see IAM Roles
-for Amazon Kendra
+The Amazon Resource Name (ARN) of an IAM role with permission to access
+the S3 bucket that contains the FAQ file. For more information, see IAM
+access roles for Amazon Kendra
 (https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html).
 
 
 
 =head2 B<REQUIRED> S3Path => L<Paws::Kendra::S3Path>
 
-The S3 location of the FAQ input data.
+The path to the FAQ file in S3.
 
 
 

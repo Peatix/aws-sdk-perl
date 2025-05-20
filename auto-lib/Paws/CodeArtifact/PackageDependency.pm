@@ -44,29 +44,60 @@ Details about a package dependency.
 =head2 DependencyType => Str
 
 The type of a package dependency. The possible values depend on the
-package type. Example types are C<compile>, C<runtime>, and C<test> for
-Maven packages, and C<dev>, C<prod>, and C<optional> for npm packages.
-
-
-=head2 Namespace => Str
-
-The namespace of the package. The package component that specifies its
-namespace depends on its type. For example:
+package type.
 
 =over
 
 =item *
 
-The namespace of a Maven package is its C<groupId>.
+npm: C<regular>, C<dev>, C<peer>, C<optional>
 
 =item *
 
-The namespace of an npm package is its C<scope>.
+maven: C<optional>, C<parent>, C<compile>, C<runtime>, C<test>,
+C<system>, C<provided>.
+
+Note that C<parent> is not a regular Maven dependency type; instead
+this is extracted from the C<E<lt>parentE<gt>> element if one is
+defined in the package version's POM file.
 
 =item *
 
-A Python package does not contain a corresponding component, so Python
-packages do not have a namespace.
+nuget: The C<dependencyType> field is never set for NuGet packages.
+
+=item *
+
+pypi: C<Requires-Dist>
+
+=back
+
+
+
+=head2 Namespace => Str
+
+The namespace of the package that this package depends on. The package
+component that specifies its namespace depends on its type. For
+example:
+
+=over
+
+=item *
+
+The namespace of a Maven package version is its C<groupId>.
+
+=item *
+
+The namespace of an npm or Swift package version is its C<scope>.
+
+=item *
+
+The namespace of a generic package is its C<namespace>.
+
+=item *
+
+Python, NuGet, Ruby, and Cargo package versions do not contain a
+corresponding component, package versions of those formats do not have
+a namespace.
 
 =back
 

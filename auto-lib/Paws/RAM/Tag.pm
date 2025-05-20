@@ -34,19 +34,30 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::RAM::Tag ob
 
 =head1 DESCRIPTION
 
-Information about a tag.
+A structure containing a tag. A tag is metadata that you can attach to
+your resources to help organize and categorize them. You can also use
+them to help you secure your resources. For more information, see
+Controlling access to Amazon Web Services resources using tags
+(https://docs.aws.amazon.com/IAM/latest/UserGuide/access_tags.html).
+
+For more information about tags, see Tagging Amazon Web Services
+resources
+(https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the
+I<Amazon Web Services General Reference Guide>.
 
 =head1 ATTRIBUTES
 
 
 =head2 Key => Str
 
-The key of the tag.
+The key, or name, attached to the tag. Every tag must have a key. Key
+names are case sensitive.
 
 
 =head2 Value => Str
 
-The value of the tag.
+The string value attached to the tag. The value can be an empty string.
+Key values are case sensitive.
 
 
 

@@ -3,7 +3,7 @@ package Paws::Snowball::CreateLongTermPricing;
   use Moose;
   has IsLongTermPricingAutoRenew => (is => 'ro', isa => 'Bool');
   has LongTermPricingType => (is => 'ro', isa => 'Str', required => 1);
-  has SnowballType => (is => 'ro', isa => 'Str');
+  has SnowballType => (is => 'ro', isa => 'Str', required => 1);
 
   use MooseX::ClassAttribute;
 
@@ -31,8 +31,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $snowball = Paws->service('Snowball');
     my $CreateLongTermPricingResult = $snowball->CreateLongTermPricing(
       LongTermPricingType        => 'OneYear',
-      IsLongTermPricingAutoRenew => 1,             # OPTIONAL
-      SnowballType               => 'STANDARD',    # OPTIONAL
+      SnowballType               => 'STANDARD',
+      IsLongTermPricingAutoRenew => 1,            # OPTIONAL
     );
 
     # Results:
@@ -58,14 +58,13 @@ should be renewed.
 The type of long-term pricing option you want for the device, either
 1-year or 3-year long-term pricing.
 
-Valid values are: C<"OneYear">, C<"ThreeYear">
+Valid values are: C<"OneYear">, C<"ThreeYear">, C<"OneMonth">
 
-=head2 SnowballType => Str
+=head2 B<REQUIRED> SnowballType => Str
 
-The type of AWS Snow Family device to use for the long-term pricing
-job.
+The type of Snow Family devices to use for the long-term pricing job.
 
-Valid values are: C<"STANDARD">, C<"EDGE">, C<"EDGE_C">, C<"EDGE_CG">, C<"EDGE_S">, C<"SNC1_HDD">, C<"SNC1_SSD">
+Valid values are: C<"STANDARD">, C<"EDGE">, C<"EDGE_C">, C<"EDGE_CG">, C<"EDGE_S">, C<"SNC1_HDD">, C<"SNC1_SSD">, C<"V3_5C">, C<"V3_5S">, C<"RACK_5U_C">
 
 
 =head1 SEE ALSO

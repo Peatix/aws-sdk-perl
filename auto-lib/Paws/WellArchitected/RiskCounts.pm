@@ -41,7 +41,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::WellArchite
 
 =head1 DESCRIPTION
 
-A map from risk names to the count of how questions have that rating.
+A map from risk names to the count of how many questions have that
+rating.
 
 =head1 ATTRIBUTES
 

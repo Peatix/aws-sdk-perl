@@ -37,7 +37,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::IoT::Transf
 
 =head1 DESCRIPTION
 
-Data used to transfer a certificate to an AWS account.
+Data used to transfer a certificate to an Amazon Web Services account.
 
 =head1 ATTRIBUTES
 

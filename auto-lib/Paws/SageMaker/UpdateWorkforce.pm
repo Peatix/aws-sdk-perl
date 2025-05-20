@@ -4,6 +4,7 @@ package Paws::SageMaker::UpdateWorkforce;
   has OidcConfig => (is => 'ro', isa => 'Paws::SageMaker::OidcConfig');
   has SourceIpConfig => (is => 'ro', isa => 'Paws::SageMaker::SourceIpConfig');
   has WorkforceName => (is => 'ro', isa => 'Str', required => 1);
+  has WorkforceVpcConfig => (is => 'ro', isa => 'Paws::SageMaker::WorkforceVpcConfigRequest');
 
   use MooseX::ClassAttribute;
 
@@ -40,13 +41,27 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         LogoutEndpoint        => 'MyOidcEndpoint',    # max: 500
         TokenEndpoint         => 'MyOidcEndpoint',    # max: 500
         UserInfoEndpoint      => 'MyOidcEndpoint',    # max: 500
-
+        AuthenticationRequestExtraParams => {
+          'MyAuthenticationRequestExtraParamsKey' =>
+            'MyAuthenticationRequestExtraParamsValue'
+          ,    # key: max: 512, value: max: 512
+        },    # max: 10; OPTIONAL
+        Scope => 'MyScope',    # max: 1024; OPTIONAL
       },    # OPTIONAL
       SourceIpConfig => {
         Cidrs => [
           'MyCidr', ...    # min: 4, max: 64
         ],
 
+      },    # OPTIONAL
+      WorkforceVpcConfig => {
+        SecurityGroupIds => [
+          'MyWorkforceSecurityGroupId', ...    # max: 32
+        ],    # min: 1, max: 5; OPTIONAL
+        Subnets => [
+          'MyWorkforceSubnetId', ...    # max: 32
+        ],    # min: 1, max: 16; OPTIONAL
+        VpcId => 'MyWorkforceVpcId',    # max: 32; OPTIONAL
       },    # OPTIONAL
     );
 
@@ -81,7 +96,15 @@ Maximum: Ten CIDR values
 =head2 B<REQUIRED> WorkforceName => Str
 
 The name of the private workforce that you want to update. You can find
-your workforce name by using the operation.
+your workforce name by using the ListWorkforces
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_ListWorkforces.html)
+operation.
+
+
+
+=head2 WorkforceVpcConfig => L<Paws::SageMaker::WorkforceVpcConfigRequest>
+
+Use this parameter to update your VPC configuration for a workforce.
 
 
 

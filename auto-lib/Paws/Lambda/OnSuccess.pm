@@ -35,6 +35,11 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Lambda::OnS
 
 A destination for events that were processed successfully.
 
+To retain records of successful asynchronous invocations
+(https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html#invocation-async-destinations),
+you can configure an Amazon SNS topic, Amazon SQS queue, Lambda
+function, or Amazon EventBridge event bus as the destination.
+
 =head1 ATTRIBUTES
 
 

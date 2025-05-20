@@ -2,6 +2,7 @@
 package Paws::IoTSiteWise::TumblingWindow;
   use Moose;
   has Interval => (is => 'ro', isa => 'Str', request_name => 'interval', traits => ['NameInRequest'], required => 1);
+  has Offset => (is => 'ro', isa => 'Str', request_name => 'offset', traits => ['NameInRequest']);
 
 1;
 
@@ -22,7 +23,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::IoTSiteWise::TumblingWindow object:
 
-  $service_obj->Method(Att1 => { Interval => $value, ..., Interval => $value  });
+  $service_obj->Method(Att1 => { Interval => $value, ..., Offset => $value  });
 
 =head3 Results returned from an API call
 
@@ -34,25 +35,119 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::IoTSiteWise
 =head1 DESCRIPTION
 
 Contains a tumbling window, which is a repeating fixed-sized,
-non-overlapping, and contiguous time interval. This window is used in
-metric and aggregation computations.
+non-overlapping, and contiguous time window. You can use this window in
+metrics to aggregate data from properties and other assets.
+
+You can use C<m>, C<h>, C<d>, and C<w> when you specify an interval or
+offset. Note that C<m> represents minutes, C<h> represents hours, C<d>
+represents days, and C<w> represents weeks. You can also use C<s> to
+represent seconds in C<offset>.
+
+The C<interval> and C<offset> parameters support the ISO 8601 format
+(https://en.wikipedia.org/wiki/ISO_8601). For example, C<PT5S>
+represents 5 seconds, C<PT5M> represents 5 minutes, and C<PT5H>
+represents 5 hours.
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> Interval => Str
 
-The time interval for the tumbling window. Note that C<w> represents
-weeks, C<d> represents days, C<h> represents hours, and C<m> represents
-minutes. AWS IoT SiteWise computes the C<1w> interval the end of Sunday
-at midnight each week (UTC), the C<1d> interval at the end of each day
-at midnight (UTC), the C<1h> interval at the end of each hour, and so
-on.
+The time interval for the tumbling window. The interval time must be
+between 1 minute and 1 week.
 
-When AWS IoT SiteWise aggregates data points for metric computations,
-the start of each interval is exclusive and the end of each interval is
-inclusive. AWS IoT SiteWise places the computed data point at the end
-of the interval.
+IoT SiteWise computes the C<1w> interval the end of Sunday at midnight
+each week (UTC), the C<1d> interval at the end of each day at midnight
+(UTC), the C<1h> interval at the end of each hour, and so on.
+
+When IoT SiteWise aggregates data points for metric computations, the
+start of each interval is exclusive and the end of each interval is
+inclusive. IoT SiteWise places the computed data point at the end of
+the interval.
+
+
+=head2 Offset => Str
+
+The offset for the tumbling window. The C<offset> parameter accepts the
+following:
+
+=over
+
+=item *
+
+The offset time.
+
+For example, if you specify C<18h> for C<offset> and C<1d> for
+C<interval>, IoT SiteWise aggregates data in one of the following ways:
+
+=over
+
+=item *
+
+If you create the metric before or at 6 PM (UTC), you get the first
+aggregation result at 6 PM (UTC) on the day when you create the metric.
+
+=item *
+
+If you create the metric after 6 PM (UTC), you get the first
+aggregation result at 6 PM (UTC) the next day.
+
+=back
+
+=item *
+
+The ISO 8601 format.
+
+For example, if you specify C<PT18H> for C<offset> and C<1d> for
+C<interval>, IoT SiteWise aggregates data in one of the following ways:
+
+=over
+
+=item *
+
+If you create the metric before or at 6 PM (UTC), you get the first
+aggregation result at 6 PM (UTC) on the day when you create the metric.
+
+=item *
+
+If you create the metric after 6 PM (UTC), you get the first
+aggregation result at 6 PM (UTC) the next day.
+
+=back
+
+=item *
+
+The 24-hour clock.
+
+For example, if you specify C<00:03:00> for C<offset>, C<5m> for
+C<interval>, and you create the metric at 2 PM (UTC), you get the first
+aggregation result at 2:03 PM (UTC). You get the second aggregation
+result at 2:08 PM (UTC).
+
+=item *
+
+The offset time zone.
+
+For example, if you specify C<2021-07-23T18:00-08> for C<offset> and
+C<1d> for C<interval>, IoT SiteWise aggregates data in one of the
+following ways:
+
+=over
+
+=item *
+
+If you create the metric before or at 6 PM (PST), you get the first
+aggregation result at 6 PM (PST) on the day when you create the metric.
+
+=item *
+
+If you create the metric after 6 PM (PST), you get the first
+aggregation result at 6 PM (PST) the next day.
+
+=back
+
+=back
+
 
 
 

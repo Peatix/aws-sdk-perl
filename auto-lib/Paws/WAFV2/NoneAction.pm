@@ -32,12 +32,14 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::WAFV2::None
 
 =head1 DESCRIPTION
 
-Specifies that WAF should do nothing. This is generally used to try out
-a rule without performing any actions. You set the C<OverrideAction> on
-the Rule.
+Specifies that WAF should do nothing. This is used for the
+C<OverrideAction> setting on a Rule when the rule uses a rule group
+reference statement.
 
 This is used in the context of other settings, for example to specify
 values for RuleAction and web ACL DefaultAction.
+
+JSON specification: C<"None": {}>
 
 =head1 ATTRIBUTES
 

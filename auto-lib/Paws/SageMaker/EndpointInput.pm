@@ -3,6 +3,7 @@ package Paws::SageMaker::EndpointInput;
   use Moose;
   has EndpointName => (is => 'ro', isa => 'Str', required => 1);
   has EndTimeOffset => (is => 'ro', isa => 'Str');
+  has ExcludeFeaturesAttribute => (is => 'ro', isa => 'Str');
   has FeaturesAttribute => (is => 'ro', isa => 'Str');
   has InferenceAttribute => (is => 'ro', isa => 'Str');
   has LocalPath => (is => 'ro', isa => 'Str', required => 1);
@@ -61,6 +62,11 @@ Schedule Model Quality Monitoring Jobs
 (https://docs.aws.amazon.com/sagemaker/latest/dg/model-monitor-model-quality-schedule.html).
 
 
+=head2 ExcludeFeaturesAttribute => Str
+
+The attributes of the input data to exclude from the analysis.
+
+
 =head2 FeaturesAttribute => Str
 
 The attributes of the input data that are the input features.
@@ -92,13 +98,13 @@ result.
 =head2 S3DataDistributionType => Str
 
 Whether input data distributed in Amazon S3 is fully replicated or
-sharded by an S3 key. Defaults to C<FullyReplicated>
+sharded by an Amazon S3 key. Defaults to C<FullyReplicated>
 
 
 =head2 S3InputMode => Str
 
 Whether the C<Pipe> or C<File> is used as the input mode for
-transfering data for the monitoring job. C<Pipe> mode is recommended
+transferring data for the monitoring job. C<Pipe> mode is recommended
 for large datasets. C<File> mode is useful for small files that fit in
 memory. Defaults to C<File>.
 

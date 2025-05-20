@@ -5,6 +5,7 @@ package Paws::SSM::BaselineOverride;
   has ApprovedPatches => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has ApprovedPatchesComplianceLevel => (is => 'ro', isa => 'Str');
   has ApprovedPatchesEnableNonSecurity => (is => 'ro', isa => 'Bool');
+  has AvailableSecurityUpdatesComplianceStatus => (is => 'ro', isa => 'Str');
   has GlobalFilters => (is => 'ro', isa => 'Paws::SSM::PatchFilterGroup');
   has OperatingSystem => (is => 'ro', isa => 'Str');
   has RejectedPatches => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
@@ -56,10 +57,10 @@ Defines the basic information about a patch baseline override.
 A list of explicitly approved patches for the baseline.
 
 For information about accepted formats for lists of approved patches
-and rejected patches, see About package name formats for approved and
+and rejected patches, see Package name formats for approved and
 rejected patch lists
 (https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-approved-rejected-package-name-formats.html)
-in the I<AWS Systems Manager User Guide>.
+in the I<Amazon Web Services Systems Manager User Guide>.
 
 
 =head2 ApprovedPatchesComplianceLevel => Str
@@ -72,8 +73,19 @@ compliance violation.
 =head2 ApprovedPatchesEnableNonSecurity => Bool
 
 Indicates whether the list of approved patches includes non-security
-updates that should be applied to the instances. The default value is
-'false'. Applies to Linux instances only.
+updates that should be applied to the managed nodes. The default value
+is C<false>. Applies to Linux managed nodes only.
+
+
+=head2 AvailableSecurityUpdatesComplianceStatus => Str
+
+Indicates whether managed nodes for which there are available
+security-related patches that have not been approved by the baseline
+are being defined as C<COMPLIANT> or C<NON_COMPLIANT>. This option is
+specified when the C<CreatePatchBaseline> or C<UpdatePatchBaseline>
+commands are run.
+
+Applies to Windows Server managed nodes only.
 
 
 =head2 GlobalFilters => L<Paws::SSM::PatchFilterGroup>
@@ -91,25 +103,25 @@ The operating system rule used by the patch baseline override.
 A list of explicitly rejected patches for the baseline.
 
 For information about accepted formats for lists of approved patches
-and rejected patches, see About package name formats for approved and
+and rejected patches, see Package name formats for approved and
 rejected patch lists
 (https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-approved-rejected-package-name-formats.html)
-in the I<AWS Systems Manager User Guide>.
+in the I<Amazon Web Services Systems Manager User Guide>.
 
 
 =head2 RejectedPatchesAction => Str
 
 The action for Patch Manager to take on patches included in the
-RejectedPackages list. A patch can be allowed only if it is a
+C<RejectedPackages> list. A patch can be allowed only if it is a
 dependency of another package, or blocked entirely along with packages
 that include it as a dependency.
 
 
 =head2 Sources => ArrayRef[L<Paws::SSM::PatchSource>]
 
-Information about the patches to use to update the instances, including
-target operating systems and source repositories. Applies to Linux
-instances only.
+Information about the patches to use to update the managed nodes,
+including target operating systems and source repositories. Applies to
+Linux managed nodes only.
 
 
 

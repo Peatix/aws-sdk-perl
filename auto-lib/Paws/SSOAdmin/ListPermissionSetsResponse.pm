@@ -23,7 +23,7 @@ the output of previous API calls to make subsequent calls.
 
 =head2 PermissionSets => ArrayRef[Str|Undef]
 
-Defines the level of access on an AWS account.
+Defines the level of access on an Amazon Web Services account.
 
 
 =head2 _request_id => Str

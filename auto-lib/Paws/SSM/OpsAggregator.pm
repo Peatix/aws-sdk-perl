@@ -38,7 +38,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SSM::OpsAgg
 
 =head1 DESCRIPTION
 
-One or more aggregators for viewing counts of OpsItems using different
+One or more aggregators for viewing counts of OpsData using different
 dimensions such as C<Source>, C<CreatedTime>, or C<Source and
 CreatedTime>, to name a few.
 
@@ -47,18 +47,19 @@ CreatedTime>, to name a few.
 
 =head2 Aggregators => ArrayRef[L<Paws::SSM::OpsAggregator>]
 
-A nested aggregator for viewing counts of OpsItems.
+A nested aggregator for viewing counts of OpsData.
 
 
 =head2 AggregatorType => Str
 
-Either a Range or Count aggregator for limiting an OpsItem summary.
+Either a C<Range> or C<Count> aggregator for limiting an OpsData
+summary.
 
 
 =head2 AttributeName => Str
 
-The name of an OpsItem attribute on which to limit the count of
-OpsItems.
+The name of an OpsData attribute on which to limit the count of
+OpsData.
 
 
 =head2 Filters => ArrayRef[L<Paws::SSM::OpsFilter>]
@@ -68,7 +69,7 @@ The aggregator filters.
 
 =head2 TypeName => Str
 
-The data type name to use for viewing counts of OpsItems.
+The data type name to use for viewing counts of OpsData.
 
 
 =head2 Values => L<Paws::SSM::OpsAggregatorValueMap>

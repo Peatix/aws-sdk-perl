@@ -52,7 +52,12 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/gua
 
 =head2 B<REQUIRED> DetectorId => Str
 
-The unique ID of the detector that the IPSet is associated with.
+The unique ID of the detector that is associated with the IPSet.
+
+To find the C<detectorId> in the current Region, see the Settings page
+in the GuardDuty console, or run the ListDetectors
+(https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+API.
 
 
 

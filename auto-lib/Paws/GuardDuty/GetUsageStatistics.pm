@@ -36,12 +36,17 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $GetUsageStatisticsResponse = $guardduty->GetUsageStatistics(
       DetectorId    => 'MyDetectorId',
       UsageCriteria => {
-        DataSources => [
-          'FLOW_LOGS', ...   # values: FLOW_LOGS, CLOUD_TRAIL, DNS_LOGS, S3_LOGS
-        ],
         AccountIds => [
           'MyAccountId', ...    # min: 12, max: 12
         ],    # min: 1, max: 50; OPTIONAL
+        DataSources => [
+          'FLOW_LOGS',
+          ... # values: FLOW_LOGS, CLOUD_TRAIL, DNS_LOGS, S3_LOGS, KUBERNETES_AUDIT_LOGS, EC2_MALWARE_SCAN
+        ],    # OPTIONAL
+        Features => [
+          'FLOW_LOGS',
+          ... # values: FLOW_LOGS, CLOUD_TRAIL, DNS_LOGS, S3_DATA_EVENTS, EKS_AUDIT_LOGS, EBS_MALWARE_PROTECTION, RDS_LOGIN_EVENTS, LAMBDA_NETWORK_LOGS, EKS_RUNTIME_MONITORING, FARGATE_RUNTIME_MONITORING, EC2_RUNTIME_MONITORING, RDS_DBI_PROTECTION_PROVISIONED, RDS_DBI_PROTECTION_SERVERLESS
+        ],    # OPTIONAL
         Resources => [ 'MyString', ... ],    # OPTIONAL
       },
       UsageStatisticType => 'SUM_BY_ACCOUNT',
@@ -66,6 +71,11 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/gua
 
 The ID of the detector that specifies the GuardDuty service whose usage
 statistics you want to retrieve.
+
+To find the C<detectorId> in the current Region, see the Settings page
+in the GuardDuty console, or run the ListDetectors
+(https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+API.
 
 
 
@@ -102,7 +112,7 @@ Represents the criteria used for querying usage.
 
 The type of usage statistics to retrieve.
 
-Valid values are: C<"SUM_BY_ACCOUNT">, C<"SUM_BY_DATA_SOURCE">, C<"SUM_BY_RESOURCE">, C<"TOP_RESOURCES">
+Valid values are: C<"SUM_BY_ACCOUNT">, C<"SUM_BY_DATA_SOURCE">, C<"SUM_BY_RESOURCE">, C<"TOP_RESOURCES">, C<"SUM_BY_FEATURES">, C<"TOP_ACCOUNTS_BY_FEATURE">
 
 
 =head1 SEE ALSO

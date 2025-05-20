@@ -36,29 +36,32 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SESv2::Send
 =head1 DESCRIPTION
 
 An object that contains information about the per-day and per-second
-sending limits for your Amazon SES account in the current AWS Region.
+sending limits for your Amazon SES account in the current Amazon Web
+Services Region.
 
 =head1 ATTRIBUTES
 
 
 =head2 Max24HourSend => Num
 
-The maximum number of emails that you can send in the current AWS
-Region over a 24-hour period. This value is also called your I<sending
-quota>.
+The maximum number of emails that you can send in the current Amazon
+Web Services Region over a 24-hour period. A value of -1 signifies an
+unlimited quota. (This value is also referred to as your I<sending
+quota>.)
 
 
 =head2 MaxSendRate => Num
 
 The maximum number of emails that you can send per second in the
-current AWS Region. This value is also called your I<maximum sending
-rate> or your I<maximum TPS (transactions per second) rate>.
+current Amazon Web Services Region. This value is also called your
+I<maximum sending rate> or your I<maximum TPS (transactions per second)
+rate>.
 
 
 =head2 SentLast24Hours => Num
 
 The number of emails sent from your Amazon SES account in the current
-AWS Region over the past 24 hours.
+Amazon Web Services Region over the past 24 hours.
 
 
 

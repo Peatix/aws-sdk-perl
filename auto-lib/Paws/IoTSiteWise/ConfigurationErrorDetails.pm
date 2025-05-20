@@ -34,7 +34,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::IoTSiteWise
 
 =head1 DESCRIPTION
 
-Contains the details of an AWS IoT SiteWise configuration error.
+Contains the details of an IoT SiteWise configuration error.
 
 =head1 ATTRIBUTES
 

@@ -42,6 +42,9 @@ The container for the completed multipart upload details.
 
 Array of CompletedPart data types.
 
+If you do not supply a valid C<Part> with your request, the service
+sends back an HTTP 400 response.
+
 
 
 =head1 SEE ALSO

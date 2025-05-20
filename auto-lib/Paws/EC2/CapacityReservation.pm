@@ -3,9 +3,13 @@ package Paws::EC2::CapacityReservation;
   has AvailabilityZone => (is => 'ro', isa => 'Str', request_name => 'availabilityZone', traits => ['NameInRequest']);
   has AvailabilityZoneId => (is => 'ro', isa => 'Str', request_name => 'availabilityZoneId', traits => ['NameInRequest']);
   has AvailableInstanceCount => (is => 'ro', isa => 'Int', request_name => 'availableInstanceCount', traits => ['NameInRequest']);
+  has CapacityAllocations => (is => 'ro', isa => 'ArrayRef[Paws::EC2::CapacityAllocation]', request_name => 'capacityAllocationSet', traits => ['NameInRequest']);
   has CapacityReservationArn => (is => 'ro', isa => 'Str', request_name => 'capacityReservationArn', traits => ['NameInRequest']);
+  has CapacityReservationFleetId => (is => 'ro', isa => 'Str', request_name => 'capacityReservationFleetId', traits => ['NameInRequest']);
   has CapacityReservationId => (is => 'ro', isa => 'Str', request_name => 'capacityReservationId', traits => ['NameInRequest']);
+  has CommitmentInfo => (is => 'ro', isa => 'Paws::EC2::CapacityReservationCommitmentInfo', request_name => 'commitmentInfo', traits => ['NameInRequest']);
   has CreateDate => (is => 'ro', isa => 'Str', request_name => 'createDate', traits => ['NameInRequest']);
+  has DeliveryPreference => (is => 'ro', isa => 'Str', request_name => 'deliveryPreference', traits => ['NameInRequest']);
   has EbsOptimized => (is => 'ro', isa => 'Bool', request_name => 'ebsOptimized', traits => ['NameInRequest']);
   has EndDate => (is => 'ro', isa => 'Str', request_name => 'endDate', traits => ['NameInRequest']);
   has EndDateType => (is => 'ro', isa => 'Str', request_name => 'endDateType', traits => ['NameInRequest']);
@@ -15,11 +19,14 @@ package Paws::EC2::CapacityReservation;
   has InstanceType => (is => 'ro', isa => 'Str', request_name => 'instanceType', traits => ['NameInRequest']);
   has OutpostArn => (is => 'ro', isa => 'Str', request_name => 'outpostArn', traits => ['NameInRequest']);
   has OwnerId => (is => 'ro', isa => 'Str', request_name => 'ownerId', traits => ['NameInRequest']);
+  has PlacementGroupArn => (is => 'ro', isa => 'Str', request_name => 'placementGroupArn', traits => ['NameInRequest']);
+  has ReservationType => (is => 'ro', isa => 'Str', request_name => 'reservationType', traits => ['NameInRequest']);
   has StartDate => (is => 'ro', isa => 'Str', request_name => 'startDate', traits => ['NameInRequest']);
   has State => (is => 'ro', isa => 'Str', request_name => 'state', traits => ['NameInRequest']);
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::EC2::Tag]', request_name => 'tagSet', traits => ['NameInRequest']);
   has Tenancy => (is => 'ro', isa => 'Str', request_name => 'tenancy', traits => ['NameInRequest']);
   has TotalInstanceCount => (is => 'ro', isa => 'Int', request_name => 'totalInstanceCount', traits => ['NameInRequest']);
+  has UnusedReservationBillingOwnerId => (is => 'ro', isa => 'Str', request_name => 'unusedReservationBillingOwnerId', traits => ['NameInRequest']);
 1;
 
 ### main pod documentation begin ###
@@ -39,7 +46,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::EC2::CapacityReservation object:
 
-  $service_obj->Method(Att1 => { AvailabilityZone => $value, ..., TotalInstanceCount => $value  });
+  $service_obj->Method(Att1 => { AvailabilityZone => $value, ..., UnusedReservationBillingOwnerId => $value  });
 
 =head3 Results returned from an API call
 
@@ -71,9 +78,21 @@ The remaining capacity. Indicates the number of instances that can be
 launched in the Capacity Reservation.
 
 
+=head2 CapacityAllocations => ArrayRef[L<Paws::EC2::CapacityAllocation>]
+
+Information about instance capacity usage.
+
+
 =head2 CapacityReservationArn => Str
 
 The Amazon Resource Name (ARN) of the Capacity Reservation.
+
+
+=head2 CapacityReservationFleetId => Str
+
+The ID of the Capacity Reservation Fleet to which the Capacity
+Reservation belongs. Only valid for Capacity Reservations that were
+created by a Capacity Reservation Fleet.
 
 
 =head2 CapacityReservationId => Str
@@ -81,9 +100,23 @@ The Amazon Resource Name (ARN) of the Capacity Reservation.
 The ID of the Capacity Reservation.
 
 
+=head2 CommitmentInfo => L<Paws::EC2::CapacityReservationCommitmentInfo>
+
+Information about your commitment for a future-dated Capacity
+Reservation.
+
+
 =head2 CreateDate => Str
 
 The date and time at which the Capacity Reservation was created.
+
+
+=head2 DeliveryPreference => Str
+
+The delivery method for a future-dated Capacity Reservation.
+C<incremental> indicates that the requested capacity is delivered in
+addition to any running instances and reserved capacity that you have
+in your account at the requested date and time.
 
 
 =head2 EbsOptimized => Bool
@@ -126,8 +159,7 @@ specified date and time.
 
 =head2 EphemeralStorage => Bool
 
-Indicates whether the Capacity Reservation supports instances with
-temporary, block-level storage.
+I<Deprecated.>
 
 
 =head2 InstanceMatchCriteria => Str
@@ -175,7 +207,22 @@ Reservation was created.
 
 =head2 OwnerId => Str
 
-The ID of the account that owns the Capacity Reservation.
+The ID of the Amazon Web Services account that owns the Capacity
+Reservation.
+
+
+=head2 PlacementGroupArn => Str
+
+The Amazon Resource Name (ARN) of the cluster placement group in which
+the Capacity Reservation was created. For more information, see
+Capacity Reservations for cluster placement groups
+(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/cr-cpg.html) in
+the I<Amazon EC2 User Guide>.
+
+
+=head2 ReservationType => Str
+
+The type of Capacity Reservation.
 
 
 =head2 StartDate => Str
@@ -192,18 +239,17 @@ can be in one of the following states:
 
 =item *
 
-C<active> - The Capacity Reservation is active and the capacity is
-available for your use.
+C<active> - The capacity is available for use.
 
 =item *
 
 C<expired> - The Capacity Reservation expired automatically at the date
-and time specified in your request. The reserved capacity is no longer
-available for your use.
+and time specified in your reservation request. The reserved capacity
+is no longer available for your use.
 
 =item *
 
-C<cancelled> - The Capacity Reservation was cancelled. The reserved
+C<cancelled> - The Capacity Reservation was canceled. The reserved
 capacity is no longer available for your use.
 
 =item *
@@ -213,10 +259,45 @@ capacity provisioning is still pending.
 
 =item *
 
-C<failed> - The Capacity Reservation request has failed. A request
-might fail due to invalid request parameters, capacity constraints, or
-instance limit constraints. Failed requests are retained for 60
-minutes.
+C<failed> - The Capacity Reservation request has failed. A request can
+fail due to request parameters that are not valid, capacity
+constraints, or instance limit constraints. You can view a failed
+request for 60 minutes.
+
+=item *
+
+C<scheduled> - (I<Future-dated Capacity Reservations>) The future-dated
+Capacity Reservation request was approved and the Capacity Reservation
+is scheduled for delivery on the requested start date.
+
+=item *
+
+C<payment-pending> - (I<Capacity Blocks>) The upfront payment has not
+been processed yet.
+
+=item *
+
+C<payment-failed> - (I<Capacity Blocks>) The upfront payment was not
+processed in the 12-hour time frame. Your Capacity Block was released.
+
+=item *
+
+C<assessing> - (I<Future-dated Capacity Reservations>) Amazon EC2 is
+assessing your request for a future-dated Capacity Reservation.
+
+=item *
+
+C<delayed> - (I<Future-dated Capacity Reservations>) Amazon EC2
+encountered a delay in provisioning the requested future-dated Capacity
+Reservation. Amazon EC2 is unable to deliver the requested capacity by
+the requested start date and time.
+
+=item *
+
+C<unsupported> - (I<Future-dated Capacity Reservations>) Amazon EC2
+can't support the future-dated Capacity Reservation request due to
+capacity constraints. You can view unsupported requests for 30 days.
+The Capacity Reservation will not be delivered.
 
 =back
 
@@ -237,12 +318,12 @@ Reservation can have one of the following tenancy settings:
 =item *
 
 C<default> - The Capacity Reservation is created on hardware that is
-shared with other accounts.
+shared with other Amazon Web Services accounts.
 
 =item *
 
 C<dedicated> - The Capacity Reservation is created on single-tenant
-hardware that is dedicated to a single account.
+hardware that is dedicated to a single Amazon Web Services account.
 
 =back
 
@@ -252,6 +333,12 @@ hardware that is dedicated to a single account.
 
 The total number of instances for which the Capacity Reservation
 reserves capacity.
+
+
+=head2 UnusedReservationBillingOwnerId => Str
+
+The ID of the Amazon Web Services account to which billing of the
+unused capacity of the Capacity Reservation is assigned.
 
 
 

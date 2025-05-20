@@ -2,6 +2,7 @@
 package Paws::Kendra::Suggestion;
   use Moose;
   has Id => (is => 'ro', isa => 'Str');
+  has SourceDocuments => (is => 'ro', isa => 'ArrayRef[Paws::Kendra::SourceDocument]');
   has Value => (is => 'ro', isa => 'Paws::Kendra::SuggestionValue');
 
 1;
@@ -41,14 +42,20 @@ A single query suggestion.
 
 =head2 Id => Str
 
-The unique UUID (universally unique identifier) of a single query
-suggestion.
+The UUID (universally unique identifier) of a single query suggestion.
+
+
+=head2 SourceDocuments => ArrayRef[L<Paws::Kendra::SourceDocument>]
+
+The list of document IDs and their fields/attributes that are used for
+a single query suggestion, if document fields set to use for query
+suggestions.
 
 
 =head2 Value => L<Paws::Kendra::SuggestionValue>
 
-The value for the unique UUID (universally unique identifier) of a
-single query suggestion.
+The value for the UUID (universally unique identifier) of a single
+query suggestion.
 
 The value is the text string of a suggestion.
 

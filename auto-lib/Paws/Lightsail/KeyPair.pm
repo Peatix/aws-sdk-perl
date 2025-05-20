@@ -40,20 +40,20 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Lightsail::
 
 =head1 DESCRIPTION
 
-Describes the SSH key pair.
+Describes an SSH key pair.
 
 =head1 ATTRIBUTES
 
 
 =head2 Arn => Str
 
-The Amazon Resource Name (ARN) of the key pair (e.g.,
-C<arn:aws:lightsail:us-east-2:123456789101:KeyPair/05859e3d-331d-48ba-9034-12345EXAMPLE>).
+The Amazon Resource Name (ARN) of the key pair
+(C<arn:aws:lightsail:us-east-2:123456789101:KeyPair/05859e3d-331d-48ba-9034-12345EXAMPLE>).
 
 
 =head2 CreatedAt => Str
 
-The timestamp when the key pair was created (e.g., C<1479816991.349>).
+The timestamp when the key pair was created (C<1479816991.349>).
 
 
 =head2 Fingerprint => Str
@@ -87,8 +87,8 @@ more easily.
 =head2 Tags => ArrayRef[L<Paws::Lightsail::Tag>]
 
 The tag keys and optional values for the resource. For more information
-about tags in Lightsail, see the Lightsail Dev Guide
-(https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-tags).
+about tags in Lightsail, see the Amazon Lightsail Developer Guide
+(https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-tags).
 
 
 

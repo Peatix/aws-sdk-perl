@@ -3,6 +3,7 @@ package Paws::ServiceCatalog::DescribeProvisioningArtifactOutput;
   use Moose;
   has Info => (is => 'ro', isa => 'Paws::ServiceCatalog::ProvisioningArtifactInfo');
   has ProvisioningArtifactDetail => (is => 'ro', isa => 'Paws::ServiceCatalog::ProvisioningArtifactDetail');
+  has ProvisioningArtifactParameters => (is => 'ro', isa => 'ArrayRef[Paws::ServiceCatalog::ProvisioningArtifactParameter]');
   has Status => (is => 'ro', isa => 'Str');
 
   has _request_id => (is => 'ro', isa => 'Str');
@@ -18,12 +19,18 @@ Paws::ServiceCatalog::DescribeProvisioningArtifactOutput
 
 =head2 Info => L<Paws::ServiceCatalog::ProvisioningArtifactInfo>
 
-The URL of the CloudFormation template in Amazon S3.
+The URL of the CloudFormation template in Amazon S3 or GitHub in JSON
+format.
 
 
 =head2 ProvisioningArtifactDetail => L<Paws::ServiceCatalog::ProvisioningArtifactDetail>
 
 Information about the provisioning artifact.
+
+
+=head2 ProvisioningArtifactParameters => ArrayRef[L<Paws::ServiceCatalog::ProvisioningArtifactParameter>]
+
+Information about the parameters used to provision the product.
 
 
 =head2 Status => Str

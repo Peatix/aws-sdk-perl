@@ -55,7 +55,7 @@ The IP addresses of the AD Connector servers.
 
 =head2 CustomerUserName => Str
 
-The user name of the service account in the on-premises directory.
+The user name of the service account in your self-managed directory.
 
 
 =head2 SecurityGroupId => Str

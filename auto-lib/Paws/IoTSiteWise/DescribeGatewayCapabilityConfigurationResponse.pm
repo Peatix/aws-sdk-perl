@@ -23,7 +23,7 @@ Paws::IoTSiteWise::DescribeGatewayCapabilityConfigurationResponse
 The JSON document that defines the gateway capability's configuration.
 For more information, see Configuring data sources (CLI)
 (https://docs.aws.amazon.com/iot-sitewise/latest/userguide/configure-sources.html#configure-source-cli)
-in the I<AWS IoT SiteWise User Guide>.
+in the I<IoT SiteWise User Guide>.
 
 
 =head2 B<REQUIRED> CapabilityNamespace => Str
@@ -45,6 +45,13 @@ configuration.
 
 =item *
 
+C<NOT_APPLICABLE> E<ndash> Synchronization is not required for this
+capability configuration. This is most common when integrating partner
+data sources, because the data integration is handled externally by the
+partner.
+
+=item *
+
 C<OUT_OF_SYNC> E<ndash> The gateway hasn't received the capability
 configuration.
 
@@ -53,10 +60,15 @@ configuration.
 C<SYNC_FAILED> E<ndash> The gateway rejected the capability
 configuration.
 
+=item *
+
+C<UNKNOWN> E<ndash> The synchronization status is currently unknown due
+to an undetermined or temporary error.
+
 =back
 
 
-Valid values are: C<"IN_SYNC">, C<"OUT_OF_SYNC">, C<"SYNC_FAILED">
+Valid values are: C<"IN_SYNC">, C<"OUT_OF_SYNC">, C<"SYNC_FAILED">, C<"UNKNOWN">, C<"NOT_APPLICABLE">
 =head2 B<REQUIRED> GatewayId => Str
 
 The ID of the gateway that defines the capability configuration.

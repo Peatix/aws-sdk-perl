@@ -3,6 +3,7 @@ package Paws::Amplify::DomainAssociation;
   use Moose;
   has AutoSubDomainCreationPatterns => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'autoSubDomainCreationPatterns', traits => ['NameInRequest']);
   has AutoSubDomainIAMRole => (is => 'ro', isa => 'Str', request_name => 'autoSubDomainIAMRole', traits => ['NameInRequest']);
+  has Certificate => (is => 'ro', isa => 'Paws::Amplify::Certificate', request_name => 'certificate', traits => ['NameInRequest']);
   has CertificateVerificationDNSRecord => (is => 'ro', isa => 'Str', request_name => 'certificateVerificationDNSRecord', traits => ['NameInRequest']);
   has DomainAssociationArn => (is => 'ro', isa => 'Str', request_name => 'domainAssociationArn', traits => ['NameInRequest'], required => 1);
   has DomainName => (is => 'ro', isa => 'Str', request_name => 'domainName', traits => ['NameInRequest'], required => 1);
@@ -10,6 +11,7 @@ package Paws::Amplify::DomainAssociation;
   has EnableAutoSubDomain => (is => 'ro', isa => 'Bool', request_name => 'enableAutoSubDomain', traits => ['NameInRequest'], required => 1);
   has StatusReason => (is => 'ro', isa => 'Str', request_name => 'statusReason', traits => ['NameInRequest'], required => 1);
   has SubDomains => (is => 'ro', isa => 'ArrayRef[Paws::Amplify::SubDomain]', request_name => 'subDomains', traits => ['NameInRequest'], required => 1);
+  has UpdateStatus => (is => 'ro', isa => 'Str', request_name => 'updateStatus', traits => ['NameInRequest']);
 
 1;
 
@@ -30,7 +32,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::Amplify::DomainAssociation object:
 
-  $service_obj->Method(Att1 => { AutoSubDomainCreationPatterns => $value, ..., SubDomains => $value  });
+  $service_obj->Method(Att1 => { AutoSubDomainCreationPatterns => $value, ..., UpdateStatus => $value  });
 
 =head3 Results returned from an API call
 
@@ -41,8 +43,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Amplify::Do
 
 =head1 DESCRIPTION
 
-Describes a domain association that associates a custom domain with an
-Amplify app.
+Describes the association between a custom domain and an Amplify app.
 
 =head1 ATTRIBUTES
 
@@ -56,6 +57,18 @@ Sets branch patterns for automatic subdomain creation.
 
 The required AWS Identity and Access Management (IAM) service role for
 the Amazon Resource Name (ARN) for automatically creating subdomains.
+
+
+=head2 Certificate => L<Paws::Amplify::Certificate>
+
+Describes the SSL/TLS certificate for the domain association. This can
+be your own custom certificate or the default certificate that Amplify
+provisions for you.
+
+If you are updating your domain to use a different certificate,
+C<certificate> points to the new certificate that is being created
+instead of the current active certificate. Otherwise, C<certificate>
+points to the current active certificate.
 
 
 =head2 CertificateVerificationDNSRecord => Str
@@ -85,12 +98,63 @@ Enables the automated creation of subdomains for branches.
 
 =head2 B<REQUIRED> StatusReason => Str
 
-The reason for the current status of the domain association.
+Additional information that describes why the domain association is in
+the current state.
 
 
 =head2 B<REQUIRED> SubDomains => ArrayRef[L<Paws::Amplify::SubDomain>]
 
 The subdomains for the domain association.
+
+
+=head2 UpdateStatus => Str
+
+The status of the domain update operation that is currently in
+progress. The following list describes the valid update states.
+
+=over
+
+=item REQUESTING_CERTIFICATE
+
+The certificate is in the process of being updated.
+
+=item PENDING_VERIFICATION
+
+Indicates that an Amplify managed certificate is in the process of
+being verified. This occurs during the creation of a custom domain or
+when a custom domain is updated to use a managed certificate.
+
+=item IMPORTING_CUSTOM_CERTIFICATE
+
+Indicates that an Amplify custom certificate is in the process of being
+imported. This occurs during the creation of a custom domain or when a
+custom domain is updated to use a custom certificate.
+
+=item PENDING_DEPLOYMENT
+
+Indicates that the subdomain or certificate changes are being
+propagated.
+
+=item AWAITING_APP_CNAME
+
+Amplify is waiting for CNAME records corresponding to subdomains to be
+propagated. If your custom domain is on Route 53, Amplify handles this
+for you automatically. For more information about custom domains, see
+Setting up custom domains
+(https://docs.aws.amazon.com/amplify/latest/userguide/custom-domains.html)
+in the I<Amplify Hosting User Guide>.
+
+=item UPDATE_COMPLETE
+
+The certificate has been associated with a domain.
+
+=item UPDATE_FAILED
+
+The certificate has failed to be provisioned or associated, and there
+is no existing active certificate to roll back to.
+
+=back
+
 
 
 

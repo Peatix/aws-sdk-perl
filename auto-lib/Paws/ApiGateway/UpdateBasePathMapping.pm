@@ -3,6 +3,7 @@ package Paws::ApiGateway::UpdateBasePathMapping;
   use Moose;
   has BasePath => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'base_path', required => 1);
   has DomainName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'domain_name', required => 1);
+  has DomainNameId => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'domainNameId');
   has PatchOperations => (is => 'ro', isa => 'ArrayRef[Paws::ApiGateway::PatchOperation]', traits => ['NameInRequest'], request_name => 'patchOperations');
 
   use MooseX::ClassAttribute;
@@ -33,6 +34,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $BasePathMapping = $apigateway->UpdateBasePathMapping(
       BasePath        => 'MyString',
       DomainName      => 'MyString',
+      DomainNameId    => 'MyString',    # OPTIONAL
       PatchOperations => [
         {
           From => 'MyString',
@@ -60,7 +62,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 B<REQUIRED> BasePath => Str
 
-[Required] The base path of the BasePathMapping resource to change.
+The base path of the BasePathMapping resource to change.
 
 To specify an empty base path, set this parameter to C<'(none)'>.
 
@@ -68,14 +70,22 @@ To specify an empty base path, set this parameter to C<'(none)'>.
 
 =head2 B<REQUIRED> DomainName => Str
 
-[Required] The domain name of the BasePathMapping resource to change.
+The domain name of the BasePathMapping resource to change.
+
+
+
+=head2 DomainNameId => Str
+
+The identifier for the domain name resource. Supported only for private
+custom domain names.
 
 
 
 =head2 PatchOperations => ArrayRef[L<Paws::ApiGateway::PatchOperation>]
 
-A list of update operations to be applied to the specified resource and
-in the order specified in this list.
+For more information about supported patch operations, see Patch
+Operations
+(https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html).
 
 
 

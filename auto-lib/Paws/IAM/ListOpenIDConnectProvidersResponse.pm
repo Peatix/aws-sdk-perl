@@ -17,8 +17,8 @@ Paws::IAM::ListOpenIDConnectProvidersResponse
 
 =head2 OpenIDConnectProviderList => ArrayRef[L<Paws::IAM::OpenIDConnectProviderListEntry>]
 
-The list of IAM OIDC provider resource objects defined in the AWS
-account.
+The list of IAM OIDC provider resource objects defined in the Amazon
+Web Services account.
 
 
 =head2 _request_id => Str

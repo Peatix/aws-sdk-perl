@@ -6,6 +6,8 @@ package Paws::IoT::ActiveViolation;
   has LastViolationValue => (is => 'ro', isa => 'Paws::IoT::MetricValue', request_name => 'lastViolationValue', traits => ['NameInRequest']);
   has SecurityProfileName => (is => 'ro', isa => 'Str', request_name => 'securityProfileName', traits => ['NameInRequest']);
   has ThingName => (is => 'ro', isa => 'Str', request_name => 'thingName', traits => ['NameInRequest']);
+  has VerificationState => (is => 'ro', isa => 'Str', request_name => 'verificationState', traits => ['NameInRequest']);
+  has VerificationStateDescription => (is => 'ro', isa => 'Str', request_name => 'verificationStateDescription', traits => ['NameInRequest']);
   has ViolationEventAdditionalInfo => (is => 'ro', isa => 'Paws::IoT::ViolationEventAdditionalInfo', request_name => 'violationEventAdditionalInfo', traits => ['NameInRequest']);
   has ViolationId => (is => 'ro', isa => 'Str', request_name => 'violationId', traits => ['NameInRequest']);
   has ViolationStartTime => (is => 'ro', isa => 'Str', request_name => 'violationStartTime', traits => ['NameInRequest']);
@@ -70,6 +72,16 @@ The security profile with the behavior is in violation.
 =head2 ThingName => Str
 
 The name of the thing responsible for the active violation.
+
+
+=head2 VerificationState => Str
+
+The verification state of the violation (detect alarm).
+
+
+=head2 VerificationStateDescription => Str
+
+The description of the verification state of the violation.
 
 
 =head2 ViolationEventAdditionalInfo => L<Paws::IoT::ViolationEventAdditionalInfo>

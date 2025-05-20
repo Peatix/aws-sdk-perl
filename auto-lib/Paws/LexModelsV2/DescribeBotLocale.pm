@@ -41,12 +41,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $BotId = $DescribeBotLocaleResponse->BotId;
     my $BotLocaleHistoryEvents =
       $DescribeBotLocaleResponse->BotLocaleHistoryEvents;
-    my $BotLocaleStatus  = $DescribeBotLocaleResponse->BotLocaleStatus;
-    my $BotVersion       = $DescribeBotLocaleResponse->BotVersion;
-    my $CreationDateTime = $DescribeBotLocaleResponse->CreationDateTime;
-    my $Description      = $DescribeBotLocaleResponse->Description;
-    my $FailureReasons   = $DescribeBotLocaleResponse->FailureReasons;
-    my $IntentsCount     = $DescribeBotLocaleResponse->IntentsCount;
+    my $BotLocaleStatus      = $DescribeBotLocaleResponse->BotLocaleStatus;
+    my $BotVersion           = $DescribeBotLocaleResponse->BotVersion;
+    my $CreationDateTime     = $DescribeBotLocaleResponse->CreationDateTime;
+    my $Description          = $DescribeBotLocaleResponse->Description;
+    my $FailureReasons       = $DescribeBotLocaleResponse->FailureReasons;
+    my $GenerativeAISettings = $DescribeBotLocaleResponse->GenerativeAISettings;
+    my $IntentsCount         = $DescribeBotLocaleResponse->IntentsCount;
     my $LastBuildSubmittedDateTime =
       $DescribeBotLocaleResponse->LastBuildSubmittedDateTime;
     my $LastUpdatedDateTime = $DescribeBotLocaleResponse->LastUpdatedDateTime;
@@ -54,8 +55,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $LocaleName          = $DescribeBotLocaleResponse->LocaleName;
     my $NluIntentConfidenceThreshold =
       $DescribeBotLocaleResponse->NluIntentConfidenceThreshold;
-    my $SlotTypesCount = $DescribeBotLocaleResponse->SlotTypesCount;
-    my $VoiceSettings  = $DescribeBotLocaleResponse->VoiceSettings;
+    my $RecommendedActions = $DescribeBotLocaleResponse->RecommendedActions;
+    my $SlotTypesCount     = $DescribeBotLocaleResponse->SlotTypesCount;
+    my $VoiceSettings      = $DescribeBotLocaleResponse->VoiceSettings;
 
     # Returns a L<Paws::LexModelsV2::DescribeBotLocaleResponse> object.
 
@@ -73,7 +75,7 @@ The identifier of the bot associated with the locale.
 
 =head2 B<REQUIRED> BotVersion => Str
 
-The identifier of the version of the bot associated with the locale.
+The version of the bot associated with the locale.
 
 
 

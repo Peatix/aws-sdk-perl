@@ -3,14 +3,19 @@ package Paws::DynamoDB::CreateTable;
   use Moose;
   has AttributeDefinitions => (is => 'ro', isa => 'ArrayRef[Paws::DynamoDB::AttributeDefinition]', required => 1);
   has BillingMode => (is => 'ro', isa => 'Str');
+  has DeletionProtectionEnabled => (is => 'ro', isa => 'Bool');
   has GlobalSecondaryIndexes => (is => 'ro', isa => 'ArrayRef[Paws::DynamoDB::GlobalSecondaryIndex]');
   has KeySchema => (is => 'ro', isa => 'ArrayRef[Paws::DynamoDB::KeySchemaElement]', required => 1);
   has LocalSecondaryIndexes => (is => 'ro', isa => 'ArrayRef[Paws::DynamoDB::LocalSecondaryIndex]');
+  has OnDemandThroughput => (is => 'ro', isa => 'Paws::DynamoDB::OnDemandThroughput');
   has ProvisionedThroughput => (is => 'ro', isa => 'Paws::DynamoDB::ProvisionedThroughput');
+  has ResourcePolicy => (is => 'ro', isa => 'Str');
   has SSESpecification => (is => 'ro', isa => 'Paws::DynamoDB::SSESpecification');
   has StreamSpecification => (is => 'ro', isa => 'Paws::DynamoDB::StreamSpecification');
+  has TableClass => (is => 'ro', isa => 'Str');
   has TableName => (is => 'ro', isa => 'Str', required => 1);
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::DynamoDB::Tag]');
+  has WarmThroughput => (is => 'ro', isa => 'Paws::DynamoDB::WarmThroughput');
 
   use MooseX::ClassAttribute;
 
@@ -97,21 +102,30 @@ manage capacity. This setting can be changed later.
 
 =item *
 
-C<PROVISIONED> - We recommend using C<PROVISIONED> for predictable
-workloads. C<PROVISIONED> sets the billing mode to Provisioned Mode
-(https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadWriteCapacityMode.html#HowItWorks.ProvisionedThroughput.Manual).
+C<PAY_PER_REQUEST> - We recommend using C<PAY_PER_REQUEST> for most
+DynamoDB workloads. C<PAY_PER_REQUEST> sets the billing mode to
+On-demand capacity mode
+(https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/on-demand-capacity-mode.html).
 
 =item *
 
-C<PAY_PER_REQUEST> - We recommend using C<PAY_PER_REQUEST> for
-unpredictable workloads. C<PAY_PER_REQUEST> sets the billing mode to
-On-Demand Mode
-(https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadWriteCapacityMode.html#HowItWorks.OnDemand).
+C<PROVISIONED> - We recommend using C<PROVISIONED> for steady workloads
+with predictable growth where capacity requirements can be reliably
+forecasted. C<PROVISIONED> sets the billing mode to Provisioned
+capacity mode
+(https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/provisioned-capacity-mode.html).
 
 =back
 
 
 Valid values are: C<"PROVISIONED">, C<"PAY_PER_REQUEST">
+
+=head2 DeletionProtectionEnabled => Bool
+
+Indicates whether deletion protection is to be enabled (true) or
+disabled (false) on the table.
+
+
 
 =head2 GlobalSecondaryIndexes => ArrayRef[L<Paws::DynamoDB::GlobalSecondaryIndex>]
 
@@ -168,7 +182,10 @@ that are projected into the secondary index. The total count of
 attributes provided in C<NonKeyAttributes>, summed across all of the
 secondary indexes, must not exceed 100. If you project the same
 attribute into two different indexes, this counts as two distinct
-attributes when determining the total.
+attributes when determining the total. This limit only applies when you
+specify the ProjectionType of C<INCLUDE>. You still can specify the
+ProjectionType of C<ALL> to project all attributes from the source
+table, even if the table has more than 100 attributes.
 
 =back
 
@@ -299,12 +316,23 @@ that are projected into the secondary index. The total count of
 attributes provided in C<NonKeyAttributes>, summed across all of the
 secondary indexes, must not exceed 100. If you project the same
 attribute into two different indexes, this counts as two distinct
-attributes when determining the total.
+attributes when determining the total. This limit only applies when you
+specify the ProjectionType of C<INCLUDE>. You still can specify the
+ProjectionType of C<ALL> to project all attributes from the source
+table, even if the table has more than 100 attributes.
 
 =back
 
 =back
 
+
+
+
+=head2 OnDemandThroughput => L<Paws::DynamoDB::OnDemandThroughput>
+
+Sets the maximum number of read and write units for the specified table
+in on-demand capacity mode. If you use this parameter, you must specify
+C<MaxReadRequestUnits>, C<MaxWriteRequestUnits>, or both.
 
 
 
@@ -321,6 +349,26 @@ For current minimum and maximum provisioned throughput values, see
 Service, Account, and Table Quotas
 (https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html)
 in the I<Amazon DynamoDB Developer Guide>.
+
+
+
+=head2 ResourcePolicy => Str
+
+An Amazon Web Services resource-based policy document in JSON format
+that will be attached to the table.
+
+When you attach a resource-based policy while creating a table, the
+policy application is I<strongly consistent>.
+
+The maximum size supported for a resource-based policy document is 20
+KB. DynamoDB counts whitespaces when calculating the size of a policy
+against this limit. For a full list of all considerations that apply
+for resource-based policies, see Resource-based policy considerations
+(https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/rbac-considerations.html).
+
+You need to specify the C<CreateTable> and C<PutResourcePolicy> IAM
+actions for authorizing a user to create a table with a resource-based
+policy.
 
 
 
@@ -377,9 +425,17 @@ item are written to the stream.
 
 
 
+=head2 TableClass => Str
+
+The table class of the new table. Valid values are C<STANDARD> and
+C<STANDARD_INFREQUENT_ACCESS>.
+
+Valid values are: C<"STANDARD">, C<"STANDARD_INFREQUENT_ACCESS">
+
 =head2 B<REQUIRED> TableName => Str
 
-The name of the table to create.
+The name of the table to create. You can also provide the Amazon
+Resource Name (ARN) of the table in this parameter.
 
 
 
@@ -388,6 +444,13 @@ The name of the table to create.
 A list of key-value pairs to label the table. For more information, see
 Tagging for DynamoDB
 (https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Tagging.html).
+
+
+
+=head2 WarmThroughput => L<Paws::DynamoDB::WarmThroughput>
+
+Represents the warm throughput (in read units per second and write
+units per second) for creating a table.
 
 
 

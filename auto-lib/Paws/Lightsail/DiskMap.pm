@@ -41,7 +41,7 @@ Describes a block storage disk mapping.
 
 =head2 NewDiskName => Str
 
-The new disk name (e.g., C<my-new-disk>).
+The new disk name (C<my-new-disk>).
 
 
 =head2 OriginalDiskPath => Str

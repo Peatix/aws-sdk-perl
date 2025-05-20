@@ -7,6 +7,7 @@ package Paws::WorkSpaces::DescribeWorkspaces;
   has NextToken => (is => 'ro', isa => 'Str');
   has UserName => (is => 'ro', isa => 'Str');
   has WorkspaceIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has WorkspaceName => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -33,12 +34,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $workspaces = Paws->service('WorkSpaces');
     my $DescribeWorkspacesResult = $workspaces->DescribeWorkspaces(
-      BundleId     => 'MyBundleId',                # OPTIONAL
-      DirectoryId  => 'MyDirectoryId',             # OPTIONAL
-      Limit        => 1,                           # OPTIONAL
-      NextToken    => 'MyPaginationToken',         # OPTIONAL
-      UserName     => 'MyUserName',                # OPTIONAL
-      WorkspaceIds => [ 'MyWorkspaceId', ... ],    # OPTIONAL
+      BundleId      => 'MyBundleId',                # OPTIONAL
+      DirectoryId   => 'MyDirectoryId',             # OPTIONAL
+      Limit         => 1,                           # OPTIONAL
+      NextToken     => 'MyPaginationToken',         # OPTIONAL
+      UserName      => 'MyUserName',                # OPTIONAL
+      WorkspaceIds  => [ 'MyWorkspaceId', ... ],    # OPTIONAL
+      WorkspaceName => 'MyWorkspaceName',           # OPTIONAL
     );
 
     # Results:
@@ -97,6 +99,12 @@ with any other filter.
 Because the CreateWorkspaces operation is asynchronous, the identifier
 it returns is not immediately available. If you immediately call
 DescribeWorkspaces with this identifier, no information is returned.
+
+
+
+=head2 WorkspaceName => Str
+
+The name of the user-decoupled WorkSpace.
 
 
 

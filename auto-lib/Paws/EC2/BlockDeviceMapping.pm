@@ -53,7 +53,8 @@ is launched.
 =head2 NoDevice => Str
 
 To omit the device from the block device mapping, specify an empty
-string.
+string. When this property is specified, the device is removed from the
+block device mapping regardless of the assigned value.
 
 
 =head2 VirtualName => Str

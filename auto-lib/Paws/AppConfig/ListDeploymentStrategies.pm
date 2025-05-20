@@ -29,14 +29,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $appconfig = Paws->service('AppConfig');
-    my $DeploymentStrategies = $appconfig->ListDeploymentStrategies(
-      MaxResults => 1,                # OPTIONAL
-      NextToken  => 'MyNextToken',    # OPTIONAL
-    );
+    # To list the available deployment strategies
+    # The following list-deployment-strategies example lists the available
+    # deployment strategies in your AWS account.
+    my $DeploymentStrategies = $appconfig->ListDeploymentStrategies();
 
     # Results:
-    my $Items     = $DeploymentStrategies->Items;
-    my $NextToken = $DeploymentStrategies->NextToken;
+    my $Items = $DeploymentStrategies->Items;
 
     # Returns a L<Paws::AppConfig::DeploymentStrategies> object.
 

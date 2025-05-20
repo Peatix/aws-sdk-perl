@@ -82,9 +82,9 @@ An optional name for the target.
 
 =head2 OwnerInformation => Str
 
-User-provided value that will be included in any CloudWatch events
-raised while running tasks for these targets in this maintenance
-window.
+User-provided value that will be included in any Amazon CloudWatch
+Events events raised while running tasks for these targets in this
+maintenance window.
 
 
 
@@ -97,7 +97,7 @@ Valid values are: C<"INSTANCE">, C<"RESOURCE_GROUP">
 =head2 B<REQUIRED> Targets => ArrayRef[L<Paws::SSM::Target>]
 
 The targets to register with the maintenance window. In other words,
-the instances to run commands on when the maintenance window runs.
+the managed nodes to run commands on when the maintenance window runs.
 
 If a single maintenance window task is registered with multiple
 targets, its task invocations occur sequentially and not in parallel.
@@ -105,39 +105,39 @@ If your task must run on multiple targets at the same time, register a
 task for each target individually and assign each task the same
 priority level.
 
-You can specify targets using instance IDs, resource group names, or
-tags that have been applied to instances.
+You can specify targets using managed node IDs, resource group names,
+or tags that have been applied to managed nodes.
 
-B<Example 1>: Specify instance IDs
+B<Example 1>: Specify managed node IDs
 
-C<Key=InstanceIds,Values=I<instance-id-1>,I<instance-id-2>,I<instance-id-3>>
+C<Key=InstanceIds,Values=E<lt>instance-id-1E<gt>,E<lt>instance-id-2E<gt>,E<lt>instance-id-3E<gt>>
 
-B<Example 2>: Use tag key-pairs applied to instances
+B<Example 2>: Use tag key-pairs applied to managed nodes
 
-C<Key=tag:I<my-tag-key>,Values=I<my-tag-value-1>,I<my-tag-value-2>>
+C<Key=tag:E<lt>my-tag-keyE<gt>,Values=E<lt>my-tag-value-1E<gt>,E<lt>my-tag-value-2E<gt>>
 
-B<Example 3>: Use tag-keys applied to instances
+B<Example 3>: Use tag-keys applied to managed nodes
 
-C<Key=tag-key,Values=I<my-tag-key-1>,I<my-tag-key-2>>
+C<Key=tag-key,Values=E<lt>my-tag-key-1E<gt>,E<lt>my-tag-key-2E<gt>>
 
 B<Example 4>: Use resource group names
 
-C<Key=resource-groups:Name,Values=I<resource-group-name>>
+C<Key=resource-groups:Name,Values=E<lt>resource-group-nameE<gt>>
 
 B<Example 5>: Use filters for resource group types
 
-C<Key=resource-groups:ResourceTypeFilters,Values=I<resource-type-1>,I<resource-type-2>>
+C<Key=resource-groups:ResourceTypeFilters,Values=E<lt>resource-type-1E<gt>,E<lt>resource-type-2E<gt>>
 
 For C<Key=resource-groups:ResourceTypeFilters>, specify resource types
 in the following format
 
-C<Key=resource-groups:ResourceTypeFilters,Values=I<AWS::EC2::INSTANCE>,I<AWS::EC2::VPC>>
+C<Key=resource-groups:ResourceTypeFilters,Values=AWS::EC2::INSTANCE,AWS::EC2::VPC>
 
 For more information about these examples formats, including the best
 use case for each one, see Examples: Register targets with a
 maintenance window
 (https://docs.aws.amazon.com/systems-manager/latest/userguide/mw-cli-tutorial-targets-examples.html)
-in the I<AWS Systems Manager User Guide>.
+in the I<Amazon Web Services Systems Manager User Guide>.
 
 
 

@@ -31,14 +31,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $api.sagemaker = Paws->service('SageMaker');
     my $UpdateContextResponse = $api . sagemaker->UpdateContext(
-      ContextName => 'MyExperimentEntityName',
+      ContextName => 'MyContextName',
       Description => 'MyExperimentDescription',    # OPTIONAL
       Properties  => {
         'MyStringParameterValue' =>
-          'MyStringParameterValue',    # key: max: 256, value: max: 256
+          'MyStringParameterValue',    # key: max: 2500, value: max: 2500
       },    # OPTIONAL
       PropertiesToRemove => [
-        'MyStringParameterValue', ...    # max: 256
+        'MyStringParameterValue', ...    # max: 2500
       ],    # OPTIONAL
     );
 

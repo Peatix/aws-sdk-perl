@@ -59,13 +59,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 B<REQUIRED> AuthorizerId => Str
 
-[Required] The identifier of the Authorizer resource.
+The identifier of the Authorizer resource.
 
 
 
 =head2 B<REQUIRED> RestApiId => Str
 
-[Required] The string identifier of the associated RestApi.
+The string identifier of the associated RestApi.
 
 
 

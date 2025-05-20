@@ -33,17 +33,19 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Transcribe:
 
 =head1 DESCRIPTION
 
-Identifies the location of a medical transcript.
+Provides you with the Amazon S3 URI you can use to access your
+transcript.
 
 =head1 ATTRIBUTES
 
 
 =head2 TranscriptFileUri => Str
 
-The S3 object location of the medical transcript.
+The Amazon S3 location of your transcript. You can use this URI to
+access or download your transcript.
 
-Use this URI to access the medical transcript. This URI points to the
-S3 bucket you created to store the medical transcript.
+Note that this is the Amazon S3 location you specified in your request
+using the C<OutputBucketName> parameter.
 
 
 

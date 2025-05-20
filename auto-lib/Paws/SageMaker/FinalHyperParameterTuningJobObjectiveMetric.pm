@@ -35,23 +35,30 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SageMaker::
 
 =head1 DESCRIPTION
 
-Shows the final value for the objective metric for a training job that
-was launched by a hyperparameter tuning job. You define the objective
+Shows the latest objective metric emitted by a training job that was
+launched by a hyperparameter tuning job. You define the objective
 metric in the C<HyperParameterTuningJobObjective> parameter of
-HyperParameterTuningJobConfig.
+HyperParameterTuningJobConfig
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_HyperParameterTuningJobConfig.html).
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> MetricName => Str
 
-The name of the objective metric.
+The name of the objective metric. For SageMaker built-in algorithms,
+metrics are defined per algorithm. See the metrics for XGBoost
+(https://docs.aws.amazon.com/sagemaker/latest/dg/xgboost-tuning.html)
+as an example. You can also use a custom algorithm for training and
+define your own metrics. For more information, see Define metrics and
+environment variables
+(https://docs.aws.amazon.com/sagemaker/latest/dg/automatic-model-tuning-define-metrics-variables.html).
 
 
 =head2 Type => Str
 
-Whether to minimize or maximize the objective metric. Valid values are
-Minimize and Maximize.
+Select if you want to minimize or maximize the objective metric during
+hyperparameter tuning.
 
 
 =head2 B<REQUIRED> Value => Num

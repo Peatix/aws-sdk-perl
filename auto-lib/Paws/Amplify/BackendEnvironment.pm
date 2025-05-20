@@ -38,7 +38,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Amplify::Ba
 
 =head1 DESCRIPTION
 
-Describes the backend environment for an Amplify app.
+Describes the backend environment associated with a C<Branch> of a Gen
+1 Amplify app. Amplify Gen 1 applications are created using Amplify
+Studio or the Amplify command line interface (CLI).
 
 =head1 ATTRIBUTES
 

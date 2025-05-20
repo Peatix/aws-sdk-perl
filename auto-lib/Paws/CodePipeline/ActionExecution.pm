@@ -7,6 +7,7 @@ package Paws::CodePipeline::ActionExecution;
   has ExternalExecutionUrl => (is => 'ro', isa => 'Str', request_name => 'externalExecutionUrl', traits => ['NameInRequest']);
   has LastStatusChange => (is => 'ro', isa => 'Str', request_name => 'lastStatusChange', traits => ['NameInRequest']);
   has LastUpdatedBy => (is => 'ro', isa => 'Str', request_name => 'lastUpdatedBy', traits => ['NameInRequest']);
+  has LogStreamARN => (is => 'ro', isa => 'Str', request_name => 'logStreamARN', traits => ['NameInRequest']);
   has PercentComplete => (is => 'ro', isa => 'Int', request_name => 'percentComplete', traits => ['NameInRequest']);
   has Status => (is => 'ro', isa => 'Str', request_name => 'status', traits => ['NameInRequest']);
   has Summary => (is => 'ro', isa => 'Str', request_name => 'summary', traits => ['NameInRequest']);
@@ -59,7 +60,8 @@ ID is available for executions run on or after March 2020.
 
 =head2 ErrorDetails => L<Paws::CodePipeline::ErrorDetails>
 
-The details of an error returned by a URL external to AWS.
+The details of an error returned by a URL external to Amazon Web
+Services.
 
 
 =head2 ExternalExecutionId => Str
@@ -69,8 +71,8 @@ The external ID of the run of the action.
 
 =head2 ExternalExecutionUrl => Str
 
-The URL of a resource external to AWS that is used when running the
-action (for example, an external repository URL).
+The URL of a resource external to Amazon Web Services that is used when
+running the action (for example, an external repository URL).
 
 
 =head2 LastStatusChange => Str
@@ -81,6 +83,12 @@ The last status change of the action.
 =head2 LastUpdatedBy => Str
 
 The ARN of the user who last changed the pipeline.
+
+
+=head2 LogStreamARN => Str
+
+The Amazon Resource Name (ARN) of the log stream for the action
+compute.
 
 
 =head2 PercentComplete => Int

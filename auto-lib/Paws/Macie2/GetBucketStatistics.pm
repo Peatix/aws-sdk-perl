@@ -42,6 +42,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       $GetBucketStatisticsResponse->BucketCountByObjectEncryptionRequirement;
     my $BucketCountBySharedAccessType =
       $GetBucketStatisticsResponse->BucketCountBySharedAccessType;
+    my $BucketStatisticsBySensitivity =
+      $GetBucketStatisticsResponse->BucketStatisticsBySensitivity;
     my $ClassifiableObjectCount =
       $GetBucketStatisticsResponse->ClassifiableObjectCount;
     my $ClassifiableSizeInBytes =

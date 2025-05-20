@@ -3,6 +3,7 @@ package Paws::KinesisAnalyticsV2::AddApplicationVpcConfigurationResponse;
   use Moose;
   has ApplicationARN => (is => 'ro', isa => 'Str');
   has ApplicationVersionId => (is => 'ro', isa => 'Int');
+  has OperationId => (is => 'ro', isa => 'Str');
   has VpcConfigurationDescription => (is => 'ro', isa => 'Paws::KinesisAnalyticsV2::VpcConfigurationDescription');
 
   has _request_id => (is => 'ro', isa => 'Str');
@@ -23,8 +24,14 @@ The ARN of the application.
 
 =head2 ApplicationVersionId => Int
 
-Provides the current application version. Kinesis Data Analytics
-updates the ApplicationVersionId each time you update the application.
+Provides the current application version. Managed Service for Apache
+Flink updates the ApplicationVersionId each time you update the
+application.
+
+
+=head2 OperationId => Str
+
+Operation ID for tracking AddApplicationVpcConfiguration request
 
 
 =head2 VpcConfigurationDescription => L<Paws::KinesisAnalyticsV2::VpcConfigurationDescription>

@@ -44,6 +44,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $DisableExecuteApiEndpoint = $GetApiResponse->DisableExecuteApiEndpoint;
     my $DisableSchemaValidation   = $GetApiResponse->DisableSchemaValidation;
     my $ImportInfo                = $GetApiResponse->ImportInfo;
+    my $IpAddressType             = $GetApiResponse->IpAddressType;
     my $Name                      = $GetApiResponse->Name;
     my $ProtocolType              = $GetApiResponse->ProtocolType;
     my $RouteSelectionExpression  = $GetApiResponse->RouteSelectionExpression;

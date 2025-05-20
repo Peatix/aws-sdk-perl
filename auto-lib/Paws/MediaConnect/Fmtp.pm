@@ -39,7 +39,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::MediaConnec
 
 =head1 DESCRIPTION
 
-FMTP
+A set of parameters that define the media stream.
 
 =head1 ATTRIBUTES
 
@@ -51,15 +51,13 @@ The format of the audio channel.
 
 =head2 Colorimetry => Str
 
-The format that is used for the representation of color.
+The format used for the representation of color.
 
 
 =head2 ExactFramerate => Str
 
 The frame rate for the video stream, in frames/second. For example:
-60000/1001. If you specify a whole number, MediaConnect uses a ratio of
-N/1. For example, if you specify 60, MediaConnect uses 60/1 as the
-exactFramerate.
+60000/1001.
 
 
 =head2 Par => Str
@@ -75,7 +73,7 @@ The encoding range of the video.
 =head2 ScanMode => Str
 
 The type of compression that was used to smooth the videoE<rsquo>s
-appearance
+appearance.
 
 
 =head2 Tcs => Str

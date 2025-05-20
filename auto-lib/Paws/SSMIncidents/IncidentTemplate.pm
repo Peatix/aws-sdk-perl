@@ -3,6 +3,7 @@ package Paws::SSMIncidents::IncidentTemplate;
   use Moose;
   has DedupeString => (is => 'ro', isa => 'Str', request_name => 'dedupeString', traits => ['NameInRequest']);
   has Impact => (is => 'ro', isa => 'Int', request_name => 'impact', traits => ['NameInRequest'], required => 1);
+  has IncidentTags => (is => 'ro', isa => 'Paws::SSMIncidents::TagMap', request_name => 'incidentTags', traits => ['NameInRequest']);
   has NotificationTargets => (is => 'ro', isa => 'ArrayRef[Paws::SSMIncidents::NotificationTargetItem]', request_name => 'notificationTargets', traits => ['NameInRequest']);
   has Summary => (is => 'ro', isa => 'Str', request_name => 'summary', traits => ['NameInRequest']);
   has Title => (is => 'ro', isa => 'Str', request_name => 'title', traits => ['NameInRequest'], required => 1);
@@ -45,20 +46,65 @@ then used to create an incident record.
 
 =head2 DedupeString => Str
 
-Used to stop Incident Manager from creating multiple incident records
-for the same incident.
+The string Incident Manager uses to prevent the same root cause from
+creating multiple incidents in the same account.
+
+A deduplication string is a term or phrase the system uses to check for
+duplicate incidents. If you specify a deduplication string, Incident
+Manager searches for open incidents that contain the same string in the
+C<dedupeString> field when it creates the incident. If a duplicate is
+detected, Incident Manager deduplicates the newer incident into the
+existing incident.
+
+By default, Incident Manager automatically deduplicates multiple
+incidents created by the same Amazon CloudWatch alarm or Amazon
+EventBridge event. You don't have to enter your own deduplication
+string to prevent duplication for these resource types.
 
 
 =head2 B<REQUIRED> Impact => Int
 
 The impact of the incident on your customers and applications.
 
+B<Supported impact codes>
+
+=over
+
+=item *
+
+C<1> - Critical
+
+=item *
+
+C<2> - High
+
+=item *
+
+C<3> - Medium
+
+=item *
+
+C<4> - Low
+
+=item *
+
+C<5> - No Impact
+
+=back
+
+
+
+=head2 IncidentTags => L<Paws::SSMIncidents::TagMap>
+
+Tags to assign to the template. When the C<StartIncident> API action is
+called, Incident Manager assigns the tags specified in the template to
+the incident.
+
 
 =head2 NotificationTargets => ArrayRef[L<Paws::SSMIncidents::NotificationTargetItem>]
 
-The SNS targets that AWS Chatbot uses to notify the chat channel of
-updates to an incident. You can also make updates to the incident
-through the chat channel using the SNS topics.
+The Amazon SNS targets that are notified when updates are made to an
+incident.
 
 
 =head2 Summary => Str

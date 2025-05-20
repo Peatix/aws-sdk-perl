@@ -21,7 +21,7 @@ Paws::EC2::Reservation
 
 =head2 Groups => ArrayRef[L<Paws::EC2::GroupIdentifier>]
 
-[EC2-Classic only] The security groups.
+Not supported.
 
 
 =head2 Instances => ArrayRef[L<Paws::EC2::Instance>]
@@ -31,13 +31,13 @@ The instances.
 
 =head2 OwnerId => Str
 
-The ID of the account that owns the reservation.
+The ID of the Amazon Web Services account that owns the reservation.
 
 
 =head2 RequesterId => Str
 
 The ID of the requester that launched the instances on your behalf (for
-example, Management Console or Auto Scaling).
+example, Amazon Web Services Management Console or Auto Scaling).
 
 
 =head2 ReservationId => Str

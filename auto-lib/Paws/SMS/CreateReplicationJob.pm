@@ -124,7 +124,7 @@ after the maximum number is reached and a new AMI is created.
 
 =head2 RoleName => Str
 
-The name of the IAM role to be used by the AWS SMS.
+The name of the IAM role to be used by the Server Migration Service.
 
 
 

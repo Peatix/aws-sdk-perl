@@ -18,7 +18,7 @@ Paws::CloudFormation::SetTypeConfigurationOutput
 =head2 ConfigurationArn => Str
 
 The Amazon Resource Name (ARN) for the configuration data, in this
-account and region.
+account and Region.
 
 Conditional: You must specify C<ConfigurationArn>, or C<Type> and
 C<TypeName>.

@@ -5,11 +5,13 @@ package Paws::CloudWatchLogs::FilterLogEvents;
   has FilterPattern => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'filterPattern' );
   has Interleaved => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'interleaved' );
   has Limit => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'limit' );
-  has LogGroupName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'logGroupName' , required => 1);
+  has LogGroupIdentifier => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'logGroupIdentifier' );
+  has LogGroupName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'logGroupName' );
   has LogStreamNamePrefix => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'logStreamNamePrefix' );
   has LogStreamNames => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'logStreamNames' );
   has NextToken => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'nextToken' );
   has StartTime => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'startTime' );
+  has Unmask => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'unmask' );
 
   use MooseX::ClassAttribute;
 
@@ -36,17 +38,19 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $logs = Paws->service('CloudWatchLogs');
     my $FilterLogEventsResponse = $logs->FilterLogEvents(
-      LogGroupName        => 'MyLogGroupName',
-      EndTime             => 1,                    # OPTIONAL
-      FilterPattern       => 'MyFilterPattern',    # OPTIONAL
-      Interleaved         => 1,                    # OPTIONAL
-      Limit               => 1,                    # OPTIONAL
-      LogStreamNamePrefix => 'MyLogStreamName',    # OPTIONAL
+      EndTime             => 1,                         # OPTIONAL
+      FilterPattern       => 'MyFilterPattern',         # OPTIONAL
+      Interleaved         => 1,                         # OPTIONAL
+      Limit               => 1,                         # OPTIONAL
+      LogGroupIdentifier  => 'MyLogGroupIdentifier',    # OPTIONAL
+      LogGroupName        => 'MyLogGroupName',          # OPTIONAL
+      LogStreamNamePrefix => 'MyLogStreamName',         # OPTIONAL
       LogStreamNames      => [
-        'MyLogStreamName', ...                     # min: 1, max: 512
+        'MyLogStreamName', ...                          # min: 1, max: 512
       ],    # OPTIONAL
       NextToken => 'MyNextToken',    # OPTIONAL
       StartTime => 1,                # OPTIONAL
+      Unmask    => 1,                # OPTIONAL
     );
 
     # Results:
@@ -65,8 +69,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/log
 =head2 EndTime => Int
 
 The end of the time range, expressed as the number of milliseconds
-after Jan 1, 1970 00:00:00 UTC. Events with a timestamp later than this
-time are not returned.
+after C<Jan 1, 1970 00:00:00 UTC>. Events with a timestamp later than
+this time are not returned.
 
 
 
@@ -82,15 +86,15 @@ If not provided, all the events are matched.
 
 =head2 Interleaved => Bool
 
-If the value is true, the operation makes a best effort to provide
-responses that contain events from multiple log streams within the log
-group, interleaved in a single response. If the value is false, all the
+If the value is true, the operation attempts to provide responses that
+contain events from multiple log streams within the log group,
+interleaved in a single response. If the value is false, all the
 matched log events in the first log stream are searched first, then
-those in the next log stream, and so on. The default is false.
+those in the next log stream, and so on.
 
-B<Important:> Starting on June 17, 2019, this parameter is ignored and
-the value is assumed to be true. The response from this operation
-always interleaves events from multiple log streams within a log group.
+B<Important> As of June 17, 2019, this parameter is ignored and the
+value is assumed to be true. The response from this operation always
+interleaves events from multiple log streams within a log group.
 
 
 
@@ -100,9 +104,23 @@ The maximum number of events to return. The default is 10,000 events.
 
 
 
-=head2 B<REQUIRED> LogGroupName => Str
+=head2 LogGroupIdentifier => Str
+
+Specify either the name or ARN of the log group to view log events
+from. If the log group is in a source account and you are using a
+monitoring account, you must use the log group ARN.
+
+You must include either C<logGroupIdentifier> or C<logGroupName>, but
+not both.
+
+
+
+=head2 LogGroupName => Str
 
 The name of the log group to search.
+
+You must include either C<logGroupIdentifier> or C<logGroupName>, but
+not both.
 
 
 
@@ -112,9 +130,8 @@ Filters the results to include only events from log streams that have
 names starting with this prefix.
 
 If you specify a value for both C<logStreamNamePrefix> and
-C<logStreamNames>, but the value for C<logStreamNamePrefix> does not
-match any log stream names specified in C<logStreamNames>, the action
-returns an C<InvalidParameterException> error.
+C<logStreamNames>, the action returns an C<InvalidParameterException>
+error.
 
 
 
@@ -122,9 +139,9 @@ returns an C<InvalidParameterException> error.
 
 Filters the results to only logs from the log streams in this list.
 
-If you specify a value for both C<logStreamNamePrefix> and
-C<logStreamNames>, the action returns an C<InvalidParameterException>
-error.
+If you specify a value for both C<logStreamNames> and
+C<logStreamNamePrefix>, the action returns an
+C<InvalidParameterException> error.
 
 
 
@@ -138,8 +155,18 @@ token from a previous call.)
 =head2 StartTime => Int
 
 The start of the time range, expressed as the number of milliseconds
-after Jan 1, 1970 00:00:00 UTC. Events with a timestamp before this
+after C<Jan 1, 1970 00:00:00 UTC>. Events with a timestamp before this
 time are not returned.
+
+
+
+=head2 Unmask => Bool
+
+Specify C<true> to display the log event fields with all sensitive data
+unmasked and visible. The default is C<false>.
+
+To use this operation with this parameter, you must be signed into an
+account with the C<logs:Unmask> permission.
 
 
 

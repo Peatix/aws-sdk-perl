@@ -65,10 +65,10 @@ The following status options are available:
 
 C<Active> - Opts in your account to the Compute Optimizer service.
 Compute Optimizer begins analyzing the configuration and utilization
-metrics of your AWS resources after you opt in. For more information,
-see Metrics analyzed by AWS Compute Optimizer
+metrics of your Amazon Web Services resources after you opt in. For
+more information, see Metrics analyzed by Compute Optimizer
 (https://docs.aws.amazon.com/compute-optimizer/latest/ug/metrics.html)
-in the I<AWS Compute Optimizer User Guide>.
+in the I<Compute Optimizer User Guide>.
 
 =item *
 

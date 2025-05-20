@@ -62,8 +62,8 @@ with that client request token.
 
 The URL for your import file that you've uploaded to Amazon S3.
 
-If you're using the AWS CLI, this URL is structured as follows:
-C<s3://BucketName/ImportFileName.CSV>
+If you're using the Amazon Web Services CLI, this URL is structured as
+follows: C<s3://BucketName/ImportFileName.CSV>
 
 
 

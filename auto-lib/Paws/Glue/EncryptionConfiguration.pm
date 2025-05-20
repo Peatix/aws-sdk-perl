@@ -2,6 +2,7 @@
 package Paws::Glue::EncryptionConfiguration;
   use Moose;
   has CloudWatchEncryption => (is => 'ro', isa => 'Paws::Glue::CloudWatchEncryption');
+  has DataQualityEncryption => (is => 'ro', isa => 'Paws::Glue::DataQualityEncryption');
   has JobBookmarksEncryption => (is => 'ro', isa => 'Paws::Glue::JobBookmarksEncryption');
   has S3Encryption => (is => 'ro', isa => 'ArrayRef[Paws::Glue::S3Encryption]');
 
@@ -43,6 +44,11 @@ Specifies an encryption configuration.
 =head2 CloudWatchEncryption => L<Paws::Glue::CloudWatchEncryption>
 
 The encryption configuration for Amazon CloudWatch.
+
+
+=head2 DataQualityEncryption => L<Paws::Glue::DataQualityEncryption>
+
+The encryption configuration for Glue Data Quality assets.
 
 
 =head2 JobBookmarksEncryption => L<Paws::Glue::JobBookmarksEncryption>

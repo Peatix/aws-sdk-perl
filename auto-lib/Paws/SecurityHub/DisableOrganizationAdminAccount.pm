@@ -42,7 +42,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/sec
 
 =head2 B<REQUIRED> AdminAccountId => Str
 
-The AWS account identifier of the Security Hub administrator account.
+The Amazon Web Services account identifier of the Security Hub
+administrator account.
 
 
 

@@ -98,18 +98,19 @@ model group.
 
 =head2 ModelPackageType => Str
 
-A filter that returns onlyl the model packages of the specified type.
+A filter that returns only the model packages of the specified type.
 This can be one of the following values.
 
 =over
 
 =item *
 
-C<VERSIONED> - List only versioned models.
+C<UNVERSIONED> - List only unversioined models. This is the default
+value if no C<ModelPackageType> is specified.
 
 =item *
 
-C<UNVERSIONED> - List only unversioined models.
+C<VERSIONED> - List only versioned models.
 
 =item *
 

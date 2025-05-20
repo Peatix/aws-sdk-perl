@@ -51,7 +51,7 @@ The name of the DB instance to associate the IAM role with.
 =head2 B<REQUIRED> FeatureName => Str
 
 The name of the feature for the DB instance that the IAM role is to be
-associated with. For the list of supported feature names, see
+associated with. For information about supported feature names, see
 DBEngineVersion.
 
 

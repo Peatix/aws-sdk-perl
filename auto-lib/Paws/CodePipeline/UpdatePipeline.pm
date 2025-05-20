@@ -37,17 +37,29 @@ You shouldn't make instances of this class. Each attribute should be used as a n
               {
                 ActionTypeId => {
                   Category => 'Source'
-                  ,    # values: Source, Build, Deploy, Test, Invoke, Approval
+                  , # values: Source, Build, Deploy, Test, Invoke, Approval, Compute
                   Owner    => 'AWS',    # values: AWS, ThirdParty, Custom
                   Provider => 'MyActionProvider',    # min: 1, max: 35
                   Version  => 'MyVersion',           # min: 1, max: 9
 
                 },
-                Name          => 'MyActionName',     # min: 1, max: 100
+                Name     => 'MyActionName',          # min: 1, max: 100
+                Commands => [
+                  'MyCommand', ...                   # min: 1, max: 1000
+                ],    # min: 1, max: 50; OPTIONAL
                 Configuration => {
                   'MyActionConfigurationKey' => 'MyActionConfigurationValue'
                   ,    # key: min: 1, max: 50, value: min: 1, max: 1000
                 },    # OPTIONAL
+                EnvironmentVariables => [
+                  {
+                    Name  => 'MyEnvironmentVariableName',    # min: 1, max: 128
+                    Value => 'MyEnvironmentVariableValue',   # min: 1, max: 2000
+                    Type  => 'PLAINTEXT'
+                    ,    # values: PLAINTEXT, SECRETS_MANAGER; OPTIONAL
+                  },
+                  ...
+                ],    # min: 1, max: 10; OPTIONAL
                 InputArtifacts => [
                   {
                     Name => 'MyArtifactName',    # min: 1, max: 100
@@ -58,18 +70,63 @@ You shouldn't make instances of this class. Each attribute should be used as a n
                 Namespace => 'MyActionNamespace',   # min: 1, max: 100; OPTIONAL
                 OutputArtifacts => [
                   {
-                    Name => 'MyArtifactName',       # min: 1, max: 100
-
+                    Name  => 'MyArtifactName',      # min: 1, max: 100
+                    Files => [
+                      'MyFilePath', ...             # min: 1, max: 128
+                    ],    # min: 1, max: 10; OPTIONAL
                   },
                   ...
                 ],    # OPTIONAL
+                OutputVariables => [
+                  'MyOutputVariable', ...    # min: 1, max: 128
+                ],    # min: 1, max: 15; OPTIONAL
                 Region   => 'MyAWSRegionName',    # min: 4, max: 30; OPTIONAL
                 RoleArn  => 'MyRoleArn',          # max: 1024
                 RunOrder => 1,                    # min: 1, max: 999; OPTIONAL
+                TimeoutInMinutes => 1,            # min: 5, max: 86400; OPTIONAL
               },
               ...
             ],
-            Name     => 'MyStageName',            # min: 1, max: 100
+            Name        => 'MyStageName',         # min: 1, max: 100
+            BeforeEntry => {
+              Conditions => [
+                {
+                  Result =>
+                    'ROLLBACK',  # values: ROLLBACK, FAIL, RETRY, SKIP; OPTIONAL
+                  Rules => [
+                    {
+                      Name       => 'MyRuleName',    # min: 1, max: 100
+                      RuleTypeId => {
+                        Category => 'Rule',              # values: Rule
+                        Provider => 'MyRuleProvider',    # min: 1, max: 35
+                        Owner    => 'AWS',               # values: AWS; OPTIONAL
+                        Version  => 'MyVersion',         # min: 1, max: 9
+                      },
+                      Commands => [
+                        'MyCommand', ...                 # min: 1, max: 1000
+                      ],    # min: 1, max: 50; OPTIONAL
+                      Configuration => {
+                        'MyRuleConfigurationKey' => 'MyRuleConfigurationValue'
+                        ,    # key: min: 1, max: 50, value: min: 1, max: 10000
+                      },    # max: 200; OPTIONAL
+                      InputArtifacts => [
+                        {
+                          Name => 'MyArtifactName',    # min: 1, max: 100
+
+                        },
+                        ...
+                      ],    # OPTIONAL
+                      Region  => 'MyAWSRegionName',  # min: 4, max: 30; OPTIONAL
+                      RoleArn => 'MyRoleArn',        # max: 1024
+                      TimeoutInMinutes => 1,    # min: 5, max: 86400; OPTIONAL
+                    },
+                    ...
+                  ],    # min: 1, max: 5; OPTIONAL
+                },
+                ...
+              ],    # min: 1, max: 1
+
+            },    # OPTIONAL
             Blockers => [
               {
                 Name => 'MyBlockerName',    # min: 1, max: 100
@@ -78,6 +135,89 @@ You shouldn't make instances of this class. Each attribute should be used as a n
               },
               ...
             ],    # OPTIONAL
+            OnFailure => {
+              Conditions => [
+                {
+                  Result =>
+                    'ROLLBACK',  # values: ROLLBACK, FAIL, RETRY, SKIP; OPTIONAL
+                  Rules => [
+                    {
+                      Name       => 'MyRuleName',    # min: 1, max: 100
+                      RuleTypeId => {
+                        Category => 'Rule',              # values: Rule
+                        Provider => 'MyRuleProvider',    # min: 1, max: 35
+                        Owner    => 'AWS',               # values: AWS; OPTIONAL
+                        Version  => 'MyVersion',         # min: 1, max: 9
+                      },
+                      Commands => [
+                        'MyCommand', ...                 # min: 1, max: 1000
+                      ],    # min: 1, max: 50; OPTIONAL
+                      Configuration => {
+                        'MyRuleConfigurationKey' => 'MyRuleConfigurationValue'
+                        ,    # key: min: 1, max: 50, value: min: 1, max: 10000
+                      },    # max: 200; OPTIONAL
+                      InputArtifacts => [
+                        {
+                          Name => 'MyArtifactName',    # min: 1, max: 100
+
+                        },
+                        ...
+                      ],    # OPTIONAL
+                      Region  => 'MyAWSRegionName',  # min: 4, max: 30; OPTIONAL
+                      RoleArn => 'MyRoleArn',        # max: 1024
+                      TimeoutInMinutes => 1,    # min: 5, max: 86400; OPTIONAL
+                    },
+                    ...
+                  ],    # min: 1, max: 5; OPTIONAL
+                },
+                ...
+              ],    # min: 1, max: 1
+              Result =>
+                'ROLLBACK',    # values: ROLLBACK, FAIL, RETRY, SKIP; OPTIONAL
+              RetryConfiguration => {
+                RetryMode => 'FAILED_ACTIONS'
+                ,              # values: FAILED_ACTIONS, ALL_ACTIONS; OPTIONAL
+              },    # OPTIONAL
+            },    # OPTIONAL
+            OnSuccess => {
+              Conditions => [
+                {
+                  Result =>
+                    'ROLLBACK',  # values: ROLLBACK, FAIL, RETRY, SKIP; OPTIONAL
+                  Rules => [
+                    {
+                      Name       => 'MyRuleName',    # min: 1, max: 100
+                      RuleTypeId => {
+                        Category => 'Rule',              # values: Rule
+                        Provider => 'MyRuleProvider',    # min: 1, max: 35
+                        Owner    => 'AWS',               # values: AWS; OPTIONAL
+                        Version  => 'MyVersion',         # min: 1, max: 9
+                      },
+                      Commands => [
+                        'MyCommand', ...                 # min: 1, max: 1000
+                      ],    # min: 1, max: 50; OPTIONAL
+                      Configuration => {
+                        'MyRuleConfigurationKey' => 'MyRuleConfigurationValue'
+                        ,    # key: min: 1, max: 50, value: min: 1, max: 10000
+                      },    # max: 200; OPTIONAL
+                      InputArtifacts => [
+                        {
+                          Name => 'MyArtifactName',    # min: 1, max: 100
+
+                        },
+                        ...
+                      ],    # OPTIONAL
+                      Region  => 'MyAWSRegionName',  # min: 4, max: 30; OPTIONAL
+                      RoleArn => 'MyRoleArn',        # max: 1024
+                      TimeoutInMinutes => 1,    # min: 5, max: 86400; OPTIONAL
+                    },
+                    ...
+                  ],    # min: 1, max: 5; OPTIONAL
+                },
+                ...
+              ],    # min: 1, max: 1
+
+            },    # OPTIONAL
           },
           ...
         ],
@@ -101,6 +241,82 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             },    # OPTIONAL
           },    # key: min: 4, max: 30; OPTIONAL, value: OPTIONAL
         },    # OPTIONAL
+        ExecutionMode =>
+          'QUEUED',    # values: QUEUED, SUPERSEDED, PARALLEL; OPTIONAL
+        PipelineType => 'V1',    # values: V1, V2; OPTIONAL
+        Triggers     => [
+          {
+            GitConfiguration => {
+              SourceActionName => 'MyActionName',    # min: 1, max: 100
+              PullRequest      => [
+                {
+                  Branches => {
+                    Excludes => [
+                      'MyGitBranchNamePattern', ...    # min: 1, max: 255
+                    ],    # min: 1, max: 8; OPTIONAL
+                    Includes => [
+                      'MyGitBranchNamePattern', ...    # min: 1, max: 255
+                    ],    # min: 1, max: 8; OPTIONAL
+                  },    # OPTIONAL
+                  Events => [
+                    'OPEN', ...    # values: OPEN, UPDATED, CLOSED
+                  ],    # min: 1, max: 3; OPTIONAL
+                  FilePaths => {
+                    Excludes => [
+                      'MyGitFilePathPattern', ...    # min: 1, max: 255
+                    ],    # min: 1, max: 8; OPTIONAL
+                    Includes => [
+                      'MyGitFilePathPattern', ...    # min: 1, max: 255
+                    ],    # min: 1, max: 8; OPTIONAL
+                  },    # OPTIONAL
+                },
+                ...
+              ],    # min: 1, max: 3; OPTIONAL
+              Push => [
+                {
+                  Branches => {
+                    Excludes => [
+                      'MyGitBranchNamePattern', ...    # min: 1, max: 255
+                    ],    # min: 1, max: 8; OPTIONAL
+                    Includes => [
+                      'MyGitBranchNamePattern', ...    # min: 1, max: 255
+                    ],    # min: 1, max: 8; OPTIONAL
+                  },    # OPTIONAL
+                  FilePaths => {
+                    Excludes => [
+                      'MyGitFilePathPattern', ...    # min: 1, max: 255
+                    ],    # min: 1, max: 8; OPTIONAL
+                    Includes => [
+                      'MyGitFilePathPattern', ...    # min: 1, max: 255
+                    ],    # min: 1, max: 8; OPTIONAL
+                  },    # OPTIONAL
+                  Tags => {
+                    Excludes => [
+                      'MyGitTagNamePattern', ...    # min: 1, max: 255
+                    ],    # min: 1, max: 8; OPTIONAL
+                    Includes => [
+                      'MyGitTagNamePattern', ...    # min: 1, max: 255
+                    ],    # min: 1, max: 8; OPTIONAL
+                  },    # OPTIONAL
+                },
+                ...
+              ],    # min: 1, max: 3; OPTIONAL
+            },
+            ProviderType =>
+              'CodeStarSourceConnection',    # values: CodeStarSourceConnection
+
+          },
+          ...
+        ],    # max: 50; OPTIONAL
+        Variables => [
+          {
+            Name         => 'MyPipelineVariableName',    # min: 1, max: 128
+            DefaultValue =>
+              'MyPipelineVariableValue',    # min: 1, max: 1000; OPTIONAL
+            Description => 'MyPipelineVariableDescription', # max: 200; OPTIONAL
+          },
+          ...
+        ],    # max: 50; OPTIONAL
         Version => 1,    # min: 1; OPTIONAL
       },
 

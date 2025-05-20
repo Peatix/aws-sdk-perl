@@ -16,7 +16,7 @@ Paws::Kendra::CreateDataSourceResponse
 
 =head2 B<REQUIRED> Id => Str
 
-A unique identifier for the data source.
+The identifier of the data source connector.
 
 
 =head2 _request_id => Str

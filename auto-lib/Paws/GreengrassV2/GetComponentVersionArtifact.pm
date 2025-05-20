@@ -3,6 +3,8 @@ package Paws::GreengrassV2::GetComponentVersionArtifact;
   use Moose;
   has Arn => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'arn', required => 1);
   has ArtifactName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'artifactName', required => 1);
+  has IotEndpointType => (is => 'ro', isa => 'Str', traits => ['ParamInHeader'], header_name => 'x-amz-iot-endpoint-type');
+  has S3EndpointType => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 's3EndpointType');
 
   use MooseX::ClassAttribute;
 
@@ -31,9 +33,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $greengrass = Paws->service('GreengrassV2');
     my $GetComponentVersionArtifactResponse =
       $greengrass->GetComponentVersionArtifact(
-      Arn          => 'MyComponentVersionARN',
-      ArtifactName => 'MyNonEmptyString',
-
+      Arn             => 'MyComponentVersionARN',
+      ArtifactName    => 'MyNonEmptyString',
+      IotEndpointType => 'fips',                    # OPTIONAL
+      S3EndpointType  => 'REGIONAL',                # OPTIONAL
       );
 
     # Results:
@@ -51,8 +54,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/gre
 
 The ARN
 (https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
-of the component version. Specify the ARN of a public component
-version.
+of the component version. Specify the ARN of a public or a Lambda
+component version.
 
 
 
@@ -69,6 +72,26 @@ C<greengrass:SomeArtifact.zip>, the artifact name is
 C<SomeArtifact.zip>.
 
 
+
+=head2 IotEndpointType => Str
+
+Determines if the Amazon S3 URL returned is a FIPS pre-signed URL
+endpoint. Specify C<fips> if you want the returned Amazon S3 pre-signed
+URL to point to an Amazon S3 FIPS endpoint. If you don't specify a
+value, the default is C<standard>.
+
+Valid values are: C<"fips">, C<"standard">
+
+=head2 S3EndpointType => Str
+
+Specifies the endpoint to use when getting Amazon S3 pre-signed URLs.
+
+All Amazon Web Services Regions except US East (N. Virginia) use
+C<REGIONAL> in all cases. In the US East (N. Virginia) Region the
+default is C<GLOBAL>, but you can change it to C<REGIONAL> with this
+parameter.
+
+Valid values are: C<"REGIONAL">, C<"GLOBAL">
 
 
 =head1 SEE ALSO

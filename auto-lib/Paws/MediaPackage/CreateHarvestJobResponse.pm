@@ -35,7 +35,7 @@ The ID of the Channel that the HarvestJob will harvest from.
 
 =head2 CreatedAt => Str
 
-The time the HarvestJob was submitted
+The date and time the HarvestJob was submitted.
 
 
 =head2 EndTime => Str

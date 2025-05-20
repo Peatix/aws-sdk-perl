@@ -6,6 +6,7 @@ package Paws::IoTSiteWise::UpdateAssetProperty;
   has PropertyAlias => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'propertyAlias');
   has PropertyId => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'propertyId', required => 1);
   has PropertyNotificationState => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'propertyNotificationState');
+  has PropertyUnit => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'propertyUnit');
 
   use MooseX::ClassAttribute;
 
@@ -33,11 +34,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $iotsitewise = Paws->service('IoTSiteWise');
     $iotsitewise->UpdateAssetProperty(
-      AssetId                   => 'MyID',
-      PropertyId                => 'MyID',
+      AssetId                   => 'MyCustomID',
+      PropertyId                => 'MyCustomID',
       ClientToken               => 'MyClientToken',      # OPTIONAL
       PropertyAlias             => 'MyPropertyAlias',    # OPTIONAL
       PropertyNotificationState => 'ENABLED',            # OPTIONAL
+      PropertyUnit              => 'MyPropertyUnit',     # OPTIONAL
     );
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
@@ -48,7 +50,12 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/iot
 
 =head2 B<REQUIRED> AssetId => Str
 
-The ID of the asset to be updated.
+The ID of the asset to be updated. This can be either the actual ID in
+UUID format, or else C<externalId:> followed by the external ID, if it
+has one. For more information, see Referencing objects with external
+IDs
+(https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references)
+in the I<IoT SiteWise User Guide>.
 
 
 
@@ -62,12 +69,12 @@ idempotent request is required.
 
 =head2 PropertyAlias => Str
 
-The property alias that identifies the property, such as an OPC-UA
-server data stream path (for example,
+The alias that identifies the property, such as an OPC-UA server data
+stream path (for example,
 C</company/windfarm/3/turbine/7/temperature>). For more information,
 see Mapping industrial data streams to asset properties
 (https://docs.aws.amazon.com/iot-sitewise/latest/userguide/connect-data-streams.html)
-in the I<AWS IoT SiteWise User Guide>.
+in the I<IoT SiteWise User Guide>.
 
 If you omit this parameter, the alias is removed from the property.
 
@@ -75,23 +82,36 @@ If you omit this parameter, the alias is removed from the property.
 
 =head2 B<REQUIRED> PropertyId => Str
 
-The ID of the asset property to be updated.
+The ID of the asset property to be updated. This can be either the
+actual ID in UUID format, or else C<externalId:> followed by the
+external ID, if it has one. For more information, see Referencing
+objects with external IDs
+(https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references)
+in the I<IoT SiteWise User Guide>.
 
 
 
 =head2 PropertyNotificationState => Str
 
 The MQTT notification state (enabled or disabled) for this asset
-property. When the notification state is enabled, AWS IoT SiteWise
+property. When the notification state is enabled, IoT SiteWise
 publishes property value updates to a unique MQTT topic. For more
 information, see Interacting with other services
 (https://docs.aws.amazon.com/iot-sitewise/latest/userguide/interact-with-other-services.html)
-in the I<AWS IoT SiteWise User Guide>.
+in the I<IoT SiteWise User Guide>.
 
 If you omit this parameter, the notification state is set to
 C<DISABLED>.
 
 Valid values are: C<"ENABLED">, C<"DISABLED">
+
+=head2 PropertyUnit => Str
+
+The unit of measure (such as Newtons or RPM) of the asset property. If
+you don't specify a value for this parameter, the service uses the
+value of the C<assetModelProperty> in the asset model.
+
+
 
 
 =head1 SEE ALSO

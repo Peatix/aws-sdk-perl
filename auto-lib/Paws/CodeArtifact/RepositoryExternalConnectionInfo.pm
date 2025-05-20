@@ -65,6 +65,26 @@ C<pypi>: A Python Package Index (PyPI) package.
 C<maven>: A Maven package that contains compiled code in a
 distributable format, such as a JAR file.
 
+=item *
+
+C<nuget>: A NuGet package.
+
+=item *
+
+C<generic>: A generic package.
+
+=item *
+
+C<ruby>: A Ruby package.
+
+=item *
+
+C<swift>: A Swift package.
+
+=item *
+
+C<cargo>: A Cargo package.
+
 =back
 
 

@@ -64,9 +64,9 @@ that are added by CloudFront.
 
 =back
 
-CloudFront sends a request when it canE<rsquo>t find an object in its
-cache that matches the request. If you want to send values to the
-origin and also include them in the cache key, use C<CachePolicy>.
+CloudFront sends a request when it can't find an object in its cache
+that matches the request. If you want to send values to the origin and
+also include them in the cache key, use C<CachePolicy>.
 
 =head1 ATTRIBUTES
 

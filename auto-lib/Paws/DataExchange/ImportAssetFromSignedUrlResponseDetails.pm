@@ -46,7 +46,7 @@ URL and other information.
 
 =head2 B<REQUIRED> AssetName => Str
 
-The name for the asset associated with this import response.
+The name for the asset associated with this import job.
 
 
 =head2 B<REQUIRED> DataSetId => Str

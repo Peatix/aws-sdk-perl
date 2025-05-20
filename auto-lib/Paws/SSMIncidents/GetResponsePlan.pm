@@ -40,6 +40,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $DisplayName      = $GetResponsePlanOutput->DisplayName;
     my $Engagements      = $GetResponsePlanOutput->Engagements;
     my $IncidentTemplate = $GetResponsePlanOutput->IncidentTemplate;
+    my $Integrations     = $GetResponsePlanOutput->Integrations;
     my $Name             = $GetResponsePlanOutput->Name;
 
     # Returns a L<Paws::SSMIncidents::GetResponsePlanOutput> object.

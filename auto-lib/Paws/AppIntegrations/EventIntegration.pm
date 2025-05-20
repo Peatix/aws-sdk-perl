@@ -38,9 +38,6 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AppIntegrat
 
 =head1 DESCRIPTION
 
-The Amazon AppIntegrations APIs are in preview release and are subject
-to change.
-
 The event integration.
 
 =head1 ATTRIBUTES
@@ -53,7 +50,7 @@ The event integration description.
 
 =head2 EventBridgeBus => Str
 
-The Amazon Eventbridge bus for the event integration.
+The Amazon EventBridge bus for the event integration.
 
 
 =head2 EventFilter => L<Paws::AppIntegrations::EventFilter>
@@ -73,7 +70,8 @@ The name of the event integration.
 
 =head2 Tags => L<Paws::AppIntegrations::TagMap>
 
-The tags.
+The tags used to organize, track, or control access for this resource.
+For example, { "tags": {"key1":"value1", "key2":"value2"} }.
 
 
 

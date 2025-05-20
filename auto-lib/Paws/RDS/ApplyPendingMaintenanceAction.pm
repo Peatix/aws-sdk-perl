@@ -55,8 +55,37 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/rds
 
 The pending maintenance action to apply to this resource.
 
-Valid values: C<system-update>, C<db-upgrade>, C<hardware-maintenance>,
+Valid Values:
+
+=over
+
+=item *
+
 C<ca-certificate-rotation>
+
+=item *
+
+C<db-upgrade>
+
+=item *
+
+C<hardware-maintenance>
+
+=item *
+
+C<os-upgrade>
+
+=item *
+
+C<system-update>
+
+=back
+
+For more information about these actions, see Maintenance actions for
+Amazon Aurora
+(https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_UpgradeDBInstance.Maintenance.html#maintenance-actions-aurora)
+or Maintenance actions for Amazon RDS
+(https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Maintenance.html#maintenance-actions-rds).
 
 
 
@@ -65,7 +94,7 @@ C<ca-certificate-rotation>
 A value that specifies the type of opt-in request, or undoes an opt-in
 request. An opt-in request of type C<immediate> can't be undone.
 
-Valid values:
+Valid Values:
 
 =over
 

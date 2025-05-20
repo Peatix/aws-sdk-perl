@@ -32,7 +32,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       $globalaccelerator->AddCustomRoutingEndpoints(
       EndpointConfigurations => [
         {
-          EndpointId => 'MyGenericString',    # max: 255; OPTIONAL
+          AttachmentArn => 'MyGenericString',    # max: 255; OPTIONAL
+          EndpointId    => 'MyGenericString',    # max: 255; OPTIONAL
         },
         ...
       ],

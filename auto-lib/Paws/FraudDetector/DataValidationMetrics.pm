@@ -34,7 +34,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::FraudDetect
 
 =head1 DESCRIPTION
 
-The model training validation messages.
+The model training data validation metrics.
 
 =head1 ATTRIBUTES
 
@@ -46,7 +46,7 @@ The field-specific model training validation messages.
 
 =head2 FileLevelMessages => ArrayRef[L<Paws::FraudDetector::FileValidationMessage>]
 
-The file-specific model training validation messages.
+The file-specific model training data validation messages.
 
 
 

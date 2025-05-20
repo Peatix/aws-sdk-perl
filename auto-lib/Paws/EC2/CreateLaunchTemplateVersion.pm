@@ -6,6 +6,7 @@ package Paws::EC2::CreateLaunchTemplateVersion;
   has LaunchTemplateData => (is => 'ro', isa => 'Paws::EC2::RequestLaunchTemplateData', required => 1);
   has LaunchTemplateId => (is => 'ro', isa => 'Str');
   has LaunchTemplateName => (is => 'ro', isa => 'Str');
+  has ResolveAlias => (is => 'ro', isa => 'Bool');
   has SourceVersion => (is => 'ro', isa => 'Str');
   has VersionDescription => (is => 'ro', isa => 'Str');
 
@@ -60,7 +61,10 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ec2
 =head2 ClientToken => Str
 
 Unique, case-sensitive identifier you provide to ensure the idempotency
-of the request. For more information, see Ensuring Idempotency
+of the request. If a client token isn't specified, a randomly generated
+token is used in the request to ensure idempotency.
+
+For more information, see Ensuring idempotency
 (https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 
 Constraint: Maximum 128 ASCII characters.
@@ -84,26 +88,48 @@ The information for the launch template.
 
 =head2 LaunchTemplateId => Str
 
-The ID of the launch template. You must specify either the launch
-template ID or launch template name in the request.
+The ID of the launch template.
+
+You must specify either the launch template ID or the launch template
+name, but not both.
 
 
 
 =head2 LaunchTemplateName => Str
 
-The name of the launch template. You must specify either the launch
-template ID or launch template name in the request.
+The name of the launch template.
+
+You must specify either the launch template ID or the launch template
+name, but not both.
+
+
+
+=head2 ResolveAlias => Bool
+
+If C<true>, and if a Systems Manager parameter is specified for
+C<ImageId>, the AMI ID is displayed in the response for C<imageID>. For
+more information, see Use a Systems Manager parameter instead of an AMI
+ID
+(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/create-launch-template.html#use-an-ssm-parameter-instead-of-an-ami-id)
+in the I<Amazon EC2 User Guide>.
+
+Default: C<false>
 
 
 
 =head2 SourceVersion => Str
 
-The version number of the launch template version on which to base the
-new version. The new version inherits the same launch parameters as the
-source version, except for parameters that you specify in
-C<LaunchTemplateData>. Snapshots applied to the block device mapping
-are ignored when creating a new version unless they are explicitly
-included.
+The version of the launch template on which to base the new version.
+Snapshots applied to the block device mapping are ignored when creating
+a new version unless they are explicitly included.
+
+If you specify this parameter, the new version inherits the launch
+parameters from the source version. If you specify additional launch
+parameters for the new version, they overwrite any corresponding launch
+parameters inherited from the source version.
+
+If you omit this parameter, the new version contains only the launch
+parameters that you specify for the new version.
 
 
 

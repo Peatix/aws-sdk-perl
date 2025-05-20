@@ -2,6 +2,7 @@
 package Paws::SNS::CreateTopic;
   use Moose;
   has Attributes => (is => 'ro', isa => 'Paws::SNS::TopicAttributesMap');
+  has DataProtectionPolicy => (is => 'ro', isa => 'Str');
   has Name => (is => 'ro', isa => 'Str', required => 1);
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::SNS::Tag]');
 
@@ -32,7 +33,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $CreateTopicResponse = $sns->CreateTopic(
       Name       => 'MytopicName',
       Attributes => { 'MyattributeName' => 'MyattributeValue', },    # OPTIONAL
-      Tags       => [
+      DataProtectionPolicy => 'MyattributeValue',                    # OPTIONAL
+      Tags                 => [
         {
           Key   => 'MyTagKey',      # min: 1, max: 128
           Value => 'MyTagValue',    # max: 256
@@ -57,7 +59,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/sns
 
 A map of attributes with their corresponding values.
 
-The following lists the names, descriptions, and values of the special
+The following lists names, descriptions, and values of the special
 request parameters that the C<CreateTopic> action uses:
 
 =over
@@ -80,6 +82,23 @@ C<FifoTopic> E<ndash> Set to true to create a FIFO topic.
 
 C<Policy> E<ndash> The policy that defines who can access your topic.
 By default, only the topic owner can publish or subscribe to the topic.
+
+=item *
+
+C<SignatureVersion> E<ndash> The signature version corresponds to the
+hashing algorithm used while creating the signature of the
+notifications, subscription confirmations, or unsubscribe confirmation
+messages sent by Amazon SNS. By default, C<SignatureVersion> is set to
+C<1>.
+
+=item *
+
+C<TracingConfig> E<ndash> Tracing mode of an Amazon SNS topic. By
+default C<TracingConfig> is set to C<PassThrough>, and the topic passes
+through the tracing header it receives from an Amazon SNS publisher to
+its subscriptions. If set to C<Active>, Amazon SNS will vend X-Ray
+segment data to topic owner account if the sampled flag in the tracing
+header is true. This is only supported on standard topics.
 
 =back
 
@@ -107,8 +126,8 @@ The following attributes apply only to FIFO topics
 
 =item *
 
-C<FifoTopic> E<ndash> When this is set to C<true>, a FIFO topic is
-created.
+C<ArchivePolicy> E<ndash> The policy that sets the retention period for
+messages stored in the message archive of an Amazon SNS FIFO topic.
 
 =item *
 
@@ -137,6 +156,48 @@ the C<MessageDeduplicationId> parameter for the C<Publish> action.
 
 =back
 
+=over
+
+=item *
+
+C<FifoThroughputScope> E<ndash> Enables higher throughput for your FIFO
+topic by adjusting the scope of deduplication. This attribute has two
+possible values:
+
+=over
+
+=item *
+
+C<Topic> E<ndash> The scope of message deduplication is across the
+entire topic. This is the default value and maintains existing
+behavior, with a maximum throughput of 3000 messages per second or 20MB
+per second, whichever comes first.
+
+=item *
+
+C<MessageGroup> E<ndash> The scope of deduplication is within each
+individual message group, which enables higher throughput per topic
+subject to regional quotas. For more information on quotas or to
+request an increase, see Amazon SNS service quotas
+(https://docs.aws.amazon.com/general/latest/gr/sns.html) in the Amazon
+Web Services General Reference.
+
+=back
+
+=back
+
+
+
+
+=head2 DataProtectionPolicy => Str
+
+The body of the policy document you want to use for this topic.
+
+You can only add one policy per topic.
+
+The policy must be in JSON string format.
+
+Length Constraints: Maximum length of 30,720.
 
 
 

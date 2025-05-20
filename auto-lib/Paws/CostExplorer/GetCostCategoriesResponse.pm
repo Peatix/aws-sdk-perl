@@ -27,21 +27,21 @@ The names of the Cost Categories.
 
 The Cost Category values.
 
-C<CostCategoryValues> are not returned if C<CostCategoryName> is not
-specified in the request.
+If the C<CostCategoryName> key isn't specified in the request, the
+C<CostCategoryValues> fields aren't returned.
 
 
 =head2 NextPageToken => Str
 
 If the number of objects that are still available for retrieval exceeds
-the limit, AWS returns a NextPageToken value in the response. To
-retrieve the next batch of objects, provide the marker from the prior
-call in your next request.
+the quota, Amazon Web Services returns a NextPageToken value in the
+response. To retrieve the next batch of objects, provide the marker
+from the prior call in your next request.
 
 
 =head2 B<REQUIRED> ReturnSize => Int
 
-The number of objects returned.
+The number of objects that are returned.
 
 
 =head2 B<REQUIRED> TotalSize => Int

@@ -2,6 +2,7 @@
 package Paws::DevOpsGuru::CloudWatchMetricsDetail;
   use Moose;
   has Dimensions => (is => 'ro', isa => 'ArrayRef[Paws::DevOpsGuru::CloudWatchMetricsDimension]');
+  has MetricDataSummary => (is => 'ro', isa => 'Paws::DevOpsGuru::CloudWatchMetricsDataSummary');
   has MetricName => (is => 'ro', isa => 'Str');
   has Namespace => (is => 'ro', isa => 'Str');
   has Period => (is => 'ro', isa => 'Int');
@@ -46,6 +47,11 @@ Information about an Amazon CloudWatch metric.
 =head2 Dimensions => ArrayRef[L<Paws::DevOpsGuru::CloudWatchMetricsDimension>]
 
 An array of CloudWatch dimensions associated with
+
+
+=head2 MetricDataSummary => L<Paws::DevOpsGuru::CloudWatchMetricsDataSummary>
+
+This object returns anomaly metric data.
 
 
 =head2 MetricName => Str

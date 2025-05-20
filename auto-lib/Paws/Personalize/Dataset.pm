@@ -6,9 +6,11 @@ package Paws::Personalize::Dataset;
   has DatasetGroupArn => (is => 'ro', isa => 'Str', request_name => 'datasetGroupArn', traits => ['NameInRequest']);
   has DatasetType => (is => 'ro', isa => 'Str', request_name => 'datasetType', traits => ['NameInRequest']);
   has LastUpdatedDateTime => (is => 'ro', isa => 'Str', request_name => 'lastUpdatedDateTime', traits => ['NameInRequest']);
+  has LatestDatasetUpdate => (is => 'ro', isa => 'Paws::Personalize::DatasetUpdateSummary', request_name => 'latestDatasetUpdate', traits => ['NameInRequest']);
   has Name => (is => 'ro', isa => 'Str', request_name => 'name', traits => ['NameInRequest']);
   has SchemaArn => (is => 'ro', isa => 'Str', request_name => 'schemaArn', traits => ['NameInRequest']);
   has Status => (is => 'ro', isa => 'Str', request_name => 'status', traits => ['NameInRequest']);
+  has TrackingId => (is => 'ro', isa => 'Str', request_name => 'trackingId', traits => ['NameInRequest']);
 
 1;
 
@@ -29,7 +31,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::Personalize::Dataset object:
 
-  $service_obj->Method(Att1 => { CreationDateTime => $value, ..., Status => $value  });
+  $service_obj->Method(Att1 => { CreationDateTime => $value, ..., TrackingId => $value  });
 
 =head3 Results returned from an API call
 
@@ -79,6 +81,14 @@ Items
 
 Users
 
+=item *
+
+Actions
+
+=item *
+
+Action_Interactions
+
 =back
 
 
@@ -86,6 +96,11 @@ Users
 =head2 LastUpdatedDateTime => Str
 
 A time stamp that shows when the dataset was updated.
+
+
+=head2 LatestDatasetUpdate => L<Paws::Personalize::DatasetUpdateSummary>
+
+Describes the latest update to the dataset.
 
 
 =head2 Name => Str
@@ -116,6 +131,14 @@ DELETE PENDING E<gt> DELETE IN_PROGRESS
 
 =back
 
+
+
+=head2 TrackingId => Str
+
+The ID of the event tracker for an Action interactions dataset. You
+specify the tracker's ID in the C<PutActionInteractions> API operation.
+Amazon Personalize uses it to direct new data to the Action
+interactions dataset in your dataset group.
 
 
 

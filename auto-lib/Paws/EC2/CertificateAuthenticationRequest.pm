@@ -39,8 +39,8 @@ This class has no description
 =head2 ClientRootCertificateChainArn => Str
 
 The ARN of the client certificate. The certificate must be signed by a
-certificate authority (CA) and it must be provisioned in AWS
-Certificate Manager (ACM).
+certificate authority (CA) and it must be provisioned in Certificate
+Manager (ACM).
 
 
 

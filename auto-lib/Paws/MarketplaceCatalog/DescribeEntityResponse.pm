@@ -2,6 +2,7 @@
 package Paws::MarketplaceCatalog::DescribeEntityResponse;
   use Moose;
   has Details => (is => 'ro', isa => 'Str');
+  has DetailsDocument => (is => 'ro', isa => 'Paws::MarketplaceCatalog::JsonDocumentType');
   has EntityArn => (is => 'ro', isa => 'Str');
   has EntityIdentifier => (is => 'ro', isa => 'Str');
   has EntityType => (is => 'ro', isa => 'Str');
@@ -24,10 +25,15 @@ Paws::MarketplaceCatalog::DescribeEntityResponse
 This stringified JSON object includes the details of the entity.
 
 
+=head2 DetailsDocument => L<Paws::MarketplaceCatalog::JsonDocumentType>
+
+The JSON value of the details specific to the entity.
+
+
 =head2 EntityArn => Str
 
-The ARN associated to the unique identifier for the change set
-referenced in this request.
+The ARN associated to the unique identifier for the entity referenced
+in this request.
 
 
 =head2 EntityIdentifier => Str

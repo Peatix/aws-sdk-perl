@@ -2,7 +2,7 @@
 package Paws::Translate::GetTerminology;
   use Moose;
   has Name => (is => 'ro', isa => 'Str', required => 1);
-  has TerminologyDataFormat => (is => 'ro', isa => 'Str', required => 1);
+  has TerminologyDataFormat => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -30,11 +30,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $translate = Paws->service('Translate');
     my $GetTerminologyResponse = $translate->GetTerminology(
       Name                  => 'MyResourceName',
-      TerminologyDataFormat => 'CSV',
-
+      TerminologyDataFormat => 'CSV',              # OPTIONAL
     );
 
     # Results:
+    my $AuxiliaryDataLocation = $GetTerminologyResponse->AuxiliaryDataLocation;
     my $TerminologyDataLocation =
       $GetTerminologyResponse->TerminologyDataLocation;
     my $TerminologyProperties = $GetTerminologyResponse->TerminologyProperties;
@@ -53,12 +53,20 @@ The name of the custom terminology being retrieved.
 
 
 
-=head2 B<REQUIRED> TerminologyDataFormat => Str
+=head2 TerminologyDataFormat => Str
 
-The data format of the custom terminology being retrieved, either CSV
-or TMX.
+The data format of the custom terminology being retrieved.
 
-Valid values are: C<"CSV">, C<"TMX">
+If you don't specify this parameter, Amazon Translate returns a file
+with the same format as the file that was imported to create the
+terminology.
+
+If you specify this parameter when you retrieve a multi-directional
+terminology resource, you must specify the same format as the input
+file that was imported to create it. Otherwise, Amazon Translate throws
+an error.
+
+Valid values are: C<"CSV">, C<"TMX">, C<"TSV">
 
 
 =head1 SEE ALSO

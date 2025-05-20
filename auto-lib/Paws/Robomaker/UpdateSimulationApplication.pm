@@ -3,10 +3,11 @@ package Paws::Robomaker::UpdateSimulationApplication;
   use Moose;
   has Application => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'application', required => 1);
   has CurrentRevisionId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'currentRevisionId');
+  has Environment => (is => 'ro', isa => 'Paws::Robomaker::Environment', traits => ['NameInRequest'], request_name => 'environment');
   has RenderingEngine => (is => 'ro', isa => 'Paws::Robomaker::RenderingEngine', traits => ['NameInRequest'], request_name => 'renderingEngine');
   has RobotSoftwareSuite => (is => 'ro', isa => 'Paws::Robomaker::RobotSoftwareSuite', traits => ['NameInRequest'], request_name => 'robotSoftwareSuite', required => 1);
   has SimulationSoftwareSuite => (is => 'ro', isa => 'Paws::Robomaker::SimulationSoftwareSuite', traits => ['NameInRequest'], request_name => 'simulationSoftwareSuite', required => 1);
-  has Sources => (is => 'ro', isa => 'ArrayRef[Paws::Robomaker::SourceConfig]', traits => ['NameInRequest'], request_name => 'sources', required => 1);
+  has Sources => (is => 'ro', isa => 'ArrayRef[Paws::Robomaker::SourceConfig]', traits => ['NameInRequest'], request_name => 'sources');
 
   use MooseX::ClassAttribute;
 
@@ -37,14 +38,23 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       $robomaker->UpdateSimulationApplication(
       Application        => 'MyArn',
       RobotSoftwareSuite => {
-        Name    => 'ROS',    # values: ROS, ROS2; OPTIONAL
+        Name    => 'ROS',    # values: ROS, ROS2, General; OPTIONAL
         Version =>
           'Kinetic',         # values: Kinetic, Melodic, Dashing, Foxy; OPTIONAL
       },
       SimulationSoftwareSuite => {
-        Name    => 'Gazebo',    # values: Gazebo, RosbagPlay; OPTIONAL
+        Name =>
+          'Gazebo',    # values: Gazebo, RosbagPlay, SimulationRuntime; OPTIONAL
         Version => 'MySimulationSoftwareSuiteVersionType', # max: 1024; OPTIONAL
       },
+      CurrentRevisionId => 'MyRevisionId',                 # OPTIONAL
+      Environment       => {
+        Uri => 'MyRepositoryUrl',    # min: 1, max: 1024; OPTIONAL
+      },    # OPTIONAL
+      RenderingEngine => {
+        Name    => 'OGRE',                            # values: OGRE; OPTIONAL
+        Version => 'MyRenderingEngineVersionType',    # min: 1, max: 4; OPTIONAL
+      },    # OPTIONAL
       Sources => [
         {
           Architecture => 'X86_64',     # values: X86_64, ARM64, ARMHF; OPTIONAL
@@ -52,16 +62,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           S3Key        => 'MyS3Key',    # min: 1, max: 1024; OPTIONAL
         },
         ...
-      ],
-      CurrentRevisionId => 'MyRevisionId',    # OPTIONAL
-      RenderingEngine   => {
-        Name    => 'OGRE',                            # values: OGRE; OPTIONAL
-        Version => 'MyRenderingEngineVersionType',    # min: 1, max: 4; OPTIONAL
-      },    # OPTIONAL
+      ],    # OPTIONAL
       );
 
     # Results:
     my $Arn             = $UpdateSimulationApplicationResponse->Arn;
+    my $Environment     = $UpdateSimulationApplicationResponse->Environment;
     my $LastUpdatedAt   = $UpdateSimulationApplicationResponse->LastUpdatedAt;
     my $Name            = $UpdateSimulationApplicationResponse->Name;
     my $RenderingEngine = $UpdateSimulationApplicationResponse->RenderingEngine;
@@ -93,6 +99,13 @@ The revision id for the robot application.
 
 
 
+=head2 Environment => L<Paws::Robomaker::Environment>
+
+The object that contains the Docker image URI for your simulation
+application.
+
+
+
 =head2 RenderingEngine => L<Paws::Robomaker::RenderingEngine>
 
 The rendering engine for the simulation application.
@@ -101,7 +114,7 @@ The rendering engine for the simulation application.
 
 =head2 B<REQUIRED> RobotSoftwareSuite => L<Paws::Robomaker::RobotSoftwareSuite>
 
-Information about the robot software suite (ROS distribution).
+Information about the robot software suite.
 
 
 
@@ -111,7 +124,7 @@ The simulation software suite used by the simulation application.
 
 
 
-=head2 B<REQUIRED> Sources => ArrayRef[L<Paws::Robomaker::SourceConfig>]
+=head2 Sources => ArrayRef[L<Paws::Robomaker::SourceConfig>]
 
 The sources of the simulation application.
 

@@ -1,8 +1,8 @@
 
 package Paws::CodeDeploy::GetDeploymentTarget;
   use Moose;
-  has DeploymentId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'deploymentId' );
-  has TargetId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'targetId' );
+  has DeploymentId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'deploymentId' , required => 1);
+  has TargetId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'targetId' , required => 1);
 
   use MooseX::ClassAttribute;
 
@@ -29,8 +29,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $codedeploy = Paws->service('CodeDeploy');
     my $GetDeploymentTargetOutput = $codedeploy->GetDeploymentTarget(
-      DeploymentId => 'MyDeploymentId',    # OPTIONAL
-      TargetId     => 'MyTargetId',        # OPTIONAL
+      DeploymentId => 'MyDeploymentId',
+      TargetId     => 'MyTargetId',
+
     );
 
     # Results:
@@ -44,13 +45,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/cod
 =head1 ATTRIBUTES
 
 
-=head2 DeploymentId => Str
+=head2 B<REQUIRED> DeploymentId => Str
 
 The unique ID of a deployment.
 
 
 
-=head2 TargetId => Str
+=head2 B<REQUIRED> TargetId => Str
 
 The unique ID of a deployment target.
 

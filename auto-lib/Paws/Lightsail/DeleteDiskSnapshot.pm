@@ -45,8 +45,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/lig
 
 =head2 B<REQUIRED> DiskSnapshotName => Str
 
-The name of the disk snapshot you want to delete (e.g.,
-C<my-disk-snapshot>).
+The name of the disk snapshot you want to delete (C<my-disk-snapshot>).
 
 
 

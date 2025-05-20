@@ -37,27 +37,27 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::EMR::Comput
 
 =head1 DESCRIPTION
 
-The EC2 unit limits for a managed scaling policy. The managed scaling
-activity of a cluster can not be above or below these limits. The limit
-only applies to the core and task nodes. The master node cannot be
-scaled after initial configuration.
+The Amazon EC2 unit limits for a managed scaling policy. The managed
+scaling activity of a cluster can not be above or below these limits.
+The limit only applies to the core and task nodes. The master node
+cannot be scaled after initial configuration.
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> MaximumCapacityUnits => Int
 
-The upper boundary of EC2 units. It is measured through vCPU cores or
-instances for instance groups and measured through units for instance
-fleets. Managed scaling activities are not allowed beyond this
+The upper boundary of Amazon EC2 units. It is measured through vCPU
+cores or instances for instance groups and measured through units for
+instance fleets. Managed scaling activities are not allowed beyond this
 boundary. The limit only applies to the core and task nodes. The master
 node cannot be scaled after initial configuration.
 
 
 =head2 MaximumCoreCapacityUnits => Int
 
-The upper boundary of EC2 units for core node type in a cluster. It is
-measured through vCPU cores or instances for instance groups and
+The upper boundary of Amazon EC2 units for core node type in a cluster.
+It is measured through vCPU cores or instances for instance groups and
 measured through units for instance fleets. The core units are not
 allowed to scale beyond this boundary. The parameter is used to split
 capacity allocation between core and task nodes.
@@ -65,18 +65,18 @@ capacity allocation between core and task nodes.
 
 =head2 MaximumOnDemandCapacityUnits => Int
 
-The upper boundary of On-Demand EC2 units. It is measured through vCPU
-cores or instances for instance groups and measured through units for
-instance fleets. The On-Demand units are not allowed to scale beyond
-this boundary. The parameter is used to split capacity allocation
-between On-Demand and Spot Instances.
+The upper boundary of On-Demand Amazon EC2 units. It is measured
+through vCPU cores or instances for instance groups and measured
+through units for instance fleets. The On-Demand units are not allowed
+to scale beyond this boundary. The parameter is used to split capacity
+allocation between On-Demand and Spot Instances.
 
 
 =head2 B<REQUIRED> MinimumCapacityUnits => Int
 
-The lower boundary of EC2 units. It is measured through vCPU cores or
-instances for instance groups and measured through units for instance
-fleets. Managed scaling activities are not allowed beyond this
+The lower boundary of Amazon EC2 units. It is measured through vCPU
+cores or instances for instance groups and measured through units for
+instance fleets. Managed scaling activities are not allowed beyond this
 boundary. The limit only applies to the core and task nodes. The master
 node cannot be scaled after initial configuration.
 

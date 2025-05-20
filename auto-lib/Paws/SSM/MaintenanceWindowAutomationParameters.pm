@@ -34,27 +34,28 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SSM::Mainte
 
 =head1 DESCRIPTION
 
-The parameters for an AUTOMATION task type.
+The parameters for an C<AUTOMATION> task type.
 
 =head1 ATTRIBUTES
 
 
 =head2 DocumentVersion => Str
 
-The version of an Automation document to use during task execution.
+The version of an Automation runbook to use during task execution.
 
 
 =head2 Parameters => L<Paws::SSM::AutomationParameterMap>
 
-The parameters for the AUTOMATION task.
+The parameters for the C<AUTOMATION> task.
 
 For information about specifying and updating task parameters, see
 RegisterTaskWithMaintenanceWindow and UpdateMaintenanceWindowTask.
 
-C<LoggingInfo> has been deprecated. To specify an S3 bucket to contain
-logs, instead use the C<OutputS3BucketName> and C<OutputS3KeyPrefix>
-options in the C<TaskInvocationParameters> structure. For information
-about how Systems Manager handles these options for the supported
+C<LoggingInfo> has been deprecated. To specify an Amazon Simple Storage
+Service (Amazon S3) bucket to contain logs, instead use the
+C<OutputS3BucketName> and C<OutputS3KeyPrefix> options in the
+C<TaskInvocationParameters> structure. For information about how Amazon
+Web Services Systems Manager handles these options for the supported
 maintenance window task types, see
 MaintenanceWindowTaskInvocationParameters.
 
@@ -64,8 +65,8 @@ C<TaskInvocationParameters> structure. For information about how
 Systems Manager handles these options for the supported maintenance
 window task types, see MaintenanceWindowTaskInvocationParameters.
 
-For AUTOMATION task types, Systems Manager ignores any values specified
-for these parameters.
+For C<AUTOMATION> task types, Amazon Web Services Systems Manager
+ignores any values specified for these parameters.
 
 
 

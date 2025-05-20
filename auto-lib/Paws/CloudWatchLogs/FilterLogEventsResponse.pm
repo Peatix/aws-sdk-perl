@@ -26,12 +26,14 @@ The matched events.
 The token to use when requesting the next set of items. The token
 expires after 24 hours.
 
+If the results don't include a C<nextToken>, then pagination is
+finished.
+
 
 =head2 SearchedLogStreams => ArrayRef[L<Paws::CloudWatchLogs::SearchedLogStream>]
 
-B<IMPORTANT> Starting on May 15, 2020, this parameter will be
-deprecated. This parameter will be an empty list after the deprecation
-occurs.
+B<Important> As of May 15, 2020, this parameter is no longer supported.
+This parameter returns an empty list.
 
 Indicates which log streams have been searched and whether each has
 been searched completely.

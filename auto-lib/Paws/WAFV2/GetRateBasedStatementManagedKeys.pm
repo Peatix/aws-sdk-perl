@@ -1,6 +1,7 @@
 
 package Paws::WAFV2::GetRateBasedStatementManagedKeys;
   use Moose;
+  has RuleGroupRuleName => (is => 'ro', isa => 'Str');
   has RuleName => (is => 'ro', isa => 'Str', required => 1);
   has Scope => (is => 'ro', isa => 'Str', required => 1);
   has WebACLId => (is => 'ro', isa => 'Str', required => 1);
@@ -32,11 +33,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $wafv2 = Paws->service('WAFV2');
     my $GetRateBasedStatementManagedKeysResponse =
       $wafv2->GetRateBasedStatementManagedKeys(
-      RuleName   => 'MyEntityName',
-      Scope      => 'CLOUDFRONT',
-      WebACLId   => 'MyEntityId',
-      WebACLName => 'MyEntityName',
-
+      RuleName          => 'MyEntityName',
+      Scope             => 'CLOUDFRONT',
+      WebACLId          => 'MyEntityId',
+      WebACLName        => 'MyEntityName',
+      RuleGroupRuleName => 'MyEntityName',    # OPTIONAL
       );
 
     # Results:
@@ -53,18 +54,27 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/waf
 =head1 ATTRIBUTES
 
 
+=head2 RuleGroupRuleName => Str
+
+The name of the rule group reference statement in your web ACL. This is
+required only when you have the rate-based rule nested inside a rule
+group.
+
+
+
 =head2 B<REQUIRED> RuleName => Str
 
-The name of the rate-based rule to get the keys for.
+The name of the rate-based rule to get the keys for. If you have the
+rule defined inside a rule group that you're using in your web ACL,
+also provide the name of the rule group reference statement in the
+request parameter C<RuleGroupRuleName>.
 
 
 
 =head2 B<REQUIRED> Scope => Str
 
-Specifies whether this is for an Amazon CloudFront distribution or for
-a regional application. A regional application can be an Application
-Load Balancer (ALB), an Amazon API Gateway REST API, or an AppSync
-GraphQL API.
+Specifies whether this is for a global resource type, such as a Amazon
+CloudFront distribution. For an Amplify application, use C<CLOUDFRONT>.
 
 To work with CloudFront, you must also specify the Region US East (N.
 Virginia) as follows:

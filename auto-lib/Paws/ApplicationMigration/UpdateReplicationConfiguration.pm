@@ -1,6 +1,7 @@
 
 package Paws::ApplicationMigration::UpdateReplicationConfiguration;
   use Moose;
+  has AccountID => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'accountID');
   has AssociateDefaultSecurityGroup => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'associateDefaultSecurityGroup');
   has BandwidthThrottling => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'bandwidthThrottling');
   has CreatePublicIP => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'createPublicIP');
@@ -16,6 +17,7 @@ package Paws::ApplicationMigration::UpdateReplicationConfiguration;
   has StagingAreaSubnetId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'stagingAreaSubnetId');
   has StagingAreaTags => (is => 'ro', isa => 'Paws::ApplicationMigration::TagsMap', traits => ['NameInRequest'], request_name => 'stagingAreaTags');
   has UseDedicatedReplicationServer => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'useDedicatedReplicationServer');
+  has UseFipsEndpoint => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'useFipsEndpoint');
 
   use MooseX::ClassAttribute;
 
@@ -44,6 +46,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $mgn = Paws->service('ApplicationMigration');
     my $ReplicationConfiguration = $mgn->UpdateReplicationConfiguration(
       SourceServerID                => 'MySourceServerID',
+      AccountID                     => 'MyAccountID',             # OPTIONAL
       AssociateDefaultSecurityGroup => 1,                         # OPTIONAL
       BandwidthThrottling           => 1,                         # OPTIONAL
       CreatePublicIP                => 1,                         # OPTIONAL
@@ -55,10 +58,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       ReplicatedDisks               => [
         {
           DeviceName      => 'MyBoundedString',    # max: 256; OPTIONAL
-          Iops            => 1,
+          Iops            => 1,                    # OPTIONAL
           IsBootDisk      => 1,
-          StagingDiskType =>
-            'AUTO',    # values: AUTO, GP2, IO1, SC1, ST1, STANDARD; OPTIONAL
+          StagingDiskType => 'AUTO'
+          ,    # values: AUTO, GP2, IO1, SC1, ST1, STANDARD, GP3, IO2; OPTIONAL
+          Throughput => 1,    # OPTIONAL
         },
         ...
       ],    # OPTIONAL
@@ -71,6 +75,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         'MyTagKey' => 'MyTagValue',           # key: max: 256, value: max: 256
       },    # OPTIONAL
       UseDedicatedReplicationServer => 1,    # OPTIONAL
+      UseFipsEndpoint               => 1,    # OPTIONAL
     );
 
     # Results:
@@ -94,6 +99,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $StagingAreaTags     = $ReplicationConfiguration->StagingAreaTags;
     my $UseDedicatedReplicationServer =
       $ReplicationConfiguration->UseDedicatedReplicationServer;
+    my $UseFipsEndpoint = $ReplicationConfiguration->UseFipsEndpoint;
 
     # Returns a L<Paws::ApplicationMigration::ReplicationConfiguration> object.
 
@@ -101,6 +107,12 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/mgn/UpdateReplicationConfiguration>
 
 =head1 ATTRIBUTES
+
+
+=head2 AccountID => Str
+
+Update replication configuration Account ID request.
+
 
 
 =head2 AssociateDefaultSecurityGroup => Bool
@@ -133,7 +145,7 @@ Valid values are: C<"PRIVATE_IP">, C<"PUBLIC_IP">
 Update replication configuration use default large Staging Disk type
 request.
 
-Valid values are: C<"GP2">, C<"ST1">
+Valid values are: C<"GP2">, C<"ST1">, C<"GP3">
 
 =head2 EbsEncryption => Str
 
@@ -195,6 +207,12 @@ Update replication configuration Staging Area Tags request.
 
 Update replication configuration use dedicated Replication Server
 request.
+
+
+
+=head2 UseFipsEndpoint => Bool
+
+Update replication configuration use Fips Endpoint.
 
 
 

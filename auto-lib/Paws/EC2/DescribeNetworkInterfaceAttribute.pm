@@ -101,7 +101,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ec2
 
 The attribute of the network interface. This parameter is required.
 
-Valid values are: C<"description">, C<"groupSet">, C<"sourceDestCheck">, C<"attachment">
+Valid values are: C<"description">, C<"groupSet">, C<"sourceDestCheck">, C<"attachment">, C<"associatePublicIpAddress">
 
 =head2 DryRun => Bool
 

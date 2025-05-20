@@ -46,7 +46,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       IncludeJobExecutionState => 1,               # OPTIONAL
       StatusDetails            => {
         'MyDetailsKey' =>
-          'MyDetailsValue',    # key: min: 1, max: 128, value: min: 1, max: 1024
+          'MyDetailsValue',    # key: min: 1, max: 128, value: min: 1
       },    # OPTIONAL
       StepTimeoutInMinutes => 1,    # OPTIONAL
     );
@@ -114,6 +114,9 @@ Valid values are: C<"QUEUED">, C<"IN_PROGRESS">, C<"SUCCEEDED">, C<"FAILED">, C<
 Optional. A collection of name/value pairs that describe the status of
 the job execution. If not specified, the statusDetails are unchanged.
 
+The maximum length of the value in the name/value pair is 1,024
+characters.
+
 
 
 =head2 StepTimeoutInMinutes => Int
@@ -121,12 +124,16 @@ the job execution. If not specified, the statusDetails are unchanged.
 Specifies the amount of time this device has to finish execution of
 this job. If the job execution status is not set to a terminal state
 before this timer expires, or before the timer is reset (by again
-calling C<UpdateJobExecution>, setting the status to C<IN_PROGRESS> and
-specifying a new timeout value in this field) the job execution status
-will be automatically set to C<TIMED_OUT>. Note that setting or
-resetting this timeout has no effect on that job execution timeout
-which may have been specified when the job was created (C<CreateJob>
+calling C<UpdateJobExecution>, setting the status to C<IN_PROGRESS>,
+and specifying a new timeout value in this field) the job execution
+status will be automatically set to C<TIMED_OUT>. Note that setting or
+resetting the step timeout has no effect on the in progress timeout
+that may have been specified when the job was created (C<CreateJob>
 using field C<timeoutConfig>).
+
+Valid values for this parameter range from 1 to 10080 (1 minute to 7
+days). A value of -1 is also valid and will cancel the current step
+timer (created by an earlier use of C<UpdateJobExecutionRequest>).
 
 
 

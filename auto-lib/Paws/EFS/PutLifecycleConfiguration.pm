@@ -69,8 +69,44 @@ C<LifecycleConfiguration> object (String).
 
 An array of C<LifecyclePolicy> objects that define the file system's
 C<LifecycleConfiguration> object. A C<LifecycleConfiguration> object
-tells lifecycle management when to transition files from the Standard
-storage class to the Infrequent Access storage class.
+informs lifecycle management of the following:
+
+=over
+
+=item *
+
+B<C<TransitionToIA> > E<ndash> When to move files in the file system
+from primary storage (Standard storage class) into the Infrequent
+Access (IA) storage.
+
+=item *
+
+B<C<TransitionToArchive> > E<ndash> When to move files in the file
+system from their current storage class (either IA or Standard storage)
+into the Archive storage.
+
+File systems cannot transition into Archive storage before
+transitioning into IA storage. Therefore, TransitionToArchive must
+either not be set or must be later than TransitionToIA.
+
+The Archive storage class is available only for file systems that use
+the Elastic throughput mode and the General Purpose performance mode.
+
+=item *
+
+B<C<TransitionToPrimaryStorageClass> > E<ndash> Whether to move files
+in the file system back to primary storage (Standard storage class)
+after they are accessed in IA or Archive storage.
+
+=back
+
+When using the C<put-lifecycle-configuration> CLI command or the
+C<PutLifecycleConfiguration> API action, Amazon EFS requires that each
+C<LifecyclePolicy> object have only a single transition. This means
+that in a request body, C<LifecyclePolicies> must be structured as an
+array of C<LifecyclePolicy> objects, one object for each storage
+transition. See the example requests in the following section for more
+information.
 
 
 

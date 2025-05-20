@@ -72,9 +72,8 @@ The current pagination position in the paged result set.
 
 =head2 B<REQUIRED> UsagePlanId => Str
 
-[Required] The Id of the UsagePlan resource representing the usage plan
-containing the to-be-retrieved UsagePlanKey resource representing a
-plan customer.
+The Id of the UsagePlan resource representing the usage plan containing
+the to-be-retrieved UsagePlanKey resource representing a plan customer.
 
 
 

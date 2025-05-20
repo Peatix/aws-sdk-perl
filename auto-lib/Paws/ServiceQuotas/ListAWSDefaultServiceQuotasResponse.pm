@@ -17,8 +17,11 @@ Paws::ServiceQuotas::ListAWSDefaultServiceQuotasResponse
 
 =head2 NextToken => Str
 
-The token to use to retrieve the next page of results. This value is
-null when there are no more results to return.
+If present, indicates that more output is available than is included in
+the current response. Use this value in the C<NextToken> request
+parameter in a subsequent call to the operation to get the next part of
+the output. You should repeat this until the C<NextToken> response
+element comes back as C<null>.
 
 
 =head2 Quotas => ArrayRef[L<Paws::ServiceQuotas::ServiceQuota>]

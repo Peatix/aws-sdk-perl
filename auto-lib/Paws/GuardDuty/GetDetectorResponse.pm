@@ -3,6 +3,7 @@ package Paws::GuardDuty::GetDetectorResponse;
   use Moose;
   has CreatedAt => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'createdAt');
   has DataSources => (is => 'ro', isa => 'Paws::GuardDuty::DataSourceConfigurationsResult', traits => ['NameInRequest'], request_name => 'dataSources');
+  has Features => (is => 'ro', isa => 'ArrayRef[Paws::GuardDuty::DetectorFeatureConfigurationResult]', traits => ['NameInRequest'], request_name => 'features');
   has FindingPublishingFrequency => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'findingPublishingFrequency');
   has ServiceRole => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'serviceRole', required => 1);
   has Status => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'status', required => 1);
@@ -29,6 +30,11 @@ The timestamp of when the detector was created.
 =head2 DataSources => L<Paws::GuardDuty::DataSourceConfigurationsResult>
 
 Describes which data sources are enabled for the detector.
+
+
+=head2 Features => ArrayRef[L<Paws::GuardDuty::DetectorFeatureConfigurationResult>]
+
+Describes the features that have been enabled for the detector.
 
 
 =head2 FindingPublishingFrequency => Str

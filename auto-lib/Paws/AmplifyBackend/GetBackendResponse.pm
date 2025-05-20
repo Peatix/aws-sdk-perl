@@ -1,6 +1,7 @@
 
 package Paws::AmplifyBackend::GetBackendResponse;
   use Moose;
+  has AmplifyFeatureFlags => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'amplifyFeatureFlags');
   has AmplifyMetaConfig => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'amplifyMetaConfig');
   has AppId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'appId');
   has AppName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'appName');
@@ -18,6 +19,11 @@ package Paws::AmplifyBackend::GetBackendResponse;
 Paws::AmplifyBackend::GetBackendResponse
 
 =head1 ATTRIBUTES
+
+
+=head2 AmplifyFeatureFlags => Str
+
+A stringified version of the cli.json file for your Amplify project.
 
 
 =head2 AmplifyMetaConfig => Str

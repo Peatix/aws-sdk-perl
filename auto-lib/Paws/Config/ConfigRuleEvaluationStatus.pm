@@ -7,6 +7,9 @@ package Paws::Config::ConfigRuleEvaluationStatus;
   has FirstActivatedTime => (is => 'ro', isa => 'Str');
   has FirstEvaluationStarted => (is => 'ro', isa => 'Bool');
   has LastDeactivatedTime => (is => 'ro', isa => 'Str');
+  has LastDebugLogDeliveryStatus => (is => 'ro', isa => 'Str');
+  has LastDebugLogDeliveryStatusReason => (is => 'ro', isa => 'Str');
+  has LastDebugLogDeliveryTime => (is => 'ro', isa => 'Str');
   has LastErrorCode => (is => 'ro', isa => 'Str');
   has LastErrorMessage => (is => 'ro', isa => 'Str');
   has LastFailedEvaluationTime => (is => 'ro', isa => 'Str');
@@ -44,52 +47,53 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Config::Con
 
 =head1 DESCRIPTION
 
-Status information for your AWS managed Config rules. The status
-includes information such as the last time the rule ran, the last time
-it failed, and the related error for the last failure.
+Status information for your Config Managed rules and Config Custom
+Policy rules. The status includes information such as the last time the
+rule ran, the last time it failed, and the related error for the last
+failure.
 
-This action does not return status information about custom AWS Config
-rules.
+This operation does not return status information about Config Custom
+Lambda rules.
 
 =head1 ATTRIBUTES
 
 
 =head2 ConfigRuleArn => Str
 
-The Amazon Resource Name (ARN) of the AWS Config rule.
+The Amazon Resource Name (ARN) of the Config rule.
 
 
 =head2 ConfigRuleId => Str
 
-The ID of the AWS Config rule.
+The ID of the Config rule.
 
 
 =head2 ConfigRuleName => Str
 
-The name of the AWS Config rule.
+The name of the Config rule.
 
 
 =head2 FirstActivatedTime => Str
 
-The time that you first activated the AWS Config rule.
+The time that you first activated the Config rule.
 
 
 =head2 FirstEvaluationStarted => Bool
 
-Indicates whether AWS Config has evaluated your resources against the
-rule at least once.
+Indicates whether Config has evaluated your resources against the rule
+at least once.
 
 =over
 
 =item *
 
-C<true> - AWS Config has evaluated your AWS resources against the rule
-at least once.
+C<true> - Config has evaluated your Amazon Web Services resources
+against the rule at least once.
 
 =item *
 
-C<false> - AWS Config has not once finished evaluating your AWS
-resources against the rule.
+C<false> - Config has not finished evaluating your Amazon Web Services
+resources against the rule at least once.
 
 =back
 
@@ -97,41 +101,60 @@ resources against the rule.
 
 =head2 LastDeactivatedTime => Str
 
-The time that you last turned off the AWS Config rule.
+The time that you last turned off the Config rule.
+
+
+=head2 LastDebugLogDeliveryStatus => Str
+
+The status of the last attempted delivery of a debug log for your
+Config Custom Policy rules. Either C<Successful> or C<Failed>.
+
+
+=head2 LastDebugLogDeliveryStatusReason => Str
+
+The reason Config was not able to deliver a debug log. This is for the
+last failed attempt to retrieve a debug log for your Config Custom
+Policy rules.
+
+
+=head2 LastDebugLogDeliveryTime => Str
+
+The time Config last attempted to deliver a debug log for your Config
+Custom Policy rules.
 
 
 =head2 LastErrorCode => Str
 
-The error code that AWS Config returned when the rule last failed.
+The error code that Config returned when the rule last failed.
 
 
 =head2 LastErrorMessage => Str
 
-The error message that AWS Config returned when the rule last failed.
+The error message that Config returned when the rule last failed.
 
 
 =head2 LastFailedEvaluationTime => Str
 
-The time that AWS Config last failed to evaluate your AWS resources
-against the rule.
+The time that Config last failed to evaluate your Amazon Web Services
+resources against the rule.
 
 
 =head2 LastFailedInvocationTime => Str
 
-The time that AWS Config last failed to invoke the AWS Config rule to
-evaluate your AWS resources.
+The time that Config last failed to invoke the Config rule to evaluate
+your Amazon Web Services resources.
 
 
 =head2 LastSuccessfulEvaluationTime => Str
 
-The time that AWS Config last successfully evaluated your AWS resources
-against the rule.
+The time that Config last successfully evaluated your Amazon Web
+Services resources against the rule.
 
 
 =head2 LastSuccessfulInvocationTime => Str
 
-The time that AWS Config last successfully invoked the AWS Config rule
-to evaluate your AWS resources.
+The time that Config last successfully invoked the Config rule to
+evaluate your Amazon Web Services resources.
 
 
 

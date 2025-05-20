@@ -17,14 +17,13 @@ Paws::GameLift::ListGameServerGroupsOutput
 
 =head2 GameServerGroups => ArrayRef[L<Paws::GameLift::GameServerGroup>]
 
-A collection of game server group objects that match the request.
+The game server groups' game server groups.
 
 
 =head2 NextToken => Str
 
-A token that indicates where to resume retrieving results on the next
-call to this operation. If no token is returned, these results
-represent the end of the list.
+Specify the pagination token from a previous request to retrieve the
+next page of results.
 
 
 =head2 _request_id => Str

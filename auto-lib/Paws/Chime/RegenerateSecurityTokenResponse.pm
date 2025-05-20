@@ -17,7 +17,8 @@ Paws::Chime::RegenerateSecurityTokenResponse
 
 =head2 Bot => L<Paws::Chime::Bot>
 
-
+A resource that allows Enterprise account administrators to configure
+an interface that receives events from Amazon Chime.
 
 
 =head2 _request_id => Str

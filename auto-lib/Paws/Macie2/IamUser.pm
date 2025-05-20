@@ -62,7 +62,7 @@ The unique identifier for the IAM user who performed the action.
 
 =head2 UserName => Str
 
-The user name of the IAM user who performed the action.
+The username of the IAM user who performed the action.
 
 
 

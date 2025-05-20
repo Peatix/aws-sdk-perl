@@ -41,8 +41,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ema
 
 =head2 B<REQUIRED> EmailIdentity => Str
 
-The identity (that is, the email address or domain) that you want to
-delete.
+The identity (that is, the email address or domain) to delete.
 
 
 

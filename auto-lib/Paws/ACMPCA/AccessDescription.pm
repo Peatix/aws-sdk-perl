@@ -36,7 +36,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ACMPCA::Acc
 
 Provides access information used by the C<authorityInfoAccess> and
 C<subjectInfoAccess> extensions described in RFC 5280
-(https://tools.ietf.org/html/rfc5280).
+(https://datatracker.ietf.org/doc/html/rfc5280).
 
 =head1 ATTRIBUTES
 

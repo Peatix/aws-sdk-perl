@@ -35,8 +35,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Shield::Eme
 
 =head1 DESCRIPTION
 
-Contact information that the DRT can use to contact you if you have
-proactive engagement enabled, for escalations to the DRT and to
+Contact information that the SRT can use to contact you if you have
+proactive engagement enabled, for escalations to the SRT and to
 initiate proactive customer support.
 
 =head1 ATTRIBUTES

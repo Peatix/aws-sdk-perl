@@ -17,7 +17,7 @@ Paws::Snowball::CreateReturnShippingLabelResult
 =head2 Status => Str
 
 The status information of the task on a Snow device that is being
-returned to AWS.
+returned to Amazon Web Services.
 
 Valid values are: C<"InProgress">, C<"TimedOut">, C<"Succeeded">, C<"Failed">
 =head2 _request_id => Str

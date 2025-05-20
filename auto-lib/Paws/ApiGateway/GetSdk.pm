@@ -65,21 +65,21 @@ C<javaPackageName> are required.
 
 =head2 B<REQUIRED> RestApiId => Str
 
-[Required] The string identifier of the associated RestApi.
+The string identifier of the associated RestApi.
 
 
 
 =head2 B<REQUIRED> SdkType => Str
 
-[Required] The language for the generated SDK. Currently C<java>,
-C<javascript>, C<android>, C<objectivec> (for iOS), C<swift> (for iOS),
-and C<ruby> are supported.
+The language for the generated SDK. Currently C<java>, C<javascript>,
+C<android>, C<objectivec> (for iOS), C<swift> (for iOS), and C<ruby>
+are supported.
 
 
 
 =head2 B<REQUIRED> StageName => Str
 
-[Required] The name of the Stage that the SDK will use.
+The name of the Stage that the SDK will use.
 
 
 

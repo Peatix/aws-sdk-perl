@@ -60,7 +60,7 @@ The identifier of the cluster with a usage limit.
 
 The Amazon Redshift feature to which the limit applies.
 
-Valid values are: C<"spectrum">, C<"concurrency-scaling">
+Valid values are: C<"spectrum">, C<"concurrency-scaling">, C<"cross-region-datasharing">
 =head2 LimitType => Str
 
 The type of limit. Depending on the feature type, this can be based on

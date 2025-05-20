@@ -23,7 +23,7 @@ Paws::Route53::ListHealthChecksResponse
 =head2 B<REQUIRED> HealthChecks => ArrayRef[L<Paws::Route53::HealthCheck>]
 
 A complex type that contains one C<HealthCheck> element for each health
-check that is associated with the current AWS account.
+check that is associated with the current Amazon Web Services account.
 
 
 

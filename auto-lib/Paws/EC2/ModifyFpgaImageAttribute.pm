@@ -138,8 +138,8 @@ C<loadPermission> attribute.
 
 =head2 UserIds => ArrayRef[Str|Undef]
 
-The AWS account IDs. This parameter is valid only when modifying the
-C<loadPermission> attribute.
+The Amazon Web Services account IDs. This parameter is valid only when
+modifying the C<loadPermission> attribute.
 
 
 

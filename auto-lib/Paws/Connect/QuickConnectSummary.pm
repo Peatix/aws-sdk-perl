@@ -3,6 +3,8 @@ package Paws::Connect::QuickConnectSummary;
   use Moose;
   has Arn => (is => 'ro', isa => 'Str');
   has Id => (is => 'ro', isa => 'Str');
+  has LastModifiedRegion => (is => 'ro', isa => 'Str');
+  has LastModifiedTime => (is => 'ro', isa => 'Str');
   has Name => (is => 'ro', isa => 'Str');
   has QuickConnectType => (is => 'ro', isa => 'Str');
 
@@ -51,6 +53,16 @@ The Amazon Resource Name (ARN) of the quick connect.
 The identifier for the quick connect.
 
 
+=head2 LastModifiedRegion => Str
+
+The Amazon Web Services Region where this resource was last modified.
+
+
+=head2 LastModifiedTime => Str
+
+The timestamp when this resource was last modified.
+
+
 =head2 Name => Str
 
 The name of the quick connect.
@@ -58,9 +70,10 @@ The name of the quick connect.
 
 =head2 QuickConnectType => Str
 
-The type of quick connect. In the Amazon Connect console, when you
-create a quick connect, you are prompted to assign one of the following
-types: Agent (USER), External (PHONE_NUMBER), or Queue (QUEUE).
+The type of quick connect. In the Amazon Connect admin website, when
+you create a quick connect, you are prompted to assign one of the
+following types: Agent (USER), External (PHONE_NUMBER), or Queue
+(QUEUE).
 
 
 

@@ -7,7 +7,9 @@ package Paws::KMS::CustomKeyStoresListEntry;
   has CreationDate => (is => 'ro', isa => 'Str');
   has CustomKeyStoreId => (is => 'ro', isa => 'Str');
   has CustomKeyStoreName => (is => 'ro', isa => 'Str');
+  has CustomKeyStoreType => (is => 'ro', isa => 'Str');
   has TrustAnchorCertificate => (is => 'ro', isa => 'Str');
+  has XksProxyConfiguration => (is => 'ro', isa => 'Paws::KMS::XksProxyConfigurationType');
 
 1;
 
@@ -28,7 +30,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::KMS::CustomKeyStoresListEntry object:
 
-  $service_obj->Method(Att1 => { CloudHsmClusterId => $value, ..., TrustAnchorCertificate => $value  });
+  $service_obj->Method(Att1 => { CloudHsmClusterId => $value, ..., XksProxyConfiguration => $value  });
 
 =head3 Results returned from an API call
 
@@ -47,93 +49,234 @@ store list.
 
 =head2 CloudHsmClusterId => Str
 
-A unique identifier for the AWS CloudHSM cluster that is associated
-with the custom key store.
+A unique identifier for the CloudHSM cluster that is associated with an
+CloudHSM key store. This field appears only when the
+C<CustomKeyStoreType> is C<AWS_CLOUDHSM>.
 
 
 =head2 ConnectionErrorCode => Str
 
 Describes the connection error. This field appears in the response only
-when the C<ConnectionState> is C<FAILED>. For help resolving these
-errors, see How to Fix a Connection Failure
-(https://docs.aws.amazon.com/kms/latest/developerguide/fix-keystore.html#fix-keystore-failed)
-in I<AWS Key Management Service Developer Guide>.
+when the C<ConnectionState> is C<FAILED>.
 
-Valid values are:
+Many failures can be resolved by updating the properties of the custom
+key store. To update a custom key store, disconnect it
+(DisconnectCustomKeyStore), correct the errors (UpdateCustomKeyStore),
+and try to connect again (ConnectCustomKeyStore). For additional help
+resolving these errors, see How to Fix a Connection Failure
+(https://docs.aws.amazon.com/kms/latest/developerguide/fix-keystore.html#fix-keystore-failed)
+in I<Key Management Service Developer Guide>.
+
+B<All custom key stores:>
 
 =over
 
 =item *
 
-C<CLUSTER_NOT_FOUND> - AWS KMS cannot find the AWS CloudHSM cluster
-with the specified cluster ID.
-
-=item *
-
-C<INSUFFICIENT_CLOUDHSM_HSMS> - The associated AWS CloudHSM cluster
-does not contain any active HSMs. To connect a custom key store to its
-AWS CloudHSM cluster, the cluster must contain at least one active HSM.
-
-=item *
-
-C<INTERNAL_ERROR> - AWS KMS could not complete the request due to an
+C<INTERNAL_ERROR> E<mdash> KMS could not complete the request due to an
 internal error. Retry the request. For C<ConnectCustomKeyStore>
 requests, disconnect the custom key store before trying to connect
 again.
 
 =item *
 
-C<INVALID_CREDENTIALS> - AWS KMS does not have the correct password for
-the C<kmsuser> crypto user in the AWS CloudHSM cluster. Before you can
-connect your custom key store to its AWS CloudHSM cluster, you must
-change the C<kmsuser> account password and update the key store
-password value for the custom key store.
+C<NETWORK_ERRORS> E<mdash> Network errors are preventing KMS from
+connecting the custom key store to its backing key store.
+
+=back
+
+B<CloudHSM key stores:>
+
+=over
 
 =item *
 
-C<NETWORK_ERRORS> - Network errors are preventing AWS KMS from
-connecting to the custom key store.
+C<CLUSTER_NOT_FOUND> E<mdash> KMS cannot find the CloudHSM cluster with
+the specified cluster ID.
 
 =item *
 
-C<SUBNET_NOT_FOUND> - A subnet in the AWS CloudHSM cluster
-configuration was deleted. If AWS KMS cannot find all of the subnets in
-the cluster configuration, attempts to connect the custom key store to
-the AWS CloudHSM cluster fail. To fix this error, create a cluster from
-a recent backup and associate it with your custom key store. (This
+C<INSUFFICIENT_CLOUDHSM_HSMS> E<mdash> The associated CloudHSM cluster
+does not contain any active HSMs. To connect a custom key store to its
+CloudHSM cluster, the cluster must contain at least one active HSM.
+
+=item *
+
+C<INSUFFICIENT_FREE_ADDRESSES_IN_SUBNET> E<mdash> At least one private
+subnet associated with the CloudHSM cluster doesn't have any available
+IP addresses. A CloudHSM key store connection requires one free IP
+address in each of the associated private subnets, although two are
+preferable. For details, see How to Fix a Connection Failure
+(https://docs.aws.amazon.com/kms/latest/developerguide/fix-keystore.html#fix-keystore-failed)
+in the I<Key Management Service Developer Guide>.
+
+=item *
+
+C<INVALID_CREDENTIALS> E<mdash> The C<KeyStorePassword> for the custom
+key store doesn't match the current password of the C<kmsuser> crypto
+user in the CloudHSM cluster. Before you can connect your custom key
+store to its CloudHSM cluster, you must change the C<kmsuser> account
+password and update the C<KeyStorePassword> value for the custom key
+store.
+
+=item *
+
+C<SUBNET_NOT_FOUND> E<mdash> A subnet in the CloudHSM cluster
+configuration was deleted. If KMS cannot find all of the subnets in the
+cluster configuration, attempts to connect the custom key store to the
+CloudHSM cluster fail. To fix this error, create a cluster from a
+recent backup and associate it with your custom key store. (This
 process creates a new cluster configuration with a VPC and private
 subnets.) For details, see How to Fix a Connection Failure
 (https://docs.aws.amazon.com/kms/latest/developerguide/fix-keystore.html#fix-keystore-failed)
-in the I<AWS Key Management Service Developer Guide>.
+in the I<Key Management Service Developer Guide>.
 
 =item *
 
-C<USER_LOCKED_OUT> - The C<kmsuser> CU account is locked out of the
-associated AWS CloudHSM cluster due to too many failed password
-attempts. Before you can connect your custom key store to its AWS
-CloudHSM cluster, you must change the C<kmsuser> account password and
-update the key store password value for the custom key store.
+C<USER_LOCKED_OUT> E<mdash> The C<kmsuser> CU account is locked out of
+the associated CloudHSM cluster due to too many failed password
+attempts. Before you can connect your custom key store to its CloudHSM
+cluster, you must change the C<kmsuser> account password and update the
+key store password value for the custom key store.
 
 =item *
 
-C<USER_LOGGED_IN> - The C<kmsuser> CU account is logged into the the
-associated AWS CloudHSM cluster. This prevents AWS KMS from rotating
-the C<kmsuser> account password and logging into the cluster. Before
-you can connect your custom key store to its AWS CloudHSM cluster, you
-must log the C<kmsuser> CU out of the cluster. If you changed the
-C<kmsuser> password to log into the cluster, you must also and update
-the key store password value for the custom key store. For help, see
-How to Log Out and Reconnect
+C<USER_LOGGED_IN> E<mdash> The C<kmsuser> CU account is logged into the
+associated CloudHSM cluster. This prevents KMS from rotating the
+C<kmsuser> account password and logging into the cluster. Before you
+can connect your custom key store to its CloudHSM cluster, you must log
+the C<kmsuser> CU out of the cluster. If you changed the C<kmsuser>
+password to log into the cluster, you must also and update the key
+store password value for the custom key store. For help, see How to Log
+Out and Reconnect
 (https://docs.aws.amazon.com/kms/latest/developerguide/fix-keystore.html#login-kmsuser-2)
-in the I<AWS Key Management Service Developer Guide>.
+in the I<Key Management Service Developer Guide>.
 
 =item *
 
-C<USER_NOT_FOUND> - AWS KMS cannot find a C<kmsuser> CU account in the
-associated AWS CloudHSM cluster. Before you can connect your custom key
-store to its AWS CloudHSM cluster, you must create a C<kmsuser> CU
-account in the cluster, and then update the key store password value
-for the custom key store.
+C<USER_NOT_FOUND> E<mdash> KMS cannot find a C<kmsuser> CU account in
+the associated CloudHSM cluster. Before you can connect your custom key
+store to its CloudHSM cluster, you must create a C<kmsuser> CU account
+in the cluster, and then update the key store password value for the
+custom key store.
+
+=back
+
+B<External key stores:>
+
+=over
+
+=item *
+
+C<INVALID_CREDENTIALS> E<mdash> One or both of the
+C<XksProxyAuthenticationCredential> values is not valid on the
+specified external key store proxy.
+
+=item *
+
+C<XKS_PROXY_ACCESS_DENIED> E<mdash> KMS requests are denied access to
+the external key store proxy. If the external key store proxy has
+authorization rules, verify that they permit KMS to communicate with
+the proxy on your behalf.
+
+=item *
+
+C<XKS_PROXY_INVALID_CONFIGURATION> E<mdash> A configuration error is
+preventing the external key store from connecting to its proxy. Verify
+the value of the C<XksProxyUriPath>.
+
+=item *
+
+C<XKS_PROXY_INVALID_RESPONSE> E<mdash> KMS cannot interpret the
+response from the external key store proxy. If you see this connection
+error code repeatedly, notify your external key store proxy vendor.
+
+=item *
+
+C<XKS_PROXY_INVALID_TLS_CONFIGURATION> E<mdash> KMS cannot connect to
+the external key store proxy because the TLS configuration is invalid.
+Verify that the XKS proxy supports TLS 1.2 or 1.3. Also, verify that
+the TLS certificate is not expired, and that it matches the hostname in
+the C<XksProxyUriEndpoint> value, and that it is signed by a
+certificate authority included in the Trusted Certificate Authorities
+(https://github.com/aws/aws-kms-xksproxy-api-spec/blob/main/TrustedCertificateAuthorities)
+list.
+
+=item *
+
+C<XKS_PROXY_NOT_REACHABLE> E<mdash> KMS can't communicate with your
+external key store proxy. Verify that the C<XksProxyUriEndpoint> and
+C<XksProxyUriPath> are correct. Use the tools for your external key
+store proxy to verify that the proxy is active and available on its
+network. Also, verify that your external key manager instances are
+operating properly. Connection attempts fail with this connection error
+code if the proxy reports that all external key manager instances are
+unavailable.
+
+=item *
+
+C<XKS_PROXY_TIMED_OUT> E<mdash> KMS can connect to the external key
+store proxy, but the proxy does not respond to KMS in the time
+allotted. If you see this connection error code repeatedly, notify your
+external key store proxy vendor.
+
+=item *
+
+C<XKS_VPC_ENDPOINT_SERVICE_INVALID_CONFIGURATION> E<mdash> The Amazon
+VPC endpoint service configuration doesn't conform to the requirements
+for an KMS external key store.
+
+=over
+
+=item *
+
+The VPC endpoint service must be an endpoint service for interface
+endpoints in the caller's Amazon Web Services account.
+
+=item *
+
+It must have a network load balancer (NLB) connected to at least two
+subnets, each in a different Availability Zone.
+
+=item *
+
+The C<Allow principals> list must include the KMS service principal for
+the Region, C<cks.kms.E<lt>regionE<gt>.amazonaws.com>, such as
+C<cks.kms.us-east-1.amazonaws.com>.
+
+=item *
+
+It must I<not> require acceptance
+(https://docs.aws.amazon.com/vpc/latest/privatelink/create-endpoint-service.html)
+of connection requests.
+
+=item *
+
+It must have a private DNS name. The private DNS name for an external
+key store with C<VPC_ENDPOINT_SERVICE> connectivity must be unique in
+its Amazon Web Services Region.
+
+=item *
+
+The domain of the private DNS name must have a verification status
+(https://docs.aws.amazon.com/vpc/latest/privatelink/verify-domains.html)
+of C<verified>.
+
+=item *
+
+The TLS certificate
+(https://docs.aws.amazon.com/elasticloadbalancing/latest/network/create-tls-listener.html)
+specifies the private DNS hostname at which the endpoint is reachable.
+
+=back
+
+=item *
+
+C<XKS_VPC_ENDPOINT_SERVICE_NOT_FOUND> E<mdash> KMS can't find the VPC
+endpoint service that it uses to communicate with the external key
+store proxy. Verify that the C<XksProxyVpcEndpointServiceName> is
+correct and the KMS service principal has service consumer permissions
+on the Amazon VPC endpoint service.
 
 =back
 
@@ -141,24 +284,31 @@ for the custom key store.
 
 =head2 ConnectionState => Str
 
-Indicates whether the custom key store is connected to its AWS CloudHSM
-cluster.
+Indicates whether the custom key store is connected to its backing key
+store. For an CloudHSM key store, the C<ConnectionState> indicates
+whether it is connected to its CloudHSM cluster. For an external key
+store, the C<ConnectionState> indicates whether it is connected to the
+external key store proxy that communicates with your external key
+manager.
 
-You can create and use CMKs in your custom key stores only when its
-connection state is C<CONNECTED>.
+You can create and use KMS keys in your custom key stores only when its
+C<ConnectionState> is C<CONNECTED>.
 
-The value is C<DISCONNECTED> if the key store has never been connected
-or you use the DisconnectCustomKeyStore operation to disconnect it. If
-the value is C<CONNECTED> but you are having trouble using the custom
-key store, make sure that its associated AWS CloudHSM cluster is active
-and contains at least one active HSM.
+The C<ConnectionState> value is C<DISCONNECTED> only if the key store
+has never been connected or you use the DisconnectCustomKeyStore
+operation to disconnect it. If the value is C<CONNECTED> but you are
+having trouble using the custom key store, make sure that the backing
+key store is reachable and active. For an CloudHSM key store, verify
+that its associated CloudHSM cluster is active and contains at least
+one active HSM. For an external key store, verify that the external key
+store proxy and external key manager are connected and enabled.
 
 A value of C<FAILED> indicates that an attempt to connect was
 unsuccessful. The C<ConnectionErrorCode> field in the response
 indicates the cause of the failure. For help resolving a connection
-failure, see Troubleshooting a Custom Key Store
+failure, see Troubleshooting a custom key store
 (https://docs.aws.amazon.com/kms/latest/developerguide/fix-keystore.html)
-in the I<AWS Key Management Service Developer Guide>.
+in the I<Key Management Service Developer Guide>.
 
 
 =head2 CreationDate => Str
@@ -176,12 +326,34 @@ A unique identifier for the custom key store.
 The user-specified friendly name for the custom key store.
 
 
+=head2 CustomKeyStoreType => Str
+
+Indicates the type of the custom key store. C<AWS_CLOUDHSM> indicates a
+custom key store backed by an CloudHSM cluster. C<EXTERNAL_KEY_STORE>
+indicates a custom key store backed by an external key store proxy and
+external key manager outside of Amazon Web Services.
+
+
 =head2 TrustAnchorCertificate => Str
 
-The trust anchor certificate of the associated AWS CloudHSM cluster.
-When you initialize the cluster
+The trust anchor certificate of the CloudHSM cluster associated with an
+CloudHSM key store. When you initialize the cluster
 (https://docs.aws.amazon.com/cloudhsm/latest/userguide/initialize-cluster.html#sign-csr),
 you create this certificate and save it in the C<customerCA.crt> file.
+
+This field appears only when the C<CustomKeyStoreType> is
+C<AWS_CLOUDHSM>.
+
+
+=head2 XksProxyConfiguration => L<Paws::KMS::XksProxyConfigurationType>
+
+Configuration settings for the external key store proxy (XKS proxy).
+The external key store proxy translates KMS requests into a format that
+your external key manager can understand. The proxy configuration
+includes connection information that KMS requires.
+
+This field appears only when the C<CustomKeyStoreType> is
+C<EXTERNAL_KEY_STORE>.
 
 
 

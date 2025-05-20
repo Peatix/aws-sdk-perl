@@ -47,7 +47,7 @@ The unique identifier for the asset.
 
 =head2 B<REQUIRED> Bucket => Str
 
-The S3 bucket that is the destination for the asset.
+The Amazon S3 bucket that is the destination for the asset.
 
 
 =head2 Key => Str

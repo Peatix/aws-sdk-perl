@@ -57,7 +57,7 @@ The name of the dataset used for the data ingestion job.
 =head2 IngestionInputConfiguration => L<Paws::LookoutEquipment::IngestionInputConfiguration>
 
 Specifies information for the input data for the data inference job,
-including data S3 location parameters.
+including data Amazon S3 location parameters.
 
 
 =head2 JobId => Str

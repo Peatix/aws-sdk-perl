@@ -68,26 +68,13 @@ The name of the domain.
 
 =head2 Owner => Str
 
-The 12-digit account number of the AWS account that owns the domain. It
-does not include dashes or spaces.
+The 12-digit account number of the Amazon Web Services account that
+owns the domain. It does not include dashes or spaces.
 
 
 =head2 Status => Str
 
-A string that contains the status of the domain. The valid values are:
-
-=over
-
-=item *
-
-C<Active>
-
-=item *
-
-C<Deleted>
-
-=back
-
+A string that contains the status of the domain.
 
 
 

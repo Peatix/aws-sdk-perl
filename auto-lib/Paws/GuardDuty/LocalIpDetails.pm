@@ -2,6 +2,7 @@
 package Paws::GuardDuty::LocalIpDetails;
   use Moose;
   has IpAddressV4 => (is => 'ro', isa => 'Str', request_name => 'ipAddressV4', traits => ['NameInRequest']);
+  has IpAddressV6 => (is => 'ro', isa => 'Str', request_name => 'ipAddressV6', traits => ['NameInRequest']);
 
 1;
 
@@ -22,7 +23,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::GuardDuty::LocalIpDetails object:
 
-  $service_obj->Method(Att1 => { IpAddressV4 => $value, ..., IpAddressV4 => $value  });
+  $service_obj->Method(Att1 => { IpAddressV4 => $value, ..., IpAddressV6 => $value  });
 
 =head3 Results returned from an API call
 
@@ -41,6 +42,11 @@ Contains information about the local IP address of the connection.
 =head2 IpAddressV4 => Str
 
 The IPv4 local address of the connection.
+
+
+=head2 IpAddressV6 => Str
+
+The IPv6 local address of the connection.
 
 
 

@@ -46,11 +46,21 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/geo
 The Amazon Resource Name (ARN) of the resource from which you want to
 remove tags.
 
+=over
+
+=item *
+
+Format example:
+C<arn:aws:geo:region:account-id:resourcetype/ExampleResource>
+
+=back
+
+
 
 
 =head2 B<REQUIRED> TagKeys => ArrayRef[Str|Undef]
 
-The list of tag keys to remove from the resource.
+The list of tag keys to remove from the specified resource.
 
 
 

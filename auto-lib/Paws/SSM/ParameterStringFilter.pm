@@ -46,19 +46,20 @@ results.
 The name of the filter.
 
 The C<ParameterStringFilter> object is used by the DescribeParameters
-and GetParametersByPath API actions. However, not all of the pattern
-values listed for C<Key> can be used with both actions.
+and GetParametersByPath API operations. However, not all of the pattern
+values listed for C<Key> can be used with both operations.
 
-For C<DescribeActions>, all of the listed patterns are valid, with the
-exception of C<Label>.
+For C<DescribeParameters>, all of the listed patterns are valid except
+C<Label>.
 
 For C<GetParametersByPath>, the following patterns listed for C<Key>
-are not valid: C<tag>, C<Name>, C<Path>, and C<Tier>.
+aren't valid: C<tag>, C<DataType>, C<Name>, C<Path>, and C<Tier>.
 
-For examples of CLI commands demonstrating valid parameter filter
-constructions, see Searching for Systems Manager parameters
+For examples of Amazon Web Services CLI commands demonstrating valid
+parameter filter constructions, see Searching for Systems Manager
+parameters
 (https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-search.html)
-in the I<AWS Systems Manager User Guide>.
+in the I<Amazon Web Services Systems Manager User Guide>.
 
 
 =head2 Option => Str

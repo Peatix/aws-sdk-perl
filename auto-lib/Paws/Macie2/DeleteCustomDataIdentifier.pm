@@ -42,8 +42,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/mac
 
 =head2 B<REQUIRED> Id => Str
 
-The unique identifier for the Amazon Macie resource or account that the
-request applies to.
+The unique identifier for the Amazon Macie resource that the request
+applies to.
 
 
 

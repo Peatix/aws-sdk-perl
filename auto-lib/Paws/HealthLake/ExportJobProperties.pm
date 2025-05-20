@@ -54,7 +54,7 @@ The Amazon Resource Name used during the initiation of the job.
 
 =head2 B<REQUIRED> DatastoreId => Str
 
-The AWS generated ID for the Data Store from which files are being
+The AWS generated ID for the data store from which files are being
 exported for an export job.
 
 

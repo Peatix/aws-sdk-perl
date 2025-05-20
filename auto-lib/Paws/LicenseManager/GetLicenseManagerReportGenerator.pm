@@ -47,8 +47,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/lic
 
 =head2 B<REQUIRED> LicenseManagerReportGeneratorArn => Str
 
-mazon Resource Number (ARN) of the report generator to retrieve
-information on.
+Amazon Resource Name (ARN) of the report generator.
 
 
 

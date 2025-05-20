@@ -47,7 +47,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/xra
 
 =head2 KeyId => Str
 
-An AWS KMS customer master key (CMK) in one of the following formats:
+An Amazon Web Services KMS key in one of the following formats:
 
 =over
 
@@ -58,8 +58,8 @@ B<Alias> - The name of the key. For example, C<alias/MyKey>.
 =item *
 
 B<Key ID> - The KMS key ID of the key. For example,
-C<ae4aa6d49-a4d8-9df9-a475-4ff6d7898456>. AWS X-Ray does not support
-asymmetric CMKs.
+C<ae4aa6d49-a4d8-9df9-a475-4ff6d7898456>. Amazon Web Services X-Ray
+does not support asymmetric KMS keys.
 
 =item *
 

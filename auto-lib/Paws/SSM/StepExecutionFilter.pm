@@ -42,9 +42,7 @@ the call.
 
 =head2 B<REQUIRED> Key => Str
 
-One or more keys to limit the results. Valid filter keys include the
-following: StepName, Action, StepExecutionId, StepExecutionStatus,
-StartTimeBefore, StartTimeAfter.
+One or more keys to limit the results.
 
 
 =head2 B<REQUIRED> Values => ArrayRef[Str|Undef]

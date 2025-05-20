@@ -2,8 +2,10 @@
 package Paws::SecurityHub::StandardsSubscription;
   use Moose;
   has StandardsArn => (is => 'ro', isa => 'Str', required => 1);
+  has StandardsControlsUpdatable => (is => 'ro', isa => 'Str');
   has StandardsInput => (is => 'ro', isa => 'Paws::SecurityHub::StandardsInputParameterMap', required => 1);
   has StandardsStatus => (is => 'ro', isa => 'Str', required => 1);
+  has StandardsStatusReason => (is => 'ro', isa => 'Paws::SecurityHub::StandardsStatusReason');
   has StandardsSubscriptionArn => (is => 'ro', isa => 'Str', required => 1);
 
 1;
@@ -43,7 +45,28 @@ A resource that represents your subscription to a supported standard.
 
 =head2 B<REQUIRED> StandardsArn => Str
 
-The ARN of a standard.
+The ARN of the standard.
+
+
+=head2 StandardsControlsUpdatable => Str
+
+Specifies whether you can retrieve information about and configure
+individual controls that apply to the standard. Possible values are:
+
+=over
+
+=item *
+
+C<READY_FOR_UPDATES> - Controls in the standard can be retrieved and
+configured.
+
+=item *
+
+C<NOT_READY_FOR_UPDATES> - Controls in the standard cannot be retrieved
+or configured.
+
+=back
+
 
 
 =head2 B<REQUIRED> StandardsInput => L<Paws::SecurityHub::StandardsInputParameterMap>
@@ -53,40 +76,48 @@ A key-value pair of input for the standard.
 
 =head2 B<REQUIRED> StandardsStatus => Str
 
-The status of the standard subscription.
-
-The status values are as follows:
+The status of your subscription to the standard. Possible values are:
 
 =over
 
 =item *
 
-C<PENDING> - Standard is in the process of being enabled.
+C<PENDING> - The standard is in the process of being enabled. Or the
+standard is already enabled and Security Hub is adding new controls to
+the standard.
 
 =item *
 
-C<READY> - Standard is enabled.
+C<READY> - The standard is enabled.
 
 =item *
 
-C<INCOMPLETE> - Standard could not be enabled completely. Some controls
-may not be available.
+C<INCOMPLETE> - The standard could not be enabled completely. One or
+more errors (C<StandardsStatusReason>) occurred when Security Hub
+attempted to enable the standard.
 
 =item *
 
-C<DELETING> - Standard is in the process of being disabled.
+C<DELETING> - The standard is in the process of being disabled.
 
 =item *
 
-C<FAILED> - Standard could not be disabled.
+C<FAILED> - The standard could not be disabled. One or more errors
+(C<StandardsStatusReason>) occurred when Security Hub attempted to
+disable the standard.
 
 =back
 
 
 
+=head2 StandardsStatusReason => L<Paws::SecurityHub::StandardsStatusReason>
+
+The reason for the current status.
+
+
 =head2 B<REQUIRED> StandardsSubscriptionArn => Str
 
-The ARN of a resource that represents your subscription to a supported
+The ARN of the resource that represents your subscription to the
 standard.
 
 

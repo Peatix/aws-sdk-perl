@@ -37,6 +37,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $CreationTimestamp = $DescribeCollectionResponse->CreationTimestamp;
     my $FaceCount         = $DescribeCollectionResponse->FaceCount;
     my $FaceModelVersion  = $DescribeCollectionResponse->FaceModelVersion;
+    my $UserCount         = $DescribeCollectionResponse->UserCount;
 
     # Returns a L<Paws::Rekognition::DescribeCollectionResponse> object.
 

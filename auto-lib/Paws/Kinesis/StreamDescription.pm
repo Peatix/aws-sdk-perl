@@ -9,6 +9,7 @@ package Paws::Kinesis::StreamDescription;
   has Shards => (is => 'ro', isa => 'ArrayRef[Paws::Kinesis::Shard]', required => 1);
   has StreamARN => (is => 'ro', isa => 'Str', required => 1);
   has StreamCreationTimestamp => (is => 'ro', isa => 'Str', required => 1);
+  has StreamModeDetails => (is => 'ro', isa => 'Paws::Kinesis::StreamModeDetails');
   has StreamName => (is => 'ro', isa => 'Str', required => 1);
   has StreamStatus => (is => 'ro', isa => 'Str', required => 1);
 
@@ -61,7 +62,7 @@ C<NONE>: Do not encrypt the records in the stream.
 =item *
 
 C<KMS>: Use server-side encryption on the records in the stream using a
-customer-managed AWS KMS key.
+customer-managed Amazon Web Services KMS key.
 
 =back
 
@@ -79,11 +80,11 @@ If set to C<true>, more shards in the stream are available to describe.
 
 =head2 KeyId => Str
 
-The GUID for the customer-managed AWS KMS key to use for encryption.
-This value can be a globally unique identifier, a fully specified ARN
-to either an alias or a key, or an alias name prefixed by "alias/".You
-can also use a master key owned by Kinesis Data Streams by specifying
-the alias C<aws/kinesis>.
+The GUID for the customer-managed Amazon Web Services KMS key to use
+for encryption. This value can be a globally unique identifier, a fully
+specified ARN to either an alias or a key, or an alias name prefixed by
+"alias/".You can also use a master key owned by Kinesis Data Streams by
+specifying the alias C<aws/kinesis>.
 
 =over
 
@@ -132,6 +133,14 @@ The Amazon Resource Name (ARN) for the stream being described.
 =head2 B<REQUIRED> StreamCreationTimestamp => Str
 
 The approximate time that the stream was created.
+
+
+=head2 StreamModeDetails => L<Paws::Kinesis::StreamModeDetails>
+
+Specifies the capacity mode to which you want to set your data stream.
+Currently, in Kinesis Data Streams, you can choose between an
+B<on-demand> capacity mode and a B<provisioned> capacity mode for your
+data streams.
 
 
 =head2 B<REQUIRED> StreamName => Str

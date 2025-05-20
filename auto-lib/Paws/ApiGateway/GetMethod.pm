@@ -60,19 +60,19 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 B<REQUIRED> HttpMethod => Str
 
-[Required] Specifies the method request's HTTP method type.
+Specifies the method request's HTTP method type.
 
 
 
 =head2 B<REQUIRED> ResourceId => Str
 
-[Required] The Resource identifier for the Method resource.
+The Resource identifier for the Method resource.
 
 
 
 =head2 B<REQUIRED> RestApiId => Str
 
-[Required] The string identifier of the associated RestApi.
+The string identifier of the associated RestApi.
 
 
 

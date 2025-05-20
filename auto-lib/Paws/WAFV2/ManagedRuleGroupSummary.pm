@@ -4,6 +4,7 @@ package Paws::WAFV2::ManagedRuleGroupSummary;
   has Description => (is => 'ro', isa => 'Str');
   has Name => (is => 'ro', isa => 'Str');
   has VendorName => (is => 'ro', isa => 'Str');
+  has VersioningSupported => (is => 'ro', isa => 'Bool');
 
 1;
 
@@ -24,7 +25,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::WAFV2::ManagedRuleGroupSummary object:
 
-  $service_obj->Method(Att1 => { Description => $value, ..., VendorName => $value  });
+  $service_obj->Method(Att1 => { Description => $value, ..., VersioningSupported => $value  });
 
 =head3 Results returned from an API call
 
@@ -39,9 +40,10 @@ High-level information about a managed rule group, returned by
 ListAvailableManagedRuleGroups. This provides information like the name
 and vendor name, that you provide when you add a
 ManagedRuleGroupStatement to a web ACL. Managed rule groups include
-Amazon Web Services Managed Rules rule groups, which are free of charge
-to WAF customers, and Marketplace managed rule groups, which you can
-subscribe to through Marketplace.
+Amazon Web Services Managed Rules rule groups and Amazon Web Services
+Marketplace managed rule groups. To use any Amazon Web Services
+Marketplace managed rule group, first subscribe to the rule group
+through Amazon Web Services Marketplace.
 
 =head1 ATTRIBUTES
 
@@ -49,7 +51,8 @@ subscribe to through Marketplace.
 =head2 Description => Str
 
 The description of the managed rule group, provided by Amazon Web
-Services Managed Rules or the Marketplace seller who manages it.
+Services Managed Rules or the Amazon Web Services Marketplace seller
+who manages it.
 
 
 =head2 Name => Str
@@ -61,7 +64,14 @@ name, to identify the rule group.
 =head2 VendorName => Str
 
 The name of the managed rule group vendor. You use this, along with the
-rule group name, to identify the rule group.
+rule group name, to identify a rule group.
+
+
+=head2 VersioningSupported => Bool
+
+Indicates whether the managed rule group is versioned. If it is, you
+can retrieve the versions list by calling
+ListAvailableManagedRuleGroupVersions.
 
 
 

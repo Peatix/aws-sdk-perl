@@ -19,7 +19,7 @@ Paws::SESv2::ListEmailIdentitiesResponse
 =head2 EmailIdentities => ArrayRef[L<Paws::SESv2::IdentityInfo>]
 
 An array that includes all of the email identities associated with your
-AWS account.
+Amazon Web Services account.
 
 
 =head2 NextToken => Str

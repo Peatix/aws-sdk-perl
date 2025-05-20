@@ -30,7 +30,7 @@ The unique identifier for FinSpace environment that you created.
 
 =head2 EnvironmentUrl => Str
 
-The sign-in url for the web application of the FinSpace environment you
+The sign-in URL for the web application of the FinSpace environment you
 created.
 
 

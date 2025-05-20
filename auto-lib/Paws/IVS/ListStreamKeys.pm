@@ -56,7 +56,7 @@ Channel ARN used to filter the list.
 
 =head2 MaxResults => Int
 
-Maximum number of streamKeys to return. Default: 50.
+Maximum number of streamKeys to return. Default: 1.
 
 
 

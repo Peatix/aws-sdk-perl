@@ -42,16 +42,22 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::MediaConver
 
 =head1 DESCRIPTION
 
-Required when you set (Codec) under
-(AudioDescriptions)E<gt>(CodecSettings) to the value AC3.
+Required when you set Codec to the value AC3.
 
 =head1 ATTRIBUTES
 
 
 =head2 Bitrate => Int
 
-Specify the average bitrate in bits per second. Valid bitrates depend
-on the coding mode.
+Specify the average bitrate in bits per second. The bitrate that you
+specify must be a multiple of 8000 within the allowed minimum and
+maximum values. Leave blank to use the default bitrate for the coding
+mode you select according ETSI TS 102 366. Valid bitrates for coding
+mode 1/0: Default: 96000. Minimum: 64000. Maximum: 128000. Valid
+bitrates for coding mode 1/1: Default: 192000. Minimum: 128000.
+Maximum: 384000. Valid bitrates for coding mode 2/0: Default: 192000.
+Minimum: 128000. Maximum: 384000. Valid bitrates for coding mode 3/2
+with FLE: Default: 384000. Minimum: 384000. Maximum: 640000.
 
 
 =head2 BitstreamMode => Str
@@ -78,9 +84,9 @@ Choose the Dolby Digital dynamic range control (DRC) profile that
 MediaConvert uses when encoding the metadata in the Dolby Digital
 stream for the line operating mode. Related setting: When you use this
 setting, MediaConvert ignores any value you provide for Dynamic range
-compression profile (DynamicRangeCompressionProfile). For information
-about the Dolby Digital DRC operating modes and profiles, see the
-Dynamic Range Control chapter of the Dolby Metadata Guide at
+compression profile. For information about the Dolby Digital DRC
+operating modes and profiles, see the Dynamic Range Control chapter of
+the Dolby Metadata Guide at
 https://developer.dolby.com/globalassets/professional/documents/dolby-metadata-guide.pdf.
 
 
@@ -88,15 +94,13 @@ https://developer.dolby.com/globalassets/professional/documents/dolby-metadata-g
 
 When you want to add Dolby dynamic range compression (DRC) signaling to
 your output stream, we recommend that you use the mode-specific
-settings instead of Dynamic range compression profile
-(DynamicRangeCompressionProfile). The mode-specific settings are
-Dynamic range compression profile, line mode
-(dynamicRangeCompressionLine) and Dynamic range compression profile, RF
-mode (dynamicRangeCompressionRf). Note that when you specify values for
-all three settings, MediaConvert ignores the value of this setting in
-favor of the mode-specific settings. If you do use this setting instead
-of the mode-specific settings, choose None (NONE) to leave out DRC
-signaling. Keep the default Film standard (FILM_STANDARD) to set the
+settings instead of Dynamic range compression profile. The
+mode-specific settings are Dynamic range compression profile, line mode
+and Dynamic range compression profile, RF mode. Note that when you
+specify values for all three settings, MediaConvert ignores the value
+of this setting in favor of the mode-specific settings. If you do use
+this setting instead of the mode-specific settings, choose None to
+leave out DRC signaling. Keep the default Film standard to set the
 profile to Dolby's film standard profile for all operating modes.
 
 
@@ -106,9 +110,9 @@ Choose the Dolby Digital dynamic range control (DRC) profile that
 MediaConvert uses when encoding the metadata in the Dolby Digital
 stream for the RF operating mode. Related setting: When you use this
 setting, MediaConvert ignores any value you provide for Dynamic range
-compression profile (DynamicRangeCompressionProfile). For information
-about the Dolby Digital DRC operating modes and profiles, see the
-Dynamic Range Control chapter of the Dolby Metadata Guide at
+compression profile. For information about the Dolby Digital DRC
+operating modes and profiles, see the Dynamic Range Control chapter of
+the Dolby Metadata Guide at
 https://developer.dolby.com/globalassets/professional/documents/dolby-metadata-guide.pdf.
 
 

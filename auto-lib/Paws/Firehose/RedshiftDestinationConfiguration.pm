@@ -4,14 +4,15 @@ package Paws::Firehose::RedshiftDestinationConfiguration;
   has CloudWatchLoggingOptions => (is => 'ro', isa => 'Paws::Firehose::CloudWatchLoggingOptions');
   has ClusterJDBCURL => (is => 'ro', isa => 'Str', required => 1);
   has CopyCommand => (is => 'ro', isa => 'Paws::Firehose::CopyCommand', required => 1);
-  has Password => (is => 'ro', isa => 'Str', required => 1);
+  has Password => (is => 'ro', isa => 'Str');
   has ProcessingConfiguration => (is => 'ro', isa => 'Paws::Firehose::ProcessingConfiguration');
   has RetryOptions => (is => 'ro', isa => 'Paws::Firehose::RedshiftRetryOptions');
   has RoleARN => (is => 'ro', isa => 'Str', required => 1);
   has S3BackupConfiguration => (is => 'ro', isa => 'Paws::Firehose::S3DestinationConfiguration');
   has S3BackupMode => (is => 'ro', isa => 'Str');
   has S3Configuration => (is => 'ro', isa => 'Paws::Firehose::S3DestinationConfiguration', required => 1);
-  has Username => (is => 'ro', isa => 'Str', required => 1);
+  has SecretsManagerConfiguration => (is => 'ro', isa => 'Paws::Firehose::SecretsManagerConfiguration');
+  has Username => (is => 'ro', isa => 'Str');
 
 1;
 
@@ -50,7 +51,7 @@ Describes the configuration of a destination in Amazon Redshift.
 
 =head2 CloudWatchLoggingOptions => L<Paws::Firehose::CloudWatchLoggingOptions>
 
-The CloudWatch logging options for your delivery stream.
+The CloudWatch logging options for your Firehose stream.
 
 
 =head2 B<REQUIRED> ClusterJDBCURL => Str
@@ -63,7 +64,7 @@ The database connection string.
 The C<COPY> command.
 
 
-=head2 B<REQUIRED> Password => Str
+=head2 Password => Str
 
 The user password.
 
@@ -75,15 +76,15 @@ The data processing configuration.
 
 =head2 RetryOptions => L<Paws::Firehose::RedshiftRetryOptions>
 
-The retry behavior in case Kinesis Data Firehose is unable to deliver
-documents to Amazon Redshift. Default value is 3600 (60 minutes).
+The retry behavior in case Firehose is unable to deliver documents to
+Amazon Redshift. Default value is 3600 (60 minutes).
 
 
 =head2 B<REQUIRED> RoleARN => Str
 
-The Amazon Resource Name (ARN) of the AWS credentials. For more
-information, see Amazon Resource Names (ARNs) and AWS Service
-Namespaces
+The Amazon Resource Name (ARN) of the Amazon Web Services credentials.
+For more information, see Amazon Resource Names (ARNs) and Amazon Web
+Services Service Namespaces
 (https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
 
 
@@ -94,9 +95,9 @@ The configuration for backup in Amazon S3.
 
 =head2 S3BackupMode => Str
 
-The Amazon S3 backup mode. After you create a delivery stream, you can
+The Amazon S3 backup mode. After you create a Firehose stream, you can
 update it to enable Amazon S3 backup if it is disabled. If backup is
-enabled, you can't update the delivery stream to disable it.
+enabled, you can't update the Firehose stream to disable it.
 
 
 =head2 B<REQUIRED> S3Configuration => L<Paws::Firehose::S3DestinationConfiguration>
@@ -111,7 +112,13 @@ Redshift C<COPY> operation that reads from the S3 bucket doesn't
 support these compression formats.
 
 
-=head2 B<REQUIRED> Username => Str
+=head2 SecretsManagerConfiguration => L<Paws::Firehose::SecretsManagerConfiguration>
+
+The configuration that defines how you access secrets for Amazon
+Redshift.
+
+
+=head2 Username => Str
 
 The name of the user.
 

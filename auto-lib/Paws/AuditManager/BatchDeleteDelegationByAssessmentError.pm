@@ -43,19 +43,19 @@ is used to provide more meaningful errors than a simple string message.
 
 =head2 DelegationId => Str
 
-The identifier for the specified delegation.
+The identifier for the delegation.
 
 
 =head2 ErrorCode => Str
 
-The error code returned by the C<BatchDeleteDelegationByAssessment>
-API.
+The error code that the C<BatchDeleteDelegationByAssessment> API
+returned.
 
 
 =head2 ErrorMessage => Str
 
-The error message returned by the C<BatchDeleteDelegationByAssessment>
-API.
+The error message that the C<BatchDeleteDelegationByAssessment> API
+returned.
 
 
 

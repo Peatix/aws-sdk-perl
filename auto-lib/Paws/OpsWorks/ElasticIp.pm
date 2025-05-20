@@ -59,13 +59,13 @@ The IP address.
 
 =head2 Name => Str
 
-The name.
+The name, which can be a maximum of 32 characters.
 
 
 =head2 Region => Str
 
-The AWS region. For more information, see Regions and Endpoints
-(https://docs.aws.amazon.com/general/latest/gr/rande.html).
+The Amazon Web Services Region. For more information, see Regions and
+Endpoints (https://docs.aws.amazon.com/general/latest/gr/rande.html).
 
 
 

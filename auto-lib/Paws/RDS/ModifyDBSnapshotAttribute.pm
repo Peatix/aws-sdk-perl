@@ -58,7 +58,7 @@ To manage authorization for other Amazon Web Services accounts to copy
 or restore a manual DB snapshot, set this value to C<restore>.
 
 To view the list of attributes available to modify, use the
-DescribeDBSnapshotAttributes API action.
+DescribeDBSnapshotAttributes API operation.
 
 
 

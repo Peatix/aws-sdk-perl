@@ -8,7 +8,9 @@ package Paws::IoT::UpdateSecurityProfile;
   has DeleteAdditionalMetricsToRetain => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'deleteAdditionalMetricsToRetain');
   has DeleteAlertTargets => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'deleteAlertTargets');
   has DeleteBehaviors => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'deleteBehaviors');
+  has DeleteMetricsExportConfig => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'deleteMetricsExportConfig');
   has ExpectedVersion => (is => 'ro', isa => 'Int', traits => ['ParamInQuery'], query_name => 'expectedVersion');
+  has MetricsExportConfig => (is => 'ro', isa => 'Paws::IoT::MetricsExportConfig', traits => ['NameInRequest'], request_name => 'metricsExportConfig');
   has SecurityProfileDescription => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'securityProfileDescription');
   has SecurityProfileName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'securityProfileName', required => 1);
 
@@ -43,6 +45,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       AdditionalMetricsToRetainV2 => [
         {
           Metric          => 'MyBehaviorMetric',
+          ExportMetric    => 1,                                      # OPTIONAL
           MetricDimension => {
             DimensionName => 'MyDimensionName',   # min: 1, max: 128
             Operator      => 'IN',                # values: IN, NOT_IN; OPTIONAL
@@ -88,6 +91,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
               Strings => [ 'MystringValue', ... ],    # OPTIONAL
             },    # OPTIONAL
           },    # OPTIONAL
+          ExportMetric    => 1,                    # OPTIONAL
           Metric          => 'MyBehaviorMetric',
           MetricDimension => {
             DimensionName => 'MyDimensionName',   # min: 1, max: 128
@@ -100,7 +104,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       DeleteAdditionalMetricsToRetain => 1,    # OPTIONAL
       DeleteAlertTargets              => 1,    # OPTIONAL
       DeleteBehaviors                 => 1,    # OPTIONAL
+      DeleteMetricsExportConfig       => 1,    # OPTIONAL
       ExpectedVersion                 => 1,    # OPTIONAL
+      MetricsExportConfig             => {
+        MqttTopic => 'MyMqttTopic',            # min: 1, max: 512
+        RoleArn   => 'MyRoleArn',              # min: 20, max: 2048
+
+      },    # OPTIONAL
       SecurityProfileDescription => 'MySecurityProfileDescription',   # OPTIONAL
     );
 
@@ -109,10 +119,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       $UpdateSecurityProfileResponse->AdditionalMetricsToRetain;
     my $AdditionalMetricsToRetainV2 =
       $UpdateSecurityProfileResponse->AdditionalMetricsToRetainV2;
-    my $AlertTargets       = $UpdateSecurityProfileResponse->AlertTargets;
-    my $Behaviors          = $UpdateSecurityProfileResponse->Behaviors;
-    my $CreationDate       = $UpdateSecurityProfileResponse->CreationDate;
-    my $LastModifiedDate   = $UpdateSecurityProfileResponse->LastModifiedDate;
+    my $AlertTargets     = $UpdateSecurityProfileResponse->AlertTargets;
+    my $Behaviors        = $UpdateSecurityProfileResponse->Behaviors;
+    my $CreationDate     = $UpdateSecurityProfileResponse->CreationDate;
+    my $LastModifiedDate = $UpdateSecurityProfileResponse->LastModifiedDate;
+    my $MetricsExportConfig =
+      $UpdateSecurityProfileResponse->MetricsExportConfig;
     my $SecurityProfileArn = $UpdateSecurityProfileResponse->SecurityProfileArn;
     my $SecurityProfileDescription =
       $UpdateSecurityProfileResponse->SecurityProfileDescription;
@@ -186,12 +198,24 @@ occurs.
 
 
 
+=head2 DeleteMetricsExportConfig => Bool
+
+Set the value as true to delete metrics export related configurations.
+
+
+
 =head2 ExpectedVersion => Int
 
 The expected version of the security profile. A new version is
 generated whenever the security profile is updated. If you specify a
 value that is different from the actual version, a
 C<VersionConflictException> is thrown.
+
+
+
+=head2 MetricsExportConfig => L<Paws::IoT::MetricsExportConfig>
+
+Specifies the MQTT topic and role ARN required for metric export.
 
 
 

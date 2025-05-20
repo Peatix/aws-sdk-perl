@@ -30,7 +30,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $dynamodb = Paws->service('DynamoDB');
     my $CreateBackupOutput = $dynamodb->CreateBackup(
       BackupName => 'MyBackupName',
-      TableName  => 'MyTableName',
+      TableName  => 'MyTableArn',
 
     );
 
@@ -53,7 +53,8 @@ Specified name for the backup.
 
 =head2 B<REQUIRED> TableName => Str
 
-The name of the table.
+The name of the table. You can also provide the Amazon Resource Name
+(ARN) of the table in this parameter.
 
 
 

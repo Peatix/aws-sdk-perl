@@ -35,7 +35,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ElastiCache
 =head1 DESCRIPTION
 
 Represents the information required for client programs to connect to a
-cache node.
+cache node. This value is read-only.
 
 =head1 ATTRIBUTES
 

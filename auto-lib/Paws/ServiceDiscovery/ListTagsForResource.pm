@@ -27,10 +27,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $servicediscovery = Paws->service('ServiceDiscovery');
-    my $ListTagsForResourceResponse = $servicediscovery->ListTagsForResource(
-      ResourceARN => 'MyAmazonResourceName',
-
-    );
+    # ListTagsForResource example
+    # This example lists the tags of a resource.
+    my $ListTagsForResourceResponse =
+      $servicediscovery->ListTagsForResource( 'ResourceARN' =>
+'arn:aws:servicediscovery:us-east-1:123456789012:namespace/ns-ylexjili4cdxy3xm'
+      );
 
     # Results:
     my $Tags = $ListTagsForResourceResponse->Tags;

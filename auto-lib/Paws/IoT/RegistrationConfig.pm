@@ -3,6 +3,7 @@ package Paws::IoT::RegistrationConfig;
   use Moose;
   has RoleArn => (is => 'ro', isa => 'Str', request_name => 'roleArn', traits => ['NameInRequest']);
   has TemplateBody => (is => 'ro', isa => 'Str', request_name => 'templateBody', traits => ['NameInRequest']);
+  has TemplateName => (is => 'ro', isa => 'Str', request_name => 'templateName', traits => ['NameInRequest']);
 
 1;
 
@@ -23,7 +24,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::IoT::RegistrationConfig object:
 
-  $service_obj->Method(Att1 => { RoleArn => $value, ..., TemplateBody => $value  });
+  $service_obj->Method(Att1 => { RoleArn => $value, ..., TemplateName => $value  });
 
 =head3 Results returned from an API call
 
@@ -47,6 +48,11 @@ The ARN of the role.
 =head2 TemplateBody => Str
 
 The template body.
+
+
+=head2 TemplateName => Str
+
+The name of the provisioning template.
 
 
 

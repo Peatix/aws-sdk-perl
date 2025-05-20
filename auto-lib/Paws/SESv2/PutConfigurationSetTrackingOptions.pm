@@ -3,6 +3,7 @@ package Paws::SESv2::PutConfigurationSetTrackingOptions;
   use Moose;
   has ConfigurationSetName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'ConfigurationSetName', required => 1);
   has CustomRedirectDomain => (is => 'ro', isa => 'Str');
+  has HttpsPolicy => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -33,6 +34,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       $email->PutConfigurationSetTrackingOptions(
       ConfigurationSetName => 'MyConfigurationSetName',
       CustomRedirectDomain => 'MyCustomRedirectDomain',    # OPTIONAL
+      HttpsPolicy          => 'REQUIRE',                   # OPTIONAL
       );
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
@@ -43,16 +45,21 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ema
 
 =head2 B<REQUIRED> ConfigurationSetName => Str
 
-The name of the configuration set that you want to add a custom
-tracking domain to.
+The name of the configuration set.
 
 
 
 =head2 CustomRedirectDomain => Str
 
-The domain that you want to use to track open and click events.
+The domain to use to track open and click events.
 
 
+
+=head2 HttpsPolicy => Str
+
+
+
+Valid values are: C<"REQUIRE">, C<"REQUIRE_OPEN_ONLY">, C<"OPTIONAL">
 
 
 =head1 SEE ALSO

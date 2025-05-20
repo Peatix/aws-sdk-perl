@@ -18,8 +18,8 @@ Paws::Macie2::DescribeBucketsResponse
 
 =head2 Buckets => ArrayRef[L<Paws::Macie2::BucketMetadata>]
 
-An array of objects, one for each bucket that meets the filter criteria
-specified in the request.
+An array of objects, one for each bucket that matches the filter
+criteria specified in the request.
 
 
 =head2 NextToken => Str

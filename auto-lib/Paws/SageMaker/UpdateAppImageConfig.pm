@@ -2,6 +2,8 @@
 package Paws::SageMaker::UpdateAppImageConfig;
   use Moose;
   has AppImageConfigName => (is => 'ro', isa => 'Str', required => 1);
+  has CodeEditorAppImageConfig => (is => 'ro', isa => 'Paws::SageMaker::CodeEditorAppImageConfig');
+  has JupyterLabAppImageConfig => (is => 'ro', isa => 'Paws::SageMaker::JupyterLabAppImageConfig');
   has KernelGatewayImageConfig => (is => 'ro', isa => 'Paws::SageMaker::KernelGatewayImageConfig');
 
   use MooseX::ClassAttribute;
@@ -30,6 +32,44 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $api.sagemaker = Paws->service('SageMaker');
     my $UpdateAppImageConfigResponse = $api . sagemaker->UpdateAppImageConfig(
       AppImageConfigName       => 'MyAppImageConfigName',
+      CodeEditorAppImageConfig => {
+        ContainerConfig => {
+          ContainerArguments => [
+            'MyNonEmptyString64', ...    # max: 64
+          ],    # max: 50; OPTIONAL
+          ContainerEntrypoint => [
+            'MyNonEmptyString256', ...    # max: 256
+          ],    # max: 1; OPTIONAL
+          ContainerEnvironmentVariables => {
+            'MyNonEmptyString256' =>
+              'MyString256',    # key: max: 256, value: max: 256
+          },    # max: 25; OPTIONAL
+        },    # OPTIONAL
+        FileSystemConfig => {
+          DefaultGid => 1,                # max: 65535; OPTIONAL
+          DefaultUid => 1,                # max: 65535; OPTIONAL
+          MountPath  => 'MyMountPath',    # max: 1024; OPTIONAL
+        },    # OPTIONAL
+      },    # OPTIONAL
+      JupyterLabAppImageConfig => {
+        ContainerConfig => {
+          ContainerArguments => [
+            'MyNonEmptyString64', ...    # max: 64
+          ],    # max: 50; OPTIONAL
+          ContainerEntrypoint => [
+            'MyNonEmptyString256', ...    # max: 256
+          ],    # max: 1; OPTIONAL
+          ContainerEnvironmentVariables => {
+            'MyNonEmptyString256' =>
+              'MyString256',    # key: max: 256, value: max: 256
+          },    # max: 25; OPTIONAL
+        },    # OPTIONAL
+        FileSystemConfig => {
+          DefaultGid => 1,                # max: 65535; OPTIONAL
+          DefaultUid => 1,                # max: 65535; OPTIONAL
+          MountPath  => 'MyMountPath',    # max: 1024; OPTIONAL
+        },    # OPTIONAL
+      },    # OPTIONAL
       KernelGatewayImageConfig => {
         KernelSpecs => [
           {
@@ -37,7 +77,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             DisplayName => 'MyKernelDisplayName',    # max: 1024; OPTIONAL
           },
           ...
-        ],    # min: 1, max: 1
+        ],    # min: 1, max: 5
         FileSystemConfig => {
           DefaultGid => 1,                # max: 65535; OPTIONAL
           DefaultUid => 1,                # max: 65535; OPTIONAL
@@ -60,6 +100,18 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 =head2 B<REQUIRED> AppImageConfigName => Str
 
 The name of the AppImageConfig to update.
+
+
+
+=head2 CodeEditorAppImageConfig => L<Paws::SageMaker::CodeEditorAppImageConfig>
+
+The Code Editor app running on the image.
+
+
+
+=head2 JupyterLabAppImageConfig => L<Paws::SageMaker::JupyterLabAppImageConfig>
+
+The JupyterLab app running on the image.
 
 
 

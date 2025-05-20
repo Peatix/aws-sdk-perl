@@ -41,6 +41,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     # Results:
     my $Answer          = $GetAnswerOutput->Answer;
     my $LensAlias       = $GetAnswerOutput->LensAlias;
+    my $LensArn         = $GetAnswerOutput->LensArn;
     my $MilestoneNumber = $GetAnswerOutput->MilestoneNumber;
     my $WorkloadId      = $GetAnswerOutput->WorkloadId;
 

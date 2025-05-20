@@ -46,7 +46,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::LicenseMana
 
 =head1 DESCRIPTION
 
-Software license that is managed in AWS License Manager.
+Software license that is managed in License Manager.
 
 =head1 ATTRIBUTES
 

@@ -35,7 +35,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::LexModelsV2
 =head1 DESCRIPTION
 
 Provides summary information about a built-in slot type for the
-ListBuiltInSlotTypes operation.
+ListBuiltInSlotTypes
+(https://docs.aws.amazon.com/lexv2/latest/APIReference/API_ListBuiltInSlotTypes.html)
+operation.
 
 =head1 ATTRIBUTES
 

@@ -40,8 +40,9 @@ documents.
 For keys, you can specify one or more tags that have been applied to a
 document.
 
-You can also use AWS-provided keys, some of which have specific allowed
-values. These keys and their associated values are as follows:
+You can also use Amazon Web Services-provided keys, some of which have
+specific allowed values. These keys and their associated values are as
+follows:
 
 =over
 
@@ -51,39 +52,35 @@ values. These keys and their associated values are as follows:
 
 =item *
 
-ApplicationConfiguration
+C<ApplicationConfiguration>
 
 =item *
 
-ApplicationConfigurationSchema
+C<ApplicationConfigurationSchema>
 
 =item *
 
-Automation
+C<Automation>
 
 =item *
 
-ChangeCalendar
+C<ChangeCalendar>
 
 =item *
 
-Command
+C<Command>
 
 =item *
 
-DeploymentStrategy
+C<Package>
 
 =item *
 
-Package
+C<Policy>
 
 =item *
 
-Policy
-
-=item *
-
-Session
+C<Session>
 
 =back
 
@@ -96,23 +93,23 @@ C<Key=Owner,Values=Self>.
 
 =item *
 
-Amazon
+C<Amazon>
 
 =item *
 
-Private
+C<Private>
 
 =item *
 
-Public
+C<Public>
 
 =item *
 
-Self
+C<Self>
 
 =item *
 
-ThirdParty
+C<ThirdParty>
 
 =back
 
@@ -122,39 +119,39 @@ ThirdParty
 
 =item *
 
-Linux
+C<Linux>
 
 =item *
 
-Windows
+C<Windows>
 
 =back
 
 =back
 
-C<Name> is another AWS-provided key. If you use C<Name> as a key, you
-can use a name prefix to return a list of documents. For example, in
-the AWS CLI, to return a list of all documents that begin with C<Te>,
-run the following command:
+C<Name> is another Amazon Web Services-provided key. If you use C<Name>
+as a key, you can use a name prefix to return a list of documents. For
+example, in the Amazon Web Services CLI, to return a list of all
+documents that begin with C<Te>, run the following command:
 
 C<aws ssm list-documents --filters Key=Name,Values=Te>
 
-You can also use the C<TargetType> AWS-provided key. For a list of
-valid resource type values that can be used with this key, see AWS
-resource and property types reference
+You can also use the C<TargetType> Amazon Web Services-provided key.
+For a list of valid resource type values that can be used with this
+key, see Amazon Web Services resource and property types reference
 (https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html)
-in the I<AWS CloudFormation User Guide>.
+in the I<CloudFormation User Guide>.
 
 If you specify more than two keys, only documents that are identified
 by all the tags are returned in the results. If you specify more than
 two values for a key, documents that are identified by any of the
 values are returned in the results.
 
-To specify a custom key and value pair, use the format
+To specify a custom key-value pair, use the format
 C<Key=tag:tagName,Values=valueName>.
 
-For example, if you created a key called region and are using the AWS
-CLI to call the C<list-documents> command:
+For example, if you created a key called region and are using the
+Amazon Web Services CLI to call the C<list-documents> command:
 
 C<aws ssm list-documents --filters Key=tag:region,Values=east,west
 Key=Owner,Values=Self>

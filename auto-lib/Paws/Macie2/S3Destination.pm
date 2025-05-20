@@ -43,7 +43,8 @@ encryption settings to use when storing results in that bucket.
 
 =head2 B<REQUIRED> BucketName => Str
 
-The name of the bucket.
+The name of the bucket. This must be the name of an existing general
+purpose bucket.
 
 
 =head2 KeyPrefix => Str
@@ -54,9 +55,9 @@ prefix specifies where to store classification results in the bucket.
 
 =head2 B<REQUIRED> KmsKeyArn => Str
 
-The Amazon Resource Name (ARN) of the Key Management Service (KMS)
-customer master key (CMK) to use for encryption of the results. This
-must be the ARN of an existing CMK that's in the same Amazon Web
+The Amazon Resource Name (ARN) of the customer managed KMS key to use
+for encryption of the results. This must be the ARN of an existing,
+symmetric encryption KMS key that's enabled in the same Amazon Web
 Services Region as the bucket.
 
 

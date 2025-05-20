@@ -8,7 +8,9 @@ package Paws::DocDB::RestoreDBClusterToPointInTime;
   has KmsKeyId => (is => 'ro', isa => 'Str');
   has Port => (is => 'ro', isa => 'Int');
   has RestoreToTime => (is => 'ro', isa => 'Str');
+  has RestoreType => (is => 'ro', isa => 'Str');
   has SourceDBClusterIdentifier => (is => 'ro', isa => 'Str', required => 1);
+  has StorageType => (is => 'ro', isa => 'Str');
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::DocDB::Tag]');
   has UseLatestRestorableTime => (is => 'ro', isa => 'Bool');
   has VpcSecurityGroupIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
@@ -47,6 +49,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       KmsKeyId                    => 'MyString',               # OPTIONAL
       Port                        => 1,                        # OPTIONAL
       RestoreToTime               => '1970-01-01T01:00:00',    # OPTIONAL
+      RestoreType                 => 'MyString',               # OPTIONAL
+      StorageType                 => 'MyString',               # OPTIONAL
       Tags                        => [
         {
           Key   => 'MyString',
@@ -127,10 +131,10 @@ The KMS key identifier to use when restoring an encrypted cluster from
 an encrypted cluster.
 
 The KMS key identifier is the Amazon Resource Name (ARN) for the KMS
-encryption key. If you are restoring a cluster with the same account
-that owns the KMS encryption key used to encrypt the new cluster, then
-you can use the KMS key alias instead of the ARN for the KMS encryption
-key.
+encryption key. If you are restoring a cluster with the same Amazon Web
+Services account that owns the KMS encryption key used to encrypt the
+new cluster, then you can use the KMS key alias instead of the ARN for
+the KMS encryption key.
 
 You can restore to a new cluster and encrypt the new cluster with an
 KMS key that is different from the KMS key used to encrypt the source
@@ -204,6 +208,33 @@ Example: C<2015-03-07T23:45:00Z>
 
 
 
+=head2 RestoreType => Str
+
+The type of restore to be performed. You can specify one of the
+following values:
+
+=over
+
+=item *
+
+C<full-copy> - The new DB cluster is restored as a full copy of the
+source DB cluster.
+
+=item *
+
+C<copy-on-write> - The new DB cluster is restored as a clone of the
+source DB cluster.
+
+=back
+
+Constraints: You can't specify C<copy-on-write> if the engine version
+of the source DB cluster is earlier than 1.11.
+
+If you don't specify a C<RestoreType> value, then the new DB cluster is
+restored as a full copy of the source DB cluster.
+
+
+
 =head2 B<REQUIRED> SourceDBClusterIdentifier => Str
 
 The identifier of the source cluster from which to restore.
@@ -218,6 +249,20 @@ Must match the identifier of an existing C<DBCluster>.
 
 =back
 
+
+
+
+=head2 StorageType => Str
+
+The storage type to associate with the DB cluster.
+
+For information on storage types for Amazon DocumentDB clusters, see
+Cluster storage configurations in the I<Amazon DocumentDB Developer
+Guide>.
+
+Valid values for storage type - C<standard | iopt1>
+
+Default value is C<standard>
 
 
 

@@ -1,6 +1,9 @@
 
 package Paws::Proton::UpdateAccountSettings;
   use Moose;
+  has DeletePipelineProvisioningRepository => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'deletePipelineProvisioningRepository' );
+  has PipelineCodebuildRoleArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'pipelineCodebuildRoleArn' );
+  has PipelineProvisioningRepository => (is => 'ro', isa => 'Paws::Proton::RepositoryBranchInput', traits => ['NameInRequest'], request_name => 'pipelineProvisioningRepository' );
   has PipelineServiceRoleArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'pipelineServiceRoleArn' );
 
   use MooseX::ClassAttribute;
@@ -28,7 +31,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $proton = Paws->service('Proton');
     my $UpdateAccountSettingsOutput = $proton->UpdateAccountSettings(
-      PipelineServiceRoleArn => 'MyArn',    # OPTIONAL
+      DeletePipelineProvisioningRepository => 1,                     # OPTIONAL
+      PipelineCodebuildRoleArn       => 'MyRoleArnOrEmptyString',    # OPTIONAL
+      PipelineProvisioningRepository => {
+        Branch   => 'MyGitBranchName',     # min: 1, max: 200
+        Name     => 'MyRepositoryName',    # min: 1, max: 100
+        Provider => 'GITHUB',    # values: GITHUB, GITHUB_ENTERPRISE, BITBUCKET
+
+      },    # OPTIONAL
+      PipelineServiceRoleArn => 'MyRoleArnOrEmptyString',    # OPTIONAL
     );
 
     # Results:
@@ -42,9 +53,44 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/pro
 =head1 ATTRIBUTES
 
 
+=head2 DeletePipelineProvisioningRepository => Bool
+
+Set to C<true> to remove a configured pipeline repository from the
+account settings. Don't set this field if you are updating the
+configured pipeline repository.
+
+
+
+=head2 PipelineCodebuildRoleArn => Str
+
+The Amazon Resource Name (ARN) of the service role you want to use for
+provisioning pipelines. Proton assumes this role for CodeBuild-based
+provisioning.
+
+
+
+=head2 PipelineProvisioningRepository => L<Paws::Proton::RepositoryBranchInput>
+
+A linked repository for pipeline provisioning. Specify it if you have
+environments configured for self-managed provisioning with services
+that include pipelines. A linked repository is a repository that has
+been registered with Proton. For more information, see
+CreateRepository.
+
+To remove a previously configured repository, set
+C<deletePipelineProvisioningRepository> to C<true>, and don't set
+C<pipelineProvisioningRepository>.
+
+
+
 =head2 PipelineServiceRoleArn => Str
 
-The Amazon Resource Name (ARN) of the AWS Proton pipeline service role.
+The Amazon Resource Name (ARN) of the service role you want to use for
+provisioning pipelines. Assumed by Proton for Amazon Web
+Services-managed provisioning, and by customer-owned automation for
+self-managed provisioning.
+
+To remove a previously configured ARN, specify an empty string.
 
 
 

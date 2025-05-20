@@ -38,7 +38,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SecurityHub
 
 =head1 DESCRIPTION
 
-Contains details about an EC2 network access control list (ACL).
+Contains details about an Amazon EC2 network access control list (ACL).
 
 =head1 ATTRIBUTES
 
@@ -65,7 +65,8 @@ The identifier of the network ACL.
 
 =head2 OwnerId => Str
 
-The identifier of the AWS account that owns the network ACL.
+The identifier of the Amazon Web Services account that owns the network
+ACL.
 
 
 =head2 VpcId => Str

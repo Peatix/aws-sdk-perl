@@ -58,14 +58,11 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/con
 
 Filters the results by compliance.
 
-The allowed values are C<COMPLIANT> and C<NON_COMPLIANT>.
-
 
 
 =head2 ConfigRuleNames => ArrayRef[Str|Undef]
 
-Specify one or more AWS Config rule names to filter the results by
-rule.
+Specify one or more Config rule names to filter the results by rule.
 
 
 

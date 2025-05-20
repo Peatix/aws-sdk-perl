@@ -61,17 +61,24 @@ available when you upgrade a DB snapshot.
 
 B<MySQL>
 
-=over
-
-=item *
-
-C<5.5.46> (supported for 5.1 DB snapshots)
-
-=back
+For the list of engine versions that are available for upgrading a DB
+snapshot, see Upgrading a MySQL DB snapshot engine version
+(https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/mysql-upgrade-snapshot.html)
+in the I<Amazon RDS User Guide.>
 
 B<Oracle>
 
 =over
+
+=item *
+
+C<19.0.0.0.ru-2022-01.rur-2022-01.r1> (supported for 12.2.0.1 DB
+snapshots)
+
+=item *
+
+C<19.0.0.0.ru-2022-07.rur-2022-07.r1> (supported for 12.1.0.2 DB
+snapshots)
 
 =item *
 
@@ -90,8 +97,9 @@ C<11.2.0.4.v11> (supported for 11.2.0.3 DB snapshots)
 B<PostgreSQL>
 
 For the list of engine versions that are available for upgrading a DB
-snapshot, see Upgrading the PostgreSQL DB Engine for Amazon RDS
-(https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.PostgreSQL.html#USER_UpgradeDBInstance.PostgreSQL.MajorVersion).
+snapshot, see Upgrading a PostgreSQL DB snapshot engine version
+(https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBSnapshot.PostgreSQL.html)
+in the I<Amazon RDS User Guide.>
 
 
 

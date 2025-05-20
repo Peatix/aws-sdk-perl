@@ -2,7 +2,7 @@
 package Paws::KinesisAnalyticsV2::S3ContentBaseLocationUpdate;
   use Moose;
   has BasePathUpdate => (is => 'ro', isa => 'Str');
-  has BucketARNUpdate => (is => 'ro', isa => 'Str', required => 1);
+  has BucketARNUpdate => (is => 'ro', isa => 'Str');
 
 1;
 
@@ -45,7 +45,7 @@ application.
 The updated S3 bucket path.
 
 
-=head2 B<REQUIRED> BucketARNUpdate => Str
+=head2 BucketARNUpdate => Str
 
 The updated Amazon Resource Name (ARN) of the S3 bucket.
 

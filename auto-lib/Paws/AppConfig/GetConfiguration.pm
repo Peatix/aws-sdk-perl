@@ -32,17 +32,22 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $appconfig = Paws->service('AppConfig');
+  # To retrieve configuration details
+  # The following get-configuration example returns the configuration details of
+  # the example application. On subsequent calls to get-configuration, use the
+  # client-configuration-version parameter to only update the configuration of
+  # your application if the version has changed. Only updating the configuration
+  # when the version has changed avoids excess charges incurred by calling
+  # get-configuration.
     my $Configuration = $appconfig->GetConfiguration(
-      Application                => 'MyStringWithLengthBetween1And64',
-      ClientId                   => 'MyStringWithLengthBetween1And64',
-      Configuration              => 'MyStringWithLengthBetween1And64',
-      Environment                => 'MyStringWithLengthBetween1And64',
-      ClientConfigurationVersion => 'MyVersion',                      # OPTIONAL
+      'Application'   => 'example-application',
+      'ClientId'      => 'example-id',
+      'Configuration' => 'Example-Configuration-Profile',
+      'Environment'   => 'Example-Environment'
     );
 
     # Results:
     my $ConfigurationVersion = $Configuration->ConfigurationVersion;
-    my $Content              = $Configuration->Content;
     my $ContentType          = $Configuration->ContentType;
 
     # Returns a L<Paws::AppConfig::Configuration> object.
@@ -62,31 +67,39 @@ application ID.
 
 =head2 ClientConfigurationVersion => Str
 
-The configuration version returned in the most recent
-C<GetConfiguration> response.
+The configuration version returned in the most recent GetConfiguration
+response.
 
-AWS AppConfig uses the value of the C<ClientConfigurationVersion>
-parameter to identify the configuration version on your clients. If you
+AppConfig uses the value of the C<ClientConfigurationVersion> parameter
+to identify the configuration version on your clients. If you
 donE<rsquo>t send C<ClientConfigurationVersion> with each call to
-C<GetConfiguration>, your clients receive the current configuration.
-You are charged each time your clients receive a configuration.
+GetConfiguration, your clients receive the current configuration. You
+are charged each time your clients receive a configuration.
 
-To avoid excess charges, we recommend that you include the
-C<ClientConfigurationVersion> value with every call to
-C<GetConfiguration>. This value must be saved on your client.
-Subsequent calls to C<GetConfiguration> must pass this value by using
-the C<ClientConfigurationVersion> parameter.
+To avoid excess charges, we recommend you use the
+StartConfigurationSession
+(https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/StartConfigurationSession.html)
+and GetLatestConfiguration
+(https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/GetLatestConfiguration.html)
+APIs, which track the client configuration version on your behalf. If
+you choose to continue using GetConfiguration, we recommend that you
+include the C<ClientConfigurationVersion> value with every call to
+GetConfiguration. The value to use for C<ClientConfigurationVersion>
+comes from the C<ConfigurationVersion> attribute returned by
+GetConfiguration when there is new or updated data, and should be saved
+for subsequent calls to GetConfiguration.
 
 For more information about working with configurations, see Retrieving
-the Configuration
-(https://docs.aws.amazon.com/systems-manager/latest/userguide/appconfig-retrieving-the-configuration.html)
-in the I<AWS AppConfig User Guide>.
+feature flags and configuration data in AppConfig
+(http://docs.aws.amazon.com/appconfig/latest/userguide/retrieving-feature-flags.html)
+in the I<AppConfig User Guide>.
 
 
 
 =head2 B<REQUIRED> ClientId => Str
 
-A unique ID to identify the client for the configuration. This ID
+The clientId parameter in the following command is a unique,
+user-specified ID to identify the client for the configuration. This ID
 enables AppConfig to deploy the configuration in intervals, as defined
 in the deployment strategy.
 

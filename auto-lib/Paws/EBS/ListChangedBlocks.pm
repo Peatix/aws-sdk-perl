@@ -66,13 +66,23 @@ C<SecondSnapshotId> parameter; otherwise, an error occurs.
 
 =head2 MaxResults => Int
 
-The number of results to return.
+The maximum number of blocks to be returned by the request.
+
+Even if additional blocks can be retrieved from the snapshot, the
+request can return less blocks than B<MaxResults> or an empty array of
+blocks.
+
+To retrieve the next set of blocks from the snapshot, make another
+request with the returned B<NextToken> value. The value of B<NextToken>
+is C<null> when there are no more blocks to return.
 
 
 
 =head2 NextToken => Str
 
 The token to request the next page of results.
+
+If you specify B<NextToken>, then B<StartingBlockIndex> is ignored.
 
 
 
@@ -91,6 +101,8 @@ The block index from which the comparison should start.
 
 The list in the response will start from this block index or the next
 valid block index in the snapshots.
+
+If you specify B<NextToken>, then B<StartingBlockIndex> is ignored.
 
 
 

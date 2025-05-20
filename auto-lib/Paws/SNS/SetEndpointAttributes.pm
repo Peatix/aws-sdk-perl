@@ -74,7 +74,7 @@ notification service.
 
 =head2 B<REQUIRED> EndpointArn => Str
 
-EndpointArn used for SetEndpointAttributes action.
+EndpointArn used for C<SetEndpointAttributes> action.
 
 
 

@@ -5,6 +5,7 @@ package Paws::Kinesis::ListShards;
   has MaxResults => (is => 'ro', isa => 'Int');
   has NextToken => (is => 'ro', isa => 'Str');
   has ShardFilter => (is => 'ro', isa => 'Paws::Kinesis::ShardFilter');
+  has StreamARN => (is => 'ro', isa => 'Str');
   has StreamCreationTimestamp => (is => 'ro', isa => 'Str');
   has StreamName => (is => 'ro', isa => 'Str');
 
@@ -42,6 +43,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ShardId   => 'MyShardId',              # min: 1, max: 128
         Timestamp => '1970-01-01T01:00:00',    # OPTIONAL
       },    # OPTIONAL
+      StreamARN               => 'MyStreamARN',            # OPTIONAL
       StreamCreationTimestamp => '1970-01-01T01:00:00',    # OPTIONAL
       StreamName              => 'MyStreamName',           # OPTIONAL
     );
@@ -75,8 +77,9 @@ You cannot specify this parameter if you specify C<NextToken>.
 =head2 MaxResults => Int
 
 The maximum number of shards to return in a single call to
-C<ListShards>. The minimum value you can specify for this parameter is
-1, and the maximum is 10,000, which is also the default.
+C<ListShards>. The maximum number of shards to return in a single call.
+The default value is 1000. If you specify a value greater than 1000, at
+most 1000 results are returned.
 
 When the number of shards to be listed is greater than the value of
 C<MaxResults>, the response contains a C<NextToken> value that you can
@@ -114,7 +117,34 @@ C<ListShards>, you get C<ExpiredNextTokenException>.
 
 =head2 ShardFilter => L<Paws::Kinesis::ShardFilter>
 
+Enables you to filter out the response of the C<ListShards> API. You
+can only specify one filter at a time.
 
+If you use the C<ShardFilter> parameter when invoking the ListShards
+API, the C<Type> is the required property and must be specified. If you
+specify the C<AT_TRIM_HORIZON>, C<FROM_TRIM_HORIZON>, or C<AT_LATEST>
+types, you do not need to specify either the C<ShardId> or the
+C<Timestamp> optional properties.
+
+If you specify the C<AFTER_SHARD_ID> type, you must also provide the
+value for the optional C<ShardId> property. The C<ShardId> property is
+identical in fuctionality to the C<ExclusiveStartShardId> parameter of
+the C<ListShards> API. When C<ShardId> property is specified, the
+response includes the shards starting with the shard whose ID
+immediately follows the C<ShardId> that you provided.
+
+If you specify the C<AT_TIMESTAMP> or C<FROM_TIMESTAMP_ID> type, you
+must also provide the value for the optional C<Timestamp> property. If
+you specify the AT_TIMESTAMP type, then all shards that were open at
+the provided timestamp are returned. If you specify the FROM_TIMESTAMP
+type, then all shards starting from the provided timestamp to TIP are
+returned.
+
+
+
+=head2 StreamARN => Str
+
+The ARN of the stream.
 
 
 

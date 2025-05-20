@@ -15,6 +15,8 @@ package Paws::GroundStation::DescribeContactResponse;
   has SatelliteArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'satelliteArn');
   has StartTime => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'startTime');
   has Tags => (is => 'ro', isa => 'Paws::GroundStation::TagsMap', traits => ['NameInRequest'], request_name => 'tags');
+  has VisibilityEndTime => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'visibilityEndTime');
+  has VisibilityStartTime => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'visibilityStartTime');
 
   has _request_id => (is => 'ro', isa => 'Str');
 1;
@@ -37,7 +39,7 @@ UUID of a contact.
 
 Status of a contact.
 
-Valid values are: C<"AVAILABLE">, C<"AWS_CANCELLED">, C<"AWS_FAILED">, C<"CANCELLED">, C<"CANCELLING">, C<"COMPLETED">, C<"FAILED">, C<"FAILED_TO_SCHEDULE">, C<"PASS">, C<"POSTPASS">, C<"PREPASS">, C<"SCHEDULED">, C<"SCHEDULING">
+Valid values are: C<"SCHEDULING">, C<"FAILED_TO_SCHEDULE">, C<"SCHEDULED">, C<"CANCELLED">, C<"AWS_CANCELLED">, C<"PREPASS">, C<"PASS">, C<"POSTPASS">, C<"COMPLETED">, C<"FAILED">, C<"AVAILABLE">, C<"CANCELLING">, C<"AWS_FAILED">
 =head2 DataflowList => ArrayRef[L<Paws::GroundStation::DataflowDetail>]
 
 List describing source and destination details for each dataflow edge.
@@ -45,7 +47,7 @@ List describing source and destination details for each dataflow edge.
 
 =head2 EndTime => Str
 
-End time of a contact.
+End time of a contact in UTC.
 
 
 =head2 ErrorMessage => Str
@@ -92,12 +94,30 @@ ARN of a satellite.
 
 =head2 StartTime => Str
 
-Start time of a contact.
+Start time of a contact in UTC.
 
 
 =head2 Tags => L<Paws::GroundStation::TagsMap>
 
 Tags assigned to a contact.
+
+
+=head2 VisibilityEndTime => Str
+
+Projected time in UTC your satellite will set below the receive mask
+(https://docs.aws.amazon.com/ground-station/latest/ug/site-masks.html).
+This time is based on the satellite's current active ephemeris for
+future contacts and the ephemeris that was active during contact
+execution for completed contacts.
+
+
+=head2 VisibilityStartTime => Str
+
+Projected time in UTC your satellite will rise above the receive mask
+(https://docs.aws.amazon.com/ground-station/latest/ug/site-masks.html).
+This time is based on the satellite's current active ephemeris for
+future contacts and the ephemeris that was active during contact
+execution for completed contacts.
 
 
 =head2 _request_id => Str

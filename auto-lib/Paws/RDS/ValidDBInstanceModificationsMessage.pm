@@ -2,6 +2,7 @@
 package Paws::RDS::ValidDBInstanceModificationsMessage;
   use Moose;
   has Storage => (is => 'ro', isa => 'ArrayRef[Paws::RDS::ValidStorageOptions]', request_name => 'ValidStorageOptions', traits => ['NameInRequest']);
+  has SupportsDedicatedLogVolume => (is => 'ro', isa => 'Bool');
   has ValidProcessorFeatures => (is => 'ro', isa => 'ArrayRef[Paws::RDS::AvailableProcessorFeature]', request_name => 'AvailableProcessorFeature', traits => ['NameInRequest']);
 
 1;
@@ -45,6 +46,12 @@ information when you call C<ModifyDBInstance>.
 =head2 Storage => ArrayRef[L<Paws::RDS::ValidStorageOptions>]
 
 Valid storage options for your DB instance.
+
+
+=head2 SupportsDedicatedLogVolume => Bool
+
+Indicates whether a DB instance supports using a dedicated log volume
+(DLV).
 
 
 =head2 ValidProcessorFeatures => ArrayRef[L<Paws::RDS::AvailableProcessorFeature>]

@@ -51,7 +51,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ssm
 
 =head2 B<REQUIRED> InstanceId => Str
 
-The instance ID for which you want to view all associations.
+The managed node ID for which you want to view all associations.
 
 
 

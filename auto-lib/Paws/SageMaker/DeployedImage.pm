@@ -36,7 +36,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SageMaker::
 =head1 DESCRIPTION
 
 Gets the Amazon EC2 Container Registry path of the docker image of the
-model that is hosted in this ProductionVariant.
+model that is hosted in this ProductionVariant
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_ProductionVariant.html).
 
 If you used the C<registry/repository[:tag]> form to specify the image
 path of the primary container when you created the model hosted in this

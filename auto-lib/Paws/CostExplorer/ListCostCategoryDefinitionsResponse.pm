@@ -17,7 +17,7 @@ Paws::CostExplorer::ListCostCategoryDefinitionsResponse
 
 =head2 CostCategoryReferences => ArrayRef[L<Paws::CostExplorer::CostCategoryReference>]
 
-A reference to a Cost Category containing enough information to
+A reference to a Cost Category that contains enough information to
 identify the Cost Category.
 
 

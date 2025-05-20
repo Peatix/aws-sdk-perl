@@ -2,12 +2,15 @@
 package Paws::IoTSiteWise::AssetModelSummary;
   use Moose;
   has Arn => (is => 'ro', isa => 'Str', request_name => 'arn', traits => ['NameInRequest'], required => 1);
+  has AssetModelType => (is => 'ro', isa => 'Str', request_name => 'assetModelType', traits => ['NameInRequest']);
   has CreationDate => (is => 'ro', isa => 'Str', request_name => 'creationDate', traits => ['NameInRequest'], required => 1);
   has Description => (is => 'ro', isa => 'Str', request_name => 'description', traits => ['NameInRequest'], required => 1);
+  has ExternalId => (is => 'ro', isa => 'Str', request_name => 'externalId', traits => ['NameInRequest']);
   has Id => (is => 'ro', isa => 'Str', request_name => 'id', traits => ['NameInRequest'], required => 1);
   has LastUpdateDate => (is => 'ro', isa => 'Str', request_name => 'lastUpdateDate', traits => ['NameInRequest'], required => 1);
   has Name => (is => 'ro', isa => 'Str', request_name => 'name', traits => ['NameInRequest'], required => 1);
   has Status => (is => 'ro', isa => 'Paws::IoTSiteWise::AssetModelStatus', request_name => 'status', traits => ['NameInRequest'], required => 1);
+  has Version => (is => 'ro', isa => 'Str', request_name => 'version', traits => ['NameInRequest']);
 
 1;
 
@@ -28,7 +31,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::IoTSiteWise::AssetModelSummary object:
 
-  $service_obj->Method(Att1 => { Arn => $value, ..., Status => $value  });
+  $service_obj->Method(Att1 => { Arn => $value, ..., Version => $value  });
 
 =head3 Results returned from an API call
 
@@ -53,6 +56,27 @@ of the asset model, which has the following format.
 C<arn:${Partition}:iotsitewise:${Region}:${Account}:asset-model/${AssetModelId}>
 
 
+=head2 AssetModelType => Str
+
+The type of asset model.
+
+=over
+
+=item *
+
+B<ASSET_MODEL> E<ndash> (default) An asset model that you can use to
+create assets. Can't be included as a component in another asset model.
+
+=item *
+
+B<COMPONENT_MODEL> E<ndash> A reusable component that you can include
+in the composite models of other asset models. You can't create assets
+directly from this type of asset model.
+
+=back
+
+
+
 =head2 B<REQUIRED> CreationDate => Str
 
 The date the asset model was created, in Unix epoch time.
@@ -63,9 +87,17 @@ The date the asset model was created, in Unix epoch time.
 The asset model description.
 
 
+=head2 ExternalId => Str
+
+The external ID of the asset model. For more information, see Using
+external IDs
+(https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-ids)
+in the I<IoT SiteWise User Guide>.
+
+
 =head2 B<REQUIRED> Id => Str
 
-The ID of the asset model (used with AWS IoT SiteWise APIs).
+The ID of the asset model (used with IoT SiteWise API operations).
 
 
 =head2 B<REQUIRED> LastUpdateDate => Str
@@ -81,6 +113,11 @@ The name of the asset model.
 =head2 B<REQUIRED> Status => L<Paws::IoTSiteWise::AssetModelStatus>
 
 The current status of the asset model.
+
+
+=head2 Version => Str
+
+The version number of the asset model.
 
 
 

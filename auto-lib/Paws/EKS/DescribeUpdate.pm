@@ -54,6 +54,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/eks
 The name of the add-on. The name must match one of the names returned
 by C<ListAddons>
 (https://docs.aws.amazon.com/eks/latest/APIReference/API_ListAddons.html).
+This parameter is required if the update is an add-on update.
 
 
 
@@ -65,7 +66,8 @@ The name of the Amazon EKS cluster associated with the update.
 
 =head2 NodegroupName => Str
 
-The name of the Amazon EKS node group associated with the update.
+The name of the Amazon EKS node group associated with the update. This
+parameter is required if the update is a node group update.
 
 
 

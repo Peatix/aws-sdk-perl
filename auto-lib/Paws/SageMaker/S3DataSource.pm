@@ -2,6 +2,9 @@
 package Paws::SageMaker::S3DataSource;
   use Moose;
   has AttributeNames => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has HubAccessConfig => (is => 'ro', isa => 'Paws::SageMaker::HubAccessConfig');
+  has InstanceGroupNames => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has ModelAccessConfig => (is => 'ro', isa => 'Paws::SageMaker::ModelAccessConfig');
   has S3DataDistributionType => (is => 'ro', isa => 'Str');
   has S3DataType => (is => 'ro', isa => 'Str', required => 1);
   has S3Uri => (is => 'ro', isa => 'Str', required => 1);
@@ -38,6 +41,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SageMaker::
 
 Describes the S3 data source.
 
+Your input bucket must be in the same Amazon Web Services region as
+your training job.
+
 =head1 ATTRIBUTES
 
 
@@ -47,14 +53,31 @@ A list of one or more attribute names to use that are found in a
 specified augmented manifest file.
 
 
+=head2 HubAccessConfig => L<Paws::SageMaker::HubAccessConfig>
+
+The configuration for a private hub model reference that points to a
+SageMaker JumpStart public hub model.
+
+
+=head2 InstanceGroupNames => ArrayRef[Str|Undef]
+
+A list of names of instance groups that get data from the S3 data
+source.
+
+
+=head2 ModelAccessConfig => L<Paws::SageMaker::ModelAccessConfig>
+
+
+
+
 =head2 S3DataDistributionType => Str
 
-If you want Amazon SageMaker to replicate the entire dataset on each ML
+If you want SageMaker to replicate the entire dataset on each ML
 compute instance that is launched for model training, specify
 C<FullyReplicated>.
 
-If you want Amazon SageMaker to replicate a subset of data on each ML
-compute instance that is launched for model training, specify
+If you want SageMaker to replicate a subset of data on each ML compute
+instance that is launched for model training, specify
 C<ShardedByS3Key>. If there are I<n> ML compute instances launched for
 a training job, each instance gets approximately 1/I<n> of the number
 of S3 objects. In this case, model training on each machine uses only
@@ -75,17 +98,18 @@ number of objects.
 =head2 B<REQUIRED> S3DataType => Str
 
 If you choose C<S3Prefix>, C<S3Uri> identifies a key name prefix.
-Amazon SageMaker uses all objects that match the specified key name
-prefix for model training.
+SageMaker uses all objects that match the specified key name prefix for
+model training.
 
 If you choose C<ManifestFile>, C<S3Uri> identifies an object that is a
-manifest file containing a list of object keys that you want Amazon
-SageMaker to use for model training.
+manifest file containing a list of object keys that you want SageMaker
+to use for model training.
 
-If you choose C<AugmentedManifestFile>, S3Uri identifies an object that
-is an augmented manifest file in JSON lines format. This file contains
-the data you want to use for model training. C<AugmentedManifestFile>
-can only be used if the Channel's input mode is C<Pipe>.
+If you choose C<AugmentedManifestFile>, C<S3Uri> identifies an object
+that is an augmented manifest file in JSON lines format. This file
+contains the data you want to use for model training.
+C<AugmentedManifestFile> can only be used if the Channel's input mode
+is C<Pipe>.
 
 
 =head2 B<REQUIRED> S3Uri => Str
@@ -98,7 +122,7 @@ either a key name prefix or a manifest. For example:
 =item *
 
 A key name prefix might look like this:
-C<s3://bucketname/exampleprefix>
+C<s3://bucketname/exampleprefix/>
 
 =item *
 
@@ -137,11 +161,13 @@ C<s3://customer_bucket/some/prefix/relative/path/custdata-N>
 
 The complete set of C<S3Uri> in this manifest is the input data for the
 channel for this data source. The object that each C<S3Uri> points to
-must be readable by the IAM role that Amazon SageMaker uses to perform
-tasks on your behalf.
+must be readable by the IAM role that SageMaker uses to perform tasks
+on your behalf.
 
 =back
 
+Your input bucket must be located in same Amazon Web Services region as
+your training job.
 
 
 

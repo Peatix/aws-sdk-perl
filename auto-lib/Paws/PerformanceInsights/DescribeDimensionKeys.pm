@@ -1,6 +1,7 @@
 
 package Paws::PerformanceInsights::DescribeDimensionKeys;
   use Moose;
+  has AdditionalMetrics => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has EndTime => (is => 'ro', isa => 'Str', required => 1);
   has Filter => (is => 'ro', isa => 'Paws::PerformanceInsights::MetricQueryFilterMap');
   has GroupBy => (is => 'ro', isa => 'Paws::PerformanceInsights::DimensionGroup', required => 1);
@@ -40,27 +41,31 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $DescribeDimensionKeysResponse = $pi->DescribeDimensionKeys(
       EndTime => '1970-01-01T01:00:00',
       GroupBy => {
-        Group      => 'MyRequestString',    # max: 256
+        Group      => 'MySanitizedString',    # max: 256
         Dimensions => [
-          'MyRequestString', ...            # max: 256
+          'MySanitizedString', ...            # max: 256
         ],    # min: 1, max: 10; OPTIONAL
-        Limit => 1,    # min: 1, max: 10; OPTIONAL
+        Limit => 1,    # min: 1, max: 25; OPTIONAL
       },
-      Identifier  => 'MyRequestString',
-      Metric      => 'MyRequestString',
-      ServiceType => 'RDS',
-      StartTime   => '1970-01-01T01:00:00',
-      Filter      => {
-        'MyRequestString' => 'MyRequestString', # key: max: 256, value: max: 256
+      Identifier        => 'MyIdentifierString',
+      Metric            => 'MyRequestString',
+      ServiceType       => 'RDS',
+      StartTime         => '1970-01-01T01:00:00',
+      AdditionalMetrics => [
+        'MySanitizedString', ...    # max: 256
+      ],    # OPTIONAL
+      Filter => {
+        'MySanitizedString' =>
+          'MyRequestString',    # key: max: 256, value: max: 256
       },    # OPTIONAL
       MaxResults  => 1,                # OPTIONAL
       NextToken   => 'MyNextToken',    # OPTIONAL
       PartitionBy => {
-        Group      => 'MyRequestString',    # max: 256
+        Group      => 'MySanitizedString',    # max: 256
         Dimensions => [
-          'MyRequestString', ...            # max: 256
+          'MySanitizedString', ...            # max: 256
         ],    # min: 1, max: 10; OPTIONAL
-        Limit => 1,    # min: 1, max: 10; OPTIONAL
+        Limit => 1,    # min: 1, max: 25; OPTIONAL
       },    # OPTIONAL
       PeriodInSeconds => 1,    # OPTIONAL
     );
@@ -78,6 +83,18 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/pi/DescribeDimensionKeys>
 
 =head1 ATTRIBUTES
+
+
+=head2 AdditionalMetrics => ArrayRef[Str|Undef]
+
+Additional metrics for the top C<N> dimension keys. If the specified
+dimension group in the C<GroupBy> parameter is C<db.sql_tokenized>, you
+can specify per-SQL metrics to get the values for the top C<N> SQL
+digests. The response syntax is as follows: C<"AdditionalMetrics" : {
+"I<string>" : "I<string>" }>.
+
+The only supported statistic function is C<.avg>.
+
 
 
 =head2 B<REQUIRED> EndTime => Str
@@ -107,6 +124,8 @@ A single filter for any other dimension in this dimension group.
 
 =back
 
+The C<db.sql.db_id> filter isn't available for RDS for SQL Server DB
+instances.
 
 
 
@@ -122,12 +141,12 @@ Performance Insights return a limited number of values for a dimension.
 
 =head2 B<REQUIRED> Identifier => Str
 
-An immutable, AWS Region-unique identifier for a data source.
-Performance Insights gathers metrics from this data source.
+An immutable, Amazon Web Services Region-unique identifier for a data
+source. Performance Insights gathers metrics from this data source.
 
 To use an Amazon RDS instance as a data source, you specify its
 C<DbiResourceId> value. For example, specify
-C<db-FAIHNTYBKTGAUSUZQYPDS2GW4A>
+C<db-FAIHNTYBKTGAUSUZQYPDS2GW4A>.
 
 
 
@@ -150,12 +169,12 @@ Valid values for C<Metric> are:
 
 =item *
 
-C<db.load.avg> - a scaled representation of the number of active
+C<db.load.avg> - A scaled representation of the number of active
 sessions for the database engine.
 
 =item *
 
-C<db.sampledload.avg> - the raw number of active sessions for the
+C<db.sampledload.avg> - The raw number of active sessions for the
 database engine.
 
 =back
@@ -223,10 +242,23 @@ points in the response.
 
 =head2 B<REQUIRED> ServiceType => Str
 
-The AWS service for which Performance Insights will return metrics. The
-only valid value for I<ServiceType> is C<RDS>.
+The Amazon Web Services service for which Performance Insights will
+return metrics. Valid values are as follows:
 
-Valid values are: C<"RDS">
+=over
+
+=item *
+
+C<RDS>
+
+=item *
+
+C<DOCDB>
+
+=back
+
+
+Valid values are: C<"RDS">, C<"DOCDB">
 
 =head2 B<REQUIRED> StartTime => Str
 

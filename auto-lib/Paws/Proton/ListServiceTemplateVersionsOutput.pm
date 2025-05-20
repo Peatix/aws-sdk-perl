@@ -17,9 +17,9 @@ Paws::Proton::ListServiceTemplateVersionsOutput
 
 =head2 NextToken => Str
 
-A token to indicate the location of the next major or minor version in
-the array of major or minor versions of a service template, after the
-list of major or minor versions that was previously requested.
+A token that indicates the location of the next major or minor version
+in the array of major or minor versions of a service template, after
+the current requested list of service major or minor versions.
 
 
 =head2 B<REQUIRED> TemplateVersions => ArrayRef[L<Paws::Proton::ServiceTemplateVersionSummary>]

@@ -47,8 +47,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/com
 
 =head2 B<REQUIRED> Text => Str
 
-The input text used for analysis. The input for InferICD10CM is a
-string from 1 to 10000 characters.
+The input text used for analysis.
 
 
 

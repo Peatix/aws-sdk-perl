@@ -17,7 +17,7 @@ Paws::Macie2::GetFindingStatisticsResponse
 
 =head2 CountsByGroup => ArrayRef[L<Paws::Macie2::GroupCount>]
 
-An array of objects, one for each group of findings that meet the
+An array of objects, one for each group of findings that matches the
 filter criteria specified in the request.
 
 

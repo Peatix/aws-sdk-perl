@@ -5,7 +5,11 @@ package Paws::ComputeOptimizer::AutoScalingGroupRecommendation;
   has AutoScalingGroupArn => (is => 'ro', isa => 'Str', request_name => 'autoScalingGroupArn', traits => ['NameInRequest']);
   has AutoScalingGroupName => (is => 'ro', isa => 'Str', request_name => 'autoScalingGroupName', traits => ['NameInRequest']);
   has CurrentConfiguration => (is => 'ro', isa => 'Paws::ComputeOptimizer::AutoScalingGroupConfiguration', request_name => 'currentConfiguration', traits => ['NameInRequest']);
+  has CurrentInstanceGpuInfo => (is => 'ro', isa => 'Paws::ComputeOptimizer::GpuInfo', request_name => 'currentInstanceGpuInfo', traits => ['NameInRequest']);
+  has CurrentPerformanceRisk => (is => 'ro', isa => 'Str', request_name => 'currentPerformanceRisk', traits => ['NameInRequest']);
+  has EffectiveRecommendationPreferences => (is => 'ro', isa => 'Paws::ComputeOptimizer::EffectiveRecommendationPreferences', request_name => 'effectiveRecommendationPreferences', traits => ['NameInRequest']);
   has Finding => (is => 'ro', isa => 'Str', request_name => 'finding', traits => ['NameInRequest']);
+  has InferredWorkloadTypes => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'inferredWorkloadTypes', traits => ['NameInRequest']);
   has LastRefreshTimestamp => (is => 'ro', isa => 'Str', request_name => 'lastRefreshTimestamp', traits => ['NameInRequest']);
   has LookBackPeriodInDays => (is => 'ro', isa => 'Num', request_name => 'lookBackPeriodInDays', traits => ['NameInRequest']);
   has RecommendationOptions => (is => 'ro', isa => 'ArrayRef[Paws::ComputeOptimizer::AutoScalingGroupRecommendationOption]', request_name => 'recommendationOptions', traits => ['NameInRequest']);
@@ -48,7 +52,7 @@ Describes an Auto Scaling group recommendation.
 
 =head2 AccountId => Str
 
-The AWS account ID of the Auto Scaling group.
+The Amazon Web Services account ID of the Auto Scaling group.
 
 
 =head2 AutoScalingGroupArn => Str
@@ -67,6 +71,26 @@ An array of objects that describe the current configuration of the Auto
 Scaling group.
 
 
+=head2 CurrentInstanceGpuInfo => L<Paws::ComputeOptimizer::GpuInfo>
+
+Describes the GPU accelerator settings for the current instance type of
+the Auto Scaling group.
+
+
+=head2 CurrentPerformanceRisk => Str
+
+The risk of the current Auto Scaling group not meeting the performance
+needs of its workloads. The higher the risk, the more likely the
+current Auto Scaling group configuration has insufficient capacity and
+cannot meet workload requirements.
+
+
+=head2 EffectiveRecommendationPreferences => L<Paws::ComputeOptimizer::EffectiveRecommendationPreferences>
+
+An object that describes the effective recommendation preferences for
+the Auto Scaling group.
+
+
 =head2 Finding => Str
 
 The finding classification of the Auto Scaling group.
@@ -78,8 +102,8 @@ Findings for Auto Scaling groups include:
 =item *
 
 B<C<NotOptimized> >E<mdash>An Auto Scaling group is considered not
-optimized when AWS Compute Optimizer identifies a recommendation that
-can provide better performance for your workload.
+optimized when Compute Optimizer identifies a recommendation that can
+provide better performance for your workload.
 
 =item *
 
@@ -93,10 +117,64 @@ instance type.
 
 
 
+=head2 InferredWorkloadTypes => ArrayRef[Str|Undef]
+
+The applications that might be running on the instances in the Auto
+Scaling group as inferred by Compute Optimizer.
+
+Compute Optimizer can infer if one of the following applications might
+be running on the instances:
+
+=over
+
+=item *
+
+C<AmazonEmr> - Infers that Amazon EMR might be running on the
+instances.
+
+=item *
+
+C<ApacheCassandra> - Infers that Apache Cassandra might be running on
+the instances.
+
+=item *
+
+C<ApacheHadoop> - Infers that Apache Hadoop might be running on the
+instances.
+
+=item *
+
+C<Memcached> - Infers that Memcached might be running on the instances.
+
+=item *
+
+C<NGINX> - Infers that NGINX might be running on the instances.
+
+=item *
+
+C<PostgreSql> - Infers that PostgreSQL might be running on the
+instances.
+
+=item *
+
+C<Redis> - Infers that Redis might be running on the instances.
+
+=item *
+
+C<Kafka> - Infers that Kafka might be running on the instance.
+
+=item *
+
+C<SQLServer> - Infers that SQLServer might be running on the instance.
+
+=back
+
+
+
 =head2 LastRefreshTimestamp => Str
 
-The time stamp of when the Auto Scaling group recommendation was last
-refreshed.
+The timestamp of when the Auto Scaling group recommendation was last
+generated.
 
 
 =head2 LookBackPeriodInDays => Num

@@ -17,7 +17,8 @@ Paws::Chime::PutEventsConfigurationResponse
 
 =head2 EventsConfiguration => L<Paws::Chime::EventsConfiguration>
 
-
+The configuration that allows a bot to receive outgoing events. Can be
+an HTTPS endpoint or an AWS Lambda function ARN.
 
 
 =head2 _request_id => Str

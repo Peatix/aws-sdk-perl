@@ -37,7 +37,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::FMS::Networ
 
 =head1 DESCRIPTION
 
-Violation details for AWS Network Firewall for a subnet that's not
+Violation detail for Network Firewall for a subnet that's not
 associated to the expected Firewall Manager managed route table.
 
 =head1 ATTRIBUTES
@@ -62,7 +62,7 @@ subnet.
 
 =head2 ViolationTarget => Str
 
-The ID of the AWS Network Firewall or VPC resource that's in violation.
+The ID of the Network Firewall or VPC resource that's in violation.
 
 
 =head2 VPC => Str

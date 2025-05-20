@@ -20,6 +20,7 @@ package Paws::Neptune::DBClusterSnapshot;
   has SourceDBClusterSnapshotArn => (is => 'ro', isa => 'Str');
   has Status => (is => 'ro', isa => 'Str');
   has StorageEncrypted => (is => 'ro', isa => 'Bool');
+  has StorageType => (is => 'ro', isa => 'Str');
   has VpcId => (is => 'ro', isa => 'Str');
 
 1;
@@ -178,6 +179,11 @@ Specifies the status of this DB cluster snapshot.
 =head2 StorageEncrypted => Bool
 
 Specifies whether the DB cluster snapshot is encrypted.
+
+
+=head2 StorageType => Str
+
+The storage type associated with the DB cluster snapshot.
 
 
 =head2 VpcId => Str

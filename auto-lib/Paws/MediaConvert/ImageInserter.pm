@@ -2,6 +2,7 @@
 package Paws::MediaConvert::ImageInserter;
   use Moose;
   has InsertableImages => (is => 'ro', isa => 'ArrayRef[Paws::MediaConvert::InsertableImage]', request_name => 'insertableImages', traits => ['NameInRequest']);
+  has SdrReferenceWhiteLevel => (is => 'ro', isa => 'Int', request_name => 'sdrReferenceWhiteLevel', traits => ['NameInRequest']);
 
 1;
 
@@ -22,7 +23,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::MediaConvert::ImageInserter object:
 
-  $service_obj->Method(Att1 => { InsertableImages => $value, ..., InsertableImages => $value  });
+  $service_obj->Method(Att1 => { InsertableImages => $value, ..., SdrReferenceWhiteLevel => $value  });
 
 =head3 Results returned from an API call
 
@@ -46,6 +47,16 @@ This setting is disabled by default.
 
 Specify the images that you want to overlay on your video. The images
 must be PNG or TGA files.
+
+
+=head2 SdrReferenceWhiteLevel => Int
+
+Specify the reference white level, in nits, for all of your image
+inserter images. Use to correct brightness levels within HDR10 outputs.
+For 1,000 nit peak brightness displays, we recommend that you set SDR
+reference white level to 203 (according to ITU-R BT.2408). Leave blank
+to use the default value of 100, or specify an integer from 100 to
+1000.
 
 
 

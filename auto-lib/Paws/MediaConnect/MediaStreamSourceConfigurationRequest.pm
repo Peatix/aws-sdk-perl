@@ -35,15 +35,15 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::MediaConnec
 
 =head1 DESCRIPTION
 
-The definition of a media stream that you want to associate with the
-source.
+The media stream that you want to associate with the source, and the
+parameters for that association.
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> EncodingName => Str
 
-The format you want to use to encode the data. For ancillary data
+The format that was used to encode the data. For ancillary data
 streams, set the encoding name to smpte291. For audio streams, set the
 encoding name to pcm. For video, 2110 streams, set the encoding name to
 raw. For video, JPEG XS streams, set the encoding name to jxsv.
@@ -51,8 +51,7 @@ raw. For video, JPEG XS streams, set the encoding name to jxsv.
 
 =head2 InputConfigurations => ArrayRef[L<Paws::MediaConnect::InputConfigurationRequest>]
 
-The transport parameters that you want to associate with the media
-stream.
+The media streams that you want to associate with the source.
 
 
 =head2 B<REQUIRED> MediaStreamName => Str

@@ -64,7 +64,7 @@ either a key name prefix or a manifest. For example:
 =item *
 
 A key name prefix might look like this:
-C<s3://bucketname/exampleprefix>.
+C<s3://bucketname/exampleprefix/>.
 
 =item *
 

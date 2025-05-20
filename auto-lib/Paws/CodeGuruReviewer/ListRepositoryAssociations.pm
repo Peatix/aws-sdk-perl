@@ -101,11 +101,11 @@ the next items in a list and not for other programmatic purposes.
 
 =head2 Owners => ArrayRef[Str|Undef]
 
-List of owners to use as a filter. For AWS CodeCommit, it is the name
-of the CodeCommit account that was used to associate the repository.
-For other repository source providers, such as Bitbucket and GitHub
-Enterprise Server, this is name of the account that was used to
-associate the repository.
+List of owners to use as a filter. For Amazon Web Services CodeCommit,
+it is the name of the CodeCommit account that was used to associate the
+repository. For other repository source providers, such as Bitbucket
+and GitHub Enterprise Server, this is name of the account that was used
+to associate the repository.
 
 
 
@@ -164,7 +164,7 @@ request notifications and source code access.
 B<Disassociated>: CodeGuru Reviewer successfully disassociated the
 repository. You can create a new association with this repository if
 you want to review source code in it later. You can control access to
-code reviews created in an associated repository with tags after it has
+code reviews created in anassociated repository with tags after it has
 been disassociated. For more information, see Using tags to control
 access to associated repositories
 (https://docs.aws.amazon.com/codeguru/latest/reviewer-ug/auth-and-access-control-using-tags.html)

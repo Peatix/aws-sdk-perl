@@ -49,7 +49,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AuditManage
 
 A record that contains the information needed to demonstrate compliance
 with the requirements specified by a control. Examples of evidence
-include change activity triggered by a user, or a system configuration
+include change activity invoked by a user, or a system configuration
 snapshot.
 
 =head1 ATTRIBUTES
@@ -62,48 +62,71 @@ Specifies whether the evidence is included in the assessment report.
 
 =head2 Attributes => L<Paws::AuditManager::EvidenceAttributes>
 
-The names and values used by the evidence event, including an attribute
-name (such as C<allowUsersToChangePassword>) and value (such as C<true>
-or C<false>).
+The names and values that are used by the evidence event. This includes
+an attribute name (such as C<allowUsersToChangePassword>) and value
+(such as C<true> or C<false>).
 
 
 =head2 AwsAccountId => Str
 
-The identifier for the specified AWS account.
+The identifier for the Amazon Web Services account.
 
 
 =head2 AwsOrganization => Str
 
-The AWS account from which the evidence is collected, and its AWS
-organization path.
+The Amazon Web Services account that the evidence is collected from,
+and its organization path.
 
 
 =head2 ComplianceCheck => Str
 
-The evaluation status for evidence that falls under the compliance
-check category. For evidence collected from AWS Security Hub, a I<Pass>
-or I<Fail> result is shown. For evidence collected from AWS Config, a
-I<Compliant> or I<Noncompliant> result is shown.
+The evaluation status for automated evidence that falls under the
+compliance check category.
+
+=over
+
+=item *
+
+Audit Manager classes evidence as non-compliant if Security Hub reports
+a I<Fail> result, or if Config reports a I<Non-compliant> result.
+
+=item *
+
+Audit Manager classes evidence as compliant if Security Hub reports a
+I<Pass> result, or if Config reports a I<Compliant> result.
+
+=item *
+
+If a compliance check isn't available or applicable, then no compliance
+evaluation can be made for that evidence. This is the case if the
+evidence uses Config or Security Hub as the underlying data source
+type, but those services aren't enabled. This is also the case if the
+evidence uses an underlying data source type that doesn't support
+compliance checks (such as manual evidence, Amazon Web Services API
+calls, or CloudTrail).
+
+=back
+
 
 
 =head2 DataSource => Str
 
-The data source from which the specified evidence was collected.
+The data source where the evidence was collected from.
 
 
 =head2 EventName => Str
 
-The name of the specified evidence event.
+The name of the evidence event.
 
 
 =head2 EventSource => Str
 
-The AWS service from which the evidence is collected.
+The Amazon Web Service that the evidence is collected from.
 
 
 =head2 EvidenceAwsAccountId => Str
 
-The identifier for the specified AWS account.
+The identifier for the Amazon Web Services account.
 
 
 =head2 EvidenceByType => Str
@@ -113,12 +136,12 @@ The type of automated evidence.
 
 =head2 EvidenceFolderId => Str
 
-The identifier for the folder in which the evidence is stored.
+The identifier for the folder that the evidence is stored in.
 
 
 =head2 IamId => Str
 
-The unique identifier for the IAM user or role associated with the
+The unique identifier for the user or role that's associated with the
 evidence.
 
 
@@ -129,7 +152,7 @@ The identifier for the evidence.
 
 =head2 ResourcesIncluded => ArrayRef[L<Paws::AuditManager::Resource>]
 
-The list of resources assessed to generate the evidence.
+The list of resources that are assessed to generate the evidence.
 
 
 =head2 Time => Str

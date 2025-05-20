@@ -36,7 +36,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CloudFront:
 
 =head1 DESCRIPTION
 
-List of field-level encrpytion configurations.
+List of field-level encryption configurations.
 
 =head1 ATTRIBUTES
 

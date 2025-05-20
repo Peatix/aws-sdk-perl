@@ -49,7 +49,7 @@ to delete.
 =head2 StackName => Str
 
 If you specified the name of a change set to delete, specify the stack
-name or ID (ARN) that is associated with it.
+name or Amazon Resource Name (ARN) that's associated with it.
 
 
 

@@ -32,7 +32,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $UpdatePrimaryEmailAddressResponse =
       $workmail->UpdatePrimaryEmailAddress(
       Email          => 'MyEmailAddress',
-      EntityId       => 'MyWorkMailIdentifier',
+      EntityId       => 'MyEntityIdentifier',
       OrganizationId => 'MyOrganizationId',
 
       );
@@ -52,6 +52,29 @@ The value of the email to be updated as primary.
 =head2 B<REQUIRED> EntityId => Str
 
 The user, group, or resource to update.
+
+The identifier can accept I<UseriD, ResourceId, or GroupId>,
+I<Username, Resourcename, or Groupname>, or I<email>. The following
+identity formats are available:
+
+=over
+
+=item *
+
+Entity ID: 12345678-1234-1234-1234-123456789012,
+r-0123456789a0123456789b0123456789, or
+S-1-1-12-1234567890-123456789-123456789-1234
+
+=item *
+
+Email address: entity@domain.tld
+
+=item *
+
+Entity name: entity
+
+=back
+
 
 
 

@@ -77,6 +77,11 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/gua
 The ID of the detector that specifies the GuardDuty service whose
 findings you want to list.
 
+To find the C<detectorId> in the current Region, see the Settings page
+in the GuardDuty console, or run the ListDetectors
+(https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+API.
+
 
 
 =head2 FindingCriteria => L<Paws::GuardDuty::FindingCriteria>
@@ -220,6 +225,10 @@ service.action.dnsRequestAction.domain
 
 =item *
 
+service.action.dnsRequestAction.domainWithSuffix
+
+=item *
+
 service.action.networkConnectionAction.blocked
 
 =item *
@@ -233,10 +242,6 @@ service.action.networkConnectionAction.localPortDetails.port
 =item *
 
 service.action.networkConnectionAction.protocol
-
-=item *
-
-service.action.networkConnectionAction.remoteIpDetails.city.cityName
 
 =item *
 
@@ -269,6 +274,10 @@ service.archived
 When this attribute is set to 'true', only archived findings are
 listed. When it's set to 'false', only unarchived findings are listed.
 When this attribute is not set, all existing findings are listed.
+
+=item *
+
+service.ebsVolumeScanDetails.scanId
 
 =item *
 

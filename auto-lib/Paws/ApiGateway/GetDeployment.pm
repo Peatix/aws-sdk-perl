@@ -52,8 +52,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 B<REQUIRED> DeploymentId => Str
 
-[Required] The identifier of the Deployment resource to get information
-about.
+The identifier of the Deployment resource to get information about.
 
 
 
@@ -75,7 +74,7 @@ example, C<GET
 
 =head2 B<REQUIRED> RestApiId => Str
 
-[Required] The string identifier of the associated RestApi.
+The string identifier of the associated RestApi.
 
 
 

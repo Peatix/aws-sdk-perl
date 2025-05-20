@@ -28,16 +28,18 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $api.sagemaker = Paws->service('SageMaker');
     my $DescribePipelineResponse = $api . sagemaker->DescribePipeline(
-      PipelineName => 'MyPipelineName',
+      PipelineName => 'MyPipelineNameOrArn',
 
     );
 
     # Results:
-    my $CreatedBy           = $DescribePipelineResponse->CreatedBy;
-    my $CreationTime        = $DescribePipelineResponse->CreationTime;
-    my $LastModifiedBy      = $DescribePipelineResponse->LastModifiedBy;
-    my $LastModifiedTime    = $DescribePipelineResponse->LastModifiedTime;
-    my $LastRunTime         = $DescribePipelineResponse->LastRunTime;
+    my $CreatedBy        = $DescribePipelineResponse->CreatedBy;
+    my $CreationTime     = $DescribePipelineResponse->CreationTime;
+    my $LastModifiedBy   = $DescribePipelineResponse->LastModifiedBy;
+    my $LastModifiedTime = $DescribePipelineResponse->LastModifiedTime;
+    my $LastRunTime      = $DescribePipelineResponse->LastRunTime;
+    my $ParallelismConfiguration =
+      $DescribePipelineResponse->ParallelismConfiguration;
     my $PipelineArn         = $DescribePipelineResponse->PipelineArn;
     my $PipelineDefinition  = $DescribePipelineResponse->PipelineDefinition;
     my $PipelineDescription = $DescribePipelineResponse->PipelineDescription;
@@ -56,7 +58,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 B<REQUIRED> PipelineName => Str
 
-The name of the pipeline to describe.
+The name or Amazon Resource Name (ARN) of the pipeline to describe.
 
 
 

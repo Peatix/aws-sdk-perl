@@ -42,7 +42,7 @@ delegated administrator.
 
 =head2 AdminAccountId => Str
 
-The AWS account ID for the account.
+The Amazon Web Services account ID for the account.
 
 
 =head2 AdminStatus => Str

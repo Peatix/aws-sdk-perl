@@ -34,7 +34,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Config::Rem
 
 =head1 DESCRIPTION
 
-The details that identify a resource within AWS Config, including the
+The details that identify a resource within Config, including the
 resource type and resource ID.
 
 =head1 ATTRIBUTES

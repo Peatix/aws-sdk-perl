@@ -35,7 +35,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ECS::Placem
 =head1 DESCRIPTION
 
 The task placement strategy for a task or service. For more
-information, see Task Placement Strategies
+information, see Task placement strategies
 (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-placement-strategies.html)
 in the I<Amazon Elastic Container Service Developer Guide>.
 
@@ -46,7 +46,7 @@ in the I<Amazon Elastic Container Service Developer Guide>.
 
 The field to apply the placement strategy against. For the C<spread>
 placement strategy, valid values are C<instanceId> (or C<host>, which
-has the same effect), or any platform or custom attribute that is
+has the same effect), or any platform or custom attribute that's
 applied to a container instance, such as
 C<attribute:ecs.availability-zone>. For the C<binpack> placement
 strategy, valid values are C<cpu> and C<memory>. For the C<random>
@@ -60,9 +60,9 @@ randomly places tasks on available candidates. The C<spread> placement
 strategy spreads placement across available candidates evenly based on
 the C<field> parameter. The C<binpack> strategy places tasks on
 available candidates that have the least available amount of the
-resource that is specified with the C<field> parameter. For example, if
+resource that's specified with the C<field> parameter. For example, if
 you binpack on memory, a task is placed on the instance with the least
-amount of remaining memory (but still enough to run the task).
+amount of remaining memory but still enough to run the task.
 
 
 

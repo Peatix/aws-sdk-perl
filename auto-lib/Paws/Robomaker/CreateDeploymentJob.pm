@@ -44,7 +44,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             EnvironmentVariables => {
               'MyEnvironmentVariableKey' => 'MyEnvironmentVariableValue'
               ,    # key: min: 1, max: 1024, value: min: 1, max: 1024
-            },    # max: 16; OPTIONAL
+            },    # max: 20; OPTIONAL
             PostLaunchFile => 'MyPath',    # min: 1, max: 1024; OPTIONAL
             PreLaunchFile  => 'MyPath',    # min: 1, max: 1024; OPTIONAL
           },

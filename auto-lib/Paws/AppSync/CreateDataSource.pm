@@ -5,9 +5,12 @@ package Paws::AppSync::CreateDataSource;
   has Description => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'description');
   has DynamodbConfig => (is => 'ro', isa => 'Paws::AppSync::DynamodbDataSourceConfig', traits => ['NameInRequest'], request_name => 'dynamodbConfig');
   has ElasticsearchConfig => (is => 'ro', isa => 'Paws::AppSync::ElasticsearchDataSourceConfig', traits => ['NameInRequest'], request_name => 'elasticsearchConfig');
+  has EventBridgeConfig => (is => 'ro', isa => 'Paws::AppSync::EventBridgeDataSourceConfig', traits => ['NameInRequest'], request_name => 'eventBridgeConfig');
   has HttpConfig => (is => 'ro', isa => 'Paws::AppSync::HttpDataSourceConfig', traits => ['NameInRequest'], request_name => 'httpConfig');
   has LambdaConfig => (is => 'ro', isa => 'Paws::AppSync::LambdaDataSourceConfig', traits => ['NameInRequest'], request_name => 'lambdaConfig');
+  has MetricsConfig => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'metricsConfig');
   has Name => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'name', required => 1);
+  has OpenSearchServiceConfig => (is => 'ro', isa => 'Paws::AppSync::OpenSearchServiceDataSourceConfig', traits => ['NameInRequest'], request_name => 'openSearchServiceConfig');
   has RelationalDatabaseConfig => (is => 'ro', isa => 'Paws::AppSync::RelationalDatabaseDataSourceConfig', traits => ['NameInRequest'], request_name => 'relationalDatabaseConfig');
   has ServiceRoleArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'serviceRoleArn');
   has Type => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'type', required => 1);
@@ -58,6 +61,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         Endpoint  => 'MyString',
 
       },    # OPTIONAL
+      EventBridgeConfig => {
+        EventBusArn => 'MyString',
+
+      },    # OPTIONAL
       HttpConfig => {
         AuthorizationConfig => {
           AuthorizationType => 'AWS_IAM',    # values: AWS_IAM
@@ -72,6 +79,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         LambdaFunctionArn => 'MyString',
 
       },    # OPTIONAL
+      MetricsConfig           => 'ENABLED',    # OPTIONAL
+      OpenSearchServiceConfig => {
+        AwsRegion => 'MyString',
+        Endpoint  => 'MyString',
+
+      },                                       # OPTIONAL
       RelationalDatabaseConfig => {
         RdsHttpEndpointConfig => {
           AwsRegion           => 'MyString',
@@ -117,7 +130,18 @@ Amazon DynamoDB settings.
 
 =head2 ElasticsearchConfig => L<Paws::AppSync::ElasticsearchDataSourceConfig>
 
-Amazon Elasticsearch Service settings.
+Amazon OpenSearch Service settings.
+
+As of September 2021, Amazon Elasticsearch service is Amazon OpenSearch
+Service. This configuration is deprecated. For new data sources, use
+CreateDataSourceRequest$openSearchServiceConfig to create an OpenSearch
+data source.
+
+
+
+=head2 EventBridgeConfig => L<Paws::AppSync::EventBridgeDataSourceConfig>
+
+Amazon EventBridge settings.
 
 
 
@@ -129,13 +153,32 @@ HTTP endpoint settings.
 
 =head2 LambdaConfig => L<Paws::AppSync::LambdaDataSourceConfig>
 
-AWS Lambda settings.
+Lambda settings.
 
 
+
+=head2 MetricsConfig => Str
+
+Enables or disables enhanced data source metrics for specified data
+sources. Note that C<metricsConfig> won't be used unless the
+C<dataSourceLevelMetricsBehavior> value is set to
+C<PER_DATA_SOURCE_METRICS>. If the C<dataSourceLevelMetricsBehavior> is
+set to C<FULL_REQUEST_DATA_SOURCE_METRICS> instead, C<metricsConfig>
+will be ignored. However, you can still set its value.
+
+C<metricsConfig> can be C<ENABLED> or C<DISABLED>.
+
+Valid values are: C<"ENABLED">, C<"DISABLED">
 
 =head2 B<REQUIRED> Name => Str
 
 A user-supplied name for the C<DataSource>.
+
+
+
+=head2 OpenSearchServiceConfig => L<Paws::AppSync::OpenSearchServiceDataSourceConfig>
+
+Amazon OpenSearch Service settings.
 
 
 
@@ -147,8 +190,9 @@ Relational database settings.
 
 =head2 ServiceRoleArn => Str
 
-The AWS IAM service role ARN for the data source. The system assumes
-this role when accessing the data source.
+The Identity and Access Management (IAM) service role Amazon Resource
+Name (ARN) for the data source. The system assumes this role when
+accessing the data source.
 
 
 
@@ -156,7 +200,7 @@ this role when accessing the data source.
 
 The type of the C<DataSource>.
 
-Valid values are: C<"AWS_LAMBDA">, C<"AMAZON_DYNAMODB">, C<"AMAZON_ELASTICSEARCH">, C<"NONE">, C<"HTTP">, C<"RELATIONAL_DATABASE">
+Valid values are: C<"AWS_LAMBDA">, C<"AMAZON_DYNAMODB">, C<"AMAZON_ELASTICSEARCH">, C<"NONE">, C<"HTTP">, C<"RELATIONAL_DATABASE">, C<"AMAZON_OPENSEARCH_SERVICE">, C<"AMAZON_EVENTBRIDGE">, C<"AMAZON_BEDROCK_RUNTIME">
 
 
 =head1 SEE ALSO

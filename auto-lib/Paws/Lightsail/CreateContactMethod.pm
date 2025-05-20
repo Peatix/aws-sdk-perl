@@ -65,7 +65,8 @@ would be specified as +1XXX5550100. For more information, see E.164
 The protocol of the contact method, such as C<Email> or C<SMS> (text
 messaging).
 
-The C<SMS> protocol is supported only in the following AWS Regions.
+The C<SMS> protocol is supported only in the following Amazon Web
+Services Regions.
 
 =over
 
@@ -96,14 +97,14 @@ Asia Pacific (Sydney) (C<ap-southeast-2>)
 =back
 
 For a list of countries/regions where SMS text messages can be sent,
-and the latest AWS Regions where SMS text messaging is supported, see
-Supported Regions and Countries
+and the latest Amazon Web Services Regions where SMS text messaging is
+supported, see Supported Regions and Countries
 (https://docs.aws.amazon.com/sns/latest/dg/sns-supported-regions-countries.html)
 in the I<Amazon SNS Developer Guide>.
 
 For more information about notifications in Amazon Lightsail, see
 Notifications in Amazon Lightsail
-(https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-notifications).
+(https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-notifications).
 
 Valid values are: C<"Email">, C<"SMS">
 

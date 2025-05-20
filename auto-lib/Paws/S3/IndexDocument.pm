@@ -41,10 +41,10 @@ Container for the C<Suffix> element.
 =head2 B<REQUIRED> Suffix => Str
 
 A suffix that is appended to a request that is for a directory on the
-website endpoint (for example,if the suffix is index.html and you make
-a request to samplebucket/images/ the data that is returned will be for
-the object with the key name images/index.html) The suffix must not be
-empty and must not include a slash character.
+website endpoint. (For example, if the suffix is C<index.html> and you
+make a request to C<samplebucket/images/>, the data that is returned
+will be for the object with the key name C<images/index.html>.) The
+suffix must not be empty and must not include a slash character.
 
 Replacement must be made for object keys containing special characters
 (such as carriage returns) when using XML requests. For more

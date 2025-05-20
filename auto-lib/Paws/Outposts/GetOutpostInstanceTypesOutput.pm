@@ -35,7 +35,7 @@ Paws::Outposts::GetOutpostInstanceTypesOutput
 
 =head2 OutpostId => Str
 
-
+The ID of the Outpost.
 
 
 =head2 _request_id => Str

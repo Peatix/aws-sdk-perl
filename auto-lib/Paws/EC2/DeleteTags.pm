@@ -76,8 +76,10 @@ tag key with an empty string as the tag value, we delete the tag only
 if its value is an empty string.
 
 If you omit this parameter, we delete all user-defined tags for the
-specified resources. We do not delete AWS-generated tags (tags that
-have the C<aws:> prefix).
+specified resources. We do not delete Amazon Web Services-generated
+tags (tags that have the C<aws:> prefix).
+
+Constraints: Up to 1000 tags.
 
 
 

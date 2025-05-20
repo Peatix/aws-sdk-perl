@@ -2,6 +2,7 @@
 package Paws::DMS::RebootReplicationInstance;
   use Moose;
   has ForceFailover => (is => 'ro', isa => 'Bool');
+  has ForcePlannedFailover => (is => 'ro', isa => 'Bool');
   has ReplicationInstanceArn => (is => 'ro', isa => 'Str', required => 1);
 
   use MooseX::ClassAttribute;
@@ -31,6 +32,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $RebootReplicationInstanceResponse = $dms->RebootReplicationInstance(
       ReplicationInstanceArn => 'MyString',
       ForceFailover          => 1,            # OPTIONAL
+      ForcePlannedFailover   => 1,            # OPTIONAL
     );
 
     # Results:
@@ -48,8 +50,19 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/dms
 =head2 ForceFailover => Bool
 
 If this parameter is C<true>, the reboot is conducted through a
-Multi-AZ failover. (If the instance isn't configured for Multi-AZ, then
-you can't specify C<true>.)
+Multi-AZ failover. If the instance isn't configured for Multi-AZ, then
+you can't specify C<true>. ( C<--force-planned-failover> and
+C<--force-failover> can't both be set to C<true>.)
+
+
+
+=head2 ForcePlannedFailover => Bool
+
+If this parameter is C<true>, the reboot is conducted through a planned
+Multi-AZ failover where resources are released and cleaned up prior to
+conducting the failover. If the instance isn''t configured for
+Multi-AZ, then you can't specify C<true>. ( C<--force-planned-failover>
+and C<--force-failover> can't both be set to C<true>.)
 
 
 

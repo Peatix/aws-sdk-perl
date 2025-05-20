@@ -59,14 +59,13 @@ When the data store was created.
 
 =head2 DatastorePartitions => L<Paws::IoTAnalytics::DatastorePartitions>
 
-Contains information about the partitions in a data store.
+Contains information about the partition dimensions in a data store.
 
 
 =head2 FileFormatConfiguration => L<Paws::IoTAnalytics::FileFormatConfiguration>
 
-Contains the configuration information of file formats. AWS IoT
-Analytics data stores support JSON and Parquet
-(https://parquet.apache.org/).
+Contains the configuration information of file formats. IoT Analytics
+data stores support JSON and Parquet (https://parquet.apache.org/).
 
 The default file format is JSON. You can specify only one format.
 
@@ -77,9 +76,9 @@ You can't change the file format after you create the data store.
 
 The last time when a new message arrived in the data store.
 
-AWS IoT Analytics updates this value at most once per minute for one
-data store. Hence, the C<lastMessageArrivalTime> value is an
-approximation.
+IoT Analytics updates this value at most once per minute for Amazon
+Simple Storage Service one data store. Hence, the
+C<lastMessageArrivalTime> value is an approximation.
 
 This feature only applies to messages that arrived in the data store
 after October 23, 2020.
@@ -125,10 +124,11 @@ The data store is being deleted.
 
 =head2 Storage => L<Paws::IoTAnalytics::DatastoreStorage>
 
-Where data store data is stored. You can choose one of
-C<serviceManagedS3> or C<customerManagedS3> storage. If not specified,
-the default is C<serviceManagedS3>. You cannot change this storage
-option after the data store is created.
+Where data in a data store is stored.. You can choose
+C<serviceManagedS3> storage, C<customerManagedS3> storage, or
+C<iotSiteWiseMultiLayerStorage> storage. The default is
+C<serviceManagedS3>. You can't change the choice of Amazon S3 storage
+after your data store is created.
 
 
 

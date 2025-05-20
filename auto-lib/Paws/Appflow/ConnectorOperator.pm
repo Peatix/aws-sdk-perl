@@ -2,13 +2,16 @@
 package Paws::Appflow::ConnectorOperator;
   use Moose;
   has Amplitude => (is => 'ro', isa => 'Str');
+  has CustomConnector => (is => 'ro', isa => 'Str');
   has Datadog => (is => 'ro', isa => 'Str');
   has Dynatrace => (is => 'ro', isa => 'Str');
   has GoogleAnalytics => (is => 'ro', isa => 'Str');
   has InforNexus => (is => 'ro', isa => 'Str');
   has Marketo => (is => 'ro', isa => 'Str');
+  has Pardot => (is => 'ro', isa => 'Str');
   has S3 => (is => 'ro', isa => 'Str');
   has Salesforce => (is => 'ro', isa => 'Str');
+  has SAPOData => (is => 'ro', isa => 'Str');
   has ServiceNow => (is => 'ro', isa => 'Str');
   has Singular => (is => 'ro', isa => 'Str');
   has Slack => (is => 'ro', isa => 'Str');
@@ -56,6 +59,11 @@ The operation to be performed on the provided source fields.
 The operation to be performed on the provided Amplitude source fields.
 
 
+=head2 CustomConnector => Str
+
+Operators supported by the custom connector.
+
+
 =head2 Datadog => Str
 
 The operation to be performed on the provided Datadog source fields.
@@ -83,6 +91,12 @@ fields.
 The operation to be performed on the provided Marketo source fields.
 
 
+=head2 Pardot => Str
+
+The operation to be performed on the provided Salesforce Pardot source
+fields.
+
+
 =head2 S3 => Str
 
 The operation to be performed on the provided Amazon S3 source fields.
@@ -91,6 +105,11 @@ The operation to be performed on the provided Amazon S3 source fields.
 =head2 Salesforce => Str
 
 The operation to be performed on the provided Salesforce source fields.
+
+
+=head2 SAPOData => Str
+
+The operation to be performed on the provided SAPOData source fields.
 
 
 =head2 ServiceNow => Str

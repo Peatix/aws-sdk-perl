@@ -3,6 +3,7 @@ package Paws::Config::EvaluationResultIdentifier;
   use Moose;
   has EvaluationResultQualifier => (is => 'ro', isa => 'Paws::Config::EvaluationResultQualifier');
   has OrderingTimestamp => (is => 'ro', isa => 'Str');
+  has ResourceEvaluationId => (is => 'ro', isa => 'Str');
 
 1;
 
@@ -23,7 +24,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::Config::EvaluationResultIdentifier object:
 
-  $service_obj->Method(Att1 => { EvaluationResultQualifier => $value, ..., OrderingTimestamp => $value  });
+  $service_obj->Method(Att1 => { EvaluationResultQualifier => $value, ..., ResourceEvaluationId => $value  });
 
 =head3 Results returned from an API call
 
@@ -41,17 +42,22 @@ Uniquely identifies an evaluation result.
 
 =head2 EvaluationResultQualifier => L<Paws::Config::EvaluationResultQualifier>
 
-Identifies an AWS Config rule used to evaluate an AWS resource, and
-provides the type and ID of the evaluated resource.
+Identifies an Config rule used to evaluate an Amazon Web Services
+resource, and provides the type and ID of the evaluated resource.
 
 
 =head2 OrderingTimestamp => Str
 
-The time of the event that triggered the evaluation of your AWS
-resources. The time can indicate when AWS Config delivered a
-configuration item change notification, or it can indicate when AWS
-Config delivered the configuration snapshot, depending on which event
+The time of the event that triggered the evaluation of your Amazon Web
+Services resources. The time can indicate when Config delivered a
+configuration item change notification, or it can indicate when Config
+delivered the configuration snapshot, depending on which event
 triggered the evaluation.
+
+
+=head2 ResourceEvaluationId => Str
+
+A Unique ID for an evaluation result.
 
 
 

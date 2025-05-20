@@ -2,7 +2,8 @@
 package Paws::GuardDuty::MemberDataSourceConfiguration;
   use Moose;
   has AccountId => (is => 'ro', isa => 'Str', request_name => 'accountId', traits => ['NameInRequest'], required => 1);
-  has DataSources => (is => 'ro', isa => 'Paws::GuardDuty::DataSourceConfigurationsResult', request_name => 'dataSources', traits => ['NameInRequest'], required => 1);
+  has DataSources => (is => 'ro', isa => 'Paws::GuardDuty::DataSourceConfigurationsResult', request_name => 'dataSources', traits => ['NameInRequest']);
+  has Features => (is => 'ro', isa => 'ArrayRef[Paws::GuardDuty::MemberFeaturesConfigurationResult]', request_name => 'features', traits => ['NameInRequest']);
 
 1;
 
@@ -23,7 +24,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::GuardDuty::MemberDataSourceConfiguration object:
 
-  $service_obj->Method(Att1 => { AccountId => $value, ..., DataSources => $value  });
+  $service_obj->Method(Att1 => { AccountId => $value, ..., Features => $value  });
 
 =head3 Results returned from an API call
 
@@ -45,9 +46,15 @@ account.
 The account ID for the member account.
 
 
-=head2 B<REQUIRED> DataSources => L<Paws::GuardDuty::DataSourceConfigurationsResult>
+=head2 DataSources => L<Paws::GuardDuty::DataSourceConfigurationsResult>
 
 Contains information on the status of data sources for the account.
+
+
+=head2 Features => ArrayRef[L<Paws::GuardDuty::MemberFeaturesConfigurationResult>]
+
+Contains information about the status of the features for the member
+account.
 
 
 

@@ -35,7 +35,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       Tags         => [
         {
           Key   => 'MyTagKey',      # min: 1, max: 128
-          Value => 'MyTagValue',    # min: 1, max: 256
+          Value => 'MyTagValue',    # max: 256
 
         },
         ...
@@ -55,13 +55,13 @@ The resource ID you want to tag.
 
 Use the ID of the resource. Here are some examples:
 
-ManagedInstance: mi-012345abcde
+C<MaintenanceWindow>: C<mw-012345abcde>
 
-MaintenanceWindow: mw-012345abcde
+C<PatchBaseline>: C<pb-012345abcde>
 
-PatchBaseline: pb-012345abcde
+C<Automation>: C<example-c160-4567-8519-012345abcde>
 
-OpsMetadata object: C<ResourceID> for tagging is created from the
+C<OpsMetadata> object: C<ResourceID> for tagging is created from the
 Amazon Resource Name (ARN) for the object. Specifically, C<ResourceID>
 is created from the strings that come after the word C<opsmetadata> in
 the ARN. For example, an OpsMetadata object with an ARN of
@@ -69,11 +69,16 @@ C<arn:aws:ssm:us-east-2:1234567890:opsmetadata/aws/ssm/MyGroup/appmanager>
 has a C<ResourceID> of either C<aws/ssm/MyGroup/appmanager> or
 C</aws/ssm/MyGroup/appmanager>.
 
-For the Document and Parameter values, use the name of the resource.
+For the C<Document> and C<Parameter> values, use the name of the
+resource. If you're tagging a shared document, you must use the full
+ARN of the document.
 
-The ManagedInstance type for this API action is only for on-premises
-managed instances. You must specify the name of the managed instance in
-the following format: mi-ID_number. For example, mi-1a2b3c4d5e6f.
+C<ManagedInstance>: C<mi-012345abcde>
+
+The C<ManagedInstance> type for this API operation is only for
+on-premises managed nodes. You must specify the name of the managed
+node in the following format: C<mi-I<ID_number> >. For example,
+C<mi-1a2b3c4d5e6f>.
 
 
 
@@ -81,17 +86,17 @@ the following format: mi-ID_number. For example, mi-1a2b3c4d5e6f.
 
 Specifies the type of resource you are tagging.
 
-The ManagedInstance type for this API action is for on-premises managed
-instances. You must specify the name of the managed instance in the
-following format: mi-ID_number. For example, mi-1a2b3c4d5e6f.
+The C<ManagedInstance> type for this API operation is for on-premises
+managed nodes. You must specify the name of the managed node in the
+following format: C<mi-I<ID_number> >. For example, C<mi-1a2b3c4d5e6f>.
 
-Valid values are: C<"Document">, C<"ManagedInstance">, C<"MaintenanceWindow">, C<"Parameter">, C<"PatchBaseline">, C<"OpsItem">, C<"OpsMetadata">
+Valid values are: C<"Document">, C<"ManagedInstance">, C<"MaintenanceWindow">, C<"Parameter">, C<"PatchBaseline">, C<"OpsItem">, C<"OpsMetadata">, C<"Automation">, C<"Association">
 
 =head2 B<REQUIRED> Tags => ArrayRef[L<Paws::SSM::Tag>]
 
 One or more tags. The value parameter is required.
 
-Do not enter personally identifiable information in this field.
+Don't enter personally identifiable information in this field.
 
 
 

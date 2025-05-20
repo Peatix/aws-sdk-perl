@@ -2,6 +2,7 @@
 package Paws::LookoutMetrics::MetricSource;
   use Moose;
   has AppFlowConfig => (is => 'ro', isa => 'Paws::LookoutMetrics::AppFlowConfig');
+  has AthenaSourceConfig => (is => 'ro', isa => 'Paws::LookoutMetrics::AthenaSourceConfig');
   has CloudWatchConfig => (is => 'ro', isa => 'Paws::LookoutMetrics::CloudWatchConfig');
   has RDSSourceConfig => (is => 'ro', isa => 'Paws::LookoutMetrics::RDSSourceConfig');
   has RedshiftSourceConfig => (is => 'ro', isa => 'Paws::LookoutMetrics::RedshiftSourceConfig');
@@ -37,32 +38,34 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::LookoutMetr
 
 =head1 DESCRIPTION
 
-Contains information about source data used to generate a metric.
+Contains information about source data used to generate metrics.
 
 =head1 ATTRIBUTES
 
 
 =head2 AppFlowConfig => L<Paws::LookoutMetrics::AppFlowConfig>
 
-An object containing information about the AppFlow configuration.
+Details about an AppFlow datasource.
+
+
+=head2 AthenaSourceConfig => L<Paws::LookoutMetrics::AthenaSourceConfig>
+
+Details about an Amazon Athena datasource.
 
 
 =head2 CloudWatchConfig => L<Paws::LookoutMetrics::CloudWatchConfig>
 
-An object containing information about the Amazon CloudWatch monitoring
-configuration.
+Details about an Amazon CloudWatch monitoring datasource.
 
 
 =head2 RDSSourceConfig => L<Paws::LookoutMetrics::RDSSourceConfig>
 
-An object containing information about the Amazon Relational Database
-Service (RDS) configuration.
+Details about an Amazon Relational Database Service (RDS) datasource.
 
 
 =head2 RedshiftSourceConfig => L<Paws::LookoutMetrics::RedshiftSourceConfig>
 
-An object containing information about the Amazon Redshift database
-configuration.
+Details about an Amazon Redshift database datasource.
 
 
 =head2 S3SourceConfig => L<Paws::LookoutMetrics::S3SourceConfig>

@@ -32,13 +32,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $ec2 = Paws->service('EC2');
     my $GetCoipPoolUsageResult = $ec2->GetCoipPoolUsage(
-      PoolId  => 'MyCoipPoolId',
-      DryRun  => 1,                # OPTIONAL
+      PoolId  => 'MyIpv4PoolCoipId',
+      DryRun  => 1,                    # OPTIONAL
       Filters => [
         {
-          Name   => 'MyString',    # OPTIONAL
+          Name   => 'MyString',        # OPTIONAL
           Values => [
-            'MyString', ...        # OPTIONAL
+            'MyString', ...            # OPTIONAL
           ],    # OPTIONAL
         },
         ...
@@ -52,6 +52,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $CoipPoolId        = $GetCoipPoolUsageResult->CoipPoolId;
     my $LocalGatewayRouteTableId =
       $GetCoipPoolUsageResult->LocalGatewayRouteTableId;
+    my $NextToken = $GetCoipPoolUsageResult->NextToken;
 
     # Returns a L<Paws::EC2::GetCoipPoolUsageResult> object.
 
@@ -72,37 +73,27 @@ C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
 
 =head2 Filters => ArrayRef[L<Paws::EC2::Filter>]
 
-The filters. The following are the possible values:
+One or more filters.
 
 =over
 
 =item *
 
-C<coip-address-usage.allocation-id>
-
-=back
-
-=over
+C<coip-address-usage.allocation-id> - The allocation ID of the address.
 
 =item *
 
-C<coip-address-usage.aws-account-id>
-
-=back
-
-=over
+C<coip-address-usage.aws-account-id> - The ID of the Amazon Web
+Services account that is using the customer-owned IP address.
 
 =item *
 
-C<coip-address-usage.aws-service>
-
-=back
-
-=over
+C<coip-address-usage.aws-service> - The Amazon Web Services service
+that is using the customer-owned IP address.
 
 =item *
 
-C<coip-address-usage.co-ip>
+C<coip-address-usage.co-ip> - The customer-owned IP address.
 
 =back
 

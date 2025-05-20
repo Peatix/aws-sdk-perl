@@ -31,8 +31,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $networkmanager = Paws->service('NetworkManager');
     my $DisassociateCustomerGatewayResponse =
       $networkmanager->DisassociateCustomerGateway(
-      CustomerGatewayArn => 'MyString',
-      GlobalNetworkId    => 'MyString',
+      CustomerGatewayArn => 'MyCustomerGatewayArn',
+      GlobalNetworkId    => 'MyGlobalNetworkId',
 
       );
 
@@ -50,9 +50,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/net
 
 =head2 B<REQUIRED> CustomerGatewayArn => Str
 
-The Amazon Resource Name (ARN) of the customer gateway. For more
-information, see Resources Defined by Amazon EC2
-(https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazonec2.html#amazonec2-resources-for-iam-policies).
+The Amazon Resource Name (ARN) of the customer gateway.
 
 
 

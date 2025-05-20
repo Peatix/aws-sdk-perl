@@ -2,7 +2,8 @@
 package Paws::Kinesis::PutRecords;
   use Moose;
   has Records => (is => 'ro', isa => 'ArrayRef[Paws::Kinesis::PutRecordsRequestEntry]', required => 1);
-  has StreamName => (is => 'ro', isa => 'Str', required => 1);
+  has StreamARN => (is => 'ro', isa => 'Str');
+  has StreamName => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -37,8 +38,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },
         ...
       ],
-      StreamName => 'MyStreamName',
-
+      StreamARN  => 'MyStreamARN',     # OPTIONAL
+      StreamName => 'MyStreamName',    # OPTIONAL
     );
 
     # Results:
@@ -60,7 +61,13 @@ The records associated with the request.
 
 
 
-=head2 B<REQUIRED> StreamName => Str
+=head2 StreamARN => Str
+
+The ARN of the stream.
+
+
+
+=head2 StreamName => Str
 
 The stream name associated with the request.
 

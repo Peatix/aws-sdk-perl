@@ -31,8 +31,8 @@ C<NextToken> from the previous response.
 
 =head2 ResolverRules => ArrayRef[L<Paws::Route53Resolver::ResolverRule>]
 
-The Resolver rules that were created using the current AWS account and
-that match the specified filters, if any.
+The Resolver rules that were created using the current Amazon Web
+Services account and that match the specified filters, if any.
 
 
 =head2 _request_id => Str

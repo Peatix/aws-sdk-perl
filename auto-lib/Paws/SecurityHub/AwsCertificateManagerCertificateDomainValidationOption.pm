@@ -50,7 +50,7 @@ the C<RequestCertificate> request
 =item *
 
 The validation of each domain name in the certificate, as it pertains
-to AWS Certificate Manager managed renewal
+to Certificate Manager managed renewal
 
 =back
 
@@ -71,14 +71,14 @@ validation.
 
 =head2 ValidationDomain => Str
 
-The domain name that AWS Certificate Manager uses to send domain
-validation emails.
+The domain name that Certificate Manager uses to send domain validation
+emails.
 
 
 =head2 ValidationEmails => ArrayRef[Str|Undef]
 
-A list of email addresses that AWS Certificate Manager uses to send
-domain validation emails.
+A list of email addresses that Certificate Manager uses to send domain
+validation emails.
 
 
 =head2 ValidationMethod => Str

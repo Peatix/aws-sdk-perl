@@ -1,11 +1,10 @@
 
 package Paws::SQS::DeleteMessageBatchResult;
   use Moose;
-  has Failed => (is => 'ro', isa => 'ArrayRef[Paws::SQS::BatchResultErrorEntry]', request_name => 'BatchResultErrorEntry', traits => ['NameInRequest',], required => 1);
-  has Successful => (is => 'ro', isa => 'ArrayRef[Paws::SQS::DeleteMessageBatchResultEntry]', request_name => 'DeleteMessageBatchResultEntry', traits => ['NameInRequest',], required => 1);
+  has Failed => (is => 'ro', isa => 'ArrayRef[Paws::SQS::BatchResultErrorEntry]', required => 1);
+  has Successful => (is => 'ro', isa => 'ArrayRef[Paws::SQS::DeleteMessageBatchResultEntry]', required => 1);
 
   has _request_id => (is => 'ro', isa => 'Str');
-1;
 
 ### main pod documentation begin ###
 
@@ -31,3 +30,4 @@ A list of C< DeleteMessageBatchResultEntry > items.
 
 =cut
 
+1;

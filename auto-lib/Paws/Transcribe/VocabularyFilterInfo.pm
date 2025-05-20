@@ -35,25 +35,44 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Transcribe:
 
 =head1 DESCRIPTION
 
-Provides information about a vocabulary filter.
+Provides information about a custom vocabulary filter, including the
+language of the filter, when it was last modified, and its name.
 
 =head1 ATTRIBUTES
 
 
 =head2 LanguageCode => Str
 
-The language code of the words in the vocabulary filter.
+The language code that represents the language of the entries in your
+vocabulary filter. Each custom vocabulary filter must contain terms in
+only one language.
+
+A custom vocabulary filter can only be used to transcribe files in the
+same language as the filter. For example, if you create a custom
+vocabulary filter using US English (C<en-US>), you can only apply this
+filter to files that contain English audio.
+
+For a list of supported languages and their associated language codes,
+refer to the Supported languages
+(https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html)
+table.
 
 
 =head2 LastModifiedTime => Str
 
-The date and time that the vocabulary was last updated.
+The date and time the specified custom vocabulary filter was last
+modified.
+
+Timestamps are in the format C<YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC>. For
+example, C<2022-05-04T12:32:58.761000-07:00> represents 12:32 PM UTC-7
+on May 4, 2022.
 
 
 =head2 VocabularyFilterName => Str
 
-The name of the vocabulary filter. The name must be unique in the
-account that holds the filter.
+A unique name, chosen by you, for your custom vocabulary filter. This
+name is case sensitive, cannot contain spaces, and must be unique
+within an Amazon Web Services account.
 
 
 

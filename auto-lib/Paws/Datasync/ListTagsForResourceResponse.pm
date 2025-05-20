@@ -17,13 +17,13 @@ Paws::Datasync::ListTagsForResourceResponse
 
 =head2 NextToken => Str
 
-An opaque string that indicates the position at which to begin
-returning the next list of resource tags.
+The opaque string that indicates the position to begin the next list of
+results in the response.
 
 
 =head2 Tags => ArrayRef[L<Paws::Datasync::TagListEntry>]
 
-Array of resource tags.
+An array of tags applied to the specified resource.
 
 
 =head2 _request_id => Str

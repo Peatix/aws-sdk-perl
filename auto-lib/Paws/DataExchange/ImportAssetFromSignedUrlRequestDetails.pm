@@ -43,8 +43,8 @@ Details of the operation to be performed by the job.
 
 =head2 B<REQUIRED> AssetName => Str
 
-The name of the asset. When importing from Amazon S3, the S3 object key
-is used as the asset name.
+The name of the asset. When importing from Amazon S3, the Amazon S3
+object key is used as the asset name.
 
 
 =head2 B<REQUIRED> DataSetId => Str

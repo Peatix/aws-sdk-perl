@@ -34,20 +34,22 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ECR::Replic
 
 =head1 DESCRIPTION
 
-An array of objects representing the details of a replication
-destination.
+An array of objects representing the destination for a replication
+rule.
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> Region => Str
 
-A Region to replicate to.
+The Region to replicate to.
 
 
 =head2 B<REQUIRED> RegistryId => Str
 
-The account ID of the destination registry to replicate to.
+The Amazon Web Services account ID of the Amazon ECR private registry
+to replicate to. When configuring cross-Region replication within your
+own registry, specify your own account ID.
 
 
 

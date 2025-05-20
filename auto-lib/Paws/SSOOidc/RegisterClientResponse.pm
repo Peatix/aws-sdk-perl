@@ -22,7 +22,7 @@ Paws::SSOOidc::RegisterClientResponse
 
 =head2 AuthorizationEndpoint => Str
 
-The endpoint where the client can request authorization.
+An endpoint that the client can use to request authorization.
 
 
 =head2 ClientId => Str
@@ -51,7 +51,7 @@ become invalid.
 
 =head2 TokenEndpoint => Str
 
-The endpoint where the client can get an access token.
+An endpoint that the client can use to create tokens.
 
 
 =head2 _request_id => Str

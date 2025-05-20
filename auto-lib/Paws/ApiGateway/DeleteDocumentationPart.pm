@@ -43,13 +43,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 B<REQUIRED> DocumentationPartId => Str
 
-[Required] The identifier of the to-be-deleted documentation part.
+The identifier of the to-be-deleted documentation part.
 
 
 
 =head2 B<REQUIRED> RestApiId => Str
 
-[Required] The string identifier of the associated RestApi.
+The string identifier of the associated RestApi.
 
 
 

@@ -3,6 +3,7 @@ package Paws::CodeBuild::SourceCredentialsInfo;
   use Moose;
   has Arn => (is => 'ro', isa => 'Str', request_name => 'arn', traits => ['NameInRequest']);
   has AuthType => (is => 'ro', isa => 'Str', request_name => 'authType', traits => ['NameInRequest']);
+  has Resource => (is => 'ro', isa => 'Str', request_name => 'resource', traits => ['NameInRequest']);
   has ServerType => (is => 'ro', isa => 'Str', request_name => 'serverType', traits => ['NameInRequest']);
 
 1;
@@ -35,8 +36,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CodeBuild::
 
 =head1 DESCRIPTION
 
-Information about the credentials for a GitHub, GitHub Enterprise, or
-Bitbucket repository.
+Information about the credentials for a GitHub, GitHub Enterprise,
+GitLab, GitLab Self Managed, or Bitbucket repository.
 
 =head1 ATTRIBUTES
 
@@ -49,13 +50,20 @@ The Amazon Resource Name (ARN) of the token.
 =head2 AuthType => Str
 
 The type of authentication used by the credentials. Valid options are
-OAUTH, BASIC_AUTH, or PERSONAL_ACCESS_TOKEN.
+OAUTH, BASIC_AUTH, PERSONAL_ACCESS_TOKEN, CODECONNECTIONS, or
+SECRETS_MANAGER.
+
+
+=head2 Resource => Str
+
+The connection ARN if your authType is CODECONNECTIONS or
+SECRETS_MANAGER.
 
 
 =head2 ServerType => Str
 
 The type of source provider. The valid options are GITHUB,
-GITHUB_ENTERPRISE, or BITBUCKET.
+GITHUB_ENTERPRISE, GITLAB, GITLAB_SELF_MANAGED, or BITBUCKET.
 
 
 

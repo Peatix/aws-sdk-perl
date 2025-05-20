@@ -24,7 +24,7 @@ The Amazon Resource Name (ARN) of the model being created.
 
 Indicates the status of the C<CreateModel> operation.
 
-Valid values are: C<"IN_PROGRESS">, C<"SUCCESS">, C<"FAILED">
+Valid values are: C<"IN_PROGRESS">, C<"SUCCESS">, C<"FAILED">, C<"IMPORT_IN_PROGRESS">
 =head2 _request_id => Str
 
 

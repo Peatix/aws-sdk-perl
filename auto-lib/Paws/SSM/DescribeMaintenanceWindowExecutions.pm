@@ -63,12 +63,21 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ssm
 
 Each entry in the array is a structure containing:
 
-Key (string, between 1 and 128 characters)
+=over
 
-Values (array of strings, each string is between 1 and 256 characters)
+=item *
 
-The supported Keys are ExecutedBefore and ExecutedAfter with the value
-being a date/time string such as 2016-11-04T05:00:00Z.
+Key. A string between 1 and 128 characters. Supported keys include
+C<ExecutedBefore> and C<ExecutedAfter>.
+
+=item *
+
+Values. An array of strings, each between 1 and 256 characters.
+Supported values are date/time strings in a valid ISO 8601 date/time
+format, such as C<2024-11-04T05:00:00Z>.
+
+=back
+
 
 
 

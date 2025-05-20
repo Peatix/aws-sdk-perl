@@ -3,10 +3,11 @@ package Paws::SageMaker::ModelPackageSummary;
   use Moose;
   has CreationTime => (is => 'ro', isa => 'Str', required => 1);
   has ModelApprovalStatus => (is => 'ro', isa => 'Str');
+  has ModelLifeCycle => (is => 'ro', isa => 'Paws::SageMaker::ModelLifeCycle');
   has ModelPackageArn => (is => 'ro', isa => 'Str', required => 1);
   has ModelPackageDescription => (is => 'ro', isa => 'Str');
   has ModelPackageGroupName => (is => 'ro', isa => 'Str');
-  has ModelPackageName => (is => 'ro', isa => 'Str', required => 1);
+  has ModelPackageName => (is => 'ro', isa => 'Str');
   has ModelPackageStatus => (is => 'ro', isa => 'Str', required => 1);
   has ModelPackageVersion => (is => 'ro', isa => 'Int');
 
@@ -73,6 +74,11 @@ C<PENDING_MANUAL_APPROVAL> - The model is waiting for manual approval.
 
 
 
+=head2 ModelLifeCycle => L<Paws::SageMaker::ModelLifeCycle>
+
+
+
+
 =head2 B<REQUIRED> ModelPackageArn => Str
 
 The Amazon Resource Name (ARN) of the model package.
@@ -89,7 +95,7 @@ If the model package is a versioned model, the model group that the
 versioned model belongs to.
 
 
-=head2 B<REQUIRED> ModelPackageName => Str
+=head2 ModelPackageName => Str
 
 The name of the model package.
 

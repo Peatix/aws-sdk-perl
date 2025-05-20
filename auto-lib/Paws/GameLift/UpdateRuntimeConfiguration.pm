@@ -37,9 +37,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           1,    # min: 1, max: 2147483647; OPTIONAL
         ServerProcesses => [
           {
-            ConcurrentExecutions => 1,                       # min: 1
-            LaunchPath           => 'MyNonZeroAndMaxString', # min: 1, max: 1024
-            Parameters           => 'MyNonZeroAndMaxString', # min: 1, max: 1024
+            ConcurrentExecutions => 1,                  # min: 1
+            LaunchPath => 'MyLaunchPathStringModel',    # min: 1, max: 1024
+            Parameters =>
+              'MyLaunchParametersStringModel',    # min: 1, max: 1024; OPTIONAL
           },
           ...
         ],    # min: 1, max: 50; OPTIONAL
@@ -68,11 +69,11 @@ You can use either the fleet ID or ARN value.
 
 =head2 B<REQUIRED> RuntimeConfiguration => L<Paws::GameLift::RuntimeConfiguration>
 
-Instructions for launching server processes on each instance in the
-fleet. Server processes run either a custom game build executable or a
-Realtime Servers script. The runtime configuration lists the types of
-server processes to run on an instance, how to launch them, and the
-number of processes to run concurrently.
+Instructions for launching server processes on fleet computes. Server
+processes run either a custom game build executable or a Amazon
+GameLift Realtime script. The runtime configuration lists the types of
+server processes to run, how to launch them, and the number of
+processes to run concurrently.
 
 
 

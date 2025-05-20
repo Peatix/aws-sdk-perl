@@ -16,8 +16,8 @@ Paws::Datasync::CreateLocationNfsResponse
 
 =head2 LocationArn => Str
 
-The Amazon Resource Name (ARN) of the source NFS file system location
-that is created.
+The ARN of the transfer location that you created for your NFS file
+server.
 
 
 =head2 _request_id => Str

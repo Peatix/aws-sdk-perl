@@ -56,14 +56,14 @@ The source region where the data is aggregated.
 
 The rule compliance status.
 
-For the C<ConfigRuleComplianceFilters> data type, AWS Config supports
-only C<COMPLIANT> and C<NON_COMPLIANT>. AWS Config does not support the
+For the C<ConfigRuleComplianceFilters> data type, Config supports only
+C<COMPLIANT> and C<NON_COMPLIANT>. Config does not support the
 C<NOT_APPLICABLE> and the C<INSUFFICIENT_DATA> values.
 
 
 =head2 ConfigRuleName => Str
 
-The name of the AWS Config rule.
+The name of the Config rule.
 
 
 

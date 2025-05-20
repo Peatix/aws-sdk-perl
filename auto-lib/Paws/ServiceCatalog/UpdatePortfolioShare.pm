@@ -5,6 +5,7 @@ package Paws::ServiceCatalog::UpdatePortfolioShare;
   has AccountId => (is => 'ro', isa => 'Str');
   has OrganizationNode => (is => 'ro', isa => 'Paws::ServiceCatalog::OrganizationNode');
   has PortfolioId => (is => 'ro', isa => 'Str', required => 1);
+  has SharePrincipals => (is => 'ro', isa => 'Bool');
   has ShareTagOptions => (is => 'ro', isa => 'Bool');
 
   use MooseX::ClassAttribute;
@@ -40,6 +41,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ,    # values: ORGANIZATION, ORGANIZATIONAL_UNIT, ACCOUNT; OPTIONAL
         Value => 'MyOrganizationNodeValue',    # OPTIONAL
       },    # OPTIONAL
+      SharePrincipals => 1,    # OPTIONAL
       ShareTagOptions => 1,    # OPTIONAL
     );
 
@@ -63,10 +65,6 @@ The language code.
 
 =item *
 
-C<en> - English (default)
-
-=item *
-
 C<jp> - Japanese
 
 =item *
@@ -80,8 +78,8 @@ C<zh> - Chinese
 
 =head2 AccountId => Str
 
-The AWS Account Id of the recipient account. This field is required
-when updating an external account to account type share.
+The Amazon Web Services account Id of the recipient account. This field
+is required when updating an external account to account type share.
 
 
 
@@ -98,11 +96,19 @@ updated.
 
 
 
+=head2 SharePrincipals => Bool
+
+A flag to enables or disables C<Principals> sharing in the portfolio.
+If this field is not provided, the current state of the C<Principals>
+sharing on the portfolio share will not be modified.
+
+
+
 =head2 ShareTagOptions => Bool
 
-A flag to enable or disable TagOptions sharing for the portfolio share.
-If this field is not provided, the current state of TagOptions sharing
-on the portfolio share will not be modified.
+Enables or disables C<TagOptions> sharing for the portfolio share. If
+this field is not provided, the current state of TagOptions sharing on
+the portfolio share will not be modified.
 
 
 

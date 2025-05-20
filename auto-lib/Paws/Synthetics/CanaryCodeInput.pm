@@ -44,20 +44,49 @@ S3 bucket, the bucket name, key, and version are also included. If the
 script was passed into the canary directly, the script code is
 contained in the value of C<Zipfile>.
 
+If you are uploading your canary scripts with an Amazon S3 bucket, your
+zip file should include your script in a certain folder structure.
+
+=over
+
+=item *
+
+For Node.js canaries, the folder structure must be
+C<nodejs/node_modules/I<myCanaryFilename.js> > For more information,
+see Packaging your Node.js canary files
+(https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_WritingCanary_Nodejs.html#CloudWatch_Synthetics_Canaries_package)
+
+=item *
+
+For Python canaries, the folder structure must be
+C<python/I<myCanaryFilename.py> > or
+C<python/I<myFolder/myCanaryFilename.py> > For more information, see
+Packaging your Python canary files
+(https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_WritingCanary_Python.html#CloudWatch_Synthetics_Canaries_WritingCanary_Python_package)
+
+=back
+
+
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> Handler => Str
 
-The entry point to use for the source code when running the canary.
-This value must end with the string C<.handler>.
+The entry point to use for the source code when running the canary. For
+canaries that use the C<syn-python-selenium-1.0> runtime or a
+C<syn-nodejs.puppeteer> runtime earlier than
+C<syn-nodejs.puppeteer-3.4>, the handler must be specified as C<
+I<fileName>.handler>. For C<syn-python-selenium-1.1>,
+C<syn-nodejs.puppeteer-3.4>, and later runtimes, the handler can be
+specified as C< I<fileName>.I<functionName> >, or you can specify a
+folder where canary scripts reside as C<
+I<folder>/I<fileName>.I<functionName> >.
 
 
 =head2 S3Bucket => Str
 
-If your canary script is located in S3, specify the full bucket name
-here. The bucket must already exist. Specify the full bucket name,
-including C<s3://> as the start of the bucket name.
+If your canary script is located in S3, specify the bucket name here.
+Do not include C<s3://> as the start of the bucket name.
 
 
 =head2 S3Key => Str
@@ -75,8 +104,12 @@ The S3 version ID of your script.
 =head2 ZipFile => Str
 
 If you input your canary script directly into the canary instead of
-referring to an S3 location, the value of this parameter is the .zip
-file that contains the script. It can be up to 5 MB.
+referring to an S3 location, the value of this parameter is the
+base64-encoded contents of the .zip file that contains the script. It
+must be smaller than 225 Kb.
+
+For large canary scripts, we recommend that you use an S3 location
+instead of inputting it directly with this parameter.
 
 
 

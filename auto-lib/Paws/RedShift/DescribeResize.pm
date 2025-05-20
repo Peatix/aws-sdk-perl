@@ -67,8 +67,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/red
 The unique identifier of a cluster whose resize progress you are
 requesting. This parameter is case-sensitive.
 
-By default, resize operations for all clusters defined for an AWS
-account are returned.
+By default, resize operations for all clusters defined for an Amazon
+Web Services account are returned.
 
 
 

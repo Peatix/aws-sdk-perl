@@ -35,27 +35,27 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Rekognition
 
 =head1 DESCRIPTION
 
-Sagemaker Groundtruth format manifest files for the input, output and
-validation datasets that are used and created during testing.
+The data validation manifest created for the training dataset during
+model training.
 
 =head1 ATTRIBUTES
 
 
 =head2 Input => L<Paws::Rekognition::TrainingData>
 
-The training assets that you supplied for training.
+The training data that you supplied.
 
 
 =head2 Output => L<Paws::Rekognition::TrainingData>
 
-The images (assets) that were actually trained by Amazon Rekognition
-Custom Labels.
+Reference to images (assets) that were actually used during training
+with trained model predictions.
 
 
 =head2 Validation => L<Paws::Rekognition::ValidationData>
 
-The location of the data validation manifest. The data validation
-manifest is created for the training dataset during model training.
+A manifest that you supplied for training, with validation results for
+each line.
 
 
 

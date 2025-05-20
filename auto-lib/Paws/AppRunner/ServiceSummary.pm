@@ -39,7 +39,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AppRunner::
 
 =head1 DESCRIPTION
 
-Provides summary information for an AWS App Runner service.
+Provides summary information for an App Runner service.
 
 This type contains limited information about a service. It doesn't
 include configuration details. It's returned by the ListServices
@@ -71,7 +71,7 @@ The Amazon Resource Name (ARN) of this service.
 =head2 ServiceId => Str
 
 An ID that App Runner generated for this service. It's unique within
-the AWS Region.
+the Amazon Web Services Region.
 
 
 =head2 ServiceName => Str
@@ -94,12 +94,11 @@ mean the following.
 
 =item *
 
-C<CREATE_FAILED> E<ndash> The service failed to create. Read the
-failure events and logs, change any parameters that need to be fixed,
-and retry the call to create the service.
-
-The failed service isn't usable, and still counts towards your service
-quota. When you're done analyzing the failure, delete the service.
+C<CREATE_FAILED> E<ndash> The service failed to create. The failed
+service isn't usable, and still counts towards your service quota. To
+troubleshoot this failure, read the failure events and logs, change any
+parameters that need to be fixed, and rebuild your service using
+C<UpdateService>.
 
 =item *
 

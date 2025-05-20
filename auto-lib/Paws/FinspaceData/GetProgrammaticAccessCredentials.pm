@@ -56,7 +56,7 @@ The time duration in which the credentials remain valid.
 
 =head2 B<REQUIRED> EnvironmentId => Str
 
-The habanero environment identifier.
+The FinSpace environment identifier.
 
 
 

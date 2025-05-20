@@ -73,8 +73,8 @@ TrackSourceSettings instead of FileSoureSettings.
 
 =head2 SourceType => Str
 
-Use Source (SourceType) to identify the format of your input captions.
-The service cannot auto-detect caption format.
+Use Source to identify the format of your input captions. The service
+cannot auto-detect caption format.
 
 
 =head2 TeletextSourceSettings => L<Paws::MediaConvert::TeletextSourceSettings>

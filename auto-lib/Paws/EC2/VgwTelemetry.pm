@@ -53,7 +53,9 @@ The Amazon Resource Name (ARN) of the VPN tunnel endpoint certificate.
 
 =head2 LastStatusChange => Str
 
-The date and time of the last change in status.
+The date and time of the last change in status. This field is updated
+when changes in IKE (Phase 1), IPSec (Phase 2), or BGP status are
+detected.
 
 
 =head2 OutsideIpAddress => Str

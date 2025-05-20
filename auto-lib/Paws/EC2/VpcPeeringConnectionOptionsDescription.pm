@@ -46,14 +46,12 @@ private IP addresses when queried from instances in a peer VPC.
 
 =head2 AllowEgressFromLocalClassicLinkToRemoteVpc => Bool
 
-Indicates whether a local ClassicLink connection can communicate with
-the peer VPC over the VPC peering connection.
+Deprecated.
 
 
 =head2 AllowEgressFromLocalVpcToRemoteClassicLink => Bool
 
-Indicates whether a local VPC can communicate with a ClassicLink
-connection in the peer VPC over the VPC peering connection.
+Deprecated.
 
 
 

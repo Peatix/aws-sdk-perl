@@ -2,6 +2,7 @@
 package Paws::SageMaker::LabelingJobResourceConfig;
   use Moose;
   has VolumeKmsKeyId => (is => 'ro', isa => 'Str');
+  has VpcConfig => (is => 'ro', isa => 'Paws::SageMaker::VpcConfig');
 
 1;
 
@@ -22,7 +23,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::SageMaker::LabelingJobResourceConfig object:
 
-  $service_obj->Method(Att1 => { VolumeKmsKeyId => $value, ..., VolumeKmsKeyId => $value  });
+  $service_obj->Method(Att1 => { VolumeKmsKeyId => $value, ..., VpcConfig => $value  });
 
 =head3 Results returned from an API call
 
@@ -49,11 +50,10 @@ inference jobs used for automated data labeling.
 
 You can only specify a C<VolumeKmsKeyId> when you create a labeling job
 with automated data labeling enabled using the API operation
-C<CreateLabelingJob>. You cannot specify an Amazon Web Services KMS
-customer managed CMK to encrypt the storage volume used for automated
-data labeling model training and inference when you create a labeling
-job using the console. To learn more, see Output Data and Storage
-Volume Encryption
+C<CreateLabelingJob>. You cannot specify an Amazon Web Services KMS key
+to encrypt the storage volume used for automated data labeling model
+training and inference when you create a labeling job using the
+console. To learn more, see Output Data and Storage Volume Encryption
 (https://docs.aws.amazon.com/sagemaker/latest/dg/sms-security.html).
 
 The C<VolumeKmsKeyId> can be any of the following formats:
@@ -73,6 +73,11 @@ Amazon Resource Name (ARN) of a KMS Key
 C<"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab">
 
 =back
+
+
+
+=head2 VpcConfig => L<Paws::SageMaker::VpcConfig>
+
 
 
 

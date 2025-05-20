@@ -60,7 +60,24 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ima
 
 =head2 Filters => ArrayRef[L<Paws::ImageBuilder::Filter>]
 
-The filters.
+Use the following filters to streamline results:
+
+=over
+
+=item *
+
+C<name>
+
+=item *
+
+C<parentImage>
+
+=item *
+
+C<platform>
+
+=back
+
 
 
 
@@ -72,7 +89,7 @@ The maximum items to return in a request.
 
 =head2 NextToken => Str
 
-A token to specify where to start paginating. This is the NextToken
+A token to specify where to start paginating. This is the nextToken
 from a previously truncated response.
 
 
@@ -85,7 +102,7 @@ can use this field to specify if you want to view image recipes owned
 by yourself, by Amazon, or those image recipes that have been shared
 with you by other customers.
 
-Valid values are: C<"Self">, C<"Shared">, C<"Amazon">
+Valid values are: C<"Self">, C<"Shared">, C<"Amazon">, C<"ThirdParty">, C<"AWSMarketplace">
 
 
 =head1 SEE ALSO

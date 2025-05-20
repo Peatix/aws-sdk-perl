@@ -28,13 +28,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $ecs = Paws->service('ECS');
+    # To untag a cluster.
+    # This example deletes the 'team' tag from the 'dev' cluster.
     my $UntagResourceResponse = $ecs->UntagResource(
-      ResourceArn => 'MyString',
-      TagKeys     => [
-        'MyTagKey', ...    # min: 1, max: 128
-      ],
-
+      'ResourceArn' => 'arn:aws:ecs:region:aws_account_id:cluster/dev',
+      'TagKeys'     => ['team']
     );
+
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ecs/UntagResource>
@@ -44,10 +44,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ecs
 
 =head2 B<REQUIRED> ResourceArn => Str
 
-The Amazon Resource Name (ARN) of the resource from which to delete
-tags. Currently, the supported resources are Amazon ECS capacity
-providers, tasks, services, task definitions, clusters, and container
-instances.
+The Amazon Resource Name (ARN) of the resource to delete tags from.
+Currently, the supported resources are Amazon ECS capacity providers,
+tasks, services, task definitions, clusters, and container instances.
 
 
 

@@ -38,7 +38,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SSM::Resour
 
 =head1 DESCRIPTION
 
-Information about the target S3 bucket for the Resource Data Sync.
+Information about the target S3 bucket for the resource data sync.
 
 =head1 ATTRIBUTES
 
@@ -66,7 +66,8 @@ An Amazon S3 prefix for the bucket.
 
 =head2 B<REQUIRED> Region => Str
 
-The AWS Region with the S3 bucket targeted by the Resource Data Sync.
+The Amazon Web Services Region with the S3 bucket targeted by the
+resource data sync.
 
 
 =head2 B<REQUIRED> SyncFormat => Str

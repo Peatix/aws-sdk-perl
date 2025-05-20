@@ -5,7 +5,7 @@ package Paws::LocationService::ListMapsResponseEntry;
   has DataSource => (is => 'ro', isa => 'Str', required => 1);
   has Description => (is => 'ro', isa => 'Str', required => 1);
   has MapName => (is => 'ro', isa => 'Str', required => 1);
-  has PricingPlan => (is => 'ro', isa => 'Str', required => 1);
+  has PricingPlan => (is => 'ro', isa => 'Str');
   has UpdateTime => (is => 'ro', isa => 'Str', required => 1);
 
 1;
@@ -38,7 +38,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::LocationSer
 
 =head1 DESCRIPTION
 
-Contains details of an existing map resource in your AWS account.
+Contains details of an existing map resource in your Amazon Web
+Services account.
 
 =head1 ATTRIBUTES
 
@@ -65,13 +66,9 @@ The description for the map resource.
 The name of the associated map resource.
 
 
-=head2 B<REQUIRED> PricingPlan => Str
+=head2 PricingPlan => Str
 
-The pricing plan for the specified map resource.
-
-For additional details and restrictions on each pricing plan option,
-see the Amazon Location Service pricing page
-(https://aws.amazon.com/location/pricing/).
+No longer used. Always returns C<RequestBasedUsage>.
 
 
 =head2 B<REQUIRED> UpdateTime => Str

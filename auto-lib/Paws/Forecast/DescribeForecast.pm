@@ -44,6 +44,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $Message              = $DescribeForecastResponse->Message;
     my $PredictorArn         = $DescribeForecastResponse->PredictorArn;
     my $Status               = $DescribeForecastResponse->Status;
+    my $TimeSeriesSelector   = $DescribeForecastResponse->TimeSeriesSelector;
 
     # Returns a L<Paws::Forecast::DescribeForecastResponse> object.
 

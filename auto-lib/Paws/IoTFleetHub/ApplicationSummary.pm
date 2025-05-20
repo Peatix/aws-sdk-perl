@@ -39,11 +39,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::IoTFleetHub
 
 =head1 DESCRIPTION
 
-A summary of information about a AWS IoT Device Management web
-application.
-
-Fleet Hub for AWS IoT Device Management is in public preview and is
-subject to change.
+A summary of information about a Fleet Hub for IoT Device Management
+web application.
 
 =head1 ATTRIBUTES
 

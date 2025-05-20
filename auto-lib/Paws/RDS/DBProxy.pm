@@ -80,13 +80,13 @@ Services Region.
 
 =head2 DebugLogging => Bool
 
-Whether the proxy includes detailed information about SQL statements in
-its logs. This information helps you to debug issues involving SQL
-behavior or the performance and scalability of the proxy connections.
-The debug information includes the text of SQL statements that you
-submit through the proxy. Thus, only enable this setting when needed
-for debugging, and only when you have security measures in place to
-safeguard any sensitive information that appears in the logs.
+Indicates whether the proxy includes detailed information about SQL
+statements in its logs. This information helps you to debug issues
+involving SQL behavior or the performance and scalability of the proxy
+connections. The debug information includes the text of SQL statements
+that you submit through the proxy. Thus, only enable this setting when
+needed for debugging, and only when you have security measures in place
+to safeguard any sensitive information that appears in the logs.
 
 
 =head2 Endpoint => Str
@@ -98,8 +98,13 @@ application.
 
 =head2 EngineFamily => Str
 
-The engine family applies to MySQL and PostgreSQL for both RDS and
-Aurora.
+The kinds of databases that the proxy can connect to. This value
+determines which database network protocol the proxy recognizes when it
+interprets network traffic to and from the database. C<MYSQL> supports
+Aurora MySQL, RDS for MariaDB, and RDS for MySQL databases.
+C<POSTGRESQL> supports Aurora PostgreSQL and RDS for PostgreSQL
+databases. C<SQLSERVER> supports RDS for Microsoft SQL Server
+databases.
 
 
 =head2 IdleClientTimeout => Int

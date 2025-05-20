@@ -2,9 +2,11 @@
 package Paws::Athena::StartQueryExecution;
   use Moose;
   has ClientRequestToken => (is => 'ro', isa => 'Str');
+  has ExecutionParameters => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has QueryExecutionContext => (is => 'ro', isa => 'Paws::Athena::QueryExecutionContext');
   has QueryString => (is => 'ro', isa => 'Str', required => 1);
   has ResultConfiguration => (is => 'ro', isa => 'Paws::Athena::ResultConfiguration');
+  has ResultReuseConfiguration => (is => 'ro', isa => 'Paws::Athena::ResultReuseConfiguration');
   has WorkGroup => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
@@ -32,18 +34,33 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $athena = Paws->service('Athena');
     my $StartQueryExecutionOutput = $athena->StartQueryExecution(
-      QueryString           => 'MyQueryString',
-      ClientRequestToken    => 'MyIdempotencyToken',    # OPTIONAL
+      QueryString         => 'MyQueryString',
+      ClientRequestToken  => 'MyIdempotencyToken',    # OPTIONAL
+      ExecutionParameters => [
+        'MyExecutionParameter', ...                   # min: 1, max: 1024
+      ],    # OPTIONAL
       QueryExecutionContext => {
         Catalog  => 'MyCatalogNameString',    # min: 1, max: 256; OPTIONAL
         Database => 'MyDatabaseString',       # min: 1, max: 255; OPTIONAL
       },    # OPTIONAL
       ResultConfiguration => {
+        AclConfiguration => {
+          S3AclOption =>
+            'BUCKET_OWNER_FULL_CONTROL',    # values: BUCKET_OWNER_FULL_CONTROL
+
+        },    # OPTIONAL
         EncryptionConfiguration => {
           EncryptionOption => 'SSE_S3',      # values: SSE_S3, SSE_KMS, CSE_KMS
           KmsKey           => 'MyString',    # OPTIONAL
         },    # OPTIONAL
-        OutputLocation => 'MyString',    # OPTIONAL
+        ExpectedBucketOwner => 'MyAwsAccountId',    # min: 12, max: 12; OPTIONAL
+        OutputLocation      => 'MyResultOutputLocation',    # OPTIONAL
+      },    # OPTIONAL
+      ResultReuseConfiguration => {
+        ResultReuseByAgeConfiguration => {
+          Enabled         => 1,
+          MaxAgeInMinutes => 1,    # max: 10080; OPTIONAL
+        },    # OPTIONAL
       },    # OPTIONAL
       WorkGroup => 'MyWorkGroupName',    # OPTIONAL
     );
@@ -64,13 +81,25 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ath
 A unique case-sensitive string used to ensure the request to create the
 query is idempotent (executes only once). If another
 C<StartQueryExecution> request is received, the same response is
-returned and another query is not created. If a parameter has changed,
-for example, the C<QueryString>, an error is returned.
+returned and another query is not created. An error is returned if a
+parameter, such as C<QueryString>, has changed. A call to
+C<StartQueryExecution> that uses a previous client request token
+returns the same C<QueryExecutionId> even if the requester doesn't have
+permission on the tables specified in C<QueryString>.
 
-This token is listed as not required because AWS SDKs (for example the
-AWS SDK for Java) auto-generate the token for users. If you are not
-using the AWS SDK or the AWS CLI, you must provide this token or the
-action will fail.
+This token is listed as not required because Amazon Web Services SDKs
+(for example the Amazon Web Services SDK for Java) auto-generate the
+token for users. If you are not using the Amazon Web Services SDK or
+the Amazon Web Services CLI, you must provide this token or the action
+will fail.
+
+
+
+=head2 ExecutionParameters => ArrayRef[Str|Undef]
+
+A list of values for the parameters in a query. The values are applied
+sequentially to the parameters in the query in the order in which the
+parameters occur.
 
 
 
@@ -95,6 +124,12 @@ location. The workgroup settings override is specified in
 EnforceWorkGroupConfiguration (true/false) in the
 WorkGroupConfiguration. See
 WorkGroupConfiguration$EnforceWorkGroupConfiguration.
+
+
+
+=head2 ResultReuseConfiguration => L<Paws::Athena::ResultReuseConfiguration>
+
+Specifies the query result reuse behavior for the query.
 
 
 

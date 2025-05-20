@@ -40,7 +40,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/tra
 
 =head2 B<REQUIRED> ModelName => Str
 
-The name of the model you're choosing to delete.
+The name of the custom language model you want to delete. Model names
+are case sensitive.
 
 
 

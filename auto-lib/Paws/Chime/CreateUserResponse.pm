@@ -17,7 +17,7 @@ Paws::Chime::CreateUserResponse
 
 =head2 User => L<Paws::Chime::User>
 
-
+The user on the Amazon Chime account.
 
 
 =head2 _request_id => Str

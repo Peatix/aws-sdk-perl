@@ -34,19 +34,21 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::RAM::TagFil
 
 =head1 DESCRIPTION
 
-Used to filter information based on tags.
+A tag key and optional list of possible values that you can use to
+filter results for tagged resources.
 
 =head1 ATTRIBUTES
 
 
 =head2 TagKey => Str
 
-The tag key.
+The tag key. This must have a valid string value and can't be empty.
 
 
 =head2 TagValues => ArrayRef[Str|Undef]
 
-The tag values.
+A list of zero or more tag values. If no values are provided, then the
+filter matches any tag with the specified key, regardless of its value.
 
 
 

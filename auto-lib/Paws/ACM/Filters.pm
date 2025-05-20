@@ -4,6 +4,7 @@ package Paws::ACM::Filters;
   has ExtendedKeyUsage => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'extendedKeyUsage', traits => ['NameInRequest']);
   has KeyTypes => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'keyTypes', traits => ['NameInRequest']);
   has KeyUsage => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'keyUsage', traits => ['NameInRequest']);
+  has ManagedBy => (is => 'ro', isa => 'Str', request_name => 'managedBy', traits => ['NameInRequest']);
 
 1;
 
@@ -24,7 +25,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::ACM::Filters object:
 
-  $service_obj->Method(Att1 => { ExtendedKeyUsage => $value, ..., KeyUsage => $value  });
+  $service_obj->Method(Att1 => { ExtendedKeyUsage => $value, ..., ManagedBy => $value  });
 
 =head3 Results returned from an API call
 
@@ -53,13 +54,19 @@ Specify one or more algorithms that can be used to generate key pairs.
 Default filtering returns only C<RSA_1024> and C<RSA_2048> certificates
 that have at least one domain. To return other certificate types,
 provide the desired type signatures in a comma-separated list. For
-example, C<"keyTypes": ["RSA_2048,RSA_4096"]> returns both C<RSA_2048>
-and C<RSA_4096> certificates.
+example, C<"keyTypes": ["RSA_2048","RSA_4096"]> returns both
+C<RSA_2048> and C<RSA_4096> certificates.
 
 
 =head2 KeyUsage => ArrayRef[Str|Undef]
 
 Specify one or more KeyUsage extension values.
+
+
+=head2 ManagedBy => Str
+
+Identifies the Amazon Web Services service that manages the certificate
+issued by ACM.
 
 
 

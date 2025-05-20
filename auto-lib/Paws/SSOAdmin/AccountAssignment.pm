@@ -37,32 +37,33 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SSOAdmin::A
 =head1 DESCRIPTION
 
 The assignment that indicates a principal's limited access to a
-specified AWS account with a specified permission set.
+specified Amazon Web Services account with a specified permission set.
 
 The term I<principal> here refers to a user or group that is defined in
-AWS SSO.
+IAM Identity Center.
 
 =head1 ATTRIBUTES
 
 
 =head2 AccountId => Str
 
-The identifier of the AWS account.
+The identifier of the Amazon Web Services account.
 
 
 =head2 PermissionSetArn => Str
 
 The ARN of the permission set. For more information about ARNs, see
-Amazon Resource Names (ARNs) and AWS Service Namespaces in the I<AWS
-General Reference>.
+Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces
+in the I<Amazon Web Services General Reference>.
 
 
 =head2 PrincipalId => Str
 
-An identifier for an object in AWS SSO, such as a user or group.
-PrincipalIds are GUIDs (For example,
+An identifier for an object in IAM Identity Center, such as a user or
+group. PrincipalIds are GUIDs (For example,
 f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more information about
-PrincipalIds in AWS SSO, see the AWS SSO Identity Store API Reference.
+PrincipalIds in IAM Identity Center, see the IAM Identity Center
+Identity Store API Reference.
 
 
 =head2 PrincipalType => Str

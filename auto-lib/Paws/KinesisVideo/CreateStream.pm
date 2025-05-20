@@ -82,11 +82,11 @@ name.
 
 =head2 KmsKeyId => Str
 
-The ID of the AWS Key Management Service (AWS KMS) key that you want
-Kinesis Video Streams to use to encrypt stream data.
+The ID of the Key Management Service (KMS) key that you want Kinesis
+Video Streams to use to encrypt stream data.
 
 If no key ID is specified, the default, Kinesis Video-managed key
-(C<aws/kinesisvideo>) is used.
+(C<Amazon Web Services/kinesisvideo>) is used.
 
 For more information, see DescribeKey
 (https://docs.aws.amazon.com/kms/latest/APIReference/API_DescribeKey.html#API_DescribeKey_RequestParameters).

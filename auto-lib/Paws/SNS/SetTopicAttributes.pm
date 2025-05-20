@@ -52,6 +52,12 @@ request parameters that the C<SetTopicAttributes> action uses:
 
 =item *
 
+C<ApplicationSuccessFeedbackRoleArn> E<ndash> Indicates failed message
+delivery status for an Amazon SNS topic that is subscribed to a
+platform application endpoint.
+
+=item *
+
 C<DeliveryPolicy> E<ndash> The policy that defines how Amazon SNS
 retries failed deliveries to HTTP/S endpoints.
 
@@ -65,7 +71,164 @@ subscriptions.
 C<Policy> E<ndash> The policy that defines who can access your topic.
 By default, only the topic owner can publish or subscribe to the topic.
 
+=item *
+
+C<TracingConfig> E<ndash> Tracing mode of an Amazon SNS topic. By
+default C<TracingConfig> is set to C<PassThrough>, and the topic passes
+through the tracing header it receives from an Amazon SNS publisher to
+its subscriptions. If set to C<Active>, Amazon SNS will vend X-Ray
+segment data to topic owner account if the sampled flag in the tracing
+header is true. This is only supported on standard topics.
+
+=item *
+
+HTTP
+
+=over
+
+=item *
+
+C<HTTPSuccessFeedbackRoleArn> E<ndash> Indicates successful message
+delivery status for an Amazon SNS topic that is subscribed to an HTTP
+endpoint.
+
+=item *
+
+C<HTTPSuccessFeedbackSampleRate> E<ndash> Indicates percentage of
+successful messages to sample for an Amazon SNS topic that is
+subscribed to an HTTP endpoint.
+
+=item *
+
+C<HTTPFailureFeedbackRoleArn> E<ndash> Indicates failed message
+delivery status for an Amazon SNS topic that is subscribed to an HTTP
+endpoint.
+
 =back
+
+=item *
+
+Amazon Kinesis Data Firehose
+
+=over
+
+=item *
+
+C<FirehoseSuccessFeedbackRoleArn> E<ndash> Indicates successful message
+delivery status for an Amazon SNS topic that is subscribed to an Amazon
+Kinesis Data Firehose endpoint.
+
+=item *
+
+C<FirehoseSuccessFeedbackSampleRate> E<ndash> Indicates percentage of
+successful messages to sample for an Amazon SNS topic that is
+subscribed to an Amazon Kinesis Data Firehose endpoint.
+
+=item *
+
+C<FirehoseFailureFeedbackRoleArn> E<ndash> Indicates failed message
+delivery status for an Amazon SNS topic that is subscribed to an Amazon
+Kinesis Data Firehose endpoint.
+
+=back
+
+=item *
+
+Lambda
+
+=over
+
+=item *
+
+C<LambdaSuccessFeedbackRoleArn> E<ndash> Indicates successful message
+delivery status for an Amazon SNS topic that is subscribed to an Lambda
+endpoint.
+
+=item *
+
+C<LambdaSuccessFeedbackSampleRate> E<ndash> Indicates percentage of
+successful messages to sample for an Amazon SNS topic that is
+subscribed to an Lambda endpoint.
+
+=item *
+
+C<LambdaFailureFeedbackRoleArn> E<ndash> Indicates failed message
+delivery status for an Amazon SNS topic that is subscribed to an Lambda
+endpoint.
+
+=back
+
+=item *
+
+Platform application endpoint
+
+=over
+
+=item *
+
+C<ApplicationSuccessFeedbackRoleArn> E<ndash> Indicates successful
+message delivery status for an Amazon SNS topic that is subscribed to
+an Amazon Web Services application endpoint.
+
+=item *
+
+C<ApplicationSuccessFeedbackSampleRate> E<ndash> Indicates percentage
+of successful messages to sample for an Amazon SNS topic that is
+subscribed to an Amazon Web Services application endpoint.
+
+=item *
+
+C<ApplicationFailureFeedbackRoleArn> E<ndash> Indicates failed message
+delivery status for an Amazon SNS topic that is subscribed to an Amazon
+Web Services application endpoint.
+
+=back
+
+In addition to being able to configure topic attributes for message
+delivery status of notification messages sent to Amazon SNS application
+endpoints, you can also configure application attributes for the
+delivery status of push notification messages sent to push notification
+services.
+
+For example, For more information, see Using Amazon SNS Application
+Attributes for Message Delivery Status
+(https://docs.aws.amazon.com/sns/latest/dg/sns-msg-status.html).
+
+=item *
+
+Amazon SQS
+
+=over
+
+=item *
+
+C<SQSSuccessFeedbackRoleArn> E<ndash> Indicates successful message
+delivery status for an Amazon SNS topic that is subscribed to an Amazon
+SQS endpoint.
+
+=item *
+
+C<SQSSuccessFeedbackSampleRate> E<ndash> Indicates percentage of
+successful messages to sample for an Amazon SNS topic that is
+subscribed to an Amazon SQS endpoint.
+
+=item *
+
+C<SQSFailureFeedbackRoleArn> E<ndash> Indicates failed message delivery
+status for an Amazon SNS topic that is subscribed to an Amazon SQS
+endpoint.
+
+=back
+
+=back
+
+The E<lt>ENDPOINTE<gt>SuccessFeedbackRoleArn and
+E<lt>ENDPOINTE<gt>FailureFeedbackRoleArn attributes are used to give
+Amazon SNS write access to use CloudWatch Logs on your behalf. The
+E<lt>ENDPOINTE<gt>SuccessFeedbackSampleRate attribute is for specifying
+the sample rate percentage (0-100) of successfully delivered messages.
+After you configure the E<lt>ENDPOINTE<gt>FailureFeedbackRoleArn
+attribute, then all failed message deliveries generate CloudWatch Logs.
 
 The following attribute applies only to server-side-encryption
 (https://docs.aws.amazon.com/sns/latest/dg/sns-server-side-encryption.html):
@@ -82,12 +245,25 @@ For more examples, see KeyId
 (https://docs.aws.amazon.com/kms/latest/APIReference/API_DescribeKey.html#API_DescribeKey_RequestParameters)
 in the I<Key Management Service API Reference>.
 
+=item *
+
+C<SignatureVersion> E<ndash> The signature version corresponds to the
+hashing algorithm used while creating the signature of the
+notifications, subscription confirmations, or unsubscribe confirmation
+messages sent by Amazon SNS. By default, C<SignatureVersion> is set to
+C<1>.
+
 =back
 
 The following attribute applies only to FIFO topics
 (https://docs.aws.amazon.com/sns/latest/dg/sns-fifo-topics.html):
 
 =over
+
+=item *
+
+C<ArchivePolicy> E<ndash> The policy that sets the retention period for
+messages stored in the message archive of an Amazon SNS FIFO topic.
 
 =item *
 
@@ -111,6 +287,36 @@ of the message (but not the attributes of the message).
 
 (Optional) To override the generated value, you can specify a value for
 the C<MessageDeduplicationId> parameter for the C<Publish> action.
+
+=back
+
+=back
+
+=over
+
+=item *
+
+C<FifoThroughputScope> E<ndash> Enables higher throughput for your FIFO
+topic by adjusting the scope of deduplication. This attribute has two
+possible values:
+
+=over
+
+=item *
+
+C<Topic> E<ndash> The scope of message deduplication is across the
+entire topic. This is the default value and maintains existing
+behavior, with a maximum throughput of 3000 messages per second or 20MB
+per second, whichever comes first.
+
+=item *
+
+C<MessageGroup> E<ndash> The scope of deduplication is within each
+individual message group, which enables higher throughput per topic
+subject to regional quotas. For more information on quotas or to
+request an increase, see Amazon SNS service quotas
+(https://docs.aws.amazon.com/general/latest/gr/sns.html) in the Amazon
+Web Services General Reference.
 
 =back
 

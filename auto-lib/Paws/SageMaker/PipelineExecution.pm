@@ -6,6 +6,7 @@ package Paws::SageMaker::PipelineExecution;
   has FailureReason => (is => 'ro', isa => 'Str');
   has LastModifiedBy => (is => 'ro', isa => 'Paws::SageMaker::UserContext');
   has LastModifiedTime => (is => 'ro', isa => 'Str');
+  has ParallelismConfiguration => (is => 'ro', isa => 'Paws::SageMaker::ParallelismConfiguration');
   has PipelineArn => (is => 'ro', isa => 'Str');
   has PipelineExecutionArn => (is => 'ro', isa => 'Str');
   has PipelineExecutionDescription => (is => 'ro', isa => 'Str');
@@ -13,6 +14,7 @@ package Paws::SageMaker::PipelineExecution;
   has PipelineExecutionStatus => (is => 'ro', isa => 'Str');
   has PipelineExperimentConfig => (is => 'ro', isa => 'Paws::SageMaker::PipelineExperimentConfig');
   has PipelineParameters => (is => 'ro', isa => 'ArrayRef[Paws::SageMaker::Parameter]');
+  has SelectiveExecutionConfig => (is => 'ro', isa => 'Paws::SageMaker::SelectiveExecutionConfig');
 
 1;
 
@@ -33,7 +35,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::SageMaker::PipelineExecution object:
 
-  $service_obj->Method(Att1 => { CreatedBy => $value, ..., PipelineParameters => $value  });
+  $service_obj->Method(Att1 => { CreatedBy => $value, ..., SelectiveExecutionConfig => $value  });
 
 =head3 Results returned from an API call
 
@@ -74,6 +76,11 @@ If the execution failed, a message describing why.
 The time that the pipeline execution was last modified.
 
 
+=head2 ParallelismConfiguration => L<Paws::SageMaker::ParallelismConfiguration>
+
+The parallelism configuration applied to the pipeline execution.
+
+
 =head2 PipelineArn => Str
 
 The Amazon Resource Name (ARN) of the pipeline that was executed.
@@ -107,6 +114,11 @@ The status of the pipeline status.
 =head2 PipelineParameters => ArrayRef[L<Paws::SageMaker::Parameter>]
 
 Contains a list of pipeline parameters. This list can be empty.
+
+
+=head2 SelectiveExecutionConfig => L<Paws::SageMaker::SelectiveExecutionConfig>
+
+The selective execution configuration applied to the pipeline run.
 
 
 

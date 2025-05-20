@@ -106,9 +106,6 @@ timecodes embedded in your source that don't start at zero, make sure
 that you specify a start time that is after the first embedded
 timecode. For more information, see
 https://docs.aws.amazon.com/mediaconvert/latest/ug/setting-up-timecode.html
-Find job-wide and input timecode configuration settings in your JSON
-job settings specification at settingsE<gt>timecodeConfigE<gt>source
-and settingsE<gt>inputsE<gt>timecodeSource.
 
 
 

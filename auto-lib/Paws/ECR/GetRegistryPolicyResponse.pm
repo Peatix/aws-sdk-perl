@@ -22,7 +22,7 @@ The JSON text of the permissions policy for a registry.
 
 =head2 RegistryId => Str
 
-The ID of the registry.
+The registry ID associated with the request.
 
 
 =head2 _request_id => Str

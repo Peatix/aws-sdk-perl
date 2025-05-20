@@ -4,10 +4,12 @@ package Paws::Backup::BackupRuleInput;
   has CompletionWindowMinutes => (is => 'ro', isa => 'Int');
   has CopyActions => (is => 'ro', isa => 'ArrayRef[Paws::Backup::CopyAction]');
   has EnableContinuousBackup => (is => 'ro', isa => 'Bool');
+  has IndexActions => (is => 'ro', isa => 'ArrayRef[Paws::Backup::IndexAction]');
   has Lifecycle => (is => 'ro', isa => 'Paws::Backup::Lifecycle');
   has RecoveryPointTags => (is => 'ro', isa => 'Paws::Backup::Tags');
   has RuleName => (is => 'ro', isa => 'Str', required => 1);
   has ScheduleExpression => (is => 'ro', isa => 'Str');
+  has ScheduleExpressionTimezone => (is => 'ro', isa => 'Str');
   has StartWindowMinutes => (is => 'ro', isa => 'Int');
   has TargetBackupVaultName => (is => 'ro', isa => 'Str', required => 1);
 
@@ -49,7 +51,7 @@ Specifies a scheduled task used to back up a selection of resources.
 =head2 CompletionWindowMinutes => Int
 
 A value in minutes after a backup job is successfully started before it
-must be completed or it will be canceled by AWS Backup. This value is
+must be completed or it will be canceled by Backup. This value is
 optional.
 
 
@@ -61,57 +63,100 @@ copy operation.
 
 =head2 EnableContinuousBackup => Bool
 
-Specifies whether AWS Backup creates continuous backups. True causes
-AWS Backup to create continuous backups capable of point-in-time
-restore (PITR). False (or not specified) causes AWS Backup to create
-snapshot backups.
+Specifies whether Backup creates continuous backups. True causes Backup
+to create continuous backups capable of point-in-time restore (PITR).
+False (or not specified) causes Backup to create snapshot backups.
+
+
+=head2 IndexActions => ArrayRef[L<Paws::Backup::IndexAction>]
+
+There can up to one IndexAction in each BackupRule, as each backup can
+have 0 or 1 backup index associated with it.
+
+Within the array is ResourceTypes. Only 1 resource type will be
+accepted for each BackupRule. Valid values:
+
+=over
+
+=item *
+
+C<EBS> for Amazon Elastic Block Store
+
+=item *
+
+C<S3> for Amazon Simple Storage Service (Amazon S3)
+
+=back
+
 
 
 =head2 Lifecycle => L<Paws::Backup::Lifecycle>
 
 The lifecycle defines when a protected resource is transitioned to cold
-storage and when it expires. AWS Backup will transition and expire
-backups automatically according to the lifecycle that you define.
+storage and when it expires. Backup will transition and expire backups
+automatically according to the lifecycle that you define.
 
 Backups transitioned to cold storage must be stored in cold storage for
-a minimum of 90 days. Therefore, the E<ldquo>expire after daysE<rdquo>
-setting must be 90 days greater than the E<ldquo>transition to cold
-after daysE<rdquo> setting. The E<ldquo>transition to cold after
-daysE<rdquo> setting cannot be changed after a backup has been
-transitioned to cold.
-
-Only Amazon EFS file system backups can be transitioned to cold
+a minimum of 90 days. Therefore, the E<ldquo>retentionE<rdquo> setting
+must be 90 days greater than the E<ldquo>transition to cold after
+daysE<rdquo> setting. The E<ldquo>transition to cold after daysE<rdquo>
+setting cannot be changed after a backup has been transitioned to cold
 storage.
+
+Resource types that can transition to cold storage are listed in the
+Feature availability by resource
+(https://docs.aws.amazon.com/aws-backup/latest/devguide/backup-feature-availability.html#features-by-resource)
+table. Backup ignores this expression for other resource types.
+
+This parameter has a maximum value of 100 years (36,500 days).
 
 
 =head2 RecoveryPointTags => L<Paws::Backup::Tags>
 
-To help organize your resources, you can assign your own metadata to
-the resources that you create. Each tag is a key-value pair.
+The tags to assign to the resources.
 
 
 =head2 B<REQUIRED> RuleName => Str
 
-An optional display name for a backup rule.
+A display name for a backup rule. Must contain 1 to 50 alphanumeric or
+'-_.' characters.
 
 
 =head2 ScheduleExpression => Str
 
-A CRON expression specifying when AWS Backup initiates a backup job.
+A CRON expression in UTC specifying when Backup initiates a backup job.
+
+
+=head2 ScheduleExpressionTimezone => Str
+
+The timezone in which the schedule expression is set. By default,
+ScheduleExpressions are in UTC. You can modify this to a specified
+timezone.
 
 
 =head2 StartWindowMinutes => Int
 
 A value in minutes after a backup is scheduled before a job will be
-canceled if it doesn't start successfully. This value is optional.
+canceled if it doesn't start successfully. This value is optional. If
+this value is included, it must be at least 60 minutes to avoid errors.
+
+This parameter has a maximum value of 100 years (52,560,000 minutes).
+
+During the start window, the backup job status remains in C<CREATED>
+status until it has successfully begun or until the start window time
+has run out. If within the start window time Backup receives an error
+that allows the job to be retried, Backup will automatically retry to
+begin the job at least every 10 minutes until the backup successfully
+begins (the job status changes to C<RUNNING>) or until the job status
+changes to C<EXPIRED> (which is expected to occur when the start window
+time is over).
 
 
 =head2 B<REQUIRED> TargetBackupVaultName => Str
 
 The name of a logical container where backups are stored. Backup vaults
 are identified by names that are unique to the account used to create
-them and the AWS Region where they are created. They consist of
-lowercase letters, numbers, and hyphens.
+them and the Amazon Web Services Region where they are created.
 
 
 

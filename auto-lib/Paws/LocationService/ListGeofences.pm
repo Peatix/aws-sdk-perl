@@ -2,6 +2,7 @@
 package Paws::LocationService::ListGeofences;
   use Moose;
   has CollectionName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'CollectionName', required => 1);
+  has MaxResults => (is => 'ro', isa => 'Int');
   has NextToken => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
@@ -31,7 +32,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $geo = Paws->service('LocationService');
     my $ListGeofencesResponse = $geo->ListGeofences(
       CollectionName => 'MyResourceName',
-      NextToken      => 'MyToken',          # OPTIONAL
+      MaxResults     => 1,                  # OPTIONAL
+      NextToken      => 'MyLargeToken',     # OPTIONAL
     );
 
     # Results:
@@ -49,6 +51,15 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/geo
 =head2 B<REQUIRED> CollectionName => Str
 
 The name of the geofence collection storing the list of geofences.
+
+
+
+=head2 MaxResults => Int
+
+An optional limit for the number of geofences returned in a single
+call.
+
+Default value: C<100>
 
 
 

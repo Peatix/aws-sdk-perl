@@ -2,9 +2,12 @@
 package Paws::CloudFront::DistributionConfig;
   use Moose;
   has Aliases => (is => 'ro', isa => 'Paws::CloudFront::Aliases');
+  has AnycastIpListId => (is => 'ro', isa => 'Str');
   has CacheBehaviors => (is => 'ro', isa => 'Paws::CloudFront::CacheBehaviors');
   has CallerReference => (is => 'ro', isa => 'Str', required => 1);
   has Comment => (is => 'ro', isa => 'Str', required => 1);
+  has ConnectionMode => (is => 'ro', isa => 'Str');
+  has ContinuousDeploymentPolicyId => (is => 'ro', isa => 'Str');
   has CustomErrorResponses => (is => 'ro', isa => 'Paws::CloudFront::CustomErrorResponses');
   has DefaultCacheBehavior => (is => 'ro', isa => 'Paws::CloudFront::DefaultCacheBehavior', required => 1);
   has DefaultRootObject => (is => 'ro', isa => 'Str');
@@ -16,6 +19,8 @@ package Paws::CloudFront::DistributionConfig;
   has Origins => (is => 'ro', isa => 'Paws::CloudFront::Origins', required => 1);
   has PriceClass => (is => 'ro', isa => 'Str');
   has Restrictions => (is => 'ro', isa => 'Paws::CloudFront::Restrictions');
+  has Staging => (is => 'ro', isa => 'Bool');
+  has TenantConfig => (is => 'ro', isa => 'Paws::CloudFront::TenantConfig');
   has ViewerCertificate => (is => 'ro', isa => 'Paws::CloudFront::ViewerCertificate');
   has WebACLId => (is => 'ro', isa => 'Str');
 
@@ -60,6 +65,12 @@ A complex type that contains information about CNAMEs (alternate domain
 names), if any, for this distribution.
 
 
+=head2 AnycastIpListId => Str
+
+ID of the Anycast static IP list that is associated with the
+distribution.
+
+
 =head2 CacheBehaviors => L<Paws::CloudFront::CacheBehaviors>
 
 A complex type that contains zero or more C<CacheBehavior> elements.
@@ -81,8 +92,19 @@ C<DistributionAlreadyExists> error.
 
 =head2 B<REQUIRED> Comment => Str
 
-An optional comment to describe the distribution. The comment cannot be
-longer than 128 characters.
+A comment to describe the distribution. The comment cannot be longer
+than 128 characters.
+
+
+=head2 ConnectionMode => Str
+
+The connection mode to filter distributions by.
+
+
+=head2 ContinuousDeploymentPolicyId => Str
+
+The identifier of a continuous deployment policy. For more information,
+see C<CreateContinuousDeploymentPolicy>.
 
 
 =head2 CustomErrorResponses => L<Paws::CloudFront::CustomErrorResponses>
@@ -118,15 +140,20 @@ exactly one default cache behavior.
 
 =head2 DefaultRootObject => Str
 
-The object that you want CloudFront to request from your origin (for
-example, C<index.html>) when a viewer requests the root URL for your
-distribution (C<http://www.example.com>) instead of an object in your
-distribution (C<http://www.example.com/product-description.html>).
-Specifying a default root object avoids exposing the contents of your
-distribution.
+When a viewer requests the root URL for your distribution, the default
+root object is the object that you want CloudFront to request from your
+origin. For example, if your root URL is C<https://www.example.com>,
+you can specify CloudFront to return the C<index.html> file as the
+default root object. You can specify a default root object so that
+viewers see a specific file or object, instead of another object in
+your distribution (for example,
+C<https://www.example.com/product-description.html>). A default root
+object avoids exposing the contents of your distribution.
 
-Specify only the object name, for example, C<index.html>. Don't add a
-C</> before the object name.
+You can specify the object name or a path to the object name (for
+example, C<index.html> or C<exampleFolderName/index.html>). Your string
+can't begin with a forward slash (C</>). Only specify the object name
+or the path to the object.
 
 If you don't want to specify a default root object when you create a
 distribution, include an empty C<DefaultRootObject> element.
@@ -138,8 +165,8 @@ C<DefaultRootObject> element.
 To replace the default root object, update the distribution
 configuration and specify the new object.
 
-For more information about the default root object, see Creating a
-Default Root Object
+For more information about the default root object, see Specify a
+default root object
 (https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/DefaultRootObject.html)
 in the I<Amazon CloudFront Developer Guide>.
 
@@ -151,18 +178,23 @@ From this field, you can enable or disable the selected distribution.
 
 =head2 HttpVersion => Str
 
-(Optional) Specify the maximum HTTP version that you want viewers to
-use to communicate with CloudFront. The default value for new web
-distributions is http2. Viewers that don't support HTTP/2 automatically
-use an earlier HTTP version.
+(Optional) Specify the HTTP version(s) that you want viewers to use to
+communicate with CloudFront. The default value for new web
+distributions is C<http2>. Viewers that don't support HTTP/2
+automatically use an earlier HTTP version.
 
-For viewers and CloudFront to use HTTP/2, viewers must support TLS 1.2
-or later, and must support Server Name Identification (SNI).
+For viewers and CloudFront to use HTTP/2, viewers must support TLSv1.2
+or later, and must support Server Name Indication (SNI).
 
-In general, configuring CloudFront to communicate with viewers using
-HTTP/2 reduces latency. You can improve performance by optimizing for
-HTTP/2. For more information, do an Internet search for "http/2
-optimization."
+For viewers and CloudFront to use HTTP/3, viewers must support TLSv1.3
+and Server Name Indication (SNI). CloudFront supports HTTP/3 connection
+migration to allow the viewer to switch networks without losing
+connection. For more information about connection migration, see
+Connection Migration
+(https://www.rfc-editor.org/rfc/rfc9000.html#name-connection-migration)
+at RFC 9000. For more information about supported TLSv1.3 ciphers, see
+Supported protocols and ciphers between viewers and CloudFront
+(https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/secure-connections-supported-viewer-protocols-ciphers.html).
 
 
 =head2 IsIPV6Enabled => Bool
@@ -185,9 +217,10 @@ Creating a Signed URL Using a Custom Policy
 (https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-creating-signed-url-custom-policy.html)
 in the I<Amazon CloudFront Developer Guide>.
 
-If you're using an Amazon Route 53 alias resource record set to route
-traffic to your CloudFront distribution, you need to create a second
-alias resource record set when both of the following are true:
+If you're using an Route 53 Amazon Web Services Integration alias
+resource record set to route traffic to your CloudFront distribution,
+you need to create a second alias resource record set when both of the
+following are true:
 
 =over
 
@@ -204,12 +237,12 @@ You're using alternate domain names in the URLs for your objects
 For more information, see Routing Traffic to an Amazon CloudFront Web
 Distribution by Using Your Domain Name
 (https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-to-cloudfront-distribution.html)
-in the I<Amazon Route 53 Developer Guide>.
+in the I<Route 53 Amazon Web Services Integration Developer Guide>.
 
-If you created a CNAME resource record set, either with Amazon Route 53
-or with another DNS service, you don't need to make any changes. A
-CNAME record will route traffic to your distribution regardless of the
-IP address format of the viewer request.
+If you created a CNAME resource record set, either with Route 53 Amazon
+Web Services Integration or with another DNS service, you don't need to
+make any changes. A CNAME record will route traffic to your
+distribution regardless of the IP address format of the viewer request.
 
 
 =head2 Logging => L<Paws::CloudFront::LoggingConfig>
@@ -262,30 +295,41 @@ A complex type that identifies ways in which you want to restrict
 distribution of your content.
 
 
+=head2 Staging => Bool
+
+A Boolean that indicates whether this is a staging distribution. When
+this value is C<true>, this is a staging distribution. When this value
+is C<false>, this is not a staging distribution.
+
+
+=head2 TenantConfig => L<Paws::CloudFront::TenantConfig>
+
+A distribution tenant configuration.
+
+
 =head2 ViewerCertificate => L<Paws::CloudFront::ViewerCertificate>
 
-A complex type that determines the distributionE<rsquo>s SSL/TLS
-configuration for communicating with viewers.
+A complex type that determines the distribution's SSL/TLS configuration
+for communicating with viewers.
 
 
 =head2 WebACLId => Str
 
-A unique identifier that specifies the AWS WAF web ACL, if any, to
+A unique identifier that specifies the WAF web ACL, if any, to
 associate with this distribution. To specify a web ACL created using
-the latest version of AWS WAF, use the ACL ARN, for example
-C<arn:aws:wafv2:us-east-1:123456789012:global/webacl/ExampleWebACL/473e64fd-f30b-4765-81a0-62ad96dd167a>.
-To specify a web ACL created using AWS WAF Classic, use the ACL ID, for
-example C<473e64fd-f30b-4765-81a0-62ad96dd167a>.
+the latest version of WAF, use the ACL ARN, for example
+C<arn:aws:wafv2:us-east-1:123456789012:global/webacl/ExampleWebACL/a1b2c3d4-5678-90ab-cdef-EXAMPLE11111>.
+To specify a web ACL created using WAF Classic, use the ACL ID, for
+example C<a1b2c3d4-5678-90ab-cdef-EXAMPLE11111>.
 
-AWS WAF is a web application firewall that lets you monitor the HTTP
-and HTTPS requests that are forwarded to CloudFront, and lets you
-control access to your content. Based on conditions that you specify,
-such as the IP addresses that requests originate from or the values of
-query strings, CloudFront responds to requests either with the
-requested content or with an HTTP 403 status code (Forbidden). You can
-also configure CloudFront to return a custom error page when a request
-is blocked. For more information about AWS WAF, see the AWS WAF
-Developer Guide
+WAF is a web application firewall that lets you monitor the HTTP and
+HTTPS requests that are forwarded to CloudFront, and lets you control
+access to your content. Based on conditions that you specify, such as
+the IP addresses that requests originate from or the values of query
+strings, CloudFront responds to requests either with the requested
+content or with an HTTP 403 status code (Forbidden). You can also
+configure CloudFront to return a custom error page when a request is
+blocked. For more information about WAF, see the WAF Developer Guide
 (https://docs.aws.amazon.com/waf/latest/developerguide/what-is-aws-waf.html).
 
 

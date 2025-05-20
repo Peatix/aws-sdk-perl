@@ -49,8 +49,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/con
 
 =head2 B<REQUIRED> ConfigRuleNames => ArrayRef[Str|Undef]
 
-A list of AWS Config rule names of remediation configurations for which
-you want details.
+A list of Config rule names of remediation configurations for which you
+want details.
 
 
 

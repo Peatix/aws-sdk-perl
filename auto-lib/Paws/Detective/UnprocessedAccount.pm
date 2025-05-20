@@ -42,8 +42,8 @@ request could not be processed.
 
 =head2 AccountId => Str
 
-The AWS account identifier of the member account that was not
-processed.
+The Amazon Web Services account identifier of the member account that
+was not processed.
 
 
 =head2 Reason => Str

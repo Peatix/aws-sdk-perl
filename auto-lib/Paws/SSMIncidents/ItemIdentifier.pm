@@ -41,37 +41,7 @@ Details and type of a related item.
 
 =head2 B<REQUIRED> Type => Str
 
-The type of related item. Incident Manager supports the following
-types:
-
-=over
-
-=item *
-
-C<ANALYSIS>
-
-=item *
-
-C<INCIDENT>
-
-=item *
-
-C<METRIC>
-
-=item *
-
-C<PARENT>
-
-=item *
-
-C<ATTACHMENT>
-
-=item *
-
-C<OTHER>
-
-=back
-
+The type of related item.
 
 
 =head2 B<REQUIRED> Value => L<Paws::SSMIncidents::ItemValue>

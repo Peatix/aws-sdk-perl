@@ -17,7 +17,7 @@ Paws::ACMPCA::DescribeCertificateAuthorityResponse
 =head2 CertificateAuthority => L<Paws::ACMPCA::CertificateAuthority>
 
 A CertificateAuthority
-(https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_CertificateAuthority.html)
+(https://docs.aws.amazon.com/privateca/latest/APIReference/API_CertificateAuthority.html)
 structure that contains information about your private CA.
 
 

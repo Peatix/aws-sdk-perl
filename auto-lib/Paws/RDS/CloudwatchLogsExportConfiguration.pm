@@ -58,10 +58,56 @@ in the I<Amazon Aurora User Guide>.
 
 The list of log types to disable.
 
+The following values are valid for each DB engine:
+
+=over
+
+=item *
+
+Aurora MySQL - C<audit | error | general | slowquery>
+
+=item *
+
+Aurora PostgreSQL - C<postgresql>
+
+=item *
+
+RDS for MySQL - C<error | general | slowquery>
+
+=item *
+
+RDS for PostgreSQL - C<postgresql | upgrade>
+
+=back
+
+
 
 =head2 EnableLogTypes => ArrayRef[Str|Undef]
 
 The list of log types to enable.
+
+The following values are valid for each DB engine:
+
+=over
+
+=item *
+
+Aurora MySQL - C<audit | error | general | slowquery>
+
+=item *
+
+Aurora PostgreSQL - C<postgresql>
+
+=item *
+
+RDS for MySQL - C<error | general | slowquery>
+
+=item *
+
+RDS for PostgreSQL - C<postgresql | upgrade>
+
+=back
+
 
 
 

@@ -34,15 +34,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       $servicecatalog->CreateProvisioningArtifact(
       IdempotencyToken => 'MyIdempotencyToken',
       Parameters       => {
-        Info => {
-          'MyProvisioningArtifactInfoKey' => 'MyProvisioningArtifactInfoValue',
-        },    # min: 1, max: 100
         Description =>
           'MyProvisioningArtifactDescription',    # max: 8192; OPTIONAL
         DisableTemplateValidation => 1,           # OPTIONAL
+        Info                      => {
+          'MyProvisioningArtifactInfoKey' => 'MyProvisioningArtifactInfoValue',
+        },                                        # min: 1, max: 100; OPTIONAL
         Name => 'MyProvisioningArtifactName',     # max: 8192; OPTIONAL
         Type => 'CLOUD_FORMATION_TEMPLATE'
-        , # values: CLOUD_FORMATION_TEMPLATE, MARKETPLACE_AMI, MARKETPLACE_CAR; OPTIONAL
+        , # values: CLOUD_FORMATION_TEMPLATE, MARKETPLACE_AMI, MARKETPLACE_CAR, TERRAFORM_OPEN_SOURCE, TERRAFORM_CLOUD, EXTERNAL; OPTIONAL
       },
       ProductId      => 'MyId',
       AcceptLanguage => 'MyAcceptLanguage',    # OPTIONAL
@@ -67,10 +67,6 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ser
 The language code.
 
 =over
-
-=item *
-
-C<en> - English (default)
 
 =item *
 

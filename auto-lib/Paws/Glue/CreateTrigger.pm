@@ -3,6 +3,7 @@ package Paws::Glue::CreateTrigger;
   use Moose;
   has Actions => (is => 'ro', isa => 'ArrayRef[Paws::Glue::Action]', required => 1);
   has Description => (is => 'ro', isa => 'Str');
+  has EventBatchingCondition => (is => 'ro', isa => 'Paws::Glue::EventBatchingCondition');
   has Name => (is => 'ro', isa => 'Str', required => 1);
   has Predicate => (is => 'ro', isa => 'Paws::Glue::Predicate');
   has Schedule => (is => 'ro', isa => 'Str');
@@ -49,22 +50,26 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },
         ...
       ],
-      Name        => 'MyNameString',
-      Type        => 'SCHEDULED',
-      Description => 'MyDescriptionString',    # OPTIONAL
-      Predicate   => {
+      Name                   => 'MyNameString',
+      Type                   => 'SCHEDULED',
+      Description            => 'MyDescriptionString',    # OPTIONAL
+      EventBatchingCondition => {
+        BatchSize   => 1,    # min: 1, max: 100
+        BatchWindow => 1,    # min: 1, max: 900; OPTIONAL
+      },    # OPTIONAL
+      Predicate => {
         Conditions => [
           {
             CrawlState => 'RUNNING'
-            , # values: RUNNING, CANCELLING, CANCELLED, SUCCEEDED, FAILED; OPTIONAL
+            , # values: RUNNING, CANCELLING, CANCELLED, SUCCEEDED, FAILED, ERROR; OPTIONAL
             CrawlerName     => 'MyNameString',    # min: 1, max: 255; OPTIONAL
             JobName         => 'MyNameString',    # min: 1, max: 255; OPTIONAL
             LogicalOperator => 'EQUALS',          # values: EQUALS; OPTIONAL
             State           => 'STARTING'
-            , # values: STARTING, RUNNING, STOPPING, STOPPED, SUCCEEDED, FAILED, TIMEOUT; OPTIONAL
+            , # values: STARTING, RUNNING, STOPPING, STOPPED, SUCCEEDED, FAILED, TIMEOUT, ERROR, WAITING, EXPIRED; OPTIONAL
           },
           ...
-        ],    # OPTIONAL
+        ],    # max: 500; OPTIONAL
         Logical => 'AND',    # values: AND, ANY; OPTIONAL
       },    # OPTIONAL
       Schedule        => 'MyGenericString',    # OPTIONAL
@@ -95,6 +100,13 @@ The actions initiated by this trigger when it fires.
 =head2 Description => Str
 
 A description of the new trigger.
+
+
+
+=head2 EventBatchingCondition => L<Paws::Glue::EventBatchingCondition>
+
+Batch condition that must be met (specified number of events received
+or batch time window expired) before EventBridge event trigger fires.
 
 
 
@@ -145,7 +157,7 @@ developer guide.
 
 The type of the new trigger.
 
-Valid values are: C<"SCHEDULED">, C<"CONDITIONAL">, C<"ON_DEMAND">
+Valid values are: C<"SCHEDULED">, C<"CONDITIONAL">, C<"ON_DEMAND">, C<"EVENT">
 
 =head2 WorkflowName => Str
 

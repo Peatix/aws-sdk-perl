@@ -41,20 +41,19 @@ web requests. The byte match statement provides the bytes to search
 for, the location in requests that you want WAF to search, and other
 settings. The bytes to search for are typically a string that
 corresponds with ASCII characters. In the WAF console and the developer
-guide, this is refered to as a string match statement.
+guide, this is called a string match statement.
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> FieldToMatch => L<Paws::WAFV2::FieldToMatch>
 
-The part of a web request that you want WAF to inspect. For more
-information, see FieldToMatch.
+The part of the web request that you want WAF to inspect.
 
 
 =head2 B<REQUIRED> PositionalConstraint => Str
 
-The area within the portion of a web request that you want WAF to
+The area within the portion of the web request that you want WAF to
 search for C<SearchString>. Valid values include the following:
 
 B<CONTAINS>
@@ -107,7 +106,7 @@ part of the web request.
 
 A string value that you want WAF to search for. WAF searches only in
 the part of web requests that you designate for inspection in
-FieldToMatch. The maximum length of the value is 50 bytes.
+FieldToMatch. The maximum length of the value is 200 bytes.
 
 Valid values depend on the component that you specify for inspection in
 C<FieldToMatch>:
@@ -124,6 +123,29 @@ indicates the type of operation specified in the request.
 C<UriPath>: The value that you want WAF to search for in the URI path,
 for example, C</images/daily-ad.jpg>.
 
+=item *
+
+C<JA3Fingerprint>: Available for use with Amazon CloudFront
+distributions and Application Load Balancers. Match against the
+request's JA3 fingerprint. The JA3 fingerprint is a 32-character hash
+derived from the TLS Client Hello of an incoming request. This
+fingerprint serves as a unique identifier for the client's TLS
+configuration. You can use this choice only with a string match
+C<ByteMatchStatement> with the C<PositionalConstraint> set to
+C<EXACTLY>.
+
+You can obtain the JA3 fingerprint for client requests from the web ACL
+logs. If WAF is able to calculate the fingerprint, it includes it in
+the logs. For information about the logging fields, see Log fields
+(https://docs.aws.amazon.com/waf/latest/developerguide/logging-fields.html)
+in the I<WAF Developer Guide>.
+
+=item *
+
+C<HeaderOrder>: The list of header names to match for. WAF creates a
+string that contains the ordered list of header names, from the headers
+in the web request, and then matches against that string.
+
 =back
 
 If C<SearchString> includes alphabetic characters A-Z and a-z, note
@@ -132,7 +154,7 @@ that the value is case sensitive.
 B<If you're using the WAF API>
 
 Specify a base64-encoded version of the value. The maximum length of
-the value before you base64-encode it is 50 bytes.
+the value before you base64-encode it is 200 bytes.
 
 For example, suppose the value of C<Type> is C<HEADER> and the value of
 C<Data> is C<User-Agent>. If you want to search the C<User-Agent>
@@ -149,11 +171,14 @@ encodes the value.
 =head2 B<REQUIRED> TextTransformations => ArrayRef[L<Paws::WAFV2::TextTransformation>]
 
 Text transformations eliminate some of the unusual formatting that
-attackers use in web requests in an effort to bypass detection. If you
-specify one or more transformations in a rule statement, WAF performs
-all transformations on the content of the request component identified
-by C<FieldToMatch>, starting from the lowest priority setting, before
-inspecting the content for a match.
+attackers use in web requests in an effort to bypass detection. Text
+transformations are used in rule match statements, to transform the
+C<FieldToMatch> request component before inspecting it, and they're
+used in rate-based rule statements, to transform request components
+before using them as custom aggregation keys. If you specify one or
+more transformations to apply, WAF performs all transformations on the
+specified content, starting from the lowest priority setting, and then
+uses the transformed component contents.
 
 
 

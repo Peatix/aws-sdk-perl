@@ -28,7 +28,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $discovery = Paws->service('Discovery');
     my $DescribeConfigurationsResponse = $discovery->DescribeConfigurations(
-      ConfigurationIds => [ 'MyConfigurationId', ... ],
+      ConfigurationIds => [
+        'MyConfigurationId', ...    # max: 200
+      ],
 
     );
 

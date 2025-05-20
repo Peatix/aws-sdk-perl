@@ -18,13 +18,13 @@ Paws::AuditManager::BatchAssociateAssessmentReportEvidenceResponse
 
 =head2 Errors => ArrayRef[L<Paws::AuditManager::AssessmentReportEvidenceError>]
 
-A list of errors returned by the
-C<BatchAssociateAssessmentReportEvidence> API.
+A list of errors that the C<BatchAssociateAssessmentReportEvidence> API
+returned.
 
 
 =head2 EvidenceIds => ArrayRef[Str|Undef]
 
-The identifier for the evidence.
+The list of evidence identifiers.
 
 
 =head2 _request_id => Str

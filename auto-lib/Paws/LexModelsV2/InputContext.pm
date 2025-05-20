@@ -33,8 +33,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::LexModelsV2
 
 =head1 DESCRIPTION
 
-The name of a context that must be active for an intent to be selected
-by Amazon Lex.
+A context that must be active for an intent to be selected by Amazon
+Lex.
 
 =head1 ATTRIBUTES
 

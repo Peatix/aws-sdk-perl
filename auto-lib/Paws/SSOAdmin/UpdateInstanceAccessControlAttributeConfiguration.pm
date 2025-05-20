@@ -64,7 +64,8 @@ Updates the attributes for your ABAC configuration.
 
 =head2 B<REQUIRED> InstanceArn => Str
 
-The ARN of the SSO instance under which the operation will be executed.
+The ARN of the IAM Identity Center instance under which the operation
+will be executed.
 
 
 

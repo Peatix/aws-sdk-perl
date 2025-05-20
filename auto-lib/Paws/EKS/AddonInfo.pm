@@ -3,6 +3,9 @@ package Paws::EKS::AddonInfo;
   use Moose;
   has AddonName => (is => 'ro', isa => 'Str', request_name => 'addonName', traits => ['NameInRequest']);
   has AddonVersions => (is => 'ro', isa => 'ArrayRef[Paws::EKS::AddonVersionInfo]', request_name => 'addonVersions', traits => ['NameInRequest']);
+  has MarketplaceInformation => (is => 'ro', isa => 'Paws::EKS::MarketplaceInformation', request_name => 'marketplaceInformation', traits => ['NameInRequest']);
+  has Owner => (is => 'ro', isa => 'Str', request_name => 'owner', traits => ['NameInRequest']);
+  has Publisher => (is => 'ro', isa => 'Str', request_name => 'publisher', traits => ['NameInRequest']);
   has Type => (is => 'ro', isa => 'Str', request_name => 'type', traits => ['NameInRequest']);
 
 1;
@@ -47,8 +50,23 @@ The name of the add-on.
 
 =head2 AddonVersions => ArrayRef[L<Paws::EKS::AddonVersionInfo>]
 
-An object that represents information about available add-on versions
-and compatible Kubernetes versions.
+An object representing information about available add-on versions and
+compatible Kubernetes versions.
+
+
+=head2 MarketplaceInformation => L<Paws::EKS::MarketplaceInformation>
+
+Information about the add-on from the Amazon Web Services Marketplace.
+
+
+=head2 Owner => Str
+
+The owner of the add-on.
+
+
+=head2 Publisher => Str
+
+The publisher of the add-on.
 
 
 =head2 Type => Str

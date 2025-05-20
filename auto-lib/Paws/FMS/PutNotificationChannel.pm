@@ -43,14 +43,14 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/fms
 =head2 B<REQUIRED> SnsRoleName => Str
 
 The Amazon Resource Name (ARN) of the IAM role that allows Amazon SNS
-to record AWS Firewall Manager activity.
+to record Firewall Manager activity.
 
 
 
 =head2 B<REQUIRED> SnsTopicArn => Str
 
 The Amazon Resource Name (ARN) of the SNS topic that collects
-notifications from AWS Firewall Manager.
+notifications from Firewall Manager.
 
 
 

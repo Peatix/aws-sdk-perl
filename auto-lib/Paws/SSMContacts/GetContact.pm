@@ -27,10 +27,28 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $ssm-contacts = Paws->service('SSMContacts');
-    my $GetContactResult = $ssm -contacts->GetContact(
-      ContactId => 'MySsmContactsArn',
+    # Example 1: To describe a contact plan
+    # The following get-contact example describes a contact.
+    my $GetContactResult =
+      $ssm -
+      contacts->GetContact( 'ContactId' =>
+        'arn:aws:ssm-contacts:us-east-2:111122223333:contact/akuam' );
 
-    );
+    # Results:
+    my $Alias       = $GetContactResult->Alias;
+    my $ContactArn  = $GetContactResult->ContactArn;
+    my $DisplayName = $GetContactResult->DisplayName;
+    my $Plan        = $GetContactResult->Plan;
+    my $Type        = $GetContactResult->Type;
+
+    # Returns a L<Paws::SSMContacts::GetContactResult> object.
+    # Example 2: To describe an escalation plan
+    # The following get-contact example describes an escalation plan.
+    my $GetContactResult =
+      $ssm -
+      contacts->GetContact( 'ContactId' =>
+        'arn:aws:ssm-contacts:us-east-2:111122223333:contact/example_escalation'
+      );
 
     # Results:
     my $Alias       = $GetContactResult->Alias;

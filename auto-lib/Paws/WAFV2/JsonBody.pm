@@ -4,6 +4,7 @@ package Paws::WAFV2::JsonBody;
   has InvalidFallbackBehavior => (is => 'ro', isa => 'Str');
   has MatchPattern => (is => 'ro', isa => 'Paws::WAFV2::JsonMatchPattern', required => 1);
   has MatchScope => (is => 'ro', isa => 'Str', required => 1);
+  has OversizeHandling => (is => 'ro', isa => 'Str');
 
 1;
 
@@ -24,7 +25,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::WAFV2::JsonBody object:
 
-  $service_obj->Method(Att1 => { InvalidFallbackBehavior => $value, ..., MatchScope => $value  });
+  $service_obj->Method(Att1 => { InvalidFallbackBehavior => $value, ..., OversizeHandling => $value  });
 
 =head3 Results returned from an API call
 
@@ -35,14 +36,24 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::WAFV2::Json
 
 =head1 DESCRIPTION
 
-The body of a web request, inspected as JSON. The body immediately
-follows the request headers. This is used in the FieldToMatch
-specification.
+Inspect the body of the web request as JSON. The body immediately
+follows the request headers.
+
+This is used to indicate the web request component to inspect, in the
+FieldToMatch specification.
 
 Use the specifications in this object to indicate which parts of the
 JSON body to inspect using the rule's inspection criteria. WAF inspects
 only the parts of the JSON that result from the matches that you
 indicate.
+
+Example JSON: C<"JsonBody": { "MatchPattern": { "All": {} },
+"MatchScope": "ALL" }>
+
+For additional information about this request component option, see
+JSON body
+(https://docs.aws.amazon.com/waf/latest/developerguide/waf-rule-statement-fields-list.html#waf-rule-statement-request-component-json-body)
+in the I<WAF Developer Guide>.
 
 =head1 ATTRIBUTES
 
@@ -74,30 +85,11 @@ C<NO_MATCH> - Treat the web request as not matching the rule statement.
 If you don't provide this setting, WAF parses and evaluates the content
 only up to the first parsing failure that it encounters.
 
-WAF does its best to parse the entire JSON body, but might be forced to
-stop for reasons such as characters that aren't valid, duplicate keys,
-truncation, and any content whose root node isn't an object or an
-array.
-
-WAF parses the JSON in the following examples as two valid key, value
-pairs:
-
-=over
-
-=item *
-
-Missing comma: C<{"key1":"value1""key2":"value2"}>
-
-=item *
-
-Missing colon: C<{"key1":"value1","key2""value2"}>
-
-=item *
-
-Extra colons: C<{"key1"::"value1","key2""value2"}>
-
-=back
-
+WAF parsing doesn't fully validate the input JSON string, so parsing
+can succeed even for invalid JSON. When parsing succeeds, WAF doesn't
+apply the fallback behavior. For more information, see JSON body
+(https://docs.aws.amazon.com/waf/latest/developerguide/waf-rule-statement-fields-list.html#waf-rule-statement-request-component-json-body)
+in the I<WAF Developer Guide>.
 
 
 =head2 B<REQUIRED> MatchPattern => L<Paws::WAFV2::JsonMatchPattern>
@@ -109,7 +101,69 @@ these pattern matches against the rule inspection criteria.
 =head2 B<REQUIRED> MatchScope => Str
 
 The parts of the JSON to match against using the C<MatchPattern>. If
-you specify C<All>, WAF matches against keys and values.
+you specify C<ALL>, WAF matches against keys and values.
+
+C<All> does not require a match to be found in the keys and a match to
+be found in the values. It requires a match to be found in the keys or
+the values or both. To require a match in the keys and in the values,
+use a logical C<AND> statement to combine two match rules, one that
+inspects the keys and another that inspects the values.
+
+
+=head2 OversizeHandling => Str
+
+What WAF should do if the body is larger than WAF can inspect.
+
+WAF does not support inspecting the entire contents of the web request
+body if the body exceeds the limit for the resource type. When a web
+request body is larger than the limit, the underlying host service only
+forwards the contents that are within the limit to WAF for inspection.
+
+=over
+
+=item *
+
+For Application Load Balancer and AppSync, the limit is fixed at 8 KB
+(8,192 bytes).
+
+=item *
+
+For CloudFront, API Gateway, Amazon Cognito, App Runner, and Verified
+Access, the default limit is 16 KB (16,384 bytes), and you can increase
+the limit for each resource type in the web ACL C<AssociationConfig>,
+for additional processing fees.
+
+=item *
+
+For Amplify, use the CloudFront limit.
+
+=back
+
+The options for oversize handling are the following:
+
+=over
+
+=item *
+
+C<CONTINUE> - Inspect the available body contents normally, according
+to the rule inspection criteria.
+
+=item *
+
+C<MATCH> - Treat the web request as matching the rule statement. WAF
+applies the rule action to the request.
+
+=item *
+
+C<NO_MATCH> - Treat the web request as not matching the rule statement.
+
+=back
+
+You can combine the C<MATCH> or C<NO_MATCH> settings for oversize
+handling with your rule and web ACL action settings, so that you block
+any request whose body is over the limit.
+
+Default: C<CONTINUE>
 
 
 

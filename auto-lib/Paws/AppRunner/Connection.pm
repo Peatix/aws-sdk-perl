@@ -37,7 +37,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AppRunner::
 
 =head1 DESCRIPTION
 
-Describes an AWS App Runner connection resource.
+Describes an App Runner connection resource.
 
 =head1 ATTRIBUTES
 

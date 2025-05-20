@@ -3,6 +3,7 @@ package Paws::LexModelsV2::AudioLogSetting;
   use Moose;
   has Destination => (is => 'ro', isa => 'Paws::LexModelsV2::AudioLogDestination', request_name => 'destination', traits => ['NameInRequest'], required => 1);
   has Enabled => (is => 'ro', isa => 'Bool', request_name => 'enabled', traits => ['NameInRequest'], required => 1);
+  has SelectiveLoggingEnabled => (is => 'ro', isa => 'Bool', request_name => 'selectiveLoggingEnabled', traits => ['NameInRequest']);
 
 1;
 
@@ -23,7 +24,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::LexModelsV2::AudioLogSetting object:
 
-  $service_obj->Method(Att1 => { Destination => $value, ..., Enabled => $value  });
+  $service_obj->Method(Att1 => { Destination => $value, ..., SelectiveLoggingEnabled => $value  });
 
 =head3 Results returned from an API call
 
@@ -49,6 +50,11 @@ the audio file is stored.
 =head2 B<REQUIRED> Enabled => Bool
 
 Determines whether audio logging in enabled for the bot.
+
+
+=head2 SelectiveLoggingEnabled => Bool
+
+The option to enable selective conversation log capture for audio.
 
 
 

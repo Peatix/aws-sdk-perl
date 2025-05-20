@@ -53,7 +53,7 @@ The name of the Auto Scaling group.
 
 =head2 LifecycleHookNames => ArrayRef[Str|Undef]
 
-The names of one or more lifecycle hooks. If you omit this parameter,
+The names of one or more lifecycle hooks. If you omit this property,
 all lifecycle hooks are described.
 
 

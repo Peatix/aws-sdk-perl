@@ -51,11 +51,217 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/rds
 
 The name of the DB parameter group family.
 
+Valid Values:
+
+=over
+
+=item *
+
+C<aurora-mysql5.7>
+
+=item *
+
+C<aurora-mysql8.0>
+
+=item *
+
+C<aurora-postgresql10>
+
+=item *
+
+C<aurora-postgresql11>
+
+=item *
+
+C<aurora-postgresql12>
+
+=item *
+
+C<aurora-postgresql13>
+
+=item *
+
+C<aurora-postgresql14>
+
+=item *
+
+C<custom-oracle-ee-19>
+
+=item *
+
+C<custom-oracle-ee-cdb-19>
+
+=item *
+
+C<db2-ae>
+
+=item *
+
+C<db2-se>
+
+=item *
+
+C<mariadb10.2>
+
+=item *
+
+C<mariadb10.3>
+
+=item *
+
+C<mariadb10.4>
+
+=item *
+
+C<mariadb10.5>
+
+=item *
+
+C<mariadb10.6>
+
+=item *
+
+C<mysql5.7>
+
+=item *
+
+C<mysql8.0>
+
+=item *
+
+C<oracle-ee-19>
+
+=item *
+
+C<oracle-ee-cdb-19>
+
+=item *
+
+C<oracle-ee-cdb-21>
+
+=item *
+
+C<oracle-se2-19>
+
+=item *
+
+C<oracle-se2-cdb-19>
+
+=item *
+
+C<oracle-se2-cdb-21>
+
+=item *
+
+C<postgres10>
+
+=item *
+
+C<postgres11>
+
+=item *
+
+C<postgres12>
+
+=item *
+
+C<postgres13>
+
+=item *
+
+C<postgres14>
+
+=item *
+
+C<sqlserver-ee-11.0>
+
+=item *
+
+C<sqlserver-ee-12.0>
+
+=item *
+
+C<sqlserver-ee-13.0>
+
+=item *
+
+C<sqlserver-ee-14.0>
+
+=item *
+
+C<sqlserver-ee-15.0>
+
+=item *
+
+C<sqlserver-ex-11.0>
+
+=item *
+
+C<sqlserver-ex-12.0>
+
+=item *
+
+C<sqlserver-ex-13.0>
+
+=item *
+
+C<sqlserver-ex-14.0>
+
+=item *
+
+C<sqlserver-ex-15.0>
+
+=item *
+
+C<sqlserver-se-11.0>
+
+=item *
+
+C<sqlserver-se-12.0>
+
+=item *
+
+C<sqlserver-se-13.0>
+
+=item *
+
+C<sqlserver-se-14.0>
+
+=item *
+
+C<sqlserver-se-15.0>
+
+=item *
+
+C<sqlserver-web-11.0>
+
+=item *
+
+C<sqlserver-web-12.0>
+
+=item *
+
+C<sqlserver-web-13.0>
+
+=item *
+
+C<sqlserver-web-14.0>
+
+=item *
+
+C<sqlserver-web-15.0>
+
+=back
+
+
 
 
 =head2 Filters => ArrayRef[L<Paws::RDS::Filter>]
 
-This parameter isn't currently supported.
+A filter that specifies one or more parameters to describe.
+
+The only supported filter is C<parameter-name>. The results list only
+includes information about the parameters with these names.
 
 
 

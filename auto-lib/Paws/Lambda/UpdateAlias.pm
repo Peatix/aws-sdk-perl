@@ -71,7 +71,7 @@ A description of the alias.
 
 =head2 B<REQUIRED> FunctionName => Str
 
-The name of the Lambda function.
+The name or ARN of the Lambda function.
 
 B<Name formats>
 

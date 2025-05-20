@@ -2,6 +2,11 @@
 package Paws::GuardDuty::FindingStatistics;
   use Moose;
   has CountBySeverity => (is => 'ro', isa => 'Paws::GuardDuty::CountBySeverity', request_name => 'countBySeverity', traits => ['NameInRequest']);
+  has GroupedByAccount => (is => 'ro', isa => 'ArrayRef[Paws::GuardDuty::AccountStatistics]', request_name => 'groupedByAccount', traits => ['NameInRequest']);
+  has GroupedByDate => (is => 'ro', isa => 'ArrayRef[Paws::GuardDuty::DateStatistics]', request_name => 'groupedByDate', traits => ['NameInRequest']);
+  has GroupedByFindingType => (is => 'ro', isa => 'ArrayRef[Paws::GuardDuty::FindingTypeStatistics]', request_name => 'groupedByFindingType', traits => ['NameInRequest']);
+  has GroupedByResource => (is => 'ro', isa => 'ArrayRef[Paws::GuardDuty::ResourceStatistics]', request_name => 'groupedByResource', traits => ['NameInRequest']);
+  has GroupedBySeverity => (is => 'ro', isa => 'ArrayRef[Paws::GuardDuty::SeverityStatistics]', request_name => 'groupedBySeverity', traits => ['NameInRequest']);
 
 1;
 
@@ -22,7 +27,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::GuardDuty::FindingStatistics object:
 
-  $service_obj->Method(Att1 => { CountBySeverity => $value, ..., CountBySeverity => $value  });
+  $service_obj->Method(Att1 => { CountBySeverity => $value, ..., GroupedBySeverity => $value  });
 
 =head3 Results returned from an API call
 
@@ -40,7 +45,43 @@ Contains information about finding statistics.
 
 =head2 CountBySeverity => L<Paws::GuardDuty::CountBySeverity>
 
-Represents a map of severity to count statistics for a set of findings.
+Represents a list of map of severity to count statistics for a set of
+findings.
+
+
+=head2 GroupedByAccount => ArrayRef[L<Paws::GuardDuty::AccountStatistics>]
+
+Represents a list of map of accounts with a findings count associated
+with each account.
+
+
+=head2 GroupedByDate => ArrayRef[L<Paws::GuardDuty::DateStatistics>]
+
+Represents a list of map of dates with a count of total findings
+generated on each date per severity level.
+
+
+=head2 GroupedByFindingType => ArrayRef[L<Paws::GuardDuty::FindingTypeStatistics>]
+
+Represents a list of map of finding types with a count of total
+findings generated for each type.
+
+Based on the C<orderBy> parameter, this request returns either the most
+occurring finding types or the least occurring finding types. If the
+C<orderBy> parameter is C<ASC>, this will represent the least occurring
+finding types in your account; otherwise, this will represent the most
+occurring finding types. The default value of C<orderBy> is C<DESC>.
+
+
+=head2 GroupedByResource => ArrayRef[L<Paws::GuardDuty::ResourceStatistics>]
+
+Represents a list of map of top resources with a count of total
+findings.
+
+
+=head2 GroupedBySeverity => ArrayRef[L<Paws::GuardDuty::SeverityStatistics>]
+
+Represents a list of map of total findings for each severity level.
 
 
 

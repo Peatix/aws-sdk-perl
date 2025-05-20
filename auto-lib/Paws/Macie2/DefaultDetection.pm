@@ -36,7 +36,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Macie2::Def
 =head1 DESCRIPTION
 
 Provides information about a type of sensitive data that was detected
-by managed data identifiers and produced a sensitive data finding.
+by a managed data identifier and produced a sensitive data finding.
 
 =head1 ATTRIBUTES
 

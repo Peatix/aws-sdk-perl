@@ -44,8 +44,9 @@ operation.
 
 =head2 EventTypeCategories => ArrayRef[Str|Undef]
 
-A list of event type category codes (C<issue>, C<scheduledChange>, or
-C<accountNotification>).
+A list of event type category codes. Possible values are C<issue>,
+C<accountNotification>, or C<scheduledChange>. Currently, the
+C<investigation> value isn't supported at this time.
 
 
 =head2 EventTypeCodes => ArrayRef[Str|Undef]
@@ -55,8 +56,8 @@ A list of event type codes.
 
 =head2 Services => ArrayRef[Str|Undef]
 
-The AWS services associated with the event. For example, C<EC2>,
-C<RDS>.
+The Amazon Web Services services associated with the event. For
+example, C<EC2>, C<RDS>.
 
 
 

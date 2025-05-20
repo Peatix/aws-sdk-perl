@@ -39,8 +39,11 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Forecast::D
 =head1 DESCRIPTION
 
 Provides a summary of the dataset properties used in the ListDatasets
+(https://docs.aws.amazon.com/forecast/latest/dg/API_ListDatasets.html)
 operation. To get the complete set of properties, call the
-DescribeDataset operation, and provide the C<DatasetArn>.
+DescribeDataset
+(https://docs.aws.amazon.com/forecast/latest/dg/API_DescribeDataset.html)
+operation, and provide the C<DatasetArn>.
 
 =head1 ATTRIBUTES
 
@@ -75,8 +78,10 @@ The domain associated with the dataset.
 When you create a dataset, C<LastModificationTime> is the same as
 C<CreationTime>. While data is being imported to the dataset,
 C<LastModificationTime> is the current time of the C<ListDatasets>
-call. After a CreateDatasetImportJob operation has finished,
-C<LastModificationTime> is when the import job completed or failed.
+call. After a CreateDatasetImportJob
+(https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDatasetImportJob.html)
+operation has finished, C<LastModificationTime> is when the import job
+completed or failed.
 
 
 

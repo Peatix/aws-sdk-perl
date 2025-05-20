@@ -5,6 +5,7 @@ package Paws::DynamoDB::TableDescription;
   has AttributeDefinitions => (is => 'ro', isa => 'ArrayRef[Paws::DynamoDB::AttributeDefinition]');
   has BillingModeSummary => (is => 'ro', isa => 'Paws::DynamoDB::BillingModeSummary');
   has CreationDateTime => (is => 'ro', isa => 'Str');
+  has DeletionProtectionEnabled => (is => 'ro', isa => 'Bool');
   has GlobalSecondaryIndexes => (is => 'ro', isa => 'ArrayRef[Paws::DynamoDB::GlobalSecondaryIndexDescription]');
   has GlobalTableVersion => (is => 'ro', isa => 'Str');
   has ItemCount => (is => 'ro', isa => 'Int');
@@ -12,16 +13,20 @@ package Paws::DynamoDB::TableDescription;
   has LatestStreamArn => (is => 'ro', isa => 'Str');
   has LatestStreamLabel => (is => 'ro', isa => 'Str');
   has LocalSecondaryIndexes => (is => 'ro', isa => 'ArrayRef[Paws::DynamoDB::LocalSecondaryIndexDescription]');
+  has MultiRegionConsistency => (is => 'ro', isa => 'Str');
+  has OnDemandThroughput => (is => 'ro', isa => 'Paws::DynamoDB::OnDemandThroughput');
   has ProvisionedThroughput => (is => 'ro', isa => 'Paws::DynamoDB::ProvisionedThroughputDescription');
   has Replicas => (is => 'ro', isa => 'ArrayRef[Paws::DynamoDB::ReplicaDescription]');
   has RestoreSummary => (is => 'ro', isa => 'Paws::DynamoDB::RestoreSummary');
   has SSEDescription => (is => 'ro', isa => 'Paws::DynamoDB::SSEDescription');
   has StreamSpecification => (is => 'ro', isa => 'Paws::DynamoDB::StreamSpecification');
   has TableArn => (is => 'ro', isa => 'Str');
+  has TableClassSummary => (is => 'ro', isa => 'Paws::DynamoDB::TableClassSummary');
   has TableId => (is => 'ro', isa => 'Str');
   has TableName => (is => 'ro', isa => 'Str');
   has TableSizeBytes => (is => 'ro', isa => 'Int');
   has TableStatus => (is => 'ro', isa => 'Str');
+  has WarmThroughput => (is => 'ro', isa => 'Paws::DynamoDB::TableWarmThroughputDescription');
 
 1;
 
@@ -42,7 +47,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::DynamoDB::TableDescription object:
 
-  $service_obj->Method(Att1 => { ArchivalSummary => $value, ..., TableStatus => $value  });
+  $service_obj->Method(Att1 => { ArchivalSummary => $value, ..., WarmThroughput => $value  });
 
 =head3 Results returned from an API call
 
@@ -93,6 +98,12 @@ Contains the details for the read/write capacity mode.
 
 The date and time when the table was created, in UNIX epoch time
 (http://www.epochconverter.com/) format.
+
+
+=head2 DeletionProtectionEnabled => Bool
+
+Indicates whether deletion protection is enabled (true) or disabled
+(false) on the table.
 
 
 =head2 GlobalSecondaryIndexes => ArrayRef[L<Paws::DynamoDB::GlobalSecondaryIndexDescription>]
@@ -202,9 +213,12 @@ C<ALL> - All of the table attributes are projected into the index.
 C<NonKeyAttributes> - A list of one or more non-key attribute names
 that are projected into the secondary index. The total count of
 attributes provided in C<NonKeyAttributes>, summed across all of the
-secondary indexes, must not exceed 20. If you project the same
+secondary indexes, must not exceed 100. If you project the same
 attribute into two different indexes, this counts as two distinct
-attributes when determining the total.
+attributes when determining the total. This limit only applies when you
+specify the ProjectionType of C<INCLUDE>. You still can specify the
+ProjectionType of C<ALL> to project all attributes from the source
+table, even if the table has more than 100 attributes.
 
 =back
 
@@ -224,7 +238,7 @@ will be returned.
 
 Represents the version of global tables
 (https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GlobalTables.html)
-in use, if the table is replicated across AWS Regions.
+in use, if the table is replicated across Amazon Web Services Regions.
 
 
 =head2 ItemCount => Int
@@ -297,7 +311,7 @@ three elements is guaranteed to be unique:
 
 =item *
 
-AWS customer ID
+Amazon Web Services customer ID
 
 =item *
 
@@ -368,9 +382,12 @@ C<ALL> - All of the table attributes are projected into the index.
 C<NonKeyAttributes> - A list of one or more non-key attribute names
 that are projected into the secondary index. The total count of
 attributes provided in C<NonKeyAttributes>, summed across all of the
-secondary indexes, must not exceed 20. If you project the same
+secondary indexes, must not exceed 100. If you project the same
 attribute into two different indexes, this counts as two distinct
-attributes when determining the total.
+attributes when determining the total. This limit only applies when you
+specify the ProjectionType of C<INCLUDE>. You still can specify the
+ProjectionType of C<ALL> to project all attributes from the source
+table, even if the table has more than 100 attributes.
 
 =back
 
@@ -390,6 +407,40 @@ not be reflected in this value.
 
 If the table is in the C<DELETING> state, no information about indexes
 will be returned.
+
+
+=head2 MultiRegionConsistency => Str
+
+Indicates one of the following consistency modes for a global table:
+
+=over
+
+=item *
+
+C<EVENTUAL>: Indicates that the global table is configured for
+multi-Region eventual consistency.
+
+=item *
+
+C<STRONG>: Indicates that the global table is configured for
+multi-Region strong consistency (preview).
+
+Multi-Region strong consistency (MRSC) is a new DynamoDB global tables
+capability currently available in preview mode. For more information,
+see Global tables multi-Region strong consistency
+(https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/PreviewFeatures.html#multi-region-strong-consistency-gt).
+
+=back
+
+If you don't specify this field, the global table consistency mode
+defaults to C<EVENTUAL>.
+
+
+=head2 OnDemandThroughput => L<Paws::DynamoDB::OnDemandThroughput>
+
+The maximum number of read and write units for the specified on-demand
+table. If you use this parameter, you must specify
+C<MaxReadRequestUnits>, C<MaxWriteRequestUnits>, or both.
 
 
 =head2 ProvisionedThroughput => L<Paws::DynamoDB::ProvisionedThroughputDescription>
@@ -425,6 +476,11 @@ The current DynamoDB Streams configuration for the table.
 The Amazon Resource Name (ARN) that uniquely identifies the table.
 
 
+=head2 TableClassSummary => L<Paws::DynamoDB::TableClassSummary>
+
+Contains details of the table class.
+
+
 =head2 TableId => Str
 
 Unique identifier for the table for which the backup was created.
@@ -454,7 +510,8 @@ C<CREATING> - The table is being created.
 
 =item *
 
-C<UPDATING> - The table is being updated.
+C<UPDATING> - The table/index configuration is being updated. The
+table/index remains available for data operations when C<UPDATING>.
 
 =item *
 
@@ -466,11 +523,10 @@ C<ACTIVE> - The table is ready for use.
 
 =item *
 
-C<INACCESSIBLE_ENCRYPTION_CREDENTIALS> - The AWS KMS key used to
-encrypt the table in inaccessible. Table operations may fail due to
-failure to use the AWS KMS key. DynamoDB will initiate the table
-archival process when a table's AWS KMS key remains inaccessible for
-more than seven days.
+C<INACCESSIBLE_ENCRYPTION_CREDENTIALS> - The KMS key used to encrypt
+the table in inaccessible. Table operations may fail due to failure to
+use the KMS key. DynamoDB will initiate the table archival process when
+a table's KMS key remains inaccessible for more than seven days.
 
 =item *
 
@@ -484,6 +540,11 @@ more information.
 
 =back
 
+
+
+=head2 WarmThroughput => L<Paws::DynamoDB::TableWarmThroughputDescription>
+
+Describes the warm throughput value of the base table.
 
 
 

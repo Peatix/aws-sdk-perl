@@ -49,14 +49,14 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/bac
 
 =head2 MaxResults => Int
 
-The maximum number of items to be returned.
+The maximum number of items to return.
 
 
 
 =head2 NextToken => Str
 
 The next item following a partial list of returned items. For example,
-if a request is made to return C<maxResults> number of items,
+if a request is made to return C<MaxResults> number of items,
 C<NextToken> allows you to return more items in your list starting at
 the location pointed to by the next token.
 

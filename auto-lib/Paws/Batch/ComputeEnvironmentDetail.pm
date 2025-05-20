@@ -4,13 +4,19 @@ package Paws::Batch::ComputeEnvironmentDetail;
   has ComputeEnvironmentArn => (is => 'ro', isa => 'Str', request_name => 'computeEnvironmentArn', traits => ['NameInRequest'], required => 1);
   has ComputeEnvironmentName => (is => 'ro', isa => 'Str', request_name => 'computeEnvironmentName', traits => ['NameInRequest'], required => 1);
   has ComputeResources => (is => 'ro', isa => 'Paws::Batch::ComputeResource', request_name => 'computeResources', traits => ['NameInRequest']);
-  has EcsClusterArn => (is => 'ro', isa => 'Str', request_name => 'ecsClusterArn', traits => ['NameInRequest'], required => 1);
+  has ContainerOrchestrationType => (is => 'ro', isa => 'Str', request_name => 'containerOrchestrationType', traits => ['NameInRequest']);
+  has Context => (is => 'ro', isa => 'Str', request_name => 'context', traits => ['NameInRequest']);
+  has EcsClusterArn => (is => 'ro', isa => 'Str', request_name => 'ecsClusterArn', traits => ['NameInRequest']);
+  has EksConfiguration => (is => 'ro', isa => 'Paws::Batch::EksConfiguration', request_name => 'eksConfiguration', traits => ['NameInRequest']);
   has ServiceRole => (is => 'ro', isa => 'Str', request_name => 'serviceRole', traits => ['NameInRequest']);
   has State => (is => 'ro', isa => 'Str', request_name => 'state', traits => ['NameInRequest']);
   has Status => (is => 'ro', isa => 'Str', request_name => 'status', traits => ['NameInRequest']);
   has StatusReason => (is => 'ro', isa => 'Str', request_name => 'statusReason', traits => ['NameInRequest']);
   has Tags => (is => 'ro', isa => 'Paws::Batch::TagrisTagsMap', request_name => 'tags', traits => ['NameInRequest']);
   has Type => (is => 'ro', isa => 'Str', request_name => 'type', traits => ['NameInRequest']);
+  has UnmanagedvCpus => (is => 'ro', isa => 'Int', request_name => 'unmanagedvCpus', traits => ['NameInRequest']);
+  has UpdatePolicy => (is => 'ro', isa => 'Paws::Batch::UpdatePolicy', request_name => 'updatePolicy', traits => ['NameInRequest']);
+  has Uuid => (is => 'ro', isa => 'Str', request_name => 'uuid', traits => ['NameInRequest']);
 
 1;
 
@@ -31,7 +37,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::Batch::ComputeEnvironmentDetail object:
 
-  $service_obj->Method(Att1 => { ComputeEnvironmentArn => $value, ..., Type => $value  });
+  $service_obj->Method(Att1 => { ComputeEnvironmentArn => $value, ..., Uuid => $value  });
 
 =head3 Results returned from an API call
 
@@ -42,7 +48,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Batch::Comp
 
 =head1 DESCRIPTION
 
-An object representing an AWS Batch compute environment.
+An object that represents an Batch compute environment.
 
 =head1 ATTRIBUTES
 
@@ -54,31 +60,50 @@ The Amazon Resource Name (ARN) of the compute environment.
 
 =head2 B<REQUIRED> ComputeEnvironmentName => Str
 
-The name of the compute environment. Up to 128 letters (uppercase and
-lowercase), numbers, hyphens, and underscores are allowed.
+The name of the compute environment. It can be up to 128 characters
+long. It can contain uppercase and lowercase letters, numbers, hyphens
+(-), and underscores (_).
 
 
 =head2 ComputeResources => L<Paws::Batch::ComputeResource>
 
 The compute resources defined for the compute environment. For more
-information, see Compute Environments
+information, see Compute environments
 (https://docs.aws.amazon.com/batch/latest/userguide/compute_environments.html)
-in the I<AWS Batch User Guide>.
+in the I<Batch User Guide>.
 
 
-=head2 B<REQUIRED> EcsClusterArn => Str
+=head2 ContainerOrchestrationType => Str
+
+The orchestration type of the compute environment. The valid values are
+C<ECS> (default) or C<EKS>.
+
+
+=head2 Context => Str
+
+Reserved.
+
+
+=head2 EcsClusterArn => Str
 
 The Amazon Resource Name (ARN) of the underlying Amazon ECS cluster
-used by the compute environment.
+that the compute environment uses.
+
+
+=head2 EksConfiguration => L<Paws::Batch::EksConfiguration>
+
+The configuration for the Amazon EKS cluster that supports the Batch
+compute environment. Only specify this parameter if the
+C<containerOrchestrationType> is C<EKS>.
 
 
 =head2 ServiceRole => Str
 
-The service role associated with the compute environment that allows
-AWS Batch to make calls to AWS API operations on your behalf. For more
-information, see AWS Batch service IAM role
+The service role that's associated with the compute environment that
+allows Batch to make calls to Amazon Web Services API operations on
+your behalf. For more information, see Batch service IAM role
 (https://docs.aws.amazon.com/batch/latest/userguide/service_IAM_role.html)
-in the I<AWS Batch User Guide>.
+in the I<Batch User Guide>.
 
 
 =head2 State => Str
@@ -86,17 +111,28 @@ in the I<AWS Batch User Guide>.
 The state of the compute environment. The valid values are C<ENABLED>
 or C<DISABLED>.
 
-If the state is C<ENABLED>, then the AWS Batch scheduler can attempt to
+If the state is C<ENABLED>, then the Batch scheduler can attempt to
 place jobs from an associated job queue on the compute resources within
 the environment. If the compute environment is managed, then it can
-scale its instances out or in automatically, based on the job queue
+scale its instances out or in automatically based on the job queue
 demand.
 
-If the state is C<DISABLED>, then the AWS Batch scheduler doesn't
-attempt to place jobs within the environment. Jobs in a C<STARTING> or
+If the state is C<DISABLED>, then the Batch scheduler doesn't attempt
+to place jobs within the environment. Jobs in a C<STARTING> or
 C<RUNNING> state continue to progress normally. Managed compute
-environments in the C<DISABLED> state don't scale out. However, they
-scale in to C<minvCpus> value after instances become idle.
+environments in the C<DISABLED> state don't scale out.
+
+Compute environments in a C<DISABLED> state may continue to incur
+billing charges. To prevent additional charges, turn off and then
+delete the compute environment. For more information, see State
+(https://docs.aws.amazon.com/batch/latest/userguide/compute_environment_parameters.html#compute_environment_state)
+in the I<Batch User Guide>.
+
+When an instance is idle, the instance scales down to the C<minvCpus>
+value. However, the instance size doesn't change. For example, consider
+a C<c5.8xlarge> instance with a C<minvCpus> value of C<4> and a
+C<desiredvCpus> value of C<36>. This instance doesn't scale down to a
+C<c5.large> instance.
 
 
 =head2 Status => Str
@@ -107,7 +143,7 @@ or C<VALID>).
 
 =head2 StatusReason => Str
 
-A short, human-readable string to provide additional details about the
+A short, human-readable string to provide additional details for the
 current status of the compute environment.
 
 
@@ -119,9 +155,29 @@ The tags applied to the compute environment.
 =head2 Type => Str
 
 The type of the compute environment: C<MANAGED> or C<UNMANAGED>. For
-more information, see Compute Environments
+more information, see Compute environments
 (https://docs.aws.amazon.com/batch/latest/userguide/compute_environments.html)
-in the I<AWS Batch User Guide>.
+in the I<Batch User Guide>.
+
+
+=head2 UnmanagedvCpus => Int
+
+The maximum number of VCPUs expected to be used for an unmanaged
+compute environment.
+
+
+=head2 UpdatePolicy => L<Paws::Batch::UpdatePolicy>
+
+Specifies the infrastructure update policy for the compute environment.
+For more information about infrastructure updates, see Updating compute
+environments
+(https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html)
+in the I<Batch User Guide>.
+
+
+=head2 Uuid => Str
+
+Unique identifier for the compute environment.
 
 
 

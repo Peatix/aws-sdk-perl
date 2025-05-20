@@ -34,9 +34,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     );
 
     # Results:
-    my $CreateTime            = $DescribeTrackerResponse->CreateTime;
-    my $Description           = $DescribeTrackerResponse->Description;
+    my $CreateTime         = $DescribeTrackerResponse->CreateTime;
+    my $Description        = $DescribeTrackerResponse->Description;
+    my $EventBridgeEnabled = $DescribeTrackerResponse->EventBridgeEnabled;
+    my $KmsKeyEnableGeospatialQueries =
+      $DescribeTrackerResponse->KmsKeyEnableGeospatialQueries;
     my $KmsKeyId              = $DescribeTrackerResponse->KmsKeyId;
+    my $PositionFiltering     = $DescribeTrackerResponse->PositionFiltering;
     my $PricingPlan           = $DescribeTrackerResponse->PricingPlan;
     my $PricingPlanDataSource = $DescribeTrackerResponse->PricingPlanDataSource;
     my $Tags                  = $DescribeTrackerResponse->Tags;

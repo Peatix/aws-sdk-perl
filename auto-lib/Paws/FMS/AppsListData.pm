@@ -39,35 +39,34 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::FMS::AppsLi
 
 =head1 DESCRIPTION
 
-An AWS Firewall Manager applications list.
+An Firewall Manager applications list.
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> AppsList => ArrayRef[L<Paws::FMS::App>]
 
-An array of applications in the AWS Firewall Manager applications list.
+An array of applications in the Firewall Manager applications list.
 
 
 =head2 CreateTime => Str
 
-The time that the AWS Firewall Manager applications list was created.
+The time that the Firewall Manager applications list was created.
 
 
 =head2 LastUpdateTime => Str
 
-The time that the AWS Firewall Manager applications list was last
-updated.
+The time that the Firewall Manager applications list was last updated.
 
 
 =head2 ListId => Str
 
-The ID of the AWS Firewall Manager applications list.
+The ID of the Firewall Manager applications list.
 
 
 =head2 B<REQUIRED> ListName => Str
 
-The name of the AWS Firewall Manager applications list.
+The name of the Firewall Manager applications list.
 
 
 =head2 ListUpdateToken => Str

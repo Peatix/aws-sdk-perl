@@ -90,11 +90,6 @@ C<instance-type> - The instance type (for example, C<c4.large>).
 
 =item *
 
-C<network-platform> - The network platform (C<EC2-Classic> or
-C<EC2-VPC>).
-
-=item *
-
 C<platform> - The platform (C<Linux/UNIX> or C<Windows>).
 
 =back

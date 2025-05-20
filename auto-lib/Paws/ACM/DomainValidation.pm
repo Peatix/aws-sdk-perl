@@ -2,6 +2,7 @@
 package Paws::ACM::DomainValidation;
   use Moose;
   has DomainName => (is => 'ro', isa => 'Str', required => 1);
+  has HttpRedirect => (is => 'ro', isa => 'Paws::ACM::HttpRedirect');
   has ResourceRecord => (is => 'ro', isa => 'Paws::ACM::ResourceRecord');
   has ValidationDomain => (is => 'ro', isa => 'Str');
   has ValidationEmails => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
@@ -48,6 +49,14 @@ certificate.
 
 A fully qualified domain name (FQDN) in the certificate. For example,
 C<www.example.com> or C<example.com>.
+
+
+=head2 HttpRedirect => L<Paws::ACM::HttpRedirect>
+
+Contains information for HTTP-based domain validation of certificates
+requested through CloudFront and issued by ACM. This field exists only
+when the certificate type is C<AMAZON_ISSUED> and the validation method
+is C<HTTP>.
 
 
 =head2 ResourceRecord => L<Paws::ACM::ResourceRecord>

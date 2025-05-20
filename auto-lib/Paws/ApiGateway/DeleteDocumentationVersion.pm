@@ -43,14 +43,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 B<REQUIRED> DocumentationVersion => Str
 
-[Required] The version identifier of a to-be-deleted documentation
-snapshot.
+The version identifier of a to-be-deleted documentation snapshot.
 
 
 
 =head2 B<REQUIRED> RestApiId => Str
 
-[Required] The string identifier of the associated RestApi.
+The string identifier of the associated RestApi.
 
 
 

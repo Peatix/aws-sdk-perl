@@ -73,9 +73,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ssm
 =head2 Filters => ArrayRef[L<Paws::SSMIncidents::Filter>]
 
 Filters the timeline events based on the provided conditional values.
-You can filter timeline events using the following keys:
+You can filter timeline events with the following keys:
 
 =over
+
+=item *
+
+C<eventReference>
 
 =item *
 
@@ -87,13 +91,34 @@ C<eventType>
 
 =back
 
+Note the following when deciding how to use Filters:
+
+=over
+
+=item *
+
+If you don't specify a Filter, the response includes all timeline
+events.
+
+=item *
+
+If you specify more than one filter in a single request, the response
+returns timeline events that match all filters.
+
+=item *
+
+If you specify a filter with more than one value, the response returns
+timeline events that match any of the values provided.
+
+=back
+
 
 
 
 =head2 B<REQUIRED> IncidentRecordArn => Str
 
-The Amazon Resource Name (ARN) of the incident that the event is part
-of.
+The Amazon Resource Name (ARN) of the incident that includes the
+timeline event.
 
 
 
@@ -105,13 +130,14 @@ The maximum number of results per page.
 
 =head2 NextToken => Str
 
-The pagination token to continue to the next page of results.
+The pagination token for the next set of items to return. (You received
+this token from a previous call.)
 
 
 
 =head2 SortBy => Str
 
-Sort by the specified key value pair.
+Sort timeline events by the specified key value pair.
 
 Valid values are: C<"EVENT_TIME">
 

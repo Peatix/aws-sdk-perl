@@ -48,12 +48,19 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/rds
 
 =head2 B<REQUIRED> EngineName => Str
 
-A required parameter. Options available for the given engine name are
-described.
+The name of the engine to describe options for.
 
 Valid Values:
 
 =over
+
+=item *
+
+C<db2-ae>
+
+=item *
+
+C<db2-se>
 
 =item *
 

@@ -2,6 +2,7 @@
 package Paws::SageMaker::ExperimentConfig;
   use Moose;
   has ExperimentName => (is => 'ro', isa => 'Str');
+  has RunName => (is => 'ro', isa => 'Str');
   has TrialComponentDisplayName => (is => 'ro', isa => 'Str');
   has TrialName => (is => 'ro', isa => 'Str');
 
@@ -43,14 +44,17 @@ trial. Specified when you call the following APIs:
 =item *
 
 CreateProcessingJob
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateProcessingJob.html)
 
 =item *
 
 CreateTrainingJob
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingJob.html)
 
 =item *
 
 CreateTransformJob
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTransformJob.html)
 
 =back
 
@@ -60,8 +64,13 @@ CreateTransformJob
 
 =head2 ExperimentName => Str
 
-The name of an existing experiment to associate the trial component
-with.
+The name of an existing experiment to associate with the trial
+component.
+
+
+=head2 RunName => Str
+
+The name of the experiment run to associate with the trial component.
 
 
 =head2 TrialComponentDisplayName => Str

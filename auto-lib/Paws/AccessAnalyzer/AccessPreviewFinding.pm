@@ -12,6 +12,7 @@ package Paws::AccessAnalyzer::AccessPreviewFinding;
   has IsPublic => (is => 'ro', isa => 'Bool', request_name => 'isPublic', traits => ['NameInRequest']);
   has Principal => (is => 'ro', isa => 'Paws::AccessAnalyzer::PrincipalMap', request_name => 'principal', traits => ['NameInRequest']);
   has Resource => (is => 'ro', isa => 'Str', request_name => 'resource', traits => ['NameInRequest']);
+  has ResourceControlPolicyRestriction => (is => 'ro', isa => 'Str', request_name => 'resourceControlPolicyRestriction', traits => ['NameInRequest']);
   has ResourceOwnerAccount => (is => 'ro', isa => 'Str', request_name => 'resourceOwnerAccount', traits => ['NameInRequest'], required => 1);
   has ResourceType => (is => 'ro', isa => 'Str', request_name => 'resourceType', traits => ['NameInRequest'], required => 1);
   has Sources => (is => 'ro', isa => 'ArrayRef[Paws::AccessAnalyzer::FindingSource]', request_name => 'sources', traits => ['NameInRequest']);
@@ -61,7 +62,7 @@ has permission to perform.
 =head2 B<REQUIRED> ChangeType => Str
 
 Provides context on how the access preview finding compares to existing
-access identified in Access Analyzer.
+access identified in IAM Access Analyzer.
 
 =over
 
@@ -105,8 +106,8 @@ An error.
 
 =head2 ExistingFindingId => Str
 
-The existing ID of the finding in Access Analyzer, provided only for
-existing findings.
+The existing ID of the finding in IAM Access Analyzer, provided only
+for existing findings.
 
 
 =head2 ExistingFindingStatus => Str
@@ -140,10 +141,17 @@ The resource that an external principal has access to. This is the
 resource associated with the access preview.
 
 
+=head2 ResourceControlPolicyRestriction => Str
+
+The type of restriction applied to the finding by the resource owner
+with an Organizations resource control policy (RCP).
+
+
 =head2 B<REQUIRED> ResourceOwnerAccount => Str
 
-The AWS account ID that owns the resource. For most AWS resources, the
-owning account is the account in which the resource was created.
+The Amazon Web Services account ID that owns the resource. For most
+Amazon Web Services resources, the owning account is the account in
+which the resource was created.
 
 
 =head2 B<REQUIRED> ResourceType => Str

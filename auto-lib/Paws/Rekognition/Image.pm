@@ -59,15 +59,17 @@ upload the image to an Amazon S3 bucket and then call the operation
 using the S3Object property.
 
 For Amazon Rekognition to process an S3 object, the user must have
-permission to access the S3 object. For more information, see Resource
-Based Policies in the Amazon Rekognition Developer Guide.
+permission to access the S3 object. For more information, see How
+Amazon Rekognition works with IAM in the Amazon Rekognition Developer
+Guide.
 
 =head1 ATTRIBUTES
 
 
 =head2 Bytes => Str
 
-Blob of image bytes up to 5 MBs.
+Blob of image bytes up to 5 MBs. Note that the maximum image size you
+can pass to C<DetectCustomLabels> is 4MB.
 
 
 =head2 S3Object => L<Paws::Rekognition::S3Object>

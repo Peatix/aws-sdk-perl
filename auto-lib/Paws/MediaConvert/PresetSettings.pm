@@ -43,10 +43,9 @@ Settings for preset
 
 =head2 AudioDescriptions => ArrayRef[L<Paws::MediaConvert::AudioDescription>]
 
-(AudioDescriptions) contains groups of audio encoding settings
-organized by audio codec. Include one instance of (AudioDescriptions)
-per output. (AudioDescriptions) can contain multiple groups of encoding
-settings.
+Contains groups of audio encoding settings organized by audio codec.
+Include one instance of per output. Can contain multiple groups of
+encoding settings.
 
 
 =head2 CaptionDescriptions => ArrayRef[L<Paws::MediaConvert::CaptionDescriptionPreset>]

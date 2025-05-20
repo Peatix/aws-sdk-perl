@@ -1,9 +1,13 @@
 
 package Paws::EC2::ModifyNetworkInterfaceAttribute;
   use Moose;
+  has AssociatePublicIpAddress => (is => 'ro', isa => 'Bool');
   has Attachment => (is => 'ro', isa => 'Paws::EC2::NetworkInterfaceAttachmentChanges', traits => ['NameInRequest'], request_name => 'attachment' );
+  has ConnectionTrackingSpecification => (is => 'ro', isa => 'Paws::EC2::ConnectionTrackingSpecificationRequest');
   has Description => (is => 'ro', isa => 'Paws::EC2::AttributeValue', traits => ['NameInRequest'], request_name => 'description' );
   has DryRun => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'dryRun' );
+  has EnablePrimaryIpv6 => (is => 'ro', isa => 'Bool');
+  has EnaSrdSpecification => (is => 'ro', isa => 'Paws::EC2::EnaSrdSpecification');
   has Groups => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'SecurityGroupId' );
   has NetworkInterfaceId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'networkInterfaceId' , required => 1);
   has SourceDestCheck => (is => 'ro', isa => 'Paws::EC2::AttributeBooleanValue', traits => ['NameInRequest'], request_name => 'sourceDestCheck' );
@@ -78,11 +82,25 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ec2
 =head1 ATTRIBUTES
 
 
+=head2 AssociatePublicIpAddress => Bool
+
+Indicates whether to assign a public IPv4 address to a network
+interface. This option can be enabled for any network interface but
+will only apply to the primary network interface (eth0).
+
+
+
 =head2 Attachment => L<Paws::EC2::NetworkInterfaceAttachmentChanges>
 
-Information about the interface attachment. If modifying the 'delete on
-termination' attribute, you must specify the ID of the interface
+Information about the interface attachment. If modifying the C<delete
+on termination> attribute, you must specify the ID of the interface
 attachment.
+
+
+
+=head2 ConnectionTrackingSpecification => L<Paws::EC2::ConnectionTrackingSpecificationRequest>
+
+A connection tracking specification.
 
 
 
@@ -98,6 +116,33 @@ Checks whether you have the required permissions for the action,
 without actually making the request, and provides an error response. If
 you have the required permissions, the error response is
 C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
+
+
+
+=head2 EnablePrimaryIpv6 => Bool
+
+If youE<rsquo>re modifying a network interface in a dual-stack or
+IPv6-only subnet, you have the option to assign a primary IPv6 IP
+address. A primary IPv6 address is an IPv6 GUA address associated with
+an ENI that you have enabled to use a primary IPv6 address. Use this
+option if the instance that this ENI will be attached to relies on its
+IPv6 address not changing. Amazon Web Services will automatically
+assign an IPv6 address associated with the ENI attached to your
+instance to be the primary IPv6 address. Once you enable an IPv6 GUA
+address to be a primary IPv6, you cannot disable it. When you enable an
+IPv6 GUA address to be a primary IPv6, the first IPv6 GUA will be made
+the primary IPv6 address until the instance is terminated or the
+network interface is detached. If you have multiple IPv6 addresses
+associated with an ENI attached to your instance and you enable a
+primary IPv6 address, the first IPv6 GUA address associated with the
+ENI becomes the primary IPv6 address.
+
+
+
+=head2 EnaSrdSpecification => L<Paws::EC2::EnaSrdSpecification>
+
+Updates the ENA Express configuration for the network interface
+thatE<rsquo>s attached to the instance.
 
 
 

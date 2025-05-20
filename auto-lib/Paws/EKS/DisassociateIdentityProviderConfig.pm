@@ -61,13 +61,13 @@ idempotency of the request.
 
 =head2 B<REQUIRED> ClusterName => Str
 
-The name of the cluster to disassociate an identity provider from.
+The name of your cluster.
 
 
 
 =head2 B<REQUIRED> IdentityProviderConfig => L<Paws::EKS::IdentityProviderConfig>
 
-An object that represents an identity provider configuration.
+An object representing an identity provider configuration.
 
 
 

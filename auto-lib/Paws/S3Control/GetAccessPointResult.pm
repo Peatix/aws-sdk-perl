@@ -1,8 +1,12 @@
 
 package Paws::S3Control::GetAccessPointResult;
   use Moose;
+  has AccessPointArn => (is => 'ro', isa => 'Str');
+  has Alias => (is => 'ro', isa => 'Str');
   has Bucket => (is => 'ro', isa => 'Str');
+  has BucketAccountId => (is => 'ro', isa => 'Str');
   has CreationDate => (is => 'ro', isa => 'Str');
+  has Endpoints => (is => 'ro', isa => 'Paws::S3Control::Endpoints');
   has Name => (is => 'ro', isa => 'Str');
   has NetworkOrigin => (is => 'ro', isa => 'Str');
   has PublicAccessBlockConfiguration => (is => 'ro', isa => 'Paws::S3Control::PublicAccessBlockConfiguration');
@@ -21,15 +25,40 @@ Paws::S3Control::GetAccessPointResult
 =head1 ATTRIBUTES
 
 
+=head2 AccessPointArn => Str
+
+The ARN of the access point.
+
+
+
+=head2 Alias => Str
+
+The name or alias of the access point.
+
+
+
 =head2 Bucket => Str
 
 The name of the bucket associated with the specified access point.
 
 
 
+=head2 BucketAccountId => Str
+
+The Amazon Web Services account ID associated with the S3 bucket
+associated with this access point.
+
+
+
 =head2 CreationDate => Str
 
 The date and time when the specified access point was created.
+
+
+
+=head2 Endpoints => L<Paws::S3Control::Endpoints>
+
+The VPC endpoint for the access point.
 
 
 
@@ -64,7 +93,7 @@ Contains the virtual private cloud (VPC) configuration for the
 specified access point.
 
 This element is empty if this access point is an Amazon S3 on Outposts
-access point that is used by other AWS services.
+access point that is used by other Amazon Web Services services.
 
 
 

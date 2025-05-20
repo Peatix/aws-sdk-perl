@@ -81,9 +81,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/dyn
 
 =head2 B<REQUIRED> RequestItems => L<Paws::DynamoDB::BatchGetRequestMap>
 
-A map of one or more table names and, for each table, a map that
-describes one or more items to retrieve from that table. Each table
-name can be used only once per C<BatchGetItem> request.
+A map of one or more table names or table ARNs and, for each table, a
+map that describes one or more items to retrieve from that table. Each
+table name or ARN can be used only once per C<BatchGetItem> request.
 
 Each element in the map of items to retrieve consists of the following:
 

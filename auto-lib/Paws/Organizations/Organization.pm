@@ -54,7 +54,7 @@ The Amazon Resource Name (ARN) of an organization.
 For more information about ARNs in Organizations, see ARN Formats
 Supported by Organizations
 (https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsorganizations.html#awsorganizations-resources-for-iam-policies)
-in the I<AWS Service Authorization Reference>.
+in the I<Amazon Web Services Service Authorization Reference>.
 
 
 =head2 AvailablePolicyTypes => ArrayRef[L<Paws::Organizations::PolicyTypeSummary>]
@@ -72,10 +72,10 @@ Specifies the functionality that currently is available to the
 organization. If set to "ALL", then all features are enabled and
 policies can be applied to accounts in the organization. If set to
 "CONSOLIDATED_BILLING", then only consolidated billing functionality is
-available. For more information, see Enabling All Features in Your
-Organization
+available. For more information, see Enabling all features in your
+organization
 (https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html)
-in the I<AWS Organizations User Guide>.
+in the I<Organizations User Guide>.
 
 
 =head2 Id => Str
@@ -95,13 +95,14 @@ management account for the organization.
 For more information about ARNs in Organizations, see ARN Formats
 Supported by Organizations
 (https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsorganizations.html#awsorganizations-resources-for-iam-policies)
-in the I<AWS Service Authorization Reference>.
+in the I<Amazon Web Services Service Authorization Reference>.
 
 
 =head2 MasterAccountEmail => Str
 
-The email address that is associated with the AWS account that is
-designated as the management account for the organization.
+The email address that is associated with the Amazon Web Services
+account that is designated as the management account for the
+organization.
 
 
 =head2 MasterAccountId => Str

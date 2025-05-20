@@ -77,13 +77,12 @@ The description of the option setting.
 
 =head2 IsCollection => Bool
 
-Indicates if the option setting is part of a collection.
+Indicates whether the option setting is part of a collection.
 
 
 =head2 IsModifiable => Bool
 
-A Boolean value that, when true, indicates the option setting can be
-modified from the default.
+Indicates whether the option setting can be modified from the default.
 
 
 =head2 Name => Str

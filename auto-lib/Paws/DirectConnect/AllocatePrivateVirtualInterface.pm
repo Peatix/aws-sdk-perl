@@ -59,6 +59,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $Asn                    = $VirtualInterface->Asn;
     my $AuthKey                = $VirtualInterface->AuthKey;
     my $AwsDeviceV2            = $VirtualInterface->AwsDeviceV2;
+    my $AwsLogicalDeviceId     = $VirtualInterface->AwsLogicalDeviceId;
     my $BgpPeers               = $VirtualInterface->BgpPeers;
     my $ConnectionId           = $VirtualInterface->ConnectionId;
     my $CustomerAddress        = $VirtualInterface->CustomerAddress;
@@ -70,6 +71,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $OwnerAccount           = $VirtualInterface->OwnerAccount;
     my $Region                 = $VirtualInterface->Region;
     my $RouteFilterPrefixes    = $VirtualInterface->RouteFilterPrefixes;
+    my $SiteLinkEnabled        = $VirtualInterface->SiteLinkEnabled;
     my $Tags                   = $VirtualInterface->Tags;
     my $VirtualGatewayId       = $VirtualInterface->VirtualGatewayId;
     my $VirtualInterfaceId     = $VirtualInterface->VirtualInterfaceId;
@@ -101,7 +103,8 @@ Information about the private virtual interface.
 
 =head2 B<REQUIRED> OwnerAccount => Str
 
-The ID of the AWS account that owns the virtual private interface.
+The ID of the Amazon Web Services account that owns the virtual private
+interface.
 
 
 

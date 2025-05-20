@@ -55,15 +55,17 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       DocumentType   => 'Command',                  # OPTIONAL
       Requires       => [
         {
-          Name    => 'MyDocumentARN',
-          Version => 'MyDocumentVersion',           # OPTIONAL
+          Name        => 'MyDocumentARN',
+          RequireType => 'MyRequireType',            # max: 128; OPTIONAL
+          Version     => 'MyDocumentVersion',        # OPTIONAL
+          VersionName => 'MyDocumentVersionName',    # OPTIONAL
         },
         ...
       ],    # OPTIONAL
       Tags => [
         {
           Key   => 'MyTagKey',      # min: 1, max: 128
-          Value => 'MyTagValue',    # min: 1, max: 256
+          Value => 'MyTagValue',    # max: 256
 
         },
         ...
@@ -85,36 +87,38 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ssm
 
 =head2 Attachments => ArrayRef[L<Paws::SSM::AttachmentsSource>]
 
-A list of key and value pairs that describe attachments to a version of
-a document.
+A list of key-value pairs that describe attachments to a version of a
+document.
 
 
 
 =head2 B<REQUIRED> Content => Str
 
-The content for the new SSM document in JSON or YAML format. We
-recommend storing the contents for your new document in an external
-JSON or YAML file and referencing the file in a command.
+The content for the new SSM document in JSON or YAML format. The
+content of the document must not exceed 64KB. This quota also includes
+the content specified for input parameters at runtime. We recommend
+storing the contents for your new document in an external JSON or YAML
+file and referencing the file in a command.
 
-For examples, see the following topics in the I<AWS Systems Manager
-User Guide>.
+For examples, see the following topics in the I<Amazon Web Services
+Systems Manager User Guide>.
 
 =over
 
 =item *
 
-Create an SSM document (AWS API)
-(https://docs.aws.amazon.com/systems-manager/latest/userguide/create-ssm-document-api.html)
+Create an SSM document (console)
+(https://docs.aws.amazon.com/systems-manager/latest/userguide/documents-using.html#create-ssm-console)
 
 =item *
 
-Create an SSM document (AWS CLI)
-(https://docs.aws.amazon.com/systems-manager/latest/userguide/create-ssm-document-cli.html)
+Create an SSM document (command line)
+(https://docs.aws.amazon.com/systems-manager/latest/userguide/documents-using.html#create-ssm-document-cli)
 
 =item *
 
 Create an SSM document (API)
-(https://docs.aws.amazon.com/systems-manager/latest/userguide/create-ssm-document-api.html)
+(https://docs.aws.amazon.com/systems-manager/latest/userguide/documents-using.html#create-ssm-document-api)
 
 =back
 
@@ -123,10 +127,10 @@ Create an SSM document (API)
 
 =head2 DisplayName => Str
 
-An optional field where you can specify a friendly name for the Systems
-Manager document. This value can differ for each version of the
-document. You can update this value at a later time using the
-UpdateDocument action.
+An optional field where you can specify a friendly name for the SSM
+document. This value can differ for each version of the document. You
+can update this value at a later time using the UpdateDocument
+operation.
 
 
 
@@ -141,20 +145,23 @@ Valid values are: C<"YAML">, C<"JSON">, C<"TEXT">
 
 The type of document to create.
 
-Valid values are: C<"Command">, C<"Policy">, C<"Automation">, C<"Session">, C<"Package">, C<"ApplicationConfiguration">, C<"ApplicationConfigurationSchema">, C<"DeploymentStrategy">, C<"ChangeCalendar">, C<"Automation.ChangeTemplate">, C<"ProblemAnalysis">, C<"ProblemAnalysisTemplate">
+The C<DeploymentStrategy> document type is an internal-use-only
+document type reserved for AppConfig.
+
+Valid values are: C<"Command">, C<"Policy">, C<"Automation">, C<"Session">, C<"Package">, C<"ApplicationConfiguration">, C<"ApplicationConfigurationSchema">, C<"DeploymentStrategy">, C<"ChangeCalendar">, C<"Automation.ChangeTemplate">, C<"ProblemAnalysis">, C<"ProblemAnalysisTemplate">, C<"CloudFormation">, C<"ConformancePackTemplate">, C<"QuickSetup">, C<"ManualApprovalPolicy">, C<"AutoApprovalPolicy">
 
 =head2 B<REQUIRED> Name => Str
 
-A name for the Systems Manager document.
+A name for the SSM document.
 
 You can't use the following strings as document name prefixes. These
-are reserved by AWS for use as document name prefixes:
+are reserved by Amazon Web Services for use as document name prefixes:
 
 =over
 
 =item *
 
-C<aws->
+C<aws>
 
 =item *
 
@@ -164,6 +171,18 @@ C<amazon>
 
 C<amzn>
 
+=item *
+
+C<AWSEC2>
+
+=item *
+
+C<AWSConfigRemediation>
+
+=item *
+
+C<AWSSupport>
+
 =back
 
 
@@ -172,14 +191,14 @@ C<amzn>
 =head2 Requires => ArrayRef[L<Paws::SSM::DocumentRequires>]
 
 A list of SSM documents required by a document. This parameter is used
-exclusively by AWS AppConfig. When a user creates an AppConfig
+exclusively by AppConfig. When a user creates an AppConfig
 configuration in an SSM document, the user must also specify a required
 document for validation purposes. In this case, an
 C<ApplicationConfiguration> document requires an
 C<ApplicationConfigurationSchema> document for validation purposes. For
-more information, see AWS AppConfig
-(https://docs.aws.amazon.com/systems-manager/latest/userguide/appconfig.html)
-in the I<AWS Systems Manager User Guide>.
+more information, see What is AppConfig?
+(https://docs.aws.amazon.com/appconfig/latest/userguide/what-is-appconfig.html)
+in the I<AppConfig User Guide>.
 
 
 
@@ -189,7 +208,7 @@ Optional metadata that you assign to a resource. Tags enable you to
 categorize a resource in different ways, such as by purpose, owner, or
 environment. For example, you might want to tag an SSM document to
 identify the types of targets or the environment where it will run. In
-this case, you could specify the following key name/value pairs:
+this case, you could specify the following key-value pairs:
 
 =over
 
@@ -204,7 +223,7 @@ C<Key=Environment,Value=Production>
 =back
 
 To add tags to an existing SSM document, use the AddTagsToResource
-action.
+operation.
 
 
 
@@ -212,21 +231,21 @@ action.
 
 Specify a target type to define the kinds of resources the document can
 run on. For example, to run a document on EC2 instances, specify the
-following value: /AWS::EC2::Instance. If you specify a value of '/' the
-document can run on all types of resources. If you don't specify a
+following value: C</AWS::EC2::Instance>. If you specify a value of '/'
+the document can run on all types of resources. If you don't specify a
 value, the document can't run on any resources. For a list of valid
-resource types, see AWS resource and property types reference
+resource types, see Amazon Web Services resource and property types
+reference
 (https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html)
-in the I<AWS CloudFormation User Guide>.
+in the I<CloudFormation User Guide>.
 
 
 
 =head2 VersionName => Str
 
 An optional field specifying the version of the artifact you are
-creating with the document. For example, "Release 12, Update 6". This
-value is unique across all versions of a document, and cannot be
-changed.
+creating with the document. For example, C<Release12.1>. This value is
+unique across all versions of a document, and can't be changed.
 
 
 

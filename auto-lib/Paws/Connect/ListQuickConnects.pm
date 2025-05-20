@@ -56,13 +56,16 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/con
 =head2 B<REQUIRED> InstanceId => Str
 
 The identifier of the Amazon Connect instance. You can find the
-instanceId in the ARN of the instance.
+instance ID
+(https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html)
+in the Amazon Resource Name (ARN) of the instance.
 
 
 
 =head2 MaxResults => Int
 
-The maximum number of results to return per page.
+The maximum number of results to return per page. The default MaxResult
+size is 100.
 
 
 
@@ -76,9 +79,10 @@ results.
 
 =head2 QuickConnectTypes => ArrayRef[Str|Undef]
 
-The type of quick connect. In the Amazon Connect console, when you
-create a quick connect, you are prompted to assign one of the following
-types: Agent (USER), External (PHONE_NUMBER), or Queue (QUEUE).
+The type of quick connect. In the Amazon Connect admin website, when
+you create a quick connect, you are prompted to assign one of the
+following types: Agent (USER), External (PHONE_NUMBER), or Queue
+(QUEUE).
 
 
 

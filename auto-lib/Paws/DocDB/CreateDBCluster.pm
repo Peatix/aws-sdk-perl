@@ -12,13 +12,16 @@ package Paws::DocDB::CreateDBCluster;
   has EngineVersion => (is => 'ro', isa => 'Str');
   has GlobalClusterIdentifier => (is => 'ro', isa => 'Str');
   has KmsKeyId => (is => 'ro', isa => 'Str');
+  has ManageMasterUserPassword => (is => 'ro', isa => 'Bool');
   has MasterUsername => (is => 'ro', isa => 'Str');
   has MasterUserPassword => (is => 'ro', isa => 'Str');
+  has MasterUserSecretKmsKeyId => (is => 'ro', isa => 'Str');
   has Port => (is => 'ro', isa => 'Int');
   has PreferredBackupWindow => (is => 'ro', isa => 'Str');
   has PreferredMaintenanceWindow => (is => 'ro', isa => 'Str');
   has PreSignedUrl => (is => 'ro', isa => 'Str');
   has StorageEncrypted => (is => 'ro', isa => 'Bool');
+  has StorageType => (is => 'ro', isa => 'Str');
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::DocDB::Tag]');
   has VpcSecurityGroupIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
 
@@ -58,13 +61,16 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       EngineVersion               => 'MyString',                     # OPTIONAL
       GlobalClusterIdentifier     => 'MyGlobalClusterIdentifier',    # OPTIONAL
       KmsKeyId                    => 'MyString',                     # OPTIONAL
+      ManageMasterUserPassword    => 1,                              # OPTIONAL
       MasterUserPassword          => 'MyString',                     # OPTIONAL
+      MasterUserSecretKmsKeyId    => 'MyString',                     # OPTIONAL
       MasterUsername              => 'MyString',                     # OPTIONAL
       Port                        => 1,                              # OPTIONAL
       PreSignedUrl                => 'MyString',                     # OPTIONAL
       PreferredBackupWindow       => 'MyString',                     # OPTIONAL
       PreferredMaintenanceWindow  => 'MyString',                     # OPTIONAL
       StorageEncrypted            => 1,                              # OPTIONAL
+      StorageType                 => 'MyString',                     # OPTIONAL
       Tags                        => [
         {
           Key   => 'MyString',
@@ -204,10 +210,10 @@ The cluster identifier of the new global cluster.
 The KMS key identifier for an encrypted cluster.
 
 The KMS key identifier is the Amazon Resource Name (ARN) for the KMS
-encryption key. If you are creating a cluster using the same account
-that owns the KMS encryption key that is used to encrypt the new
-cluster, you can use the KMS key alias instead of the ARN for the KMS
-encryption key.
+encryption key. If you are creating a cluster using the same Amazon Web
+Services account that owns the KMS encryption key that is used to
+encrypt the new cluster, you can use the KMS key alias instead of the
+ARN for the KMS encryption key.
 
 If an encryption key is not specified in C<KmsKeyId>:
 
@@ -220,8 +226,19 @@ your default encryption key.
 
 =back
 
-KMS creates the default encryption key for your account. Your account
-has a different default encryption key for each Regions.
+KMS creates the default encryption key for your Amazon Web Services
+account. Your Amazon Web Services account has a different default
+encryption key for each Amazon Web Services Regions.
+
+
+
+=head2 ManageMasterUserPassword => Bool
+
+Specifies whether to manage the master user password with Amazon Web
+Services Secrets Manager.
+
+Constraint: You can't manage the master user password with Amazon Web
+Services Secrets Manager if C<MasterUserPassword> is specified.
 
 
 
@@ -260,6 +277,31 @@ Constraints: Must contain from 8 to 100 characters.
 
 
 
+=head2 MasterUserSecretKmsKeyId => Str
+
+The Amazon Web Services KMS key identifier to encrypt a secret that is
+automatically generated and managed in Amazon Web Services Secrets
+Manager. This setting is valid only if the master user password is
+managed by Amazon DocumentDB in Amazon Web Services Secrets Manager for
+the DB cluster.
+
+The Amazon Web Services KMS key identifier is the key ARN, key ID,
+alias ARN, or alias name for the KMS key. To use a KMS key in a
+different Amazon Web Services account, specify the key ARN or alias
+ARN.
+
+If you don't specify C<MasterUserSecretKmsKeyId>, then the
+C<aws/secretsmanager> KMS key is used to encrypt the secret. If the
+secret is in a different Amazon Web Services account, then you can't
+use the C<aws/secretsmanager> KMS key to encrypt the secret, and you
+must use a customer managed KMS key.
+
+There is a default KMS key for your Amazon Web Services account. Your
+Amazon Web Services account has a different default KMS key for each
+Amazon Web Services Region.
+
+
+
 =head2 Port => Int
 
 The port number on which the instances in the cluster accept
@@ -274,7 +316,7 @@ automated backups are enabled using the C<BackupRetentionPeriod>
 parameter.
 
 The default is a 30-minute window selected at random from an 8-hour
-block of time for each Region.
+block of time for each Amazon Web Services Region.
 
 Constraints:
 
@@ -309,7 +351,8 @@ Universal Coordinated Time (UTC).
 Format: C<ddd:hh24:mi-ddd:hh24:mi>
 
 The default is a 30-minute window selected at random from an 8-hour
-block of time for each Region, occurring on a random day of the week.
+block of time for each Amazon Web Services Region, occurring on a
+random day of the week.
 
 Valid days: Mon, Tue, Wed, Thu, Fri, Sat, Sun
 
@@ -326,6 +369,24 @@ Not currently supported.
 =head2 StorageEncrypted => Bool
 
 Specifies whether the cluster is encrypted.
+
+
+
+=head2 StorageType => Str
+
+The storage type to associate with the DB cluster.
+
+For information on storage types for Amazon DocumentDB clusters, see
+Cluster storage configurations in the I<Amazon DocumentDB Developer
+Guide>.
+
+Valid values for storage type - C<standard | iopt1>
+
+Default value is C<standard>
+
+When you create a DocumentDB DB cluster with the storage type set to
+C<iopt1>, the storage type is returned in the response. The storage
+type isn't returned when you set it to C<standard>.
 
 
 

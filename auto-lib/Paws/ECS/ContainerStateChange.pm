@@ -39,7 +39,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ECS::Contai
 
 =head1 DESCRIPTION
 
-An object representing a change in state for a container.
+An object that represents a change in state for a container.
 
 =head1 ATTRIBUTES
 
@@ -62,7 +62,7 @@ The container image SHA 256 digest.
 
 =head2 NetworkBindings => ArrayRef[L<Paws::ECS::NetworkBinding>]
 
-Any network bindings associated with the container.
+Any network bindings that are associated with the container.
 
 
 =head2 Reason => Str

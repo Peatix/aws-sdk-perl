@@ -34,7 +34,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Batch::Cont
 
 =head1 DESCRIPTION
 
-An object representing summary details of a container within a job.
+An object that represents summary details of a container within a job.
 
 =head1 ATTRIBUTES
 
@@ -47,7 +47,7 @@ The exit code to return upon completion.
 =head2 Reason => Str
 
 A short (255 max characters) human-readable string to provide
-additional details about a running or stopped container.
+additional details for a running or stopped container.
 
 
 

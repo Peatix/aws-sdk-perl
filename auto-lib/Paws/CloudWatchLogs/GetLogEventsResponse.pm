@@ -24,7 +24,7 @@ The events.
 =head2 NextBackwardToken => Str
 
 The token for the next set of items in the backward direction. The
-token expires after 24 hours. This token is never null. If you have
+token expires after 24 hours. This token is not null. If you have
 reached the end of the stream, it returns the same token you passed in.
 
 

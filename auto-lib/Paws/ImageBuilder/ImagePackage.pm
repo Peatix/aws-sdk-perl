@@ -34,21 +34,22 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ImageBuilde
 
 =head1 DESCRIPTION
 
-Represents a package installed on an Image Builder image.
+A software package that's installed on top of the base image to create
+a customized image.
 
 =head1 ATTRIBUTES
 
 
 =head2 PackageName => Str
 
-The name of the package as reported to the operating system package
+The name of the package that's reported to the operating system package
 manager.
 
 
 =head2 PackageVersion => Str
 
-The version of the package as reported to the operating system package
-manager.
+The version of the package that's reported to the operating system
+package manager.
 
 
 

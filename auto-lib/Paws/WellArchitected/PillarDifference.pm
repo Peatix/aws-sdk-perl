@@ -3,6 +3,7 @@ package Paws::WellArchitected::PillarDifference;
   use Moose;
   has DifferenceStatus => (is => 'ro', isa => 'Str');
   has PillarId => (is => 'ro', isa => 'Str');
+  has PillarName => (is => 'ro', isa => 'Str');
   has QuestionDifferences => (is => 'ro', isa => 'ArrayRef[Paws::WellArchitected::QuestionDifference]');
 
 1;
@@ -46,6 +47,11 @@ Indicates the type of change to the pillar.
 
 
 =head2 PillarId => Str
+
+
+
+
+=head2 PillarName => Str
 
 
 

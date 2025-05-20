@@ -38,6 +38,11 @@ A list of the log types whose configuration is still pending. In other
 words, these log types are in the process of being activated or
 deactivated.
 
+Valid log types are: C<audit> (to publish audit logs) and C<slowquery>
+(to publish slow-query logs). See Publishing Neptune logs to Amazon
+CloudWatch logs
+(https://docs.aws.amazon.com/neptune/latest/userguide/cloudwatch-logs.html).
+
 =head1 ATTRIBUTES
 
 

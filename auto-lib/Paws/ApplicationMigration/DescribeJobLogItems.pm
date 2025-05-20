@@ -1,6 +1,7 @@
 
 package Paws::ApplicationMigration::DescribeJobLogItems;
   use Moose;
+  has AccountID => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'accountID');
   has JobID => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'jobID', required => 1);
   has MaxResults => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'maxResults');
   has NextToken => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'nextToken');
@@ -32,6 +33,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $mgn = Paws->service('ApplicationMigration');
     my $DescribeJobLogItemsResponse = $mgn->DescribeJobLogItems(
       JobID      => 'MyJobID',
+      AccountID  => 'MyAccountID',          # OPTIONAL
       MaxResults => 1,                      # OPTIONAL
       NextToken  => 'MyPaginationToken',    # OPTIONAL
     );
@@ -46,6 +48,12 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/mgn/DescribeJobLogItems>
 
 =head1 ATTRIBUTES
+
+
+=head2 AccountID => Str
+
+Request to describe Job log Account ID.
+
 
 
 =head2 B<REQUIRED> JobID => Str

@@ -128,7 +128,7 @@ creation date and last updated date are the same.
 
 The target locale for the bot.
 
-Valid values are: C<"de-DE">, C<"en-AU">, C<"en-GB">, C<"en-US">, C<"es-419">, C<"es-ES">, C<"es-US">, C<"fr-FR">, C<"fr-CA">, C<"it-IT">, C<"ja-JP">
+Valid values are: C<"de-DE">, C<"en-AU">, C<"en-GB">, C<"en-IN">, C<"en-US">, C<"es-419">, C<"es-ES">, C<"es-US">, C<"fr-FR">, C<"fr-CA">, C<"it-IT">, C<"ja-JP">, C<"ko-KR">
 =head2 Name => Str
 
 The name of the bot.

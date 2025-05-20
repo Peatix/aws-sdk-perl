@@ -50,21 +50,23 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ec2
 
 =head2 MaxResults => Int
 
-The maximum number of results to return with a single call. To retrieve
-the remaining results, make another call with the returned C<nextToken>
-value.
+The maximum number of items to return for this request. To get the next
+page of items, make another request with the token returned in the
+output. For more information, see Pagination
+(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Query-Requests.html#api-pagination).
 
 
 
 =head2 NextToken => Str
 
-The token for the next page of results.
+The token returned from a previous paginated request. Pagination
+continues from the end of the items returned by the previous request.
 
 
 
 =head2 VpcIds => ArrayRef[Str|Undef]
 
-One or more VPC IDs.
+The IDs of the VPCs.
 
 
 

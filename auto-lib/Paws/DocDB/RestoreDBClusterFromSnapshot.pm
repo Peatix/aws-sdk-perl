@@ -3,6 +3,7 @@ package Paws::DocDB::RestoreDBClusterFromSnapshot;
   use Moose;
   has AvailabilityZones => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has DBClusterIdentifier => (is => 'ro', isa => 'Str', required => 1);
+  has DBClusterParameterGroupName => (is => 'ro', isa => 'Str');
   has DBSubnetGroupName => (is => 'ro', isa => 'Str');
   has DeletionProtection => (is => 'ro', isa => 'Bool');
   has EnableCloudwatchLogsExports => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
@@ -11,6 +12,7 @@ package Paws::DocDB::RestoreDBClusterFromSnapshot;
   has KmsKeyId => (is => 'ro', isa => 'Str');
   has Port => (is => 'ro', isa => 'Int');
   has SnapshotIdentifier => (is => 'ro', isa => 'Str', required => 1);
+  has StorageType => (is => 'ro', isa => 'Str');
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::DocDB::Tag]');
   has VpcSecurityGroupIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
 
@@ -43,12 +45,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       Engine                      => 'MyString',
       SnapshotIdentifier          => 'MyString',
       AvailabilityZones           => [ 'MyString', ... ],    # OPTIONAL
+      DBClusterParameterGroupName => 'MyString',             # OPTIONAL
       DBSubnetGroupName           => 'MyString',             # OPTIONAL
       DeletionProtection          => 1,                      # OPTIONAL
       EnableCloudwatchLogsExports => [ 'MyString', ... ],    # OPTIONAL
       EngineVersion               => 'MyString',             # OPTIONAL
       KmsKeyId                    => 'MyString',             # OPTIONAL
       Port                        => 1,                      # OPTIONAL
+      StorageType                 => 'MyString',             # OPTIONAL
       Tags                        => [
         {
           Key   => 'MyString',
@@ -104,6 +108,21 @@ Example: C<my-snapshot-id>
 
 
 
+=head2 DBClusterParameterGroupName => Str
+
+The name of the DB cluster parameter group to associate with this DB
+cluster.
+
+I<Type:> String. I<Required:> No.
+
+If this argument is omitted, the default DB cluster parameter group is
+used. If supplied, must match the name of an existing default DB
+cluster parameter group. The string must consist of from 1 to 255
+letters, numbers or hyphens. Its first character must be a letter, and
+it cannot end with a hyphen or contain two consecutive hyphens.
+
+
+
 =head2 DBSubnetGroupName => Str
 
 The name of the subnet group to use for the new cluster.
@@ -153,10 +172,10 @@ The KMS key identifier to use when restoring an encrypted cluster from
 a DB snapshot or cluster snapshot.
 
 The KMS key identifier is the Amazon Resource Name (ARN) for the KMS
-encryption key. If you are restoring a cluster with the same account
-that owns the KMS encryption key used to encrypt the new cluster, then
-you can use the KMS key alias instead of the ARN for the KMS encryption
-key.
+encryption key. If you are restoring a cluster with the same Amazon Web
+Services account that owns the KMS encryption key used to encrypt the
+new cluster, then you can use the KMS key alias instead of the ARN for
+the KMS encryption key.
 
 If you do not specify a value for the C<KmsKeyId> parameter, then the
 following occurs:
@@ -207,6 +226,20 @@ Must match the identifier of an existing snapshot.
 
 =back
 
+
+
+
+=head2 StorageType => Str
+
+The storage type to associate with the DB cluster.
+
+For information on storage types for Amazon DocumentDB clusters, see
+Cluster storage configurations in the I<Amazon DocumentDB Developer
+Guide>.
+
+Valid values for storage type - C<standard | iopt1>
+
+Default value is C<standard>
 
 
 

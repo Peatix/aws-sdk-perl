@@ -38,7 +38,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       Tags                      => [
         {
           Key   => 'MyTagKey',      # min: 1, max: 128
-          Value => 'MyTagValue',    # min: 1, max: 256; OPTIONAL
+          Value => 'MyTagValue',    # max: 256; OPTIONAL
         },
         ...
       ],    # OPTIONAL
@@ -58,7 +58,11 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/iot
 
 =head2 CredentialDurationSeconds => Int
 
-How long (in seconds) the credentials will be valid.
+How long (in seconds) the credentials will be valid. The default value
+is 3,600 seconds.
+
+This value must be less than or equal to the maximum session duration
+of the IAM role that the role alias references.
 
 
 

@@ -111,8 +111,8 @@ Constraints: Minimum 20, maximum 100.
 
 =head2 MultiAZ => Bool
 
-A value that indicates whether to show only those reservations that
-support Multi-AZ.
+Specifies whether to show only those reservations that support
+Multi-AZ.
 
 
 

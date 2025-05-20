@@ -51,9 +51,9 @@ The identifier of the specified directory.
 The type of client authentication to enable. Currently only the value
 C<SmartCard> is supported. Smart card authentication in AD Connector
 requires that you enable Kerberos Constrained Delegation for the
-Service User to the LDAP service in the on-premises AD.
+Service User to the LDAP service in your self-managed AD.
 
-Valid values are: C<"SmartCard">
+Valid values are: C<"SmartCard">, C<"SmartCardOrPassword">
 
 
 =head1 SEE ALSO

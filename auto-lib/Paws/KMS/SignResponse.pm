@@ -20,7 +20,7 @@ Paws::KMS::SignResponse
 
 The Amazon Resource Name (key ARN
 (https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN))
-of the asymmetric CMK that was used to sign the message.
+of the asymmetric KMS key that was used to sign the message.
 
 
 =head2 Signature => Str
@@ -39,21 +39,21 @@ this value is defined by PKCS #1 in RFC 8017
 
 When used with the C<ECDSA_SHA_256>, C<ECDSA_SHA_384>, or
 C<ECDSA_SHA_512> signing algorithms, this value is a DER-encoded object
-as defined by ANS X9.62E<ndash>2005 and RFC 3279 Section 2.2.3
+as defined by ANSI X9.62E<ndash>2005 and RFC 3279 Section 2.2.3
 (https://tools.ietf.org/html/rfc3279#section-2.2.3). This is the most
 commonly used signature format and is appropriate for most uses.
 
 =back
 
-When you use the HTTP API or the AWS CLI, the value is Base64-encoded.
-Otherwise, it is not Base64-encoded.
+When you use the HTTP API or the Amazon Web Services CLI, the value is
+Base64-encoded. Otherwise, it is not Base64-encoded.
 
 
 =head2 SigningAlgorithm => Str
 
 The signing algorithm that was used to sign the message.
 
-Valid values are: C<"RSASSA_PSS_SHA_256">, C<"RSASSA_PSS_SHA_384">, C<"RSASSA_PSS_SHA_512">, C<"RSASSA_PKCS1_V1_5_SHA_256">, C<"RSASSA_PKCS1_V1_5_SHA_384">, C<"RSASSA_PKCS1_V1_5_SHA_512">, C<"ECDSA_SHA_256">, C<"ECDSA_SHA_384">, C<"ECDSA_SHA_512">
+Valid values are: C<"RSASSA_PSS_SHA_256">, C<"RSASSA_PSS_SHA_384">, C<"RSASSA_PSS_SHA_512">, C<"RSASSA_PKCS1_V1_5_SHA_256">, C<"RSASSA_PKCS1_V1_5_SHA_384">, C<"RSASSA_PKCS1_V1_5_SHA_512">, C<"ECDSA_SHA_256">, C<"ECDSA_SHA_384">, C<"ECDSA_SHA_512">, C<"SM2DSA">
 =head2 _request_id => Str
 
 

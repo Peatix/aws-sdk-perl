@@ -3,6 +3,7 @@ package Paws::ApiGateway::CreateBasePathMapping;
   use Moose;
   has BasePath => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'basePath');
   has DomainName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'domain_name', required => 1);
+  has DomainNameId => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'domainNameId');
   has RestApiId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'restApiId', required => 1);
   has Stage => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'stage');
 
@@ -32,10 +33,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $apigateway = Paws->service('ApiGateway');
     my $BasePathMapping = $apigateway->CreateBasePathMapping(
-      DomainName => 'MyString',
-      RestApiId  => 'MyString',
-      BasePath   => 'MyString',    # OPTIONAL
-      Stage      => 'MyString',    # OPTIONAL
+      DomainName   => 'MyString',
+      RestApiId    => 'MyString',
+      BasePath     => 'MyString',    # OPTIONAL
+      DomainNameId => 'MyString',    # OPTIONAL
+      Stage        => 'MyString',    # OPTIONAL
     );
 
     # Results:
@@ -62,13 +64,20 @@ callers to specify a base path name after the domain name.
 
 =head2 B<REQUIRED> DomainName => Str
 
-[Required] The domain name of the BasePathMapping resource to create.
+The domain name of the BasePathMapping resource to create.
+
+
+
+=head2 DomainNameId => Str
+
+The identifier for the domain name resource. Required for private
+custom domain names.
 
 
 
 =head2 B<REQUIRED> RestApiId => Str
 
-[Required] The string identifier of the associated RestApi.
+The string identifier of the associated RestApi.
 
 
 

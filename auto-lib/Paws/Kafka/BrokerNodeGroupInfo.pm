@@ -3,9 +3,11 @@ package Paws::Kafka::BrokerNodeGroupInfo;
   use Moose;
   has BrokerAZDistribution => (is => 'ro', isa => 'Str', request_name => 'brokerAZDistribution', traits => ['NameInRequest']);
   has ClientSubnets => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'clientSubnets', traits => ['NameInRequest'], required => 1);
+  has ConnectivityInfo => (is => 'ro', isa => 'Paws::Kafka::ConnectivityInfo', request_name => 'connectivityInfo', traits => ['NameInRequest']);
   has InstanceType => (is => 'ro', isa => 'Str', request_name => 'instanceType', traits => ['NameInRequest'], required => 1);
   has SecurityGroups => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'securityGroups', traits => ['NameInRequest']);
   has StorageInfo => (is => 'ro', isa => 'Paws::Kafka::StorageInfo', request_name => 'storageInfo', traits => ['NameInRequest']);
+  has ZoneIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'zoneIds', traits => ['NameInRequest']);
 
 1;
 
@@ -26,7 +28,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::Kafka::BrokerNodeGroupInfo object:
 
-  $service_obj->Method(Att1 => { BrokerAZDistribution => $value, ..., StorageInfo => $value  });
+  $service_obj->Method(Att1 => { BrokerAZDistribution => $value, ..., ZoneIds => $value  });
 
 =head3 Results returned from an API call
 
@@ -37,7 +39,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Kafka::Brok
 
 =head1 DESCRIPTION
 
-Describes the setup to be used for Kafka broker nodes in the cluster.
+Describes the setup to be used for Apache Kafka broker nodes in the
+cluster.
 
 =head1 ATTRIBUTES
 
@@ -59,12 +62,18 @@ cluster.
 The list of subnets to connect to in the client virtual private cloud
 (VPC). AWS creates elastic network interfaces inside these subnets.
 Client applications use elastic network interfaces to produce and
-consume data. Client subnets can't be in Availability Zone us-east-1e.
+consume data. Client subnets can't occupy the Availability Zone with ID
+use use1-az3.
+
+
+=head2 ConnectivityInfo => L<Paws::Kafka::ConnectivityInfo>
+
+Information about the broker access configuration.
 
 
 =head2 B<REQUIRED> InstanceType => Str
 
-The type of Amazon EC2 instances to use for Kafka brokers. The
+The type of Amazon EC2 instances to use for Apache Kafka brokers. The
 following instance types are allowed: kafka.m5.large, kafka.m5.xlarge,
 kafka.m5.2xlarge, kafka.m5.4xlarge, kafka.m5.12xlarge, and
 kafka.m5.24xlarge.
@@ -82,6 +91,11 @@ MSK uses the default security group associated with the VPC.
 
 Contains information about storage volumes attached to MSK broker
 nodes.
+
+
+=head2 ZoneIds => ArrayRef[Str|Undef]
+
+The list of zoneIds for the cluster in the virtual private cloud (VPC).
 
 
 

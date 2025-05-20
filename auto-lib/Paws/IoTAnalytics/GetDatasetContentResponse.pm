@@ -24,7 +24,7 @@ A list of C<DatasetEntry> objects.
 
 =head2 Status => L<Paws::IoTAnalytics::DatasetContentStatus>
 
-The status of the data set content.
+The status of the dataset content.
 
 
 =head2 Timestamp => Str

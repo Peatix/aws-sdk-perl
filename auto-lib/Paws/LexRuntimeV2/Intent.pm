@@ -43,8 +43,8 @@ The current intent that Amazon Lex V2 is attempting to fulfill.
 
 =head2 ConfirmationState => Str
 
-Contains information about whether fulfillment of the intent has been
-confirmed.
+Indicates whether the intent has been C<Confirmed>, C<Denied>, or
+C<None> if the confirmation stage has not yet been reached.
 
 
 =head2 B<REQUIRED> Name => Str
@@ -61,7 +61,41 @@ null.
 
 =head2 State => Str
 
-Contains fulfillment information for the intent.
+Indicates the fulfillment state for the intent. The meanings of each
+value are as follows:
+
+=over
+
+=item *
+
+C<Failed> E<ndash> The bot failed to fulfill the intent.
+
+=item *
+
+C<Fulfilled> E<ndash> The bot has completed fulfillment of the intent.
+
+=item *
+
+C<FulfillmentInProgress> E<ndash> The bot is in the middle of
+fulfilling the intent.
+
+=item *
+
+C<InProgress> E<ndash> The bot is in the middle of eliciting the slot
+values that are necessary to fulfill the intent.
+
+=item *
+
+C<ReadyForFulfillment> E<ndash> The bot has elicited all the slot
+values for the intent and is ready to fulfill the intent.
+
+=item *
+
+C<Waiting> E<ndash> The bot is waiting for a response from the user
+(limited to streaming conversations).
+
+=back
+
 
 
 

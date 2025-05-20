@@ -4,6 +4,7 @@ package Paws::Athena::WorkGroup;
   has Configuration => (is => 'ro', isa => 'Paws::Athena::WorkGroupConfiguration');
   has CreationTime => (is => 'ro', isa => 'Str');
   has Description => (is => 'ro', isa => 'Str');
+  has IdentityCenterApplicationArn => (is => 'ro', isa => 'Str');
   has Name => (is => 'ro', isa => 'Str', required => 1);
   has State => (is => 'ro', isa => 'Str');
 
@@ -45,8 +46,8 @@ location and the encryption configuration (known as workgroup
 settings), to enable sending query metrics to Amazon CloudWatch, and to
 establish per-query data usage control limits for all queries in a
 workgroup. The workgroup settings override is specified in
-EnforceWorkGroupConfiguration (true/false) in the
-WorkGroupConfiguration. See
+C<EnforceWorkGroupConfiguration> (true/false) in the
+C<WorkGroupConfiguration>. See
 WorkGroupConfiguration$EnforceWorkGroupConfiguration.
 
 =head1 ATTRIBUTES
@@ -55,13 +56,14 @@ WorkGroupConfiguration$EnforceWorkGroupConfiguration.
 =head2 Configuration => L<Paws::Athena::WorkGroupConfiguration>
 
 The configuration of the workgroup, which includes the location in
-Amazon S3 where query results are stored, the encryption configuration,
-if any, used for query results; whether the Amazon CloudWatch Metrics
-are enabled for the workgroup; whether workgroup settings override
-client-side settings; and the data usage limits for the amount of data
-scanned per query or per workgroup. The workgroup settings override is
-specified in EnforceWorkGroupConfiguration (true/false) in the
-WorkGroupConfiguration. See
+Amazon S3 where query and calculation results are stored, the
+encryption configuration, if any, used for query and calculation
+results; whether the Amazon CloudWatch Metrics are enabled for the
+workgroup; whether workgroup settings override client-side settings;
+and the data usage limits for the amount of data scanned per query or
+per workgroup. The workgroup settings override is specified in
+C<EnforceWorkGroupConfiguration> (true/false) in the
+C<WorkGroupConfiguration>. See
 WorkGroupConfiguration$EnforceWorkGroupConfiguration.
 
 
@@ -73,6 +75,12 @@ The date and time the workgroup was created.
 =head2 Description => Str
 
 The workgroup description.
+
+
+=head2 IdentityCenterApplicationArn => Str
+
+The ARN of the IAM Identity Center enabled application associated with
+the workgroup.
 
 
 =head2 B<REQUIRED> Name => Str

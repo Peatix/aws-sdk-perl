@@ -2,6 +2,7 @@
 package Paws::MediaConvert::Queue;
   use Moose;
   has Arn => (is => 'ro', isa => 'Str', request_name => 'arn', traits => ['NameInRequest']);
+  has ConcurrentJobs => (is => 'ro', isa => 'Int', request_name => 'concurrentJobs', traits => ['NameInRequest']);
   has CreatedAt => (is => 'ro', isa => 'Str', request_name => 'createdAt', traits => ['NameInRequest']);
   has Description => (is => 'ro', isa => 'Str', request_name => 'description', traits => ['NameInRequest']);
   has LastUpdated => (is => 'ro', isa => 'Str', request_name => 'lastUpdated', traits => ['NameInRequest']);
@@ -9,6 +10,7 @@ package Paws::MediaConvert::Queue;
   has PricingPlan => (is => 'ro', isa => 'Str', request_name => 'pricingPlan', traits => ['NameInRequest']);
   has ProgressingJobsCount => (is => 'ro', isa => 'Int', request_name => 'progressingJobsCount', traits => ['NameInRequest']);
   has ReservationPlan => (is => 'ro', isa => 'Paws::MediaConvert::ReservationPlan', request_name => 'reservationPlan', traits => ['NameInRequest']);
+  has ServiceOverrides => (is => 'ro', isa => 'ArrayRef[Paws::MediaConvert::ServiceOverride]', request_name => 'serviceOverrides', traits => ['NameInRequest']);
   has Status => (is => 'ro', isa => 'Str', request_name => 'status', traits => ['NameInRequest']);
   has SubmittedJobsCount => (is => 'ro', isa => 'Int', request_name => 'submittedJobsCount', traits => ['NameInRequest']);
   has Type => (is => 'ro', isa => 'Str', request_name => 'type', traits => ['NameInRequest']);
@@ -57,6 +59,11 @@ https://docs.aws.amazon.com/mediaconvert/latest/ug/working-with-queues.html.
 An identifier for this resource that is unique within all of AWS.
 
 
+=head2 ConcurrentJobs => Int
+
+The maximum number of jobs your queue can process concurrently.
+
+
 =head2 CreatedAt => Str
 
 The timestamp in epoch seconds for when you created the queue.
@@ -97,6 +104,13 @@ The estimated number of jobs with a PROGRESSING status.
 
 Details about the pricing plan for your reserved queue. Required for
 reserved queues and not applicable to on-demand queues.
+
+
+=head2 ServiceOverrides => ArrayRef[L<Paws::MediaConvert::ServiceOverride>]
+
+A list of any service overrides applied by MediaConvert to the settings
+that you have configured. If you see any overrides, we recommend that
+you contact AWS Support.
 
 
 =head2 Status => Str

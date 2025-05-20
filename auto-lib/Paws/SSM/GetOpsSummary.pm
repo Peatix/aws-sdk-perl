@@ -95,14 +95,14 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ssm
 
 =head2 Aggregators => ArrayRef[L<Paws::SSM::OpsAggregator>]
 
-Optional aggregators that return counts of OpsItems based on one or
-more expressions.
+Optional aggregators that return counts of OpsData based on one or more
+expressions.
 
 
 
 =head2 Filters => ArrayRef[L<Paws::SSM::OpsFilter>]
 
-Optional filters used to scope down the returned OpsItems.
+Optional filters used to scope down the returned OpsData.
 
 
 
@@ -123,7 +123,7 @@ results.
 
 =head2 ResultAttributes => ArrayRef[L<Paws::SSM::OpsResultAttribute>]
 
-The OpsItem data type to return.
+The OpsData data type to return.
 
 
 

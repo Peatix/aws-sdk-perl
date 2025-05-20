@@ -1,6 +1,7 @@
 
 package Paws::AppStream::CreateDirectoryConfig;
   use Moose;
+  has CertificateBasedAuthProperties => (is => 'ro', isa => 'Paws::AppStream::CertificateBasedAuthProperties');
   has DirectoryName => (is => 'ro', isa => 'Str', required => 1);
   has OrganizationalUnitDistinguishedNames => (is => 'ro', isa => 'ArrayRef[Str|Undef]', required => 1);
   has ServiceAccountCredentials => (is => 'ro', isa => 'Paws::AppStream::ServiceAccountCredentials');
@@ -34,9 +35,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       OrganizationalUnitDistinguishedNames => [
         'MyOrganizationalUnitDistinguishedName', ...    # max: 2000
       ],
+      CertificateBasedAuthProperties => {
+        CertificateAuthorityArn => 'MyArn',             # OPTIONAL
+        Status                  => 'DISABLED'
+        , # values: DISABLED, ENABLED, ENABLED_NO_DIRECTORY_LOGIN_FALLBACK; OPTIONAL
+      },    # OPTIONAL
       ServiceAccountCredentials => {
-        AccountName     => 'MyAccountName',             # min: 1
-        AccountPassword => 'MyAccountPassword',         # min: 1, max: 127
+        AccountName     => 'MyAccountName',        # min: 1
+        AccountPassword => 'MyAccountPassword',    # min: 1, max: 127
 
       },    # OPTIONAL
     );
@@ -50,6 +56,21 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/appstream2/CreateDirectoryConfig>
 
 =head1 ATTRIBUTES
+
+
+=head2 CertificateBasedAuthProperties => L<Paws::AppStream::CertificateBasedAuthProperties>
+
+The certificate-based authentication properties used to authenticate
+SAML 2.0 Identity Provider (IdP) user identities to Active Directory
+domain-joined streaming instances. Fallback is turned on by default
+when certificate-based authentication is B<Enabled> . Fallback allows
+users to log in using their AD domain password if certificate-based
+authentication is unsuccessful, or to unlock a desktop lock screen.
+B<Enabled_no_directory_login_fallback> enables certificate-based
+authentication, but does not allow users to log in using their AD
+domain password. Users will be disconnected to re-authenticate using
+certificates.
+
 
 
 =head2 B<REQUIRED> DirectoryName => Str

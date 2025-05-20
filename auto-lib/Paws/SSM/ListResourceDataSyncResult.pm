@@ -23,7 +23,7 @@ the next set of results.
 
 =head2 ResourceDataSyncItems => ArrayRef[L<Paws::SSM::ResourceDataSyncItem>]
 
-A list of your current Resource Data Sync configurations and their
+A list of your current resource data sync configurations and their
 statuses.
 
 

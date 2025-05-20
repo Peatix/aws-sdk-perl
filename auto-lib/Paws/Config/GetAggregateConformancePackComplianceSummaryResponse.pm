@@ -23,7 +23,8 @@ Returns a list of C<AggregateConformancePackComplianceSummary> object.
 
 =head2 GroupByKey => Str
 
-Groups the result based on AWS Account ID or AWS Region.
+Groups the result based on Amazon Web Services account ID or Amazon Web
+Services Region.
 
 
 =head2 NextToken => Str

@@ -36,8 +36,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::KinesisAnal
 
 =head1 DESCRIPTION
 
-Describes configuration parameters for a Flink-based Kinesis Data
-Analytics application.
+Describes configuration parameters for a Managed Service for Apache
+Flink application.
 
 =head1 ATTRIBUTES
 
@@ -52,9 +52,9 @@ is the process of persisting application state for fault tolerance.
 
 The job plan for an application. For more information about the job
 plan, see Jobs and Scheduling
-(https://ci.apache.org/projects/flink/flink-docs-release-1.8/internals/job_scheduling.html)
+(https://nightlies.apache.org/flink/flink-docs-release-1.19/internals/job_scheduling.html)
 in the Apache Flink Documentation
-(https://ci.apache.org/projects/flink/flink-docs-release-1.8/). To
+(https://nightlies.apache.org/flink/flink-docs-release-1.19/). To
 retrieve the job plan for the application, use the
 DescribeApplicationRequest$IncludeAdditionalDetails parameter of the
 DescribeApplication operation.

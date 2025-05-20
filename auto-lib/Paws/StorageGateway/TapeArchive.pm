@@ -78,8 +78,6 @@ The ID of the pool that was used to archive the tape. The tapes in this
 pool are archived in the S3 storage class that is associated with the
 pool.
 
-Valid Values: C<GLACIER> | C<DEEP_ARCHIVE>
-
 
 =head2 RetentionStartDate => Str
 

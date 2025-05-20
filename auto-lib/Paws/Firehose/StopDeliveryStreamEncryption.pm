@@ -41,7 +41,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/fir
 
 =head2 B<REQUIRED> DeliveryStreamName => Str
 
-The name of the delivery stream for which you want to disable
+The name of the Firehose stream for which you want to disable
 server-side encryption (SSE).
 
 

@@ -41,9 +41,10 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AutoScaling
 
 =head1 DESCRIPTION
 
-Describes a lifecycle hook, which tells Amazon EC2 Auto Scaling that
-you want to perform an action whenever it launches instances or
-terminates instances.
+Describes a lifecycle hook. A lifecycle hook lets you create solutions
+that are aware of events in the Auto Scaling instance lifecycle, and
+then perform a custom action on instances when the corresponding
+lifecycle event occurs.
 
 =head1 ATTRIBUTES
 
@@ -55,17 +56,17 @@ The name of the Auto Scaling group for the lifecycle hook.
 
 =head2 DefaultResult => Str
 
-Defines the action the Auto Scaling group should take when the
-lifecycle hook timeout elapses or if an unexpected failure occurs. The
-possible values are C<CONTINUE> and C<ABANDON>.
+The action the Auto Scaling group takes when the lifecycle hook timeout
+elapses or if an unexpected failure occurs.
+
+Valid values: C<CONTINUE> | C<ABANDON>
 
 
 =head2 GlobalTimeout => Int
 
-The maximum time, in seconds, that an instance can remain in a
-C<Pending:Wait> or C<Terminating:Wait> state. The maximum is 172800
-seconds (48 hours) or 100 times C<HeartbeatTimeout>, whichever is
-smaller.
+The maximum time, in seconds, that an instance can remain in a wait
+state. The maximum is 172800 seconds (48 hours) or 100 times
+C<HeartbeatTimeout>, whichever is smaller.
 
 
 =head2 HeartbeatTimeout => Int
@@ -73,7 +74,7 @@ smaller.
 The maximum time, in seconds, that can elapse before the lifecycle hook
 times out. If the lifecycle hook times out, Amazon EC2 Auto Scaling
 performs the action that you specified in the C<DefaultResult>
-parameter.
+property.
 
 
 =head2 LifecycleHookName => Str
@@ -83,21 +84,10 @@ The name of the lifecycle hook.
 
 =head2 LifecycleTransition => Str
 
-The state of the EC2 instance to which to attach the lifecycle hook.
-The following are possible values:
+The lifecycle transition.
 
-=over
-
-=item *
-
-autoscaling:EC2_INSTANCE_LAUNCHING
-
-=item *
-
-autoscaling:EC2_INSTANCE_TERMINATING
-
-=back
-
+Valid values: C<autoscaling:EC2_INSTANCE_LAUNCHING> |
+C<autoscaling:EC2_INSTANCE_TERMINATING>
 
 
 =head2 NotificationMetadata => Str
@@ -109,14 +99,14 @@ Scaling sends a message to the notification target.
 =head2 NotificationTargetARN => Str
 
 The ARN of the target that Amazon EC2 Auto Scaling sends notifications
-to when an instance is in the transition state for the lifecycle hook.
-The notification target can be either an SQS queue or an SNS topic.
+to when an instance is in a wait state for the lifecycle hook.
 
 
 =head2 RoleARN => Str
 
 The ARN of the IAM role that allows the Auto Scaling group to publish
-to the specified notification target.
+to the specified notification target (an Amazon SNS topic or an Amazon
+SQS queue).
 
 
 

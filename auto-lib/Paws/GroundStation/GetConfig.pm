@@ -30,7 +30,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $groundstation = Paws->service('GroundStation');
     my $GetConfigResponse = $groundstation->GetConfig(
-      ConfigId   => 'MyString',
+      ConfigId   => 'MyUuid',
       ConfigType => 'antenna-downlink',
 
     );
@@ -61,7 +61,7 @@ UUID of a C<Config>.
 
 Type of a C<Config>.
 
-Valid values are: C<"antenna-downlink">, C<"antenna-downlink-demod-decode">, C<"antenna-uplink">, C<"dataflow-endpoint">, C<"tracking">, C<"uplink-echo">, C<"s3-recording">
+Valid values are: C<"antenna-downlink">, C<"antenna-downlink-demod-decode">, C<"tracking">, C<"dataflow-endpoint">, C<"antenna-uplink">, C<"uplink-echo">, C<"s3-recording">
 
 
 =head1 SEE ALSO

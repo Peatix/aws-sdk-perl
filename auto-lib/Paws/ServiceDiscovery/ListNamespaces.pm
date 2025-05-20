@@ -29,24 +29,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $servicediscovery = Paws->service('ServiceDiscovery');
-    my $ListNamespacesResponse = $servicediscovery->ListNamespaces(
-      Filters => [
-        {
-          Name   => 'TYPE',    # values: TYPE
-          Values => [
-            'MyFilterValue', ...    # min: 1, max: 255
-          ],
-          Condition => 'EQ',        # values: EQ, IN, BETWEEN; OPTIONAL
-        },
-        ...
-      ],    # OPTIONAL
-      MaxResults => 1,                # OPTIONAL
-      NextToken  => 'MyNextToken',    # OPTIONAL
-    );
+    # Example: List namespaces
+    # Example: List namespaces
+    my $ListNamespacesResponse = $servicediscovery->ListNamespaces();
 
     # Results:
     my $Namespaces = $ListNamespacesResponse->Namespaces;
-    my $NextToken  = $ListNamespacesResponse->NextToken;
 
     # Returns a L<Paws::ServiceDiscovery::ListNamespacesResponse> object.
 

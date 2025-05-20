@@ -44,7 +44,7 @@ monitoring job.
 =head2 B<REQUIRED> LocalPath => Str
 
 The local path to the Amazon S3 storage location where Amazon SageMaker
-saves the results of a monitoring job. LocalPath is an absolute path
+AI saves the results of a monitoring job. LocalPath is an absolute path
 for the output data.
 
 
@@ -57,7 +57,7 @@ after the job completes.
 =head2 B<REQUIRED> S3Uri => Str
 
 A URI that identifies the Amazon S3 storage location where Amazon
-SageMaker saves the results of a monitoring job.
+SageMaker AI saves the results of a monitoring job.
 
 
 

@@ -1,9 +1,10 @@
 
 package Paws::Robomaker::CreateRobotApplication;
   use Moose;
+  has Environment => (is => 'ro', isa => 'Paws::Robomaker::Environment', traits => ['NameInRequest'], request_name => 'environment');
   has Name => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'name', required => 1);
   has RobotSoftwareSuite => (is => 'ro', isa => 'Paws::Robomaker::RobotSoftwareSuite', traits => ['NameInRequest'], request_name => 'robotSoftwareSuite', required => 1);
-  has Sources => (is => 'ro', isa => 'ArrayRef[Paws::Robomaker::SourceConfig]', traits => ['NameInRequest'], request_name => 'sources', required => 1);
+  has Sources => (is => 'ro', isa => 'ArrayRef[Paws::Robomaker::SourceConfig]', traits => ['NameInRequest'], request_name => 'sources');
   has Tags => (is => 'ro', isa => 'Paws::Robomaker::TagMap', traits => ['NameInRequest'], request_name => 'tags');
 
   use MooseX::ClassAttribute;
@@ -34,10 +35,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $CreateRobotApplicationResponse = $robomaker->CreateRobotApplication(
       Name               => 'MyName',
       RobotSoftwareSuite => {
-        Name    => 'ROS',    # values: ROS, ROS2; OPTIONAL
+        Name    => 'ROS',    # values: ROS, ROS2, General; OPTIONAL
         Version =>
           'Kinetic',         # values: Kinetic, Melodic, Dashing, Foxy; OPTIONAL
       },
+      Environment => {
+        Uri => 'MyRepositoryUrl',    # min: 1, max: 1024; OPTIONAL
+      },    # OPTIONAL
       Sources => [
         {
           Architecture => 'X86_64',     # values: X86_64, ARM64, ARMHF; OPTIONAL
@@ -45,14 +49,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           S3Key        => 'MyS3Key',    # min: 1, max: 1024; OPTIONAL
         },
         ...
-      ],
+      ],    # OPTIONAL
       Tags => {
-        'MyTagKey' => 'MyTagValue',     # key: min: 1, max: 128, value: max: 256
+        'MyTagKey' => 'MyTagValue',    # key: min: 1, max: 128, value: max: 256
       },    # OPTIONAL
     );
 
     # Results:
     my $Arn           = $CreateRobotApplicationResponse->Arn;
+    my $Environment   = $CreateRobotApplicationResponse->Environment;
     my $LastUpdatedAt = $CreateRobotApplicationResponse->LastUpdatedAt;
     my $Name          = $CreateRobotApplicationResponse->Name;
     my $RevisionId    = $CreateRobotApplicationResponse->RevisionId;
@@ -70,6 +75,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/rob
 =head1 ATTRIBUTES
 
 
+=head2 Environment => L<Paws::Robomaker::Environment>
+
+The object that contains that URI of the Docker image that you use for
+your robot application.
+
+
+
 =head2 B<REQUIRED> Name => Str
 
 The name of the robot application.
@@ -78,12 +90,11 @@ The name of the robot application.
 
 =head2 B<REQUIRED> RobotSoftwareSuite => L<Paws::Robomaker::RobotSoftwareSuite>
 
-The robot software suite (ROS distribuition) used by the robot
-application.
+The robot software suite used by the robot application.
 
 
 
-=head2 B<REQUIRED> Sources => ArrayRef[L<Paws::Robomaker::SourceConfig>]
+=head2 Sources => ArrayRef[L<Paws::Robomaker::SourceConfig>]
 
 The sources of the robot application.
 

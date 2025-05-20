@@ -46,8 +46,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/fms
 
 =head2 B<REQUIRED> PolicyId => Str
 
-The ID of the AWS Firewall Manager policy that you want the details
-for.
+The ID of the Firewall Manager policy that you want the details for.
 
 
 

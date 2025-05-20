@@ -37,40 +37,45 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Shield::Att
 
 =head1 DESCRIPTION
 
-Details of the described attack.
+Details of a Shield event. This is provided as part of an AttackDetail.
 
 =head1 ATTRIBUTES
 
 
 =head2 AttackLayer => Str
 
-The type of distributed denial of service (DDoS) event that was
-observed. C<NETWORK> indicates layer 3 and layer 4 events and
-C<APPLICATION> indicates layer 7 events.
+The type of Shield event that was observed. C<NETWORK> indicates layer
+3 and layer 4 events and C<APPLICATION> indicates layer 7 events.
+
+For infrastructure layer events (L3 and L4 events), you can view
+metrics for top contributors in Amazon CloudWatch metrics. For more
+information, see Shield metrics and alarms
+(https://docs.aws.amazon.com/waf/latest/developerguide/monitoring-cloudwatch.html#set-ddos-alarms)
+in the I<WAF Developer Guide>.
 
 
 =head2 AttackPropertyIdentifier => Str
 
-Defines the DDoS attack property information that is provided. The
+Defines the Shield event property information that is provided. The
 C<WORDPRESS_PINGBACK_REFLECTOR> and C<WORDPRESS_PINGBACK_SOURCE> values
-are valid only for WordPress reflective pingback DDoS attacks.
+are valid only for WordPress reflective pingback events.
 
 
 =head2 TopContributors => ArrayRef[L<Paws::Shield::Contributor>]
 
-The array of contributor objects that includes the top five
-contributors to an attack.
+Contributor objects for the top five contributors to a Shield event. A
+contributor is a source of traffic that Shield Advanced identifies as
+responsible for some or all of an event.
 
 
 =head2 Total => Int
 
-The total contributions made to this attack by all contributors, not
-just the five listed in the C<TopContributors> list.
+The total contributions made to this Shield event by all contributors.
 
 
 =head2 Unit => Str
 
-The unit of the C<Value> of the contributions.
+The unit used for the C<Contributor> C<Value> property.
 
 
 

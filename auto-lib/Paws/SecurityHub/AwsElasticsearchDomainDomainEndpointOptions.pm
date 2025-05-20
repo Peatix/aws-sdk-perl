@@ -48,7 +48,7 @@ Whether to require that all traffic to the domain arrive over HTTPS.
 =head2 TLSSecurityPolicy => Str
 
 The TLS security policy to apply to the HTTPS endpoint of the
-Elasticsearch domain.
+OpenSearch domain.
 
 Valid values:
 

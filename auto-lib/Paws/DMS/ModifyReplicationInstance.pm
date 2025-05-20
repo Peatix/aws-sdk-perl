@@ -6,7 +6,9 @@ package Paws::DMS::ModifyReplicationInstance;
   has ApplyImmediately => (is => 'ro', isa => 'Bool');
   has AutoMinorVersionUpgrade => (is => 'ro', isa => 'Bool');
   has EngineVersion => (is => 'ro', isa => 'Str');
+  has KerberosAuthenticationSettings => (is => 'ro', isa => 'Paws::DMS::KerberosAuthenticationSettings');
   has MultiAZ => (is => 'ro', isa => 'Bool');
+  has NetworkType => (is => 'ro', isa => 'Str');
   has PreferredMaintenanceWindow => (is => 'ro', isa => 'Str');
   has ReplicationInstanceArn => (is => 'ro', isa => 'Str', required => 1);
   has ReplicationInstanceClass => (is => 'ro', isa => 'Str');
@@ -118,7 +120,7 @@ A newer minor version is available.
 
 =item *
 
-AWS DMS has enabled automatic patching for the given engine version.
+DMS has enabled automatic patching for the given engine version.
 
 =back
 
@@ -134,11 +136,26 @@ C<AllowMajorVersionUpgrade> to C<true>.
 
 
 
+=head2 KerberosAuthenticationSettings => L<Paws::DMS::KerberosAuthenticationSettings>
+
+Specifies the settings required for kerberos authentication when
+modifying a replication instance.
+
+
+
 =head2 MultiAZ => Bool
 
 Specifies whether the replication instance is a Multi-AZ deployment.
 You can't set the C<AvailabilityZone> parameter if the Multi-AZ
 parameter is set to C<true>.
+
+
+
+=head2 NetworkType => Str
+
+The type of IP address protocol used by a replication instance, such as
+IPv4 only or Dual-stack that supports both IPv4 and IPv6 addressing.
+IPv6 only is not yet supported.
 
 
 
@@ -176,8 +193,8 @@ the instance class dms.c4.large, set this parameter to
 C<"dms.c4.large">.
 
 For more information on the settings and capacities for the available
-replication instance classes, see Selecting the right AWS DMS
-replication instance for your migration
+replication instance classes, see Selecting the right DMS replication
+instance for your migration
 (https://docs.aws.amazon.com/dms/latest/userguide/CHAP_ReplicationInstance.html#CHAP_ReplicationInstance.InDepth).
 
 

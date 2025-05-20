@@ -45,7 +45,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Proton::Ser
 
 =head1 DESCRIPTION
 
-The service detail data.
+Detailed data of an Proton service resource.
 
 =head1 ATTRIBUTES
 
@@ -58,7 +58,7 @@ The Amazon Resource Name (ARN) of the service.
 =head2 BranchName => Str
 
 The name of the code repository branch that holds the code that's
-deployed in AWS Proton.
+deployed in Proton.
 
 
 =head2 B<REQUIRED> CreatedAt => Str
@@ -68,7 +68,7 @@ The time when the service was created.
 
 =head2 Description => Str
 
-A description of a service.
+A description of the service.
 
 
 =head2 B<REQUIRED> LastModifiedAt => Str
@@ -88,17 +88,15 @@ The service pipeline detail data.
 
 =head2 RepositoryConnectionArn => Str
 
-The ARN of the repository connection. For more information, see Set up
-a repository connection
-(https://docs.aws.amazon.com/proton/latest/adminguide/setting-up-for-service.html#setting-up-vcontrol)
-in the I<AWS Proton Administration Guide> and Getting started
-(https://docs.aws.amazon.com/proton/latest/userguide/ug-getting-started.html#getting-started-step1)
-in the I<AWS Proton User Guide>.
+The Amazon Resource Name (ARN) of the repository connection. For more
+information, see Setting up an AWS CodeStar connection
+(https://docs.aws.amazon.com/proton/latest/userguide/setting-up-for-service.html#setting-up-vcontrol)
+in the I<Proton User Guide>.
 
 
 =head2 RepositoryId => Str
 
-The ID of the code repository.
+The ID of the source code repository.
 
 
 =head2 B<REQUIRED> Spec => Str

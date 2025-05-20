@@ -63,11 +63,9 @@ The name of the service to edit.
 Lists the service instances to add and the existing service instances
 to remain. Omit the existing service instances to delete from the list.
 I<Don't> include edits to the existing service instances or pipeline.
-For more information, see I<Edit a service> in the AWS Proton
-Administration Guide
-(https://docs.aws.amazon.com/proton/latest/adminguide/ag-svc-update.html)
-or the AWS Proton User Guide
-(https://docs.aws.amazon.com/proton/latest/userguide/ug-svc-update.html).
+For more information, see Edit a service
+(https://docs.aws.amazon.com/proton/latest/userguide/ag-svc-update.html)
+in the I<Proton User Guide>.
 
 
 

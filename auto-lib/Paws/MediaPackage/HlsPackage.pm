@@ -5,6 +5,7 @@ package Paws::MediaPackage::HlsPackage;
   has AdsOnDeliveryRestrictions => (is => 'ro', isa => 'Str', request_name => 'adsOnDeliveryRestrictions', traits => ['NameInRequest']);
   has AdTriggers => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'adTriggers', traits => ['NameInRequest']);
   has Encryption => (is => 'ro', isa => 'Paws::MediaPackage::HlsEncryption', request_name => 'encryption', traits => ['NameInRequest']);
+  has IncludeDvbSubtitles => (is => 'ro', isa => 'Bool', request_name => 'includeDvbSubtitles', traits => ['NameInRequest']);
   has IncludeIframeOnlyStream => (is => 'ro', isa => 'Bool', request_name => 'includeIframeOnlyStream', traits => ['NameInRequest']);
   has PlaylistType => (is => 'ro', isa => 'Str', request_name => 'playlistType', traits => ['NameInRequest']);
   has PlaylistWindowSeconds => (is => 'ro', isa => 'Int', request_name => 'playlistWindowSeconds', traits => ['NameInRequest']);
@@ -74,6 +75,12 @@ set a programDateTimeIntervalSeconds value that is greater than 0.
 =head2 Encryption => L<Paws::MediaPackage::HlsEncryption>
 
 
+
+
+=head2 IncludeDvbSubtitles => Bool
+
+When enabled, MediaPackage passes through digital video broadcasting
+(DVB) subtitles into the output.
 
 
 =head2 IncludeIframeOnlyStream => Bool

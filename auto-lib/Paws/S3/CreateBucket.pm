@@ -3,7 +3,6 @@ package Paws::S3::CreateBucket;
   use Moose;
   has ACL => (is => 'ro', isa => 'Str', header_name => 'x-amz-acl', traits => ['ParamInHeader']);
   has Bucket => (is => 'ro', isa => 'Str', uri_name => 'Bucket', traits => ['ParamInURI'], required => 1);
-  has ContentLength => (is => 'ro', isa => 'Int', header_name => 'Content-Length', traits => ['ParamInHeader']);
   has CreateBucketConfiguration => (is => 'ro', isa => 'Paws::S3::CreateBucketConfiguration', traits => ['ParamInBody']);
   has GrantFullControl => (is => 'ro', isa => 'Str', header_name => 'x-amz-grant-full-control', traits => ['ParamInHeader']);
   has GrantRead => (is => 'ro', isa => 'Str', header_name => 'x-amz-grant-read', traits => ['ParamInHeader']);
@@ -11,6 +10,7 @@ package Paws::S3::CreateBucket;
   has GrantWrite => (is => 'ro', isa => 'Str', header_name => 'x-amz-grant-write', traits => ['ParamInHeader']);
   has GrantWriteACP => (is => 'ro', isa => 'Str', header_name => 'x-amz-grant-write-acp', traits => ['ParamInHeader']);
   has ObjectLockEnabledForBucket => (is => 'ro', isa => 'Bool', header_name => 'x-amz-bucket-object-lock-enabled', traits => ['ParamInHeader']);
+  has ObjectOwnership => (is => 'ro', isa => 'Str', header_name => 'x-amz-object-ownership', traits => ['ParamInHeader']);
 
 
   use MooseX::ClassAttribute;
@@ -74,17 +74,30 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/s3/
 
 The canned ACL to apply to the bucket.
 
+This functionality is not supported for directory buckets.
+
 Valid values are: C<"private">, C<"public-read">, C<"public-read-write">, C<"authenticated-read">
 
 =head2 B<REQUIRED> Bucket => Str
 
 The name of the bucket to create.
 
+B<General purpose buckets> - For information about bucket naming
+restrictions, see Bucket naming rules
+(https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html)
+in the I<Amazon S3 User Guide>.
 
-
-=head2 ContentLength => Int
-
-Size of the body in bytes.
+B<Directory buckets > - When you use this operation with a directory
+bucket, you must use path-style requests in the format
+C<https://s3express-control.I<region-code>.amazonaws.com/I<bucket-name>
+>. Virtual-hosted-style requests aren't supported. Directory bucket
+names must be unique in the chosen Zone (Availability Zone or Local
+Zone). Bucket names must also follow the format C<
+I<bucket-base-name>--I<zone-id>--x-s3> (for example, C<
+I<DOC-EXAMPLE-BUCKET>--I<usw2-az1>--x-s3>). For information about
+bucket naming restrictions, see Directory bucket naming rules
+(https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-bucket-naming-rules.html)
+in the I<Amazon S3 User Guide>
 
 
 
@@ -99,17 +112,23 @@ The configuration information for the bucket.
 Allows grantee the read, write, read ACP, and write ACP permissions on
 the bucket.
 
+This functionality is not supported for directory buckets.
+
 
 
 =head2 GrantRead => Str
 
 Allows grantee to list the objects in the bucket.
 
+This functionality is not supported for directory buckets.
+
 
 
 =head2 GrantReadACP => Str
 
 Allows grantee to read the bucket ACL.
+
+This functionality is not supported for directory buckets.
 
 
 
@@ -120,11 +139,15 @@ Allows grantee to create new objects in the bucket.
 For the bucket and object owners of existing objects, also allows
 deletions and overwrites of those objects.
 
+This functionality is not supported for directory buckets.
+
 
 
 =head2 GrantWriteACP => Str
 
 Allows grantee to write the ACL for the applicable bucket.
+
+This functionality is not supported for directory buckets.
 
 
 
@@ -133,7 +156,15 @@ Allows grantee to write the ACL for the applicable bucket.
 Specifies whether you want S3 Object Lock to be enabled for the new
 bucket.
 
+This functionality is not supported for directory buckets.
 
+
+
+=head2 ObjectOwnership => Str
+
+
+
+Valid values are: C<"BucketOwnerPreferred">, C<"ObjectWriter">, C<"BucketOwnerEnforced">
 
 
 =head1 SEE ALSO

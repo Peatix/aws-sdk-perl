@@ -41,8 +41,7 @@ The failure reason.
 
 =head2 HomeEfsFileSystemUid => Str
 
-The ID of the user's profile in the Amazon Elastic File System (EFS)
-volume.
+The ID of the user's profile in the Amazon Elastic File System volume.
 
 
 =head2 LastModifiedTime => Str
@@ -52,12 +51,12 @@ The last modified time.
 
 =head2 SingleSignOnUserIdentifier => Str
 
-The SSO user identifier.
+The IAM Identity Center user identifier.
 
 
 =head2 SingleSignOnUserValue => Str
 
-The SSO user value.
+The IAM Identity Center user value.
 
 
 =head2 Status => Str

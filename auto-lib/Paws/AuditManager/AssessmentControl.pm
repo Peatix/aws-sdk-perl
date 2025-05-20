@@ -41,8 +41,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AuditManage
 
 =head1 DESCRIPTION
 
-The control entity that represents a standard or custom control used in
-an AWS Audit Manager assessment.
+The control entity that represents a standard control or a custom
+control in an Audit Manager assessment.
 
 =head1 ATTRIBUTES
 
@@ -54,42 +54,42 @@ The amount of evidence in the assessment report.
 
 =head2 Comments => ArrayRef[L<Paws::AuditManager::ControlComment>]
 
-The list of comments attached to the specified control.
+The list of comments that's attached to the control.
 
 
 =head2 Description => Str
 
-The description of the specified control.
+The description of the control.
 
 
 =head2 EvidenceCount => Int
 
-The amount of evidence generated for the control.
+The amount of evidence that's collected for the control.
 
 
 =head2 EvidenceSources => ArrayRef[Str|Undef]
 
-The list of data sources for the specified evidence.
+The list of data sources for the evidence.
 
 
 =head2 Id => Str
 
-The identifier for the specified control.
+The identifier for the control.
 
 
 =head2 Name => Str
 
-The name of the specified control.
+The name of the control.
 
 
 =head2 Response => Str
 
-The response of the specified control.
+The response of the control.
 
 
 =head2 Status => Str
 
-The status of the specified control.
+The status of the control.
 
 
 

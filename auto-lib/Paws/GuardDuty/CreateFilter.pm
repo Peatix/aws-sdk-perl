@@ -91,14 +91,23 @@ The idempotency token for the create request.
 
 =head2 Description => Str
 
-The description of the filter.
+The description of the filter. Valid characters include alphanumeric
+characters, and special characters such as hyphen, period, colon,
+underscore, parentheses (C<{ }>, C<[ ]>, and C<( )>), forward slash,
+horizontal tab, vertical tab, newline, form feed, return, and
+whitespace.
 
 
 
 =head2 B<REQUIRED> DetectorId => Str
 
-The ID of the detector belonging to the GuardDuty account that you want
-to create a filter for.
+The detector ID associated with the GuardDuty account for which you
+want to create a filter.
+
+To find the C<detectorId> in the current Region, see the Settings page
+in the GuardDuty console, or run the ListDetectors
+(https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+API.
 
 
 
@@ -116,15 +125,56 @@ accountId
 
 =item *
 
+id
+
+=item *
+
 region
 
 =item *
 
-confidence
+severity
+
+To filter on the basis of severity, the API and CLI use the following
+input list for the FindingCriteria
+(https://docs.aws.amazon.com/guardduty/latest/APIReference/API_FindingCriteria.html)
+condition:
+
+=over
 
 =item *
 
-id
+B<Low>: C<["1", "2", "3"]>
+
+=item *
+
+B<Medium>: C<["4", "5", "6"]>
+
+=item *
+
+B<High>: C<["7", "8"]>
+
+=item *
+
+B<Critical>: C<["9", "10"]>
+
+=back
+
+For more information, see Findings severity levels
+(https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_findings-severity.html)
+in the I<Amazon GuardDuty User Guide>.
+
+=item *
+
+type
+
+=item *
+
+updatedAt
+
+Type: ISO 8601 string format: YYYY-MM-DDTHH:MM:SS.SSSZ or
+YYYY-MM-DDTHH:MM:SSZ depending on whether the value contains
+milliseconds.
 
 =item *
 
@@ -156,7 +206,11 @@ resource.instanceDetails.instanceId
 
 =item *
 
-resource.instanceDetails.outpostArn
+resource.instanceDetails.tags.key
+
+=item *
+
+resource.instanceDetails.tags.value
 
 =item *
 
@@ -192,15 +246,31 @@ resource.instanceDetails.networkInterfaces.vpcId
 
 =item *
 
-resource.instanceDetails.tags.key
-
-=item *
-
-resource.instanceDetails.tags.value
+resource.instanceDetails.outpostArn
 
 =item *
 
 resource.resourceType
+
+=item *
+
+resource.s3BucketDetails.publicAccess.effectivePermissions
+
+=item *
+
+resource.s3BucketDetails.name
+
+=item *
+
+resource.s3BucketDetails.tags.key
+
+=item *
+
+resource.s3BucketDetails.tags.value
+
+=item *
+
+resource.s3BucketDetails.type
 
 =item *
 
@@ -232,6 +302,10 @@ service.action.awsApiCallAction.remoteIpDetails.ipAddressV4
 
 =item *
 
+service.action.awsApiCallAction.remoteIpDetails.ipAddressV6
+
+=item *
+
 service.action.awsApiCallAction.remoteIpDetails.organization.asn
 
 =item *
@@ -245,6 +319,10 @@ service.action.awsApiCallAction.serviceName
 =item *
 
 service.action.dnsRequestAction.domain
+
+=item *
+
+service.action.dnsRequestAction.domainWithSuffix
 
 =item *
 
@@ -264,10 +342,6 @@ service.action.networkConnectionAction.protocol
 
 =item *
 
-service.action.networkConnectionAction.localIpDetails.ipAddressV4
-
-=item *
-
 service.action.networkConnectionAction.remoteIpDetails.city.cityName
 
 =item *
@@ -277,6 +351,10 @@ service.action.networkConnectionAction.remoteIpDetails.country.countryName
 =item *
 
 service.action.networkConnectionAction.remoteIpDetails.ipAddressV4
+
+=item *
+
+service.action.networkConnectionAction.remoteIpDetails.ipAddressV6
 
 =item *
 
@@ -292,15 +370,55 @@ service.action.networkConnectionAction.remotePortDetails.port
 
 =item *
 
-service.additionalInfo.threatListName
+service.action.awsApiCallAction.remoteAccountDetails.affiliated
 
 =item *
 
-service.archived
+service.action.kubernetesApiCallAction.remoteIpDetails.ipAddressV4
 
-When this attribute is set to TRUE, only archived findings are listed.
-When it's set to FALSE, only unarchived findings are listed. When this
-attribute is not set, all existing findings are listed.
+=item *
+
+service.action.kubernetesApiCallAction.remoteIpDetails.ipAddressV6
+
+=item *
+
+service.action.kubernetesApiCallAction.namespace
+
+=item *
+
+service.action.kubernetesApiCallAction.remoteIpDetails.organization.asn
+
+=item *
+
+service.action.kubernetesApiCallAction.requestUri
+
+=item *
+
+service.action.kubernetesApiCallAction.statusCode
+
+=item *
+
+service.action.networkConnectionAction.localIpDetails.ipAddressV4
+
+=item *
+
+service.action.networkConnectionAction.localIpDetails.ipAddressV6
+
+=item *
+
+service.action.networkConnectionAction.protocol
+
+=item *
+
+service.action.awsApiCallAction.serviceName
+
+=item *
+
+service.action.awsApiCallAction.remoteAccountDetails.accountId
+
+=item *
+
+service.additionalInfo.threatListName
 
 =item *
 
@@ -308,19 +426,111 @@ service.resourceRole
 
 =item *
 
-severity
+resource.eksClusterDetails.name
 
 =item *
 
-type
+resource.kubernetesDetails.kubernetesWorkloadDetails.name
 
 =item *
 
-updatedAt
+resource.kubernetesDetails.kubernetesWorkloadDetails.namespace
 
-Type: ISO 8601 string format: YYYY-MM-DDTHH:MM:SS.SSSZ or
-YYYY-MM-DDTHH:MM:SSZ depending on whether the value contains
-milliseconds.
+=item *
+
+resource.kubernetesDetails.kubernetesUserDetails.username
+
+=item *
+
+resource.kubernetesDetails.kubernetesWorkloadDetails.containers.image
+
+=item *
+
+resource.kubernetesDetails.kubernetesWorkloadDetails.containers.imagePrefix
+
+=item *
+
+service.ebsVolumeScanDetails.scanId
+
+=item *
+
+service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.threatNames.name
+
+=item *
+
+service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.threatNames.severity
+
+=item *
+
+service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.threatNames.filePaths.hash
+
+=item *
+
+resource.ecsClusterDetails.name
+
+=item *
+
+resource.ecsClusterDetails.taskDetails.containers.image
+
+=item *
+
+resource.ecsClusterDetails.taskDetails.definitionArn
+
+=item *
+
+resource.containerDetails.image
+
+=item *
+
+resource.rdsDbInstanceDetails.dbInstanceIdentifier
+
+=item *
+
+resource.rdsDbInstanceDetails.dbClusterIdentifier
+
+=item *
+
+resource.rdsDbInstanceDetails.engine
+
+=item *
+
+resource.rdsDbUserDetails.user
+
+=item *
+
+resource.rdsDbInstanceDetails.tags.key
+
+=item *
+
+resource.rdsDbInstanceDetails.tags.value
+
+=item *
+
+service.runtimeDetails.process.executableSha256
+
+=item *
+
+service.runtimeDetails.process.name
+
+=item *
+
+service.runtimeDetails.process.executablePath
+
+=item *
+
+resource.lambdaDetails.functionName
+
+=item *
+
+resource.lambdaDetails.functionArn
+
+=item *
+
+resource.lambdaDetails.tags.key
+
+=item *
+
+resource.lambdaDetails.tags.value
 
 =back
 
@@ -329,9 +539,9 @@ milliseconds.
 
 =head2 B<REQUIRED> Name => Str
 
-The name of the filter. Minimum length of 3. Maximum length of 64.
-Valid characters include alphanumeric characters, dot (.), underscore
-(_), and dash (-). Spaces are not allowed.
+The name of the filter. Valid characters include period (.), underscore
+(_), dash (-), and alphanumeric characters. A whitespace is considered
+to be an invalid character.
 
 
 

@@ -42,7 +42,8 @@ An object that contains two attributes, C<SortBy> and C<SortOrder>.
 =head2 SortBy => Str
 
 For C<ListEntities>, supported attributes include C<LastModifiedDate>
-(default), C<Visibility>, C<EntityId>, and C<Name>.
+(default) and C<EntityId>. In addition to C<LastModifiedDate> and
+C<EntityId>, each C<EntityType> might support additional fields.
 
 For C<ListChangeSets>, supported attributes include C<StartTime> and
 C<EndTime>.

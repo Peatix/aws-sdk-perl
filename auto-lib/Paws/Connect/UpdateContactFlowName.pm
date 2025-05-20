@@ -11,7 +11,7 @@ package Paws::Connect::UpdateContactFlowName;
   class_has _api_call => (isa => 'Str', is => 'ro', default => 'UpdateContactFlowName');
   class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/contact-flows/{InstanceId}/{ContactFlowId}/name');
   class_has _api_method  => (isa => 'Str', is => 'ro', default => 'POST');
-  class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::API::Response');
+  class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::Connect::UpdateContactFlowNameResponse');
 1;
 
 ### main pod documentation begin ###
@@ -31,7 +31,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $connect = Paws->service('Connect');
-    $connect->UpdateContactFlowName(
+    my $UpdateContactFlowNameResponse = $connect->UpdateContactFlowName(
       ContactFlowId => 'MyContactFlowId',
       InstanceId    => 'MyInstanceId',
       Description   => 'MyContactFlowDescription',    # OPTIONAL
@@ -46,13 +46,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/con
 
 =head2 B<REQUIRED> ContactFlowId => Str
 
-The identifier of the contact flow.
+The identifier of the flow.
 
 
 
 =head2 Description => Str
 
-The description of the contact flow.
+The description of the flow.
 
 
 
@@ -64,7 +64,7 @@ The identifier of the Amazon Connect instance.
 
 =head2 Name => Str
 
-The name of the contact flow.
+The name of the flow.
 
 
 

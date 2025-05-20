@@ -34,10 +34,12 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SageMaker::
 
 =head1 DESCRIPTION
 
-The VpcConfig configuration object that specifies the VPC that you want
-the compilation jobs to connect to. For more information on controlling
+The VpcConfig
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_VpcConfig.html)
+configuration object that specifies the VPC that you want the
+compilation jobs to connect to. For more information on controlling
 access to your Amazon S3 buckets used for compilation job, see Give
-Amazon SageMaker Compilation Jobs Access to Resources in Your Amazon
+Amazon SageMaker AI Compilation Jobs Access to Resources in Your Amazon
 VPC (https://docs.aws.amazon.com/sagemaker/latest/dg/neo-vpc.html).
 
 =head1 ATTRIBUTES

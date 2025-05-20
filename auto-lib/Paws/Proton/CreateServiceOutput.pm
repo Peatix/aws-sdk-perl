@@ -16,7 +16,7 @@ Paws::Proton::CreateServiceOutput
 
 =head2 B<REQUIRED> Service => L<Paws::Proton::Service>
 
-The service detail data that's returned by AWS Proton.
+The service detail data that's returned by Proton.
 
 
 =head2 _request_id => Str

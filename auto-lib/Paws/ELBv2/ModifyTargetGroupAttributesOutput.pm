@@ -17,7 +17,7 @@ Paws::ELBv2::ModifyTargetGroupAttributesOutput
 
 =head2 Attributes => ArrayRef[L<Paws::ELBv2::TargetGroupAttribute>]
 
-Information about the attributes.
+Information about the target group attributes.
 
 
 =head2 _request_id => Str

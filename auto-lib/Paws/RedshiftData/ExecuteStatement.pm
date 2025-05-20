@@ -1,14 +1,19 @@
 
 package Paws::RedshiftData::ExecuteStatement;
   use Moose;
-  has ClusterIdentifier => (is => 'ro', isa => 'Str', required => 1);
+  has ClientToken => (is => 'ro', isa => 'Str');
+  has ClusterIdentifier => (is => 'ro', isa => 'Str');
   has Database => (is => 'ro', isa => 'Str');
   has DbUser => (is => 'ro', isa => 'Str');
   has Parameters => (is => 'ro', isa => 'ArrayRef[Paws::RedshiftData::SqlParameter]');
+  has ResultFormat => (is => 'ro', isa => 'Str');
   has SecretArn => (is => 'ro', isa => 'Str');
+  has SessionId => (is => 'ro', isa => 'Str');
+  has SessionKeepAliveSeconds => (is => 'ro', isa => 'Int');
   has Sql => (is => 'ro', isa => 'Str', required => 1);
   has StatementName => (is => 'ro', isa => 'Str');
   has WithEvent => (is => 'ro', isa => 'Bool');
+  has WorkgroupName => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -35,30 +40,38 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $redshift-data = Paws->service('RedshiftData');
     my $ExecuteStatementOutput = $redshift -data->ExecuteStatement(
-      ClusterIdentifier => 'MyLocation',
       Sql               => 'MyStatementString',
-      Database          => 'MyString',            # OPTIONAL
-      DbUser            => 'MyString',            # OPTIONAL
+      ClientToken       => 'MyClientToken',                # OPTIONAL
+      ClusterIdentifier => 'MyClusterIdentifierString',    # OPTIONAL
+      Database          => 'MyString',                     # OPTIONAL
+      DbUser            => 'MyString',                     # OPTIONAL
       Parameters        => [
         {
           Name  => 'MyParameterName',
-          Value => 'MyParameterValue',            # min: 1
+          Value => 'MyParameterValue',                     # min: 1
 
         },
         ...
       ],    # OPTIONAL
-      SecretArn     => 'MySecretArn',              # OPTIONAL
-      StatementName => 'MyStatementNameString',    # OPTIONAL
-      WithEvent     => 1,                          # OPTIONAL
+      ResultFormat            => 'JSON',                     # OPTIONAL
+      SecretArn               => 'MySecretArn',              # OPTIONAL
+      SessionId               => 'MyUUID',                   # OPTIONAL
+      SessionKeepAliveSeconds => 1,                          # OPTIONAL
+      StatementName           => 'MyStatementNameString',    # OPTIONAL
+      WithEvent               => 1,                          # OPTIONAL
+      WorkgroupName           => 'MyWorkgroupNameString',    # OPTIONAL
     );
 
     # Results:
     my $ClusterIdentifier = $ExecuteStatementOutput->ClusterIdentifier;
     my $CreatedAt         = $ExecuteStatementOutput->CreatedAt;
     my $Database          = $ExecuteStatementOutput->Database;
+    my $DbGroups          = $ExecuteStatementOutput->DbGroups;
     my $DbUser            = $ExecuteStatementOutput->DbUser;
     my $Id                = $ExecuteStatementOutput->Id;
     my $SecretArn         = $ExecuteStatementOutput->SecretArn;
+    my $SessionId         = $ExecuteStatementOutput->SessionId;
+    my $WorkgroupName     = $ExecuteStatementOutput->WorkgroupName;
 
     # Returns a L<Paws::RedshiftData::ExecuteStatementOutput> object.
 
@@ -68,24 +81,33 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/red
 =head1 ATTRIBUTES
 
 
-=head2 B<REQUIRED> ClusterIdentifier => Str
+=head2 ClientToken => Str
 
-The cluster identifier. This parameter is required when authenticating
-using either AWS Secrets Manager or temporary credentials.
+A unique, case-sensitive identifier that you provide to ensure the
+idempotency of the request.
+
+
+
+=head2 ClusterIdentifier => Str
+
+The cluster identifier. This parameter is required when connecting to a
+cluster and authenticating using either Secrets Manager or temporary
+credentials.
 
 
 
 =head2 Database => Str
 
 The name of the database. This parameter is required when
-authenticating using temporary credentials.
+authenticating using either Secrets Manager or temporary credentials.
 
 
 
 =head2 DbUser => Str
 
-The database user name. This parameter is required when authenticating
-using temporary credentials.
+The database user name. This parameter is required when connecting to a
+cluster as a database user and authenticating using temporary
+credentials.
 
 
 
@@ -95,10 +117,31 @@ The parameters for the SQL statement.
 
 
 
+=head2 ResultFormat => Str
+
+The data format of the result of the SQL statement. If no format is
+specified, the default is JSON.
+
+Valid values are: C<"JSON">, C<"CSV">
+
 =head2 SecretArn => Str
 
 The name or ARN of the secret that enables access to the database. This
-parameter is required when authenticating using AWS Secrets Manager.
+parameter is required when authenticating using Secrets Manager.
+
+
+
+=head2 SessionId => Str
+
+The session identifier of the query.
+
+
+
+=head2 SessionKeepAliveSeconds => Int
+
+The number of seconds to keep the session alive after the query
+finishes. The maximum time a session can keep alive is 24 hours. After
+24 hours, the session is forced closed and the query is terminated.
 
 
 
@@ -119,6 +162,14 @@ create it to identify the query.
 
 A value that indicates whether to send an event to the Amazon
 EventBridge event bus after the SQL statement runs.
+
+
+
+=head2 WorkgroupName => Str
+
+The serverless workgroup name or Amazon Resource Name (ARN). This
+parameter is required when connecting to a serverless workgroup and
+authenticating using either Secrets Manager or temporary credentials.
 
 
 

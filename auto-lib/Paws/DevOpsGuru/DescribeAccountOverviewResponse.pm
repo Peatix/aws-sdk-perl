@@ -26,13 +26,15 @@ created during the time range passed in.
 =head2 B<REQUIRED> ProactiveInsights => Int
 
 An integer that specifies the number of open proactive insights in your
-AWS account that were created during the time range passed in.
+Amazon Web Services account that were created during the time range
+passed in.
 
 
 =head2 B<REQUIRED> ReactiveInsights => Int
 
 An integer that specifies the number of open reactive insights in your
-AWS account that were created during the time range passed in.
+Amazon Web Services account that were created during the time range
+passed in.
 
 
 =head2 _request_id => Str

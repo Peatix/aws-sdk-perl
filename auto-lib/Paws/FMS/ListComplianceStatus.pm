@@ -51,7 +51,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/fms
 =head2 MaxResults => Int
 
 Specifies the number of C<PolicyComplianceStatus> objects that you want
-AWS Firewall Manager to return for this request. If you have more
+Firewall Manager to return for this request. If you have more
 C<PolicyComplianceStatus> objects than the number that you specify for
 C<MaxResults>, the response includes a C<NextToken> value that you can
 use to get another batch of C<PolicyComplianceStatus> objects.
@@ -62,7 +62,7 @@ use to get another batch of C<PolicyComplianceStatus> objects.
 
 If you specify a value for C<MaxResults> and you have more
 C<PolicyComplianceStatus> objects than the number that you specify for
-C<MaxResults>, AWS Firewall Manager returns a C<NextToken> value in the
+C<MaxResults>, Firewall Manager returns a C<NextToken> value in the
 response that allows you to list another group of
 C<PolicyComplianceStatus> objects. For the second and subsequent
 C<ListComplianceStatus> requests, specify the value of C<NextToken>
@@ -73,8 +73,7 @@ C<PolicyComplianceStatus> objects.
 
 =head2 B<REQUIRED> PolicyId => Str
 
-The ID of the AWS Firewall Manager policy that you want the details
-for.
+The ID of the Firewall Manager policy that you want the details for.
 
 
 

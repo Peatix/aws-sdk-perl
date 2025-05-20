@@ -51,26 +51,31 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             },    # OPTIONAL
             Filter => {
               And => {
-                Prefix => 'MyPrefix',    # OPTIONAL
-                Tags   => [
+                ObjectSizeGreaterThan => 1,             # OPTIONAL
+                ObjectSizeLessThan    => 1,             # OPTIONAL
+                Prefix                => 'MyPrefix',    # OPTIONAL
+                Tags                  => [
                   {
-                    Key   => 'MyTagKeyString',      # min: 1, max: 1024
-                    Value => 'MyTagValueString',    # max: 1024
+                    Key   => 'MyTagKeyString',      # min: 1, max: 128
+                    Value => 'MyTagValueString',    # max: 256
 
                   },
                   ...
                 ],    # OPTIONAL
               },    # OPTIONAL
-              Prefix => 'MyPrefix',    # OPTIONAL
-              Tag    => {
-                Key   => 'MyTagKeyString',      # min: 1, max: 1024
-                Value => 'MyTagValueString',    # max: 1024
+              ObjectSizeGreaterThan => 1,             # OPTIONAL
+              ObjectSizeLessThan    => 1,             # OPTIONAL
+              Prefix                => 'MyPrefix',    # OPTIONAL
+              Tag                   => {
+                Key   => 'MyTagKeyString',            # min: 1, max: 128
+                Value => 'MyTagValueString',          # max: 256
 
               },
             },    # OPTIONAL
             ID                          => 'MyID',    # OPTIONAL
             NoncurrentVersionExpiration => {
-              NoncurrentDays => 1,                    # OPTIONAL
+              NewerNoncurrentVersions => 1,           # OPTIONAL
+              NoncurrentDays          => 1,           # OPTIONAL
             },    # OPTIONAL
             NoncurrentVersionTransitions => [
               {
@@ -103,7 +108,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/s3-
 
 =head2 B<REQUIRED> AccountId => Str
 
-The AWS account ID of the Outposts bucket.
+The Amazon Web Services account ID of the Outposts bucket.
 
 
 

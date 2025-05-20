@@ -1,0 +1,92 @@
+
+package Paws::LakeFormation::UpdateLFTagExpression;
+  use Moose;
+  has CatalogId => (is => 'ro', isa => 'Str');
+  has Description => (is => 'ro', isa => 'Str');
+  has Expression => (is => 'ro', isa => 'ArrayRef[Paws::LakeFormation::LFTag]', required => 1);
+  has Name => (is => 'ro', isa => 'Str', required => 1);
+
+  use MooseX::ClassAttribute;
+
+  class_has _api_call => (isa => 'Str', is => 'ro', default => 'UpdateLFTagExpression');
+  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/UpdateLFTagExpression');
+  class_has _api_method  => (isa => 'Str', is => 'ro', default => 'POST');
+  class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::LakeFormation::UpdateLFTagExpressionResponse');
+1;
+
+### main pod documentation begin ###
+
+=head1 NAME
+
+Paws::LakeFormation::UpdateLFTagExpression - Arguments for method UpdateLFTagExpression on L<Paws::LakeFormation>
+
+=head1 DESCRIPTION
+
+This class represents the parameters used for calling the method UpdateLFTagExpression on the
+L<AWS Lake Formation|Paws::LakeFormation> service. Use the attributes of this class
+as arguments to method UpdateLFTagExpression.
+
+You shouldn't make instances of this class. Each attribute should be used as a named argument in the call to UpdateLFTagExpression.
+
+=head1 SYNOPSIS
+
+    my $lakeformation = Paws->service('LakeFormation');
+    my $UpdateLFTagExpressionResponse = $lakeformation->UpdateLFTagExpression(
+      Expression => [
+        {
+          TagKey    => 'MyLFTagKey',    # min: 1, max: 128
+          TagValues => [
+            'MyLFTagValue', ...         # max: 256
+          ],    # min: 1, max: 50
+
+        },
+        ...
+      ],
+      Name        => 'MyNameString',
+      CatalogId   => 'MyCatalogIdString',      # OPTIONAL
+      Description => 'MyDescriptionString',    # OPTIONAL
+    );
+
+Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
+For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/lakeformation/UpdateLFTagExpression>
+
+=head1 ATTRIBUTES
+
+
+=head2 CatalogId => Str
+
+The identifier for the Data Catalog. By default, the account ID.
+
+
+
+=head2 Description => Str
+
+The description with information about the saved LF-Tag expression.
+
+
+
+=head2 B<REQUIRED> Expression => ArrayRef[L<Paws::LakeFormation::LFTag>]
+
+The LF-Tag expression body composed of one more LF-Tag key-value pairs.
+
+
+
+=head2 B<REQUIRED> Name => Str
+
+The name for the LF-Tag expression.
+
+
+
+
+=head1 SEE ALSO
+
+This class forms part of L<Paws>, documenting arguments for method UpdateLFTagExpression in L<Paws::LakeFormation>
+
+=head1 BUGS and CONTRIBUTIONS
+
+The source code is located here: L<https://github.com/pplu/aws-sdk-perl>
+
+Please report bugs to: L<https://github.com/pplu/aws-sdk-perl/issues>
+
+=cut
+

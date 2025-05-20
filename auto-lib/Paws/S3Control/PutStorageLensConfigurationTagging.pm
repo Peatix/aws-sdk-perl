@@ -40,8 +40,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       ConfigId  => 'MyConfigId',
       Tags      => [
         {
-          Key   => 'MyTagKeyString',      # min: 1, max: 1024
-          Value => 'MyTagValueString',    # max: 1024
+          Key   => 'MyTagKeyString',      # min: 1, max: 128
+          Value => 'MyTagValueString',    # max: 256
 
         },
         ...

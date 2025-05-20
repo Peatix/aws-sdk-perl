@@ -60,7 +60,7 @@ The kind of extension.
 Conditional: You must specify either C<TypeName> and C<Type>, or
 C<Arn>.
 
-Valid values are: C<"RESOURCE">, C<"MODULE">
+Valid values are: C<"RESOURCE">, C<"MODULE">, C<"HOOK">
 
 =head2 TypeName => Str
 

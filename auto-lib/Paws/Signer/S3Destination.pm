@@ -34,7 +34,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Signer::S3D
 
 =head1 DESCRIPTION
 
-The name and prefix of the S3 bucket where code signing saves your
+The name and prefix of the Amazon S3 bucket where AWS Signer saves your
 signed objects.
 
 =head1 ATTRIBUTES
@@ -47,8 +47,8 @@ Name of the S3 bucket.
 
 =head2 Prefix => Str
 
-An Amazon S3 prefix that you can use to limit responses to those that
-begin with the specified prefix.
+An S3 prefix that you can use to limit responses to those that begin
+with the specified prefix.
 
 
 

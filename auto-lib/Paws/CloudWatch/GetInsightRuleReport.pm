@@ -134,7 +134,7 @@ period represented by that data point.
 =head2 OrderBy => Str
 
 Determines what statistic to use to rank the contributors. Valid values
-are SUM and MAXIMUM.
+are C<Sum> and C<Maximum>.
 
 
 

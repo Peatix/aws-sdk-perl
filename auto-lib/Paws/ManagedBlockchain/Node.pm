@@ -55,7 +55,7 @@ Configuration properties of a node.
 The Amazon Resource Name (ARN) of the node. For more information about
 ARNs and their format, see Amazon Resource Names (ARNs)
 (https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
-in the I<AWS General Reference>.
+in the I<Amazon Web Services General Reference>.
 
 
 =head2 AvailabilityZone => Str
@@ -86,11 +86,15 @@ The instance type of the node.
 
 =head2 KmsKeyArn => Str
 
-The Amazon Resource Name (ARN) of the customer managed key in AWS Key
-Management Service (AWS KMS) that the node uses for encryption at rest.
-If the value of this parameter is C<"AWS Owned KMS Key">, the node uses
-an AWS owned KMS key for encryption. The node inherits this parameter
-from the member that it belongs to.
+The Amazon Resource Name (ARN) of the customer managed key in Key
+Management Service (KMS) that the node uses for encryption at rest. If
+the value of this parameter is C<"AWS Owned KMS Key">, the node uses an
+Amazon Web Services owned KMS key for encryption. The node inherits
+this parameter from the member that it belongs to.
+
+For more information, see Encryption at Rest
+(https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/managed-blockchain-encryption-at-rest.html)
+in the I<Amazon Managed Blockchain Hyperledger Fabric Developer Guide>.
 
 Applies only to Hyperledger Fabric.
 
@@ -129,7 +133,8 @@ The status of the node.
 
 =item *
 
-C<CREATING> - The AWS account is in the process of creating a node.
+C<CREATING> - The Amazon Web Services account is in the process of
+creating a node.
 
 =item *
 
@@ -145,8 +150,8 @@ C<AVAILABLE>. Otherwise, it moves to C<FAILED> status.
 
 =item *
 
-C<CREATE_FAILED> - The AWS account attempted to create a node and
-creation failed.
+C<CREATE_FAILED> - The Amazon Web Services account attempted to create
+a node and creation failed.
 
 =item *
 
@@ -169,13 +174,13 @@ must be deleted.
 
 C<INACCESSIBLE_ENCRYPTION_KEY> - The node is impaired and might not
 function as expected because it cannot access the specified customer
-managed key in AWS KMS for encryption at rest. Either the KMS key was
+managed key in KMS for encryption at rest. Either the KMS key was
 disabled or deleted, or the grants on the key were revoked.
 
-The effect of disabling or deleting a key, or revoking a grant is not
-immediate. The node resource might take some time to find that the key
-is inaccessible. When a resource is in this state, we recommend
-deleting and recreating the resource.
+The effect of disabling or deleting a key or of revoking a grant isn't
+immediate. It might take some time for the node resource to discover
+that the key is inaccessible. When a resource is in this state, we
+recommend deleting and recreating the resource.
 
 =back
 

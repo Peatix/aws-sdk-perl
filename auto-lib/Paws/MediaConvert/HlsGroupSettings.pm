@@ -7,6 +7,7 @@ package Paws::MediaConvert::HlsGroupSettings;
   has BaseUrl => (is => 'ro', isa => 'Str', request_name => 'baseUrl', traits => ['NameInRequest']);
   has CaptionLanguageMappings => (is => 'ro', isa => 'ArrayRef[Paws::MediaConvert::HlsCaptionLanguageMapping]', request_name => 'captionLanguageMappings', traits => ['NameInRequest']);
   has CaptionLanguageSetting => (is => 'ro', isa => 'Str', request_name => 'captionLanguageSetting', traits => ['NameInRequest']);
+  has CaptionSegmentLengthControl => (is => 'ro', isa => 'Str', request_name => 'captionSegmentLengthControl', traits => ['NameInRequest']);
   has ClientCache => (is => 'ro', isa => 'Str', request_name => 'clientCache', traits => ['NameInRequest']);
   has CodecSpecification => (is => 'ro', isa => 'Str', request_name => 'codecSpecification', traits => ['NameInRequest']);
   has Destination => (is => 'ro', isa => 'Str', request_name => 'destination', traits => ['NameInRequest']);
@@ -14,6 +15,7 @@ package Paws::MediaConvert::HlsGroupSettings;
   has DirectoryStructure => (is => 'ro', isa => 'Str', request_name => 'directoryStructure', traits => ['NameInRequest']);
   has Encryption => (is => 'ro', isa => 'Paws::MediaConvert::HlsEncryptionSettings', request_name => 'encryption', traits => ['NameInRequest']);
   has ImageBasedTrickPlay => (is => 'ro', isa => 'Str', request_name => 'imageBasedTrickPlay', traits => ['NameInRequest']);
+  has ImageBasedTrickPlaySettings => (is => 'ro', isa => 'Paws::MediaConvert::HlsImageBasedTrickPlaySettings', request_name => 'imageBasedTrickPlaySettings', traits => ['NameInRequest']);
   has ManifestCompression => (is => 'ro', isa => 'Str', request_name => 'manifestCompression', traits => ['NameInRequest']);
   has ManifestDurationFormat => (is => 'ro', isa => 'Str', request_name => 'manifestDurationFormat', traits => ['NameInRequest']);
   has MinFinalSegmentLength => (is => 'ro', isa => 'Num', request_name => 'minFinalSegmentLength', traits => ['NameInRequest']);
@@ -21,10 +23,13 @@ package Paws::MediaConvert::HlsGroupSettings;
   has OutputSelection => (is => 'ro', isa => 'Str', request_name => 'outputSelection', traits => ['NameInRequest']);
   has ProgramDateTime => (is => 'ro', isa => 'Str', request_name => 'programDateTime', traits => ['NameInRequest']);
   has ProgramDateTimePeriod => (is => 'ro', isa => 'Int', request_name => 'programDateTimePeriod', traits => ['NameInRequest']);
+  has ProgressiveWriteHlsManifest => (is => 'ro', isa => 'Str', request_name => 'progressiveWriteHlsManifest', traits => ['NameInRequest']);
   has SegmentControl => (is => 'ro', isa => 'Str', request_name => 'segmentControl', traits => ['NameInRequest']);
   has SegmentLength => (is => 'ro', isa => 'Int', request_name => 'segmentLength', traits => ['NameInRequest']);
+  has SegmentLengthControl => (is => 'ro', isa => 'Str', request_name => 'segmentLengthControl', traits => ['NameInRequest']);
   has SegmentsPerSubdirectory => (is => 'ro', isa => 'Int', request_name => 'segmentsPerSubdirectory', traits => ['NameInRequest']);
   has StreamInfResolution => (is => 'ro', isa => 'Str', request_name => 'streamInfResolution', traits => ['NameInRequest']);
+  has TargetDurationCompatibilityMode => (is => 'ro', isa => 'Str', request_name => 'targetDurationCompatibilityMode', traits => ['NameInRequest']);
   has TimedMetadataId3Frame => (is => 'ro', isa => 'Str', request_name => 'timedMetadataId3Frame', traits => ['NameInRequest']);
   has TimedMetadataId3Period => (is => 'ro', isa => 'Int', request_name => 'timedMetadataId3Period', traits => ['NameInRequest']);
   has TimestampDeltaMilliseconds => (is => 'ro', isa => 'Int', request_name => 'timestampDeltaMilliseconds', traits => ['NameInRequest']);
@@ -61,9 +66,6 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::MediaConver
 
 Settings related to your HLS output package. For more information, see
 https://docs.aws.amazon.com/mediaconvert/latest/ug/outputs-file-ABR.html.
-When you work directly in your JSON job specification, include this
-object and any required children when you set Type, under
-OutputGroupSettings, to HLS_GROUP_SETTINGS.
 
 =head1 ATTRIBUTES
 
@@ -87,9 +89,9 @@ outputs themselves.
 =head2 AudioOnlyHeader => Str
 
 Ignore this setting unless you are using FairPlay DRM with Verimatrix
-and you encounter playback issues. Keep the default value, Include
-(INCLUDE), to output audio-only headers. Choose Exclude (EXCLUDE) to
-remove the audio-only headers from your audio segments.
+and you encounter playback issues. Keep the default value, Include, to
+output audio-only headers. Choose Exclude to remove the audio-only
+headers from your audio segments.
 
 
 =head2 BaseUrl => Str
@@ -118,12 +120,22 @@ CLOSED-CAPTIONS=NONE line in the manifest. Omit: Omit any
 CLOSED-CAPTIONS line from the manifest.
 
 
+=head2 CaptionSegmentLengthControl => Str
+
+Set Caption segment length control to Match video to create caption
+segments that align with the video segments from the first video output
+in this output group. For example, if the video segments are 2 seconds
+long, your WebVTT segments will also be 2 seconds long. Keep the
+default setting, Large segments to create caption segments that are 300
+seconds long.
+
+
 =head2 ClientCache => Str
 
 Disable this setting only when your workflow requires the
 
-(ENABLED) and control caching in your video distribution set up. For
-example, use the Cache-Control http header.
+and control caching in your video distribution set up. For example, use
+the Cache-Control http header.
 
 
 =head2 CodecSpecification => Str
@@ -134,11 +146,11 @@ playlist generation.
 
 =head2 Destination => Str
 
-Use Destination (Destination) to specify the S3 output location and the
-output filename base. Destination accepts format identifiers. If you do
-not specify the base filename in the URI, the service will use the
-filename of the input file. If your job has multiple inputs, the
-service uses the filename of the first input file.
+Use Destination to specify the S3 output location and the output
+filename base. Destination accepts format identifiers. If you do not
+specify the base filename in the URI, the service will use the filename
+of the input file. If your job has multiple inputs, the service uses
+the filename of the first input file.
 
 
 =head2 DestinationSettings => L<Paws::MediaConvert::DestinationSettings>
@@ -160,16 +172,21 @@ DRM settings.
 =head2 ImageBasedTrickPlay => Str
 
 Specify whether MediaConvert generates images for trick play. Keep the
-default value, None (NONE), to not generate any images. Choose
-Thumbnail (THUMBNAIL) to generate tiled thumbnails. Choose Thumbnail
-and full frame (THUMBNAIL_AND_FULLFRAME) to generate tiled thumbnails
-and full-resolution images of single frames. MediaConvert creates a
-child manifest for each set of images that you generate and adds
-corresponding entries to the parent manifest. A common application for
-these images is Roku trick mode. The thumbnails and full-frame images
-that MediaConvert creates with this feature are compatible with this
-Roku specification:
+default value, None, to not generate any images. Choose Thumbnail to
+generate tiled thumbnails. Choose Thumbnail and full frame to generate
+tiled thumbnails and full-resolution images of single frames.
+MediaConvert creates a child manifest for each set of images that you
+generate and adds corresponding entries to the parent manifest. A
+common application for these images is Roku trick mode. The thumbnails
+and full-frame images that MediaConvert creates with this feature are
+compatible with this Roku specification:
 https://developer.roku.com/docs/developer-program/media-playback/trick-mode/hls-and-dash.md
+
+
+=head2 ImageBasedTrickPlaySettings => L<Paws::MediaConvert::HlsImageBasedTrickPlaySettings>
+
+Tile and thumbnail settings applicable when imageBasedTrickPlay is
+ADVANCED
 
 
 =head2 ManifestCompression => Str
@@ -226,6 +243,21 @@ using the timestamp_offset.
 Period of insertion of EXT-X-PROGRAM-DATE-TIME entry, in seconds.
 
 
+=head2 ProgressiveWriteHlsManifest => Str
+
+Specify whether MediaConvert generates HLS manifests while your job is
+running or when your job is complete. To generate HLS manifests while
+your job is running: Choose Enabled. Use if you want to play back your
+content as soon as it's available. MediaConvert writes the parent and
+child manifests after the first three media segments are written to
+your destination S3 bucket. It then writes new updated manifests after
+each additional segment is written. The parent manifest includes the
+latest BANDWIDTH and AVERAGE-BANDWIDTH attributes, and child manifests
+include the latest available media segment. When your job completes,
+the final child playlists include an EXT-X-ENDLIST tag. To generate HLS
+manifests only when your job completes: Choose Disabled.
+
+
 =head2 SegmentControl => Str
 
 When set to SINGLE_FILE, emits program as a single media resource (.ts)
@@ -234,16 +266,42 @@ file, uses #EXT-X-BYTERANGE tags to index segment for playback.
 
 =head2 SegmentLength => Int
 
-Length of MPEG-2 Transport Stream segments to create (in seconds). Note
-that segments will end on the next keyframe after this number of
-seconds, so actual segment length may be longer.
+Specify the length, in whole seconds, of each segment. When you don't
+specify a value, MediaConvert defaults to 10. Related settings: Use
+Segment length control to specify whether the encoder enforces this
+value strictly. Use Segment control to specify whether MediaConvert
+creates separate segment files or one content file that has metadata to
+mark the segment boundaries.
+
+
+=head2 SegmentLengthControl => Str
+
+Specify how you want MediaConvert to determine segment lengths in this
+output group. To use the exact value that you specify under Segment
+length: Choose Exact. Note that this might result in additional
+I-frames in the output GOP. To create segment lengths that are a
+multiple of the GOP: Choose Multiple of GOP. MediaConvert will round up
+the segment lengths to match the next GOP boundary. To have
+MediaConvert automatically determine a segment duration that is a
+multiple of both the audio packets and the frame rates: Choose Match.
+When you do, also specify a target segment duration under Segment
+length. This is useful for some ad-insertion or segment replacement
+workflows. Note that Match has the following requirements: - Output
+containers: Include at least one video output and at least one audio
+output. Audio-only outputs are not supported. - Output frame rate:
+Follow source is not supported. - Multiple output frame rates: When you
+specify multiple outputs, we recommend they share a similar frame rate
+(as in X/3, X/2, X, or 2X). For example: 5, 15, 30 and 60. Or: 25 and
+50. (Outputs must share an integer multiple.) - Output audio codec:
+Specify Advanced Audio Coding (AAC). - Output sample rate: Choose
+48kHz.
 
 
 =head2 SegmentsPerSubdirectory => Int
 
-Number of segments to write to a subdirectory before starting a new
-one. directoryStructure must be SINGLE_DIRECTORY for this setting to
-have an effect.
+Specify the number of segments to write to a subdirectory before
+starting a new one. You must also set Directory structure to
+Subdirectory per stream for this setting to have an effect.
 
 
 =head2 StreamInfResolution => Str
@@ -252,14 +310,35 @@ Include or exclude RESOLUTION attribute for video in EXT-X-STREAM-INF
 tag of variant manifest.
 
 
+=head2 TargetDurationCompatibilityMode => Str
+
+When set to LEGACY, the segment target duration is always rounded up to
+the nearest integer value above its current value in seconds. When set
+to SPEC\\_COMPLIANT, the segment target duration is rounded up to the
+nearest integer value if fraction seconds are greater than or equal to
+0.5 (E<gt>= 0.5) and rounded down if less than 0.5 (E<lt> 0.5). You may
+need to use LEGACY if your client needs to ensure that the target
+duration is always longer than the actual duration of the segment. Some
+older players may experience interrupted playback when the actual
+duration of a track in a segment is longer than the target duration.
+
+
 =head2 TimedMetadataId3Frame => Str
 
-Indicates ID3 frame that has the timecode.
+Specify the type of the ID3 frame to use for ID3 timestamps in your
+output. To include ID3 timestamps: Specify PRIV or TDRL and set ID3
+metadata to Passthrough. To exclude ID3 timestamps: Set ID3 timestamp
+frame type to None.
 
 
 =head2 TimedMetadataId3Period => Int
 
-Timed Metadata interval in seconds.
+Specify the interval in seconds to write ID3 timestamps in your output.
+The first timestamp starts at the output timecode and date, and
+increases incrementally with each ID3 timestamp. To use the default
+interval of 10 seconds: Leave blank. To include this metadata in your
+output: Set ID3 timestamp frame type to PRIV or TDRL, and set ID3
+metadata to Passthrough.
 
 
 =head2 TimestampDeltaMilliseconds => Int

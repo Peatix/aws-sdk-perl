@@ -17,13 +17,14 @@ Paws::SageMaker::ListCompilationJobsResponse
 
 =head2 B<REQUIRED> CompilationJobSummaries => ArrayRef[L<Paws::SageMaker::CompilationJobSummary>]
 
-An array of CompilationJobSummary objects, each describing a model
-compilation job.
+An array of CompilationJobSummary
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CompilationJobSummary.html)
+objects, each describing a model compilation job.
 
 
 =head2 NextToken => Str
 
-If the response is truncated, Amazon SageMaker returns this
+If the response is truncated, Amazon SageMaker AI returns this
 C<NextToken>. To retrieve the next set of model compilation jobs, use
 this token in the next request.
 

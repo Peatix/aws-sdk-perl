@@ -26,13 +26,12 @@ The ID of the deployment.
 
 The ARN
 (https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
-of the AWS IoT job that applies the deployment to target devices.
+of the IoT job that applies the deployment to target devices.
 
 
 =head2 IotJobId => Str
 
-The ID of the AWS IoT job that applies the deployment to target
-devices.
+The ID of the IoT job that applies the deployment to target devices.
 
 
 =head2 _request_id => Str

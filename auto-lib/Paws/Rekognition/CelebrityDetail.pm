@@ -5,6 +5,7 @@ package Paws::Rekognition::CelebrityDetail;
   has Confidence => (is => 'ro', isa => 'Num');
   has Face => (is => 'ro', isa => 'Paws::Rekognition::FaceDetail');
   has Id => (is => 'ro', isa => 'Str');
+  has KnownGender => (is => 'ro', isa => 'Paws::Rekognition::KnownGender');
   has Name => (is => 'ro', isa => 'Str');
   has Urls => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
 
@@ -62,6 +63,11 @@ Face details for the recognized celebrity.
 =head2 Id => Str
 
 The unique identifier for the celebrity.
+
+
+=head2 KnownGender => L<Paws::Rekognition::KnownGender>
+
+Retrieves the known gender for the celebrity.
 
 
 =head2 Name => Str

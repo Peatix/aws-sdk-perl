@@ -7,6 +7,7 @@ package Paws::RAM::CreateResourceShare;
   has PermissionArns => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'permissionArns');
   has Principals => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'principals');
   has ResourceArns => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'resourceArns');
+  has Sources => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'sources');
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::RAM::Tag]', traits => ['NameInRequest'], request_name => 'tags');
 
   use MooseX::ClassAttribute;
@@ -41,6 +42,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       PermissionArns          => [ 'MyString', ... ],    # OPTIONAL
       Principals              => [ 'MyString', ... ],    # OPTIONAL
       ResourceArns            => [ 'MyString', ... ],    # OPTIONAL
+      Sources                 => [ 'MyString', ... ],    # OPTIONAL
       Tags                    => [
         {
           Key   => 'MyTagKey',      # OPTIONAL
@@ -64,50 +66,113 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ram
 
 =head2 AllowExternalPrincipals => Bool
 
-Indicates whether principals outside your AWS organization can be
-associated with a resource share.
+Specifies whether principals outside your organization in Organizations
+can be associated with a resource share. A value of C<true> lets you
+share with individual Amazon Web Services accounts that are I<not> in
+your organization. A value of C<false> only has meaning if your account
+is a member of an Amazon Web Services Organization. The default value
+is C<true>.
 
 
 
 =head2 ClientToken => Str
 
-A unique, case-sensitive identifier that you provide to ensure the
-idempotency of the request.
+Specifies a unique, case-sensitive identifier that you provide to
+ensure the idempotency of the request. This lets you safely retry the
+request without accidentally performing the same operation a second
+time. Passing the same value to a later call to an operation requires
+that you also pass the same value for all other parameters. We
+recommend that you use a UUID type of value.
+(https://wikipedia.org/wiki/Universally_unique_identifier).
+
+If you don't provide this value, then Amazon Web Services generates a
+random one for you.
+
+If you retry the operation with the same C<ClientToken>, but with
+different parameters, the retry fails with an
+C<IdempotentParameterMismatch> error.
 
 
 
 =head2 B<REQUIRED> Name => Str
 
-The name of the resource share.
+Specifies the name of the resource share.
 
 
 
 =head2 PermissionArns => ArrayRef[Str|Undef]
 
-The ARNs of the permissions to associate with the resource share. If
-you do not specify an ARN for the permission, AWS RAM automatically
-attaches the default version of the permission for each resource type.
+Specifies the Amazon Resource Names (ARNs)
+(https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+of the RAM permission to associate with the resource share. If you do
+not specify an ARN for the permission, RAM automatically attaches the
+default version of the permission for each resource type. You can
+associate only one permission with each resource type included in the
+resource share.
 
 
 
 =head2 Principals => ArrayRef[Str|Undef]
 
-The principals to associate with the resource share. The possible
-values are IDs of AWS accounts, the ARN of an OU or organization from
-AWS Organizations.
+Specifies a list of one or more principals to associate with the
+resource share.
+
+You can include the following values:
+
+=over
+
+=item *
+
+An Amazon Web Services account ID, for example: C<123456789012>
+
+=item *
+
+An Amazon Resource Name (ARN)
+(https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+of an organization in Organizations, for example:
+C<organizations::123456789012:organization/o-exampleorgid>
+
+=item *
+
+An ARN of an organizational unit (OU) in Organizations, for example:
+C<organizations::123456789012:ou/o-exampleorgid/ou-examplerootid-exampleouid123>
+
+=item *
+
+An ARN of an IAM role, for example: C<iam::123456789012:role/rolename>
+
+=item *
+
+An ARN of an IAM user, for example: C<iam::123456789012user/username>
+
+=back
+
+Not all resource types can be shared with IAM roles and users. For more
+information, see Sharing with IAM roles and users
+(https://docs.aws.amazon.com/ram/latest/userguide/permissions.html#permissions-rbp-supported-resource-types)
+in the I<Resource Access Manager User Guide>.
 
 
 
 =head2 ResourceArns => ArrayRef[Str|Undef]
 
-The Amazon Resource Names (ARN) of the resources to associate with the
-resource share.
+Specifies a list of one or more ARNs of the resources to associate with
+the resource share.
+
+
+
+=head2 Sources => ArrayRef[Str|Undef]
+
+Specifies from which source accounts the service principal has access
+to the resources in this resource share.
 
 
 
 =head2 Tags => ArrayRef[L<Paws::RAM::Tag>]
 
-One or more tags.
+Specifies one or more tags to attach to the resource share itself. It
+doesn't attach the tags to the resources associated with the resource
+share.
 
 
 

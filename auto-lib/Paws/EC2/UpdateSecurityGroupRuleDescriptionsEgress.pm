@@ -4,7 +4,8 @@ package Paws::EC2::UpdateSecurityGroupRuleDescriptionsEgress;
   has DryRun => (is => 'ro', isa => 'Bool');
   has GroupId => (is => 'ro', isa => 'Str');
   has GroupName => (is => 'ro', isa => 'Str');
-  has IpPermissions => (is => 'ro', isa => 'ArrayRef[Paws::EC2::IpPermission]', required => 1);
+  has IpPermissions => (is => 'ro', isa => 'ArrayRef[Paws::EC2::IpPermission]');
+  has SecurityGroupRuleDescriptions => (is => 'ro', isa => 'ArrayRef[Paws::EC2::SecurityGroupRuleDescription]', traits => ['NameInRequest'], request_name => 'SecurityGroupRuleDescription' );
 
   use MooseX::ClassAttribute;
 
@@ -79,13 +80,21 @@ in a nondefault VPC, you must specify the security group ID.
 =head2 GroupName => Str
 
 [Default VPC] The name of the security group. You must specify either
-the security group ID or the security group name in the request.
+the security group ID or the security group name.
 
 
 
-=head2 B<REQUIRED> IpPermissions => ArrayRef[L<Paws::EC2::IpPermission>]
+=head2 IpPermissions => ArrayRef[L<Paws::EC2::IpPermission>]
 
-The IP permissions for the security group rule.
+The IP permissions for the security group rule. You must specify either
+the IP permissions or the description.
+
+
+
+=head2 SecurityGroupRuleDescriptions => ArrayRef[L<Paws::EC2::SecurityGroupRuleDescription>]
+
+The description for the egress security group rules. You must specify
+either the description or the IP permissions.
 
 
 

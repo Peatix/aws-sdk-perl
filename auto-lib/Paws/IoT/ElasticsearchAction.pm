@@ -37,15 +37,21 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::IoT::Elasti
 
 =head1 DESCRIPTION
 
-Describes an action that writes data to an Amazon Elasticsearch Service
+Describes an action that writes data to an Amazon OpenSearch Service
 domain.
+
+The C<Elasticsearch> action can only be used by existing rule actions.
+To create a new rule action or to update an existing rule action, use
+the C<OpenSearch> rule action instead. For more information, see
+OpenSearchAction
+(https://docs.aws.amazon.com/iot/latest/apireference/API_OpenSearchAction.html).
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> Endpoint => Str
 
-The endpoint of your Elasticsearch domain.
+The endpoint of your OpenSearch domain.
 
 
 =head2 B<REQUIRED> Id => Str
@@ -55,12 +61,12 @@ The unique identifier for the document you are storing.
 
 =head2 B<REQUIRED> Index => Str
 
-The Elasticsearch index where you want to store your data.
+The index where you want to store your data.
 
 
 =head2 B<REQUIRED> RoleArn => Str
 
-The IAM role ARN that has access to Elasticsearch.
+The IAM role ARN that has access to OpenSearch.
 
 
 =head2 B<REQUIRED> Type => Str

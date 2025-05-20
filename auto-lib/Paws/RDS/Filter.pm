@@ -64,6 +64,14 @@ C<DescribeDBInstances>
 
 =item *
 
+C<DescribeDBRecommendations>
+
+=item *
+
+C<DescribeDBShardGroups>
+
+=item *
+
 C<DescribePendingMaintenanceActions>
 
 =back

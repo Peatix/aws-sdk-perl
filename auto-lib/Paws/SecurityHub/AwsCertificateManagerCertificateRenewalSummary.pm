@@ -36,8 +36,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SecurityHub
 
 =head1 DESCRIPTION
 
-Contains information about the AWS Certificate Manager managed renewal
-for an C<AMAZON_ISSUED> certificate.
+Contains information about the Certificate Manager managed renewal for
+an C<AMAZON_ISSUED> certificate.
 
 =head1 ATTRIBUTES
 
@@ -45,13 +45,13 @@ for an C<AMAZON_ISSUED> certificate.
 =head2 DomainValidationOptions => ArrayRef[L<Paws::SecurityHub::AwsCertificateManagerCertificateDomainValidationOption>]
 
 Information about the validation of each domain name in the
-certificate, as it pertains to AWS Certificate Manager managed renewal.
+certificate, as it pertains to Certificate Manager managed renewal.
 Provided only when the certificate type is C<AMAZON_ISSUED>.
 
 
 =head2 RenewalStatus => Str
 
-The status of the AWS Certificate Manager managed renewal of the
+The status of the Certificate Manager managed renewal of the
 certificate.
 
 Valid values: C<PENDING_AUTO_RENEWAL> | C<PENDING_VALIDATION> |
@@ -60,7 +60,8 @@ C<SUCCESS> | C<FAILED>
 
 =head2 RenewalStatusReason => Str
 
-The reason that a renewal request was unsuccessful.
+The reason that a renewal request was unsuccessful. This attribute is
+used only when C<RenewalStatus> is C<FAILED>.
 
 Valid values: C<NO_AVAILABLE_CONTACTS> |
 C<ADDITIONAL_VERIFICATION_REQUIRED> | C<DOMAIN_NOT_ALLOWED> |
@@ -76,10 +77,9 @@ C<OTHER>
 
 Indicates when the renewal summary was last updated.
 
-Uses the C<date-time> format specified in RFC 3339 section 5.6,
-Internet Date/Time Format
-(https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot
-contain spaces. For example, C<2020-03-22T13:22:13.933Z>.
+For more information about the validation and formatting of timestamp
+fields in Security Hub, see Timestamps
+(https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
 
 
 

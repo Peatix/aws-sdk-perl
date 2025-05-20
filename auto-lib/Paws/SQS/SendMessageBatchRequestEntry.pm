@@ -3,11 +3,11 @@ package Paws::SQS::SendMessageBatchRequestEntry;
   use Moose;
   has DelaySeconds => (is => 'ro', isa => 'Int');
   has Id => (is => 'ro', isa => 'Str', required => 1);
-  has MessageAttributes => (is => 'ro', isa => 'Paws::SQS::MessageBodyAttributeMap', request_name => 'MessageAttribute', traits => ['NameInRequest']);
+  has MessageAttributes => (is => 'ro', isa => 'Paws::SQS::MessageBodyAttributeMap');
   has MessageBody => (is => 'ro', isa => 'Str', required => 1);
   has MessageDeduplicationId => (is => 'ro', isa => 'Str');
   has MessageGroupId => (is => 'ro', isa => 'Str');
-  has MessageSystemAttributes => (is => 'ro', isa => 'Paws::SQS::MessageBodySystemAttributeMap', request_name => 'MessageSystemAttribute', traits => ['NameInRequest']);
+  has MessageSystemAttributes => (is => 'ro', isa => 'Paws::SQS::MessageBodySystemAttributeMap');
 
 1;
 

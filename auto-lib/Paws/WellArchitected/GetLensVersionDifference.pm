@@ -1,8 +1,9 @@
 
 package Paws::WellArchitected::GetLensVersionDifference;
   use Moose;
-  has BaseLensVersion => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'BaseLensVersion', required => 1);
+  has BaseLensVersion => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'BaseLensVersion');
   has LensAlias => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'LensAlias', required => 1);
+  has TargetLensVersion => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'TargetLensVersion');
 
   use MooseX::ClassAttribute;
 
@@ -31,15 +32,17 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $wellarchitected = Paws->service('WellArchitected');
     my $GetLensVersionDifferenceOutput =
       $wellarchitected->GetLensVersionDifference(
-      BaseLensVersion => 'MyLensVersion',
-      LensAlias       => 'MyLensAlias',
-
+      LensAlias         => 'MyLensAlias',
+      BaseLensVersion   => 'MyLensVersion',    # OPTIONAL
+      TargetLensVersion => 'MyLensVersion',    # OPTIONAL
       );
 
     # Results:
     my $BaseLensVersion   = $GetLensVersionDifferenceOutput->BaseLensVersion;
     my $LatestLensVersion = $GetLensVersionDifferenceOutput->LatestLensVersion;
     my $LensAlias         = $GetLensVersionDifferenceOutput->LensAlias;
+    my $LensArn           = $GetLensVersionDifferenceOutput->LensArn;
+    my $TargetLensVersion = $GetLensVersionDifferenceOutput->TargetLensVersion;
     my $VersionDifferences =
       $GetLensVersionDifferenceOutput->VersionDifferences;
 
@@ -51,7 +54,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/wel
 =head1 ATTRIBUTES
 
 
-=head2 B<REQUIRED> BaseLensVersion => Str
+=head2 BaseLensVersion => Str
 
 The base version of the lens.
 
@@ -60,6 +63,12 @@ The base version of the lens.
 =head2 B<REQUIRED> LensAlias => Str
 
 
+
+
+
+=head2 TargetLensVersion => Str
+
+The lens version to target a difference for.
 
 
 

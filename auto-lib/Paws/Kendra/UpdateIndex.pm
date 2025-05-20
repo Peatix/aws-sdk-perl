@@ -8,6 +8,7 @@ package Paws::Kendra::UpdateIndex;
   has Name => (is => 'ro', isa => 'Str');
   has RoleArn => (is => 'ro', isa => 'Str');
   has UserContextPolicy => (is => 'ro', isa => 'Str');
+  has UserGroupResolutionConfiguration => (is => 'ro', isa => 'Paws::Kendra::UserGroupResolutionConfiguration');
   has UserTokenConfigurations => (is => 'ro', isa => 'ArrayRef[Paws::Kendra::UserTokenConfiguration]');
 
   use MooseX::ClassAttribute;
@@ -66,9 +67,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },
         ...
       ],    # OPTIONAL
-      Name                    => 'MyIndexName',         # OPTIONAL
-      RoleArn                 => 'MyRoleArn',           # OPTIONAL
-      UserContextPolicy       => 'ATTRIBUTE_FILTER',    # OPTIONAL
+      Name                             => 'MyIndexName',         # OPTIONAL
+      RoleArn                          => 'MyRoleArn',           # OPTIONAL
+      UserContextPolicy                => 'ATTRIBUTE_FILTER',    # OPTIONAL
+      UserGroupResolutionConfiguration => {
+        UserGroupResolutionMode => 'AWS_SSO',    # values: AWS_SSO, NONE
+
+      },    # OPTIONAL
       UserTokenConfigurations => [
         {
           JsonTokenTypeConfiguration => {
@@ -82,7 +87,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             GroupAttributeField =>
               'MyGroupAttributeField',             # min: 1, max: 100; OPTIONAL
             Issuer                 => 'MyIssuer',  # min: 1, max: 65; OPTIONAL
-            SecretManagerArn       => 'MyRoleArn', # min: 1, max: 1284
+            SecretManagerArn       => 'MyRoleArn', # max: 1284
             URL                    => 'MyUrl',     # min: 1, max: 2048; OPTIONAL
             UserNameAttributeField =>
               'MyUserNameAttributeField',          # min: 1, max: 100; OPTIONAL
@@ -100,12 +105,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ken
 
 =head2 CapacityUnits => L<Paws::Kendra::CapacityUnitsConfiguration>
 
-Sets the number of additional storage and query capacity units that
-should be used by the index. You can change the capacity of the index
-up to 5 times per day.
+Sets the number of additional document storage and query capacity units
+that should be used by the index. You can change the capacity of the
+index up to 5 times per day, or make 5 API calls.
 
 If you are using extra storage units, you can't reduce the storage
-capacity below that required to meet the storage needs for your index.
+capacity below what is required to meet the storage needs for your
+index.
 
 
 
@@ -117,38 +123,64 @@ A new description for the index.
 
 =head2 DocumentMetadataConfigurationUpdates => ArrayRef[L<Paws::Kendra::DocumentMetadataConfiguration>]
 
-The document metadata to update.
+The document metadata configuration you want to update for the index.
+Document metadata are fields or attributes associated with your
+documents. For example, the company department name associated with
+each document.
 
 
 
 =head2 B<REQUIRED> Id => Str
 
-The identifier of the index to update.
+The identifier of the index you want to update.
 
 
 
 =head2 Name => Str
 
-The name of the index to update.
+A new name for the index.
 
 
 
 =head2 RoleArn => Str
 
-A new IAM role that gives Amazon Kendra permission to access your
-Amazon CloudWatch logs.
+An Identity and Access Management (IAM) role that gives Amazon Kendra
+permission to access Amazon CloudWatch logs and metrics.
 
 
 
 =head2 UserContextPolicy => Str
 
-The user user token context policy.
+The user context policy.
+
+If you're using an Amazon Kendra Gen AI Enterprise Edition index, you
+can only use C<ATTRIBUTE_FILTER> to filter search results by user
+context. If you're using an Amazon Kendra Gen AI Enterprise Edition
+index and you try to use C<USER_TOKEN> to configure user context
+policy, Amazon Kendra returns a C<ValidationException> error.
 
 Valid values are: C<"ATTRIBUTE_FILTER">, C<"USER_TOKEN">
+
+=head2 UserGroupResolutionConfiguration => L<Paws::Kendra::UserGroupResolutionConfiguration>
+
+Gets users and groups from IAM Identity Center identity source. To
+configure this, see UserGroupResolutionConfiguration
+(https://docs.aws.amazon.com/kendra/latest/dg/API_UserGroupResolutionConfiguration.html).
+This is useful for user context filtering, where search results are
+filtered based on the user or their group access to documents.
+
+If you're using an Amazon Kendra Gen AI Enterprise Edition index,
+C<UserGroupResolutionConfiguration> isn't supported.
+
+
 
 =head2 UserTokenConfigurations => ArrayRef[L<Paws::Kendra::UserTokenConfiguration>]
 
 The user token configuration.
+
+If you're using an Amazon Kendra Gen AI Enterprise Edition index and
+you try to use C<UserTokenConfigurations> to configure user context
+policy, Amazon Kendra returns a C<ValidationException> error.
 
 
 

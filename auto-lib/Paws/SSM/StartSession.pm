@@ -3,6 +3,7 @@ package Paws::SSM::StartSession;
   use Moose;
   has DocumentName => (is => 'ro', isa => 'Str');
   has Parameters => (is => 'ro', isa => 'Paws::SSM::SessionManagerParameters');
+  has Reason => (is => 'ro', isa => 'Str');
   has Target => (is => 'ro', isa => 'Str', required => 1);
 
   use MooseX::ClassAttribute;
@@ -37,6 +38,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           'MySessionManagerParameterValue', ...    # min: 1, max: 65535
         ],    # key: min: 1, max: 255
       },    # OPTIONAL
+      Reason => 'MySessionReason',    # OPTIONAL
     );
 
     # Results:
@@ -54,23 +56,38 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ssm
 
 =head2 DocumentName => Str
 
-The name of the SSM document to define the parameters and plugin
-settings for the session. For example, C<SSM-SessionManagerRunShell>.
-You can call the GetDocument API to verify the document exists before
-attempting to start a session. If no document name is provided, a shell
-to the instance is launched by default.
+The name of the SSM document you want to use to define the type of
+session, input parameters, or preferences for the session. For example,
+C<SSM-SessionManagerRunShell>. You can call the GetDocument API to
+verify the document exists before attempting to start a session. If no
+document name is provided, a shell to the managed node is launched by
+default. For more information, see Start a session
+(https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-working-with-sessions-start.html)
+in the I<Amazon Web Services Systems Manager User Guide>.
 
 
 
 =head2 Parameters => L<Paws::SSM::SessionManagerParameters>
 
-Reserved for future use.
+The values you want to specify for the parameters defined in the
+Session document. For more information about these parameters, see
+Create a Session Manager preferences document
+(https://docs.aws.amazon.com/systems-manager/latest/userguide/getting-started-create-preferences-cli.html)
+in the I<Amazon Web Services Systems Manager User Guide>.
+
+
+
+=head2 Reason => Str
+
+The reason for connecting to the instance. This value is included in
+the details for the Amazon CloudWatch Events event created when you
+start the session.
 
 
 
 =head2 B<REQUIRED> Target => Str
 
-The instance to connect to for the session.
+The managed node to connect to for the session.
 
 
 

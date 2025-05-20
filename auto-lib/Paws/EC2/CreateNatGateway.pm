@@ -5,6 +5,10 @@ package Paws::EC2::CreateNatGateway;
   has ClientToken => (is => 'ro', isa => 'Str');
   has ConnectivityType => (is => 'ro', isa => 'Str');
   has DryRun => (is => 'ro', isa => 'Bool');
+  has PrivateIpAddress => (is => 'ro', isa => 'Str');
+  has SecondaryAllocationIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'SecondaryAllocationId' );
+  has SecondaryPrivateIpAddressCount => (is => 'ro', isa => 'Int');
+  has SecondaryPrivateIpAddresses => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'SecondaryPrivateIpAddress' );
   has SubnetId => (is => 'ro', isa => 'Str', required => 1);
   has TagSpecifications => (is => 'ro', isa => 'ArrayRef[Paws::EC2::TagSpecification]', traits => ['NameInRequest'], request_name => 'TagSpecification' );
 
@@ -64,9 +68,9 @@ associated with another resource, you must first disassociate it.
 =head2 ClientToken => Str
 
 Unique, case-sensitive identifier that you provide to ensure the
-idempotency of the request. For more information, see How to Ensure
-Idempotency
-(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+idempotency of the request. For more information, see Ensuring
+idempotency
+(https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
 
 Constraint: Maximum 64 ASCII characters.
 
@@ -88,9 +92,45 @@ C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
 
 
 
+=head2 PrivateIpAddress => Str
+
+The private IPv4 address to assign to the NAT gateway. If you don't
+provide an address, a private IPv4 address will be automatically
+assigned.
+
+
+
+=head2 SecondaryAllocationIds => ArrayRef[Str|Undef]
+
+Secondary EIP allocation IDs. For more information, see Create a NAT
+gateway
+(https://docs.aws.amazon.com/vpc/latest/userguide/nat-gateway-working-with.html)
+in the I<Amazon VPC User Guide>.
+
+
+
+=head2 SecondaryPrivateIpAddressCount => Int
+
+[Private NAT gateway only] The number of secondary private IPv4
+addresses you want to assign to the NAT gateway. For more information
+about secondary addresses, see Create a NAT gateway
+(https://docs.aws.amazon.com/vpc/latest/userguide/nat-gateway-working-with.html)
+in the I<Amazon VPC User Guide>.
+
+
+
+=head2 SecondaryPrivateIpAddresses => ArrayRef[Str|Undef]
+
+Secondary private IPv4 addresses. For more information about secondary
+addresses, see Create a NAT gateway
+(https://docs.aws.amazon.com/vpc/latest/userguide/nat-gateway-working-with.html)
+in the I<Amazon VPC User Guide>.
+
+
+
 =head2 B<REQUIRED> SubnetId => Str
 
-The subnet in which to create the NAT gateway.
+The ID of the subnet in which to create the NAT gateway.
 
 
 

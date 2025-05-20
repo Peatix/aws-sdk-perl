@@ -54,7 +54,7 @@ part, and a text-only part.
 
 =head2 B<REQUIRED> TemplateName => Str
 
-The name of the template you want to update.
+The name of the template.
 
 
 

@@ -5,6 +5,7 @@ package Paws::SageMaker::CreateWorkteam;
   has MemberDefinitions => (is => 'ro', isa => 'ArrayRef[Paws::SageMaker::MemberDefinition]', required => 1);
   has NotificationConfiguration => (is => 'ro', isa => 'Paws::SageMaker::NotificationConfiguration');
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::SageMaker::Tag]');
+  has WorkerAccessConfiguration => (is => 'ro', isa => 'Paws::SageMaker::WorkerAccessConfiguration');
   has WorkforceName => (is => 'ro', isa => 'Str');
   has WorkteamName => (is => 'ro', isa => 'Str', required => 1);
 
@@ -45,8 +46,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           OidcMemberDefinition => {
             Groups => [
               'MyGroup', ...    # min: 1, max: 63
-            ],    # min: 1, max: 10
-
+            ],    # min: 1, max: 10; OPTIONAL
           },    # OPTIONAL
         },
         ...
@@ -63,6 +63,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },
         ...
       ],    # OPTIONAL
+      WorkerAccessConfiguration => {
+        S3Presign => {
+          IamPolicyConstraints => {
+            SourceIp    => 'Enabled',    # values: Enabled, Disabled; OPTIONAL
+            VpcSourceIp => 'Enabled',    # values: Enabled, Disabled; OPTIONAL
+          },    # OPTIONAL
+        },    # OPTIONAL
+      },    # OPTIONAL
       WorkforceName => 'MyWorkforceName',    # OPTIONAL
     );
 
@@ -125,6 +133,15 @@ For more information, see Resource Tag
 and Using Cost Allocation Tags
 (https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html#allocation-what)
 in the I< Amazon Web Services Billing and Cost Management User Guide>.
+
+
+
+=head2 WorkerAccessConfiguration => L<Paws::SageMaker::WorkerAccessConfiguration>
+
+Use this optional parameter to constrain access to an Amazon S3
+resource based on the IP address using supported IAM global condition
+keys. The Amazon S3 resource is accessed in the worker portal using a
+Amazon S3 presigned URL.
 
 
 

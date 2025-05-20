@@ -44,14 +44,14 @@ Records.
 
 =head2 B<REQUIRED> ErrorCode => Str
 
-The error code of an error that has occured when attempting to retrieve
-a batch of Records. For more information on errors, see Errors
+The error code of an error that has occurred when attempting to
+retrieve a batch of Records. For more information on errors, see Errors
 (https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_feature_store_GetRecord.html#API_feature_store_GetRecord_Errors).
 
 
 =head2 B<REQUIRED> ErrorMessage => Str
 
-The error message of an error that has occured when attempting to
+The error message of an error that has occurred when attempting to
 retrieve a record in the batch.
 
 

@@ -42,8 +42,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::GlobalAccel
 
 =head1 DESCRIPTION
 
-A complex type for the endpoint group. An AWS Region can have only one
-endpoint group for a specific listener.
+A complex type for the endpoint group. An Amazon Web Services Region
+can have only one endpoint group for a specific listener.
 
 =head1 ATTRIBUTES
 
@@ -60,7 +60,7 @@ The Amazon Resource Name (ARN) of the endpoint group.
 
 =head2 EndpointGroupRegion => Str
 
-The AWS Region where the endpoint group is located.
+The Amazon Web Services Region where the endpoint group is located.
 
 
 =head2 HealthCheckIntervalSeconds => Int
@@ -96,7 +96,7 @@ TCP.
 =head2 PortOverrides => ArrayRef[L<Paws::GlobalAccelerator::PortOverride>]
 
 Allows you to override the destination ports used to route traffic to
-an endpoint. Using a port override lets you to map a list of external
+an endpoint. Using a port override lets you map a list of external
 destination ports (that your users send traffic to) to a list of
 internal destination ports that you want an application endpoint to
 receive traffic on.
@@ -111,8 +111,9 @@ healthy. The default value is 3.
 
 =head2 TrafficDialPercentage => Num
 
-The percentage of traffic to send to an AWS Region. Additional traffic
-is distributed to other endpoint groups for this listener.
+The percentage of traffic to send to an Amazon Web Services Region.
+Additional traffic is distributed to other endpoint groups for this
+listener.
 
 Use this action to increase (dial up) or decrease (dial down) traffic
 to a specific Region. The percentage is applied to the traffic that

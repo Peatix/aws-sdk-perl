@@ -204,7 +204,11 @@ same HTTP 415 Unsupported Media Type response.
 =head2 PayloadFormatVersion => Str
 
 Specifies the format of the payload sent to an integration. Required
-for HTTP APIs.
+for HTTP APIs. Supported values for Lambda proxy integrations are 1.0
+and 2.0. For all other integrations, 1.0 is the only supported value.
+To learn more, see Working with AWS Lambda proxy integrations for HTTP
+APIs
+(https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop-integrations-lambda.html).
 
 
 =head2 RequestParameters => L<Paws::ApiGatewayV2::IntegrationParameters>
@@ -227,7 +231,7 @@ runtime. To learn more, see Working with AWS service integrations for
 HTTP APIs
 (https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop-integrations-aws-services.html).
 
-For HTTP API itegrations, without a specified integrationSubtype
+For HTTP API integrations, without a specified integrationSubtype
 request parameters are a key-value map specifying how to transform HTTP
 requests before sending them to backend integrations. The key should
 follow the pattern

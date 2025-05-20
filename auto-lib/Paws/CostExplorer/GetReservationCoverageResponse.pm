@@ -23,9 +23,9 @@ The amount of time that your reservations covered.
 
 =head2 NextPageToken => Str
 
-The token for the next set of retrievable results. AWS provides the
-token when the response from a previous call has more results than the
-maximum page size.
+The token for the next set of retrievable results. Amazon Web Services
+provides the token when the response from a previous call has more
+results than the maximum page size.
 
 
 =head2 Total => L<Paws::CostExplorer::Coverage>

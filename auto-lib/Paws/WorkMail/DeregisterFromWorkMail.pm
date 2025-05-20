@@ -29,7 +29,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $workmail = Paws->service('WorkMail');
     my $DeregisterFromWorkMailResponse = $workmail->DeregisterFromWorkMail(
-      EntityId       => 'MyWorkMailIdentifier',
+      EntityId       => 'MyEntityIdentifier',
       OrganizationId => 'MyOrganizationId',
 
     );
@@ -42,14 +42,36 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/wor
 
 =head2 B<REQUIRED> EntityId => Str
 
-The identifier for the member (user or group) to be updated.
+The identifier for the member to be updated.
+
+The identifier can be I<UserId, ResourceId, or Group Id>, I<Username,
+Resourcename, or Groupname>, or I<email>.
+
+=over
+
+=item *
+
+Entity ID: 12345678-1234-1234-1234-123456789012,
+r-0123456789a0123456789b0123456789, or
+S-1-1-12-1234567890-123456789-123456789-1234
+
+=item *
+
+Email address: entity@domain.tld
+
+=item *
+
+Entity name: entity
+
+=back
+
 
 
 
 =head2 B<REQUIRED> OrganizationId => Str
 
-The identifier for the organization under which the Amazon WorkMail
-entity exists.
+The identifier for the organization under which the WorkMail entity
+exists.
 
 
 

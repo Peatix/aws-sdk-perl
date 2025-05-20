@@ -58,8 +58,8 @@ means scan the last 50 bytes.
 
 Specifies the start of the byte range. This parameter is optional.
 Valid values: non-negative integers. The default value is 0. If only
-start is supplied, it means scan from that point to the end of the
-file.For example;
+C<start> is supplied, it means scan from that point to the end of the
+file. For example,
 C<E<lt>scanrangeE<gt>E<lt>startE<gt>50E<lt>/startE<gt>E<lt>/scanrangeE<gt>>
 means scan from byte 50 until the end of the file.
 

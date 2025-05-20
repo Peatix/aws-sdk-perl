@@ -3,6 +3,7 @@ package Paws::MediaPackageVod::HlsPackage;
   use Moose;
   has Encryption => (is => 'ro', isa => 'Paws::MediaPackageVod::HlsEncryption', request_name => 'encryption', traits => ['NameInRequest']);
   has HlsManifests => (is => 'ro', isa => 'ArrayRef[Paws::MediaPackageVod::HlsManifest]', request_name => 'hlsManifests', traits => ['NameInRequest'], required => 1);
+  has IncludeDvbSubtitles => (is => 'ro', isa => 'Bool', request_name => 'includeDvbSubtitles', traits => ['NameInRequest']);
   has SegmentDurationSeconds => (is => 'ro', isa => 'Int', request_name => 'segmentDurationSeconds', traits => ['NameInRequest']);
   has UseAudioRenditionGroup => (is => 'ro', isa => 'Bool', request_name => 'useAudioRenditionGroup', traits => ['NameInRequest']);
 
@@ -49,6 +50,12 @@ An HTTP Live Streaming (HLS) packaging configuration.
 =head2 B<REQUIRED> HlsManifests => ArrayRef[L<Paws::MediaPackageVod::HlsManifest>]
 
 A list of HLS manifest configurations.
+
+
+=head2 IncludeDvbSubtitles => Bool
+
+When enabled, MediaPackage passes through digital video broadcasting
+(DVB) subtitles into the output.
 
 
 =head2 SegmentDurationSeconds => Int

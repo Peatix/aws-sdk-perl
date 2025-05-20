@@ -38,7 +38,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Route53::Tr
 =head1 DESCRIPTION
 
 A complex type that contains information about the latest version of
-one traffic policy that is associated with the current AWS account.
+one traffic policy that is associated with the current Amazon Web
+Services account.
 
 =head1 ATTRIBUTES
 
@@ -61,8 +62,8 @@ The name that you specified for the traffic policy when you created it.
 
 =head2 B<REQUIRED> TrafficPolicyCount => Int
 
-The number of traffic policies that are associated with the current AWS
-account.
+The number of traffic policies that are associated with the current
+Amazon Web Services account.
 
 
 =head2 B<REQUIRED> Type => Str

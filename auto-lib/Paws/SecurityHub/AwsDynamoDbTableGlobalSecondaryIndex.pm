@@ -70,6 +70,27 @@ The total size in bytes of the index.
 
 The current status of the index.
 
+=over
+
+=item *
+
+C<ACTIVE>
+
+=item *
+
+C<CREATING>
+
+=item *
+
+C<DELETING>
+
+=item *
+
+C<UPDATING>
+
+=back
+
+
 
 =head2 ItemCount => Int
 

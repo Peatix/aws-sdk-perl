@@ -36,8 +36,10 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Batch::Eval
 
 =head1 DESCRIPTION
 
-Specifies a set of conditions to be met, and an action to take
-(C<RETRY> or C<EXIT>) if all conditions are met.
+Specifies an array of up to 5 conditions to be met, and an action to
+take (C<RETRY> or C<EXIT>) if all conditions are met. If none of the
+C<EvaluateOnExit> conditions in a C<RetryStrategy> match, then the job
+is retried.
 
 =head1 ATTRIBUTES
 
@@ -53,15 +55,17 @@ aren't case sensitive.
 
 Contains a glob pattern to match against the decimal representation of
 the C<ExitCode> returned for a job. The pattern can be up to 512
-characters long, can contain only numbers, and can optionally end with
-an asterisk (*) so that only the start of the string needs to be an
-exact match.
+characters long. It can contain only numbers, and can end with an
+asterisk (*) so that only the start of the string needs to be an exact
+match.
+
+The string can contain up to 512 characters.
 
 
 =head2 OnReason => Str
 
 Contains a glob pattern to match against the C<Reason> returned for a
-job. The pattern can be up to 512 characters long, and can contain
+job. The pattern can contain up to 512 characters. It can contain
 letters, numbers, periods (.), colons (:), and white space (including
 spaces and tabs). It can optionally end with an asterisk (*) so that
 only the start of the string needs to be an exact match.
@@ -70,10 +74,10 @@ only the start of the string needs to be an exact match.
 =head2 OnStatusReason => Str
 
 Contains a glob pattern to match against the C<StatusReason> returned
-for a job. The pattern can be up to 512 characters long, and can
-contain letters, numbers, periods (.), colons (:), and white space
-(including spaces or tabs). It can optionally end with an asterisk (*)
-so that only the start of the string needs to be an exact match.
+for a job. The pattern can contain up to 512 characters. It can contain
+letters, numbers, periods (.), colons (:), and white spaces (including
+spaces or tabs). It can optionally end with an asterisk (*) so that
+only the start of the string needs to be an exact match.
 
 
 

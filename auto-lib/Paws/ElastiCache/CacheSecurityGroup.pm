@@ -82,7 +82,7 @@ cache security group.
 
 =head2 OwnerId => Str
 
-The AWS account ID of the cache security group owner.
+The Amazon account ID of the cache security group owner.
 
 
 

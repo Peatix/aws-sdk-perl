@@ -36,17 +36,15 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::LakeFormati
 A structure containing the additional details to be returned in the
 C<AdditionalDetails> attribute of C<PrincipalResourcePermissions>.
 
-If a catalog resource is shared through AWS Resource Access Manager
-(AWS RAM), then there will exist a corresponding RAM resource share
-ARN.
+If a catalog resource is shared through Resource Access Manager (RAM),
+then there will exist a corresponding RAM resource share ARN.
 
 =head1 ATTRIBUTES
 
 
 =head2 ResourceShare => ArrayRef[Str|Undef]
 
-A resource share ARN for a catalog resource shared through AWS Resource
-Access Manager (AWS RAM).
+A resource share ARN for a catalog resource shared through RAM.
 
 
 

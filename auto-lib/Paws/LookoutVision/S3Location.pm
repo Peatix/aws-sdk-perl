@@ -34,20 +34,24 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::LookoutVisi
 
 =head1 DESCRIPTION
 
-Information about the location training output.
+Information about the location of training output or the output of a
+model packaging job.
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> Bucket => Str
 
-The S3 bucket that contains the training output.
+The S3 bucket that contains the training or model packaging job output.
+If you are training a model, the bucket must in your AWS account. If
+you use an S3 bucket for a model packaging job, the S3 bucket must be
+in the same AWS Region and AWS account in which you use AWS IoT
+Greengrass.
 
 
 =head2 Prefix => Str
 
-The path of the folder, within the S3 bucket, that contains the
-training output.
+The path of the folder, within the S3 bucket, that contains the output.
 
 
 

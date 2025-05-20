@@ -77,7 +77,7 @@ cluster snapshot, set this list to include one or more Amazon account
 IDs, or C<all> to make the manual DB cluster snapshot restorable by any
 Amazon account. Do not add the C<all> value for any manual DB cluster
 snapshots that contain private information that you don't want
-available to all AWS accounts.
+available to all Amazon accounts.
 
 
 

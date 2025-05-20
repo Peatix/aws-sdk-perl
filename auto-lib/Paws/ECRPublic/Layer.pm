@@ -36,7 +36,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ECRPublic::
 
 =head1 DESCRIPTION
 
-An object representing an Amazon ECR image layer.
+An object that represents an Amazon ECR image layer.
 
 =head1 ATTRIBUTES
 

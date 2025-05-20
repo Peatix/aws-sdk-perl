@@ -45,8 +45,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/tra
 
 =head2 B<REQUIRED> ModelName => Str
 
-The name of the custom language model you submit to get more
-information.
+The name of the custom language model you want information about. Model
+names are case sensitive.
 
 
 

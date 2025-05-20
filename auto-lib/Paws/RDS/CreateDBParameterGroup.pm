@@ -76,11 +76,7 @@ The following are the valid DB engine values:
 
 =item *
 
-C<aurora> (for MySQL 5.6-compatible Aurora)
-
-=item *
-
-C<aurora-mysql> (for MySQL 5.7-compatible Aurora)
+C<aurora-mysql>
 
 =item *
 
@@ -88,7 +84,11 @@ C<aurora-postgresql>
 
 =item *
 
-C<mariadb>
+C<db2-ae>
+
+=item *
+
+C<db2-se>
 
 =item *
 

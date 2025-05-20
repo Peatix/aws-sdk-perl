@@ -1,6 +1,7 @@
 
 package Paws::Schemas::UpdateDiscoverer;
   use Moose;
+  has CrossAccount => (is => 'ro', isa => 'Bool');
   has Description => (is => 'ro', isa => 'Str');
   has DiscovererId => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'discovererId', required => 1);
 
@@ -31,10 +32,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $schemas = Paws->service('Schemas');
     my $UpdateDiscovererResponse = $schemas->UpdateDiscoverer(
       DiscovererId => 'My__string',
+      CrossAccount => 1,                         # OPTIONAL
       Description  => 'My__stringMin0Max256',    # OPTIONAL
     );
 
     # Results:
+    my $CrossAccount  = $UpdateDiscovererResponse->CrossAccount;
     my $Description   = $UpdateDiscovererResponse->Description;
     my $DiscovererArn = $UpdateDiscovererResponse->DiscovererArn;
     my $DiscovererId  = $UpdateDiscovererResponse->DiscovererId;
@@ -48,6 +51,13 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/schemas/UpdateDiscoverer>
 
 =head1 ATTRIBUTES
+
+
+=head2 CrossAccount => Bool
+
+Support discovery of schemas in events sent to the bus from another
+account. (default: true)
+
 
 
 =head2 Description => Str

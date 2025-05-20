@@ -43,7 +43,7 @@ A container specifying the time value for S3 Replication Time Control
 
 Contains an integer specifying time in minutes.
 
-Valid values: 15 minutes.
+Valid value: 15
 
 
 

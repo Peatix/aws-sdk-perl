@@ -39,7 +39,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ECS::Capaci
 
 =head1 DESCRIPTION
 
-The details of a capacity provider.
+The details for a capacity provider.
 
 =head1 ATTRIBUTES
 
@@ -63,14 +63,14 @@ The name of the capacity provider.
 
 The current status of the capacity provider. Only capacity providers in
 an C<ACTIVE> state can be used in a cluster. When a capacity provider
-is successfully deleted, it will have an C<INACTIVE> status.
+is successfully deleted, it has an C<INACTIVE> status.
 
 
 =head2 Tags => ArrayRef[L<Paws::ECS::Tag>]
 
 The metadata that you apply to the capacity provider to help you
 categorize and organize it. Each tag consists of a key and an optional
-value, both of which you define.
+value. You define both.
 
 The following basic restrictions apply to tags:
 
@@ -108,10 +108,10 @@ Tag keys and values are case-sensitive.
 =item *
 
 Do not use C<aws:>, C<AWS:>, or any upper or lowercase combination of
-such as a prefix for either keys or values as it is reserved for AWS
-use. You cannot edit or delete tag keys or values with this prefix.
-Tags with this prefix do not count against your tags per resource
-limit.
+such as a prefix for either keys or values as it is reserved for Amazon
+Web Services use. You cannot edit or delete tag keys or values with
+this prefix. Tags with this prefix do not count against your tags per
+resource limit.
 
 =back
 
@@ -120,7 +120,7 @@ limit.
 =head2 UpdateStatus => Str
 
 The update status of the capacity provider. The following are the
-possible states that will be returned.
+possible states that is returned.
 
 =over
 
@@ -130,13 +130,13 @@ The capacity provider is in the process of being deleted.
 
 =item DELETE_COMPLETE
 
-The capacity provider has been successfully deleted and will have an
-C<INACTIVE> status.
+The capacity provider was successfully deleted and has an C<INACTIVE>
+status.
 
 =item DELETE_FAILED
 
-The capacity provider was unable to be deleted. The update status
-reason will provide further details about why the delete failed.
+The capacity provider can't be deleted. The update status reason
+provides further details about why the delete failed.
 
 =back
 

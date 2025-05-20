@@ -90,8 +90,8 @@ C<E<lt>/ResponseMetadataE<gt>>
 C<E<lt>/GetMetricWidgetImageResponseE<gt>>
 
 The C<image/png> setting is intended only for custom HTTP requests. For
-most use cases, and all actions using an AWS SDK, you should use
-C<png>. If you specify C<image/png>, the HTTP response has a
+most use cases, and all actions using an Amazon Web Services SDK, you
+should use C<png>. If you specify C<image/png>, the HTTP response has a
 content-type set to C<image/png>, and the body of the response is a PNG
 image.
 

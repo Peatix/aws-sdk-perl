@@ -9,6 +9,7 @@ package Paws::GameLift::StartGameSessionPlacement;
   has MaximumPlayerSessionCount => (is => 'ro', isa => 'Int', required => 1);
   has PlacementId => (is => 'ro', isa => 'Str', required => 1);
   has PlayerLatencies => (is => 'ro', isa => 'ArrayRef[Paws::GameLift::PlayerLatency]');
+  has PriorityConfigurationOverride => (is => 'ro', isa => 'Paws::GameLift::PriorityConfigurationOverride');
 
   use MooseX::ClassAttribute;
 
@@ -40,8 +41,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       PlacementId               => 'MyIdStringModel',
       DesiredPlayerSessions     => [
         {
-          PlayerData => 'MyPlayerData',            # min: 1, max: 2048; OPTIONAL
-          PlayerId   => 'MyNonZeroAndMaxString',   # min: 1, max: 1024; OPTIONAL
+          PlayerData => 'MyPlayerData',    # min: 1, max: 2048; OPTIONAL
+          PlayerId   => 'MyPlayerId',      # min: 1, max: 1024; OPTIONAL
         },
         ...
       ],    # OPTIONAL
@@ -57,13 +58,19 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       GameSessionName => 'MyNonZeroAndMaxString',     # OPTIONAL
       PlayerLatencies => [
         {
-          LatencyInMilliseconds => 1.0,           # OPTIONAL
-          PlayerId => 'MyNonZeroAndMaxString',    # min: 1, max: 1024; OPTIONAL
-          RegionIdentifier =>
-            'MyNonZeroAndMaxString',              # min: 1, max: 1024; OPTIONAL
+          LatencyInMilliseconds => 1.0,            # OPTIONAL
+          PlayerId              => 'MyPlayerId',   # min: 1, max: 1024; OPTIONAL
+          RegionIdentifier      => 'MyNonZeroAndMaxString',  # min: 1, max: 1024
         },
         ...
       ],    # OPTIONAL
+      PriorityConfigurationOverride => {
+        LocationOrder => [
+          'MyLocationStringModel', ...    # min: 1, max: 64
+        ],    # min: 1, max: 10
+        PlacementFallbackStrategy => 'DEFAULT_AFTER_SINGLE_PASS'
+        ,     # values: DEFAULT_AFTER_SINGLE_PASS, NONE; OPTIONAL
+      },    # OPTIONAL
     );
 
     # Results:
@@ -86,21 +93,18 @@ Set of information on each player to create a player session for.
 
 =head2 GameProperties => ArrayRef[L<Paws::GameLift::GameProperty>]
 
-A set of custom properties for a game session, formatted as key:value
-pairs. These properties are passed to a game server process in the
-GameSession object with a request to start a new game session (see
-Start a Game Session
-(https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession)).
+A set of key-value pairs that can store custom data in a game session.
+For example: C<{"Key": "difficulty", "Value": "novice"}>.
 
 
 
 =head2 GameSessionData => Str
 
 A set of custom game session properties, formatted as a single string
-value. This data is passed to a game server process in the GameSession
-object with a request to start a new game session (see Start a Game
-Session
-(https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession)).
+value. This data is passed to a game server process with a request to
+start a new game session. For more information, see Start a game
+session
+(https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession).
 
 
 
@@ -129,17 +133,32 @@ the game session.
 
 A unique identifier to assign to the new game session placement. This
 value is developer-defined. The value must be unique across all Regions
-and cannot be reused unless you are resubmitting a canceled or
-timed-out placement request.
+and cannot be reused.
 
 
 
 =head2 PlayerLatencies => ArrayRef[L<Paws::GameLift::PlayerLatency>]
 
 A set of values, expressed in milliseconds, that indicates the amount
-of latency that a player experiences when connected to AWS Regions.
-This information is used to try to place the new game session where it
-can offer the best possible gameplay experience for the players.
+of latency that a player experiences when connected to Amazon Web
+Services Regions. This information is used to try to place the new game
+session where it can offer the best possible gameplay experience for
+the players.
+
+
+
+=head2 PriorityConfigurationOverride => L<Paws::GameLift::PriorityConfigurationOverride>
+
+A prioritized list of locations to use for the game session placement
+and instructions on how to use it. This list overrides a queue's
+prioritized location list for this game session placement request only.
+You can include Amazon Web Services Regions, local zones, and custom
+locations (for Anywhere fleets). You can choose to limit placements to
+locations on the override list only, or you can prioritize locations on
+the override list first and then fall back to the queue's other
+locations if needed. Choose a fallback strategy to use in the event
+that Amazon GameLift fails to place a game session in any of the
+locations on the priority override list.
 
 
 

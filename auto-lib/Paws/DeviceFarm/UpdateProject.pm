@@ -4,6 +4,7 @@ package Paws::DeviceFarm::UpdateProject;
   has Arn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'arn' , required => 1);
   has DefaultJobTimeoutMinutes => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'defaultJobTimeoutMinutes' );
   has Name => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'name' );
+  has VpcConfig => (is => 'ro', isa => 'Paws::DeviceFarm::VpcConfig', traits => ['NameInRequest'], request_name => 'vpcConfig' );
 
   use MooseX::ClassAttribute;
 
@@ -65,6 +66,12 @@ times out.
 
 A string that represents the new name of the project that you are
 updating.
+
+
+
+=head2 VpcConfig => L<Paws::DeviceFarm::VpcConfig>
+
+The VPC security groups and subnets that are attached to a project.
 
 
 

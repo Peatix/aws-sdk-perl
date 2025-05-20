@@ -1,11 +1,14 @@
 
 package Paws::Synthetics::CreateCanary;
   use Moose;
+  has ArtifactConfig => (is => 'ro', isa => 'Paws::Synthetics::ArtifactConfigInput');
   has ArtifactS3Location => (is => 'ro', isa => 'Str', required => 1);
   has Code => (is => 'ro', isa => 'Paws::Synthetics::CanaryCodeInput', required => 1);
   has ExecutionRoleArn => (is => 'ro', isa => 'Str', required => 1);
   has FailureRetentionPeriodInDays => (is => 'ro', isa => 'Int');
   has Name => (is => 'ro', isa => 'Str', required => 1);
+  has ProvisionedResourceCleanup => (is => 'ro', isa => 'Str');
+  has ResourcesToReplicateTags => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has RunConfig => (is => 'ro', isa => 'Paws::Synthetics::CanaryRunConfigInput');
   has RuntimeVersion => (is => 'ro', isa => 'Str', required => 1);
   has Schedule => (is => 'ro', isa => 'Paws::Synthetics::CanaryScheduleInput', required => 1);
@@ -41,11 +44,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $CreateCanaryResponse = $synthetics->CreateCanary(
       ArtifactS3Location => 'MyString',
       Code               => {
-        Handler   => 'MyString',    # min: 1, max: 1024
-        S3Bucket  => 'MyString',    # min: 1, max: 1024
-        S3Key     => 'MyString',    # min: 1, max: 1024
-        S3Version => 'MyString',    # min: 1, max: 1024
-        ZipFile   => 'BlobBlob',    # min: 1, max: 10000000; OPTIONAL
+        Handler   => 'MyCodeHandler',    # min: 1, max: 128
+        S3Bucket  => 'MyString',         # min: 1, max: 1024
+        S3Key     => 'MyString',         # min: 1, max: 1024
+        S3Version => 'MyString',         # min: 1, max: 1024
+        ZipFile   => 'BlobBlob',         # min: 1, max: 10000000; OPTIONAL
       },
       ExecutionRoleArn => 'MyRoleArn',
       Name             => 'MyCanaryName',
@@ -53,21 +56,36 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       Schedule         => {
         Expression        => 'MyString',    # min: 1, max: 1024
         DurationInSeconds => 1,             # max: 31622400; OPTIONAL
+        RetryConfig       => {
+          MaxRetries => 1,                  # max: 2
+
+        },    # OPTIONAL
       },
-      FailureRetentionPeriodInDays => 1,    # OPTIONAL
-      RunConfig                    => {
-        ActiveTracing        => 1,          # OPTIONAL
+      ArtifactConfig => {
+        S3Encryption => {
+          EncryptionMode => 'SSE_S3',        # values: SSE_S3, SSE_KMS; OPTIONAL
+          KmsKeyArn      => 'MyKmsKeyArn',   # min: 1, max: 2048; OPTIONAL
+        },    # OPTIONAL
+      },    # OPTIONAL
+      FailureRetentionPeriodInDays => 1,              # OPTIONAL
+      ProvisionedResourceCleanup   => 'AUTOMATIC',    # OPTIONAL
+      ResourcesToReplicateTags     => [
+        'lambda-function', ...                        # values: lambda-function
+      ],    # OPTIONAL
+      RunConfig => {
+        ActiveTracing        => 1,    # OPTIONAL
         EnvironmentVariables =>
           { 'MyEnvironmentVariableName' => 'MyEnvironmentVariableValue', }
-        ,                                   # OPTIONAL
-        MemoryInMB       => 1,              # min: 960, max: 3008; OPTIONAL
-        TimeoutInSeconds => 1,              # min: 3, max: 840; OPTIONAL
+        ,                             # OPTIONAL
+        MemoryInMB       => 1,        # min: 960, max: 3008; OPTIONAL
+        TimeoutInSeconds => 1,        # min: 3, max: 840; OPTIONAL
       },    # OPTIONAL
       SuccessRetentionPeriodInDays => 1,    # OPTIONAL
       Tags                         => {
         'MyTagKey' => 'MyTagValue',    # key: min: 1, max: 128, value: max: 256
       },    # OPTIONAL
       VpcConfig => {
+        Ipv6AllowedForDualStack => 1,                        # OPTIONAL
         SecurityGroupIds => [ 'MySecurityGroupId', ... ],    # max: 5; OPTIONAL
         SubnetIds        => [ 'MySubnetId',        ... ],    # max: 16; OPTIONAL
       },    # OPTIONAL
@@ -84,11 +102,19 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/syn
 =head1 ATTRIBUTES
 
 
+=head2 ArtifactConfig => L<Paws::Synthetics::ArtifactConfigInput>
+
+A structure that contains the configuration for canary artifacts,
+including the encryption-at-rest settings for artifacts that the canary
+uploads to Amazon S3.
+
+
+
 =head2 B<REQUIRED> ArtifactS3Location => Str
 
 The location in Amazon S3 where Synthetics stores artifacts from the
 test runs of this canary. Artifacts include the log file, screenshots,
-and HAR files.
+and HAR files. The name of the S3 bucket can't include a period (.).
 
 
 
@@ -147,6 +173,11 @@ The number of days to retain data about failed runs of this canary. If
 you omit this field, the default of 31 days is used. The valid range is
 1 to 455 days.
 
+This setting affects the range of information returned by GetCanaryRuns
+(https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_GetCanaryRuns.html),
+as well as the range of information displayed in the Synthetics
+console.
+
 
 
 =head2 B<REQUIRED> Name => Str
@@ -162,10 +193,41 @@ Security Considerations for Synthetics Canaries
 
 
 
+=head2 ProvisionedResourceCleanup => Str
+
+Specifies whether to also delete the Lambda functions and layers used
+by this canary when the canary is deleted. If you omit this parameter,
+the default of C<AUTOMATIC> is used, which means that the Lambda
+functions and layers will be deleted when the canary is deleted.
+
+If the value of this parameter is C<OFF>, then the value of the
+C<DeleteLambda> parameter of the DeleteCanary
+(https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_DeleteCanary.html)
+operation determines whether the Lambda functions and layers will be
+deleted.
+
+Valid values are: C<"AUTOMATIC">, C<"OFF">
+
+=head2 ResourcesToReplicateTags => ArrayRef[Str|Undef]
+
+To have the tags that you apply to this canary also be applied to the
+Lambda function that the canary uses, specify this parameter with the
+value C<lambda-function>.
+
+If you specify this parameter and don't specify any tags in the C<Tags>
+parameter, the canary creation fails.
+
+
+
 =head2 RunConfig => L<Paws::Synthetics::CanaryRunConfigInput>
 
 A structure that contains the configuration for individual canary runs,
-such as timeout value.
+such as timeout value and environment variables.
+
+Environment variable keys and values are encrypted at rest using Amazon
+Web Services owned KMS keys. However, the environment variables are not
+encrypted on the client side. Do not store sensitive information in
+them.
 
 
 
@@ -191,6 +253,11 @@ The number of days to retain data about successful runs of this canary.
 If you omit this field, the default of 31 days is used. The valid range
 is 1 to 455 days.
 
+This setting affects the range of information returned by GetCanaryRuns
+(https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_GetCanaryRuns.html),
+as well as the range of information displayed in the Synthetics
+console.
+
 
 
 =head2 Tags => L<Paws::Synthetics::TagMap>
@@ -201,6 +268,10 @@ associate as many as 50 tags with a canary.
 Tags can help you organize and categorize your resources. You can also
 use them to scope user permissions, by granting a user permission to
 access or change only the resources that have certain tag values.
+
+To have the tags that you apply to this canary also be applied to the
+Lambda function that the canary uses, specify this parameter with the
+value C<lambda-function>.
 
 
 

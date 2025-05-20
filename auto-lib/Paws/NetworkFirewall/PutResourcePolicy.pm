@@ -42,9 +42,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/net
 
 =head2 B<REQUIRED> Policy => Str
 
-The AWS Identity and Access Management policy statement that lists the
-accounts that you want to share your rule group or firewall policy with
-and the operations that you want the accounts to be able to perform.
+The IAM policy statement that lists the accounts that you want to share
+your rule group or firewall policy with and the operations that you
+want the accounts to be able to perform.
 
 For a rule group resource, you can specify the following operations in
 the Actions section of the statement:
@@ -69,14 +69,6 @@ For a firewall policy resource, you can specify the following
 operations in the Actions section of the statement:
 
 =over
-
-=item *
-
-network-firewall:CreateFirewall
-
-=item *
-
-network-firewall:UpdateFirewall
 
 =item *
 

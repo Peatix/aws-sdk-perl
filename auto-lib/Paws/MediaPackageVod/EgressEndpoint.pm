@@ -2,6 +2,7 @@
 package Paws::MediaPackageVod::EgressEndpoint;
   use Moose;
   has PackagingConfigurationId => (is => 'ro', isa => 'Str', request_name => 'packagingConfigurationId', traits => ['NameInRequest']);
+  has Status => (is => 'ro', isa => 'Str', request_name => 'status', traits => ['NameInRequest']);
   has Url => (is => 'ro', isa => 'Str', request_name => 'url', traits => ['NameInRequest']);
 
 1;
@@ -43,6 +44,14 @@ PackagingConfiguration.
 =head2 PackagingConfigurationId => Str
 
 The ID of the PackagingConfiguration being applied to the Asset.
+
+
+=head2 Status => Str
+
+The current processing status of the asset used for the packaging
+configuration. The status can be either QUEUED, PROCESSING, PLAYABLE,
+or FAILED. Status information won't be available for most assets
+ingested before 2021-09-30.
 
 
 =head2 Url => Str

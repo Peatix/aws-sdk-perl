@@ -18,6 +18,7 @@ package Paws::EMR::JobFlowInstancesConfig;
   has ServiceAccessSecurityGroup => (is => 'ro', isa => 'Str');
   has SlaveInstanceType => (is => 'ro', isa => 'Str');
   has TerminationProtected => (is => 'ro', isa => 'Bool');
+  has UnhealthyNodeReplacement => (is => 'ro', isa => 'Bool');
 
 1;
 
@@ -38,7 +39,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::EMR::JobFlowInstancesConfig object:
 
-  $service_obj->Method(Att1 => { AdditionalMasterSecurityGroups => $value, ..., TerminationProtected => $value  });
+  $service_obj->Method(Att1 => { AdditionalMasterSecurityGroups => $value, ..., UnhealthyNodeReplacement => $value  });
 
 =head3 Results returned from an API call
 
@@ -71,8 +72,8 @@ task nodes.
 
 =head2 Ec2KeyName => Str
 
-The name of the EC2 key pair that can be used to connect to the master
-node using SSH as the user called "hadoop."
+The name of the Amazon EC2 key pair that can be used to connect to the
+master node using SSH as the user called "hadoop."
 
 
 =head2 Ec2SubnetId => Str
@@ -87,22 +88,25 @@ account supports EC2-Classic, the cluster launches in EC2-Classic.
 =head2 Ec2SubnetIds => ArrayRef[Str|Undef]
 
 Applies to clusters that use the instance fleet configuration. When
-multiple EC2 subnet IDs are specified, Amazon EMR evaluates them and
-launches instances in the optimal subnet.
+multiple Amazon EC2 subnet IDs are specified, Amazon EMR evaluates them
+and launches instances in the optimal subnet.
 
 The instance fleet configuration is available only in Amazon EMR
-versions 4.8.0 and later, excluding 5.0.x versions.
+releases 4.8.0 and later, excluding 5.0.x versions.
 
 
 =head2 EmrManagedMasterSecurityGroup => Str
 
-The identifier of the Amazon EC2 security group for the master node.
+The identifier of the Amazon EC2 security group for the master node. If
+you specify C<EmrManagedMasterSecurityGroup>, you must also specify
+C<EmrManagedSlaveSecurityGroup>.
 
 
 =head2 EmrManagedSlaveSecurityGroup => Str
 
 The identifier of the Amazon EC2 security group for the core and task
-nodes.
+nodes. If you specify C<EmrManagedSlaveSecurityGroup>, you must also
+specify C<EmrManagedMasterSecurityGroup>.
 
 
 =head2 HadoopVersion => Str
@@ -118,16 +122,16 @@ Hadoop for that AMI version is used.
 
 =head2 InstanceCount => Int
 
-The number of EC2 instances in the cluster.
+The number of Amazon EC2 instances in the cluster.
 
 
 =head2 InstanceFleets => ArrayRef[L<Paws::EMR::InstanceFleetConfig>]
 
 The instance fleet configuration is available only in Amazon EMR
-versions 4.8.0 and later, excluding 5.0.x versions.
+releases 4.8.0 and later, excluding 5.0.x versions.
 
-Describes the EC2 instances and instance configurations for clusters
-that use the instance fleet configuration.
+Describes the Amazon EC2 instances and instance configurations for
+clusters that use the instance fleet configuration.
 
 
 =head2 InstanceGroups => ArrayRef[L<Paws::EMR::InstanceGroupConfig>]
@@ -138,12 +142,15 @@ Configuration for the instance groups in a cluster.
 =head2 KeepJobFlowAliveWhenNoSteps => Bool
 
 Specifies whether the cluster should remain available after completing
-all steps.
+all steps. Defaults to C<false>. For more information about configuring
+cluster termination, see Control Cluster Termination
+(https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-plan-termination.html)
+in the I<EMR Management Guide>.
 
 
 =head2 MasterInstanceType => Str
 
-The EC2 instance type of the master node.
+The Amazon EC2 instance type of the master node.
 
 
 =head2 Placement => L<Paws::EMR::PlacementType>
@@ -159,7 +166,7 @@ service to access clusters in VPC private subnets.
 
 =head2 SlaveInstanceType => Str
 
-The EC2 instance type of the core and task nodes.
+The Amazon EC2 instance type of the core and task nodes.
 
 
 =head2 TerminationProtected => Bool
@@ -167,6 +174,12 @@ The EC2 instance type of the core and task nodes.
 Specifies whether to lock the cluster to prevent the Amazon EC2
 instances from being terminated by API call, user intervention, or in
 the event of a job-flow error.
+
+
+=head2 UnhealthyNodeReplacement => Bool
+
+Indicates whether Amazon EMR should gracefully replace core nodes that
+have degraded within the cluster.
 
 
 

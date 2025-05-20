@@ -60,9 +60,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $StartBuildBatchOutput = $codebuild->StartBuildBatch(
       ProjectName       => 'MyNonEmptyString',
       ArtifactsOverride => {
-        Type => 'CODEPIPELINE',    # values: CODEPIPELINE, S3, NO_ARTIFACTS
-        ArtifactIdentifier   => 'MyString',   # OPTIONAL
-        EncryptionDisabled   => 1,            # OPTIONAL
+        Type => 'CODEPIPELINE',        # values: CODEPIPELINE, S3, NO_ARTIFACTS
+        ArtifactIdentifier => 'MyString',    # OPTIONAL
+        BucketOwnerAccess  => 'NONE',  # values: NONE, READ_ONLY, FULL; OPTIONAL
+        EncryptionDisabled => 1,       # OPTIONAL
         Location             => 'MyString',   # OPTIONAL
         Name                 => 'MyString',   # OPTIONAL
         NamespaceType        => 'NONE',       # values: NONE, BUILD_ID; OPTIONAL
@@ -71,9 +72,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         Path                 => 'MyString',   # OPTIONAL
       },    # OPTIONAL
       BuildBatchConfigOverride => {
+        BatchReportMode => 'REPORT_INDIVIDUAL_BUILDS'
+        ,  # values: REPORT_INDIVIDUAL_BUILDS, REPORT_AGGREGATED_BATCH; OPTIONAL
         CombineArtifacts => 1,    # OPTIONAL
         Restrictions     => {
           ComputeTypesAllowed => [
+            'MyNonEmptyString', ...    # min: 1
+          ],    # OPTIONAL
+          FleetsAllowed => [
             'MyNonEmptyString', ...    # min: 1
           ],    # OPTIONAL
           MaximumBuildsAllowed => 1,    # OPTIONAL
@@ -84,9 +90,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       BuildTimeoutInMinutesOverride => 1,             # OPTIONAL
       BuildspecOverride             => 'MyString',    # OPTIONAL
       CacheOverride                 => {
-        Type     => 'NO_CACHE',    # values: NO_CACHE, S3, LOCAL
-        Location => 'MyString',    # OPTIONAL
-        Modes    => [
+        Type           => 'NO_CACHE',    # values: NO_CACHE, S3, LOCAL
+        CacheNamespace => 'MyString',    # OPTIONAL
+        Location       => 'MyString',    # OPTIONAL
+        Modes          => [
           'LOCAL_DOCKER_LAYER_CACHE',
           ... # values: LOCAL_DOCKER_LAYER_CACHE, LOCAL_SOURCE_CACHE, LOCAL_CUSTOM_CACHE
         ],    # OPTIONAL
@@ -121,7 +128,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           StreamName => 'MyString',    # OPTIONAL
         },    # OPTIONAL
         S3Logs => {
-          Status             => 'ENABLED',     # values: ENABLED, DISABLED
+          Status            => 'ENABLED',      # values: ENABLED, DISABLED
+          BucketOwnerAccess => 'NONE', # values: NONE, READ_ONLY, FULL; OPTIONAL
           EncryptionDisabled => 1,             # OPTIONAL
           Location           => 'MyString',    # OPTIONAL
         },    # OPTIONAL
@@ -136,8 +144,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       ReportBuildBatchStatusOverride => 1,    # OPTIONAL
       SecondaryArtifactsOverride     => [
         {
-          Type => 'CODEPIPELINE',    # values: CODEPIPELINE, S3, NO_ARTIFACTS
-          ArtifactIdentifier   => 'MyString', # OPTIONAL
+          Type => 'CODEPIPELINE',      # values: CODEPIPELINE, S3, NO_ARTIFACTS
+          ArtifactIdentifier => 'MyString',    # OPTIONAL
+          BucketOwnerAccess => 'NONE', # values: NONE, READ_ONLY, FULL; OPTIONAL
           EncryptionDisabled   => 1,          # OPTIONAL
           Location             => 'MyString', # OPTIONAL
           Name                 => 'MyString', # OPTIONAL
@@ -151,9 +160,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       SecondarySourcesOverride => [
         {
           Type => 'CODECOMMIT'
-          , # values: CODECOMMIT, CODEPIPELINE, GITHUB, S3, BITBUCKET, GITHUB_ENTERPRISE, NO_SOURCE
+          , # values: CODECOMMIT, CODEPIPELINE, GITHUB, GITLAB, GITLAB_SELF_MANAGED, S3, BITBUCKET, GITHUB_ENTERPRISE, NO_SOURCE
           Auth => {
-            Type     => 'OAUTH',       # values: OAUTH
+            Type => 'OAUTH',   # values: OAUTH, CODECONNECTIONS, SECRETS_MANAGER
             Resource => 'MyString',    # OPTIONAL
           },    # OPTIONAL
           BuildStatusConfig => {
@@ -183,8 +192,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       ],    # OPTIONAL
       ServiceRoleOverride => 'MyNonEmptyString',    # OPTIONAL
       SourceAuthOverride  => {
-        Type     => 'OAUTH',                        # values: OAUTH
-        Resource => 'MyString',                     # OPTIONAL
+        Type     => 'OAUTH',   # values: OAUTH, CODECONNECTIONS, SECRETS_MANAGER
+        Resource => 'MyString',    # OPTIONAL
       },    # OPTIONAL
       SourceLocationOverride => 'MyString',      # OPTIONAL
       SourceTypeOverride     => 'CODECOMMIT',    # OPTIONAL
@@ -224,12 +233,12 @@ latest one already defined in the build project.
 If this value is set, it can be either an inline buildspec definition,
 the path to an alternate buildspec file relative to the value of the
 built-in C<CODEBUILD_SRC_DIR> environment variable, or the path to an
-S3 bucket. The bucket must be in the same Region as the build project.
-Specify the buildspec file using its ARN (for example,
-C<arn:aws:s3:::my-codebuild-sample2/buildspec.yml>). If this value is
-not provided or is set to an empty string, the source code must contain
-a buildspec file in its root directory. For more information, see
-Buildspec File Name and Storage Location
+S3 bucket. The bucket must be in the same Amazon Web Services Region as
+the build project. Specify the buildspec file using its ARN (for
+example, C<arn:aws:s3:::my-codebuild-sample2/buildspec.yml>). If this
+value is not provided or is set to an empty string, the source code
+must contain a buildspec file in its root directory. For more
+information, see Buildspec File Name and Storage Location
 (https://docs.aws.amazon.com/codebuild/latest/userguide/build-spec-ref.html#build-spec-ref-name-storage).
 
 
@@ -258,7 +267,7 @@ specified in the batch build project.
 The name of a compute type for this batch build that overrides the one
 specified in the batch build project.
 
-Valid values are: C<"BUILD_GENERAL1_SMALL">, C<"BUILD_GENERAL1_MEDIUM">, C<"BUILD_GENERAL1_LARGE">, C<"BUILD_GENERAL1_2XLARGE">
+Valid values are: C<"BUILD_GENERAL1_SMALL">, C<"BUILD_GENERAL1_MEDIUM">, C<"BUILD_GENERAL1_LARGE">, C<"BUILD_GENERAL1_XLARGE">, C<"BUILD_GENERAL1_2XLARGE">, C<"BUILD_LAMBDA_1GB">, C<"BUILD_LAMBDA_2GB">, C<"BUILD_LAMBDA_4GB">, C<"BUILD_LAMBDA_8GB">, C<"BUILD_LAMBDA_10GB">, C<"ATTRIBUTE_BASED_COMPUTE">, C<"CUSTOM_INSTANCE_TYPE">
 
 =head2 DebugSessionEnabled => Bool
 
@@ -289,7 +298,7 @@ C<alias/E<lt>alias-nameE<gt>>).
 A container type for this batch build that overrides the one specified
 in the batch build project.
 
-Valid values are: C<"WINDOWS_CONTAINER">, C<"LINUX_CONTAINER">, C<"LINUX_GPU_CONTAINER">, C<"ARM_CONTAINER">, C<"WINDOWS_SERVER_2019_CONTAINER">
+Valid values are: C<"WINDOWS_CONTAINER">, C<"LINUX_CONTAINER">, C<"LINUX_GPU_CONTAINER">, C<"ARM_CONTAINER">, C<"WINDOWS_SERVER_2019_CONTAINER">, C<"WINDOWS_SERVER_2022_CONTAINER">, C<"LINUX_LAMBDA_CONTAINER">, C<"ARM_LAMBDA_CONTAINER">, C<"LINUX_EC2">, C<"ARM_EC2">, C<"WINDOWS_EC2">, C<"MAC_ARM">
 
 =head2 EnvironmentVariablesOverride => ArrayRef[L<Paws::CodeBuild::EnvironmentVariable>]
 
@@ -458,7 +467,7 @@ defined in the batch build project.
 The source input type that overrides the source input defined in the
 batch build project.
 
-Valid values are: C<"CODECOMMIT">, C<"CODEPIPELINE">, C<"GITHUB">, C<"S3">, C<"BITBUCKET">, C<"GITHUB_ENTERPRISE">, C<"NO_SOURCE">
+Valid values are: C<"CODECOMMIT">, C<"CODEPIPELINE">, C<"GITHUB">, C<"GITLAB">, C<"GITLAB_SELF_MANAGED">, C<"S3">, C<"BITBUCKET">, C<"GITHUB_ENTERPRISE">, C<"NO_SOURCE">
 
 =head2 SourceVersion => Str
 

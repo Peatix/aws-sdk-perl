@@ -30,15 +30,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $appconfig = Paws->service('AppConfig');
-    my $Environments = $appconfig->ListEnvironments(
-      ApplicationId => 'MyId',
-      MaxResults    => 1,                # OPTIONAL
-      NextToken     => 'MyNextToken',    # OPTIONAL
-    );
+   # To list the available environments
+   # The following list-environments example lists the available environments in
+   # your AWS account for the specified application.
+    my $Environments =
+      $appconfig->ListEnvironments( 'ApplicationId' => '339ohji' );
 
     # Results:
-    my $Items     = $Environments->Items;
-    my $NextToken = $Environments->NextToken;
+    my $Items = $Environments->Items;
 
     # Returns a L<Paws::AppConfig::Environments> object.
 

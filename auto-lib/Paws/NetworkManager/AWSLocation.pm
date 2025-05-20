@@ -34,19 +34,20 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::NetworkMana
 
 =head1 DESCRIPTION
 
-Specifies a location in AWS.
+Specifies a location in Amazon Web Services.
 
 =head1 ATTRIBUTES
 
 
 =head2 SubnetArn => Str
 
-The Amazon Resource Name (ARN) of the subnet the device is located in.
+The Amazon Resource Name (ARN) of the subnet that the device is located
+in.
 
 
 =head2 Zone => Str
 
-The Zone the device is located in. This can be the ID of an
+The Zone that the device is located in. Specify the ID of an
 Availability Zone, Local Zone, Wavelength Zone, or an Outpost.
 
 

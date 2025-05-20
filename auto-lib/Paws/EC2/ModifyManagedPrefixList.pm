@@ -4,6 +4,7 @@ package Paws::EC2::ModifyManagedPrefixList;
   has AddEntries => (is => 'ro', isa => 'ArrayRef[Paws::EC2::AddPrefixListEntry]', traits => ['NameInRequest'], request_name => 'AddEntry' );
   has CurrentVersion => (is => 'ro', isa => 'Int');
   has DryRun => (is => 'ro', isa => 'Bool');
+  has MaxEntries => (is => 'ro', isa => 'Int');
   has PrefixListId => (is => 'ro', isa => 'Str', required => 1);
   has PrefixListName => (is => 'ro', isa => 'Str');
   has RemoveEntries => (is => 'ro', isa => 'ArrayRef[Paws::EC2::RemovePrefixListEntry]', traits => ['NameInRequest'], request_name => 'RemoveEntry' );
@@ -43,6 +44,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       ],    # OPTIONAL
       CurrentVersion => 1,             # OPTIONAL
       DryRun         => 1,             # OPTIONAL
+      MaxEntries     => 1,             # OPTIONAL
       PrefixListName => 'MyString',    # OPTIONAL
       RemoveEntries  => [
         {
@@ -82,6 +84,19 @@ Checks whether you have the required permissions for the action,
 without actually making the request, and provides an error response. If
 you have the required permissions, the error response is
 C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
+
+
+
+=head2 MaxEntries => Int
+
+The maximum number of entries for the prefix list. You cannot modify
+the entries of a prefix list and modify the size of a prefix list at
+the same time.
+
+If any of the resources that reference the prefix list cannot support
+the new maximum size, the modify operation fails. Check the state
+message for the IDs of the first ten resources that do not support the
+new maximum size.
 
 
 

@@ -16,7 +16,7 @@ Paws::SecretsManager::GetRandomPasswordResponse
 
 =head2 RandomPassword => Str
 
-A string with the generated password.
+A string with the password.
 
 
 =head2 _request_id => Str

@@ -1,6 +1,8 @@
 
 package Paws::WorkMail::CreateResource;
   use Moose;
+  has Description => (is => 'ro', isa => 'Str');
+  has HiddenFromGlobalAddressList => (is => 'ro', isa => 'Bool');
   has Name => (is => 'ro', isa => 'Str', required => 1);
   has OrganizationId => (is => 'ro', isa => 'Str', required => 1);
   has Type => (is => 'ro', isa => 'Str', required => 1);
@@ -30,10 +32,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $workmail = Paws->service('WorkMail');
     my $CreateResourceResponse = $workmail->CreateResource(
-      Name           => 'MyResourceName',
-      OrganizationId => 'MyOrganizationId',
-      Type           => 'ROOM',
-
+      Name                        => 'MyResourceName',
+      OrganizationId              => 'MyOrganizationId',
+      Type                        => 'ROOM',
+      Description                 => 'MyResourceDescription',    # OPTIONAL
+      HiddenFromGlobalAddressList => 1,                          # OPTIONAL
     );
 
     # Results:
@@ -45,6 +48,19 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/workmail/CreateResource>
 
 =head1 ATTRIBUTES
+
+
+=head2 Description => Str
+
+Resource description.
+
+
+
+=head2 HiddenFromGlobalAddressList => Bool
+
+If this parameter is enabled, the resource will be hidden from the
+address book.
+
 
 
 =head2 B<REQUIRED> Name => Str

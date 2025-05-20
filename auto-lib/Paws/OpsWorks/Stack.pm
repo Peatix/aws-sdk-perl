@@ -164,19 +164,19 @@ The stack host name theme, with spaces replaced by underscores.
 
 =head2 Name => Str
 
-The stack name.
+The stack name. Stack names can be a maximum of 64 characters.
 
 
 =head2 Region => Str
 
-The stack AWS region, such as "ap-northeast-2". For more information
-about AWS regions, see Regions and Endpoints
-(https://docs.aws.amazon.com/general/latest/gr/rande.html).
+The stack Amazon Web Services Region, such as C<ap-northeast-2>. For
+more information about Amazon Web Services Regions, see Regions and
+Endpoints (https://docs.aws.amazon.com/general/latest/gr/rande.html).
 
 
 =head2 ServiceRoleArn => Str
 
-The stack AWS Identity and Access Management (IAM) role.
+The stack Identity and Access Management (IAM) role.
 
 
 =head2 StackId => Str
@@ -191,8 +191,8 @@ Whether the stack uses custom cookbooks.
 
 =head2 UseOpsworksSecurityGroups => Bool
 
-Whether the stack automatically associates the AWS OpsWorks Stacks
-built-in security groups with the stack's layers.
+Whether the stack automatically associates the OpsWorks Stacks built-in
+security groups with the stack's layers.
 
 
 =head2 VpcId => Str

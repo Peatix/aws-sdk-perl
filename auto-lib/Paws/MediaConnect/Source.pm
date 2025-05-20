@@ -5,10 +5,13 @@ package Paws::MediaConnect::Source;
   has Decryption => (is => 'ro', isa => 'Paws::MediaConnect::Encryption', request_name => 'decryption', traits => ['NameInRequest']);
   has Description => (is => 'ro', isa => 'Str', request_name => 'description', traits => ['NameInRequest']);
   has EntitlementArn => (is => 'ro', isa => 'Str', request_name => 'entitlementArn', traits => ['NameInRequest']);
+  has GatewayBridgeSource => (is => 'ro', isa => 'Paws::MediaConnect::GatewayBridgeSource', request_name => 'gatewayBridgeSource', traits => ['NameInRequest']);
   has IngestIp => (is => 'ro', isa => 'Str', request_name => 'ingestIp', traits => ['NameInRequest']);
   has IngestPort => (is => 'ro', isa => 'Int', request_name => 'ingestPort', traits => ['NameInRequest']);
   has MediaStreamSourceConfigurations => (is => 'ro', isa => 'ArrayRef[Paws::MediaConnect::MediaStreamSourceConfiguration]', request_name => 'mediaStreamSourceConfigurations', traits => ['NameInRequest']);
   has Name => (is => 'ro', isa => 'Str', request_name => 'name', traits => ['NameInRequest'], required => 1);
+  has SenderControlPort => (is => 'ro', isa => 'Int', request_name => 'senderControlPort', traits => ['NameInRequest']);
+  has SenderIpAddress => (is => 'ro', isa => 'Str', request_name => 'senderIpAddress', traits => ['NameInRequest']);
   has SourceArn => (is => 'ro', isa => 'Str', request_name => 'sourceArn', traits => ['NameInRequest'], required => 1);
   has Transport => (is => 'ro', isa => 'Paws::MediaConnect::Transport', request_name => 'transport', traits => ['NameInRequest']);
   has VpcInterfaceName => (is => 'ro', isa => 'Str', request_name => 'vpcInterfaceName', traits => ['NameInRequest']);
@@ -64,14 +67,21 @@ source.
 =head2 Description => Str
 
 A description for the source. This value is not used or seen outside of
-the current AWS Elemental MediaConnect account.
+the current MediaConnect account.
 
 
 =head2 EntitlementArn => Str
 
 The ARN of the entitlement that allows you to subscribe to content that
-comes from another AWS account. The entitlement is set by the content
-originator and the ARN is generated as part of the originator's flow.
+comes from another Amazon Web Services account. The entitlement is set
+by the content originator and the ARN is generated as part of the
+originator's flow.
+
+
+=head2 GatewayBridgeSource => L<Paws::MediaConnect::GatewayBridgeSource>
+
+The source configuration for cloud flows receiving a stream from a
+bridge.
 
 
 =head2 IngestIp => Str
@@ -93,6 +103,18 @@ parameters for those associations.
 =head2 B<REQUIRED> Name => Str
 
 The name of the source.
+
+
+=head2 SenderControlPort => Int
+
+The IP address that the flow communicates with to initiate connection
+with the sender.
+
+
+=head2 SenderIpAddress => Str
+
+The port that the flow uses to send outbound requests to initiate
+connection with the sender.
 
 
 =head2 B<REQUIRED> SourceArn => Str

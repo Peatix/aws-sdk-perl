@@ -3,6 +3,7 @@ package Paws::WellArchitected::LensReviewReport;
   use Moose;
   has Base64String => (is => 'ro', isa => 'Str');
   has LensAlias => (is => 'ro', isa => 'Str');
+  has LensArn => (is => 'ro', isa => 'Str');
 
 1;
 
@@ -23,7 +24,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::WellArchitected::LensReviewReport object:
 
-  $service_obj->Method(Att1 => { Base64String => $value, ..., LensAlias => $value  });
+  $service_obj->Method(Att1 => { Base64String => $value, ..., LensArn => $value  });
 
 =head3 Results returned from an API call
 
@@ -47,6 +48,11 @@ A report of a lens review.
 =head2 LensAlias => Str
 
 
+
+
+=head2 LensArn => Str
+
+The ARN for the lens.
 
 
 

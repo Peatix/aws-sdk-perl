@@ -19,7 +19,7 @@ Paws::CloudFormation::ListChangeSetsOutput
 =head2 NextToken => Str
 
 If the output exceeds 1 MB, a string that identifies the next page of
-change sets. If there is no additional page, this value is null.
+change sets. If there is no additional page, this value is C<null>.
 
 
 =head2 Summaries => ArrayRef[L<Paws::CloudFormation::ChangeSetSummary>]

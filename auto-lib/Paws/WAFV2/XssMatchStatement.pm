@@ -34,32 +34,30 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::WAFV2::XssM
 
 =head1 DESCRIPTION
 
-A rule statement that defines a cross-site scripting (XSS) match search
-for WAF to apply to web requests. XSS attacks are those where the
-attacker uses vulnerabilities in a benign website as a vehicle to
-inject malicious client-site scripts into other legitimate web
-browsers. The XSS match statement provides the location in requests
-that you want WAF to search and text transformations to use on the
-search area before WAF searches for character sequences that are likely
-to be malicious strings.
+A rule statement that inspects for cross-site scripting (XSS) attacks.
+In XSS attacks, the attacker uses vulnerabilities in a benign website
+as a vehicle to inject malicious client-site scripts into other
+legitimate web browsers.
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> FieldToMatch => L<Paws::WAFV2::FieldToMatch>
 
-The part of a web request that you want WAF to inspect. For more
-information, see FieldToMatch.
+The part of the web request that you want WAF to inspect.
 
 
 =head2 B<REQUIRED> TextTransformations => ArrayRef[L<Paws::WAFV2::TextTransformation>]
 
 Text transformations eliminate some of the unusual formatting that
-attackers use in web requests in an effort to bypass detection. If you
-specify one or more transformations in a rule statement, WAF performs
-all transformations on the content of the request component identified
-by C<FieldToMatch>, starting from the lowest priority setting, before
-inspecting the content for a match.
+attackers use in web requests in an effort to bypass detection. Text
+transformations are used in rule match statements, to transform the
+C<FieldToMatch> request component before inspecting it, and they're
+used in rate-based rule statements, to transform request components
+before using them as custom aggregation keys. If you specify one or
+more transformations to apply, WAF performs all transformations on the
+specified content, starting from the lowest priority setting, and then
+uses the transformed component contents.
 
 
 

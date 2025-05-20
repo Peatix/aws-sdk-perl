@@ -17,7 +17,7 @@ Paws::AuditManager::CreateControlResponse
 
 =head2 Control => L<Paws::AuditManager::Control>
 
-The new control returned by the C<CreateControl> API.
+The new control that the C<CreateControl> API returned.
 
 
 =head2 _request_id => Str

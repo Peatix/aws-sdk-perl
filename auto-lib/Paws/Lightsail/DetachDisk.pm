@@ -46,7 +46,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/lig
 =head2 B<REQUIRED> DiskName => Str
 
 The unique name of the disk you want to detach from your instance
-(e.g., C<my-disk>).
+(C<my-disk>).
 
 
 

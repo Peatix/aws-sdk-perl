@@ -7,6 +7,7 @@ package Paws::AppConfig::CreateHostedConfigurationVersion;
   has ContentType => (is => 'ro', isa => 'Str', traits => ['ParamInHeader'], header_name => 'Content-Type', required => 1);
   has Description => (is => 'ro', isa => 'Str', traits => ['ParamInHeader'], header_name => 'Description');
   has LatestVersionNumber => (is => 'ro', isa => 'Int', traits => ['ParamInHeader'], header_name => 'Latest-Version-Number');
+  has VersionLabel => (is => 'ro', isa => 'Str', traits => ['ParamInHeader'], header_name => 'VersionLabel');
 
   use MooseX::ClassAttribute;
   class_has _stream_param => (is => 'ro', default => 'Content');
@@ -33,23 +34,24 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $appconfig = Paws->service('AppConfig');
+    # To create a hosted configuration version
+    # The following create-hosted-configuration-version example creates a new
+    # configuration in the AWS AppConfig configuration store.
     my $HostedConfigurationVersion =
       $appconfig->CreateHostedConfigurationVersion(
-      ApplicationId          => 'MyId',
-      ConfigurationProfileId => 'MyId',
-      Content                => 'BlobBlob',
-      ContentType            => 'MyStringWithLengthBetween1And255',
-      Description            => 'MyDescription',                      # OPTIONAL
-      LatestVersionNumber    => 1,                                    # OPTIONAL
+      'ApplicationId'          => '339ohji',
+      'ConfigurationProfileId' => 'ur8hx2f',
+      'Content'                =>
+'eyAiTmFtZSI6ICJFeGFtcGxlQXBwbGljYXRpb24iLCAiSWQiOiBFeGFtcGxlSUQsICJSYW5rIjogNyB9',
+      'ContentType'         => 'text',
+      'LatestVersionNumber' => 1
       );
 
     # Results:
     my $ApplicationId = $HostedConfigurationVersion->ApplicationId;
     my $ConfigurationProfileId =
       $HostedConfigurationVersion->ConfigurationProfileId;
-    my $Content       = $HostedConfigurationVersion->Content;
     my $ContentType   = $HostedConfigurationVersion->ContentType;
-    my $Description   = $HostedConfigurationVersion->Description;
     my $VersionNumber = $HostedConfigurationVersion->VersionNumber;
 
     # Returns a L<Paws::AppConfig::HostedConfigurationVersion> object.
@@ -74,7 +76,10 @@ The configuration profile ID.
 
 =head2 B<REQUIRED> Content => Str
 
-The content of the configuration or the configuration data.
+The configuration data, as bytes.
+
+AppConfig accepts any type of data, including text formats like JSON or
+TOML, or binary formats like protocol buffers or compressed data.
 
 
 
@@ -82,7 +87,7 @@ The content of the configuration or the configuration data.
 
 A standard MIME type describing the format of the configuration
 content. For more information, see Content-Type
-(https://docs.aws.amazon.com/https:/www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.17).
+(https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.17).
 
 
 
@@ -97,8 +102,16 @@ A description of the configuration.
 An optional locking token used to prevent race conditions from
 overwriting configuration updates when creating a new version. To
 ensure your data is not overwritten when creating multiple hosted
-configuration versions in rapid succession, specify the version of the
-latest hosted configuration version.
+configuration versions in rapid succession, specify the version number
+of the latest hosted configuration version.
+
+
+
+=head2 VersionLabel => Str
+
+An optional, user-defined label for the AppConfig hosted configuration
+version. This value must contain at least one non-numeric character.
+For example, "v2.2.0".
 
 
 

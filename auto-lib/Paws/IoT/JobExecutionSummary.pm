@@ -4,6 +4,7 @@ package Paws::IoT::JobExecutionSummary;
   has ExecutionNumber => (is => 'ro', isa => 'Int', request_name => 'executionNumber', traits => ['NameInRequest']);
   has LastUpdatedAt => (is => 'ro', isa => 'Str', request_name => 'lastUpdatedAt', traits => ['NameInRequest']);
   has QueuedAt => (is => 'ro', isa => 'Str', request_name => 'queuedAt', traits => ['NameInRequest']);
+  has RetryAttempt => (is => 'ro', isa => 'Int', request_name => 'retryAttempt', traits => ['NameInRequest']);
   has StartedAt => (is => 'ro', isa => 'Str', request_name => 'startedAt', traits => ['NameInRequest']);
   has Status => (is => 'ro', isa => 'Str', request_name => 'status', traits => ['NameInRequest']);
 
@@ -59,6 +60,12 @@ updated.
 
 The time, in seconds since the epoch, when the job execution was
 queued.
+
+
+=head2 RetryAttempt => Int
+
+The number that indicates how many retry attempts have been completed
+for this job on this device.
 
 
 =head2 StartedAt => Str

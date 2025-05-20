@@ -60,14 +60,14 @@ and Region. Formatted as Unix time.
 
 =head2 LastUpdatedDate => Str
 
-Date and time that the alias was most recently associated with a CMK in
-the account and Region. Formatted as Unix time.
+Date and time that the alias was most recently associated with a KMS
+key in the account and Region. Formatted as Unix time.
 
 
 =head2 TargetKeyId => Str
 
-String that contains the key identifier of the CMK associated with the
-alias.
+String that contains the key identifier of the KMS key associated with
+the alias.
 
 
 

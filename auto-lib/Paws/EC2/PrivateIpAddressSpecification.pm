@@ -45,7 +45,7 @@ address. Only one IPv4 address can be designated as primary.
 
 =head2 PrivateIpAddress => Str
 
-The private IPv4 addresses.
+The private IPv4 address.
 
 
 

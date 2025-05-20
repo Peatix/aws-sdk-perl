@@ -95,24 +95,49 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/clo
 
 =head2 AdvancedEventSelectors => ArrayRef[L<Paws::CloudTrail::AdvancedEventSelector>]
 
-Specifies the settings for advanced event selectors. You can add
-advanced event selectors, and conditions for your advanced event
-selectors, up to a maximum of 500 values for all conditions and
+Specifies the settings for advanced event selectors. You can use
+advanced event selectors to log management events, data events for all
+resource types, and network activity events.
+
+You can add advanced event selectors, and conditions for your advanced
+event selectors, up to a maximum of 500 values for all conditions and
 selectors on a trail. You can use either C<AdvancedEventSelectors> or
 C<EventSelectors>, but not both. If you apply C<AdvancedEventSelectors>
 to a trail, any existing C<EventSelectors> are overwritten. For more
-information about advanced event selectors, see Logging data events for
-trails
+information about advanced event selectors, see Logging data events
 (https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-data-events-with-cloudtrail.html)
-in the I<AWS CloudTrail User Guide>.
+and Logging network activity events
+(https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-network-events-with-cloudtrail.html)
+in the I<CloudTrail User Guide>.
 
 
 
 =head2 EventSelectors => ArrayRef[L<Paws::CloudTrail::EventSelector>]
 
-Specifies the settings for your event selectors. You can configure up
-to five event selectors for a trail. You can use either
-C<EventSelectors> or C<AdvancedEventSelectors> in a
+Specifies the settings for your event selectors. You can use event
+selectors to log management events and data events for the following
+resource types:
+
+=over
+
+=item *
+
+C<AWS::DynamoDB::Table>
+
+=item *
+
+C<AWS::Lambda::Function>
+
+=item *
+
+C<AWS::S3::Object>
+
+=back
+
+You can't use event selectors to log network activity events.
+
+You can configure up to five event selectors for a trail. You can use
+either C<EventSelectors> or C<AdvancedEventSelectors> in a
 C<PutEventSelectors> request, but not both. If you apply
 C<EventSelectors> to a trail, any existing C<AdvancedEventSelectors>
 are overwritten.
@@ -142,7 +167,7 @@ Be between 3 and 128 characters
 =item *
 
 Have no adjacent periods, underscores or dashes. Names like
-C<my-_namespace> and C<my--namespace> are invalid.
+C<my-_namespace> and C<my--namespace> are not valid.
 
 =item *
 
@@ -150,7 +175,7 @@ Not be in IP address format (for example, 192.168.5.4)
 
 =back
 
-If you specify a trail ARN, it must be in the format:
+If you specify a trail ARN, it must be in the following format.
 
 C<arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail>
 

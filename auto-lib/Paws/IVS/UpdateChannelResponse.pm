@@ -17,7 +17,7 @@ Paws::IVS::UpdateChannelResponse
 
 =head2 Channel => L<Paws::IVS::Channel>
 
-
+Object specifying the updated channel.
 
 
 =head2 _request_id => Str

@@ -8,6 +8,7 @@ package Paws::Snowball::JobMetadata;
   has Description => (is => 'ro', isa => 'Str');
   has DeviceConfiguration => (is => 'ro', isa => 'Paws::Snowball::DeviceConfiguration');
   has ForwardingAddressId => (is => 'ro', isa => 'Str');
+  has ImpactLevel => (is => 'ro', isa => 'Str');
   has JobId => (is => 'ro', isa => 'Str');
   has JobLogInfo => (is => 'ro', isa => 'Paws::Snowball::JobLogs');
   has JobState => (is => 'ro', isa => 'Str');
@@ -16,11 +17,13 @@ package Paws::Snowball::JobMetadata;
   has LongTermPricingId => (is => 'ro', isa => 'Str');
   has Notification => (is => 'ro', isa => 'Paws::Snowball::Notification');
   has OnDeviceServiceConfiguration => (is => 'ro', isa => 'Paws::Snowball::OnDeviceServiceConfiguration');
+  has PickupDetails => (is => 'ro', isa => 'Paws::Snowball::PickupDetails');
   has RemoteManagement => (is => 'ro', isa => 'Str');
   has Resources => (is => 'ro', isa => 'Paws::Snowball::JobResource');
   has RoleARN => (is => 'ro', isa => 'Str');
   has ShippingDetails => (is => 'ro', isa => 'Paws::Snowball::ShippingDetails');
   has SnowballCapacityPreference => (is => 'ro', isa => 'Str');
+  has SnowballId => (is => 'ro', isa => 'Str');
   has SnowballType => (is => 'ro', isa => 'Str');
   has TaxDocuments => (is => 'ro', isa => 'Paws::Snowball::TaxDocuments');
 
@@ -81,9 +84,9 @@ The creation date for this job.
 =head2 DataTransferProgress => L<Paws::Snowball::DataTransfer>
 
 A value that defines the real-time status of a Snow device's data
-transfer while the device is at AWS. This data is only available while
-a job has a C<JobState> value of C<InProgress>, for both import and
-export jobs.
+transfer while the device is at Amazon Web Services. This data is only
+available while a job has a C<JobState> value of C<InProgress>, for
+both import and export jobs.
 
 
 =head2 Description => Str
@@ -101,6 +104,12 @@ The description of the job, provided at job creation.
 The ID of the address that you want a job shipped to, after it will be
 shipped to its primary address. This field is not supported in most
 regions.
+
+
+=head2 ImpactLevel => Str
+
+The highest impact level of data that will be stored or processed on
+the device, provided at job creation.
 
 
 =head2 JobId => Str
@@ -130,11 +139,10 @@ The type of job.
 
 =head2 KmsKeyARN => Str
 
-The Amazon Resource Name (ARN) for the AWS Key Management Service (AWS
-KMS) key associated with this job. This ARN was created using the
-CreateKey
+The Amazon Resource Name (ARN) for the Key Management Service (KMS) key
+associated with this job. This ARN was created using the CreateKey
 (https://docs.aws.amazon.com/kms/latest/APIReference/API_CreateKey.html)
-API action in AWS KMS.
+API action in KMS.
 
 
 =head2 LongTermPricingId => Str
@@ -152,8 +160,13 @@ in the C<JobMetadata> data type.
 
 =head2 OnDeviceServiceConfiguration => L<Paws::Snowball::OnDeviceServiceConfiguration>
 
-Represents metadata and configuration settings for services on an AWS
-Snow Family device.
+Represents metadata and configuration settings for services on an
+Amazon Web Services Snow Family device.
+
+
+=head2 PickupDetails => L<Paws::Snowball::PickupDetails>
+
+Information identifying the person picking up the device.
 
 
 =head2 RemoteManagement => Str
@@ -177,7 +190,7 @@ imported into.
 The role ARN associated with this job. This ARN was created using the
 CreateRole
 (https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html)
-API action in AWS Identity and Access Management (IAM).
+API action in Identity and Access Management.
 
 
 =head2 ShippingDetails => L<Paws::Snowball::ShippingDetails>
@@ -199,6 +212,11 @@ For more information, see
 (Snow Family Devices and Capacity) in the I<Snowcone User Guide>.
 
 
+=head2 SnowballId => Str
+
+Unique ID associated with a device.
+
+
 =head2 SnowballType => Str
 
 The type of device used with this job.
@@ -206,8 +224,8 @@ The type of device used with this job.
 
 =head2 TaxDocuments => L<Paws::Snowball::TaxDocuments>
 
-The metadata associated with the tax documents required in your AWS
-Region.
+The metadata associated with the tax documents required in your Amazon
+Web Services Region.
 
 
 

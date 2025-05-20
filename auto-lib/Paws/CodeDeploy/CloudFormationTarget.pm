@@ -39,7 +39,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CodeDeploy:
 
 =head1 DESCRIPTION
 
-Information about the target to be updated by an AWS CloudFormation
+Information about the target to be updated by an CloudFormation
 blue/green deployment. This target type is used for all deployments
 initiated by a CloudFormation stack update.
 
@@ -48,29 +48,29 @@ initiated by a CloudFormation stack update.
 
 =head2 DeploymentId => Str
 
-The unique ID of an AWS CloudFormation blue/green deployment.
+The unique ID of an CloudFormation blue/green deployment.
 
 
 =head2 LastUpdatedAt => Str
 
-The date and time when the target application was updated by an AWS
+The date and time when the target application was updated by an
 CloudFormation blue/green deployment.
 
 
 =head2 LifecycleEvents => ArrayRef[L<Paws::CodeDeploy::LifecycleEvent>]
 
-The lifecycle events of the AWS CloudFormation blue/green deployment to
+The lifecycle events of the CloudFormation blue/green deployment to
 this target application.
 
 
 =head2 ResourceType => Str
 
-The resource type for the AWS CloudFormation blue/green deployment.
+The resource type for the CloudFormation blue/green deployment.
 
 
 =head2 Status => Str
 
-The status of an AWS CloudFormation blue/green deployment's target
+The status of an CloudFormation blue/green deployment's target
 application.
 
 
@@ -82,7 +82,7 @@ C<CloudFormationTarget>.
 
 =head2 TargetVersionWeight => Num
 
-The percentage of production traffic that the target version of an AWS
+The percentage of production traffic that the target version of an
 CloudFormation blue/green deployment receives.
 
 

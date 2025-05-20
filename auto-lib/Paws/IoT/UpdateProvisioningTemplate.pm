@@ -61,19 +61,22 @@ The ID of the default provisioning template version.
 
 =head2 Description => Str
 
-The description of the fleet provisioning template.
+The description of the provisioning template.
 
 
 
 =head2 Enabled => Bool
 
-True to enable the fleet provisioning template, otherwise false.
+True to enable the provisioning template, otherwise false.
 
 
 
 =head2 PreProvisioningHook => L<Paws::IoT::ProvisioningHook>
 
-Updates the pre-provisioning hook template.
+Updates the pre-provisioning hook template. Only supports template of
+type C<FLEET_PROVISIONING>. For more information about provisioning
+template types, see type
+(https://docs.aws.amazon.com/iot/latest/apireference/API_CreateProvisioningTemplate.html#iot-CreateProvisioningTemplate-request-type).
 
 
 
@@ -92,7 +95,7 @@ Removes pre-provisioning hook template.
 
 =head2 B<REQUIRED> TemplateName => Str
 
-The name of the fleet provisioning template.
+The name of the provisioning template.
 
 
 

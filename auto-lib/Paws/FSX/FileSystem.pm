@@ -7,10 +7,13 @@ package Paws::FSX::FileSystem;
   has FailureDetails => (is => 'ro', isa => 'Paws::FSX::FileSystemFailureDetails');
   has FileSystemId => (is => 'ro', isa => 'Str');
   has FileSystemType => (is => 'ro', isa => 'Str');
+  has FileSystemTypeVersion => (is => 'ro', isa => 'Str');
   has KmsKeyId => (is => 'ro', isa => 'Str');
   has Lifecycle => (is => 'ro', isa => 'Str');
   has LustreConfiguration => (is => 'ro', isa => 'Paws::FSX::LustreFileSystemConfiguration');
   has NetworkInterfaceIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has OntapConfiguration => (is => 'ro', isa => 'Paws::FSX::OntapFileSystemConfiguration');
+  has OpenZFSConfiguration => (is => 'ro', isa => 'Paws::FSX::OpenZFSFileSystemConfiguration');
   has OwnerId => (is => 'ro', isa => 'Str');
   has ResourceARN => (is => 'ro', isa => 'Str');
   has StorageCapacity => (is => 'ro', isa => 'Int');
@@ -59,8 +62,8 @@ A description of a specific Amazon FSx file system.
 
 A list of administrative actions for the file system that are in
 process or waiting to be processed. Administrative actions describe
-changes to the Windows file system that you have initiated using the
-C<UpdateFileSystem> action.
+changes to the Amazon FSx system that you have initiated using the
+C<UpdateFileSystem> operation.
 
 
 =head2 CreationTime => Str
@@ -71,7 +74,7 @@ The time that the file system was created, in seconds (since
 
 =head2 DNSName => Str
 
-The DNS name for the file system.
+The Domain Name System (DNS) name for the file system.
 
 
 =head2 FailureDetails => L<Paws::FSX::FileSystemFailureDetails>
@@ -86,24 +89,51 @@ The system-generated, unique 17-digit ID of the file system.
 
 =head2 FileSystemType => Str
 
-The type of Amazon FSx file system, either C<LUSTRE> or C<WINDOWS>.
+The type of Amazon FSx file system, which can be C<LUSTRE>, C<WINDOWS>,
+C<ONTAP>, or C<OPENZFS>.
+
+
+=head2 FileSystemTypeVersion => Str
+
+The Lustre version of the Amazon FSx for Lustre file system, which can
+be C<2.10>, C<2.12>, or C<2.15>.
 
 
 =head2 KmsKeyId => Str
 
-The ID of the AWS Key Management Service (AWS KMS) key used to encrypt
-the file system's data for Amazon FSx for Windows File Server file
-systems and persistent Amazon FSx for Lustre file systems at rest. In
-either case, if not specified, the Amazon FSx managed key is used. The
-scratch Amazon FSx for Lustre file systems are always encrypted at rest
-using Amazon FSx managed keys. For more information, see Encrypt
-(https://docs.aws.amazon.com/kms/latest/APIReference/API_Encrypt.html)
-in the I<AWS Key Management Service API Reference>.
+The ID of the Key Management Service (KMS) key used to encrypt Amazon
+FSx file system data. Used as follows with Amazon FSx file system
+types:
+
+=over
+
+=item *
+
+Amazon FSx for Lustre C<PERSISTENT_1> and C<PERSISTENT_2> deployment
+types only.
+
+C<SCRATCH_1> and C<SCRATCH_2> types are encrypted using the Amazon FSx
+service KMS key for your account.
+
+=item *
+
+Amazon FSx for NetApp ONTAP
+
+=item *
+
+Amazon FSx for OpenZFS
+
+=item *
+
+Amazon FSx for Windows File Server
+
+=back
+
 
 
 =head2 Lifecycle => Str
 
-The lifecycle status of the file system, following are the possible
+The lifecycle status of the file system. The following are the possible
 values and what they mean:
 
 =over
@@ -129,13 +159,19 @@ create the file system.
 
 =item *
 
-C<MISCONFIGURED> indicates that the file system is in a failed but
-recoverable state.
+C<MISCONFIGURED> - The file system is in a failed but recoverable
+state.
 
 =item *
 
-C<UPDATING> indicates that the file system is undergoing a customer
-initiated update.
+C<MISCONFIGURED_UNAVAILABLE> - (Amazon FSx for Windows File Server
+only) The file system is currently unavailable due to a change in your
+Active Directory configuration.
+
+=item *
+
+C<UPDATING> - The file system is undergoing a customer-initiated
+update.
 
 =back
 
@@ -148,10 +184,11 @@ initiated update.
 
 =head2 NetworkInterfaceIds => ArrayRef[Str|Undef]
 
-The IDs of the elastic network interface from which a specific file
+The IDs of the elastic network interfaces from which a specific file
 system is accessible. The elastic network interface is automatically
-created in the same VPC that the Amazon FSx file system was created in.
-For more information, see Elastic Network Interfaces
+created in the same virtual private cloud (VPC) that the Amazon FSx
+file system was created in. For more information, see Elastic Network
+Interfaces
 (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html) in
 the I<Amazon EC2 User Guide.>
 
@@ -160,62 +197,76 @@ network interface ID. For an Amazon FSx for Lustre file system, you can
 have more than one.
 
 
+=head2 OntapConfiguration => L<Paws::FSX::OntapFileSystemConfiguration>
+
+The configuration for this Amazon FSx for NetApp ONTAP file system.
+
+
+=head2 OpenZFSConfiguration => L<Paws::FSX::OpenZFSFileSystemConfiguration>
+
+The configuration for this Amazon FSx for OpenZFS file system.
+
+
 =head2 OwnerId => Str
 
-The AWS account that created the file system. If the file system was
-created by an AWS Identity and Access Management (IAM) user, the AWS
-account to which the IAM user belongs is the owner.
+The Amazon Web Services account that created the file system. If the
+file system was created by a user in IAM Identity Center, the Amazon
+Web Services account to which the IAM user belongs is the owner.
 
 
 =head2 ResourceARN => Str
 
-The Amazon Resource Name (ARN) for the file system resource.
+The Amazon Resource Name (ARN) of the file system resource.
 
 
 =head2 StorageCapacity => Int
 
 The storage capacity of the file system in gibibytes (GiB).
 
+Amazon FSx responds with an HTTP status code 400 (Bad Request) if the
+value of C<StorageCapacity> is outside of the minimum or maximum
+values.
+
 
 =head2 StorageType => Str
 
-The storage type of the file system. Valid values are C<SSD> and
-C<HDD>. If set to C<SSD>, the file system uses solid state drive
-storage. If set to C<HDD>, the file system uses hard disk drive
-storage.
+The type of storage the file system is using. If set to C<SSD>, the
+file system uses solid state drive storage. If set to C<HDD>, the file
+system uses hard disk drive storage.
 
 
 =head2 SubnetIds => ArrayRef[Str|Undef]
 
 Specifies the IDs of the subnets that the file system is accessible
-from. For Windows C<MULTI_AZ_1> file system deployment type, there are
-two subnet IDs, one for the preferred file server and one for the
-standby file server. The preferred file server subnet identified in the
-C<PreferredSubnetID> property. All other file systems have only one
-subnet ID.
+from. For the Amazon FSx Windows and ONTAP C<MULTI_AZ_1> file system
+deployment type, there are two subnet IDs, one for the preferred file
+server and one for the standby file server. The preferred file server
+subnet identified in the C<PreferredSubnetID> property. All other file
+systems have only one subnet ID.
 
-For Lustre file systems, and Single-AZ Windows file systems, this is
-the ID of the subnet that contains the endpoint for the file system.
-For C<MULTI_AZ_1> Windows file systems, the endpoint for the file
-system is available in the C<PreferredSubnetID>.
+For FSx for Lustre file systems, and Single-AZ Windows file systems,
+this is the ID of the subnet that contains the file system's endpoint.
+For C<MULTI_AZ_1> Windows and ONTAP file systems, the file system
+endpoint is available in the C<PreferredSubnetID>.
 
 
 =head2 Tags => ArrayRef[L<Paws::FSX::Tag>]
 
 The tags to associate with the file system. For more information, see
-Tagging Your Amazon EC2 Resources
-(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html)
-in the I<Amazon EC2 User Guide>.
+Tagging your Amazon FSx resources
+(https://docs.aws.amazon.com/fsx/latest/LustreGuide/tag-resources.html)
+in the I<Amazon FSx for Lustre User Guide>.
 
 
 =head2 VpcId => Str
 
-The ID of the primary VPC for the file system.
+The ID of the primary virtual private cloud (VPC) for the file system.
 
 
 =head2 WindowsConfiguration => L<Paws::FSX::WindowsFileSystemConfiguration>
 
-The configuration for this Microsoft Windows file system.
+The configuration for this Amazon FSx for Windows File Server file
+system.
 
 
 

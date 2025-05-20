@@ -49,7 +49,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ivs
 
 =head2 MaxResults => Int
 
-Maximum number of recording configurations to return. Default: 50.
+Maximum number of recording configurations to return. Default: your
+service quota or 100, whichever is smaller.
 
 
 

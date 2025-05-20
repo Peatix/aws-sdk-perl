@@ -69,15 +69,16 @@ The location of the channel data.
 =head2 InputMode => Str
 
 (Optional) The input mode to use for the data channel in a training
-job. If you don't set a value for C<InputMode>, Amazon SageMaker uses
-the value set for C<TrainingInputMode>. Use this parameter to override
-the C<TrainingInputMode> setting in a AlgorithmSpecification request
-when you have a channel that needs a different input mode from the
-training job's general setting. To download the data from Amazon Simple
-Storage Service (Amazon S3) to the provisioned ML storage volume, and
-mount the directory to a Docker volume, use C<File> input mode. To
-stream data directly from Amazon S3 to the container, choose C<Pipe>
-input mode.
+job. If you don't set a value for C<InputMode>, SageMaker uses the
+value set for C<TrainingInputMode>. Use this parameter to override the
+C<TrainingInputMode> setting in a AlgorithmSpecification
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_AlgorithmSpecification.html)
+request when you have a channel that needs a different input mode from
+the training job's general setting. To download the data from Amazon
+Simple Storage Service (Amazon S3) to the provisioned ML storage
+volume, and mount the directory to a Docker volume, use C<File> input
+mode. To stream data directly from Amazon S3 to the container, choose
+C<Pipe> input mode.
 
 To use a model for incremental training, choose C<File> input model.
 
@@ -85,7 +86,7 @@ To use a model for incremental training, choose C<File> input model.
 =head2 RecordWrapperType => Str
 
 Specify RecordIO as the value when input data is in raw format but the
-training algorithm requires the RecordIO format. In this case, Amazon
+training algorithm requires the RecordIO format. In this case,
 SageMaker wraps each individual S3 object in a RecordIO record. If the
 input data is already in RecordIO format, you don't need to set this
 attribute. For more information, see Create a Dataset Using RecordIO

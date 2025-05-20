@@ -33,14 +33,15 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SageMaker::
 
 =head1 DESCRIPTION
 
-This API is not supported.
+An Amazon CloudWatch alarm configured to monitor metrics on an
+endpoint.
 
 =head1 ATTRIBUTES
 
 
 =head2 AlarmName => Str
 
-
+The name of a CloudWatch alarm in your account.
 
 
 

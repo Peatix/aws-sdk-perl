@@ -40,7 +40,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/dat
 
 =head2 B<REQUIRED> TaskExecutionArn => Str
 
-The Amazon Resource Name (ARN) of the task execution to cancel.
+The Amazon Resource Name (ARN) of the task execution to stop.
 
 
 

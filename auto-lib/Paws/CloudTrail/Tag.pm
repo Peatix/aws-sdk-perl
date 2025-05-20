@@ -35,7 +35,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CloudTrail:
 =head1 DESCRIPTION
 
 A custom key-value pair associated with a resource such as a CloudTrail
-trail.
+trail, event data store, dashboard, or channel.
 
 =head1 ATTRIBUTES
 

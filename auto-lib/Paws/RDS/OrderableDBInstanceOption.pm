@@ -11,15 +11,22 @@ package Paws::RDS::OrderableDBInstanceOption;
   has MaxIopsPerDbInstance => (is => 'ro', isa => 'Int');
   has MaxIopsPerGib => (is => 'ro', isa => 'Num');
   has MaxStorageSize => (is => 'ro', isa => 'Int');
+  has MaxStorageThroughputPerDbInstance => (is => 'ro', isa => 'Int');
+  has MaxStorageThroughputPerIops => (is => 'ro', isa => 'Num');
   has MinIopsPerDbInstance => (is => 'ro', isa => 'Int');
   has MinIopsPerGib => (is => 'ro', isa => 'Num');
   has MinStorageSize => (is => 'ro', isa => 'Int');
+  has MinStorageThroughputPerDbInstance => (is => 'ro', isa => 'Int');
+  has MinStorageThroughputPerIops => (is => 'ro', isa => 'Num');
   has MultiAZCapable => (is => 'ro', isa => 'Bool');
   has OutpostCapable => (is => 'ro', isa => 'Bool');
   has ReadReplicaCapable => (is => 'ro', isa => 'Bool');
   has StorageType => (is => 'ro', isa => 'Str');
   has SupportedActivityStreamModes => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has SupportedEngineModes => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has SupportedNetworkTypes => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has SupportsClusters => (is => 'ro', isa => 'Bool');
+  has SupportsDedicatedLogVolume => (is => 'ro', isa => 'Bool');
   has SupportsEnhancedMonitoring => (is => 'ro', isa => 'Bool');
   has SupportsGlobalDatabases => (is => 'ro', isa => 'Bool');
   has SupportsIAMDatabaseAuthentication => (is => 'ro', isa => 'Bool');
@@ -28,6 +35,7 @@ package Paws::RDS::OrderableDBInstanceOption;
   has SupportsPerformanceInsights => (is => 'ro', isa => 'Bool');
   has SupportsStorageAutoscaling => (is => 'ro', isa => 'Bool');
   has SupportsStorageEncryption => (is => 'ro', isa => 'Bool');
+  has SupportsStorageThroughput => (is => 'ro', isa => 'Bool');
   has Vpc => (is => 'ro', isa => 'Bool');
 
 1;
@@ -119,6 +127,16 @@ Maximum provisioned IOPS per GiB for a DB instance.
 Maximum storage size for a DB instance.
 
 
+=head2 MaxStorageThroughputPerDbInstance => Int
+
+Maximum storage throughput for a DB instance.
+
+
+=head2 MaxStorageThroughputPerIops => Num
+
+Maximum storage throughput to provisioned IOPS ratio for a DB instance.
+
+
 =head2 MinIopsPerDbInstance => Int
 
 Minimum total provisioned IOPS for a DB instance.
@@ -134,6 +152,16 @@ Minimum provisioned IOPS per GiB for a DB instance.
 Minimum storage size for a DB instance.
 
 
+=head2 MinStorageThroughputPerDbInstance => Int
+
+Minimum storage throughput for a DB instance.
+
+
+=head2 MinStorageThroughputPerIops => Num
+
+Minimum storage throughput to provisioned IOPS ratio for a DB instance.
+
+
 =head2 MultiAZCapable => Bool
 
 Indicates whether a DB instance is Multi-AZ capable.
@@ -141,7 +169,7 @@ Indicates whether a DB instance is Multi-AZ capable.
 
 =head2 OutpostCapable => Bool
 
-Whether a DB instance supports RDS on Outposts.
+Indicates whether a DB instance supports RDS on Outposts.
 
 For more information about RDS on Outposts, see Amazon RDS on Amazon
 Web Services Outposts
@@ -156,7 +184,7 @@ Indicates whether a DB instance can have a read replica.
 
 =head2 StorageType => Str
 
-Indicates the storage type for a DB instance.
+The storage type for a DB instance.
 
 
 =head2 SupportedActivityStreamModes => ArrayRef[Str|Undef]
@@ -172,6 +200,35 @@ supported, the return value is an empty list.
 A list of the supported DB engine modes.
 
 
+=head2 SupportedNetworkTypes => ArrayRef[Str|Undef]
+
+The network types supported by the DB instance (C<IPV4> or C<DUAL>).
+
+A DB instance can support only the IPv4 protocol or the IPv4 and the
+IPv6 protocols (C<DUAL>).
+
+For more information, see Working with a DB instance in a VPC
+(https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_VPC.WorkingWithRDSInstanceinaVPC.html)
+in the I<Amazon RDS User Guide.>
+
+
+=head2 SupportsClusters => Bool
+
+Indicates whether DB instances can be configured as a Multi-AZ DB
+cluster.
+
+For more information on Multi-AZ DB clusters, see Multi-AZ deployments
+with two readable standby DB instances
+(https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html)
+in the I<Amazon RDS User Guide.>
+
+
+=head2 SupportsDedicatedLogVolume => Bool
+
+Indicates whether a DB instance supports using a dedicated log volume
+(DLV).
+
+
 =head2 SupportsEnhancedMonitoring => Bool
 
 Indicates whether a DB instance supports Enhanced Monitoring at
@@ -180,8 +237,8 @@ intervals from 1 to 60 seconds.
 
 =head2 SupportsGlobalDatabases => Bool
 
-A value that indicates whether you can use Aurora global databases with
-a specific combination of other DB engine attributes.
+Indicates whether you can use Aurora global databases with a specific
+combination of other DB engine attributes.
 
 
 =head2 SupportsIAMDatabaseAuthentication => Bool
@@ -196,23 +253,28 @@ Indicates whether a DB instance supports provisioned IOPS.
 
 =head2 SupportsKerberosAuthentication => Bool
 
-Whether a DB instance supports Kerberos Authentication.
+Indicates whether a DB instance supports Kerberos Authentication.
 
 
 =head2 SupportsPerformanceInsights => Bool
 
-True if a DB instance supports Performance Insights, otherwise false.
+Indicates whether a DB instance supports Performance Insights.
 
 
 =head2 SupportsStorageAutoscaling => Bool
 
-Whether Amazon RDS can automatically scale storage for DB instances
-that use the specified DB instance class.
+Indicates whether Amazon RDS can automatically scale storage for DB
+instances that use the specified DB instance class.
 
 
 =head2 SupportsStorageEncryption => Bool
 
 Indicates whether a DB instance supports encrypted storage.
+
+
+=head2 SupportsStorageThroughput => Bool
+
+Indicates whether a DB instance supports storage throughput.
 
 
 =head2 Vpc => Bool

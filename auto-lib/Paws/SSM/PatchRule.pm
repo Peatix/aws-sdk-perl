@@ -47,17 +47,41 @@ Defines an approval rule for a patch baseline.
 The number of days after the release date of each patch matched by the
 rule that the patch is marked as approved in the patch baseline. For
 example, a value of C<7> means that patches are approved seven days
-after they are released. Not supported on Debian Server or Ubuntu
-Server.
+after they are released.
+
+This parameter is marked as C<Required: No>, but your request must
+include a value for either C<ApproveAfterDays> or C<ApproveUntilDate>.
+
+Not supported for Debian Server or Ubuntu Server.
+
+Use caution when setting this value for Windows Server patch baselines.
+Because patch updates that are replaced by later updates are removed,
+setting too broad a value for this parameter can result in crucial
+patches not being installed. For more information, see the B<Windows
+Server> tab in the topic How security patches are selected
+(https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-selecting-patches.html)
+in the I<Amazon Web Services Systems Manager User Guide>.
 
 
 =head2 ApproveUntilDate => Str
 
 The cutoff date for auto approval of released patches. Any patches
-released on or before this date are installed automatically. Not
-supported on Debian Server or Ubuntu Server.
+released on or before this date are installed automatically.
 
-Enter dates in the format C<YYYY-MM-DD>. For example, C<2020-12-31>.
+Enter dates in the format C<YYYY-MM-DD>. For example, C<2024-12-31>.
+
+This parameter is marked as C<Required: No>, but your request must
+include a value for either C<ApproveUntilDate> or C<ApproveAfterDays>.
+
+Not supported for Debian Server or Ubuntu Server.
+
+Use caution when setting this value for Windows Server patch baselines.
+Because patch updates that are replaced by later updates are removed,
+setting too broad a value for this parameter can result in crucial
+patches not being installed. For more information, see the B<Windows
+Server> tab in the topic How security patches are selected
+(https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-selecting-patches.html)
+in the I<Amazon Web Services Systems Manager User Guide>.
 
 
 =head2 ComplianceLevel => Str
@@ -68,10 +92,10 @@ baseline.
 
 =head2 EnableNonSecurity => Bool
 
-For instances identified by the approval rule filters, enables a patch
-baseline to apply non-security updates available in the specified
-repository. The default value is 'false'. Applies to Linux instances
-only.
+For managed nodes identified by the approval rule filters, enables a
+patch baseline to apply non-security updates available in the specified
+repository. The default value is C<false>. Applies to Linux managed
+nodes only.
 
 
 =head2 B<REQUIRED> PatchFilterGroup => L<Paws::SSM::PatchFilterGroup>

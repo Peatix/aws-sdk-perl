@@ -16,7 +16,7 @@ Paws::SageMaker::CreateImageResponse
 
 =head2 ImageArn => Str
 
-The Amazon Resource Name (ARN) of the image.
+The ARN of the image.
 
 
 =head2 _request_id => Str

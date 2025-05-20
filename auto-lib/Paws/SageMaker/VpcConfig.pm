@@ -34,20 +34,19 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SageMaker::
 
 =head1 DESCRIPTION
 
-Specifies a VPC that your training jobs and hosted models have access
-to. Control access to and from your training and model containers by
-configuring the VPC. For more information, see Protect Endpoints by
-Using an Amazon Virtual Private Cloud
-(https://docs.aws.amazon.com/sagemaker/latest/dg/host-vpc.html) and
-Protect Training Jobs by Using an Amazon Virtual Private Cloud
-(https://docs.aws.amazon.com/sagemaker/latest/dg/train-vpc.html).
+Specifies an Amazon Virtual Private Cloud (VPC) that your SageMaker
+jobs, hosted models, and compute resources have access to. You can
+control access to and from your resources by configuring a VPC. For
+more information, see Give SageMaker Access to Resources in your Amazon
+VPC
+(https://docs.aws.amazon.com/sagemaker/latest/dg/infrastructure-give-access.html).
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> SecurityGroupIds => ArrayRef[Str|Undef]
 
-The VPC security group IDs, in the form sg-xxxxxxxx. Specify the
+The VPC security group IDs, in the form C<sg-xxxxxxxx>. Specify the
 security groups for the VPC that is specified in the C<Subnets> field.
 
 

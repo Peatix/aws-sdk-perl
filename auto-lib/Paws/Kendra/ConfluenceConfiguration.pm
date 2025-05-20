@@ -2,10 +2,12 @@
 package Paws::Kendra::ConfluenceConfiguration;
   use Moose;
   has AttachmentConfiguration => (is => 'ro', isa => 'Paws::Kendra::ConfluenceAttachmentConfiguration');
+  has AuthenticationType => (is => 'ro', isa => 'Str');
   has BlogConfiguration => (is => 'ro', isa => 'Paws::Kendra::ConfluenceBlogConfiguration');
   has ExclusionPatterns => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has InclusionPatterns => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has PageConfiguration => (is => 'ro', isa => 'Paws::Kendra::ConfluencePageConfiguration');
+  has ProxyConfiguration => (is => 'ro', isa => 'Paws::Kendra::ProxyConfiguration');
   has SecretArn => (is => 'ro', isa => 'Str', required => 1);
   has ServerUrl => (is => 'ro', isa => 'Str', required => 1);
   has SpaceConfiguration => (is => 'ro', isa => 'Paws::Kendra::ConfluenceSpaceConfiguration');
@@ -42,92 +44,113 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Kendra::Con
 
 =head1 DESCRIPTION
 
-Provides configuration information for data sources that connect to
-Confluence.
+Provides the configuration information to connect to Confluence as your
+data source.
 
 =head1 ATTRIBUTES
 
 
 =head2 AttachmentConfiguration => L<Paws::Kendra::ConfluenceAttachmentConfiguration>
 
-Specifies configuration information for indexing attachments to
-Confluence blogs and pages.
+Configuration information for indexing attachments to Confluence blogs
+and pages.
+
+
+=head2 AuthenticationType => Str
+
+Whether you want to connect to Confluence using basic authentication of
+user name and password, or a personal access token. You can use a
+personal access token for Confluence Server.
 
 
 =head2 BlogConfiguration => L<Paws::Kendra::ConfluenceBlogConfiguration>
 
-Specifies configuration information for indexing Confluence blogs.
+Configuration information for indexing Confluence blogs.
 
 
 =head2 ExclusionPatterns => ArrayRef[Str|Undef]
 
-A list of regular expression patterns that apply to a URL on the
-Confluence server. An exclusion pattern can apply to a blog post, a
-page, a space, or an attachment. Items that match the pattern are
-excluded from the index. Items that don't match the pattern are
-included in the index. If a item matches both an exclusion pattern and
-an inclusion pattern, the item isn't included in the index.
+A list of regular expression patterns to exclude certain blog posts,
+pages, spaces, or attachments in your Confluence. Content that matches
+the patterns are excluded from the index. Content that doesn't match
+the patterns is included in the index. If content matches both an
+inclusion and exclusion pattern, the exclusion pattern takes precedence
+and the content isn't included in the index.
 
 
 =head2 InclusionPatterns => ArrayRef[Str|Undef]
 
-A list of regular expression patterns that apply to a URL on the
-Confluence server. An inclusion pattern can apply to a blog post, a
-page, a space, or an attachment. Items that match the patterns are
-included in the index. Items that don't match the pattern are excluded
-from the index. If an item matches both an inclusion pattern and an
-exclusion pattern, the item isn't included in the index.
+A list of regular expression patterns to include certain blog posts,
+pages, spaces, or attachments in your Confluence. Content that matches
+the patterns are included in the index. Content that doesn't match the
+patterns is excluded from the index. If content matches both an
+inclusion and exclusion pattern, the exclusion pattern takes precedence
+and the content isn't included in the index.
 
 
 =head2 PageConfiguration => L<Paws::Kendra::ConfluencePageConfiguration>
 
-Specifies configuration information for indexing Confluence pages.
+Configuration information for indexing Confluence pages.
+
+
+=head2 ProxyConfiguration => L<Paws::Kendra::ProxyConfiguration>
+
+Configuration information to connect to your Confluence URL instance
+via a web proxy. You can use this option for Confluence Server.
+
+You must provide the website host name and port number. For example,
+the host name of I<https://a.example.com/page1.html> is "a.example.com"
+and the port is 443, the standard port for HTTPS.
+
+Web proxy credentials are optional and you can use them to connect to a
+web proxy server that requires basic authentication of user name and
+password. To store web proxy credentials, you use a secret in Secrets
+Manager.
+
+It is recommended that you follow best security practices when
+configuring your web proxy. This includes setting up throttling,
+setting up logging and monitoring, and applying security patches on a
+regular basis. If you use your web proxy with multiple data sources,
+sync jobs that occur at the same time could strain the load on your
+proxy. It is recommended you prepare your proxy beforehand for any
+security and load requirements.
 
 
 =head2 B<REQUIRED> SecretArn => Str
 
-The Amazon Resource Name (ARN) of an AWS Secrets Manager secret that
-contains the key/value pairs required to connect to your Confluence
-server. The secret must contain a JSON structure with the following
-keys:
+The Amazon Resource Name (ARN) of an Secrets Manager secret that
+contains the user name and password required to connect to the
+Confluence instance. If you use Confluence Cloud, you use a generated
+API token as the password.
 
-=over
-
-=item *
-
-username - The user name or email address of a user with administrative
-privileges for the Confluence server.
-
-=item *
-
-password - The password associated with the user logging in to the
-Confluence server.
-
-=back
-
+You can also provide authentication credentials in the form of a
+personal access token. For more information, see Using a Confluence
+data source
+(https://docs.aws.amazon.com/kendra/latest/dg/data-source-confluence.html).
 
 
 =head2 B<REQUIRED> ServerUrl => Str
 
 The URL of your Confluence instance. Use the full URL of the server.
-For example, C<https://server.example.com:port/>. You can also use an
-IP address, for example, C<https://192.168.1.113/>.
+For example, I<https://server.example.com:port/>. You can also use an
+IP address, for example, I<https://192.168.1.113/>.
 
 
 =head2 SpaceConfiguration => L<Paws::Kendra::ConfluenceSpaceConfiguration>
 
-Specifies configuration information for indexing Confluence spaces.
+Configuration information for indexing Confluence spaces.
 
 
 =head2 B<REQUIRED> Version => Str
 
-Specifies the version of the Confluence installation that you are
-connecting to.
+The version or the type of Confluence installation to connect to.
 
 
 =head2 VpcConfiguration => L<Paws::Kendra::DataSourceVpcConfiguration>
 
-Specifies the information for connecting to an Amazon VPC.
+Configuration information for an Amazon Virtual Private Cloud to
+connect to your Confluence. For more information, see Configuring a VPC
+(https://docs.aws.amazon.com/kendra/latest/dg/vpc-configuration.html).
 
 
 

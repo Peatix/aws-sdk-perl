@@ -70,12 +70,12 @@ This class has no description
 
 =head2 ContentLength => Int
 
-
+I<This member has been deprecated.>
 
 
 =head2 ContentMD5 => Str
 
-
+I<This member has been deprecated.>
 
 
 =head2 ContentType => Str
@@ -90,12 +90,25 @@ This class has no description
 
 =head2 RequesterCharged => Bool
 
-
+I<This member has been deprecated.>
 
 
 =head2 SSEAlgorithm => Str
 
+The server-side encryption algorithm used when storing objects in
+Amazon S3.
 
+B<Directory buckets > - For directory buckets, there are only two
+supported options for server-side encryption: server-side encryption
+with Amazon S3 managed keys (SSE-S3) (C<AES256>) and server-side
+encryption with KMS keys (SSE-KMS) (C<KMS>). For more information, see
+Protecting data with server-side encryption
+(https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-serv-side-encryption.html)
+in the I<Amazon S3 User Guide>. For the Copy operation in Batch
+Operations
+(https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-objects-Batch-Ops),
+see S3CopyObjectOperation
+(https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_S3CopyObjectOperation.html).
 
 
 =head2 UserMetadata => L<Paws::S3Control::S3UserMetadata>

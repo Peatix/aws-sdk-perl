@@ -16,7 +16,8 @@ Paws::Lightsail::RegisterContainerImageResult
 
 =head2 ContainerImage => L<Paws::Lightsail::ContainerImage>
 
-
+An object that describes a container image that is registered to a
+Lightsail container service
 
 
 =head2 _request_id => Str

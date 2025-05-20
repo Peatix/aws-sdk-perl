@@ -40,8 +40,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/shi
 
 =head2 B<REQUIRED> RoleArn => Str
 
-The Amazon Resource Name (ARN) of the role the DRT will use to access
-your AWS account.
+The Amazon Resource Name (ARN) of the role the SRT will use to access
+your Amazon Web Services account.
 
 Prior to making the C<AssociateDRTRole> request, you must attach the
 AWSShieldDRTAccessPolicy

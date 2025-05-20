@@ -7,6 +7,7 @@ package Paws::Glue::WorkflowRun;
   has Name => (is => 'ro', isa => 'Str');
   has PreviousRunId => (is => 'ro', isa => 'Str');
   has StartedOn => (is => 'ro', isa => 'Str');
+  has StartingEventBatchCondition => (is => 'ro', isa => 'Paws::Glue::StartingEventBatchCondition');
   has Statistics => (is => 'ro', isa => 'Paws::Glue::WorkflowRunStatistics');
   has Status => (is => 'ro', isa => 'Str');
   has WorkflowRunId => (is => 'ro', isa => 'Str');
@@ -79,6 +80,11 @@ The ID of the previous workflow run.
 =head2 StartedOn => Str
 
 The date and time when the workflow run was started.
+
+
+=head2 StartingEventBatchCondition => L<Paws::Glue::StartingEventBatchCondition>
+
+The batch condition that started the workflow run.
 
 
 =head2 Statistics => L<Paws::Glue::WorkflowRunStatistics>

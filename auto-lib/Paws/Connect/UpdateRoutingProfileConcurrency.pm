@@ -34,9 +34,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       InstanceId         => 'MyInstanceId',
       MediaConcurrencies => [
         {
-          Channel     => 'VOICE',    # values: VOICE, CHAT, TASK
-          Concurrency => 1,          # min: 1, max: 10
+          Channel              => 'VOICE',    # values: VOICE, CHAT, TASK, EMAIL
+          Concurrency          => 1,          # min: 1, max: 10
+          CrossChannelBehavior => {
+            BehaviorType => 'ROUTE_CURRENT_CHANNEL_ONLY'
+            ,    # values: ROUTE_CURRENT_CHANNEL_ONLY, ROUTE_ANY_CHANNEL
 
+          },    # OPTIONAL
         },
         ...
       ],
@@ -53,7 +57,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/con
 =head2 B<REQUIRED> InstanceId => Str
 
 The identifier of the Amazon Connect instance. You can find the
-instanceId in the ARN of the instance.
+instance ID
+(https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html)
+in the Amazon Resource Name (ARN) of the instance.
 
 
 

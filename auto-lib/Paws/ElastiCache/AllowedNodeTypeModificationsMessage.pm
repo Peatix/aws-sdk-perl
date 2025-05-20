@@ -20,9 +20,9 @@ Paws::ElastiCache::AllowedNodeTypeModificationsMessage
 
 A string list, each element of which specifies a cache node type which
 you can use to scale your cluster or replication group. When scaling
-down a Redis cluster or replication group using ModifyCacheCluster or
-ModifyReplicationGroup, use a value from this list for the
-CacheNodeType parameter.
+down a Valkey or Redis OSS cluster or replication group using
+ModifyCacheCluster or ModifyReplicationGroup, use a value from this
+list for the CacheNodeType parameter.
 
 
 =head2 ScaleUpModifications => ArrayRef[Str|Undef]
@@ -30,9 +30,9 @@ CacheNodeType parameter.
 A string list, each element of which specifies a cache node type which
 you can use to scale your cluster or replication group.
 
-When scaling up a Redis cluster or replication group using
-C<ModifyCacheCluster> or C<ModifyReplicationGroup>, use a value from
-this list for the C<CacheNodeType> parameter.
+When scaling up a Valkey or Redis OSS cluster or replication group
+using C<ModifyCacheCluster> or C<ModifyReplicationGroup>, use a value
+from this list for the C<CacheNodeType> parameter.
 
 
 =head2 _request_id => Str

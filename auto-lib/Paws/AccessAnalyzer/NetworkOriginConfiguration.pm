@@ -35,7 +35,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AccessAnaly
 =head1 DESCRIPTION
 
 The proposed C<InternetConfiguration> or C<VpcConfiguration> to apply
-to the Amazon S3 Access point. You can make the access point accessible
+to the Amazon S3 access point. You can make the access point accessible
 from the internet, or you can specify that all requests made through
 that access point must originate from a specific virtual private cloud
 (VPC). You can specify only one type of network configuration. For more
@@ -47,8 +47,8 @@ information, see Creating access points
 
 =head2 InternetConfiguration => L<Paws::AccessAnalyzer::InternetConfiguration>
 
-The configuration for the Amazon S3 access point with an C<Internet>
-origin.
+The configuration for the Amazon S3 access point or multi-region access
+point with an C<Internet> origin.
 
 
 =head2 VpcConfiguration => L<Paws::AccessAnalyzer::VpcConfiguration>

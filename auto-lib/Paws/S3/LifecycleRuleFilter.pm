@@ -2,6 +2,8 @@
 package Paws::S3::LifecycleRuleFilter;
   use Moose;
   has And => (is => 'ro', isa => 'Paws::S3::LifecycleRuleAndOperator');
+  has ObjectSizeGreaterThan => (is => 'ro', isa => 'Int');
+  has ObjectSizeLessThan => (is => 'ro', isa => 'Int');
   has Prefix => (is => 'ro', isa => 'Str');
   has Tag => (is => 'ro', isa => 'Paws::S3::Tag');
 
@@ -36,8 +38,10 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::S3::Lifecyc
 =head1 DESCRIPTION
 
 The C<Filter> is used to identify objects that a Lifecycle Rule applies
-to. A C<Filter> must have exactly one of C<Prefix>, C<Tag>, or C<And>
-specified.
+to. A C<Filter> can have exactly one of C<Prefix>, C<Tag>,
+C<ObjectSizeGreaterThan>, C<ObjectSizeLessThan>, or C<And> specified.
+If the C<Filter> element is left empty, the Lifecycle Rule applies to
+all objects in the bucket.
 
 =head1 ATTRIBUTES
 
@@ -45,6 +49,16 @@ specified.
 =head2 And => L<Paws::S3::LifecycleRuleAndOperator>
 
 
+
+
+=head2 ObjectSizeGreaterThan => Int
+
+Minimum object size to which the rule applies.
+
+
+=head2 ObjectSizeLessThan => Int
+
+Maximum object size to which the rule applies.
 
 
 =head2 Prefix => Str
@@ -61,6 +75,9 @@ information, see XML related object key constraints
 
 This tag must exist in the object's tag set in order for the rule to
 apply.
+
+This parameter applies to general purpose buckets only. It is not
+supported for directory bucket lifecycle configurations.
 
 
 

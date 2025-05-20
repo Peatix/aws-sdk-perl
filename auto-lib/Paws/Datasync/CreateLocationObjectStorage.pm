@@ -5,6 +5,7 @@ package Paws::Datasync::CreateLocationObjectStorage;
   has AgentArns => (is => 'ro', isa => 'ArrayRef[Str|Undef]', required => 1);
   has BucketName => (is => 'ro', isa => 'Str', required => 1);
   has SecretKey => (is => 'ro', isa => 'Str');
+  has ServerCertificate => (is => 'ro', isa => 'Str');
   has ServerHostname => (is => 'ro', isa => 'Str', required => 1);
   has ServerPort => (is => 'ro', isa => 'Int');
   has ServerProtocol => (is => 'ro', isa => 'Str');
@@ -40,17 +41,18 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       AgentArns => [
         'MyAgentArn', ...    # max: 128
       ],
-      BucketName     => 'MyObjectStorageBucketName',
-      ServerHostname => 'MyServerHostname',
-      AccessKey      => 'MyObjectStorageAccessKey',    # OPTIONAL
-      SecretKey      => 'MyObjectStorageSecretKey',    # OPTIONAL
-      ServerPort     => 1,                             # OPTIONAL
-      ServerProtocol => 'HTTPS',                       # OPTIONAL
-      Subdirectory   => 'MyS3Subdirectory',            # OPTIONAL
-      Tags           => [
+      BucketName        => 'MyObjectStorageBucketName',
+      ServerHostname    => 'MyServerHostname',
+      AccessKey         => 'MyObjectStorageAccessKey',        # OPTIONAL
+      SecretKey         => 'MyObjectStorageSecretKey',        # OPTIONAL
+      ServerCertificate => 'BlobObjectStorageCertificate',    # OPTIONAL
+      ServerPort        => 1,                                 # OPTIONAL
+      ServerProtocol    => 'HTTPS',                           # OPTIONAL
+      Subdirectory      => 'MyS3Subdirectory',                # OPTIONAL
+      Tags              => [
         {
           Key   => 'MyTagKey',      # min: 1, max: 256
-          Value => 'MyTagValue',    # min: 1, max: 256; OPTIONAL
+          Value => 'MyTagValue',    # max: 256; OPTIONAL
         },
         ...
       ],    # OPTIONAL
@@ -69,73 +71,105 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/dat
 
 =head2 AccessKey => Str
 
-Optional. The access key is used if credentials are required to access
-the self-managed object storage server. If your object storage requires
-a user name and password to authenticate, use C<AccessKey> and
-C<SecretKey> to provide the user name and password, respectively.
+Specifies the access key (for example, a user name) if credentials are
+required to authenticate with the object storage server.
 
 
 
 =head2 B<REQUIRED> AgentArns => ArrayRef[Str|Undef]
 
-The Amazon Resource Name (ARN) of the agents associated with the
-self-managed object storage server location.
+Specifies the Amazon Resource Names (ARNs) of the DataSync agents that
+can connect with your object storage system.
 
 
 
 =head2 B<REQUIRED> BucketName => Str
 
-The bucket on the self-managed object storage server that is used to
-read data from.
+Specifies the name of the object storage bucket involved in the
+transfer.
 
 
 
 =head2 SecretKey => Str
 
-Optional. The secret key is used if credentials are required to access
-the self-managed object storage server. If your object storage requires
-a user name and password to authenticate, use C<AccessKey> and
-C<SecretKey> to provide the user name and password, respectively.
+Specifies the secret key (for example, a password) if credentials are
+required to authenticate with the object storage server.
+
+
+
+=head2 ServerCertificate => Str
+
+Specifies a certificate chain for DataSync to authenticate with your
+object storage system if the system uses a private or self-signed
+certificate authority (CA). You must specify a single C<.pem> file with
+a full certificate chain (for example,
+C<file:///home/user/.ssh/object_storage_certificates.pem>).
+
+The certificate chain might include:
+
+=over
+
+=item *
+
+The object storage system's certificate
+
+=item *
+
+All intermediate certificates (if there are any)
+
+=item *
+
+The root certificate of the signing CA
+
+=back
+
+You can concatenate your certificates into a C<.pem> file (which can be
+up to 32768 bytes before base64 encoding). The following example C<cat>
+command creates an C<object_storage_certificates.pem> file that
+includes three certificates:
+
+C<cat object_server_certificate.pem intermediate_certificate.pem
+ca_root_certificate.pem E<gt> object_storage_certificates.pem>
+
+To use this parameter, configure C<ServerProtocol> to C<HTTPS>.
 
 
 
 =head2 B<REQUIRED> ServerHostname => Str
 
-The name of the self-managed object storage server. This value is the
-IP address or Domain Name Service (DNS) name of the object storage
-server. An agent uses this host name to mount the object storage server
-in a network.
+Specifies the domain name or IP version 4 (IPv4) address of the object
+storage server that your DataSync agent connects to.
 
 
 
 =head2 ServerPort => Int
 
-The port that your self-managed object storage server accepts inbound
-network traffic on. The server port is set by default to TCP 80 (HTTP)
-or TCP 443 (HTTPS). You can specify a custom port if your self-managed
-object storage server requires one.
+Specifies the port that your object storage server accepts inbound
+network traffic on (for example, port 443).
 
 
 
 =head2 ServerProtocol => Str
 
-The protocol that the object storage server uses to communicate. Valid
-values are HTTP or HTTPS.
+Specifies the protocol that your object storage server uses to
+communicate.
 
 Valid values are: C<"HTTPS">, C<"HTTP">
 
 =head2 Subdirectory => Str
 
-The subdirectory in the self-managed object storage server that is used
-to read data from.
+Specifies the object prefix for your object storage server. If this is
+a source location, DataSync only copies objects with this prefix. If
+this is a destination location, DataSync writes all objects with this
+prefix.
 
 
 
 =head2 Tags => ArrayRef[L<Paws::Datasync::TagListEntry>]
 
-The key-value pair that represents the tag that you want to add to the
-location. The value can be an empty string. We recommend using tags to
-name your resources.
+Specifies the key-value pair that represents a tag that you want to add
+to the resource. Tags can help you manage, filter, and search for your
+resources. We recommend creating a name tag for your location.
 
 
 

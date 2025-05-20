@@ -40,11 +40,10 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::MediaConnec
 
 =head1 DESCRIPTION
 
-A single track or stream of media that contains video, audio, or
-ancillary data. After you add a media stream to a flow, you can
-associate it with sources and outputs on that flow, as long as they use
-the CDI protocol or the ST 2110 JPEG XS protocol. Each source or output
-can consist of one or many media streams.
+A media stream represents one component of your content, such as video,
+audio, or ancillary data. After you add a media stream to your flow,
+you can associate it with sources and outputs that use the ST 2110 JPEG
+XS or CDI protocol.
 
 =head1 ATTRIBUTES
 

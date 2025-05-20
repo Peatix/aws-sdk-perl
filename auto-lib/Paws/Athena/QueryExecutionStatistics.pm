@@ -6,6 +6,8 @@ package Paws::Athena::QueryExecutionStatistics;
   has EngineExecutionTimeInMillis => (is => 'ro', isa => 'Int');
   has QueryPlanningTimeInMillis => (is => 'ro', isa => 'Int');
   has QueryQueueTimeInMillis => (is => 'ro', isa => 'Int');
+  has ResultReuseInformation => (is => 'ro', isa => 'Paws::Athena::ResultReuseInformation');
+  has ServicePreProcessingTimeInMillis => (is => 'ro', isa => 'Int');
   has ServiceProcessingTimeInMillis => (is => 'ro', isa => 'Int');
   has TotalExecutionTimeInMillis => (is => 'ro', isa => 'Int');
 
@@ -82,6 +84,18 @@ processing time.
 The number of milliseconds that the query was in your query queue
 waiting for resources. Note that if transient errors occur, Athena
 might automatically add the query back to the queue.
+
+
+=head2 ResultReuseInformation => L<Paws::Athena::ResultReuseInformation>
+
+Contains information about whether previous query results were reused
+for the query.
+
+
+=head2 ServicePreProcessingTimeInMillis => Int
+
+The number of milliseconds that Athena took to preprocess the query
+before submitting the query to the query engine.
 
 
 =head2 ServiceProcessingTimeInMillis => Int

@@ -79,7 +79,7 @@ The IP address assigned to the customer interface.
 =head2 Mtu => Int
 
 The maximum transmission unit (MTU), in bytes. The supported values are
-1500 and 9001. The default value is 1500.
+1500 and 8500. The default value is 1500
 
 
 =head2 Tags => ArrayRef[L<Paws::DirectConnect::Tag>]

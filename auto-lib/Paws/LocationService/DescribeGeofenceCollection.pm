@@ -38,6 +38,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $CollectionName = $DescribeGeofenceCollectionResponse->CollectionName;
     my $CreateTime     = $DescribeGeofenceCollectionResponse->CreateTime;
     my $Description    = $DescribeGeofenceCollectionResponse->Description;
+    my $GeofenceCount  = $DescribeGeofenceCollectionResponse->GeofenceCount;
     my $KmsKeyId       = $DescribeGeofenceCollectionResponse->KmsKeyId;
     my $PricingPlan    = $DescribeGeofenceCollectionResponse->PricingPlan;
     my $PricingPlanDataSource =

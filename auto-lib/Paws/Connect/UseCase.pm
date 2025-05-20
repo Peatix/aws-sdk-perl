@@ -52,9 +52,8 @@ The identifier for the use case.
 
 =head2 UseCaseType => Str
 
-The type of use case to associate to the AppIntegration association.
-Each AppIntegration association can have only one of each use case
-type.
+The type of use case to associate to the integration association. Each
+integration association can have only one of each use case type.
 
 
 

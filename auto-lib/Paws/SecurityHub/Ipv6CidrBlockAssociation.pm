@@ -47,7 +47,37 @@ The association ID for the IPv6 CIDR block.
 
 =head2 CidrBlockState => Str
 
-Information about the state of the CIDR block.
+Information about the state of the CIDR block. Valid values are as
+follows:
+
+=over
+
+=item *
+
+C<associating>
+
+=item *
+
+C<associated>
+
+=item *
+
+C<disassociating>
+
+=item *
+
+C<disassociated>
+
+=item *
+
+C<failed>
+
+=item *
+
+C<failing>
+
+=back
+
 
 
 =head2 Ipv6CidrBlock => Str

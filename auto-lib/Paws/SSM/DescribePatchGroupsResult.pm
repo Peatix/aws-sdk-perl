@@ -19,10 +19,19 @@ Paws::SSM::DescribePatchGroupsResult
 
 Each entry in the array contains:
 
-PatchGroup: string (between 1 and 256 characters, Regex:
-^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$)
+=over
 
-PatchBaselineIdentity: A PatchBaselineIdentity element.
+=item *
+
+C<PatchGroup>: string (between 1 and 256 characters. Regex:
+C<^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$)>
+
+=item *
+
+C<PatchBaselineIdentity>: A C<PatchBaselineIdentity> element.
+
+=back
+
 
 
 =head2 NextToken => Str

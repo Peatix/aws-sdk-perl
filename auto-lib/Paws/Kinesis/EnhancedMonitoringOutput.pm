@@ -3,6 +3,7 @@ package Paws::Kinesis::EnhancedMonitoringOutput;
   use Moose;
   has CurrentShardLevelMetrics => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has DesiredShardLevelMetrics => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has StreamARN => (is => 'ro', isa => 'Str');
   has StreamName => (is => 'ro', isa => 'Str');
 
   has _request_id => (is => 'ro', isa => 'Str');
@@ -26,6 +27,11 @@ state before the operation.
 
 Represents the list of all the metrics that would be in the enhanced
 state after the operation.
+
+
+=head2 StreamARN => Str
+
+The ARN of the stream.
 
 
 =head2 StreamName => Str

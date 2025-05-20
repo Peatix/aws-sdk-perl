@@ -66,10 +66,23 @@ idempotent request is required.
 
 =head2 B<REQUIRED> DashboardDefinition => Str
 
-The dashboard definition specified in a JSON literal. For detailed
-information, see Creating dashboards (CLI)
+The dashboard definition specified in a JSON literal.
+
+=over
+
+=item *
+
+IoT SiteWise Monitor (Classic) see Create dashboards (CLI)
 (https://docs.aws.amazon.com/iot-sitewise/latest/userguide/create-dashboards-using-aws-cli.html)
-in the I<AWS IoT SiteWise User Guide>.
+
+=item *
+
+IoT SiteWise Monitor (AI-aware) see Create dashboards (CLI)
+(https://docs.aws.amazon.com/iot-sitewise/latest/userguide/create-dashboards-ai-dashboard-cli.html)
+
+=back
+
+in the I<IoT SiteWise User Guide>
 
 
 
@@ -94,9 +107,9 @@ The ID of the project in which to create the dashboard.
 =head2 Tags => L<Paws::IoTSiteWise::TagMap>
 
 A list of key-value pairs that contain metadata for the dashboard. For
-more information, see Tagging your AWS IoT SiteWise resources
+more information, see Tagging your IoT SiteWise resources
 (https://docs.aws.amazon.com/iot-sitewise/latest/userguide/tag-resources.html)
-in the I<AWS IoT SiteWise User Guide>.
+in the I<IoT SiteWise User Guide>.
 
 
 

@@ -23,7 +23,7 @@ request parameters. For more information on the available individual
 assessments, including compatibility with different migration task
 configurations, see Working with premigration assessment runs
 (https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.AssessmentReport.html)
-in the I<AWS Database Migration Service User Guide.>
+in the I<Database Migration Service User Guide.>
 
 
 =head2 Marker => Str

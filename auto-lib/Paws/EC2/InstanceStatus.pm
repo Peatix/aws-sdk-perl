@@ -1,10 +1,12 @@
 package Paws::EC2::InstanceStatus;
   use Moose;
+  has AttachedEbsStatus => (is => 'ro', isa => 'Paws::EC2::EbsStatusSummary', request_name => 'attachedEbsStatus', traits => ['NameInRequest']);
   has AvailabilityZone => (is => 'ro', isa => 'Str', request_name => 'availabilityZone', traits => ['NameInRequest']);
   has Events => (is => 'ro', isa => 'ArrayRef[Paws::EC2::InstanceStatusEvent]', request_name => 'eventsSet', traits => ['NameInRequest']);
   has InstanceId => (is => 'ro', isa => 'Str', request_name => 'instanceId', traits => ['NameInRequest']);
   has InstanceState => (is => 'ro', isa => 'Paws::EC2::InstanceState', request_name => 'instanceState', traits => ['NameInRequest']);
   has InstanceStatus => (is => 'ro', isa => 'Paws::EC2::InstanceStatusSummary', request_name => 'instanceStatus', traits => ['NameInRequest']);
+  has Operator => (is => 'ro', isa => 'Paws::EC2::OperatorResponse', request_name => 'operator', traits => ['NameInRequest']);
   has OutpostArn => (is => 'ro', isa => 'Str', request_name => 'outpostArn', traits => ['NameInRequest']);
   has SystemStatus => (is => 'ro', isa => 'Paws::EC2::InstanceStatusSummary', request_name => 'systemStatus', traits => ['NameInRequest']);
 1;
@@ -26,20 +28,26 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::EC2::InstanceStatus object:
 
-  $service_obj->Method(Att1 => { AvailabilityZone => $value, ..., SystemStatus => $value  });
+  $service_obj->Method(Att1 => { AttachedEbsStatus => $value, ..., SystemStatus => $value  });
 
 =head3 Results returned from an API call
 
 Use accessors for each attribute. If Att1 is expected to be an Paws::EC2::InstanceStatus object:
 
   $result = $service_obj->Method(...);
-  $result->Att1->AvailabilityZone
+  $result->Att1->AttachedEbsStatus
 
 =head1 DESCRIPTION
 
 This class has no description
 
 =head1 ATTRIBUTES
+
+
+=head2 AttachedEbsStatus => L<Paws::EC2::EbsStatusSummary>
+
+Reports impaired functionality that stems from an attached Amazon EBS
+volume that is unreachable and unable to complete I/O operations.
 
 
 =head2 AvailabilityZone => Str
@@ -67,6 +75,11 @@ that an instance be in the C<running> state.
 
 Reports impaired functionality that stems from issues internal to the
 instance, such as impaired reachability.
+
+
+=head2 Operator => L<Paws::EC2::OperatorResponse>
+
+The service provider that manages the instance.
 
 
 =head2 OutpostArn => Str

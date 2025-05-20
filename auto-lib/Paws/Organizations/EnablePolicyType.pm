@@ -57,8 +57,18 @@ following values:
 
 =item *
 
-AISERVICES_OPT_OUT_POLICY
-(https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)
+SERVICE_CONTROL_POLICY
+(https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html)
+
+=item *
+
+RESOURCE_CONTROL_POLICY
+(https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_rcps.html)
+
+=item *
+
+DECLARATIVE_POLICY_EC2
+(https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html)
 
 =item *
 
@@ -67,18 +77,23 @@ BACKUP_POLICY
 
 =item *
 
-SERVICE_CONTROL_POLICY
-(https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html)
+TAG_POLICY
+(https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html)
 
 =item *
 
-TAG_POLICY
-(https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html)
+CHATBOT_POLICY
+(https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html)
+
+=item *
+
+AISERVICES_OPT_OUT_POLICY
+(https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)
 
 =back
 
 
-Valid values are: C<"SERVICE_CONTROL_POLICY">, C<"TAG_POLICY">, C<"BACKUP_POLICY">, C<"AISERVICES_OPT_OUT_POLICY">
+Valid values are: C<"SERVICE_CONTROL_POLICY">, C<"RESOURCE_CONTROL_POLICY">, C<"TAG_POLICY">, C<"BACKUP_POLICY">, C<"AISERVICES_OPT_OUT_POLICY">, C<"CHATBOT_POLICY">, C<"DECLARATIVE_POLICY_EC2">
 
 =head2 B<REQUIRED> RootId => Str
 

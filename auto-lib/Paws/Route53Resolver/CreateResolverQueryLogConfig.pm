@@ -79,11 +79,11 @@ the following:
 
 B<S3 bucket>:
 
-C<arn:aws:s3:::examplebucket>
+C<arn:aws:s3:::amzn-s3-demo-bucket>
 
 You can optionally append a file prefix to the end of the ARN.
 
-C<arn:aws:s3:::examplebucket/development/>
+C<arn:aws:s3:::amzn-s3-demo-bucket/development/>
 
 =item *
 

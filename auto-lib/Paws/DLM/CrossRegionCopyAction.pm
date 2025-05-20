@@ -35,7 +35,12 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::DLM::CrossR
 
 =head1 DESCRIPTION
 
-Specifies a rule for copying shared snapshots across Regions.
+B<[Event-based policies only]> Specifies a cross-Region copy action for
+event-based policies.
+
+To specify a cross-Region copy rule for snapshot and AMI policies, use
+CrossRegionCopyRule
+(https://docs.aws.amazon.com/dlm/latest/APIReference/API_CrossRegionCopyRule.html).
 
 =head1 ATTRIBUTES
 

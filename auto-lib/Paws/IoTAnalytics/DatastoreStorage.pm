@@ -2,6 +2,7 @@
 package Paws::IoTAnalytics::DatastoreStorage;
   use Moose;
   has CustomerManagedS3 => (is => 'ro', isa => 'Paws::IoTAnalytics::CustomerManagedDatastoreS3Storage', request_name => 'customerManagedS3', traits => ['NameInRequest']);
+  has IotSiteWiseMultiLayerStorage => (is => 'ro', isa => 'Paws::IoTAnalytics::DatastoreIotSiteWiseMultiLayerStorage', request_name => 'iotSiteWiseMultiLayerStorage', traits => ['NameInRequest']);
   has ServiceManagedS3 => (is => 'ro', isa => 'Paws::IoTAnalytics::ServiceManagedDatastoreS3Storage', request_name => 'serviceManagedS3', traits => ['NameInRequest']);
 
 1;
@@ -34,27 +35,34 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::IoTAnalytic
 
 =head1 DESCRIPTION
 
-Where data store data is stored. You can choose one of
-C<serviceManagedS3> or C<customerManagedS3> storage. If not specified,
-the default is C<serviceManagedS3>. You cannot change this storage
-option after the data store is created.
+Where data in a data store is stored.. You can choose
+C<serviceManagedS3> storage, C<customerManagedS3> storage, or
+C<iotSiteWiseMultiLayerStorage> storage. The default is
+C<serviceManagedS3>. You can't change the choice of Amazon S3 storage
+after your data store is created.
 
 =head1 ATTRIBUTES
 
 
 =head2 CustomerManagedS3 => L<Paws::IoTAnalytics::CustomerManagedDatastoreS3Storage>
 
-Use this to store data store data in an S3 bucket that you manage. When
-customer managed storage is selected, the C<retentionPeriod> parameter
-is ignored. The choice of service-managed or customer-managed S3
-storage cannot be changed after creation of the data store.
+S3-customer-managed; When you choose customer-managed storage, the
+C<retentionPeriod> parameter is ignored. You can't change the choice of
+Amazon S3 storage after your data store is created.
+
+
+=head2 IotSiteWiseMultiLayerStorage => L<Paws::IoTAnalytics::DatastoreIotSiteWiseMultiLayerStorage>
+
+Used to store data used by IoT SiteWise in an Amazon S3 bucket that you
+manage. You can't change the choice of Amazon S3 storage after your
+data store is created.
 
 
 =head2 ServiceManagedS3 => L<Paws::IoTAnalytics::ServiceManagedDatastoreS3Storage>
 
-Use this to store data store data in an S3 bucket managed by AWS IoT
-Analytics. You cannot change the choice of service-managed or
-customer-managed S3 storage after the data store is created.
+Used to store data in an Amazon S3 bucket managed by IoT Analytics. You
+can't change the choice of Amazon S3 storage after your data store is
+created.
 
 
 

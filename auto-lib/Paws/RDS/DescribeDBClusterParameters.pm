@@ -67,7 +67,10 @@ DBClusterParameterGroup.
 
 =head2 Filters => ArrayRef[L<Paws::RDS::Filter>]
 
-This parameter isn't currently supported.
+A filter that specifies one or more DB cluster parameters to describe.
+
+The only supported filter is C<parameter-name>. The results list only
+includes information about the DB cluster parameters with these names.
 
 
 
@@ -95,8 +98,26 @@ Constraints: Minimum 20, maximum 100.
 
 =head2 Source => Str
 
-A value that indicates to return only parameters for a specific source.
-Parameter sources can be C<engine>, C<service>, or C<customer>.
+A specific source to return parameters for.
+
+Valid Values:
+
+=over
+
+=item *
+
+C<engine-default>
+
+=item *
+
+C<system>
+
+=item *
+
+C<user>
+
+=back
+
 
 
 

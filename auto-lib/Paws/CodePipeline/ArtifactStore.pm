@@ -47,8 +47,8 @@ in your pipeline, you must use C<artifactStores>.
 =head2 EncryptionKey => L<Paws::CodePipeline::EncryptionKey>
 
 The encryption key used to encrypt the data in the artifact store, such
-as an AWS Key Management Service (AWS KMS) key. If this is undefined,
-the default key for Amazon S3 is used.
+as an Amazon Web Services Key Management Service key. If this is
+undefined, the default key for Amazon S3 is used.
 
 
 =head2 B<REQUIRED> Location => Str
@@ -56,8 +56,8 @@ the default key for Amazon S3 is used.
 The S3 bucket used for storing the artifacts for a pipeline. You can
 specify the name of an S3 bucket but not a folder in the bucket. A
 folder to contain the pipeline artifacts is created for you based on
-the name of the pipeline. You can use any S3 bucket in the same AWS
-Region as the pipeline to store your pipeline artifacts.
+the name of the pipeline. You can use any S3 bucket in the same Amazon
+Web Services Region as the pipeline to store your pipeline artifacts.
 
 
 =head2 B<REQUIRED> Type => Str

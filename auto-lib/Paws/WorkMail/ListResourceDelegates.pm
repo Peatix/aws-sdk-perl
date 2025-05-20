@@ -32,9 +32,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $workmail = Paws->service('WorkMail');
     my $ListResourceDelegatesResponse = $workmail->ListResourceDelegates(
       OrganizationId => 'MyOrganizationId',
-      ResourceId     => 'MyWorkMailIdentifier',
-      MaxResults     => 1,                        # OPTIONAL
-      NextToken      => 'MyNextToken',            # OPTIONAL
+      ResourceId     => 'MyEntityIdentifier',
+      MaxResults     => 1,                      # OPTIONAL
+      NextToken      => 'MyNextToken',          # OPTIONAL
     );
 
     # Results:
@@ -72,6 +72,26 @@ which delegates are listed.
 =head2 B<REQUIRED> ResourceId => Str
 
 The identifier for the resource whose delegates are listed.
+
+The identifier can accept I<ResourceId>, I<Resourcename>, or I<email>.
+The following identity formats are available:
+
+=over
+
+=item *
+
+Resource ID: r-0123456789a0123456789b0123456789
+
+=item *
+
+Email address: resource@domain.tld
+
+=item *
+
+Resource name: resource
+
+=back
+
 
 
 

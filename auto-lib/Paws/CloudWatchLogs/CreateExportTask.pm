@@ -57,7 +57,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/log
 =head2 B<REQUIRED> Destination => Str
 
 The name of S3 bucket for the exported log data. The bucket must be in
-the same AWS region.
+the same Amazon Web Services Region.
 
 
 
@@ -66,12 +66,16 @@ the same AWS region.
 The prefix used as the start of the key for every object exported. If
 you don't specify a value, the default is C<exportedlogs>.
 
+The length of this parameter must comply with the S3 object key name
+length limits. The object key name is a sequence of Unicode characters
+with UTF-8 encoding, and can be up to 1,024 bytes.
+
 
 
 =head2 B<REQUIRED> From => Int
 
 The start time of the range for the request, expressed as the number of
-milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp
+milliseconds after C<Jan 1, 1970 00:00:00 UTC>. Events with a timestamp
 earlier than this time are not exported.
 
 
@@ -97,9 +101,12 @@ The name of the export task.
 
 =head2 B<REQUIRED> To => Int
 
-The end time of the range for the request, expreswatchlogsdocused as
-the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with
-a timestamp later than this time are not exported.
+The end time of the range for the request, expressed as the number of
+milliseconds after C<Jan 1, 1970 00:00:00 UTC>. Events with a timestamp
+later than this time are not exported.
+
+You must specify a time that is not earlier than when this log group
+was created.
 
 
 

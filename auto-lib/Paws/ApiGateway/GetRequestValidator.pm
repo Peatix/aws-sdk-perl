@@ -52,13 +52,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 B<REQUIRED> RequestValidatorId => Str
 
-[Required] The identifier of the RequestValidator to be retrieved.
+The identifier of the RequestValidator to be retrieved.
 
 
 
 =head2 B<REQUIRED> RestApiId => Str
 
-[Required] The string identifier of the associated RestApi.
+The string identifier of the associated RestApi.
 
 
 

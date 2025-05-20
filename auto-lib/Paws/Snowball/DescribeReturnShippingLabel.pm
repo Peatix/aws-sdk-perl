@@ -35,7 +35,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     # Results:
     my $ExpirationDate = $DescribeReturnShippingLabelResult->ExpirationDate;
-    my $Status         = $DescribeReturnShippingLabelResult->Status;
+    my $ReturnShippingLabelURI =
+      $DescribeReturnShippingLabelResult->ReturnShippingLabelURI;
+    my $Status = $DescribeReturnShippingLabelResult->Status;
 
     # Returns a L<Paws::Snowball::DescribeReturnShippingLabelResult> object.
 

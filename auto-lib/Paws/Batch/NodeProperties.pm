@@ -35,8 +35,11 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Batch::Node
 
 =head1 DESCRIPTION
 
-An object representing the node properties of a multi-node parallel
+An object that represents the node properties of a multi-node parallel
 job.
+
+Node properties can't be specified for Amazon EKS based job
+definitions.
 
 =head1 ATTRIBUTES
 
@@ -49,13 +52,13 @@ job. This node index value must be fewer than the number of nodes.
 
 =head2 B<REQUIRED> NodeRangeProperties => ArrayRef[L<Paws::Batch::NodeRangeProperty>]
 
-A list of node ranges and their properties associated with a multi-node
-parallel job.
+A list of node ranges and their properties that are associated with a
+multi-node parallel job.
 
 
 =head2 B<REQUIRED> NumNodes => Int
 
-The number of nodes associated with a multi-node parallel job.
+The number of nodes that are associated with a multi-node parallel job.
 
 
 

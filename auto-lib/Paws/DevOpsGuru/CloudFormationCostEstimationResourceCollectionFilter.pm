@@ -33,13 +33,14 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::DevOpsGuru:
 
 =head1 DESCRIPTION
 
-Information about an AWS CloudFormation stack used to create a monthly
-cost estimate for DevOps Guru to analyze AWS resources. The maximum
-number of stacks you can specify for a cost estimate is one. The
-estimate created is for the cost to analyze the AWS resources defined
-by the stack. For more information, see Stacks
+Information about an Amazon Web Services CloudFormation stack used to
+create a monthly cost estimate for DevOps Guru to analyze Amazon Web
+Services resources. The maximum number of stacks you can specify for a
+cost estimate is one. The estimate created is for the cost to analyze
+the Amazon Web Services resources defined by the stack. For more
+information, see Stacks
 (https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacks.html)
-in the I<AWS CloudFormation User Guide>.
+in the I<Amazon Web Services CloudFormation User Guide>.
 
 =head1 ATTRIBUTES
 

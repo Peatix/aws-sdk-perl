@@ -46,8 +46,8 @@ in the I<Amazon Pinpoint User Guide>.
 
 =head2 ApplicationArn => Str
 
-The Amazon Resource Name (ARN) of the Amazon Pinpoint project that you
-want to send email events to.
+The Amazon Resource Name (ARN) of the Amazon Pinpoint project to send
+email events to.
 
 
 

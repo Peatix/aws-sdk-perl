@@ -59,8 +59,9 @@ The status of the source Amazon Web Services Region.
 
 =head2 SupportsDBInstanceAutomatedBackupsReplication => Bool
 
-Whether the source Amazon Web Services Region supports replicating
-automated backups to the current Amazon Web Services Region.
+Indicates whether the source Amazon Web Services Region supports
+replicating automated backups to the current Amazon Web Services
+Region.
 
 
 

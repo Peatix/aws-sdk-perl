@@ -16,9 +16,9 @@ Paws::Route53Resolver::GetFirewallRuleGroupPolicyResponse
 
 =head2 FirewallRuleGroupPolicy => Str
 
-The AWS Identity and Access Management (AWS IAM) policy for sharing the
-specified rule group. You can use the policy to share the rule group
-using AWS Resource Access Manager (AWS RAM).
+The Identity and Access Management (Amazon Web Services IAM) policy for
+sharing the specified rule group. You can use the policy to share the
+rule group using Resource Access Manager (RAM).
 
 
 =head2 _request_id => Str

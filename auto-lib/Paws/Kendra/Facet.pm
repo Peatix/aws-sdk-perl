@@ -2,6 +2,8 @@
 package Paws::Kendra::Facet;
   use Moose;
   has DocumentAttributeKey => (is => 'ro', isa => 'Str');
+  has Facets => (is => 'ro', isa => 'ArrayRef[Paws::Kendra::Facet]');
+  has MaxResults => (is => 'ro', isa => 'Int');
 
 1;
 
@@ -22,7 +24,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::Kendra::Facet object:
 
-  $service_obj->Method(Att1 => { DocumentAttributeKey => $value, ..., DocumentAttributeKey => $value  });
+  $service_obj->Method(Att1 => { DocumentAttributeKey => $value, ..., MaxResults => $value  });
 
 =head3 Results returned from an API call
 
@@ -33,7 +35,17 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Kendra::Fac
 
 =head1 DESCRIPTION
 
-Information about a document attribute
+Information about a document attribute or field. You can use document
+attributes as facets.
+
+For example, the document attribute or facet "Department" includes the
+values "HR", "Engineering", and "Accounting". You can display these
+values in the search results so that documents can be searched by
+department.
+
+You can display up to 10 facet values per facet for a query. If you
+want to increase this limit, contact Support
+(http://aws.amazon.com/contact-us/).
 
 =head1 ATTRIBUTES
 
@@ -41,6 +53,31 @@ Information about a document attribute
 =head2 DocumentAttributeKey => Str
 
 The unique key for the document attribute.
+
+
+=head2 Facets => ArrayRef[L<Paws::Kendra::Facet>]
+
+An array of document attributes that are nested facets within a facet.
+
+For example, the document attribute or facet "Department" includes a
+value called "Engineering". In addition, the document attribute or
+facet "SubDepartment" includes the values "Frontend" and "Backend" for
+documents assigned to "Engineering". You can display nested facets in
+the search results so that documents can be searched not only by
+department but also by a sub department within a department. This helps
+your users further narrow their search.
+
+You can only have one nested facet within a facet. If you want to
+increase this limit, contact Support
+(http://aws.amazon.com/contact-us/).
+
+
+=head2 MaxResults => Int
+
+Maximum number of facet values per facet. The default is 10. You can
+use this to limit the number of facet values to less than 10. If you
+want to increase the default, contact Support
+(http://aws.amazon.com/contact-us/).
 
 
 

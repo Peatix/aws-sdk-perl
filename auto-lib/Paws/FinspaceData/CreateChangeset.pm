@@ -2,17 +2,15 @@
 package Paws::FinspaceData::CreateChangeset;
   use Moose;
   has ChangeType => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'changeType', required => 1);
+  has ClientToken => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'clientToken');
   has DatasetId => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'datasetId', required => 1);
-  has FormatParams => (is => 'ro', isa => 'Paws::FinspaceData::StringMap', traits => ['NameInRequest'], request_name => 'formatParams');
-  has FormatType => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'formatType');
-  has SourceParams => (is => 'ro', isa => 'Paws::FinspaceData::StringMap', traits => ['NameInRequest'], request_name => 'sourceParams', required => 1);
-  has SourceType => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'sourceType', required => 1);
-  has Tags => (is => 'ro', isa => 'Paws::FinspaceData::StringMap', traits => ['NameInRequest'], request_name => 'tags');
+  has FormatParams => (is => 'ro', isa => 'Paws::FinspaceData::FormatParams', traits => ['NameInRequest'], request_name => 'formatParams', required => 1);
+  has SourceParams => (is => 'ro', isa => 'Paws::FinspaceData::SourceParams', traits => ['NameInRequest'], request_name => 'sourceParams', required => 1);
 
   use MooseX::ClassAttribute;
 
   class_has _api_call => (isa => 'Str', is => 'ro', default => 'CreateChangeset');
-  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/datasets/{datasetId}/changesets');
+  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/datasets/{datasetId}/changesetsv2');
   class_has _api_method  => (isa => 'Str', is => 'ro', default => 'POST');
   class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::FinspaceData::CreateChangesetResponse');
 1;
@@ -36,16 +34,21 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $finspace-api = Paws->service('FinspaceData');
     my $CreateChangesetResponse = $finspace -api->CreateChangeset(
       ChangeType   => 'REPLACE',
-      DatasetId    => 'MyIdType',
-      SourceParams => { 'MystringMapKey' => 'MystringMapValue', },
-      SourceType   => 'S3',
-      FormatParams => { 'MystringMapKey' => 'MystringMapValue', },    # OPTIONAL
-      FormatType   => 'CSV',                                          # OPTIONAL
-      Tags         => { 'MystringMapKey' => 'MystringMapValue', },    # OPTIONAL
+      DatasetId    => 'MyDatasetId',
+      FormatParams => {
+        'MyStringMapKey' =>
+          'MyStringMapValue',    # key: max: 128, value: max: 1000
+      },
+      SourceParams => {
+        'MyStringMapKey' =>
+          'MyStringMapValue',    # key: max: 128, value: max: 1000
+      },
+      ClientToken => 'MyClientToken',    # OPTIONAL
     );
 
     # Results:
-    my $Changeset = $CreateChangesetResponse->Changeset;
+    my $ChangesetId = $CreateChangesetResponse->ChangesetId;
+    my $DatasetId   = $CreateChangesetResponse->DatasetId;
 
     # Returns a L<Paws::FinspaceData::CreateChangesetResponse> object.
 
@@ -57,70 +60,109 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/fin
 
 =head2 B<REQUIRED> ChangeType => Str
 
-Option to indicate how a changeset will be applied to a dataset.
+The option to indicate how a Changeset will be applied to a Dataset.
 
 =over
 
 =item *
 
-C<REPLACE> - Changeset will be considered as a replacement to all prior
-loaded changesets.
+C<REPLACE> E<ndash> Changeset will be considered as a replacement to
+all prior loaded Changesets.
 
 =item *
 
-C<APPEND> - Changeset will be considered as an addition to the end of
-all prior loaded changesets.
+C<APPEND> E<ndash> Changeset will be considered as an addition to the
+end of all prior loaded Changesets.
+
+=item *
+
+C<MODIFY> E<ndash> Changeset is considered as a replacement to a
+specific prior ingested Changeset.
 
 =back
 
 
 Valid values are: C<"REPLACE">, C<"APPEND">, C<"MODIFY">
 
+=head2 ClientToken => Str
+
+A token that ensures idempotency. This token expires in 10 minutes.
+
+
+
 =head2 B<REQUIRED> DatasetId => Str
 
-The unique identifier for the FinSpace dataset in which the changeset
-will be created.
+The unique identifier for the FinSpace Dataset where the Changeset will
+be created.
 
 
 
-=head2 FormatParams => L<Paws::FinspaceData::StringMap>
+=head2 B<REQUIRED> FormatParams => L<Paws::FinspaceData::FormatParams>
 
-Options that define the structure of the source file(s).
+Options that define the structure of the source file(s) including the
+format type (C<formatType>), header row (C<withHeader>), data
+separation character (C<separator>) and the type of compression
+(C<compression>).
 
-
-
-=head2 FormatType => Str
-
-Format type of the input files being loaded into the changeset.
-
-Valid values are: C<"CSV">, C<"JSON">, C<"PARQUET">, C<"XML">
-
-=head2 B<REQUIRED> SourceParams => L<Paws::FinspaceData::StringMap>
-
-Source path from which the files to create the changeset will be
-sourced.
-
-
-
-=head2 B<REQUIRED> SourceType => Str
-
-Type of the data source from which the files to create the changeset
-will be sourced.
+C<formatType> is a required attribute and can have the following
+values:
 
 =over
 
 =item *
 
-C<S3> - Amazon S3.
+C<PARQUET> E<ndash> Parquet source file format.
+
+=item *
+
+C<CSV> E<ndash> CSV source file format.
+
+=item *
+
+C<JSON> E<ndash> JSON source file format.
+
+=item *
+
+C<XML> E<ndash> XML source file format.
 
 =back
 
+Here is an example of how you could specify the C<formatParams>:
 
-Valid values are: C<"S3">
+C<"formatParams": { "formatType": "CSV", "withHeader": "true",
+"separator": ",", "compression":"None" }>
 
-=head2 Tags => L<Paws::FinspaceData::StringMap>
+Note that if you only provide C<formatType> as C<CSV>, the rest of the
+attributes will automatically default to CSV values as following:
 
-Metadata tags to apply to this changeset.
+C<{ "withHeader": "true", "separator": "," }>
+
+For more information about supported file formats, see Supported Data
+Types and File Formats
+(https://docs.aws.amazon.com/finspace/latest/userguide/supported-data-types.html)
+in the FinSpace User Guide.
+
+
+
+=head2 B<REQUIRED> SourceParams => L<Paws::FinspaceData::SourceParams>
+
+Options that define the location of the data being ingested
+(C<s3SourcePath>) and the source of the changeset (C<sourceType>).
+
+Both C<s3SourcePath> and C<sourceType> are required attributes.
+
+Here is an example of how you could specify the C<sourceParams>:
+
+C<"sourceParams": { "s3SourcePath":
+"s3://finspace-landing-us-east-2-bk7gcfvitndqa6ebnvys4d/scratch/wr5hh8pwkpqqkxa4sxrmcw/ingestion/equity.csv",
+"sourceType": "S3" }>
+
+The S3 path that you specify must allow the FinSpace role access. To do
+that, you first need to configure the IAM policy on S3 bucket. For more
+information, see Loading data from an Amazon S3 Bucket using the
+FinSpace API
+(https://docs.aws.amazon.com/finspace/latest/data-api/fs-using-the-finspace-api.html#access-s3-buckets)
+section.
 
 
 

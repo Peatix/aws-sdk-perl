@@ -61,8 +61,8 @@ The RDS event notification subscription Id.
 
 =head2 Enabled => Bool
 
-A Boolean value indicating if the subscription is enabled. True
-indicates the subscription is enabled.
+Specifies whether the subscription is enabled. True indicates the
+subscription is enabled.
 
 
 =head2 EventCategoriesList => ArrayRef[Str|Undef]

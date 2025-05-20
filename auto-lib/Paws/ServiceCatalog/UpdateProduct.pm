@@ -9,6 +9,7 @@ package Paws::ServiceCatalog::UpdateProduct;
   has Name => (is => 'ro', isa => 'Str');
   has Owner => (is => 'ro', isa => 'Str');
   has RemoveTags => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has SourceConnection => (is => 'ro', isa => 'Paws::ServiceCatalog::SourceConnection');
   has SupportDescription => (is => 'ro', isa => 'Str');
   has SupportEmail => (is => 'ro', isa => 'Str');
   has SupportUrl => (is => 'ro', isa => 'Str');
@@ -55,6 +56,18 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       RemoveTags  => [
         'MyTagKey', ...                                  # min: 1, max: 128
       ],    # OPTIONAL
+      SourceConnection => {
+        ConnectionParameters => {
+          CodeStar => {
+            ArtifactPath  => 'MyRepositoryArtifactPath',    # min: 1, max: 4096
+            Branch        => 'MyRepositoryBranch',          # min: 1, max: 250
+            ConnectionArn => 'MyCodeStarConnectionArn',     # min: 1, max: 1224
+            Repository    => 'MyRepository',                # min: 1, max: 100
+
+          },    # OPTIONAL
+        },
+        Type => 'CODESTAR',    # values: CODESTAR; OPTIONAL
+      },    # OPTIONAL
       SupportDescription => 'MySupportDescription',    # OPTIONAL
       SupportEmail       => 'MySupportEmail',          # OPTIONAL
       SupportUrl         => 'MySupportUrl',            # OPTIONAL
@@ -77,10 +90,6 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ser
 The language code.
 
 =over
-
-=item *
-
-C<en> - English (default)
 
 =item *
 
@@ -134,6 +143,28 @@ The updated owner of the product.
 =head2 RemoveTags => ArrayRef[Str|Undef]
 
 The tags to remove from the product.
+
+
+
+=head2 SourceConnection => L<Paws::ServiceCatalog::SourceConnection>
+
+Specifies connection details for the updated product and syncs the
+product to the connection source artifact. This automatically manages
+the product's artifacts based on changes to the source. The
+C<SourceConnection> parameter consists of the following sub-fields.
+
+=over
+
+=item *
+
+C<Type>
+
+=item *
+
+C<ConnectionParamters>
+
+=back
+
 
 
 

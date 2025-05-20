@@ -35,9 +35,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       EmailIdentity         => 'MyIdentity',
       ConfigurationSetName  => 'MyConfigurationSetName',    # OPTIONAL
       DkimSigningAttributes => {
-        DomainSigningPrivateKey => 'MyPrivateKey',          # min: 1, max: 20480
-        DomainSigningSelector   => 'MySelector',            # min: 1, max: 63
-
+        DomainSigningAttributesOrigin => 'AWS_SES'
+        , # values: AWS_SES, EXTERNAL, AWS_SES_AF_SOUTH_1, AWS_SES_EU_NORTH_1, AWS_SES_AP_SOUTH_1, AWS_SES_EU_WEST_3, AWS_SES_EU_WEST_2, AWS_SES_EU_SOUTH_1, AWS_SES_EU_WEST_1, AWS_SES_AP_NORTHEAST_3, AWS_SES_AP_NORTHEAST_2, AWS_SES_ME_SOUTH_1, AWS_SES_AP_NORTHEAST_1, AWS_SES_IL_CENTRAL_1, AWS_SES_SA_EAST_1, AWS_SES_CA_CENTRAL_1, AWS_SES_AP_SOUTHEAST_1, AWS_SES_AP_SOUTHEAST_2, AWS_SES_AP_SOUTHEAST_3, AWS_SES_EU_CENTRAL_1, AWS_SES_US_EAST_1, AWS_SES_US_EAST_2, AWS_SES_US_WEST_1, AWS_SES_US_WEST_2; OPTIONAL
+        DomainSigningPrivateKey =>
+          'MyPrivateKey',    # min: 1, max: 20480; OPTIONAL
+        DomainSigningSelector => 'MySelector',    # min: 1, max: 63; OPTIONAL
+        NextSigningKeyLength  =>
+          'RSA_1024_BIT',    # values: RSA_1024_BIT, RSA_2048_BIT; OPTIONAL
       },    # OPTIONAL
       Tags => [
         {
@@ -75,7 +79,7 @@ request takes precedence.
 
 If your request includes this object, Amazon SES configures the
 identity to use Bring Your Own DKIM (BYODKIM) for DKIM authentication
-purposes, as opposed to the default method, Easy DKIM
+purposes, or, configures the key length to be used for Easy DKIM
 (https://docs.aws.amazon.com/ses/latest/DeveloperGuide/easy-dkim.html).
 
 You can only specify this object if the email identity is a domain, as
@@ -85,14 +89,14 @@ opposed to an address.
 
 =head2 B<REQUIRED> EmailIdentity => Str
 
-The email address or domain that you want to verify.
+The email address or domain to verify.
 
 
 
 =head2 Tags => ArrayRef[L<Paws::SESv2::Tag>]
 
-An array of objects that define the tags (keys and values) that you
-want to associate with the email identity.
+An array of objects that define the tags (keys and values) to associate
+with the email identity.
 
 
 

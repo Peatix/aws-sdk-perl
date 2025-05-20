@@ -47,10 +47,10 @@ A prefix that specifies where files will be uploaded in Amazon S3. It
 is appended to the simulation output location to determine the final
 path.
 
-For example, if your simulation output location is C<s3://my-bucket>
-and your upload configuration name is C<robot-test>, your files will be
-uploaded to
-C<s3://my-bucket/E<lt>simidE<gt>/E<lt>runidE<gt>/robot-test>.
+For example, if your simulation output location is
+C<s3://amzn-s3-demo-bucket> and your upload configuration name is
+C<robot-test>, your files will be uploaded to
+C<s3://amzn-s3-demo-bucket/E<lt>simidE<gt>/E<lt>runidE<gt>/robot-test>.
 
 
 =head2 B<REQUIRED> Path => Str

@@ -44,12 +44,12 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::GameLift::G
 
 =head1 DESCRIPTION
 
-B<This data type is used with the GameLift FleetIQ and game server
-groups.>
+B<This data type is used with the Amazon GameLift FleetIQ and game
+server groups.>
 
 Properties that describe a game server group resource. A game server
-group manages certain properties related to a corresponding EC2 Auto
-Scaling group.
+group manages certain properties related to a corresponding Amazon EC2
+Auto Scaling group.
 
 A game server group is created by a successful call to
 C<CreateGameServerGroup> and deleted by calling
@@ -57,28 +57,20 @@ C<DeleteGameServerGroup>. Game server group activity can be temporarily
 suspended and resumed by calling C<SuspendGameServerGroup> and
 C<ResumeGameServerGroup>, respectively.
 
-B<Related actions>
-
-CreateGameServerGroup | ListGameServerGroups | DescribeGameServerGroup
-| UpdateGameServerGroup | DeleteGameServerGroup | ResumeGameServerGroup
-| SuspendGameServerGroup | DescribeGameServerInstances | All APIs by
-task
-(https://docs.aws.amazon.com/gamelift/latest/fleetiqguide/reference-awssdk-fleetiq.html)
-
 =head1 ATTRIBUTES
 
 
 =head2 AutoScalingGroupArn => Str
 
-A generated unique ID for the EC2 Auto Scaling group that is associated
-with this game server group.
+A generated unique ID for the Amazon EC2 Auto Scaling group that is
+associated with this game server group.
 
 
 =head2 BalancingStrategy => Str
 
-Indicates how GameLift FleetIQ balances the use of Spot Instances and
-On-Demand Instances in the game server group. Method options include
-the following:
+Indicates how Amazon GameLift FleetIQ balances the use of Spot
+Instances and On-Demand Instances in the game server group. Method
+options include the following:
 
 =over
 
@@ -125,7 +117,7 @@ A generated unique ID for the game server group.
 =head2 GameServerGroupName => Str
 
 A developer-defined identifier for the game server group. The name is
-unique for each Region in each AWS account.
+unique for each Region in each Amazon Web Services account.
 
 
 =head2 GameServerProtectionPolicy => Str
@@ -137,14 +129,14 @@ event, causing players to be dropped from the game. Protected instances
 cannot be terminated while there are active game servers running except
 in the event of a forced game server group deletion (see ). An
 exception to this is with Spot Instances, which can be terminated by
-AWS regardless of protection status.
+Amazon Web Services regardless of protection status.
 
 
 =head2 InstanceDefinitions => ArrayRef[L<Paws::GameLift::InstanceDefinition>]
 
-The set of EC2 instance types that GameLift FleetIQ can use when
-balancing and automatically scaling instances in the corresponding Auto
-Scaling group.
+The set of Amazon EC2 instance types that Amazon GameLift FleetIQ can
+use when balancing and automatically scaling instances in the
+corresponding Auto Scaling group.
 
 
 =head2 LastUpdatedTime => Str
@@ -157,8 +149,8 @@ updated.
 
 The Amazon Resource Name (ARN
 (https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html))
-for an IAM role that allows Amazon GameLift to access your EC2 Auto
-Scaling groups.
+for an IAM role that allows Amazon GameLift to access your Amazon EC2
+Auto Scaling groups.
 
 
 =head2 Status => Str
@@ -169,13 +161,14 @@ The current status of the game server group. Possible statuses include:
 
 =item *
 
-C<NEW> - GameLift FleetIQ has validated the C<CreateGameServerGroup()>
-request.
+C<NEW> - Amazon GameLift FleetIQ has validated the
+C<CreateGameServerGroup()> request.
 
 =item *
 
-C<ACTIVATING> - GameLift FleetIQ is setting up a game server group,
-which includes creating an Auto Scaling group in your AWS account.
+C<ACTIVATING> - Amazon GameLift FleetIQ is setting up a game server
+group, which includes creating an Auto Scaling group in your Amazon Web
+Services account.
 
 =item *
 
@@ -188,10 +181,10 @@ been received.
 
 =item *
 
-C<DELETING> - GameLift FleetIQ has received a valid
-C<DeleteGameServerGroup()> request and is processing it. GameLift
-FleetIQ must first complete and release hosts before it deletes the
-Auto Scaling group and the game server group.
+C<DELETING> - Amazon GameLift FleetIQ has received a valid
+C<DeleteGameServerGroup()> request and is processing it. Amazon
+GameLift FleetIQ must first complete and release hosts before it
+deletes the Auto Scaling group and the game server group.
 
 =item *
 

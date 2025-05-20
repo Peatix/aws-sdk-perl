@@ -48,7 +48,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/con
 
 =head2 B<REQUIRED> ContactFlowId => Str
 
-The identifier of the contact flow.
+The identifier of the flow.
 
 
 

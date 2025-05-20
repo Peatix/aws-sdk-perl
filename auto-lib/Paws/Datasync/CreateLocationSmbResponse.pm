@@ -16,8 +16,7 @@ Paws::Datasync::CreateLocationSmbResponse
 
 =head2 LocationArn => Str
 
-The Amazon Resource Name (ARN) of the source SMB file system location
-that is created.
+The ARN of the SMB location that you created.
 
 
 =head2 _request_id => Str

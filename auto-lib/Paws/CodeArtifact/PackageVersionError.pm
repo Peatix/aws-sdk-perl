@@ -34,7 +34,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CodeArtifac
 
 =head1 DESCRIPTION
 
-An error associated with package.
+l An error associated with package.
 
 =head1 ATTRIBUTES
 

@@ -33,17 +33,18 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::DevOpsGuru:
 
 =head1 DESCRIPTION
 
-Contains the names of AWS CloudFormation stacks used to update a
-collection of stacks. You can specify up to 500 AWS CloudFormation
-stacks.
+Contains the names of Amazon Web Services CloudFormation stacks used to
+update a collection of stacks. You can specify up to 500 Amazon Web
+Services CloudFormation stacks.
 
 =head1 ATTRIBUTES
 
 
 =head2 StackNames => ArrayRef[Str|Undef]
 
-An array of the names of the AWS CloudFormation stacks to update. You
-can specify up to 500 AWS CloudFormation stacks.
+An array of the names of the Amazon Web Services CloudFormation stacks
+to update. You can specify up to 500 Amazon Web Services CloudFormation
+stacks.
 
 
 

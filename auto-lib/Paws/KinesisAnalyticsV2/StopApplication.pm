@@ -33,6 +33,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       Force           => 1,                     # OPTIONAL
     );
 
+    # Results:
+    my $OperationId = $StopApplicationResponse->OperationId;
+
+    # Returns a L<Paws::KinesisAnalyticsV2::StopApplicationResponse> object.
+
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/kinesisanalytics/StopApplication>
 
@@ -48,17 +53,16 @@ The name of the running application to stop.
 =head2 Force => Bool
 
 Set to C<true> to force the application to stop. If you set C<Force> to
-C<true>, Kinesis Data Analytics stops the application without taking a
-snapshot.
+C<true>, Managed Service for Apache Flink stops the application without
+taking a snapshot.
 
 Force-stopping your application may lead to data loss or duplication.
 To prevent data loss or duplicate processing of data during application
 restarts, we recommend you to take frequent snapshots of your
 application.
 
-You can only force stop a Flink-based Kinesis Data Analytics
-application. You can't force stop a SQL-based Kinesis Data Analytics
-application.
+You can only force stop a Managed Service for Apache Flink application.
+You can't force stop a SQL-based Kinesis Data Analytics application.
 
 The application must be in the C<STARTING>, C<UPDATING>, C<STOPPING>,
 C<AUTOSCALING>, or C<RUNNING> status.

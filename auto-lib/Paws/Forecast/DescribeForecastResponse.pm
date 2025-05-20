@@ -11,6 +11,7 @@ package Paws::Forecast::DescribeForecastResponse;
   has Message => (is => 'ro', isa => 'Str');
   has PredictorArn => (is => 'ro', isa => 'Str');
   has Status => (is => 'ro', isa => 'Str');
+  has TimeSeriesSelector => (is => 'ro', isa => 'Paws::Forecast::TimeSeriesSelector');
 
   has _request_id => (is => 'ro', isa => 'Str');
 
@@ -122,6 +123,11 @@ C<DELETE_PENDING>, C<DELETE_IN_PROGRESS>, C<DELETE_FAILED>
 
 The C<Status> of the forecast must be C<ACTIVE> before you can query or
 export the forecast.
+
+
+=head2 TimeSeriesSelector => L<Paws::Forecast::TimeSeriesSelector>
+
+The time series to include in the forecast.
 
 
 =head2 _request_id => Str

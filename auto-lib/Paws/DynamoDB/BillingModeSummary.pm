@@ -34,7 +34,13 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::DynamoDB::B
 
 =head1 DESCRIPTION
 
-Contains the details for the read/write capacity mode.
+Contains the details for the read/write capacity mode. This page talks
+about C<PROVISIONED> and C<PAY_PER_REQUEST> billing modes. For more
+information about these modes, see Read/write capacity mode
+(https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadWriteCapacityMode.html).
+
+You may need to switch to on-demand mode at least once in order to
+return a C<BillingModeSummary> response.
 
 =head1 ATTRIBUTES
 

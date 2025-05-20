@@ -66,7 +66,7 @@ operation.
 
 If a previous invocation of this operation returned a pagination token,
 pass it into this value to retrieve the next set of results. For more
-information about pagination, see Using the AWS Command Line
+information about pagination, see Using the Amazon Command Line
 Interface's Pagination Options
 (https://docs.aws.amazon.com/cli/latest/userguide/pagination.html).
 

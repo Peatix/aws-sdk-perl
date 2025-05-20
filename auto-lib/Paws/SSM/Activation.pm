@@ -43,9 +43,10 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SSM::Activa
 =head1 DESCRIPTION
 
 An activation registers one or more on-premises servers or virtual
-machines (VMs) with AWS so that you can configure those servers or VMs
-using Run Command. A server or VM that has been registered with AWS is
-called a managed instance.
+machines (VMs) with Amazon Web Services so that you can configure those
+servers or VMs using Run Command. A server or VM that has been
+registered with Amazon Web Services Systems Manager is called a managed
+node.
 
 =head1 ATTRIBUTES
 
@@ -62,7 +63,7 @@ The date the activation was created.
 
 =head2 DefaultInstanceName => Str
 
-A name for the managed instance when it is created.
+A name for the managed node when it is created.
 
 
 =head2 Description => Str
@@ -73,7 +74,7 @@ A user defined description of the activation.
 =head2 ExpirationDate => Str
 
 The date when this activation can no longer be used to register managed
-instances.
+nodes.
 
 
 =head2 Expired => Bool
@@ -83,20 +84,19 @@ Whether or not the activation is expired.
 
 =head2 IamRole => Str
 
-The Amazon Identity and Access Management (IAM) role to assign to the
-managed instance.
+The Identity and Access Management (IAM) role to assign to the managed
+node.
 
 
 =head2 RegistrationLimit => Int
 
-The maximum number of managed instances that can be registered using
-this activation.
+The maximum number of managed nodes that can be registered using this
+activation.
 
 
 =head2 RegistrationsCount => Int
 
-The number of managed instances already registered with this
-activation.
+The number of managed nodes already registered with this activation.
 
 
 =head2 Tags => ArrayRef[L<Paws::SSM::Tag>]

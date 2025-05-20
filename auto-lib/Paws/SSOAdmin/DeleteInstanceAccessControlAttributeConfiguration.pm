@@ -41,7 +41,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/sso
 
 =head2 B<REQUIRED> InstanceArn => Str
 
-The ARN of the SSO instance under which the operation will be executed.
+The ARN of the IAM Identity Center instance under which the operation
+will be executed.
 
 
 

@@ -5,6 +5,7 @@ package Paws::WellArchitected::WorkloadShareSummary;
   has SharedWith => (is => 'ro', isa => 'Str');
   has ShareId => (is => 'ro', isa => 'Str');
   has Status => (is => 'ro', isa => 'Str');
+  has StatusMessage => (is => 'ro', isa => 'Str');
 
 1;
 
@@ -25,7 +26,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::WellArchitected::WorkloadShareSummary object:
 
-  $service_obj->Method(Att1 => { PermissionType => $value, ..., Status => $value  });
+  $service_obj->Method(Att1 => { PermissionType => $value, ..., StatusMessage => $value  });
 
 =head3 Results returned from an API call
 
@@ -59,6 +60,11 @@ A workload share summary return object.
 =head2 Status => Str
 
 
+
+
+=head2 StatusMessage => Str
+
+Optional message to compliment the Status field.
 
 
 

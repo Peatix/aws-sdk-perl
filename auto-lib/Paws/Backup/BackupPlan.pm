@@ -38,7 +38,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Backup::Bac
 Contains an optional backup plan display name and an array of
 C<BackupRule> objects, each of which specifies a backup rule. Each rule
 in a backup plan is a separate scheduled task and can back up a
-different selection of AWS resources.
+different selection of Amazon Web Services resources.
 
 =head1 ATTRIBUTES
 
@@ -50,7 +50,11 @@ Contains a list of C<BackupOptions> for each resource type.
 
 =head2 B<REQUIRED> BackupPlanName => Str
 
-The display name of a backup plan.
+The display name of a backup plan. Must contain only alphanumeric or
+'-_.' special characters.
+
+If this is set in the console, it can contain 1 to 50 characters; if
+this is set through CLI or API, it can contain 1 to 200 characters.
 
 
 =head2 B<REQUIRED> Rules => ArrayRef[L<Paws::Backup::BackupRule>]

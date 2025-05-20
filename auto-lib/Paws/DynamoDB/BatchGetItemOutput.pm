@@ -39,9 +39,9 @@ C<CapacityUnits> - The total number of capacity units consumed.
 
 =head2 Responses => L<Paws::DynamoDB::BatchGetResponseMap>
 
-A map of table name to a list of items. Each object in C<Responses>
-consists of a table name, along with a map of attribute data consisting
-of the data type and attribute value.
+A map of table name or table ARN to a list of items. Each object in
+C<Responses> consists of a table name or ARN, along with a map of
+attribute data consisting of the data type and attribute value.
 
 
 =head2 UnprocessedKeys => L<Paws::DynamoDB::BatchGetRequestMap>

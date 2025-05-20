@@ -7,6 +7,9 @@ package Paws::ElastiCache::PendingModifiedValues;
   has EngineVersion => (is => 'ro', isa => 'Str');
   has LogDeliveryConfigurations => (is => 'ro', isa => 'ArrayRef[Paws::ElastiCache::PendingLogDeliveryConfiguration]');
   has NumCacheNodes => (is => 'ro', isa => 'Int');
+  has ScaleConfig => (is => 'ro', isa => 'Paws::ElastiCache::ScaleConfig');
+  has TransitEncryptionEnabled => (is => 'ro', isa => 'Bool');
+  has TransitEncryptionMode => (is => 'ro', isa => 'Str');
 
 1;
 
@@ -27,7 +30,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::ElastiCache::PendingModifiedValues object:
 
-  $service_obj->Method(Att1 => { AuthTokenStatus => $value, ..., NumCacheNodes => $value  });
+  $service_obj->Method(Att1 => { AuthTokenStatus => $value, ..., TransitEncryptionMode => $value  });
 
 =head3 Results returned from an API call
 
@@ -76,8 +79,25 @@ The log delivery configurations being modified
 
 The new number of cache nodes for the cluster.
 
-For clusters running Redis, this value must be 1. For clusters running
-Memcached, this value must be between 1 and 40.
+For clusters running Valkey or Redis OSS, this value must be 1. For
+clusters running Memcached, this value must be between 1 and 40.
+
+
+=head2 ScaleConfig => L<Paws::ElastiCache::ScaleConfig>
+
+The scaling configuration changes that are pending for the Memcached
+cluster.
+
+
+=head2 TransitEncryptionEnabled => Bool
+
+A flag that enables in-transit encryption when set to true.
+
+
+=head2 TransitEncryptionMode => Str
+
+A setting that allows you to migrate your clients to use in-transit
+encryption, with no downtime.
 
 
 

@@ -95,7 +95,7 @@ supported for clusters is C<LOCAL_USE>.
 The C<KmsKeyARN> Amazon Resource Name (ARN) associated with this
 cluster. This ARN was created using the CreateKey
 (https://docs.aws.amazon.com/kms/latest/APIReference/API_CreateKey.html)
-API action in AWS Key Management Service (AWS KMS).
+API action in Key Management Service (KMS.
 
 
 =head2 Notification => L<Paws::Snowball::Notification>
@@ -106,8 +106,8 @@ settings for this cluster.
 
 =head2 OnDeviceServiceConfiguration => L<Paws::Snowball::OnDeviceServiceConfiguration>
 
-Represents metadata and configuration settings for services on an AWS
-Snow Family device.
+Represents metadata and configuration settings for services on an
+Amazon Web Services Snow Family device.
 
 
 =head2 Resources => L<Paws::Snowball::JobResource>
@@ -121,7 +121,7 @@ objects or LambdaResource objects.
 The role ARN associated with this cluster. This ARN was created using
 the CreateRole
 (https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html)
-API action in AWS Identity and Access Management (IAM).
+API action in Identity and Access Management (IAM).
 
 
 =head2 ShippingOption => Str
@@ -159,15 +159,15 @@ In the US, you have access to one-day shipping and two-day shipping.
 
 =head2 SnowballType => Str
 
-The type of AWS Snow device to use for this cluster.
+The type of Snowcone device to use for this cluster.
 
-For cluster jobs, AWS Snow Family currently supports only the C<EDGE>
-device type.
+For cluster jobs, Amazon Web Services Snow Family currently supports
+only the C<EDGE> device type.
 
 
 =head2 TaxDocuments => L<Paws::Snowball::TaxDocuments>
 
-The tax documents required in your AWS Region.
+The tax documents required in your Amazon Web Services Region.
 
 
 

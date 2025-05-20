@@ -43,9 +43,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       InstanceNames    => [ 'Mystring', ... ],
       AddOns           => [
         {
-          AddOnType                => 'AutoSnapshot',    # values: AutoSnapshot
+          AddOnType =>
+            'AutoSnapshot',    # values: AutoSnapshot, StopInstanceOnIdle
           AutoSnapshotAddOnRequest => {
-            SnapshotTimeOfDay => 'MyTimeOfDay',          # OPTIONAL
+            SnapshotTimeOfDay => 'MyTimeOfDay',    # OPTIONAL
+          },    # OPTIONAL
+          StopInstanceOnIdleRequest => {
+            Duration  => 'Mystring',
+            Threshold => 'Mystring',
           },    # OPTIONAL
         },
         ...
@@ -94,9 +99,9 @@ to your request.
 
 =head2 B<REQUIRED> BlueprintId => Str
 
-The ID for a virtual private server image (e.g., C<app_wordpress_4_4>
-or C<app_lamp_7_0>). Use the C<get blueprints> operation to return a
-list of available images (or I<blueprints>).
+The ID for a virtual private server image (C<app_wordpress_x_x> or
+C<app_lamp_x_x>). Use the C<get blueprints> operation to return a list
+of available images (or I<blueprints>).
 
 Use active blueprints when creating new instances. Inactive blueprints
 are listed to support customers with existing instances and are not
@@ -109,16 +114,16 @@ new application releases.
 =head2 B<REQUIRED> BundleId => Str
 
 The bundle of specification information for your virtual private server
-(or I<instance>), including the pricing plan (e.g., C<micro_1_0>).
+(or I<instance>), including the pricing plan (C<medium_x_x>).
 
 
 
 =head2 CustomImageName => Str
 
-(Deprecated) The name for your custom image.
+(Discontinued) The name for your custom image.
 
 In releases prior to June 12, 2017, this parameter was ignored by the
-API. It is now deprecated.
+API. It is now discontinued.
 
 
 
@@ -134,12 +139,12 @@ C<["MyFirstInstance","MySecondInstance"]>
 
 The IP address type for the instance.
 
-The possible values are C<ipv4> for IPv4 only, and C<dualstack> for
-IPv4 and IPv6.
+The possible values are C<ipv4> for IPv4 only, C<ipv6> for IPv6 only,
+and C<dualstack> for IPv4 and IPv6.
 
 The default value is C<dualstack>.
 
-Valid values are: C<"dualstack">, C<"ipv4">
+Valid values are: C<"dualstack">, C<"ipv4">, C<"ipv6">
 
 =head2 KeyPairName => Str
 
@@ -163,8 +168,8 @@ user data. For example, you might want to run C<apt-get -y update>.
 Depending on the machine image you choose, the command to get software
 on your instance varies. Amazon Linux and CentOS use C<yum>, Debian and
 Ubuntu use C<apt-get>, and FreeBSD uses C<pkg>. For a complete list,
-see the Dev Guide
-(https://lightsail.aws.amazon.com/ls/docs/getting-started/article/compare-options-choose-lightsail-instance-image).
+see the Amazon Lightsail Developer Guide
+(https://docs.aws.amazon.com/lightsail/latest/userguide/compare-options-choose-lightsail-instance-image).
 
 
 

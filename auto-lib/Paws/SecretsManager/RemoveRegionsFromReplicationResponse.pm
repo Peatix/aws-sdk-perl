@@ -17,13 +17,12 @@ Paws::SecretsManager::RemoveRegionsFromReplicationResponse
 
 =head2 ARN => Str
 
-The secret C<ARN> removed from replication regions.
+The ARN of the primary secret.
 
 
 =head2 ReplicationStatus => ArrayRef[L<Paws::SecretsManager::ReplicationStatusType>]
 
-Describes the remaining replication status after you remove regions
-from the replication list.
+The status of replicas for this secret after you remove Regions.
 
 
 =head2 _request_id => Str

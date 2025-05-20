@@ -3,7 +3,11 @@ package Paws::Route53Domains::ListOperations;
   use Moose;
   has Marker => (is => 'ro', isa => 'Str');
   has MaxItems => (is => 'ro', isa => 'Int');
+  has SortBy => (is => 'ro', isa => 'Str');
+  has SortOrder => (is => 'ro', isa => 'Str');
+  has Status => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has SubmittedSince => (is => 'ro', isa => 'Str');
+  has Type => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
 
   use MooseX::ClassAttribute;
 
@@ -30,9 +34,19 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $route53domains = Paws->service('Route53Domains');
     my $ListOperationsResponse = $route53domains->ListOperations(
-      Marker         => 'MyPageMarker',           # OPTIONAL
-      MaxItems       => 1,                        # OPTIONAL
+      Marker    => 'MyPageMarker',     # OPTIONAL
+      MaxItems  => 1,                  # OPTIONAL
+      SortBy    => 'SubmittedDate',    # OPTIONAL
+      SortOrder => 'ASC',              # OPTIONAL
+      Status    => [
+        'SUBMITTED',
+        ...    # values: SUBMITTED, IN_PROGRESS, ERROR, SUCCESSFUL, FAILED
+      ],    # OPTIONAL
       SubmittedSince => '1970-01-01T01:00:00',    # OPTIONAL
+      Type           => [
+        'REGISTER_DOMAIN',
+        ... # values: REGISTER_DOMAIN, DELETE_DOMAIN, TRANSFER_IN_DOMAIN, UPDATE_DOMAIN_CONTACT, UPDATE_NAMESERVER, CHANGE_PRIVACY_PROTECTION, DOMAIN_LOCK, ENABLE_AUTORENEW, DISABLE_AUTORENEW, ADD_DNSSEC, REMOVE_DNSSEC, EXPIRE_DOMAIN, TRANSFER_OUT_DOMAIN, CHANGE_DOMAIN_OWNER, RENEW_DOMAIN, PUSH_DOMAIN, INTERNAL_TRANSFER_OUT_DOMAIN, INTERNAL_TRANSFER_IN_DOMAIN, RELEASE_TO_GANDI, TRANSFER_ON_RENEW, RESTORE_DOMAIN
+      ],    # OPTIONAL
     );
 
     # Results:
@@ -66,12 +80,36 @@ Default: 20
 
 
 
+=head2 SortBy => Str
+
+The sort type for returned values.
+
+Valid values are: C<"SubmittedDate">
+
+=head2 SortOrder => Str
+
+The sort order for returned values, either ascending or descending.
+
+Valid values are: C<"ASC">, C<"DESC">
+
+=head2 Status => ArrayRef[Str|Undef]
+
+The status of the operations.
+
+
+
 =head2 SubmittedSince => Str
 
 An optional parameter that lets you get information about all the
 operations that you submitted after a specified date and time. Specify
 the date and time in Unix time format and Coordinated Universal time
 (UTC).
+
+
+
+=head2 Type => ArrayRef[Str|Undef]
+
+An arrays of the domains operation types.
 
 
 

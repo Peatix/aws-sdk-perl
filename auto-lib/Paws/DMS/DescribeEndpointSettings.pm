@@ -49,7 +49,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/dms
 
 =head2 B<REQUIRED> EngineName => Str
 
-The databse engine used for your source or target endpoint.
+The database engine used for your source or target endpoint.
 
 
 

@@ -21,8 +21,8 @@ Paws::Backup::CreateBackupPlanOutput
 
 =head2 AdvancedBackupSettings => ArrayRef[L<Paws::Backup::AdvancedBackupSetting>]
 
-A list of C<BackupOptions> settings for a resource type. This option is
-only available for Windows VSS backup jobs.
+The settings for a resource type. This option is only available for
+Windows Volume Shadow Copy Service (VSS) backup jobs.
 
 
 =head2 BackupPlanArn => Str
@@ -34,7 +34,7 @@ C<arn:aws:backup:us-east-1:123456789012:plan:8F81F553-3A74-4A3F-B93D-B3360DC80C5
 
 =head2 BackupPlanId => Str
 
-Uniquely identifies a backup plan.
+The ID of the backup plan.
 
 
 =head2 CreationDate => Str

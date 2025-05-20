@@ -6,6 +6,7 @@ package Paws::Glue::UpdateCrawler;
   has CrawlerSecurityConfiguration => (is => 'ro', isa => 'Str');
   has DatabaseName => (is => 'ro', isa => 'Str');
   has Description => (is => 'ro', isa => 'Str');
+  has LakeFormationConfiguration => (is => 'ro', isa => 'Paws::Glue::LakeFormationConfiguration');
   has LineageConfiguration => (is => 'ro', isa => 'Paws::Glue::LineageConfiguration');
   has Name => (is => 'ro', isa => 'Str', required => 1);
   has RecrawlPolicy => (is => 'ro', isa => 'Paws::Glue::RecrawlPolicy');
@@ -47,14 +48,18 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       Configuration                => 'MyCrawlerConfiguration',    # OPTIONAL
       CrawlerSecurityConfiguration =>
         'MyCrawlerSecurityConfiguration',                          # OPTIONAL
-      DatabaseName         => 'MyDatabaseName',                    # OPTIONAL
-      Description          => 'MyDescriptionStringRemovable',      # OPTIONAL
+      DatabaseName               => 'MyDatabaseName',                 # OPTIONAL
+      Description                => 'MyDescriptionStringRemovable',   # OPTIONAL
+      LakeFormationConfiguration => {
+        AccountId                   => 'MyAccountId',    # max: 12; OPTIONAL
+        UseLakeFormationCredentials => 1,                # OPTIONAL
+      },    # OPTIONAL
       LineageConfiguration => {
         CrawlerLineageSettings => 'ENABLE',  # values: ENABLE, DISABLE; OPTIONAL
       },    # OPTIONAL
       RecrawlPolicy => {
         RecrawlBehavior => 'CRAWL_EVERYTHING'
-        ,    # values: CRAWL_EVERYTHING, CRAWL_NEW_FOLDERS_ONLY; OPTIONAL
+        , # values: CRAWL_EVERYTHING, CRAWL_NEW_FOLDERS_ONLY, CRAWL_EVENT_MODE; OPTIONAL
       },    # OPTIONAL
       Role               => 'MyRole',              # OPTIONAL
       Schedule           => 'MyCronExpression',    # OPTIONAL
@@ -71,44 +76,74 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             Tables       => [
               'MyNameString', ...              # min: 1, max: 255
             ],    # min: 1
-
+            ConnectionName   => 'MyConnectionName',    # OPTIONAL
+            DlqEventQueueArn => 'MyEventQueueArn',     # OPTIONAL
+            EventQueueArn    => 'MyEventQueueArn',     # OPTIONAL
+          },
+          ...
+        ],    # OPTIONAL
+        DeltaTargets => [
+          {
+            ConnectionName         => 'MyConnectionName',    # OPTIONAL
+            CreateNativeDeltaTable => 1,                     # OPTIONAL
+            DeltaTables            => [ 'MyPath', ... ],     # OPTIONAL
+            WriteManifest          => 1,                     # OPTIONAL
           },
           ...
         ],    # OPTIONAL
         DynamoDBTargets => [
           {
-            Path     => 'MyPath',    # OPTIONAL
-            ScanAll  => 1,           # OPTIONAL
-            ScanRate => 1,           # OPTIONAL
+            Path     => 'MyPath',
+            ScanAll  => 1,          # OPTIONAL
+            ScanRate => 1,          # OPTIONAL
+          },
+          ...
+        ],    # OPTIONAL
+        HudiTargets => [
+          {
+            ConnectionName        => 'MyConnectionName',    # OPTIONAL
+            Exclusions            => [ 'MyPath', ... ],     # OPTIONAL
+            MaximumTraversalDepth => 1,                     # OPTIONAL
+            Paths                 => [ 'MyPath', ... ],     # OPTIONAL
+          },
+          ...
+        ],    # OPTIONAL
+        IcebergTargets => [
+          {
+            ConnectionName        => 'MyConnectionName',    # OPTIONAL
+            Exclusions            => [ 'MyPath', ... ],     # OPTIONAL
+            MaximumTraversalDepth => 1,                     # OPTIONAL
+            Paths                 => [ 'MyPath', ... ],     # OPTIONAL
           },
           ...
         ],    # OPTIONAL
         JdbcTargets => [
           {
-            ConnectionName => 'MyConnectionName',    # OPTIONAL
-            Exclusions     => [
-              'MyPath', ...                          # OPTIONAL
+            ConnectionName           => 'MyConnectionName',    # OPTIONAL
+            EnableAdditionalMetadata => [
+              'COMMENTS', ...    # values: COMMENTS, RAWTYPES
             ],    # OPTIONAL
-            Path => 'MyPath',    # OPTIONAL
+            Exclusions => [ 'MyPath', ... ],    # OPTIONAL
+            Path       => 'MyPath',
           },
           ...
         ],    # OPTIONAL
         MongoDBTargets => [
           {
             ConnectionName => 'MyConnectionName',    # OPTIONAL
-            Path           => 'MyPath',              # OPTIONAL
+            Path           => 'MyPath',
             ScanAll        => 1,                     # OPTIONAL
           },
           ...
         ],    # OPTIONAL
         S3Targets => [
           {
-            ConnectionName => 'MyConnectionName',    # OPTIONAL
-            Exclusions     => [
-              'MyPath', ...                          # OPTIONAL
-            ],    # OPTIONAL
-            Path       => 'MyPath',    # OPTIONAL
-            SampleSize => 1,           # OPTIONAL
+            ConnectionName   => 'MyConnectionName',    # OPTIONAL
+            DlqEventQueueArn => 'MyEventQueueArn',     # OPTIONAL
+            EventQueueArn    => 'MyEventQueueArn',     # OPTIONAL
+            Exclusions       => [ 'MyPath', ... ],     # OPTIONAL
+            Path             => 'MyPath',
+            SampleSize       => 1,                     # OPTIONAL
           },
           ...
         ],    # OPTIONAL
@@ -134,7 +169,7 @@ classification.
 
 Crawler configuration information. This versioned JSON string allows
 users to specify aspects of a crawler's behavior. For more information,
-see Configuring a Crawler
+see Setting crawler configuration options
 (https://docs.aws.amazon.com/glue/latest/dg/crawler-configuration.html).
 
 
@@ -156,6 +191,12 @@ C<arn:aws:daylight:us-east-1::database/sometable/*>.
 =head2 Description => Str
 
 A description of the new crawler.
+
+
+
+=head2 LakeFormationConfiguration => L<Paws::Glue::LakeFormationConfiguration>
+
+Specifies Lake Formation configuration settings for the crawler.
 
 
 

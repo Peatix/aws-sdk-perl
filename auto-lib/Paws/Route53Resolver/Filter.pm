@@ -96,7 +96,7 @@ or C<OUTBOUND> for C<Values>.
 
 =item *
 
-C<HostVpcId>: The ID of the VPC that inbound DNS queries pass through
+C<HostVPCId>: The ID of the VPC that inbound DNS queries pass through
 on the way from your network to your VPCs in a region, or the VPC that
 outbound queries pass through on the way from your VPCs to your
 network. In a CreateResolverEndpoint
@@ -232,8 +232,8 @@ created the query logging configuration.
 
 =item *
 
-C<Destination>: The AWS service that you want to forward query logs to.
-Valid values include the following:
+C<Destination>: The Amazon Web Services service that you want to
+forward query logs to. Valid values include the following:
 
 =over
 
@@ -267,15 +267,16 @@ C<Name>: The name of the query logging configuration
 
 =item *
 
-C<OwnerId>: The AWS account ID for the account that created the query
-logging configuration.
+C<OwnerId>: The Amazon Web Services account ID for the account that
+created the query logging configuration.
 
 =item *
 
 C<ShareStatus>: An indication of whether the query logging
-configuration is shared with other AWS accounts, or was shared with the
-current account by another AWS account. Valid values include:
-C<NOT_SHARED>, C<SHARED_WITH_ME>, or C<SHARED_BY_ME>.
+configuration is shared with other Amazon Web Services accounts, or was
+shared with the current account by another Amazon Web Services account.
+Valid values include: C<NOT_SHARED>, C<SHARED_WITH_ME>, or
+C<SHARED_BY_ME>.
 
 =item *
 

@@ -38,7 +38,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Kendra::Dat
 
 =head1 DESCRIPTION
 
-Provides the information necessary to connect a database to an index.
+Provides the configuration information to an Amazon Kendra supported
+database
+(https://docs.aws.amazon.com/kendra/latest/dg/data-source-database.html).
 
 =head1 ATTRIBUTES
 
@@ -57,7 +59,7 @@ from the database.
 
 =head2 B<REQUIRED> ConnectionConfiguration => L<Paws::Kendra::ConnectionConfiguration>
 
-The information necessary to connect to a database.
+Configuration information that's required to connect to a database.
 
 
 =head2 B<REQUIRED> DatabaseEngineType => Str

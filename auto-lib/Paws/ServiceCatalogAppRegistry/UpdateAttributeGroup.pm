@@ -52,8 +52,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ser
 
 =head2 B<REQUIRED> AttributeGroup => Str
 
-The name or ID of the attribute group that holds the attributes to
-describe the application.
+The name, ID, or ARN of the attribute group that holds the attributes
+to describe the application.
 
 
 
@@ -73,8 +73,10 @@ The description of the attribute group that the user provides.
 
 =head2 Name => Str
 
-The new name of the attribute group. The name must be unique in the
-region in which you are updating the attribute group.
+Deprecated: The new name of the attribute group. The name must be
+unique in the region in which you are updating the attribute group.
+Please do not use this field as we have stopped supporting name
+updates.
 
 
 

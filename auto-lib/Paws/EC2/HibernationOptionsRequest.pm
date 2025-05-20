@@ -38,8 +38,26 @@ This class has no description
 
 =head2 Configured => Bool
 
-If you set this parameter to C<true>, your instance is enabled for
-hibernation.
+Set to C<true> to enable your instance for hibernation.
+
+For Spot Instances, if you set C<Configured> to C<true>, either omit
+the C<InstanceInterruptionBehavior> parameter (for C<SpotMarketOptions>
+(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_SpotMarketOptions.html)),
+or set it to C<hibernate>. When C<Configured> is true:
+
+=over
+
+=item *
+
+If you omit C<InstanceInterruptionBehavior>, it defaults to
+C<hibernate>.
+
+=item *
+
+If you set C<InstanceInterruptionBehavior> to a value other than
+C<hibernate>, you'll get an error.
+
+=back
 
 Default: C<false>
 

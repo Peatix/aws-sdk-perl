@@ -49,15 +49,28 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ssm
 
 =head2 B<REQUIRED> Names => ArrayRef[Str|Undef]
 
-Names of the parameters for which you want to query information.
+The names or Amazon Resource Names (ARNs) of the parameters that you
+want to query. For parameters shared with you from another account, you
+must use the full ARNs.
+
+To query by parameter label, use C<"Name": "name:label">. To query by
+parameter version, use C<"Name": "name:version">.
+
+The results for C<GetParameters> requests are listed in alphabetical
+order in query responses.
+
+For information about shared parameters, see Working with shared
+parameters
+(https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-shared-parameters.html)
+in the I<Amazon Web Services Systems Manager User Guide>.
 
 
 
 =head2 WithDecryption => Bool
 
 Return decrypted secure string value. Return decrypted values for
-secure string parameters. This flag is ignored for String and
-StringList parameter types.
+secure string parameters. This flag is ignored for C<String> and
+C<StringList> parameter types.
 
 
 

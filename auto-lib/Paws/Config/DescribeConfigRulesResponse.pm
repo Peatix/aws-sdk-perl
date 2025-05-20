@@ -17,7 +17,7 @@ Paws::Config::DescribeConfigRulesResponse
 
 =head2 ConfigRules => ArrayRef[L<Paws::Config::ConfigRule>]
 
-The details about your AWS Config rules.
+The details about your Config rules.
 
 
 =head2 NextToken => Str

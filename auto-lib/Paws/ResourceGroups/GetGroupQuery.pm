@@ -47,7 +47,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/res
 
 =head2 Group => Str
 
-The name or the ARN of the resource group to query.
+The name or the Amazon resource name (ARN) of the resource group to
+query.
 
 
 

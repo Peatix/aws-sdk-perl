@@ -47,7 +47,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ec2
 
 =head2 AssociationId => Str
 
-[EC2-VPC] The association ID. Required for EC2-VPC.
+The association ID. This parameter is required.
 
 
 
@@ -62,7 +62,7 @@ C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
 
 =head2 PublicIp => Str
 
-[EC2-Classic] The Elastic IP address. Required for EC2-Classic.
+Deprecated.
 
 
 

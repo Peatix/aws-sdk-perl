@@ -1,6 +1,7 @@
 
 package Paws::FIS::ListExperiments;
   use Moose;
+  has ExperimentTemplateId => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'experimentTemplateId');
   has MaxResults => (is => 'ro', isa => 'Int', traits => ['ParamInQuery'], query_name => 'maxResults');
   has NextToken => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'nextToken');
 
@@ -30,8 +31,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $fis = Paws->service('FIS');
     my $ListExperimentsResponse = $fis->ListExperiments(
-      MaxResults => 1,                # OPTIONAL
-      NextToken  => 'MyNextToken',    # OPTIONAL
+      ExperimentTemplateId => 'MyExperimentTemplateId',    # OPTIONAL
+      MaxResults           => 1,                           # OPTIONAL
+      NextToken            => 'MyNextToken',               # OPTIONAL
     );
 
     # Results:
@@ -44,6 +46,12 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/fis/ListExperiments>
 
 =head1 ATTRIBUTES
+
+
+=head2 ExperimentTemplateId => Str
+
+The ID of the experiment template.
+
 
 
 =head2 MaxResults => Int

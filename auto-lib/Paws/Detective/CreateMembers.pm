@@ -59,25 +59,29 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 B<REQUIRED> Accounts => ArrayRef[L<Paws::Detective::Account>]
 
-The list of AWS accounts to invite to become member accounts in the
-behavior graph. You can invite up to 50 accounts at a time. For each
-invited account, the account list contains the account identifier and
-the AWS account root user email address.
+The list of Amazon Web Services accounts to invite or to enable. You
+can invite or enable up to 50 accounts at a time. For each invited
+account, the account list contains the account identifier and the
+Amazon Web Services account root user email address. For organization
+accounts in the organization behavior graph, the email address is not
+required.
 
 
 
 =head2 DisableEmailNotification => Bool
 
-if set to C<true>, then the member accounts do not receive email
-notifications. By default, this is set to C<false>, and the member
+if set to C<true>, then the invited accounts do not receive email
+notifications. By default, this is set to C<false>, and the invited
 accounts receive email notifications.
+
+Organization accounts in the organization behavior graph do not receive
+email notifications.
 
 
 
 =head2 B<REQUIRED> GraphArn => Str
 
-The ARN of the behavior graph to invite the member accounts to
-contribute their data to.
+The ARN of the behavior graph.
 
 
 

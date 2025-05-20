@@ -62,15 +62,17 @@ retrieve.
 
 =head2 ExpectedBucketOwner => Str
 
-The account ID of the expected bucket owner. If the bucket is owned by
-a different account, the request will fail with an HTTP C<403 (Access
-Denied)> error.
+The account ID of the expected bucket owner. If the account ID that you
+provide does not match the actual owner of the bucket, the request
+fails with the HTTP status code C<403 Forbidden> (access denied).
 
 
 
 =head2 B<REQUIRED> Id => Str
 
-The ID used to identify the metrics configuration.
+The ID used to identify the metrics configuration. The ID has a 64
+character limit and can only contain letters, numbers, periods, dashes,
+and underscores.
 
 
 

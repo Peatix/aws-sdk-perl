@@ -2,6 +2,7 @@
 package Paws::Config::EvaluationResultQualifier;
   use Moose;
   has ConfigRuleName => (is => 'ro', isa => 'Str');
+  has EvaluationMode => (is => 'ro', isa => 'Str');
   has ResourceId => (is => 'ro', isa => 'Str');
   has ResourceType => (is => 'ro', isa => 'Str');
 
@@ -35,25 +36,31 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Config::Eva
 
 =head1 DESCRIPTION
 
-Identifies an AWS Config rule that evaluated an AWS resource, and
-provides the type and ID of the resource that the rule evaluated.
+Identifies an Config rule that evaluated an Amazon Web Services
+resource, and provides the type and ID of the resource that the rule
+evaluated.
 
 =head1 ATTRIBUTES
 
 
 =head2 ConfigRuleName => Str
 
-The name of the AWS Config rule that was used in the evaluation.
+The name of the Config rule that was used in the evaluation.
+
+
+=head2 EvaluationMode => Str
+
+The mode of an evaluation. The valid values are Detective or Proactive.
 
 
 =head2 ResourceId => Str
 
-The ID of the evaluated AWS resource.
+The ID of the evaluated Amazon Web Services resource.
 
 
 =head2 ResourceType => Str
 
-The type of AWS resource that was evaluated.
+The type of Amazon Web Services resource that was evaluated.
 
 
 

@@ -67,7 +67,7 @@ C<iot:Data-ATS> - Returns an ATS signed data endpoint.
 
 =item *
 
-C<iot:CredentialProvider> - Returns an AWS IoT credentials provider API
+C<iot:CredentialProvider> - Returns an IoT credentials provider API
 endpoint.
 
 =back
@@ -76,13 +76,14 @@ endpoint.
 
 =item *
 
-C<iot:Jobs> - Returns an AWS IoT device management Jobs API endpoint.
+C<iot:Jobs> - Returns an IoT device management Jobs API endpoint.
 
 =back
 
 We strongly recommend that customers use the newer C<iot:Data-ATS>
 endpoint type to avoid issues related to the widespread distrust of
-Symantec certificate authorities.
+Symantec certificate authorities. ATS Signed Certificates are more
+secure and are trusted by most popular browsers.
 
 
 

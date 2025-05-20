@@ -61,7 +61,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ops
 
 =head2 AgentVersion => Str
 
-The default AWS OpsWorks Stacks agent version. You have the following
+The default OpsWorks Stacks agent version. You have the following
 options:
 
 =over
@@ -74,9 +74,8 @@ C<INHERIT> - Use the stack's default agent version setting.
 
 I<version_number> - Use the specified agent version. This value
 overrides the stack's default setting. To update the agent version, you
-must edit the instance configuration and specify a new version. AWS
-OpsWorks Stacks then automatically installs that version on the
-instance.
+must edit the instance configuration and specify a new version.
+OpsWorks Stacks installs that version on the instance.
 
 =back
 
@@ -123,7 +122,21 @@ This property cannot be updated.
 
 =head2 Hostname => Str
 
-The instance host name.
+The instance host name. The following are character limits for instance
+host names.
+
+=over
+
+=item *
+
+Linux-based instances: 63 characters
+
+=item *
+
+Windows-based instances: 15 characters
+
+=back
+
 
 
 
@@ -175,14 +188,14 @@ following. You cannot update an instance that is using a custom AMI.
 =item *
 
 A supported Linux operating system: An Amazon Linux version, such as
-C<Amazon Linux 2018.03>, C<Amazon Linux 2017.09>, C<Amazon Linux
-2017.03>, C<Amazon Linux 2016.09>, C<Amazon Linux 2016.03>, C<Amazon
-Linux 2015.09>, or C<Amazon Linux 2015.03>.
+C<Amazon Linux 2>, C<Amazon Linux 2018.03>, C<Amazon Linux 2017.09>,
+C<Amazon Linux 2017.03>, C<Amazon Linux 2016.09>, C<Amazon Linux
+2016.03>, C<Amazon Linux 2015.09>, or C<Amazon Linux 2015.03>.
 
 =item *
 
-A supported Ubuntu operating system, such as C<Ubuntu 16.04 LTS>,
-C<Ubuntu 14.04 LTS>, or C<Ubuntu 12.04 LTS>.
+A supported Ubuntu operating system, such as C<Ubuntu 18.04 LTS>,
+C<Ubuntu 16.04 LTS>, C<Ubuntu 14.04 LTS>, or C<Ubuntu 12.04 LTS>.
 
 =item *
 
@@ -201,17 +214,15 @@ Standard>, or C<Microsoft Windows Server 2012 R2 with SQL Server Web>.
 
 =back
 
-For more information about supported operating systems, see AWS
-OpsWorks Stacks Operating Systems
+Not all operating systems are supported with all versions of Chef. For
+more information about supported operating systems, see OpsWorks Stacks
+Operating Systems
 (https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-os.html).
 
 The default option is the current Amazon Linux version. If you set this
 parameter to C<Custom>, you must use the AmiId parameter to specify the
-custom AMI that you want to use. For more information about supported
-operating systems, see Operating Systems
-(https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-os.html).
-For more information about how to use custom AMIs with OpsWorks, see
-Using Custom AMIs
+custom AMI that you want to use. For more information about how to use
+custom AMIs with OpsWorks, see Using Custom AMIs
 (https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-custom-ami.html).
 
 You can specify a different Linux operating system for the updated

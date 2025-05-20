@@ -38,8 +38,9 @@ This class has no description
 
 =head2 B<REQUIRED> CpuCredits => Str
 
-The credit option for CPU usage of a T2, T3, or T3a instance. Valid
-values are C<standard> and C<unlimited>.
+The credit option for CPU usage of a T instance.
+
+Valid values: C<standard> | C<unlimited>
 
 
 

@@ -12,6 +12,7 @@ package Paws::S3::ListObjectsV2Output;
   has Name => (is => 'ro', isa => 'Str');
   has NextContinuationToken => (is => 'ro', isa => 'Str');
   has Prefix => (is => 'ro', isa => 'Str');
+  has RequestCharged => (is => 'ro', isa => 'Str', header_name => 'x-amz-request-charged', traits => ['ParamInHeader']);
   has StartAfter => (is => 'ro', isa => 'Str');
 
 
@@ -29,8 +30,9 @@ Paws::S3::ListObjectsV2Output
 
 =head2 CommonPrefixes => ArrayRef[L<Paws::S3::CommonPrefix>]
 
-All of the keys (up to 1,000) rolled up into a common prefix count as a
-single return when calculating the number of returns.
+All of the keys (up to 1,000) that share the same prefix are grouped
+together. When counting the total numbers of returns by this API
+operation, this group of keys is considered as one item.
 
 A response can contain C<CommonPrefixes> only if you specify a
 delimiter.
@@ -47,6 +49,26 @@ For example, if the prefix is C<notes/> and the delimiter is a slash
 C<notes/summer/>. All of the keys that roll up into a common prefix
 count as a single return when calculating the number of returns.
 
+=over
+
+=item *
+
+B<Directory buckets> - For directory buckets, only prefixes that end in
+a delimiter (C</>) are supported.
+
+=item *
+
+B<Directory buckets > - When you query C<ListObjectsV2> with a
+delimiter during in-progress multipart uploads, the C<CommonPrefixes>
+response parameter contains the prefixes that are associated with the
+in-progress multipart uploads. For more information about multipart
+uploads, see Multipart Upload Overview
+(https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuoverview.html) in
+the I<Amazon S3 User Guide>.
+
+=back
+
+
 
 
 =head2 Contents => ArrayRef[L<Paws::S3::Object>]
@@ -57,18 +79,23 @@ Metadata about each object returned.
 
 =head2 ContinuationToken => Str
 
-If ContinuationToken was sent with the request, it is included in the
-response.
+If C<ContinuationToken> was sent with the request, it is included in
+the response. You can use the returned C<ContinuationToken> for
+pagination of the list response. You can use this C<ContinuationToken>
+for pagination of the list results.
 
 
 
 =head2 Delimiter => Str
 
-Causes keys that contain the same string between the prefix and the
+Causes keys that contain the same string between the C<prefix> and the
 first occurrence of the delimiter to be rolled up into a single result
-element in the CommonPrefixes collection. These rolled-up keys are not
-returned elsewhere in the response. Each rolled-up result counts as
+element in the C<CommonPrefixes> collection. These rolled-up keys are
+not returned elsewhere in the response. Each rolled-up result counts as
 only one return against the C<MaxKeys> value.
+
+B<Directory buckets> - For directory buckets, C</> is the only
+supported delimiter.
 
 
 
@@ -77,9 +104,9 @@ only one return against the C<MaxKeys> value.
 Encoding type used by Amazon S3 to encode object key names in the XML
 response.
 
-If you specify the encoding-type request parameter, Amazon S3 includes
-this element in the response, and returns encoded key name values in
-the following response elements:
+If you specify the C<encoding-type> request parameter, Amazon S3
+includes this element in the response, and returns encoded key name
+values in the following response elements:
 
 C<Delimiter, Prefix, Key,> and C<StartAfter>.
 
@@ -87,23 +114,24 @@ Valid values are: C<"url">
 
 =head2 IsTruncated => Bool
 
-Set to false if all of the results were returned. Set to true if more
-keys are available to return. If the number of results exceeds that
-specified by MaxKeys, all of the results might not be returned.
+Set to C<false> if all of the results were returned. Set to C<true> if
+more keys are available to return. If the number of results exceeds
+that specified by C<MaxKeys>, all of the results might not be returned.
 
 
 
 =head2 KeyCount => Int
 
-KeyCount is the number of keys returned with this request. KeyCount
-will always be less than or equals to MaxKeys field. Say you ask for 50
-keys, your result will include less than equals 50 keys
+C<KeyCount> is the number of keys returned with this request.
+C<KeyCount> will always be less than or equal to the C<MaxKeys> field.
+For example, if you ask for 50 keys, your result will include 50 keys
+or fewer.
 
 
 
 =head2 MaxKeys => Int
 
-Sets the maximum number of keys returned in the response. By default
+Sets the maximum number of keys returned in the response. By default,
 the action returns up to 1,000 key names. The response might contain
 fewer keys but will never contain more.
 
@@ -112,25 +140,6 @@ fewer keys but will never contain more.
 =head2 Name => Str
 
 The bucket name.
-
-When using this action with an access point, you must direct requests
-to the access point hostname. The access point hostname takes the form
-I<AccessPointName>-I<AccountId>.s3-accesspoint.I<Region>.amazonaws.com.
-When using this action with an access point through the AWS SDKs, you
-provide the access point ARN in place of the bucket name. For more
-information about access point ARNs, see Using access points
-(https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html)
-in the I<Amazon S3 User Guide>.
-
-When using this action with Amazon S3 on Outposts, you must direct
-requests to the S3 on Outposts hostname. The S3 on Outposts hostname
-takes the form
-I<AccessPointName>-I<AccountId>.I<outpostID>.s3-outposts.I<Region>.amazonaws.com.
-When using this action using S3 on Outposts through the AWS SDKs, you
-provide the Outposts bucket ARN in place of the bucket name. For more
-information about S3 on Outposts ARNs, see Using S3 on Outposts
-(https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html)
-in the I<Amazon S3 User Guide>.
 
 
 
@@ -148,12 +157,23 @@ not a real key
 
 Keys that begin with the indicated prefix.
 
+B<Directory buckets> - For directory buckets, only prefixes that end in
+a delimiter (C</>) are supported.
 
+
+
+=head2 RequestCharged => Str
+
+
+
+Valid values are: C<"requester">
 
 =head2 StartAfter => Str
 
 If StartAfter was sent with the request, it is included in the
 response.
+
+This functionality is not supported for directory buckets.
 
 
 

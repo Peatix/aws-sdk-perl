@@ -36,10 +36,11 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Macie2::Buc
 
 =head1 DESCRIPTION
 
-Provides information about the number of S3 buckets that use certain
-types of server-side encryption by default or don't encrypt new objects
-by default. For detailed information about these settings, see Setting
-default server-side encryption behavior for Amazon S3 buckets
+Provides information about the number of S3 buckets whose settings do
+or don't specify default server-side encryption behavior for objects
+that are added to the buckets. For detailed information about these
+settings, see Setting default server-side encryption behavior for
+Amazon S3 buckets
 (https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucket-encryption.html)
 in the I<Amazon Simple Storage Service User Guide>.
 
@@ -48,30 +49,34 @@ in the I<Amazon Simple Storage Service User Guide>.
 
 =head2 KmsManaged => Int
 
-The total number of buckets that use an Key Management Service (KMS)
-customer master key (CMK) to encrypt new objects by default. These
-buckets use Amazon Web Services managed KMS encryption (AWS-KMS) or
-customer managed KMS encryption (SSE-KMS) by default.
+The total number of buckets whose default encryption settings are
+configured to encrypt new objects with an KMS key, either an Amazon Web
+Services managed key or a customer managed key. By default, these
+buckets encrypt new objects automatically using DSSE-KMS or SSE-KMS
+encryption.
 
 
 =head2 S3Managed => Int
 
-The total number of buckets that use an Amazon S3 managed key to
-encrypt new objects by default. These buckets use Amazon S3 managed
-encryption (SSE-S3) by default.
+The total number of buckets whose default encryption settings are
+configured to encrypt new objects with an Amazon S3 managed key. By
+default, these buckets encrypt new objects automatically using SSE-S3
+encryption.
 
 
 =head2 Unencrypted => Int
 
-The total number of buckets that don't encrypt new objects by default.
-Default encryption is disabled for these buckets.
+The total number of buckets that don't specify default server-side
+encryption behavior for new objects. Default encryption settings aren't
+configured for these buckets.
 
 
 =head2 Unknown => Int
 
 The total number of buckets that Amazon Macie doesn't have current
-encryption metadata for. Macie can't provide current data about the
-default encryption settings for these buckets.
+encryption metadata for. For example, the buckets' permissions settings
+or a quota prevented Macie from retrieving the default encryption
+settings for the buckets.
 
 
 

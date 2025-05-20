@@ -35,8 +35,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::XRay::Unpro
 
 =head1 DESCRIPTION
 
-Sampling statistics from a call to GetSamplingTargets that X-Ray could
-not process.
+Sampling statistics from a call to GetSamplingTargets
+(https://docs.aws.amazon.com/xray/latest/api/API_GetSamplingTargets.html)
+that X-Ray could not process.
 
 =head1 ATTRIBUTES
 

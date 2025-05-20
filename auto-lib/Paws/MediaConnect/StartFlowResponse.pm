@@ -23,7 +23,7 @@ The ARN of the flow that you started.
 
 =head2 Status => Str
 
-The status of the flow when the StartFlow process begins.
+The status of the flow when the C<StartFlow> process begins.
 
 Valid values are: C<"STANDBY">, C<"ACTIVE">, C<"UPDATING">, C<"DELETING">, C<"STARTING">, C<"STOPPING">, C<"ERROR">
 =head2 _request_id => Str

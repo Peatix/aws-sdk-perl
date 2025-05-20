@@ -9,14 +9,17 @@ package Paws::SSM::AssociationVersionInfo;
   has ComplianceSeverity => (is => 'ro', isa => 'Str');
   has CreatedDate => (is => 'ro', isa => 'Str');
   has DocumentVersion => (is => 'ro', isa => 'Str');
+  has Duration => (is => 'ro', isa => 'Int');
   has MaxConcurrency => (is => 'ro', isa => 'Str');
   has MaxErrors => (is => 'ro', isa => 'Str');
   has Name => (is => 'ro', isa => 'Str');
   has OutputLocation => (is => 'ro', isa => 'Paws::SSM::InstanceAssociationOutputLocation');
   has Parameters => (is => 'ro', isa => 'Paws::SSM::Parameters');
   has ScheduleExpression => (is => 'ro', isa => 'Str');
+  has ScheduleOffset => (is => 'ro', isa => 'Int');
   has SyncCompliance => (is => 'ro', isa => 'Str');
   has TargetLocations => (is => 'ro', isa => 'ArrayRef[Paws::SSM::TargetLocation]');
+  has TargetMaps => (is => 'ro', isa => 'ArrayRef[Paws::SSM::TargetMap]');
   has Targets => (is => 'ro', isa => 'ArrayRef[Paws::SSM::Target]');
 
 1;
@@ -56,10 +59,10 @@ Information about the association version.
 
 =head2 ApplyOnlyAtCronInterval => Bool
 
-By default, when you create a new associations, the system runs it
+By default, when you create new associations, the system runs it
 immediately after it is created and then according to the schedule you
 specified. Specify this option if you don't want an association to run
-immediately after you create it. This parameter is not supported for
+immediately after you create it. This parameter isn't supported for
 rate expressions.
 
 
@@ -81,11 +84,12 @@ The association version.
 
 =head2 CalendarNames => ArrayRef[Str|Undef]
 
-The names or Amazon Resource Names (ARNs) of the Systems Manager Change
-Calendar type documents your associations are gated under. The
-associations for this version only run when that Change Calendar is
-open. For more information, see AWS Systems Manager Change Calendar
-(https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-change-calendar).
+The names or Amazon Resource Names (ARNs) of the Change Calendar type
+documents your associations are gated under. The associations for this
+version only run when that Change Calendar is open. For more
+information, see Amazon Web Services Systems Manager Change Calendar
+(https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-change-calendar)
+in the I<Amazon Web Services Systems Manager User Guide>.
 
 
 =head2 ComplianceSeverity => Str
@@ -100,8 +104,16 @@ The date the association version was created.
 
 =head2 DocumentVersion => Str
 
-The version of a Systems Manager document used when the association
-version was created.
+The version of an Amazon Web Services Systems Manager document (SSM
+document) used when the association version was created.
+
+
+=head2 Duration => Int
+
+The number of hours that an association can run on specified targets.
+After the resulting cutoff time passes, associations that are currently
+running are cancelled, and no pending executions are started on
+remaining targets.
 
 
 =head2 MaxConcurrency => Str
@@ -111,11 +123,11 @@ same time. You can specify a number, for example 10, or a percentage of
 the target set, for example 10%. The default value is 100%, which means
 all targets run the association at the same time.
 
-If a new instance starts and attempts to run an association while
-Systems Manager is running MaxConcurrency associations, the association
-is allowed to run. During the next association interval, the new
-instance will process its association within the limit specified for
-MaxConcurrency.
+If a new managed node starts and attempts to run an association while
+Systems Manager is running C<MaxConcurrency> associations, the
+association is allowed to run. During the next association interval,
+the new managed node will process its association within the limit
+specified for C<MaxConcurrency>.
 
 
 =head2 MaxErrors => Str
@@ -126,15 +138,15 @@ either an absolute number of errors, for example 10, or a percentage of
 the target set, for example 10%. If you specify 3, for example, the
 system stops sending requests when the fourth error is received. If you
 specify 0, then the system stops sending requests after the first error
-is returned. If you run an association on 50 instances and set MaxError
-to 10%, then the system stops sending the request when the sixth error
-is received.
+is returned. If you run an association on 50 managed nodes and set
+C<MaxError> to 10%, then the system stops sending the request when the
+sixth error is received.
 
-Executions that are already running an association when MaxErrors is
+Executions that are already running an association when C<MaxErrors> is
 reached are allowed to complete, but some of these executions may fail
 as well. If you need to ensure that there won't be more than max-errors
-failed executions, set MaxConcurrency to 1 so that executions proceed
-one at a time.
+failed executions, set C<MaxConcurrency> to 1 so that executions
+proceed one at a time.
 
 
 =head2 Name => Str
@@ -159,6 +171,11 @@ The cron or rate schedule specified for the association when the
 association version was created.
 
 
+=head2 ScheduleOffset => Int
+
+Number of days to wait after the scheduled day to run an association.
+
+
 =head2 SyncCompliance => Str
 
 The mode for generating association compliance. You can specify C<AUTO>
@@ -169,17 +186,25 @@ C<COMPLIANT>. If the association execution doesn't run successfully,
 the association is C<NON-COMPLIANT>.
 
 In C<MANUAL> mode, you must specify the C<AssociationId> as a parameter
-for the PutComplianceItems API action. In this case, compliance data is
-not managed by State Manager. It is managed by your direct call to the
-PutComplianceItems API action.
+for the PutComplianceItems API operation. In this case, compliance data
+isn't managed by State Manager, a tool in Amazon Web Services Systems
+Manager. It is managed by your direct call to the PutComplianceItems
+API operation.
 
 By default, all associations use C<AUTO> mode.
 
 
 =head2 TargetLocations => ArrayRef[L<Paws::SSM::TargetLocation>]
 
-The combination of AWS Regions and AWS accounts where you wanted to run
-the association when this association version was created.
+The combination of Amazon Web Services Regions and Amazon Web Services
+accounts where you wanted to run the association when this association
+version was created.
+
+
+=head2 TargetMaps => ArrayRef[L<Paws::SSM::TargetMap>]
+
+A key-value mapping of document parameters to target resources. Both
+Targets and TargetMaps can't be specified together.
 
 
 =head2 Targets => ArrayRef[L<Paws::SSM::Target>]

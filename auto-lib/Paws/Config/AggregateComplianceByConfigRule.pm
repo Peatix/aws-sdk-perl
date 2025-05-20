@@ -36,7 +36,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Config::Agg
 
 =head1 DESCRIPTION
 
-Indicates whether an AWS Config rule is compliant based on account ID,
+Indicates whether an Config rule is compliant based on account ID,
 region, compliance, and rule name.
 
 A rule is compliant if all of the resources that the rule evaluated
@@ -58,13 +58,14 @@ The source region from where the data is aggregated.
 
 =head2 Compliance => L<Paws::Config::Compliance>
 
-Indicates whether an AWS resource or AWS Config rule is compliant and
-provides the number of contributors that affect the compliance.
+Indicates whether an Amazon Web Services resource or Config rule is
+compliant and provides the number of contributors that affect the
+compliance.
 
 
 =head2 ConfigRuleName => Str
 
-The name of the AWS Config rule.
+The name of the Config rule.
 
 
 

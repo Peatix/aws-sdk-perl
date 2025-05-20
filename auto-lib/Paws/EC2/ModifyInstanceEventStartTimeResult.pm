@@ -17,7 +17,7 @@ Paws::EC2::ModifyInstanceEventStartTimeResult
 
 =head2 Event => L<Paws::EC2::InstanceStatusEvent>
 
-
+Information about the event.
 
 
 =head2 _request_id => Str

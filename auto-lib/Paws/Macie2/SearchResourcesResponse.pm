@@ -18,7 +18,7 @@ Paws::Macie2::SearchResourcesResponse
 
 =head2 MatchingResources => ArrayRef[L<Paws::Macie2::MatchingResource>]
 
-An array of objects, one for each resource that meets the filter
+An array of objects, one for each resource that matches the filter
 criteria specified in the request.
 
 

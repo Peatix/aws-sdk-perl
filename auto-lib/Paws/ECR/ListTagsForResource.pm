@@ -19,7 +19,7 @@ Paws::ECR::ListTagsForResource - Arguments for method ListTagsForResource on L<P
 =head1 DESCRIPTION
 
 This class represents the parameters used for calling the method ListTagsForResource on the
-L<Amazon EC2 Container Registry|Paws::ECR> service. Use the attributes of this class
+L<Amazon Elastic Container Registry|Paws::ECR> service. Use the attributes of this class
 as arguments to method ListTagsForResource.
 
 You shouldn't make instances of this class. Each attribute should be used as a named argument in the call to ListTagsForResource.

@@ -36,15 +36,12 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::GameLift::E
 
 =head1 DESCRIPTION
 
-The GameLift service limits for an EC2 instance type and current
-utilization. GameLift allows AWS accounts a maximum number of
-instances, per instance type, per AWS Region or location, for use with
-GameLift. You can request an limit increase for your account by using
-the B<Service limits> page in the GameLift console.
-
-B<Related actions>
-
-DescribeEC2InstanceLimits
+The Amazon GameLift service limits for an Amazon EC2 instance type and
+current utilization. Amazon GameLift allows Amazon Web Services
+accounts a maximum number of instances, per instance type, per Amazon
+Web Services Region or location, for use with Amazon GameLift. You can
+request an limit increase for your account by using the B<Service
+limits> page in the Amazon GameLift console.
 
 =head1 ATTRIBUTES
 
@@ -52,13 +49,14 @@ DescribeEC2InstanceLimits
 =head2 CurrentInstances => Int
 
 The number of instances for the specified type and location that are
-currently being used by the AWS account.
+currently being used by the Amazon Web Services account.
 
 
 =head2 EC2InstanceType => Str
 
-The name of an EC2 instance type. See Amazon EC2 Instance Types
-(http://aws.amazon.com/ec2/instance-types/) for detailed descriptions.
+The name of an Amazon EC2 instance type. See Amazon Elastic Compute
+Cloud Instance Types (http://aws.amazon.com/ec2/instance-types/) for
+detailed descriptions.
 
 
 =head2 InstanceLimit => Int
@@ -69,7 +67,7 @@ and location.
 
 =head2 Location => Str
 
-An AWS Region code, such as C<us-west-2>.
+An Amazon Web Services Region code, such as C<us-west-2>.
 
 
 

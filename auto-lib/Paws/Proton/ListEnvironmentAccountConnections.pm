@@ -70,7 +70,7 @@ The maximum number of environment account connections to list.
 
 =head2 NextToken => Str
 
-A token to indicate the location of the next environment account
+A token that indicates the location of the next environment account
 connection in the array of environment account connections, after the
 list of environment account connections that was previously requested.
 

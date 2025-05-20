@@ -3,7 +3,10 @@ package Paws::MediaConvert::JobSettings;
   use Moose;
   has AdAvailOffset => (is => 'ro', isa => 'Int', request_name => 'adAvailOffset', traits => ['NameInRequest']);
   has AvailBlanking => (is => 'ro', isa => 'Paws::MediaConvert::AvailBlanking', request_name => 'availBlanking', traits => ['NameInRequest']);
+  has ColorConversion3DLUTSettings => (is => 'ro', isa => 'ArrayRef[Paws::MediaConvert::ColorConversion3DLUTSetting]', request_name => 'colorConversion3DLUTSettings', traits => ['NameInRequest']);
   has Esam => (is => 'ro', isa => 'Paws::MediaConvert::EsamSettings', request_name => 'esam', traits => ['NameInRequest']);
+  has ExtendedDataServices => (is => 'ro', isa => 'Paws::MediaConvert::ExtendedDataServices', request_name => 'extendedDataServices', traits => ['NameInRequest']);
+  has FollowSource => (is => 'ro', isa => 'Int', request_name => 'followSource', traits => ['NameInRequest']);
   has Inputs => (is => 'ro', isa => 'ArrayRef[Paws::MediaConvert::Input]', request_name => 'inputs', traits => ['NameInRequest']);
   has KantarWatermark => (is => 'ro', isa => 'Paws::MediaConvert::KantarWatermarkSettings', request_name => 'kantarWatermark', traits => ['NameInRequest']);
   has MotionImageInserter => (is => 'ro', isa => 'Paws::MediaConvert::MotionImageInserter', request_name => 'motionImageInserter', traits => ['NameInRequest']);
@@ -60,17 +63,47 @@ Settings for ad avail blanking. Video can be blanked or overlaid with
 an image, and audio muted during SCTE-35 triggered ad avails.
 
 
+=head2 ColorConversion3DLUTSettings => ArrayRef[L<Paws::MediaConvert::ColorConversion3DLUTSetting>]
+
+Use 3D LUTs to specify custom color mapping behavior when you convert
+from one color space into another. You can include up to 8 different 3D
+LUTs. For more information, see:
+https://docs.aws.amazon.com/mediaconvert/latest/ug/3d-luts.html
+
+
 =head2 Esam => L<Paws::MediaConvert::EsamSettings>
 
 Settings for Event Signaling And Messaging (ESAM). If you don't do ad
 insertion, you can ignore these settings.
 
 
+=head2 ExtendedDataServices => L<Paws::MediaConvert::ExtendedDataServices>
+
+If your source content has EIA-608 Line 21 Data Services, enable this
+feature to specify what MediaConvert does with the Extended Data
+Services (XDS) packets. You can choose to pass through XDS packets, or
+remove them from the output. For more information about XDS, see
+EIA-608 Line Data Services, section 9.5.1.5 05h Content Advisory.
+
+
+=head2 FollowSource => Int
+
+Specify the input that MediaConvert references for your default output
+settings. MediaConvert uses this input's Resolution, Frame rate, and
+Pixel aspect ratio for all outputs that you don't manually specify
+different output settings for. Enabling this setting will disable
+"Follow source" for all other inputs. If MediaConvert cannot follow
+your source, for example if you specify an audio-only input,
+MediaConvert uses the first followable input instead. In your JSON job
+specification, enter an integer from 1 to 150 corresponding to the
+order of your inputs.
+
+
 =head2 Inputs => ArrayRef[L<Paws::MediaConvert::Input>]
 
-Use Inputs (inputs) to define source file used in the transcode job.
-There can be multiple inputs add in a job. These inputs will be
-concantenated together to create the output.
+Use Inputs to define source file used in the transcode job. There can
+be multiple inputs add in a job. These inputs will be concantenated
+together to create the output.
 
 
 =head2 KantarWatermark => L<Paws::MediaConvert::KantarWatermarkSettings>
@@ -95,12 +128,8 @@ https://docs.aws.amazon.com/mediaconvert/latest/ug/motion-graphic-overlay.html.
 
 Settings for your Nielsen configuration. If you don't do Nielsen
 measurement and analytics, ignore these settings. When you enable
-Nielsen configuration (nielsenConfiguration), MediaConvert enables PCM
-to ID3 tagging for all outputs in the job. To enable Nielsen
-configuration programmatically, include an instance of
-nielsenConfiguration in your JSON job specification. Even if you don't
-include any children of nielsenConfiguration, you still enable the
-setting.
+Nielsen configuration, MediaConvert enables PCM to ID3 tagging for all
+outputs in the job.
 
 
 =head2 NielsenNonLinearWatermark => L<Paws::MediaConvert::NielsenNonLinearWatermarkSettings>
@@ -111,19 +140,18 @@ place Nielsen watermarks in your output audio. In addition to
 specifying these values, you also need to set up your cloud TIC server.
 These settings apply to every output in your job. The MediaConvert
 implementation is currently with the following Nielsen versions:
-Nielsen Watermark SDK Version 5.2.1 Nielsen NLM Watermark Engine
-Version 1.2.7 Nielsen Watermark Authenticator [SID_TIC] Version [5.0.0]
+Nielsen Watermark SDK Version 6.0.13 Nielsen NLM Watermark Engine
+Version 1.3.3 Nielsen Watermark Authenticator [SID_TIC] Version [7.0.0]
 
 
 =head2 OutputGroups => ArrayRef[L<Paws::MediaConvert::OutputGroup>]
 
-(OutputGroups) contains one group of settings for each set of outputs
-that share a common package type. All unpackaged files (MPEG-4, MPEG-2
-TS, Quicktime, MXF, and no container) are grouped in a single output
-group as well. Required in (OutputGroups) is a group of settings that
-apply to the whole group. This required object depends on the value you
-set for (Type) under (OutputGroups)E<gt>(OutputGroupSettings). Type,
-settings object pairs are as follows. * FILE_GROUP_SETTINGS,
+Contains one group of settings for each set of outputs that share a
+common package type. All unpackaged files (MPEG-4, MPEG-2 TS,
+Quicktime, MXF, and no container) are grouped in a single output group
+as well. Required in is a group of settings that apply to the whole
+group. This required object depends on the value you set for Type.
+Type, settings object pairs are as follows. * FILE_GROUP_SETTINGS,
 FileGroupSettings * HLS_GROUP_SETTINGS, HlsGroupSettings *
 DASH_ISO_GROUP_SETTINGS, DashIsoGroupSettings *
 MS_SMOOTH_GROUP_SETTINGS, MsSmoothGroupSettings * CMAF_GROUP_SETTINGS,
@@ -138,10 +166,9 @@ job. These settings don't affect input clipping.
 
 =head2 TimedMetadataInsertion => L<Paws::MediaConvert::TimedMetadataInsertion>
 
-Enable Timed metadata insertion (TimedMetadataInsertion) to include ID3
-tags in any HLS outputs. To include timed metadata, you must enable it
-here, enable it in each output container, and specify tags and
-timecodes in ID3 insertion (Id3Insertion) objects.
+Insert user-defined custom ID3 metadata at timecodes that you specify.
+In each output that you want to include this metadata, you must set ID3
+metadata to Passthrough.
 
 
 

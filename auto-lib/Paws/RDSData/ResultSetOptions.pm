@@ -2,6 +2,7 @@
 package Paws::RDSData::ResultSetOptions;
   use Moose;
   has DecimalReturnType => (is => 'ro', isa => 'Str', request_name => 'decimalReturnType', traits => ['NameInRequest']);
+  has LongReturnType => (is => 'ro', isa => 'Str', request_name => 'longReturnType', traits => ['NameInRequest']);
 
 1;
 
@@ -22,7 +23,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::RDSData::ResultSetOptions object:
 
-  $service_obj->Method(Att1 => { DecimalReturnType => $value, ..., DecimalReturnType => $value  });
+  $service_obj->Method(Att1 => { DecimalReturnType => $value, ..., LongReturnType => $value  });
 
 =head3 Results returned from an API call
 
@@ -49,6 +50,14 @@ value otherwise.
 Conversion to Double or Long can result in roundoff errors due to
 precision loss. We recommend converting to String, especially when
 working with currency values.
+
+
+=head2 LongReturnType => Str
+
+A value that indicates how a field of C<LONG> type is represented.
+Allowed values are C<LONG> and C<STRING>. The default is C<LONG>.
+Specify C<STRING> if the length or precision of numeric values might
+cause truncation or rounding errors.
 
 
 

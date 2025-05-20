@@ -1,0 +1,33 @@
+
+package Paws::BCMPricingCalculator::ListBillScenarioCommitmentModificationsResponse;
+  use Moose;
+  has Items => (is => 'ro', isa => 'ArrayRef[Paws::BCMPricingCalculator::BillScenarioCommitmentModificationItem]', traits => ['NameInRequest'], request_name => 'items' );
+  has NextToken => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'nextToken' );
+
+  has _request_id => (is => 'ro', isa => 'Str');
+
+### main pod documentation begin ###
+
+=head1 NAME
+
+Paws::BCMPricingCalculator::ListBillScenarioCommitmentModificationsResponse
+
+=head1 ATTRIBUTES
+
+
+=head2 Items => ArrayRef[L<Paws::BCMPricingCalculator::BillScenarioCommitmentModificationItem>]
+
+The list of commitment modifications associated with the bill scenario.
+
+
+=head2 NextToken => Str
+
+A token to retrieve the next page of results, if any.
+
+
+=head2 _request_id => Str
+
+
+=cut
+
+1;

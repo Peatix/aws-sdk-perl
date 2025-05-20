@@ -46,14 +46,19 @@ operation can't find or process a specific entity.
 
 =head2 AwsAccountId => Str
 
-The 12-digit AWS account numbers that contains the affected entities.
+The 12-digit Amazon Web Services account numbers that contains the
+affected entities.
 
 
 =head2 ErrorMessage => Str
 
-The unique identifier for the event type. The format is
-C<AWS_SERVICE_DESCRIPTION>. For example,
-C<AWS_EC2_SYSTEM_MAINTENANCE_EVENT>.
+A message that describes the error. Follow the error message and retry
+your request.
+
+For example, the C<InvalidAccountInputError> error message appears if
+you call the C<DescribeAffectedEntitiesForOrganization> operation and
+specify the C<AccountSpecific> value for the C<EventScopeCode>
+parameter, but don't specify an Amazon Web Services account.
 
 
 =head2 ErrorName => Str

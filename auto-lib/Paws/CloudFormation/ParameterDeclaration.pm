@@ -50,23 +50,23 @@ The default value of the parameter.
 
 =head2 Description => Str
 
-The description that is associate with the parameter.
+The description that's associate with the parameter.
 
 
 =head2 NoEcho => Bool
 
 Flag that indicates whether the parameter value is shown as plain text
-in logs and in the AWS Management Console.
+in logs and in the Amazon Web Services Management Console.
 
 
 =head2 ParameterConstraints => L<Paws::CloudFormation::ParameterConstraints>
 
-The criteria that AWS CloudFormation uses to validate parameter values.
+The criteria that CloudFormation uses to validate parameter values.
 
 
 =head2 ParameterKey => Str
 
-The name that is associated with the parameter.
+The name that's associated with the parameter.
 
 
 =head2 ParameterType => Str

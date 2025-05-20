@@ -38,8 +38,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Athena::Nam
 
 =head1 DESCRIPTION
 
-A query, where C<QueryString> is the list of SQL query statements that
-comprise the query.
+A query, where C<QueryString> contains the SQL statements that make up
+the query.
 
 =head1 ATTRIBUTES
 
@@ -66,7 +66,7 @@ The unique identifier of the query.
 
 =head2 B<REQUIRED> QueryString => Str
 
-The SQL query statements that comprise the query.
+The SQL statements that make up the query.
 
 
 =head2 WorkGroup => Str

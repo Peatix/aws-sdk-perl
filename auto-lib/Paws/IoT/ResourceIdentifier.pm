@@ -5,8 +5,10 @@ package Paws::IoT::ResourceIdentifier;
   has CaCertificateId => (is => 'ro', isa => 'Str', request_name => 'caCertificateId', traits => ['NameInRequest']);
   has ClientId => (is => 'ro', isa => 'Str', request_name => 'clientId', traits => ['NameInRequest']);
   has CognitoIdentityPoolId => (is => 'ro', isa => 'Str', request_name => 'cognitoIdentityPoolId', traits => ['NameInRequest']);
+  has DeviceCertificateArn => (is => 'ro', isa => 'Str', request_name => 'deviceCertificateArn', traits => ['NameInRequest']);
   has DeviceCertificateId => (is => 'ro', isa => 'Str', request_name => 'deviceCertificateId', traits => ['NameInRequest']);
   has IamRoleArn => (is => 'ro', isa => 'Str', request_name => 'iamRoleArn', traits => ['NameInRequest']);
+  has IssuerCertificateIdentifier => (is => 'ro', isa => 'Paws::IoT::IssuerCertificateIdentifier', request_name => 'issuerCertificateIdentifier', traits => ['NameInRequest']);
   has PolicyVersionIdentifier => (is => 'ro', isa => 'Paws::IoT::PolicyVersionIdentifier', request_name => 'policyVersionIdentifier', traits => ['NameInRequest']);
   has RoleAliasArn => (is => 'ro', isa => 'Str', request_name => 'roleAliasArn', traits => ['NameInRequest']);
 
@@ -65,6 +67,11 @@ The client ID.
 The ID of the Amazon Cognito identity pool.
 
 
+=head2 DeviceCertificateArn => Str
+
+The ARN of the identified device certificate.
+
+
 =head2 DeviceCertificateId => Str
 
 The ID of the certificate attached to the resource.
@@ -73,6 +80,11 @@ The ID of the certificate attached to the resource.
 =head2 IamRoleArn => Str
 
 The ARN of the IAM role that has overly permissive actions.
+
+
+=head2 IssuerCertificateIdentifier => L<Paws::IoT::IssuerCertificateIdentifier>
+
+The issuer certificate identifier.
 
 
 =head2 PolicyVersionIdentifier => L<Paws::IoT::PolicyVersionIdentifier>

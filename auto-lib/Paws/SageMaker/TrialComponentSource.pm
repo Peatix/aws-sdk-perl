@@ -42,7 +42,7 @@ component.
 
 =head2 B<REQUIRED> SourceArn => Str
 
-The source ARN.
+The source Amazon Resource Name (ARN).
 
 
 =head2 SourceType => Str

@@ -55,15 +55,14 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/eks
 
 =head2 ClientRequestToken => Str
 
-The client request token you are using with the encryption
-configuration.
+A unique, case-sensitive identifier that you provide to ensure the
+idempotency of the request.
 
 
 
 =head2 B<REQUIRED> ClusterName => Str
 
-The name of the cluster that you are associating with encryption
-configuration.
+The name of your cluster.
 
 
 

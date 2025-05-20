@@ -35,8 +35,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CodeArtifac
 
 =head1 DESCRIPTION
 
-An AWS CodeArtifact resource policy that contains a resource ARN,
-document details, and a revision.
+An CodeArtifact resource policy that contains a resource ARN, document
+details, and a revision.
 
 =head1 ATTRIBUTES
 

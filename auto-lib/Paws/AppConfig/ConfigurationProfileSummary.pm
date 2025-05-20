@@ -5,6 +5,7 @@ package Paws::AppConfig::ConfigurationProfileSummary;
   has Id => (is => 'ro', isa => 'Str');
   has LocationUri => (is => 'ro', isa => 'Str');
   has Name => (is => 'ro', isa => 'Str');
+  has Type => (is => 'ro', isa => 'Str');
   has ValidatorTypes => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
 
 1;
@@ -60,6 +61,20 @@ The URI location of the configuration.
 =head2 Name => Str
 
 The name of the configuration profile.
+
+
+=head2 Type => Str
+
+The type of configurations contained in the profile. AppConfig supports
+C<feature flags> and C<freeform> configurations. We recommend you
+create feature flag configurations to enable or disable new features
+and freeform configurations to distribute configurations to an
+application. When calling this API, enter one of the following values
+for C<Type>:
+
+C<AWS.AppConfig.FeatureFlags>
+
+C<AWS.Freeform>
 
 
 =head2 ValidatorTypes => ArrayRef[Str|Undef]

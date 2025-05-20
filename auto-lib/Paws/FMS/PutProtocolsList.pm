@@ -68,7 +68,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/fms
 
 =head2 B<REQUIRED> ProtocolsList => L<Paws::FMS::ProtocolsListData>
 
-The details of the AWS Firewall Manager protocols list to be created.
+The details of the Firewall Manager protocols list to be created.
 
 
 

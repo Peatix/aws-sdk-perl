@@ -3,6 +3,7 @@ package Paws::Appflow::SourceFieldProperties;
   use Moose;
   has IsQueryable => (is => 'ro', isa => 'Bool', request_name => 'isQueryable', traits => ['NameInRequest']);
   has IsRetrievable => (is => 'ro', isa => 'Bool', request_name => 'isRetrievable', traits => ['NameInRequest']);
+  has IsTimestampFieldForIncrementalQueries => (is => 'ro', isa => 'Bool', request_name => 'isTimestampFieldForIncrementalQueries', traits => ['NameInRequest']);
 
 1;
 
@@ -23,7 +24,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::Appflow::SourceFieldProperties object:
 
-  $service_obj->Method(Att1 => { IsQueryable => $value, ..., IsRetrievable => $value  });
+  $service_obj->Method(Att1 => { IsQueryable => $value, ..., IsTimestampFieldForIncrementalQueries => $value  });
 
 =head3 Results returned from an API call
 
@@ -48,6 +49,11 @@ Indicates if the field can be queried.
 =head2 IsRetrievable => Bool
 
 Indicates whether the field can be returned in a search result.
+
+
+=head2 IsTimestampFieldForIncrementalQueries => Bool
+
+Indicates if this timestamp field can be used for incremental queries.
 
 
 

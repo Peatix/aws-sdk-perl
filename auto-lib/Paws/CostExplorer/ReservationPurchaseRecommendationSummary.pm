@@ -36,8 +36,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CostExplore
 =head1 DESCRIPTION
 
 A summary about this recommendation, such as the currency code, the
-amount that AWS estimates that you could save, and the total amount of
-reservation to purchase.
+amount that Amazon Web Services estimates that you could save, and the
+total amount of reservation to purchase.
 
 =head1 ATTRIBUTES
 
@@ -49,14 +49,15 @@ The currency code used for this recommendation.
 
 =head2 TotalEstimatedMonthlySavingsAmount => Str
 
-The total amount that AWS estimates that this recommendation could save
-you in a month.
+The total amount that Amazon Web Services estimates that this
+recommendation could save you in a month.
 
 
 =head2 TotalEstimatedMonthlySavingsPercentage => Str
 
-The total amount that AWS estimates that this recommendation could save
-you in a month, as a percentage of your costs.
+The total amount that Amazon Web Services estimates that this
+recommendation could save you in a month, as a percentage of your
+costs.
 
 
 

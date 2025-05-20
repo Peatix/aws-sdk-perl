@@ -12,6 +12,7 @@ package Paws::AppConfig::DeploymentSummary;
   has PercentageComplete => (is => 'ro', isa => 'Num');
   has StartedAt => (is => 'ro', isa => 'Str');
   has State => (is => 'ro', isa => 'Str');
+  has VersionLabel => (is => 'ro', isa => 'Str');
 
 1;
 
@@ -32,7 +33,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::AppConfig::DeploymentSummary object:
 
-  $service_obj->Method(Att1 => { CompletedAt => $value, ..., State => $value  });
+  $service_obj->Method(Att1 => { CompletedAt => $value, ..., VersionLabel => $value  });
 
 =head3 Results returned from an API call
 
@@ -75,9 +76,9 @@ The sequence number of the deployment.
 
 =head2 FinalBakeTimeInMinutes => Int
 
-The amount of time AppConfig monitors for alarms before considering the
-deployment to be complete and no longer eligible for automatic roll
-back.
+The amount of time that AppConfig monitors for alarms before
+considering the deployment to be complete and no longer eligible for
+automatic rollback.
 
 
 =head2 GrowthFactor => Num
@@ -104,6 +105,11 @@ Time the deployment started.
 =head2 State => Str
 
 The state of the deployment.
+
+
+=head2 VersionLabel => Str
+
+A user-defined label for an AppConfig hosted configuration version.
 
 
 

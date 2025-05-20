@@ -8,6 +8,7 @@ package Paws::EC2::TransitGatewayOptions;
   has DnsSupport => (is => 'ro', isa => 'Str', request_name => 'dnsSupport', traits => ['NameInRequest']);
   has MulticastSupport => (is => 'ro', isa => 'Str', request_name => 'multicastSupport', traits => ['NameInRequest']);
   has PropagationDefaultRouteTableId => (is => 'ro', isa => 'Str', request_name => 'propagationDefaultRouteTableId', traits => ['NameInRequest']);
+  has SecurityGroupReferencingSupport => (is => 'ro', isa => 'Str', request_name => 'securityGroupReferencingSupport', traits => ['NameInRequest']);
   has TransitGatewayCidrBlocks => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'transitGatewayCidrBlocks', traits => ['NameInRequest']);
   has VpnEcmpSupport => (is => 'ro', isa => 'Str', request_name => 'vpnEcmpSupport', traits => ['NameInRequest']);
 1;
@@ -65,13 +66,19 @@ Indicates whether attachment requests are automatically accepted.
 =head2 DefaultRouteTableAssociation => Str
 
 Indicates whether resource attachments are automatically associated
-with the default association route table.
+with the default association route table. Enabled by default. If
+C<defaultRouteTableAssociation> is set to C<enable>, Amazon Web
+Services Transit Gateway will create the default transit gateway route
+table.
 
 
 =head2 DefaultRouteTablePropagation => Str
 
 Indicates whether resource attachments automatically propagate routes
-to the default propagation route table.
+to the default propagation route table. Enabled by default. If
+C<defaultRouteTablePropagation> is set to C<enable>, Amazon Web
+Services Transit Gateway will create the default transit gateway route
+table.
 
 
 =head2 DnsSupport => Str
@@ -87,6 +94,14 @@ Indicates whether multicast is enabled on the transit gateway
 =head2 PropagationDefaultRouteTableId => Str
 
 The ID of the default propagation route table.
+
+
+=head2 SecurityGroupReferencingSupport => Str
+
+Enables you to reference a security group across VPCs attached to a
+transit gateway to simplify security group management.
+
+This option is disabled by default.
 
 
 =head2 TransitGatewayCidrBlocks => ArrayRef[Str|Undef]

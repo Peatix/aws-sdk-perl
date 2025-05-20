@@ -39,7 +39,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     );
 
     # Results:
-    my $NextToken = $ListQueueQuickConnectsResponse->NextToken;
+    my $LastModifiedRegion =
+      $ListQueueQuickConnectsResponse->LastModifiedRegion;
+    my $LastModifiedTime = $ListQueueQuickConnectsResponse->LastModifiedTime;
+    my $NextToken        = $ListQueueQuickConnectsResponse->NextToken;
     my $QuickConnectSummaryList =
       $ListQueueQuickConnectsResponse->QuickConnectSummaryList;
 
@@ -54,13 +57,16 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/con
 =head2 B<REQUIRED> InstanceId => Str
 
 The identifier of the Amazon Connect instance. You can find the
-instanceId in the ARN of the instance.
+instance ID
+(https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html)
+in the Amazon Resource Name (ARN) of the instance.
 
 
 
 =head2 MaxResults => Int
 
-The maximum number of results to return per page.
+The maximum number of results to return per page. The default MaxResult
+size is 100.
 
 
 

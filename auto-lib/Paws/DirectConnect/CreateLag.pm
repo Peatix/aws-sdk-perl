@@ -63,6 +63,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $AllowsHostedConnections = $Lag->AllowsHostedConnections;
     my $AwsDevice               = $Lag->AwsDevice;
     my $AwsDeviceV2             = $Lag->AwsDeviceV2;
+    my $AwsLogicalDeviceId      = $Lag->AwsLogicalDeviceId;
     my $Connections             = $Lag->Connections;
     my $ConnectionsBandwidth    = $Lag->ConnectionsBandwidth;
     my $EncryptionMode          = $Lag->EncryptionMode;
@@ -104,7 +105,7 @@ The ID of an existing dedicated connection to migrate to the LAG.
 =head2 B<REQUIRED> ConnectionsBandwidth => Str
 
 The bandwidth of the individual physical dedicated connections bundled
-by the LAG. The possible values are 1Gbps and 10Gbps.
+by the LAG. The possible values are 1Gbps,10Gbps, 100Gbps, and 400Gbps.
 
 
 
@@ -123,7 +124,9 @@ The location for the LAG.
 =head2 B<REQUIRED> NumberOfConnections => Int
 
 The number of physical dedicated connections initially provisioned and
-bundled by the LAG.
+bundled by the LAG. You can have a maximum of four connections when the
+port speed is 1Gbps or 10Gbps, or two when the port speed is 100Gbps or
+400Gbps.
 
 
 
@@ -141,7 +144,7 @@ All connections in the LAG must be capable of supporting MAC Security
 (MACsec). For information about MAC Security (MACsec) prerequisties,
 see MACsec prerequisties
 (https://docs.aws.amazon.com/directconnect/latest/UserGuide/direct-connect-mac-sec-getting-started.html#mac-sec-prerequisites)
-in the I<AWS Direct Connect User Guide>.
+in the I<Direct Connect User Guide>.
 
 
 

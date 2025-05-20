@@ -28,18 +28,24 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $iam = Paws->service('IAM');
+    # To add a tag key and value to an IAM user
+    # The following example shows how to add tags to an existing user.
     $iam->TagUser(
-      Tags => [
+      'Tags' => [
+
         {
-          Key   => 'MytagKeyType',      # min: 1, max: 128
-          Value => 'MytagValueType',    # max: 256
-
+          'Key'   => 'Dept',
+          'Value' => 'Accounting'
         },
-        ...
-      ],
-      UserName => 'MyexistingUserNameType',
 
+        {
+          'Key'   => 'CostCenter',
+          'Value' => 12345
+        }
+      ],
+      'UserName' => 'anika'
     );
+
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/iam/TagUser>
@@ -58,10 +64,10 @@ consists of a key name and an associated value.
 
 The name of the IAM user to which you want to add tags.
 
-This parameter accepts (through its regex pattern
-(http://wikipedia.org/wiki/regex)) a string of characters that consist
-of upper and lowercase alphanumeric characters with no spaces. You can
-also include any of the following characters: =,.@-
+This parameter allows (through its regex pattern
+(http://wikipedia.org/wiki/regex)) a string of characters consisting of
+upper and lowercase alphanumeric characters with no spaces. You can
+also include any of the following characters: _+=,.@-
 
 
 

@@ -35,6 +35,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         Gid      => 'NONE',    # values: NONE, INT_VALUE, NAME, BOTH; OPTIONAL
         LogLevel => 'OFF',     # values: OFF, BASIC, TRANSFER; OPTIONAL
         Mtime    => 'NONE',    # values: NONE, PRESERVE; OPTIONAL
+        ObjectTags           => 'PRESERVE', # values: PRESERVE, NONE; OPTIONAL
         OverwriteMode        => 'ALWAYS',   # values: ALWAYS, NEVER; OPTIONAL
         PosixPermissions     => 'NONE',     # values: NONE, PRESERVE; OPTIONAL
         PreserveDeletedFiles => 'PRESERVE', # values: PRESERVE, REMOVE; OPTIONAL
@@ -65,8 +66,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/dat
 
 =head2 B<REQUIRED> TaskExecutionArn => Str
 
-The Amazon Resource Name (ARN) of the specific task execution that is
-being updated.
+Specifies the Amazon Resource Name (ARN) of the task execution that
+you're updating.
 
 
 

@@ -117,14 +117,14 @@ simulate a query for.
 
 The type of the resource record set.
 
-Valid values are: C<"SOA">, C<"A">, C<"TXT">, C<"NS">, C<"CNAME">, C<"MX">, C<"NAPTR">, C<"PTR">, C<"SRV">, C<"SPF">, C<"AAAA">, C<"CAA">, C<"DS">
+Valid values are: C<"SOA">, C<"A">, C<"TXT">, C<"NS">, C<"CNAME">, C<"MX">, C<"NAPTR">, C<"PTR">, C<"SRV">, C<"SPF">, C<"AAAA">, C<"CAA">, C<"DS">, C<"TLSA">, C<"SSHFP">, C<"SVCB">, C<"HTTPS">
 
 =head2 ResolverIP => Str
 
 If you want to simulate a request from a specific DNS resolver, specify
 the IP address for that resolver. If you omit this value,
-C<TestDnsAnswer> uses the IP address of a DNS resolver in the AWS US
-East (N. Virginia) Region (C<us-east-1>).
+C<TestDnsAnswer> uses the IP address of a DNS resolver in the Amazon
+Web Services US East (N. Virginia) Region (C<us-east-1>).
 
 
 

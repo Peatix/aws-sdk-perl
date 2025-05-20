@@ -107,8 +107,8 @@ after replication is complete.
 
 =head2 RoleName => Str
 
-The name of service role in the customer's account that AWS
-CloudFormation uses to launch the application.
+The name of service role in the customer's account that CloudFormation
+uses to launch the application.
 
 
 

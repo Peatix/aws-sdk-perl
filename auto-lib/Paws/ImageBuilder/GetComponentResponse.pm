@@ -18,7 +18,7 @@ Paws::ImageBuilder::GetComponentResponse
 
 =head2 Component => L<Paws::ImageBuilder::Component>
 
-The component object associated with the specified ARN.
+The component object specified in the request.
 
 
 =head2 RequestId => Str

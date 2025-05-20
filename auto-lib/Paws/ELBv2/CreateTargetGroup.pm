@@ -8,6 +8,7 @@ package Paws::ELBv2::CreateTargetGroup;
   has HealthCheckProtocol => (is => 'ro', isa => 'Str');
   has HealthCheckTimeoutSeconds => (is => 'ro', isa => 'Int');
   has HealthyThresholdCount => (is => 'ro', isa => 'Int');
+  has IpAddressType => (is => 'ro', isa => 'Str');
   has Matcher => (is => 'ro', isa => 'Paws::ELBv2::Matcher');
   has Name => (is => 'ro', isa => 'Str', required => 1);
   has Port => (is => 'ro', isa => 'Int');
@@ -68,18 +69,17 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ela
 
 Indicates whether health checks are enabled. If the target type is
 C<lambda>, health checks are disabled by default but can be enabled. If
-the target type is C<instance> or C<ip>, health checks are always
-enabled and cannot be disabled.
+the target type is C<instance>, C<ip>, or C<alb>, health checks are
+always enabled and can't be disabled.
 
 
 
 =head2 HealthCheckIntervalSeconds => Int
 
 The approximate amount of time, in seconds, between health checks of an
-individual target. If the target group protocol is TCP, TLS, UDP, or
-TCP_UDP, the supported values are 10 and 30 seconds. If the target
-group protocol is HTTP or HTTPS, the default is 30 seconds. If the
-target group protocol is GENEVE, the default is 10 seconds. If the
+individual target. The range is 5-300. If the target group protocol is
+TCP, TLS, UDP, TCP_UDP, HTTP or HTTPS, the default is 30 seconds. If
+the target group protocol is GENEVE, the default is 10 seconds. If the
 target type is C<lambda>, the default is 35 seconds.
 
 
@@ -121,28 +121,37 @@ Valid values are: C<"HTTP">, C<"HTTPS">, C<"TCP">, C<"TLS">, C<"UDP">, C<"TCP_UD
 =head2 HealthCheckTimeoutSeconds => Int
 
 The amount of time, in seconds, during which no response from a target
-means a failed health check. For target groups with a protocol of HTTP,
-HTTPS, or GENEVE, the default is 5 seconds. For target groups with a
-protocol of TCP or TLS, this value must be 6 seconds for HTTP health
-checks and 10 seconds for TCP and HTTPS health checks. If the target
-type is C<lambda>, the default is 30 seconds.
+means a failed health check. The range is 2E<ndash>120 seconds. For
+target groups with a protocol of HTTP, the default is 6 seconds. For
+target groups with a protocol of TCP, TLS or HTTPS, the default is 10
+seconds. For target groups with a protocol of GENEVE, the default is 5
+seconds. If the target type is C<lambda>, the default is 30 seconds.
 
 
 
 =head2 HealthyThresholdCount => Int
 
-The number of consecutive health checks successes required before
-considering an unhealthy target healthy. For target groups with a
-protocol of HTTP or HTTPS, the default is 5. For target groups with a
-protocol of TCP, TLS, or GENEVE, the default is 3. If the target type
-is C<lambda>, the default is 5.
+The number of consecutive health check successes required before
+considering a target healthy. The range is 2-10. If the target group
+protocol is TCP, TCP_UDP, UDP, TLS, HTTP or HTTPS, the default is 5.
+For target groups with a protocol of GENEVE, the default is 5. If the
+target type is C<lambda>, the default is 5.
 
 
+
+=head2 IpAddressType => Str
+
+The IP address type. The default value is C<ipv4>.
+
+Valid values are: C<"ipv4">, C<"ipv6">
 
 =head2 Matcher => L<Paws::ELBv2::Matcher>
 
 [HTTP/HTTPS health checks] The HTTP or gRPC codes to use when checking
-for a successful response from a target.
+for a successful response from a target. For target groups with a
+protocol of TCP, TCP_UDP, UDP or TLS the range is 200-599. For target
+groups with a protocol of HTTP or HTTPS, the range is 200-499. For
+target groups with a protocol of GENEVE, the range is 200-399.
 
 
 
@@ -216,19 +225,22 @@ specify publicly routable IP addresses.
 
 C<lambda> - Register a single Lambda function as a target.
 
+=item *
+
+C<alb> - Register a single Application Load Balancer as a target.
+
 =back
 
 
-Valid values are: C<"instance">, C<"ip">, C<"lambda">
+Valid values are: C<"instance">, C<"ip">, C<"lambda">, C<"alb">
 
 =head2 UnhealthyThresholdCount => Int
 
 The number of consecutive health check failures required before
-considering a target unhealthy. If the target group protocol is HTTP or
-HTTPS, the default is 2. If the target group protocol is TCP or TLS,
-this value must be the same as the healthy threshold count. If the
-target group protocol is GENEVE, the default is 3. If the target type
-is C<lambda>, the default is 2.
+considering a target unhealthy. The range is 2-10. If the target group
+protocol is TCP, TCP_UDP, UDP, TLS, HTTP or HTTPS, the default is 2.
+For target groups with a protocol of GENEVE, the default is 2. If the
+target type is C<lambda>, the default is 5.
 
 
 

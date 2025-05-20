@@ -35,11 +35,11 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::IoTSiteWise
 =head1 DESCRIPTION
 
 Contains asset property value notification information. When the
-notification state is enabled, AWS IoT SiteWise publishes property
-value updates to a unique MQTT topic. For more information, see
-Interacting with other services
+notification state is enabled, IoT SiteWise publishes property value
+updates to a unique MQTT topic. For more information, see Interacting
+with other services
 (https://docs.aws.amazon.com/iot-sitewise/latest/userguide/interact-with-other-services.html)
-in the I<AWS IoT SiteWise User Guide>.
+in the I<IoT SiteWise User Guide>.
 
 =head1 ATTRIBUTES
 
@@ -51,8 +51,8 @@ The current notification state.
 
 =head2 B<REQUIRED> Topic => Str
 
-The MQTT topic to which AWS IoT SiteWise publishes property value
-update notifications.
+The MQTT topic to which IoT SiteWise publishes property value update
+notifications.
 
 
 

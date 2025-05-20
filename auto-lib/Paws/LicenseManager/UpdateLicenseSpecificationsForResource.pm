@@ -68,7 +68,7 @@ ARNs of the license configurations to remove.
 
 =head2 B<REQUIRED> ResourceArn => Str
 
-Amazon Resource Name (ARN) of the AWS resource.
+Amazon Resource Name (ARN) of the Amazon Web Services resource.
 
 
 

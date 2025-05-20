@@ -43,15 +43,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ema
 
 =head2 ConfigurationSetName => Str
 
-The configuration set that you want to associate with an email
-identity.
+The configuration set to associate with an email identity.
 
 
 
 =head2 B<REQUIRED> EmailIdentity => Str
 
-The email address or domain that you want to associate with a
-configuration set.
+The email address or domain to associate with a configuration set.
 
 
 

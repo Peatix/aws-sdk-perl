@@ -50,8 +50,7 @@ The policy specifications must conform to the following:
 
 =item *
 
-The policy must be composed using IAM Policy version 2012-10-17 or
-version 2015-01-01.
+The policy must be composed using IAM Policy version 2012-10-17.
 
 =item *
 
@@ -65,8 +64,9 @@ C<Effect> must specify C<Allow>.
 =item *
 
 C<Action> must specify C<wafv2:CreateWebACL>, C<wafv2:UpdateWebACL>,
-and C<wafv2:PutFirewallManagerRuleGroups>. WAF rejects any extra
-actions or wildcard actions in the policy.
+and C<wafv2:PutFirewallManagerRuleGroups> and may optionally specify
+C<wafv2:GetRuleGroup>. WAF rejects any extra actions or wildcard
+actions in the policy.
 
 =item *
 

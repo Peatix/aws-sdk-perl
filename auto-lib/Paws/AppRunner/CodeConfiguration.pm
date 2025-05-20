@@ -34,8 +34,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AppRunner::
 
 =head1 DESCRIPTION
 
-Describes the configuration that AWS App Runner uses to build and run
-an App Runner service from a source code repository.
+Describes the configuration that App Runner uses to build and run an
+App Runner service from a source code repository.
 
 =head1 ATTRIBUTES
 

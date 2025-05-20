@@ -1,11 +1,14 @@
 
 package Paws::RedshiftData::ListStatements;
   use Moose;
+  has ClusterIdentifier => (is => 'ro', isa => 'Str');
+  has Database => (is => 'ro', isa => 'Str');
   has MaxResults => (is => 'ro', isa => 'Int');
   has NextToken => (is => 'ro', isa => 'Str');
   has RoleLevel => (is => 'ro', isa => 'Bool');
   has StatementName => (is => 'ro', isa => 'Str');
   has Status => (is => 'ro', isa => 'Str');
+  has WorkgroupName => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -32,11 +35,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $redshift-data = Paws->service('RedshiftData');
     my $ListStatementsResponse = $redshift -data->ListStatements(
-      MaxResults    => 1,                          # OPTIONAL
-      NextToken     => 'MyString',                 # OPTIONAL
-      RoleLevel     => 1,                          # OPTIONAL
-      StatementName => 'MyStatementNameString',    # OPTIONAL
-      Status        => 'SUBMITTED',                # OPTIONAL
+      ClusterIdentifier => 'MyClusterIdentifierString',    # OPTIONAL
+      Database          => 'MyString',                     # OPTIONAL
+      MaxResults        => 1,                              # OPTIONAL
+      NextToken         => 'MyString',                     # OPTIONAL
+      RoleLevel         => 1,                              # OPTIONAL
+      StatementName     => 'MyStatementNameString',        # OPTIONAL
+      Status            => 'SUBMITTED',                    # OPTIONAL
+      WorkgroupName     => 'MyWorkgroupNameString',        # OPTIONAL
     );
 
     # Results:
@@ -49,6 +55,21 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/redshift-data/ListStatements>
 
 =head1 ATTRIBUTES
+
+
+=head2 ClusterIdentifier => Str
+
+The cluster identifier. Only statements that ran on this cluster are
+returned. When providing C<ClusterIdentifier>, then C<WorkgroupName>
+can't be specified.
+
+
+
+=head2 Database => Str
+
+The name of the database when listing statements run against a
+C<ClusterIdentifier> or C<WorkgroupName>.
+
 
 
 =head2 MaxResults => Int
@@ -81,12 +102,13 @@ session are returned. The default is true.
 
 =head2 StatementName => Str
 
-The name of the SQL statement specified as input to C<ExecuteStatement>
-to identify the query. You can list multiple statements by providing a
-prefix that matches the beginning of the statement name. For example,
-to list myStatement1, myStatement2, myStatement3, and so on, then
-provide the a value of C<myStatement>. Data API does a case-sensitive
-match of SQL statement names to the prefix value you provide.
+The name of the SQL statement specified as input to
+C<BatchExecuteStatement> or C<ExecuteStatement> to identify the query.
+You can list multiple statements by providing a prefix that matches the
+beginning of the statement name. For example, to list myStatement1,
+myStatement2, myStatement3, and so on, then provide the a value of
+C<myStatement>. Data API does a case-sensitive match of SQL statement
+names to the prefix value you provide.
 
 
 
@@ -130,6 +152,14 @@ SUBMITTED - The query was submitted, but not yet processed.
 
 
 Valid values are: C<"SUBMITTED">, C<"PICKED">, C<"STARTED">, C<"FINISHED">, C<"ABORTED">, C<"FAILED">, C<"ALL">
+
+=head2 WorkgroupName => Str
+
+The serverless workgroup name or Amazon Resource Name (ARN). Only
+statements that ran on this workgroup are returned. When providing
+C<WorkgroupName>, then C<ClusterIdentifier> can't be specified.
+
+
 
 
 =head1 SEE ALSO

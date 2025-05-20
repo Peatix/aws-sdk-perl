@@ -34,15 +34,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $networkmanager = Paws->service('NetworkManager');
     my $UpdateLinkResponse = $networkmanager->UpdateLink(
-      GlobalNetworkId => 'MyString',
-      LinkId          => 'MyString',
+      GlobalNetworkId => 'MyGlobalNetworkId',
+      LinkId          => 'MyLinkId',
       Bandwidth       => {
         DownloadSpeed => 1,    # OPTIONAL
         UploadSpeed   => 1,    # OPTIONAL
       },    # OPTIONAL
-      Description => 'MyString',    # OPTIONAL
-      Provider    => 'MyString',    # OPTIONAL
-      Type        => 'MyString',    # OPTIONAL
+      Description => 'MyConstrainedString',    # OPTIONAL
+      Provider    => 'MyConstrainedString',    # OPTIONAL
+      Type        => 'MyConstrainedString',    # OPTIONAL
     );
 
     # Results:
@@ -66,7 +66,7 @@ The upload and download speed in Mbps.
 
 A description of the link.
 
-Length Constraints: Maximum length of 256 characters.
+Constraints: Maximum length of 256 characters.
 
 
 
@@ -86,7 +86,7 @@ The ID of the link.
 
 The provider of the link.
 
-Length Constraints: Maximum length of 128 characters.
+Constraints: Maximum length of 128 characters.
 
 
 
@@ -94,7 +94,7 @@ Length Constraints: Maximum length of 128 characters.
 
 The type of the link.
 
-Length Constraints: Maximum length of 128 characters.
+Constraints: Maximum length of 128 characters.
 
 
 

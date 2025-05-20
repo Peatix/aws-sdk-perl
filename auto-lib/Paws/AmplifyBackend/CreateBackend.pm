@@ -78,7 +78,7 @@ The name of the backend environment.
 
 =head2 ResourceConfig => L<Paws::AmplifyBackend::ResourceConfig>
 
-The resource configuration for the create backend request.
+The resource configuration for creating a backend.
 
 
 

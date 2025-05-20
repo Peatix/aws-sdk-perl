@@ -40,10 +40,10 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/sms
 =head2 RoleName => Str
 
 The name of the service role. If you omit this parameter, we create a
-service-linked role for AWS Migration Hub in your account. Otherwise,
-the role that you provide must have the policy and trust policy
+service-linked role for Migration Hub in your account. Otherwise, the
+role that you provide must have the policy and trust policy
 (https://docs.aws.amazon.com/migrationhub/latest/ug/new-customer-setup.html#sms-managed)
-described in the I<AWS Migration Hub User Guide>.
+described in the I<Migration Hub User Guide>.
 
 
 

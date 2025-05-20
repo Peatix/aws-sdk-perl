@@ -40,10 +40,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       LocaleId   => 'MyLocaleId',
       Filters    => [
         {
-          Name     => 'SlotTypeName',    # values: SlotTypeName
-          Operator => 'CO',              # values: CO, EQ
+          Name     => 'SlotTypeName', # values: SlotTypeName, ExternalSourceType
+          Operator => 'CO',           # values: CO, EQ
           Values   => [
-            'MyFilterValue', ...         # min: 1, max: 100
+            'MyFilterValue', ...      # min: 1, max: 100
           ],    # min: 1, max: 1
 
         },

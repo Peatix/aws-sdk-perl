@@ -50,8 +50,8 @@ Describes event subscriptions.
 
 =head2 CustomerAwsId => Str
 
-The AWS customer account associated with the Amazon Redshift event
-notification subscription.
+The Amazon Web Services account associated with the Amazon Redshift
+event notification subscription.
 
 
 =head2 CustSubscriptionId => Str
@@ -70,7 +70,7 @@ indicates that the subscription is enabled.
 The list of Amazon Redshift event categories specified in the event
 notification subscription.
 
-Values: Configuration, Management, Monitoring, Security
+Values: Configuration, Management, Monitoring, Security, Pending
 
 
 =head2 Severity => Str

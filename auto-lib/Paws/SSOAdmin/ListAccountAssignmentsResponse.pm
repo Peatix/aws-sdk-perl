@@ -17,8 +17,8 @@ Paws::SSOAdmin::ListAccountAssignmentsResponse
 
 =head2 AccountAssignments => ArrayRef[L<Paws::SSOAdmin::AccountAssignment>]
 
-The list of assignments that match the input AWS account and permission
-set.
+The list of assignments that match the input Amazon Web Services
+account and permission set.
 
 
 =head2 NextToken => Str

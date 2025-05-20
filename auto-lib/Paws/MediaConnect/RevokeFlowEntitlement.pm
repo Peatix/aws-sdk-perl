@@ -1,13 +1,13 @@
 
 package Paws::MediaConnect::RevokeFlowEntitlement;
   use Moose;
-  has EntitlementArn => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'entitlementArn', required => 1);
-  has FlowArn => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'flowArn', required => 1);
+  has EntitlementArn => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'EntitlementArn', required => 1);
+  has FlowArn => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'FlowArn', required => 1);
 
   use MooseX::ClassAttribute;
 
   class_has _api_call => (isa => 'Str', is => 'ro', default => 'RevokeFlowEntitlement');
-  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/v1/flows/{flowArn}/entitlements/{entitlementArn}');
+  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/v1/flows/{FlowArn}/entitlements/{EntitlementArn}');
   class_has _api_method  => (isa => 'Str', is => 'ro', default => 'DELETE');
   class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::MediaConnect::RevokeFlowEntitlementResponse');
 1;
@@ -30,8 +30,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $mediaconnect = Paws->service('MediaConnect');
     my $RevokeFlowEntitlementResponse = $mediaconnect->RevokeFlowEntitlement(
-      EntitlementArn => 'My__string',
-      FlowArn        => 'My__string',
+      EntitlementArn => 'MyRevokeFlowEntitlementRequestEntitlementArnString',
+      FlowArn        => 'MyRevokeFlowEntitlementRequestFlowArnString',
 
     );
 
@@ -49,7 +49,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/med
 
 =head2 B<REQUIRED> EntitlementArn => Str
 
-The ARN of the entitlement that you want to revoke.
+The Amazon Resource Name (ARN) of the entitlement that you want to
+revoke.
 
 
 

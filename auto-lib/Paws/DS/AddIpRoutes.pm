@@ -56,7 +56,7 @@ Identifier (ID) of the directory to which to add the address block.
 =head2 B<REQUIRED> IpRoutes => ArrayRef[L<Paws::DS::IpRoute>]
 
 IP address blocks, using CIDR format, of the traffic to route. This is
-often the IP address block of the DNS server used for your on-premises
+often the IP address block of the DNS server used for your self-managed
 domain.
 
 
@@ -64,8 +64,9 @@ domain.
 =head2 UpdateSecurityGroupForDirectoryControllers => Bool
 
 If set to true, updates the inbound and outbound rules of the security
-group that has the description: "AWS created security group for
-I<directory ID> directory controllers." Following are the new rules:
+group that has the description: "Amazon Web Services created security
+group for I<directory ID> directory controllers." Following are the new
+rules:
 
 Inbound:
 
@@ -73,73 +74,88 @@ Inbound:
 
 =item *
 
-Type: Custom UDP Rule, Protocol: UDP, Range: 88, Source: 0.0.0.0/0
+Type: Custom UDP Rule, Protocol: UDP, Range: 88, Source: Managed
+Microsoft AD VPC IPv4 CIDR
 
 =item *
 
-Type: Custom UDP Rule, Protocol: UDP, Range: 123, Source: 0.0.0.0/0
+Type: Custom UDP Rule, Protocol: UDP, Range: 123, Source: Managed
+Microsoft AD VPC IPv4 CIDR
 
 =item *
 
-Type: Custom UDP Rule, Protocol: UDP, Range: 138, Source: 0.0.0.0/0
+Type: Custom UDP Rule, Protocol: UDP, Range: 138, Source: Managed
+Microsoft AD VPC IPv4 CIDR
 
 =item *
 
-Type: Custom UDP Rule, Protocol: UDP, Range: 389, Source: 0.0.0.0/0
+Type: Custom UDP Rule, Protocol: UDP, Range: 389, Source: Managed
+Microsoft AD VPC IPv4 CIDR
 
 =item *
 
-Type: Custom UDP Rule, Protocol: UDP, Range: 464, Source: 0.0.0.0/0
+Type: Custom UDP Rule, Protocol: UDP, Range: 464, Source: Managed
+Microsoft AD VPC IPv4 CIDR
 
 =item *
 
-Type: Custom UDP Rule, Protocol: UDP, Range: 445, Source: 0.0.0.0/0
+Type: Custom UDP Rule, Protocol: UDP, Range: 445, Source: Managed
+Microsoft AD VPC IPv4 CIDR
 
 =item *
 
-Type: Custom TCP Rule, Protocol: TCP, Range: 88, Source: 0.0.0.0/0
+Type: Custom TCP Rule, Protocol: TCP, Range: 88, Source: Managed
+Microsoft AD VPC IPv4 CIDR
 
 =item *
 
-Type: Custom TCP Rule, Protocol: TCP, Range: 135, Source: 0.0.0.0/0
+Type: Custom TCP Rule, Protocol: TCP, Range: 135, Source: Managed
+Microsoft AD VPC IPv4 CIDR
 
 =item *
 
-Type: Custom TCP Rule, Protocol: TCP, Range: 445, Source: 0.0.0.0/0
+Type: Custom TCP Rule, Protocol: TCP, Range: 445, Source: Managed
+Microsoft AD VPC IPv4 CIDR
 
 =item *
 
-Type: Custom TCP Rule, Protocol: TCP, Range: 464, Source: 0.0.0.0/0
+Type: Custom TCP Rule, Protocol: TCP, Range: 464, Source: Managed
+Microsoft AD VPC IPv4 CIDR
 
 =item *
 
-Type: Custom TCP Rule, Protocol: TCP, Range: 636, Source: 0.0.0.0/0
+Type: Custom TCP Rule, Protocol: TCP, Range: 636, Source: Managed
+Microsoft AD VPC IPv4 CIDR
 
 =item *
 
 Type: Custom TCP Rule, Protocol: TCP, Range: 1024-65535, Source:
-0.0.0.0/0
+Managed Microsoft AD VPC IPv4 CIDR
 
 =item *
 
 Type: Custom TCP Rule, Protocol: TCP, Range: 3268-33269, Source:
-0.0.0.0/0
+Managed Microsoft AD VPC IPv4 CIDR
 
 =item *
 
-Type: DNS (UDP), Protocol: UDP, Range: 53, Source: 0.0.0.0/0
+Type: DNS (UDP), Protocol: UDP, Range: 53, Source: Managed Microsoft AD
+VPC IPv4 CIDR
 
 =item *
 
-Type: DNS (TCP), Protocol: TCP, Range: 53, Source: 0.0.0.0/0
+Type: DNS (TCP), Protocol: TCP, Range: 53, Source: Managed Microsoft AD
+VPC IPv4 CIDR
 
 =item *
 
-Type: LDAP, Protocol: TCP, Range: 389, Source: 0.0.0.0/0
+Type: LDAP, Protocol: TCP, Range: 389, Source: Managed Microsoft AD VPC
+IPv4 CIDR
 
 =item *
 
-Type: All ICMP, Protocol: All, Range: N/A, Source: 0.0.0.0/0
+Type: All ICMP, Protocol: All, Range: N/A, Source: Managed Microsoft AD
+VPC IPv4 CIDR
 
 =back
 

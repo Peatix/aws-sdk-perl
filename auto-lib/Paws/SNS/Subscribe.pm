@@ -72,6 +72,24 @@ every message published to the topic.
 
 =item *
 
+C<FilterPolicyScope> E<ndash> This attribute lets you choose the
+filtering scope by using one of the following string value types:
+
+=over
+
+=item *
+
+C<MessageAttributes> (default) E<ndash> The filter is applied on the
+message attributes.
+
+=item *
+
+C<MessageBody> E<ndash> The filter is applied on the message body.
+
+=back
+
+=item *
+
 C<RawMessageDelivery> E<ndash> When set to C<true>, enables raw message
 delivery to Amazon SQS or HTTP/S endpoints. This eliminates the need
 for the endpoints to process JSON formatting, which is otherwise
@@ -88,8 +106,8 @@ held in the dead-letter queue for further analysis or reprocessing.
 
 =back
 
-The following attribute applies only to Amazon Kinesis Data Firehose
-delivery stream subscriptions:
+The following attribute applies only to Amazon Data Firehose delivery
+stream subscriptions:
 
 =over
 
@@ -102,7 +120,7 @@ following:
 
 =item *
 
-Permission to write to the Kinesis Data Firehose delivery stream
+Permission to write to the Firehose delivery stream
 
 =item *
 
@@ -110,11 +128,53 @@ Amazon SNS listed as a trusted entity
 
 =back
 
-Specifying a valid ARN for this attribute is required for Kinesis Data
-Firehose delivery stream subscriptions. For more information, see
-Fanout to Kinesis Data Firehose delivery streams
+Specifying a valid ARN for this attribute is required for Firehose
+delivery stream subscriptions. For more information, see Fanout to
+Firehose delivery streams
 (https://docs.aws.amazon.com/sns/latest/dg/sns-firehose-as-subscriber.html)
 in the I<Amazon SNS Developer Guide>.
+
+=back
+
+The following attributes apply only to FIFO topics
+(https://docs.aws.amazon.com/sns/latest/dg/sns-fifo-topics.html):
+
+=over
+
+=item *
+
+C<ReplayPolicy> E<ndash> Adds or updates an inline policy document for
+a subscription to replay messages stored in the specified Amazon SNS
+topic.
+
+=item *
+
+C<ReplayStatus> E<ndash> Retrieves the status of the subscription
+message replay, which can be one of the following:
+
+=over
+
+=item *
+
+C<Completed> E<ndash> The replay has successfully redelivered all
+messages, and is now delivering newly published messages. If an ending
+point was specified in the C<ReplayPolicy> then the subscription will
+no longer receive newly published messages.
+
+=item *
+
+C<In progress> E<ndash> The replay is currently replaying the selected
+messages.
+
+=item *
+
+C<Failed> E<ndash> The replay was unable to complete.
+
+=item *
+
+C<Pending> E<ndash> The default state while the replay initiates.
+
+=back
 
 =back
 

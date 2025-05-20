@@ -35,6 +35,10 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::S3::Lifecyc
 
 Container for lifecycle rules. You can add as many as 1000 rules.
 
+For more information see, Managing your storage lifecycle
+(https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lifecycle-mgmt.html)
+in the I<Amazon S3 User Guide>.
+
 =head1 ATTRIBUTES
 
 

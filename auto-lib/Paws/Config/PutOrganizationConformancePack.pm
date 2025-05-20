@@ -71,7 +71,8 @@ A list of C<ConformancePackInputParameter> objects.
 
 =head2 DeliveryS3Bucket => Str
 
-Amazon S3 bucket where AWS Config stores conformance pack templates.
+The name of the Amazon S3 bucket where Config stores conformance pack
+templates.
 
 This field is optional. If used, it must be prefixed with
 C<awsconfigconforms>.
@@ -88,8 +89,8 @@ This field is optional.
 
 =head2 ExcludedAccounts => ArrayRef[Str|Undef]
 
-A list of AWS accounts to be excluded from an organization conformance
-pack while deploying a conformance pack.
+A list of Amazon Web Services accounts to be excluded from an
+organization conformance pack while deploying a conformance pack.
 
 
 
@@ -112,7 +113,11 @@ maximum length of 51,200 bytes.
 Location of file containing the template body. The uri must point to
 the conformance pack template (max size: 300 KB).
 
-You must have access to read Amazon S3 bucket.
+You must have access to read Amazon S3 bucket. In addition, in order to
+ensure a successful deployment, the template object must not be in an
+archived storage class
+(https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-class-intro.html)
+if this parameter is passed.
 
 
 

@@ -44,8 +44,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/iam
 
 =head2 B<REQUIRED> NewPassword => Str
 
-The new password. The new password must conform to the AWS account's
-password policy, if one exists.
+The new password. The new password must conform to the Amazon Web
+Services account's password policy, if one exists.
 
 The regex pattern (http://wikipedia.org/wiki/regex) that is used to
 validate this parameter is a string of characters. That string can
@@ -53,9 +53,9 @@ include almost any printable ASCII character from the space (C<\u0020>)
 through the end of the ASCII character range (C<\u00FF>). You can also
 include the tab (C<\u0009>), line feed (C<\u000A>), and carriage return
 (C<\u000D>) characters. Any of these characters are valid in a
-password. However, many tools, such as the AWS Management Console,
-might restrict the ability to type certain characters because they have
-special meaning within that tool.
+password. However, many tools, such as the Amazon Web Services
+Management Console, might restrict the ability to type certain
+characters because they have special meaning within that tool.
 
 
 

@@ -36,6 +36,10 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::RDSData::Re
 
 The result set returned by a SQL statement.
 
+This data structure is only used with the deprecated C<ExecuteSql>
+operation. Use the C<BatchExecuteStatement> or C<ExecuteStatement>
+operation instead.
+
 =head1 ATTRIBUTES
 
 

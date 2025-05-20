@@ -96,7 +96,8 @@ The output of a SageMaker Edge Manager deployable resource.
 
 =head2 ResourceKey => Str
 
-The CMK to use when encrypting the EBS volume the job run on.
+The Amazon Web Services KMS key to use when encrypting the EBS volume
+the job run on.
 
 
 =head2 RoleArn => Str

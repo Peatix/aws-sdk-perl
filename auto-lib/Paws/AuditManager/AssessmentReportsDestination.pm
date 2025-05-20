@@ -34,15 +34,15 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AuditManage
 
 =head1 DESCRIPTION
 
-The location in which AWS Audit Manager saves assessment reports for
-the given assessment.
+The location where Audit Manager saves assessment reports for the given
+assessment.
 
 =head1 ATTRIBUTES
 
 
 =head2 Destination => Str
 
-The destination of the assessment report.
+The destination bucket where Audit Manager stores assessment reports.
 
 
 =head2 DestinationType => Str

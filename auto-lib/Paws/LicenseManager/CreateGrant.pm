@@ -7,6 +7,7 @@ package Paws::LicenseManager::CreateGrant;
   has HomeRegion => (is => 'ro', isa => 'Str', required => 1);
   has LicenseArn => (is => 'ro', isa => 'Str', required => 1);
   has Principals => (is => 'ro', isa => 'ArrayRef[Str|Undef]', required => 1);
+  has Tags => (is => 'ro', isa => 'ArrayRef[Paws::LicenseManager::Tag]');
 
   use MooseX::ClassAttribute;
 
@@ -44,7 +45,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       Principals  => [
         'MyArn', ...    # max: 2048
       ],
-
+      Tags => [
+        {
+          Key   => 'MyString',
+          Value => 'MyString',
+        },
+        ...
+      ],    # OPTIONAL
     );
 
     # Results:
@@ -93,7 +100,44 @@ Amazon Resource Name (ARN) of the license.
 
 =head2 B<REQUIRED> Principals => ArrayRef[Str|Undef]
 
-The grant principals.
+The grant principals. You can specify one of the following as an Amazon
+Resource Name (ARN):
+
+=over
+
+=item *
+
+An Amazon Web Services account, which includes only the account
+specified.
+
+=back
+
+=over
+
+=item *
+
+An organizational unit (OU), which includes all accounts in the OU.
+
+=back
+
+=over
+
+=item *
+
+An organization, which will include all accounts across your
+organization.
+
+=back
+
+
+
+
+=head2 Tags => ArrayRef[L<Paws::LicenseManager::Tag>]
+
+Tags to add to the grant. For more information about tagging support in
+License Manager, see the TagResource
+(https://docs.aws.amazon.com/license-manager/latest/APIReference/API_TagResource.html)
+operation.
 
 
 

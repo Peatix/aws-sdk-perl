@@ -3,6 +3,8 @@ package Paws::SimpleWorkflow::RespondDecisionTaskCompleted;
   use Moose;
   has Decisions => (is => 'ro', isa => 'ArrayRef[Paws::SimpleWorkflow::Decision]', traits => ['NameInRequest'], request_name => 'decisions' );
   has ExecutionContext => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'executionContext' );
+  has TaskList => (is => 'ro', isa => 'Paws::SimpleWorkflow::TaskList', traits => ['NameInRequest'], request_name => 'taskList' );
+  has TaskListScheduleToStartTimeout => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'taskListScheduleToStartTimeout' );
   has TaskToken => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'taskToken' , required => 1);
 
   use MooseX::ClassAttribute;
@@ -153,6 +155,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ...
       ],    # OPTIONAL
       ExecutionContext => 'MyData',    # OPTIONAL
+      TaskList         => {
+        Name => 'MyName',              # min: 1, max: 256
+
+      },    # OPTIONAL
+      TaskListScheduleToStartTimeout =>
+        'MyDurationInSecondsOptional',    # OPTIONAL
     );
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
@@ -172,6 +180,31 @@ for details.
 =head2 ExecutionContext => Str
 
 User defined context to add to workflow execution.
+
+
+
+=head2 TaskList => L<Paws::SimpleWorkflow::TaskList>
+
+The task list to use for the future decision tasks of this workflow
+execution. This list overrides the original task list you specified
+while starting the workflow execution.
+
+
+
+=head2 TaskListScheduleToStartTimeout => Str
+
+Specifies a timeout (in seconds) for the task list override. When this
+parameter is missing, the task list override is permanent. This
+parameter makes it possible to temporarily override the task list. If a
+decision task scheduled on the override task list is not started within
+the timeout, the decision task will time out. Amazon SWF will revert
+the override and schedule a new decision task to the original task
+list.
+
+If a decision task scheduled on the override task list is started
+within the timeout, but not completed within the start-to-close
+timeout, Amazon SWF will also revert the override and schedule a new
+decision task to the original task list.
 
 
 

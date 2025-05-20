@@ -36,7 +36,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SageMaker::
 
 Represents an input or output artifact of a trial component. You
 specify C<TrialComponentArtifact> as part of the C<InputArtifacts> and
-C<OutputArtifacts> parameters in the CreateTrialComponent request.
+C<OutputArtifacts> parameters in the CreateTrialComponent
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrialComponent.html)
+request.
 
 Examples of input artifacts are datasets, algorithms, hyperparameters,
 source code, and instance types. Examples of output artifacts are

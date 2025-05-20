@@ -5,6 +5,7 @@ package Paws::ECS::CreateCluster;
   has ClusterName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'clusterName' );
   has Configuration => (is => 'ro', isa => 'Paws::ECS::ClusterConfiguration', traits => ['NameInRequest'], request_name => 'configuration' );
   has DefaultCapacityProviderStrategy => (is => 'ro', isa => 'ArrayRef[Paws::ECS::CapacityProviderStrategyItem]', traits => ['NameInRequest'], request_name => 'defaultCapacityProviderStrategy' );
+  has ServiceConnectDefaults => (is => 'ro', isa => 'Paws::ECS::ClusterServiceConnectDefaultsRequest', traits => ['NameInRequest'], request_name => 'serviceConnectDefaults' );
   has Settings => (is => 'ro', isa => 'ArrayRef[Paws::ECS::ClusterSetting]', traits => ['NameInRequest'], request_name => 'settings' );
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::ECS::Tag]', traits => ['NameInRequest'], request_name => 'tags' );
 
@@ -54,28 +55,35 @@ The short name of one or more capacity providers to associate with the
 cluster. A capacity provider must be associated with a cluster before
 it can be included as part of the default capacity provider strategy of
 the cluster or used in a capacity provider strategy when calling the
-CreateService or RunTask actions.
+CreateService
+(https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateService.html)
+or RunTask
+(https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_RunTask.html)
+actions.
 
 If specifying a capacity provider that uses an Auto Scaling group, the
-capacity provider must already be created and not already associated
-with another cluster. New Auto Scaling group capacity providers can be
-created with the CreateCapacityProvider API operation.
+capacity provider must be created but not associated with another
+cluster. New Auto Scaling group capacity providers can be created with
+the CreateCapacityProvider
+(https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateCapacityProvider.html)
+API operation.
 
-To use a AWS Fargate capacity provider, specify either the C<FARGATE>
-or C<FARGATE_SPOT> capacity providers. The AWS Fargate capacity
-providers are available to all accounts and only need to be associated
-with a cluster to be used.
+To use a Fargate capacity provider, specify either the C<FARGATE> or
+C<FARGATE_SPOT> capacity providers. The Fargate capacity providers are
+available to all accounts and only need to be associated with a cluster
+to be used.
 
-The PutClusterCapacityProviders API operation is used to update the
-list of available capacity providers for a cluster after the cluster is
-created.
+The PutCapacityProvider
+(https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_PutCapacityProvider.html)
+API operation is used to update the list of available capacity
+providers for a cluster after the cluster is created.
 
 
 
 =head2 ClusterName => Str
 
-The name of your cluster. If you do not specify a name for your
-cluster, you create a cluster named C<default>. Up to 255 letters
+The name of your cluster. If you don't specify a name for your cluster,
+you create a cluster that's named C<default>. Up to 255 letters
 (uppercase and lowercase), numbers, underscores, and hyphens are
 allowed.
 
@@ -83,38 +91,68 @@ allowed.
 
 =head2 Configuration => L<Paws::ECS::ClusterConfiguration>
 
-The execute command configuration for the cluster.
+The C<execute> command configuration for the cluster.
 
 
 
 =head2 DefaultCapacityProviderStrategy => ArrayRef[L<Paws::ECS::CapacityProviderStrategyItem>]
 
 The capacity provider strategy to set as the default for the cluster.
-When a default capacity provider strategy is set for a cluster, when
-calling the RunTask or CreateService APIs wtih no capacity provider
-strategy or launch type specified, the default capacity provider
-strategy for the cluster is used.
+After a default capacity provider strategy is set for a cluster, when
+you call the CreateService
+(https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateService.html)
+or RunTask
+(https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_RunTask.html)
+APIs with no capacity provider strategy or launch type specified, the
+default capacity provider strategy for the cluster is used.
 
-If a default capacity provider strategy is not defined for a cluster
-during creation, it can be defined later with the
-PutClusterCapacityProviders API operation.
+If a default capacity provider strategy isn't defined for a cluster
+when it was created, it can be defined later with the
+PutClusterCapacityProviders
+(https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_PutClusterCapacityProviders.html)
+API operation.
+
+
+
+=head2 ServiceConnectDefaults => L<Paws::ECS::ClusterServiceConnectDefaultsRequest>
+
+Use this parameter to set a default Service Connect namespace. After
+you set a default Service Connect namespace, any new services with
+Service Connect turned on that are created in the cluster are added as
+client services in the namespace. This setting only applies to new
+services that set the C<enabled> parameter to C<true> in the
+C<ServiceConnectConfiguration>. You can set the namespace of each
+service individually in the C<ServiceConnectConfiguration> to override
+this default parameter.
+
+Tasks that run in a namespace can use short names to connect to
+services in the namespace. Tasks can connect to services across all of
+the clusters in the namespace. Tasks connect through a managed proxy
+container that collects logs and metrics for increased visibility. Only
+the tasks that Amazon ECS services create are supported with Service
+Connect. For more information, see Service Connect
+(https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html)
+in the I<Amazon Elastic Container Service Developer Guide>.
 
 
 
 =head2 Settings => ArrayRef[L<Paws::ECS::ClusterSetting>]
 
 The setting to use when creating a cluster. This parameter is used to
-enable CloudWatch Container Insights for a cluster. If this value is
-specified, it will override the C<containerInsights> value set with
-PutAccountSetting or PutAccountSettingDefault.
+turn on CloudWatch Container Insights for a cluster. If this value is
+specified, it overrides the C<containerInsights> value set with
+PutAccountSetting
+(https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_PutAccountSetting.html)
+or PutAccountSettingDefault
+(https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_PutAccountSettingDefault.html).
 
 
 
 =head2 Tags => ArrayRef[L<Paws::ECS::Tag>]
 
 The metadata that you apply to the cluster to help you categorize and
-organize them. Each tag consists of a key and an optional value, both
-of which you define.
+organize them. Each tag consists of a key and an optional value. You
+define both.
 
 The following basic restrictions apply to tags:
 
@@ -152,10 +190,10 @@ Tag keys and values are case-sensitive.
 =item *
 
 Do not use C<aws:>, C<AWS:>, or any upper or lowercase combination of
-such as a prefix for either keys or values as it is reserved for AWS
-use. You cannot edit or delete tag keys or values with this prefix.
-Tags with this prefix do not count against your tags per resource
-limit.
+such as a prefix for either keys or values as it is reserved for Amazon
+Web Services use. You cannot edit or delete tag keys or values with
+this prefix. Tags with this prefix do not count against your tags per
+resource limit.
 
 =back
 

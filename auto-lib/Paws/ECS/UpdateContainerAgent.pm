@@ -55,8 +55,7 @@ the default cluster is assumed.
 =head2 B<REQUIRED> ContainerInstance => Str
 
 The container instance ID or full ARN entries for the container
-instance on which you would like to update the Amazon ECS container
-agent.
+instance where you would like to update the Amazon ECS container agent.
 
 
 

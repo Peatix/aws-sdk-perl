@@ -3,12 +3,15 @@ package Paws::SageMaker::Workforce;
   use Moose;
   has CognitoConfig => (is => 'ro', isa => 'Paws::SageMaker::CognitoConfig');
   has CreateDate => (is => 'ro', isa => 'Str');
+  has FailureReason => (is => 'ro', isa => 'Str');
   has LastUpdatedDate => (is => 'ro', isa => 'Str');
   has OidcConfig => (is => 'ro', isa => 'Paws::SageMaker::OidcConfigForResponse');
   has SourceIpConfig => (is => 'ro', isa => 'Paws::SageMaker::SourceIpConfig');
+  has Status => (is => 'ro', isa => 'Str');
   has SubDomain => (is => 'ro', isa => 'Str');
   has WorkforceArn => (is => 'ro', isa => 'Str', required => 1);
   has WorkforceName => (is => 'ro', isa => 'Str', required => 1);
+  has WorkforceVpcConfig => (is => 'ro', isa => 'Paws::SageMaker::WorkforceVpcConfigResponse');
 
 1;
 
@@ -29,7 +32,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::SageMaker::Workforce object:
 
-  $service_obj->Method(Att1 => { CognitoConfig => $value, ..., WorkforceName => $value  });
+  $service_obj->Method(Att1 => { CognitoConfig => $value, ..., WorkforceVpcConfig => $value  });
 
 =head3 Results returned from an API call
 
@@ -64,10 +67,16 @@ user pool
 The date that the workforce is created.
 
 
+=head2 FailureReason => Str
+
+The reason your workforce failed.
+
+
 =head2 LastUpdatedDate => Str
 
-The most recent date that was used to successfully add one or more IP
-address ranges (CIDRs
+The most recent date that UpdateWorkforce
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_UpdateWorkforce.html)
+was used to successfully add one or more IP address ranges (CIDRs
 (https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html)) to
 a private workforce's allow list.
 
@@ -85,6 +94,11 @@ be added to the workforce allow list. By default, a workforce isn't
 restricted to specific IP addresses.
 
 
+=head2 Status => Str
+
+The status of your workforce.
+
+
 =head2 SubDomain => Str
 
 The subdomain for your OIDC Identity Provider.
@@ -98,6 +112,11 @@ The Amazon Resource Name (ARN) of the private workforce.
 =head2 B<REQUIRED> WorkforceName => Str
 
 The name of the private workforce.
+
+
+=head2 WorkforceVpcConfig => L<Paws::SageMaker::WorkforceVpcConfigResponse>
+
+The configuration of a VPC workforce.
 
 
 

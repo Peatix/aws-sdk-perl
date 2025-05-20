@@ -1,6 +1,7 @@
 
 package Paws::SESv2::GetConfigurationSetResponse;
   use Moose;
+  has ArchivingOptions => (is => 'ro', isa => 'Paws::SESv2::ArchivingOptions');
   has ConfigurationSetName => (is => 'ro', isa => 'Str');
   has DeliveryOptions => (is => 'ro', isa => 'Paws::SESv2::DeliveryOptions');
   has ReputationOptions => (is => 'ro', isa => 'Paws::SESv2::ReputationOptions');
@@ -8,6 +9,7 @@ package Paws::SESv2::GetConfigurationSetResponse;
   has SuppressionOptions => (is => 'ro', isa => 'Paws::SESv2::SuppressionOptions');
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::SESv2::Tag]');
   has TrackingOptions => (is => 'ro', isa => 'Paws::SESv2::TrackingOptions');
+  has VdmOptions => (is => 'ro', isa => 'Paws::SESv2::VdmOptions');
 
   has _request_id => (is => 'ro', isa => 'Str');
 1;
@@ -19,6 +21,12 @@ package Paws::SESv2::GetConfigurationSetResponse;
 Paws::SESv2::GetConfigurationSetResponse
 
 =head1 ATTRIBUTES
+
+
+=head2 ArchivingOptions => L<Paws::SESv2::ArchivingOptions>
+
+An object that defines the MailManager archive where sent emails are
+archived that you send using the configuration set.
 
 
 =head2 ConfigurationSetName => Str
@@ -60,6 +68,12 @@ associated with the configuration set.
 
 An object that defines the open and click tracking options for emails
 that you send using the configuration set.
+
+
+=head2 VdmOptions => L<Paws::SESv2::VdmOptions>
+
+An object that contains information about the VDM preferences for your
+configuration set.
 
 
 =head2 _request_id => Str

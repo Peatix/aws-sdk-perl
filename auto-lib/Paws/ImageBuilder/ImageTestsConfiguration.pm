@@ -34,19 +34,25 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ImageBuilde
 
 =head1 DESCRIPTION
 
-Image tests configuration.
+Configure image tests for your pipeline build. Tests run after building
+the image, to verify that the AMI or container image is valid before
+distributing it.
 
 =head1 ATTRIBUTES
 
 
 =head2 ImageTestsEnabled => Bool
 
-Defines if tests should be executed when building this image.
+Determines if tests should run after building the image. Image Builder
+defaults to enable tests to run following the image build, before image
+distribution.
 
 
 =head2 TimeoutMinutes => Int
 
 The maximum time in minutes that tests are permitted to run.
+
+The timeout property is not currently active. This value is ignored.
 
 
 

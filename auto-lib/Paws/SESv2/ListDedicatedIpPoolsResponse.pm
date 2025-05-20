@@ -19,7 +19,7 @@ Paws::SESv2::ListDedicatedIpPoolsResponse
 =head2 DedicatedIpPools => ArrayRef[Str|Undef]
 
 A list of all of the dedicated IP pools that are associated with your
-AWS account in the current Region.
+Amazon Web Services account in the current Region.
 
 
 =head2 NextToken => Str

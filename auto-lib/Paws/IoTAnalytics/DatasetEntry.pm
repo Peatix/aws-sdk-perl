@@ -34,19 +34,19 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::IoTAnalytic
 
 =head1 DESCRIPTION
 
-The reference to a data set entry.
+The reference to a dataset entry.
 
 =head1 ATTRIBUTES
 
 
 =head2 DataURI => Str
 
-The presigned URI of the data set item.
+The presigned URI of the dataset item.
 
 
 =head2 EntryName => Str
 
-The name of the data set item.
+The name of the dataset item.
 
 
 

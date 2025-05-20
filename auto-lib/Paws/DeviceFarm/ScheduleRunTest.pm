@@ -65,21 +65,6 @@ default. Set this parameter to false to disable it.
 
 =back
 
-For Calabash tests:
-
-=over
-
-=item *
-
-profile: A cucumber profile (for example, C<my_profile_name>).
-
-=item *
-
-tags: You can limit execution to features or scenarios that have (or
-don't have) certain tags (for example, @smoke or @smoke,~@wip).
-
-=back
-
 For Appium tests (all types):
 
 =over
@@ -127,22 +112,6 @@ should wait between events.
 
 seed: A seed to use for randomizing the UI fuzz test. Using the same
 seed value between tests ensures identical event sequences.
-
-=back
-
-For Explorer tests:
-
-=over
-
-=item *
-
-username: A user name to use if the Explorer encounters a login form.
-If not supplied, no user name is inserted.
-
-=item *
-
-password: A password to use if the Explorer encounters a login form. If
-not supplied, no password is inserted.
 
 =back
 
@@ -202,32 +171,6 @@ Running multiple tests: C<LoginTests/testValid,LoginTests/testInvalid>
 
 =back
 
-For UIAutomator:
-
-=over
-
-=item *
-
-filter: A test filter string. Examples:
-
-=over
-
-=item *
-
-Running a single test case: C<com.android.abc.Test1>
-
-=item *
-
-Running a single test: C<com.android.abc.Test1#smoke>
-
-=item *
-
-Running multiple tests: C<com.android.abc.Test1,com.android.abc.Test2>
-
-=back
-
-=back
-
 
 
 =head2 TestPackageArn => Str
@@ -251,12 +194,6 @@ Must be one of the following values:
 =item *
 
 BUILTIN_FUZZ
-
-=item *
-
-BUILTIN_EXPLORER. For Android, an app explorer that traverses an
-Android app, interacting with it and capturing screenshots at the same
-time.
 
 =item *
 
@@ -300,19 +237,7 @@ APPIUM_WEB_RUBY
 
 =item *
 
-CALABASH
-
-=item *
-
 INSTRUMENTATION
-
-=item *
-
-UIAUTOMATION
-
-=item *
-
-UIAUTOMATOR
 
 =item *
 

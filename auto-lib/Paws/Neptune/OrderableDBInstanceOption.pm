@@ -16,6 +16,7 @@ package Paws::Neptune::OrderableDBInstanceOption;
   has ReadReplicaCapable => (is => 'ro', isa => 'Bool');
   has StorageType => (is => 'ro', isa => 'Str');
   has SupportsEnhancedMonitoring => (is => 'ro', isa => 'Bool');
+  has SupportsGlobalDatabases => (is => 'ro', isa => 'Bool');
   has SupportsIAMDatabaseAuthentication => (is => 'ro', isa => 'Bool');
   has SupportsIops => (is => 'ro', isa => 'Bool');
   has SupportsPerformanceInsights => (is => 'ro', isa => 'Bool');
@@ -127,13 +128,20 @@ Indicates whether a DB instance can have a Read Replica.
 
 =head2 StorageType => Str
 
-Indicates the storage type for a DB instance.
+Not applicable. In Neptune the storage type is managed at the DB
+Cluster level.
 
 
 =head2 SupportsEnhancedMonitoring => Bool
 
 Indicates whether a DB instance supports Enhanced Monitoring at
 intervals from 1 to 60 seconds.
+
+
+=head2 SupportsGlobalDatabases => Bool
+
+A value that indicates whether you can use Neptune global databases
+with a specific combination of other DB engine attributes.
 
 
 =head2 SupportsIAMDatabaseAuthentication => Bool

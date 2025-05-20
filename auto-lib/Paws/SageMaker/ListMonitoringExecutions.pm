@@ -151,8 +151,8 @@ Filter for jobs scheduled before a specified time.
 
 =head2 SortBy => Str
 
-Whether to sort results by C<Status>, C<CreationTime>, C<ScheduledTime>
-field. The default is C<CreationTime>.
+Whether to sort the results by the C<Status>, C<CreationTime>, or
+C<ScheduledTime> field. The default is C<CreationTime>.
 
 Valid values are: C<"CreationTime">, C<"ScheduledTime">, C<"Status">
 

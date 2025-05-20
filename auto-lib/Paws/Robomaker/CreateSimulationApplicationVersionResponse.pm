@@ -2,6 +2,7 @@
 package Paws::Robomaker::CreateSimulationApplicationVersionResponse;
   use Moose;
   has Arn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'arn');
+  has Environment => (is => 'ro', isa => 'Paws::Robomaker::Environment', traits => ['NameInRequest'], request_name => 'environment');
   has LastUpdatedAt => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'lastUpdatedAt');
   has Name => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'name');
   has RenderingEngine => (is => 'ro', isa => 'Paws::Robomaker::RenderingEngine', traits => ['NameInRequest'], request_name => 'renderingEngine');
@@ -28,6 +29,12 @@ Paws::Robomaker::CreateSimulationApplicationVersionResponse
 The Amazon Resource Name (ARN) of the simulation application.
 
 
+=head2 Environment => L<Paws::Robomaker::Environment>
+
+The object that contains the Docker image URI used to create the
+simulation application.
+
+
 =head2 LastUpdatedAt => Str
 
 The time, in milliseconds since the epoch, when the simulation
@@ -51,7 +58,7 @@ The revision ID of the simulation application.
 
 =head2 RobotSoftwareSuite => L<Paws::Robomaker::RobotSoftwareSuite>
 
-Information about the robot software suite (ROS distribution).
+Information about the robot software suite.
 
 
 =head2 SimulationSoftwareSuite => L<Paws::Robomaker::SimulationSoftwareSuite>

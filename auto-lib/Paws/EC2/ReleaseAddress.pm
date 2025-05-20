@@ -48,7 +48,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ec2
 
 =head2 AllocationId => Str
 
-[EC2-VPC] The allocation ID. Required for EC2-VPC.
+The allocation ID. This parameter is required.
 
 
 
@@ -64,23 +64,16 @@ C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
 =head2 NetworkBorderGroup => Str
 
 The set of Availability Zones, Local Zones, or Wavelength Zones from
-which AWS advertises IP addresses.
+which Amazon Web Services advertises IP addresses.
 
-If you provide an incorrect network border group, you will receive an
-C<InvalidAddress.NotFound> error. For more information, see Error Codes
-(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/errors-overview.html).
-
-You cannot use a network border group with EC2 Classic. If you attempt
-this operation on EC2 classic, you will receive an
-C<InvalidParameterCombination> error. For more information, see Error
-Codes
-(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/errors-overview.html).
+If you provide an incorrect network border group, you receive an
+C<InvalidAddress.NotFound> error.
 
 
 
 =head2 PublicIp => Str
 
-[EC2-Classic] The Elastic IP address. Required for EC2-Classic.
+Deprecated.
 
 
 

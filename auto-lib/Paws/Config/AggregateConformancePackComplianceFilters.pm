@@ -44,12 +44,13 @@ compliance type, and the name of the conformance pack.
 
 =head2 AccountId => Str
 
-The 12-digit AWS account ID of the source account.
+The 12-digit Amazon Web Services account ID of the source account.
 
 
 =head2 AwsRegion => Str
 
-The source AWS Region from where the data is aggregated.
+The source Amazon Web Services Region from where the data is
+aggregated.
 
 
 =head2 ComplianceType => Str

@@ -6,6 +6,7 @@ package Paws::PerformanceInsights::GetResourceMetrics;
   has MaxResults => (is => 'ro', isa => 'Int');
   has MetricQueries => (is => 'ro', isa => 'ArrayRef[Paws::PerformanceInsights::MetricQuery]', required => 1);
   has NextToken => (is => 'ro', isa => 'Str');
+  has PeriodAlignment => (is => 'ro', isa => 'Str');
   has PeriodInSeconds => (is => 'ro', isa => 'Int');
   has ServiceType => (is => 'ro', isa => 'Str', required => 1);
   has StartTime => (is => 'ro', isa => 'Str', required => 1);
@@ -36,20 +37,20 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $pi = Paws->service('PerformanceInsights');
     my $GetResourceMetricsResponse = $pi->GetResourceMetrics(
       EndTime       => '1970-01-01T01:00:00',
-      Identifier    => 'MyRequestString',
+      Identifier    => 'MyIdentifierString',
       MetricQueries => [
         {
-          Metric => 'MyRequestString',    # max: 256
+          Metric => 'MySanitizedString',    # max: 256
           Filter => {
-            'MyRequestString' =>
-              'MyRequestString',          # key: max: 256, value: max: 256
+            'MySanitizedString' =>
+              'MyRequestString',            # key: max: 256, value: max: 256
           },    # OPTIONAL
           GroupBy => {
-            Group      => 'MyRequestString',    # max: 256
+            Group      => 'MySanitizedString',    # max: 256
             Dimensions => [
-              'MyRequestString', ...            # max: 256
+              'MySanitizedString', ...            # max: 256
             ],    # min: 1, max: 10; OPTIONAL
-            Limit => 1,    # min: 1, max: 10; OPTIONAL
+            Limit => 1,    # min: 1, max: 25; OPTIONAL
           },    # OPTIONAL
         },
         ...
@@ -58,6 +59,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       StartTime       => '1970-01-01T01:00:00',
       MaxResults      => 1,                       # OPTIONAL
       NextToken       => 'MyNextToken',           # OPTIONAL
+      PeriodAlignment => 'END_TIME',              # OPTIONAL
       PeriodInSeconds => 1,                       # OPTIONAL
     );
 
@@ -78,9 +80,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/pi/
 
 =head2 B<REQUIRED> EndTime => Str
 
-The date and time specifying the end of the requested time series data.
-The value specified is I<exclusive> - data points less than (but not
-equal to) C<EndTime> will be returned.
+The date and time specifying the end of the requested time series query
+range. The value specified is I<exclusive>. Thus, the command returns
+data points less than (but not equal to) C<EndTime>.
 
 The value for C<EndTime> must be later than the value for C<StartTime>.
 
@@ -88,28 +90,31 @@ The value for C<EndTime> must be later than the value for C<StartTime>.
 
 =head2 B<REQUIRED> Identifier => Str
 
-An immutable, AWS Region-unique identifier for a data source.
-Performance Insights gathers metrics from this data source.
+An immutable identifier for a data source that is unique for an Amazon
+Web Services Region. Performance Insights gathers metrics from this
+data source. In the console, the identifier is shown as I<ResourceID>.
+When you call C<DescribeDBInstances>, the identifier is returned as
+C<DbiResourceId>.
 
 To use a DB instance as a data source, specify its C<DbiResourceId>
-value. For example, specify C<db-FAIHNTYBKTGAUSUZQYPDS2GW4A>.
+value. For example, specify C<db-ABCDEFGHIJKLMNOPQRSTU1VW2X>.
 
 
 
 =head2 MaxResults => Int
 
-The maximum number of items to return in the response. If more items
-exist than the specified C<MaxRecords> value, a pagination token is
-included in the response so that the remaining results can be
-retrieved.
+The maximum number of items to return in the response.
 
 
 
 =head2 B<REQUIRED> MetricQueries => ArrayRef[L<Paws::PerformanceInsights::MetricQuery>]
 
 An array of one or more queries to perform. Each query must specify a
-Performance Insights metric, and can optionally specify aggregation and
-filtering criteria.
+Performance Insights metric and specify an aggregate function, and you
+can provide filtering criteria. You must append the aggregate function
+to the metric. For example, to find the average for the metric
+C<db.load> you must use C<db.load.avg>. Valid values for aggregate
+functions include C<.avg>, C<.min>, C<.max>, and C<.sum>.
 
 
 
@@ -120,6 +125,13 @@ parameter is specified, the response includes only records beyond the
 token, up to the value specified by C<MaxRecords>.
 
 
+
+=head2 PeriodAlignment => Str
+
+The returned timestamp which is the start or end time of the time
+periods. The default value is C<END_TIME>.
+
+Valid values are: C<"END_TIME">, C<"START_TIME">
 
 =head2 PeriodInSeconds => Int
 
@@ -159,17 +171,32 @@ points in the response.
 
 =head2 B<REQUIRED> ServiceType => Str
 
-The AWS service for which Performance Insights returns metrics. The
-only valid value for I<ServiceType> is C<RDS>.
+The Amazon Web Services service for which Performance Insights returns
+metrics. Valid values are as follows:
 
-Valid values are: C<"RDS">
+=over
+
+=item *
+
+C<RDS>
+
+=item *
+
+C<DOCDB>
+
+=back
+
+
+Valid values are: C<"RDS">, C<"DOCDB">
 
 =head2 B<REQUIRED> StartTime => Str
 
 The date and time specifying the beginning of the requested time series
-data. You can't specify a C<StartTime> that's earlier than 7 days ago.
-The value specified is I<inclusive> - data points equal to or greater
-than C<StartTime> will be returned.
+query range. You can't specify a C<StartTime> that is earlier than 7
+days ago. By default, Performance Insights has 7 days of retention, but
+you can extend this range up to 2 years. The value specified is
+I<inclusive>. Thus, the command returns data points equal to or greater
+than C<StartTime>.
 
 The value for C<StartTime> must be earlier than the value for
 C<EndTime>.

@@ -1,6 +1,7 @@
 
 package Paws::IoTSiteWise::BatchPutAssetPropertyValue;
   use Moose;
+  has EnablePartialEntryProcessing => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'enablePartialEntryProcessing');
   has Entries => (is => 'ro', isa => 'ArrayRef[Paws::IoTSiteWise::PutAssetPropertyValueEntry]', traits => ['NameInRequest'], request_name => 'entries', required => 1);
 
   use MooseX::ClassAttribute;
@@ -36,14 +37,18 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           PropertyValues => [
             {
               Timestamp => {
-                TimeInSeconds => 1,    # min: 1, max: 31556889864403199
+                TimeInSeconds => 1,    # min: 1, max: 9223372036854774
                 OffsetInNanos => 1,    # max: 999999999; OPTIONAL
               },
               Value => {
-                BooleanValue => 1,                               # OPTIONAL
-                DoubleValue  => 1,                               # OPTIONAL
-                IntegerValue => 1,                               # OPTIONAL
-                StringValue  => 'MyPropertyValueStringValue',    # OPTIONAL
+                BooleanValue => 1,     # OPTIONAL
+                DoubleValue  => 1,     # OPTIONAL
+                IntegerValue => 1,     # OPTIONAL
+                NullValue    => {
+                  ValueType => 'D',    # values: D, B, S, I, U
+
+                },    # OPTIONAL
+                StringValue => 'MyPropertyValueStringValue',    # OPTIONAL
               },
               Quality => 'GOOD',    # values: GOOD, BAD, UNCERTAIN; OPTIONAL
             },
@@ -55,7 +60,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },
         ...
       ],
-
+      EnablePartialEntryProcessing => 1,           # OPTIONAL
       );
 
     # Results:
@@ -67,6 +72,15 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/iotsitewise/BatchPutAssetPropertyValue>
 
 =head1 ATTRIBUTES
+
+
+=head2 EnablePartialEntryProcessing => Bool
+
+This setting enables partial ingestion at entry-level. If set to
+C<true>, we ingest all TQVs not resulting in an error. If set to
+C<false>, an invalid TQV fails ingestion of the entire entry that
+contains it.
+
 
 
 =head2 B<REQUIRED> Entries => ArrayRef[L<Paws::IoTSiteWise::PutAssetPropertyValueEntry>]

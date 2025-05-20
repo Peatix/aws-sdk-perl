@@ -48,7 +48,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/rou
 =head2 B<REQUIRED> DomainName => Str
 
 The name of the domain for which you want to cancel the transfer to
-another AWS account.
+another Amazon Web Services account.
 
 
 

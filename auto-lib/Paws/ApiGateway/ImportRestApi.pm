@@ -47,6 +47,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $MinimumCompressionSize    = $RestApi->MinimumCompressionSize;
     my $Name                      = $RestApi->Name;
     my $Policy                    = $RestApi->Policy;
+    my $RootResourceId            = $RestApi->RootResourceId;
     my $Tags                      = $RestApi->Tags;
     my $Version                   = $RestApi->Version;
     my $Warnings                  = $RestApi->Warnings;
@@ -61,9 +62,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 B<REQUIRED> Body => Str
 
-[Required] The POST request body containing external API definitions.
-Currently, only OpenAPI definition JSON/YAML files are supported. The
-maximum size of the API definition file is 6MB.
+The POST request body containing external API definitions. Currently,
+only OpenAPI definition JSON/YAML files are supported. The maximum size
+of the API definition file is 6MB.
 
 
 
@@ -92,16 +93,6 @@ C<EDGE>.
 
 To handle imported C<basepath>, set C<parameters> as
 C<basepath=ignore>, C<basepath=prepend> or C<basepath=split>.
-
-For example, the AWS CLI command to exclude documentation from the
-imported API is:
-
- aws apigateway import-rest-api --parameters ignore=documentation --body 'file:///path/to/imported-api-body.json'
-
-The AWS CLI command to set the regional endpoint on the imported API
-is:
-
- aws apigateway import-rest-api --parameters endpointConfigurationTypes=REGIONAL --body 'file:///path/to/imported-api-body.json'
 
 
 

@@ -45,6 +45,8 @@ intervals. A bandwidth rate limit interval defines a period of time on
 one or more days of the week, during which bandwidth rate limits are
 specified for uploading, downloading, or both.
 
+FSx File Gateway does not support this feature.
+
 =head1 ATTRIBUTES
 
 
@@ -54,12 +56,19 @@ The average download rate limit component of the bandwidth rate limit
 interval, in bits per second. This field does not appear in the
 response if the download rate limit is not set.
 
+S3 File Gateway does not support this feature.
+
 
 =head2 AverageUploadRateLimitInBitsPerSec => Int
 
 The average upload rate limit component of the bandwidth rate limit
 interval, in bits per second. This field does not appear in the
 response if the upload rate limit is not set.
+
+For Tape Gateway and Volume Gateway, the minimum value is C<51200>.
+
+This field is required for S3 File Gateway, and the minimum value is
+C<104857600>.
 
 
 =head2 B<REQUIRED> DaysOfWeek => ArrayRef[Int]

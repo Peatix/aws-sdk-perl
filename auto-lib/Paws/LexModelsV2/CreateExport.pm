@@ -44,6 +44,16 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           LocaleId   => 'MyLocaleId',
 
         },    # OPTIONAL
+        CustomVocabularyExportSpecification => {
+          BotId      => 'MyId',            # min: 10, max: 10
+          BotVersion => 'MyBotVersion',    # min: 1, max: 5
+          LocaleId   => 'MyLocaleId',
+
+        },    # OPTIONAL
+        TestSetExportSpecification => {
+          TestSetId => 'MyId',    # min: 10, max: 10
+
+        },    # OPTIONAL
       },
       FilePassword => 'MyImportExportFilePassword',    # OPTIONAL
     );
@@ -67,7 +77,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/mod
 
 The file format of the bot or bot locale definition files.
 
-Valid values are: C<"LexJson">
+Valid values are: C<"LexJson">, C<"TSV">, C<"CSV">
 
 =head2 FilePassword => Str
 

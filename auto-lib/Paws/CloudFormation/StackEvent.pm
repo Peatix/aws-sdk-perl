@@ -2,7 +2,13 @@
 package Paws::CloudFormation::StackEvent;
   use Moose;
   has ClientRequestToken => (is => 'ro', isa => 'Str');
+  has DetailedStatus => (is => 'ro', isa => 'Str');
   has EventId => (is => 'ro', isa => 'Str', required => 1);
+  has HookFailureMode => (is => 'ro', isa => 'Str');
+  has HookInvocationPoint => (is => 'ro', isa => 'Str');
+  has HookStatus => (is => 'ro', isa => 'Str');
+  has HookStatusReason => (is => 'ro', isa => 'Str');
+  has HookType => (is => 'ro', isa => 'Str');
   has LogicalResourceId => (is => 'ro', isa => 'Str');
   has PhysicalResourceId => (is => 'ro', isa => 'Str');
   has ResourceProperties => (is => 'ro', isa => 'Str');
@@ -67,9 +73,78 @@ token in the following format:
 C<Console-CreateStack-7f59c3cf-00d2-40c7-b2ff-e75db0987002>.
 
 
+=head2 DetailedStatus => Str
+
+An optional field containing information about the detailed status of
+the stack event.
+
+=over
+
+=item *
+
+C<CONFIGURATION_COMPLETE> - all of the resources in the stack have
+reached that event. For more information, see Understand CloudFormation
+stack creation events
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stack-resource-configuration-complete.html)
+in the I<CloudFormation User Guide>.
+
+=back
+
+=over
+
+=item *
+
+C<VALIDATION_FAILED> - template validation failed because of invalid
+properties in the template. The C<ResourceStatusReason> field shows
+what properties are defined incorrectly.
+
+=back
+
+
+
 =head2 B<REQUIRED> EventId => Str
 
 The unique ID of this event.
+
+
+=head2 HookFailureMode => Str
+
+Specify the hook failure mode for non-compliant resources in the
+followings ways.
+
+=over
+
+=item *
+
+C<FAIL> Stops provisioning resources.
+
+=item *
+
+C<WARN> Allows provisioning to continue with a warning message.
+
+=back
+
+
+
+=head2 HookInvocationPoint => Str
+
+Invocation points are points in provisioning logic where Hooks are
+initiated.
+
+
+=head2 HookStatus => Str
+
+Provides the status of the change set hook.
+
+
+=head2 HookStatusReason => Str
+
+Provides the reason for the hook status.
+
+
+=head2 HookType => Str
+
+The name of the hook.
 
 
 =head2 LogicalResourceId => Str
@@ -100,10 +175,10 @@ Success/failure message associated with the resource.
 
 =head2 ResourceType => Str
 
-Type of resource. (For more information, go to AWS Resource Types
-Reference
+Type of resource. For more information, see Amazon Web Services
+resource and property types reference
 (https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html)
-in the AWS CloudFormation User Guide.)
+in the I<CloudFormation User Guide>.
 
 
 =head2 B<REQUIRED> StackId => Str

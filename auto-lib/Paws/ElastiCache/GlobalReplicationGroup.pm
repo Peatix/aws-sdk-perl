@@ -46,8 +46,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ElastiCache
 =head1 DESCRIPTION
 
 Consists of a primary cluster that accepts writes and an associated
-secondary cluster that resides in a different AWS region. The secondary
-cluster accepts only reads. The primary cluster automatically
+secondary cluster that resides in a different Amazon region. The
+secondary cluster accepts only reads. The primary cluster automatically
 replicates updates to the secondary cluster.
 
 =over
@@ -78,13 +78,13 @@ replication group you must set C<AtRestEncryptionEnabled> to C<true>
 when you create the replication group.
 
 B<Required:> Only available when creating a replication group in an
-Amazon VPC using redis version C<3.2.6>, C<4.x> or later.
+Amazon VPC using Redis OSS version C<3.2.6>, C<4.x> or later.
 
 
 =head2 AuthTokenEnabled => Bool
 
-A flag that enables using an C<AuthToken> (password) when issuing Redis
-commands.
+A flag that enables using an C<AuthToken> (password) when issuing
+Valkey or Redis OSS commands.
 
 Default: C<false>
 
@@ -101,12 +101,12 @@ A flag that indicates whether the Global datastore is cluster enabled.
 
 =head2 Engine => Str
 
-The Elasticache engine. For Redis only.
+The ElastiCache engine. For Valkey or Redis OSS only.
 
 
 =head2 EngineVersion => Str
 
-The Elasticache Redis engine version.
+The ElastiCache engine version.
 
 
 =head2 GlobalNodeGroups => ArrayRef[L<Paws::ElastiCache::GlobalNodeGroup>]
@@ -137,13 +137,10 @@ The status of the Global datastore
 
 =head2 TransitEncryptionEnabled => Bool
 
-A flag that enables in-transit encryption when set to true. You cannot
-modify the value of C<TransitEncryptionEnabled> after the cluster is
-created. To enable in-transit encryption on a cluster you must set
-C<TransitEncryptionEnabled> to true when you create a cluster.
+A flag that enables in-transit encryption when set to true.
 
 B<Required:> Only available when creating a replication group in an
-Amazon VPC using redis version C<3.2.6>, C<4.x> or later.
+Amazon VPC using Redis OSS version C<3.2.6>, C<4.x> or later.
 
 
 

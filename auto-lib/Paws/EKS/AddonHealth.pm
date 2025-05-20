@@ -40,7 +40,7 @@ The health of the add-on.
 
 =head2 Issues => ArrayRef[L<Paws::EKS::AddonIssue>]
 
-An object that represents the add-on's health issues.
+An object representing the health issues for an add-on.
 
 
 

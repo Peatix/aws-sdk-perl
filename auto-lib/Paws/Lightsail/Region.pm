@@ -38,7 +38,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Lightsail::
 
 =head1 DESCRIPTION
 
-Describes the AWS Region.
+Describes the Amazon Web Services Region.
 
 =head1 ATTRIBUTES
 
@@ -51,23 +51,24 @@ The Availability Zones. Follows the format C<us-east-2a>
 
 =head2 ContinentCode => Str
 
-The continent code (e.g., C<NA>, meaning North America).
+The continent code (C<NA>, meaning North America).
 
 
 =head2 Description => Str
 
-The description of the AWS Region (e.g., C<This region is recommended
-to serve users in the eastern United States and eastern Canada>).
+The description of the Amazon Web Services Region (C<This region is
+recommended to serve users in the eastern United States and eastern
+Canada>).
 
 
 =head2 DisplayName => Str
 
-The display name (e.g., C<Ohio>).
+The display name (C<Ohio>).
 
 
 =head2 Name => Str
 
-The region name (e.g., C<us-east-2>).
+The region name (C<us-east-2>).
 
 
 =head2 RelationalDatabaseAvailabilityZones => ArrayRef[L<Paws::Lightsail::AvailabilityZone>]

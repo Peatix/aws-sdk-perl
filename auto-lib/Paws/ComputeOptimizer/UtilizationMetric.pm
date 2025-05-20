@@ -80,6 +80,22 @@ Enabling Memory Utilization with the CloudWatch Agent
 
 =item *
 
+C<GPU> - The percentage of allocated GPUs that currently run on the
+instance.
+
+=item *
+
+C<GPU_MEMORY> - The percentage of total GPU memory that currently runs
+on the instance.
+
+The C<GPU> and C<GPU_MEMORY> metrics are only returned for resources
+with the unified CloudWatch Agent installed on them. For more
+information, see Enabling NVIDIA GPU utilization with the CloudWatch
+Agent
+(https://docs.aws.amazon.com/compute-optimizer/latest/ug/metrics.html#nvidia-cw-agent).
+
+=item *
+
 C<EBS_READ_OPS_PER_SECOND> - The completed read operations from all EBS
 volumes attached to the instance in a specified period of time.
 
@@ -179,16 +195,16 @@ single instance.
 
 The statistic of the utilization metric.
 
-The Compute Optimizer API, AWS Command Line Interface (AWS CLI), and
-SDKs return utilization metrics using only the C<Maximum> statistic,
-which is the highest value observed during the specified period.
+The Compute Optimizer API, Command Line Interface (CLI), and SDKs
+return utilization metrics using only the C<Maximum> statistic, which
+is the highest value observed during the specified period.
 
 The Compute Optimizer console displays graphs for some utilization
 metrics using the C<Average> statistic, which is the value of C<Sum> /
 C<SampleCount> during the specified period. For more information, see
 Viewing resource recommendations
 (https://docs.aws.amazon.com/compute-optimizer/latest/ug/viewing-recommendations.html)
-in the I<AWS Compute Optimizer User Guide>. You can also get averaged
+in the I<Compute Optimizer User Guide>. You can also get averaged
 utilization metric data for your resources using Amazon CloudWatch. For
 more information, see the Amazon CloudWatch User Guide
 (https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html).

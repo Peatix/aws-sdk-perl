@@ -49,8 +49,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/rds
 
 =head2 B<REQUIRED> DBClusterIdentifier => Str
 
-A DB cluster identifier to force a failover for. This parameter isn't
-case-sensitive.
+The identifier of the DB cluster to force a failover for. This
+parameter isn't case-sensitive.
 
 Constraints:
 
@@ -58,7 +58,7 @@ Constraints:
 
 =item *
 
-Must match the identifier of an existing DBCluster.
+Must match the identifier of an existing DB cluster.
 
 =back
 
@@ -67,10 +67,13 @@ Must match the identifier of an existing DBCluster.
 
 =head2 TargetDBInstanceIdentifier => Str
 
-The name of the instance to promote to the primary instance.
+The name of the DB instance to promote to the primary DB instance.
 
-You must specify the instance identifier for an Aurora Replica in the
-DB cluster. For example, C<mydbcluster-replica1>.
+Specify the DB instance identifier for an Aurora Replica or a Multi-AZ
+readable standby in the DB cluster, for example
+C<mydbcluster-replica1>.
+
+This setting isn't supported for RDS for MySQL Multi-AZ DB clusters.
 
 
 

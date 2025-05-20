@@ -4,6 +4,7 @@ package Paws::WorkDocs::CommentMetadata;
   has CommentId => (is => 'ro', isa => 'Str');
   has CommentStatus => (is => 'ro', isa => 'Str');
   has Contributor => (is => 'ro', isa => 'Paws::WorkDocs::User');
+  has ContributorId => (is => 'ro', isa => 'Str');
   has CreatedTimestamp => (is => 'ro', isa => 'Str');
   has RecipientId => (is => 'ro', isa => 'Str');
 
@@ -55,6 +56,11 @@ The status of the comment.
 =head2 Contributor => L<Paws::WorkDocs::User>
 
 The user who made the comment.
+
+
+=head2 ContributorId => Str
+
+The ID of the user who made the comment.
 
 
 =head2 CreatedTimestamp => Str

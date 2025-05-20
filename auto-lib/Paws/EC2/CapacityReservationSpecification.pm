@@ -46,12 +46,20 @@ preferences include:
 
 =item *
 
-C<open> - The instance can run in any C<open> Capacity Reservation that
-has matching attributes (instance type, platform, Availability Zone).
+C<capacity-reservations-only> - The instance will only run in a
+Capacity Reservation or Capacity Reservation group. If capacity isn't
+available, the instance will fail to launch.
 
 =item *
 
-C<none> - The instance avoids running in a Capacity Reservation even if
+C<open> - The instance can run in any C<open> Capacity Reservation that
+has matching attributes (instance type, platform, Availability Zone,
+and tenancy). If capacity isn't available, the instance runs as an
+On-Demand Instance.
+
+=item *
+
+C<none> - The instance doesn't run in a Capacity Reservation even if
 one is available. The instance runs as an On-Demand Instance.
 
 =back

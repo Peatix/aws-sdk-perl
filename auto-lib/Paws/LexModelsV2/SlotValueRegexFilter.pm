@@ -57,7 +57,7 @@ A-Z, a-z
 
 =item *
 
-Unicode characters ("\ uE<lt>UnicodeE<gt>")
+Unicode characters ("\uE<lt>UnicodeE<gt>")
 
 =back
 

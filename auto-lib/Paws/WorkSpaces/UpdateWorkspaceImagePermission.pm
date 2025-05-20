@@ -58,10 +58,11 @@ The identifier of the image.
 
 =head2 B<REQUIRED> SharedAccountId => Str
 
-The identifier of the AWS account to share or unshare the image with.
+The identifier of the Amazon Web Services account to share or unshare
+the image with.
 
 Before sharing the image, confirm that you are sharing to the correct
-AWS account ID.
+Amazon Web Services account ID.
 
 
 

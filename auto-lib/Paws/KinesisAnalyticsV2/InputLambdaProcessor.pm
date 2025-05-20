@@ -33,7 +33,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::KinesisAnal
 
 =head1 DESCRIPTION
 
-An object that contains the Amazon Resource Name (ARN) of the AWS
+An object that contains the Amazon Resource Name (ARN) of the Amazon
 Lambda function that is used to preprocess records in the stream in a
 SQL-based Kinesis Data Analytics application.
 
@@ -42,12 +42,12 @@ SQL-based Kinesis Data Analytics application.
 
 =head2 B<REQUIRED> ResourceARN => Str
 
-The ARN of the AWS Lambda function that operates on records in the
+The ARN of the Amazon Lambda function that operates on records in the
 stream.
 
 To specify an earlier version of the Lambda function than the latest,
 include the Lambda function version in the Lambda function ARN. For
-more information about Lambda ARNs, see Example ARNs: AWS Lambda
+more information about Lambda ARNs, see Example ARNs: Amazon Lambda
 (https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-lambda)
 
 

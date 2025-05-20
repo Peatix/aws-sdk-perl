@@ -36,11 +36,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     );
 
     # Results:
+    my $JobId            = $GetTextDetectionResponse->JobId;
     my $JobStatus        = $GetTextDetectionResponse->JobStatus;
+    my $JobTag           = $GetTextDetectionResponse->JobTag;
     my $NextToken        = $GetTextDetectionResponse->NextToken;
     my $StatusMessage    = $GetTextDetectionResponse->StatusMessage;
     my $TextDetections   = $GetTextDetectionResponse->TextDetections;
     my $TextModelVersion = $GetTextDetectionResponse->TextModelVersion;
+    my $Video            = $GetTextDetectionResponse->Video;
     my $VideoMetadata    = $GetTextDetectionResponse->VideoMetadata;
 
     # Returns a L<Paws::Rekognition::GetTextDetectionResponse> object.

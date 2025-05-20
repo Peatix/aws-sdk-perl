@@ -17,9 +17,8 @@ Paws::SageMaker::ListNotebookInstanceLifecycleConfigsOutput
 
 =head2 NextToken => Str
 
-If the response is truncated, Amazon SageMaker returns this token. To
-get the next set of lifecycle configurations, use it in the next
-request.
+If the response is truncated, SageMaker AI returns this token. To get
+the next set of lifecycle configurations, use it in the next request.
 
 
 =head2 NotebookInstanceLifecycleConfigs => ArrayRef[L<Paws::SageMaker::NotebookInstanceLifecycleConfigSummary>]

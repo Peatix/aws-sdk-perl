@@ -17,7 +17,7 @@ Paws::SSM::DescribeInstanceInformationResult
 
 =head2 InstanceInformationList => ArrayRef[L<Paws::SSM::InstanceInformation>]
 
-The instance information list.
+The managed node information list.
 
 
 =head2 NextToken => Str

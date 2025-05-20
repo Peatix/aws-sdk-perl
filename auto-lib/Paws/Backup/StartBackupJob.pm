@@ -6,6 +6,7 @@ package Paws::Backup::StartBackupJob;
   has CompleteWindowMinutes => (is => 'ro', isa => 'Int');
   has IamRoleArn => (is => 'ro', isa => 'Str', required => 1);
   has IdempotencyToken => (is => 'ro', isa => 'Str');
+  has Index => (is => 'ro', isa => 'Str');
   has Lifecycle => (is => 'ro', isa => 'Paws::Backup::Lifecycle');
   has RecoveryPointTags => (is => 'ro', isa => 'Paws::Backup::Tags');
   has ResourceArn => (is => 'ro', isa => 'Str', required => 1);
@@ -44,9 +45,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       ,                                       # OPTIONAL
       CompleteWindowMinutes => 1,             # OPTIONAL
       IdempotencyToken      => 'Mystring',    # OPTIONAL
+      Index                 => 'ENABLED',     # OPTIONAL
       Lifecycle             => {
-        DeleteAfterDays            => 1,      # OPTIONAL
-        MoveToColdStorageAfterDays => 1,      # OPTIONAL
+        DeleteAfterDays                     => 1,    # OPTIONAL
+        MoveToColdStorageAfterDays          => 1,    # OPTIONAL
+        OptInToArchiveForSupportedResources => 1,    # OPTIONAL
       },    # OPTIONAL
       RecoveryPointTags  => { 'MyTagKey' => 'MyTagValue', },    # OPTIONAL
       StartWindowMinutes => 1,                                  # OPTIONAL
@@ -55,6 +58,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     # Results:
     my $BackupJobId      = $StartBackupJobOutput->BackupJobId;
     my $CreationDate     = $StartBackupJobOutput->CreationDate;
+    my $IsParent         = $StartBackupJobOutput->IsParent;
     my $RecoveryPointArn = $StartBackupJobOutput->RecoveryPointArn;
 
     # Returns a L<Paws::Backup::StartBackupJobOutput> object.
@@ -67,13 +71,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/bac
 
 =head2 BackupOptions => L<Paws::Backup::BackupOptions>
 
-Specifies the backup option for a selected resource. This option is
-only available for Windows VSS backup jobs.
+The backup option for a selected resource. This option is only
+available for Windows Volume Shadow Copy Service (VSS) backup jobs.
 
-Valid values: Set to C<"WindowsVSSE<rdquo>:E<ldquo>enabled"> to enable
-WindowsVSS backup option and create a VSS Windows backup. Set to
-E<ldquo>WindowsVSSE<rdquo>:E<rdquo>disabledE<rdquo> to create a regular
-backup. The WindowsVSS option is not enabled by default.
+Valid values: Set to C<"WindowsVSS":"enabled"> to enable the
+C<WindowsVSS> backup option and create a Windows VSS backup. Set to
+C<"WindowsVSS""disabled"> to create a regular backup. The C<WindowsVSS>
+option is not enabled by default.
 
 
 
@@ -81,18 +85,20 @@ backup. The WindowsVSS option is not enabled by default.
 
 The name of a logical container where backups are stored. Backup vaults
 are identified by names that are unique to the account used to create
-them and the AWS Region where they are created. They consist of
-lowercase letters, numbers, and hyphens.
+them and the Amazon Web Services Region where they are created.
 
 
 
 =head2 CompleteWindowMinutes => Int
 
 A value in minutes during which a successfully started backup must
-complete, or else AWS Backup will cancel the job. This value is
-optional. This value begins counting down from when the backup was
-scheduled. It does not add additional time for C<StartWindowMinutes>,
-or if the backup started later than scheduled.
+complete, or else Backup will cancel the job. This value is optional.
+This value begins counting down from when the backup was scheduled. It
+does not add additional time for C<StartWindowMinutes>, or if the
+backup started later than scheduled.
+
+Like C<StartWindowMinutes>, this parameter has a maximum value of 100
+years (52,560,000 minutes).
 
 
 
@@ -105,33 +111,66 @@ for example, C<arn:aws:iam::123456789012:role/S3Access>.
 
 =head2 IdempotencyToken => Str
 
-A customer chosen string that can be used to distinguish between calls
-to C<StartBackupJob>.
+A customer-chosen string that you can use to distinguish between
+otherwise identical calls to C<StartBackupJob>. Retrying a successful
+request with the same idempotency token results in a success message
+with no action taken.
 
 
+
+=head2 Index => Str
+
+Include this parameter to enable index creation if your backup job has
+a resource type that supports backup indexes.
+
+Resource types that support backup indexes include:
+
+=over
+
+=item *
+
+C<EBS> for Amazon Elastic Block Store
+
+=item *
+
+C<S3> for Amazon Simple Storage Service (Amazon S3)
+
+=back
+
+Index can have 1 of 2 possible values, either C<ENABLED> or
+C<DISABLED>.
+
+To create a backup index for an eligible C<ACTIVE> recovery point that
+does not yet have a backup index, set value to C<ENABLED>.
+
+To delete a backup index, set value to C<DISABLED>.
+
+Valid values are: C<"ENABLED">, C<"DISABLED">
 
 =head2 Lifecycle => L<Paws::Backup::Lifecycle>
 
 The lifecycle defines when a protected resource is transitioned to cold
-storage and when it expires. AWS Backup will transition and expire
-backups automatically according to the lifecycle that you define.
+storage and when it expires. Backup will transition and expire backups
+automatically according to the lifecycle that you define.
 
 Backups transitioned to cold storage must be stored in cold storage for
-a minimum of 90 days. Therefore, the E<ldquo>expire after daysE<rdquo>
-setting must be 90 days greater than the E<ldquo>transition to cold
-after daysE<rdquo> setting. The E<ldquo>transition to cold after
-daysE<rdquo> setting cannot be changed after a backup has been
-transitioned to cold.
+a minimum of 90 days. Therefore, the E<ldquo>retentionE<rdquo> setting
+must be 90 days greater than the E<ldquo>transition to cold after
+daysE<rdquo> setting. The E<ldquo>transition to cold after daysE<rdquo>
+setting cannot be changed after a backup has been transitioned to cold.
 
-Only Amazon EFS file system backups can be transitioned to cold
-storage.
+Resource types that can transition to cold storage are listed in the
+Feature availability by resource
+(https://docs.aws.amazon.com/aws-backup/latest/devguide/backup-feature-availability.html#features-by-resource)
+table. Backup ignores this expression for other resource types.
+
+This parameter has a maximum value of 100 years (36,500 days).
 
 
 
 =head2 RecoveryPointTags => L<Paws::Backup::Tags>
 
-To help organize your resources, you can assign your own metadata to
-the resources that you create. Each tag is a key-value pair.
+The tags to assign to the resources.
 
 
 
@@ -146,7 +185,19 @@ format of the ARN depends on the resource type.
 
 A value in minutes after a backup is scheduled before a job will be
 canceled if it doesn't start successfully. This value is optional, and
-the default is 8 hours.
+the default is 8 hours. If this value is included, it must be at least
+60 minutes to avoid errors.
+
+This parameter has a maximum value of 100 years (52,560,000 minutes).
+
+During the start window, the backup job status remains in C<CREATED>
+status until it has successfully begun or until the start window time
+has run out. If within the start window time Backup receives an error
+that allows the job to be retried, Backup will automatically retry to
+begin the job at least every 10 minutes until the backup successfully
+begins (the job status changes to C<RUNNING>) or until the job status
+changes to C<EXPIRED> (which is expected to occur when the start window
+time is over).
 
 
 

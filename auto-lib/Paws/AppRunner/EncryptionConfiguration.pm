@@ -33,7 +33,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AppRunner::
 
 =head1 DESCRIPTION
 
-Describes a custom encryption key that AWS App Runner uses to encrypt
+Describes a custom encryption key that App Runner uses to encrypt
 copies of the source repository and service logs.
 
 =head1 ATTRIBUTES

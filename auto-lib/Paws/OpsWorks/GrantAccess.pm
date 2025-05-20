@@ -46,7 +46,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ops
 
 =head2 B<REQUIRED> InstanceId => Str
 
-The instance's AWS OpsWorks Stacks ID.
+The instance's OpsWorks Stacks ID.
 
 
 
@@ -54,8 +54,8 @@ The instance's AWS OpsWorks Stacks ID.
 
 The length of time (in minutes) that the grant is valid. When the grant
 expires at the end of this period, the user will no longer be able to
-use the credentials to log in. If the user is logged in at the time, he
-or she automatically will be logged out.
+use the credentials to log in. If the user is logged in at the time,
+they are logged out.
 
 
 

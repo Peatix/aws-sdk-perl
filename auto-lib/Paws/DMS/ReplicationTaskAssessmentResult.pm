@@ -48,6 +48,10 @@ The task assessment report in JSON format.
 
 The task assessment results in JSON format.
 
+The response object only contains this field if you provide
+DescribeReplicationTaskAssessmentResultsMessage$ReplicationTaskArn in
+the request.
+
 
 =head2 AssessmentResultsFile => Str
 
@@ -78,6 +82,10 @@ The date the task assessment was completed.
 =head2 S3ObjectUrl => Str
 
 The URL of the S3 object containing the task assessment results.
+
+The response object only contains this field if you provide
+DescribeReplicationTaskAssessmentResultsMessage$ReplicationTaskArn in
+the request.
 
 
 

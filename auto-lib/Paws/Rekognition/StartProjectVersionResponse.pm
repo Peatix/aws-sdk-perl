@@ -18,7 +18,7 @@ Paws::Rekognition::StartProjectVersionResponse
 
 The current running status of the model.
 
-Valid values are: C<"TRAINING_IN_PROGRESS">, C<"TRAINING_COMPLETED">, C<"TRAINING_FAILED">, C<"STARTING">, C<"RUNNING">, C<"FAILED">, C<"STOPPING">, C<"STOPPED">, C<"DELETING">
+Valid values are: C<"TRAINING_IN_PROGRESS">, C<"TRAINING_COMPLETED">, C<"TRAINING_FAILED">, C<"STARTING">, C<"RUNNING">, C<"FAILED">, C<"STOPPING">, C<"STOPPED">, C<"DELETING">, C<"COPYING_IN_PROGRESS">, C<"COPYING_COMPLETED">, C<"COPYING_FAILED">, C<"DEPRECATED">, C<"EXPIRED">
 =head2 _request_id => Str
 
 

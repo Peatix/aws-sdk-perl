@@ -18,8 +18,8 @@ Paws::AuditManager::BatchDisassociateAssessmentReportEvidenceResponse
 
 =head2 Errors => ArrayRef[L<Paws::AuditManager::AssessmentReportEvidenceError>]
 
-A list of errors returned by the
-C<BatchDisassociateAssessmentReportEvidence> API.
+A list of errors that the C<BatchDisassociateAssessmentReportEvidence>
+API returned.
 
 
 =head2 EvidenceIds => ArrayRef[Str|Undef]

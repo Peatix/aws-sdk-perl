@@ -35,24 +35,24 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Application
 
 =head1 DESCRIPTION
 
-Configure launced instance.
+Launched instance.
 
 =head1 ATTRIBUTES
 
 
 =head2 Ec2InstanceID => Str
 
-Configure launced instance EC2 ID.
+Launched instance EC2 ID.
 
 
 =head2 FirstBoot => Str
 
-Configure launced instance first boot.
+Launched instance first boot.
 
 
 =head2 JobID => Str
 
-Configure launced instance Job ID.
+Launched instance Job ID.
 
 
 

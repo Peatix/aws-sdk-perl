@@ -46,8 +46,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       Description               => 'MyString',             # OPTIONAL
       DisableExecuteApiEndpoint => 1,                      # OPTIONAL
       EndpointConfiguration     => {
-        Types => [
-          'REGIONAL', ...    # values: REGIONAL, EDGE, PRIVATE
+        IpAddressType => 'ipv4',    # values: ipv4, dualstack; OPTIONAL
+        Types         => [
+          'REGIONAL', ...           # values: REGIONAL, EDGE, PRIVATE
         ],    # OPTIONAL
         VpcEndpointIds => [ 'MyString', ... ],
       },    # OPTIONAL
@@ -68,6 +69,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $MinimumCompressionSize    = $RestApi->MinimumCompressionSize;
     my $Name                      = $RestApi->Name;
     my $Policy                    = $RestApi->Policy;
+    my $RootResourceId            = $RestApi->RootResourceId;
     my $Tags                      = $RestApi->Tags;
     my $Version                   = $RestApi->Version;
     my $Warnings                  = $RestApi->Warnings;
@@ -83,18 +85,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 =head2 ApiKeySource => Str
 
 The source of the API key for metering requests according to a usage
-plan. Valid values are:
-
-=over
-
-=item * C<HEADER> to read the API key from the C<X-API-Key> header of a
-request.
-
-=item * C<AUTHORIZER> to read the API key from the
-C<UsageIdentifierKey> from a custom authorizer.
-
-=back
-
+plan. Valid values are: C<HEADER> to read the API key from the
+C<X-API-Key> header of a request. C<AUTHORIZER> to read the API key
+from the C<UsageIdentifierKey> from a custom authorizer.
 
 Valid values are: C<"HEADER">, C<"AUTHORIZER">
 
@@ -121,16 +114,16 @@ The description of the RestApi.
 
 Specifies whether clients can invoke your API by using the default
 C<execute-api> endpoint. By default, clients can invoke your API with
-the default https://{api_id}.execute-api.{region}.amazonaws.com
+the default C<https://{api_id}.execute-api.{region}.amazonaws.com>
 endpoint. To require that clients use a custom domain name to invoke
-your API, disable the default endpoint.
+your API, disable the default endpoint
 
 
 
 =head2 EndpointConfiguration => L<Paws::ApiGateway::EndpointConfiguration>
 
 The endpoint configuration of this RestApi showing the endpoint types
-of the API.
+and IP address types of the API.
 
 
 
@@ -147,7 +140,7 @@ compression for any payload size.
 
 =head2 B<REQUIRED> Name => Str
 
-[Required] The name of the RestApi.
+The name of the RestApi.
 
 
 

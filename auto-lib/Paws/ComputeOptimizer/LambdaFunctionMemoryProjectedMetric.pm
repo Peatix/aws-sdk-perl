@@ -35,7 +35,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ComputeOpti
 
 =head1 DESCRIPTION
 
-Describes a projected utilization metric of an AWS Lambda function
+Describes a projected utilization metric of an Lambda function
 recommendation option.
 
 =head1 ATTRIBUTES

@@ -46,14 +46,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/lig
 
 =head2 B<REQUIRED> DiskName => Str
 
-The unique name of the disk you want to delete (e.g., C<my-disk>).
+The unique name of the disk you want to delete (C<my-disk>).
 
 
 
 =head2 ForceDeleteAddOns => Bool
 
-A Boolean value to indicate whether to delete the enabled add-ons for
-the disk.
+A Boolean value to indicate whether to delete all add-ons for the disk.
 
 
 

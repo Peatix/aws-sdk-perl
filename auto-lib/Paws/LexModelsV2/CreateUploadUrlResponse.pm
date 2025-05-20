@@ -19,6 +19,8 @@ Paws::LexModelsV2::CreateUploadUrlResponse
 =head2 ImportId => Str
 
 An identifier for a unique import job. Use it when you call the
+StartImport
+(https://docs.aws.amazon.com/lexv2/latest/APIReference/API_StartImport.html)
 operation.
 
 

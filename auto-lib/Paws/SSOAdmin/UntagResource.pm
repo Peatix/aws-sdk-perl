@@ -1,7 +1,7 @@
 
 package Paws::SSOAdmin::UntagResource;
   use Moose;
-  has InstanceArn => (is => 'ro', isa => 'Str', required => 1);
+  has InstanceArn => (is => 'ro', isa => 'Str');
   has ResourceArn => (is => 'ro', isa => 'Str', required => 1);
   has TagKeys => (is => 'ro', isa => 'ArrayRef[Str|Undef]', required => 1);
 
@@ -30,12 +30,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $sso = Paws->service('SSOAdmin');
     my $UntagResourceResponse = $sso->UntagResource(
-      InstanceArn => 'MyInstanceArn',
-      ResourceArn => 'MyGeneralArn',
+      ResourceArn => 'MyTaggableResourceArn',
       TagKeys     => [
         'MyTagKey', ...    # min: 1, max: 128
       ],
-
+      InstanceArn => 'MyInstanceArn',    # OPTIONAL
     );
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
@@ -44,11 +43,12 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/sso
 =head1 ATTRIBUTES
 
 
-=head2 B<REQUIRED> InstanceArn => Str
+=head2 InstanceArn => Str
 
-The ARN of the SSO instance under which the operation will be executed.
-For more information about ARNs, see Amazon Resource Names (ARNs) and
-AWS Service Namespaces in the I<AWS General Reference>.
+The ARN of the IAM Identity Center instance under which the operation
+will be executed. For more information about ARNs, see Amazon Resource
+Names (ARNs) and Amazon Web Services Service Namespaces in the I<Amazon
+Web Services General Reference>.
 
 
 

@@ -4,6 +4,10 @@ package Paws::AppRunner::AutoScalingConfigurationSummary;
   has AutoScalingConfigurationArn => (is => 'ro', isa => 'Str');
   has AutoScalingConfigurationName => (is => 'ro', isa => 'Str');
   has AutoScalingConfigurationRevision => (is => 'ro', isa => 'Int');
+  has CreatedAt => (is => 'ro', isa => 'Str');
+  has HasAssociatedService => (is => 'ro', isa => 'Bool');
+  has IsDefault => (is => 'ro', isa => 'Bool');
+  has Status => (is => 'ro', isa => 'Str');
 
 1;
 
@@ -24,7 +28,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::AppRunner::AutoScalingConfigurationSummary object:
 
-  $service_obj->Method(Att1 => { AutoScalingConfigurationArn => $value, ..., AutoScalingConfigurationRevision => $value  });
+  $service_obj->Method(Att1 => { AutoScalingConfigurationArn => $value, ..., Status => $value  });
 
 =head3 Results returned from an API call
 
@@ -35,7 +39,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AppRunner::
 
 =head1 DESCRIPTION
 
-Provides summary information about an AWS App Runner automatic scaling
+Provides summary information about an App Runner automatic scaling
 configuration resource.
 
 This type contains limited information about an auto scaling
@@ -65,6 +69,38 @@ in multiple revisions of a configuration.
 The revision of this auto scaling configuration. It's unique among all
 the active configurations (C<"Status": "ACTIVE">) with the same
 C<AutoScalingConfigurationName>.
+
+
+=head2 CreatedAt => Str
+
+The time when the auto scaling configuration was created. It's in Unix
+time stamp format.
+
+
+=head2 HasAssociatedService => Bool
+
+Indicates if this auto scaling configuration has an App Runner service
+associated with it. A value of C<true> indicates one or more services
+are associated. A value of C<false> indicates no services are
+associated.
+
+
+=head2 IsDefault => Bool
+
+Indicates if this auto scaling configuration should be used as the
+default for a new App Runner service that does not have an auto scaling
+configuration ARN specified during creation. Each account can have only
+one default C<AutoScalingConfiguration> per region. The default
+C<AutoScalingConfiguration> can be any revision under the same
+C<AutoScalingConfigurationName>.
+
+
+=head2 Status => Str
+
+The current state of the auto scaling configuration. If the status of a
+configuration revision is C<INACTIVE>, it was deleted and can't be
+used. Inactive configuration revisions are permanently removed some
+time after they are deleted.
 
 
 

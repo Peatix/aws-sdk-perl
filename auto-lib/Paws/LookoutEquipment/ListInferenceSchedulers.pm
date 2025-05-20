@@ -5,6 +5,7 @@ package Paws::LookoutEquipment::ListInferenceSchedulers;
   has MaxResults => (is => 'ro', isa => 'Int');
   has ModelName => (is => 'ro', isa => 'Str');
   has NextToken => (is => 'ro', isa => 'Str');
+  has Status => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -37,6 +38,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       MaxResults => 1,                       # OPTIONAL
       ModelName  => 'MyModelName',           # OPTIONAL
       NextToken  => 'MyNextToken',           # OPTIONAL
+      Status     => 'PENDING',               # OPTIONAL
       );
 
     # Results:
@@ -66,7 +68,8 @@ Specifies the maximum number of inference schedulers to list.
 
 =head2 ModelName => Str
 
-The name of the ML model used by the inference scheduler to be listed.
+The name of the machine learning model used by the inference scheduler
+to be listed.
 
 
 
@@ -76,6 +79,12 @@ An opaque pagination token indicating where to continue the listing of
 inference schedulers.
 
 
+
+=head2 Status => Str
+
+Specifies the current status of the inference schedulers.
+
+Valid values are: C<"PENDING">, C<"RUNNING">, C<"STOPPING">, C<"STOPPED">
 
 
 =head1 SEE ALSO

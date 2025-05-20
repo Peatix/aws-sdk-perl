@@ -29,8 +29,7 @@ The Amazon Web Services KMS key identifier used for encrypting messages
 in the database activity stream.
 
 The Amazon Web Services KMS key identifier is the key ARN, key ID,
-alias ARN, or alias name for the Amazon Web Services KMS customer
-master key (CMK).
+alias ARN, or alias name for the KMS key.
 
 
 =head2 Status => Str

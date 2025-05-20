@@ -2,9 +2,12 @@
 package Paws::WellArchitected::LensReviewSummary;
   use Moose;
   has LensAlias => (is => 'ro', isa => 'Str');
+  has LensArn => (is => 'ro', isa => 'Str');
   has LensName => (is => 'ro', isa => 'Str');
   has LensStatus => (is => 'ro', isa => 'Str');
   has LensVersion => (is => 'ro', isa => 'Str');
+  has PrioritizedRiskCounts => (is => 'ro', isa => 'Paws::WellArchitected::RiskCounts');
+  has Profiles => (is => 'ro', isa => 'ArrayRef[Paws::WellArchitected::WorkloadProfile]');
   has RiskCounts => (is => 'ro', isa => 'Paws::WellArchitected::RiskCounts');
   has UpdatedAt => (is => 'ro', isa => 'Str');
 
@@ -48,6 +51,11 @@ A lens review summary of a workload.
 
 
 
+=head2 LensArn => Str
+
+The ARN for the lens.
+
+
 =head2 LensName => Str
 
 
@@ -61,6 +69,16 @@ The status of the lens.
 =head2 LensVersion => Str
 
 The version of the lens.
+
+
+=head2 PrioritizedRiskCounts => L<Paws::WellArchitected::RiskCounts>
+
+
+
+
+=head2 Profiles => ArrayRef[L<Paws::WellArchitected::WorkloadProfile>]
+
+The profiles associated with the workload.
 
 
 =head2 RiskCounts => L<Paws::WellArchitected::RiskCounts>

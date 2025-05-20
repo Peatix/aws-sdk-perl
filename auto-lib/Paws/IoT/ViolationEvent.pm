@@ -5,6 +5,8 @@ package Paws::IoT::ViolationEvent;
   has MetricValue => (is => 'ro', isa => 'Paws::IoT::MetricValue', request_name => 'metricValue', traits => ['NameInRequest']);
   has SecurityProfileName => (is => 'ro', isa => 'Str', request_name => 'securityProfileName', traits => ['NameInRequest']);
   has ThingName => (is => 'ro', isa => 'Str', request_name => 'thingName', traits => ['NameInRequest']);
+  has VerificationState => (is => 'ro', isa => 'Str', request_name => 'verificationState', traits => ['NameInRequest']);
+  has VerificationStateDescription => (is => 'ro', isa => 'Str', request_name => 'verificationStateDescription', traits => ['NameInRequest']);
   has ViolationEventAdditionalInfo => (is => 'ro', isa => 'Paws::IoT::ViolationEventAdditionalInfo', request_name => 'violationEventAdditionalInfo', traits => ['NameInRequest']);
   has ViolationEventTime => (is => 'ro', isa => 'Str', request_name => 'violationEventTime', traits => ['NameInRequest']);
   has ViolationEventType => (is => 'ro', isa => 'Str', request_name => 'violationEventType', traits => ['NameInRequest']);
@@ -64,6 +66,16 @@ The name of the security profile whose behavior was violated.
 =head2 ThingName => Str
 
 The name of the thing responsible for the violation event.
+
+
+=head2 VerificationState => Str
+
+The verification state of the violation (detect alarm).
+
+
+=head2 VerificationStateDescription => Str
+
+The description of the verification state of the violation.
 
 
 =head2 ViolationEventAdditionalInfo => L<Paws::IoT::ViolationEventAdditionalInfo>

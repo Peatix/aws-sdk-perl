@@ -12,6 +12,7 @@ package Paws::LexModelsV2::DescribeBotAliasResponse;
   has CreationDateTime => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'creationDateTime');
   has Description => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'description');
   has LastUpdatedDateTime => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'lastUpdatedDateTime');
+  has ParentBotNetworks => (is => 'ro', isa => 'ArrayRef[Paws::LexModelsV2::ParentBotNetwork]', traits => ['NameInRequest'], request_name => 'parentBotNetworks');
   has SentimentAnalysisSettings => (is => 'ro', isa => 'Paws::LexModelsV2::SentimentAnalysisSettings', traits => ['NameInRequest'], request_name => 'sentimentAnalysisSettings');
 
   has _request_id => (is => 'ro', isa => 'Str');
@@ -82,6 +83,11 @@ The description of the bot alias.
 =head2 LastUpdatedDateTime => Str
 
 A timestamp of the date and time that the alias was last updated.
+
+
+=head2 ParentBotNetworks => ArrayRef[L<Paws::LexModelsV2::ParentBotNetwork>]
+
+A list of the networks to which the bot alias you described belongs.
 
 
 =head2 SentimentAnalysisSettings => L<Paws::LexModelsV2::SentimentAnalysisSettings>

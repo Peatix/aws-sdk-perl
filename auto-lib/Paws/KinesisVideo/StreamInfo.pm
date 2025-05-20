@@ -63,8 +63,8 @@ The name of the device that is associated with the stream.
 
 =head2 KmsKeyId => Str
 
-The ID of the AWS Key Management Service (AWS KMS) key that Kinesis
-Video Streams uses to encrypt data on the stream.
+The ID of the Key Management Service (KMS) key that Kinesis Video
+Streams uses to encrypt data on the stream.
 
 
 =head2 MediaType => Str

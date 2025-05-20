@@ -114,8 +114,12 @@ of results are returned.
 
 If the response from the C<ListIntents> operation contains more results
 than specified in the C<maxResults> parameter, a token is returned in
-the response. Use that token in the C<nextToken> parameter to return
-the next page of results.
+the response.
+
+Use the returned token in the C<nextToken> parameter of a
+C<ListIntents> request to return the next page of results. For a
+complete set of results, call the C<ListIntents> operation until the
+C<nextToken> returned in the response is null.
 
 
 

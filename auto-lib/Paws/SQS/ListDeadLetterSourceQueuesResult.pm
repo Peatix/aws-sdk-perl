@@ -2,10 +2,9 @@
 package Paws::SQS::ListDeadLetterSourceQueuesResult;
   use Moose;
   has NextToken => (is => 'ro', isa => 'Str');
-  has QueueUrls => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'QueueUrl', traits => ['NameInRequest',], required => 1);
+  has QueueUrls => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'queueUrls' , required => 1);
 
   has _request_id => (is => 'ro', isa => 'Str');
-1;
 
 ### main pod documentation begin ###
 
@@ -34,3 +33,4 @@ attribute configured with a dead-letter queue.
 
 =cut
 
+1;

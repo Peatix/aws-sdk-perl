@@ -3,7 +3,7 @@ package Paws::S3::PutBucketLogging;
   use Moose;
   has Bucket => (is => 'ro', isa => 'Str', uri_name => 'Bucket', traits => ['ParamInURI'], required => 1);
   has BucketLoggingStatus => (is => 'ro', isa => 'Paws::S3::BucketLoggingStatus', traits => ['ParamInBody'], required => 1);
-  has ContentLength => (is => 'ro', isa => 'Int', header_name => 'Content-Length', traits => ['ParamInHeader']);
+  has ChecksumAlgorithm => (is => 'ro', isa => 'Str', header_name => 'x-amz-sdk-checksum-algorithm', traits => ['ParamInHeader']);
   has ContentMD5 => (is => 'ro', isa => 'Str', header_name => 'Content-MD5', auto => 'MD5', traits => ['AutoInHeader']);
   has ExpectedBucketOwner => (is => 'ro', isa => 'Str', header_name => 'x-amz-expected-bucket-owner', traits => ['ParamInHeader']);
 
@@ -79,26 +79,38 @@ Container for logging status information.
 
 
 
-=head2 ContentLength => Int
+=head2 ChecksumAlgorithm => Str
 
-Size of the body in bytes.
+Indicates the algorithm used to create the checksum for the request
+when you use the SDK. This header will not provide any additional
+functionality if you don't use the SDK. When you send this header,
+there must be a corresponding C<x-amz-checksum> or C<x-amz-trailer>
+header sent. Otherwise, Amazon S3 fails the request with the HTTP
+status code C<400 Bad Request>. For more information, see Checking
+object integrity
+(https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html)
+in the I<Amazon S3 User Guide>.
 
+If you provide an individual checksum, Amazon S3 ignores any provided
+C<ChecksumAlgorithm> parameter.
 
+Valid values are: C<"CRC32">, C<"CRC32C">, C<"SHA1">, C<"SHA256">, C<"CRC64NVME">
 
 =head2 ContentMD5 => Str
 
 The MD5 hash of the C<PutBucketLogging> request body.
 
-For requests made using the AWS Command Line Interface (CLI) or AWS
-SDKs, this field is calculated automatically.
+For requests made using the Amazon Web Services Command Line Interface
+(CLI) or Amazon Web Services SDKs, this field is calculated
+automatically.
 
 
 
 =head2 ExpectedBucketOwner => Str
 
-The account ID of the expected bucket owner. If the bucket is owned by
-a different account, the request will fail with an HTTP C<403 (Access
-Denied)> error.
+The account ID of the expected bucket owner. If the account ID that you
+provide does not match the actual owner of the bucket, the request
+fails with the HTTP status code C<403 Forbidden> (access denied).
 
 
 

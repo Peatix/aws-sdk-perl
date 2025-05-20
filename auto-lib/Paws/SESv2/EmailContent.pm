@@ -36,11 +36,12 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SESv2::Emai
 =head1 DESCRIPTION
 
 An object that defines the entire content of the email, including the
-message headers and the body content. You can create a simple email
-message, in which you specify the subject and the text and HTML
-versions of the message body. You can also create raw messages, in
-which you specify a complete MIME-formatted message. Raw messages can
-include attachments and custom headers.
+message headers, body content, and attachments. For a simple email
+message, you specify the subject and provide both text and HTML
+versions of the message body. You can also add attachments to simple
+and templated messages. For a raw message, you provide a complete
+MIME-formatted message, which can include custom headers and
+attachments.
 
 =head1 ATTRIBUTES
 
@@ -71,7 +72,10 @@ Amazon SES API v2 supports.
 
 =item *
 
-The entire message must be Base64 encoded.
+The raw data of the message needs to base64-encoded if you are
+accessing Amazon SES directly through the HTTPS interface. If you are
+accessing Amazon SES using an Amazon Web Services SDK, the SDK takes
+care of the base 64-encoding for you.
 
 =item *
 
@@ -92,8 +96,8 @@ characters. This restriction is defined in RFC 5321
 
 =head2 Simple => L<Paws::SESv2::Message>
 
-The simple email message. The message consists of a subject and a
-message body.
+The simple email message. The message consists of a subject, message
+body and attachments list.
 
 
 =head2 Template => L<Paws::SESv2::Template>

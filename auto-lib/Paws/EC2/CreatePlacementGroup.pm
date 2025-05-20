@@ -4,6 +4,7 @@ package Paws::EC2::CreatePlacementGroup;
   has DryRun => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'dryRun' );
   has GroupName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'groupName' );
   has PartitionCount => (is => 'ro', isa => 'Int');
+  has SpreadLevel => (is => 'ro', isa => 'Str');
   has Strategy => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'strategy' );
   has TagSpecifications => (is => 'ro', isa => 'ArrayRef[Paws::EC2::TagSpecification]', traits => ['NameInRequest'], request_name => 'TagSpecification' );
 
@@ -47,7 +48,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ec2
 
 =head2 DryRun => Bool
 
-Checks whether you have the required permissions for the action,
+Checks whether you have the required permissions for the operation,
 without actually making the request, and provides an error response. If
 you have the required permissions, the error response is
 C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
@@ -69,6 +70,25 @@ The number of partitions. Valid only when B<Strategy> is set to
 C<partition>.
 
 
+
+=head2 SpreadLevel => Str
+
+Determines how placement groups spread instances.
+
+=over
+
+=item *
+
+Host E<ndash> You can use C<host> only with Outpost placement groups.
+
+=item *
+
+Rack E<ndash> No usage restrictions.
+
+=back
+
+
+Valid values are: C<"host">, C<"rack">
 
 =head2 Strategy => Str
 

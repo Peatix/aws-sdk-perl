@@ -16,7 +16,7 @@ Paws::Proton::DeleteServiceTemplateOutput
 
 =head2 ServiceTemplate => L<Paws::Proton::ServiceTemplate>
 
-The service template detail data that's returned by AWS Proton.
+The detailed data of the service template being deleted.
 
 
 =head2 _request_id => Str

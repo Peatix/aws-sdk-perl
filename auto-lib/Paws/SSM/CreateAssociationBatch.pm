@@ -30,7 +30,17 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $CreateAssociationBatchResult = $ssm->CreateAssociationBatch(
       Entries => [
         {
-          Name                          => 'MyDocumentARN',
+          Name               => 'MyDocumentARN',
+          AlarmConfiguration => {
+            Alarms => [
+              {
+                Name => 'MyAlarmName',    # min: 1, max: 255
+
+              },
+              ...
+            ],    # min: 1, max: 1
+            IgnorePollAlarmFailure => 1,    # OPTIONAL
+          },    # OPTIONAL
           ApplyOnlyAtCronInterval       => 1,                      # OPTIONAL
           AssociationName               => 'MyAssociationName',    # OPTIONAL
           AutomationTargetParameterName =>
@@ -39,6 +49,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           ComplianceSeverity => 'CRITICAL'
           ,    # values: CRITICAL, HIGH, MEDIUM, LOW, UNSPECIFIED; OPTIONAL
           DocumentVersion => 'MyDocumentVersion',    # OPTIONAL
+          Duration        => 1,                      # min: 1, max: 24; OPTIONAL
           InstanceId      => 'MyInstanceId',         # OPTIONAL
           MaxConcurrency  => 'MyMaxConcurrency',     # min: 1, max: 7; OPTIONAL
           MaxErrors       => 'MyMaxErrors',          # min: 1, max: 7; OPTIONAL
@@ -54,20 +65,53 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           ,                            # OPTIONAL
           ScheduleExpression =>
             'MyScheduleExpression',    # min: 1, max: 256; OPTIONAL
+          ScheduleOffset  => 1,        # min: 1, max: 6; OPTIONAL
           SyncCompliance  => 'AUTO',   # values: AUTO, MANUAL; OPTIONAL
           TargetLocations => [
             {
               Accounts => [ 'MyAccount', ... ],    # min: 1, max: 50; OPTIONAL
+              ExcludeAccounts => [
+                'MyExcludeAccount', ...            # min: 6, max: 68
+              ],    # min: 1, max: 5000; OPTIONAL
               ExecutionRoleName =>
-                'MyExecutionRoleName',             # min: 1, max: 64; OPTIONAL
-              Regions => [ 'MyRegion', ... ],      # min: 1, max: 50; OPTIONAL
+                'MyExecutionRoleName',    # min: 1, max: 64; OPTIONAL
+              IncludeChildOrganizationUnits => 1,    # OPTIONAL
+              Regions => [ 'MyRegion', ... ],        # min: 1, max: 50; OPTIONAL
+              TargetLocationAlarmConfiguration => {
+                Alarms => [
+                  {
+                    Name => 'MyAlarmName',    # min: 1, max: 255
+
+                  },
+                  ...
+                ],    # min: 1, max: 1
+                IgnorePollAlarmFailure => 1,    # OPTIONAL
+              },    # OPTIONAL
               TargetLocationMaxConcurrency =>
-                'MyMaxConcurrency',                # min: 1, max: 7; OPTIONAL
+                'MyMaxConcurrency',    # min: 1, max: 7; OPTIONAL
               TargetLocationMaxErrors =>
-                'MyMaxErrors',                     # min: 1, max: 7; OPTIONAL
+                'MyMaxErrors',         # min: 1, max: 7; OPTIONAL
+              Targets => [
+                {
+                  Key    => 'MyTargetKey',    # min: 1, max: 163; OPTIONAL
+                  Values => [ 'MyTargetValue', ... ],    # max: 50; OPTIONAL
+                },
+                ...
+              ],    # max: 5; OPTIONAL
+              TargetsMaxConcurrency =>
+                'MyMaxConcurrency',    # min: 1, max: 7; OPTIONAL
+              TargetsMaxErrors => 'MyMaxErrors',    # min: 1, max: 7; OPTIONAL
             },
             ...
           ],    # min: 1, max: 100; OPTIONAL
+          TargetMaps => [
+            {
+              'MyTargetMapKey' => [
+                'MyTargetMapValue', ...    # min: 1, max: 50
+              ],    # key: min: 1, max: 50, value: max: 25
+            },
+            ...     # min: 1, max: 20
+          ],    # max: 300; OPTIONAL
           Targets => [
             {
               Key    => 'MyTargetKey',              # min: 1, max: 163; OPTIONAL

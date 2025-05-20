@@ -59,7 +59,9 @@ resource type and storage config for the given instance ID.
 =head2 B<REQUIRED> InstanceId => Str
 
 The identifier of the Amazon Connect instance. You can find the
-instanceId in the ARN of the instance.
+instance ID
+(https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html)
+in the Amazon Resource Name (ARN) of the instance.
 
 
 
@@ -67,7 +69,7 @@ instanceId in the ARN of the instance.
 
 A valid resource type.
 
-Valid values are: C<"CHAT_TRANSCRIPTS">, C<"CALL_RECORDINGS">, C<"SCHEDULED_REPORTS">, C<"MEDIA_STREAMS">, C<"CONTACT_TRACE_RECORDS">, C<"AGENT_EVENTS">
+Valid values are: C<"CHAT_TRANSCRIPTS">, C<"CALL_RECORDINGS">, C<"SCHEDULED_REPORTS">, C<"MEDIA_STREAMS">, C<"CONTACT_TRACE_RECORDS">, C<"AGENT_EVENTS">, C<"REAL_TIME_CONTACT_ANALYSIS_SEGMENTS">, C<"ATTACHMENTS">, C<"CONTACT_EVALUATIONS">, C<"SCREEN_RECORDINGS">, C<"REAL_TIME_CONTACT_ANALYSIS_CHAT_SEGMENTS">, C<"REAL_TIME_CONTACT_ANALYSIS_VOICE_SEGMENTS">, C<"EMAIL_MESSAGES">
 
 
 =head1 SEE ALSO

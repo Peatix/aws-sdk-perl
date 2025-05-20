@@ -1,7 +1,7 @@
 
 package Paws::EC2InstanceConnect::SendSSHPublicKey;
   use Moose;
-  has AvailabilityZone => (is => 'ro', isa => 'Str', required => 1);
+  has AvailabilityZone => (is => 'ro', isa => 'Str');
   has InstanceId => (is => 'ro', isa => 'Str', required => 1);
   has InstanceOSUser => (is => 'ro', isa => 'Str', required => 1);
   has SSHPublicKey => (is => 'ro', isa => 'Str', required => 1);
@@ -30,12 +30,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $ec2-instance-connect = Paws->service('EC2InstanceConnect');
+    # To push an SSH key to an EC2 instance
+    # The following example pushes a sample SSH public key to the EC2 instance
+    # i-abcd1234 in AZ us-west-2b for use by the instance OS user ec2-user.
     my $SendSSHPublicKeyResponse = $ec2 -instance-connect->SendSSHPublicKey(
-      AvailabilityZone => 'MyAvailabilityZone',
-      InstanceId       => 'MyInstanceId',
-      InstanceOSUser   => 'MyInstanceOSUser',
-      SSHPublicKey     => 'MySSHPublicKey',
-
+      'AvailabilityZone' => 'us-west-2a',
+      'InstanceId'       => 'i-abcd1234',
+      'InstanceOSUser'   => 'ec2-user',
+      'SSHPublicKey'     =>
+'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC3FlHqj2eqCdrGHuA6dRjfZXQ4HX5lXEIRHaNbxEwE5Te7xNF7StwhrDtiV7IdT5fDqbRyGw/szPj3xGkNTVoElCZ2dDFb2qYZ1WLIpZwj/UhO9l2mgfjR56UojjQut5Jvn2KZ1OcyrNO0J83kCaJCV7JoVbXY79FBMUccYNY45zmv9+1FMCfY6i2jdIhwR6+yLk8oubL8lIPyq7X+6b9S0yKCkB7Peml1DvghlybpAIUrC9vofHt6XP4V1i0bImw1IlljQS+DUmULRFSccATDscCX9ajnj7Crhm0HAZC0tBPXpFdHkPwL3yzYo546SCS9LKEwz62ymxxbL9k7h09t'
     );
 
     # Results:
@@ -50,7 +53,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ec2
 =head1 ATTRIBUTES
 
 
-=head2 B<REQUIRED> AvailabilityZone => Str
+=head2 AvailabilityZone => Str
 
 The Availability Zone in which the EC2 instance was launched.
 

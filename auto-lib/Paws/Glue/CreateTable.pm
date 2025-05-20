@@ -3,8 +3,10 @@ package Paws::Glue::CreateTable;
   use Moose;
   has CatalogId => (is => 'ro', isa => 'Str');
   has DatabaseName => (is => 'ro', isa => 'Str', required => 1);
+  has OpenTableFormatInput => (is => 'ro', isa => 'Paws::Glue::OpenTableFormatInput');
   has PartitionIndexes => (is => 'ro', isa => 'ArrayRef[Paws::Glue::PartitionIndex]');
   has TableInput => (is => 'ro', isa => 'Paws::Glue::TableInput', required => 1);
+  has TransactionId => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -56,6 +58,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ],    # OPTIONAL
         Retention         => 1,    # OPTIONAL
         StorageDescriptor => {
+          AdditionalLocations => [
+            'MyLocationString', ...    # max: 2056
+          ],    # OPTIONAL
           BucketColumns => [
             'MyNameString', ...    # min: 1, max: 255
           ],    # OPTIONAL
@@ -73,7 +78,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           ],    # OPTIONAL
           Compressed      => 1,                     # OPTIONAL
           InputFormat     => 'MyFormatString',      # max: 128; OPTIONAL
-          Location        => 'MyLocationString',    # max: 2056; OPTIONAL
+          Location        => 'MyLocationString',    # max: 2056
           NumberOfBuckets => 1,                     # OPTIONAL
           OutputFormat    => 'MyFormatString',      # max: 128; OPTIONAL
           Parameters      => {
@@ -123,21 +128,47 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           CatalogId    => 'MyCatalogIdString',    # min: 1, max: 255; OPTIONAL
           DatabaseName => 'MyNameString',         # min: 1, max: 255
           Name         => 'MyNameString',         # min: 1, max: 255
+          Region       => 'MyNameString',         # min: 1, max: 255
+        },    # OPTIONAL
+        ViewDefinition => {
+          Definer         => 'MyArnString',    # min: 20, max: 2048; OPTIONAL
+          IsProtected     => 1,                # OPTIONAL
+          Representations => [
+            {
+              Dialect => 'REDSHIFT', # values: REDSHIFT, ATHENA, SPARK; OPTIONAL
+              DialectVersion =>
+                'MyViewDialectVersionString',    # min: 1, max: 255; OPTIONAL
+              ValidationConnection => 'MyNameString',    # min: 1, max: 255
+              ViewExpandedText => 'MyViewTextString',    # max: 409600; OPTIONAL
+              ViewOriginalText => 'MyViewTextString',    # max: 409600; OPTIONAL
+            },
+            ...
+          ],    # min: 1, max: 10; OPTIONAL
+          SubObjects => [
+            'MyArnString', ...    # min: 20, max: 2048; OPTIONAL
+          ],    # max: 10; OPTIONAL
         },    # OPTIONAL
         ViewExpandedText => 'MyViewTextString',    # max: 409600; OPTIONAL
         ViewOriginalText => 'MyViewTextString',    # max: 409600; OPTIONAL
       },
-      CatalogId        => 'MyCatalogIdString',     # OPTIONAL
+      CatalogId            => 'MyCatalogIdString',    # OPTIONAL
+      OpenTableFormatInput => {
+        IcebergInput => {
+          MetadataOperation => 'CREATE',            # values: CREATE
+          Version           => 'MyVersionString',   # min: 1, max: 255; OPTIONAL
+        },    # OPTIONAL
+      },    # OPTIONAL
       PartitionIndexes => [
         {
-          IndexName => 'MyNameString',             # min: 1, max: 255
+          IndexName => 'MyNameString',    # min: 1, max: 255
           Keys      => [
-            'MyNameString', ...                    # min: 1, max: 255
+            'MyNameString', ...           # min: 1, max: 255
           ],    # min: 1
 
         },
         ...
       ],    # OPTIONAL
+      TransactionId => 'MyTransactionIdString',    # OPTIONAL
     );
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
@@ -160,6 +191,13 @@ compatibility, this name is entirely lowercase.
 
 
 
+=head2 OpenTableFormatInput => L<Paws::Glue::OpenTableFormatInput>
+
+Specifies an C<OpenTableFormatInput> structure when creating an open
+format table.
+
+
+
 =head2 PartitionIndexes => ArrayRef[L<Paws::Glue::PartitionIndex>]
 
 A list of partition indexes, C<PartitionIndex> structures, to create in
@@ -171,6 +209,12 @@ the table.
 
 The C<TableInput> object that defines the metadata table to create in
 the catalog.
+
+
+
+=head2 TransactionId => Str
+
+The ID of the transaction.
 
 
 

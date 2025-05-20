@@ -29,7 +29,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $workmail = Paws->service('WorkMail');
     my $DeleteGroupResponse = $workmail->DeleteGroup(
-      GroupId        => 'MyWorkMailIdentifier',
+      GroupId        => 'MyEntityIdentifier',
       OrganizationId => 'MyOrganizationId',
 
     );
@@ -43,6 +43,23 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/wor
 =head2 B<REQUIRED> GroupId => Str
 
 The identifier of the group to be deleted.
+
+The identifier can be the I<GroupId>, or I<Groupname>. The following
+identity formats are available:
+
+=over
+
+=item *
+
+Group ID: 12345678-1234-1234-1234-123456789012 or
+S-1-1-12-1234567890-123456789-123456789-1234
+
+=item *
+
+Group name: group
+
+=back
+
 
 
 

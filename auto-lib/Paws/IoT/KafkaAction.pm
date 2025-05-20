@@ -3,6 +3,7 @@ package Paws::IoT::KafkaAction;
   use Moose;
   has ClientProperties => (is => 'ro', isa => 'Paws::IoT::ClientProperties', request_name => 'clientProperties', traits => ['NameInRequest'], required => 1);
   has DestinationArn => (is => 'ro', isa => 'Str', request_name => 'destinationArn', traits => ['NameInRequest'], required => 1);
+  has Headers => (is => 'ro', isa => 'ArrayRef[Paws::IoT::KafkaActionHeader]', request_name => 'headers', traits => ['NameInRequest']);
   has Key => (is => 'ro', isa => 'Str', request_name => 'key', traits => ['NameInRequest']);
   has Partition => (is => 'ro', isa => 'Str', request_name => 'partition', traits => ['NameInRequest']);
   has Topic => (is => 'ro', isa => 'Str', request_name => 'topic', traits => ['NameInRequest'], required => 1);
@@ -51,6 +52,11 @@ Properties of the Apache Kafka producer client.
 =head2 B<REQUIRED> DestinationArn => Str
 
 The ARN of Kafka action's VPC C<TopicRuleDestination>.
+
+
+=head2 Headers => ArrayRef[L<Paws::IoT::KafkaActionHeader>]
+
+The list of Kafka headers that you specify.
 
 
 =head2 Key => Str

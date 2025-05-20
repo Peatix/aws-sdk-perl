@@ -19,36 +19,35 @@ Paws::KMS::ScheduleKeyDeletionResponse
 
 =head2 DeletionDate => Str
 
-The date and time after which AWS KMS deletes the customer master key
-(CMK).
+The date and time after which KMS deletes the KMS key.
 
-If the CMK is a multi-Region primary key with replica keys, this field
-does not appear. The deletion date for the primary key isn't known
-until its last replica key is deleted.
+If the KMS key is a multi-Region primary key with replica keys, this
+field does not appear. The deletion date for the primary key isn't
+known until its last replica key is deleted.
 
 
 =head2 KeyId => Str
 
 The Amazon Resource Name (key ARN
 (https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN))
-of the CMK whose deletion is scheduled.
+of the KMS key whose deletion is scheduled.
 
 
 =head2 KeyState => Str
 
-The current status of the CMK.
+The current status of the KMS key.
 
-For more information about how key state affects the use of a CMK, see
-Key state: Effect on your CMK
+For more information about how key state affects the use of a KMS key,
+see Key states of KMS keys
 (https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html)
-in the I<AWS Key Management Service Developer Guide>.
+in the I<Key Management Service Developer Guide>.
 
 Valid values are: C<"Creating">, C<"Enabled">, C<"Disabled">, C<"PendingDeletion">, C<"PendingImport">, C<"PendingReplicaDeletion">, C<"Unavailable">, C<"Updating">
 =head2 PendingWindowInDays => Int
 
-The waiting period before the CMK is deleted.
+The waiting period before the KMS key is deleted.
 
-If the CMK is a multi-Region primary key with replicas, the waiting
+If the KMS key is a multi-Region primary key with replicas, the waiting
 period begins when the last of its replica keys is deleted. Otherwise,
 the waiting period begins immediately.
 

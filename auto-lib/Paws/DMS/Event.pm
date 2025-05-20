@@ -40,7 +40,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::DMS::Event 
 Describes an identifiable significant activity that affects a
 replication instance or task. This object can provide the message, the
 available event categories, the date and source of the event, and the
-AWS DMS resource type.
+DMS resource type.
 
 =head1 ATTRIBUTES
 
@@ -67,7 +67,7 @@ The identifier of an event source.
 
 =head2 SourceType => Str
 
-The type of AWS DMS resource that generates events.
+The type of DMS resource that generates events.
 
 Valid values: replication-instance | endpoint | replication-task
 

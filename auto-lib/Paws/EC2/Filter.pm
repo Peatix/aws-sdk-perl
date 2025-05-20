@@ -44,7 +44,9 @@ The name of the filter. Filter names are case-sensitive.
 
 =head2 Values => ArrayRef[Str|Undef]
 
-The filter values. Filter values are case-sensitive.
+The filter values. Filter values are case-sensitive. If you specify
+multiple values for a filter, the values are joined with an C<OR>, and
+the request returns all results that match any of the specified values.
 
 
 

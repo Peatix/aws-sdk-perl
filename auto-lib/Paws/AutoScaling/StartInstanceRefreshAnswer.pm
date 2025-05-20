@@ -17,7 +17,7 @@ Paws::AutoScaling::StartInstanceRefreshAnswer
 
 =head2 InstanceRefreshId => Str
 
-A unique ID for tracking the progress of the request.
+A unique ID for tracking the progress of the instance refresh.
 
 
 =head2 _request_id => Str

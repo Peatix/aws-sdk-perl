@@ -30,13 +30,14 @@ The name of the inference scheduler being stopped.
 
 =head2 ModelArn => Str
 
-The Amazon Resource Name (ARN) of the ML model used by the inference
-scheduler being stopped.
+The Amazon Resource Name (ARN) of the machine learning model used by
+the inference scheduler being stopped.
 
 
 =head2 ModelName => Str
 
-The name of the ML model used by the inference scheduler being stopped.
+The name of the machine learning model used by the inference scheduler
+being stopped.
 
 
 =head2 Status => Str

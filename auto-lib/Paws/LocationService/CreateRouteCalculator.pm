@@ -4,7 +4,7 @@ package Paws::LocationService::CreateRouteCalculator;
   has CalculatorName => (is => 'ro', isa => 'Str', required => 1);
   has DataSource => (is => 'ro', isa => 'Str', required => 1);
   has Description => (is => 'ro', isa => 'Str');
-  has PricingPlan => (is => 'ro', isa => 'Str', required => 1);
+  has PricingPlan => (is => 'ro', isa => 'Str');
   has Tags => (is => 'ro', isa => 'Paws::LocationService::TagMap');
 
   use MooseX::ClassAttribute;
@@ -35,8 +35,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $CreateRouteCalculatorResponse = $geo->CreateRouteCalculator(
       CalculatorName => 'MyResourceName',
       DataSource     => 'MyString',
-      PricingPlan    => 'RequestBasedUsage',
       Description    => 'MyResourceDescription',    # OPTIONAL
+      PricingPlan    => 'RequestBasedUsage',        # OPTIONAL
       Tags           => {
         'MyTagKey' => 'MyTagValue',    # key: min: 1, max: 128, value: max: 256
       },    # OPTIONAL
@@ -88,11 +88,43 @@ Specifies the data provider of traffic and road network data.
 This field is case-sensitive. Enter the valid values as shown. For
 example, entering C<HERE> returns an error.
 
-Valid Values: C<Esri> | C<Here>
+Valid values include:
 
-For more information about data providers, see Amazon Location Service
-data providers
-(https://docs.aws.amazon.com/location/latest/developerguide/what-is-data-provider.html).
+=over
+
+=item *
+
+C<Esri> E<ndash> For additional information about Esri
+(https://docs.aws.amazon.com/location/latest/developerguide/esri.html)'s
+coverage in your region of interest, see Esri details on street
+networks and traffic coverage
+(https://doc.arcgis.com/en/arcgis-online/reference/network-coverage.htm).
+
+Route calculators that use Esri as a data source only calculate routes
+that are shorter than 400 km.
+
+=item *
+
+C<Grab> E<ndash> Grab provides routing functionality for Southeast
+Asia. For additional information about GrabMaps
+(https://docs.aws.amazon.com/location/latest/developerguide/grab.html)'
+coverage, see GrabMaps countries and areas covered
+(https://docs.aws.amazon.com/location/latest/developerguide/grab.html#grab-coverage-area).
+
+=item *
+
+C<Here> E<ndash> For additional information about HERE Technologies
+(https://docs.aws.amazon.com/location/latest/developerguide/HERE.html)'
+coverage in your region of interest, see HERE car routing coverage
+(https://developer.here.com/documentation/routing-api/dev_guide/topics/coverage/car-routing.html)
+and HERE truck routing coverage
+(https://developer.here.com/documentation/routing-api/dev_guide/topics/coverage/truck-routing.html).
+
+=back
+
+For additional information , see Data providers
+(https://docs.aws.amazon.com/location/latest/developerguide/what-is-data-provider.html)
+on the I<Amazon Location Service Developer Guide>.
 
 
 
@@ -102,13 +134,10 @@ The optional description for the route calculator resource.
 
 
 
-=head2 B<REQUIRED> PricingPlan => Str
+=head2 PricingPlan => Str
 
-Specifies the pricing plan for your route calculator resource.
-
-For additional details and restrictions on each pricing plan option,
-see Amazon Location Service pricing
-(https://aws.amazon.com/location/pricing/).
+No longer used. If included, the only allowed value is
+C<RequestBasedUsage>.
 
 Valid values are: C<"RequestBasedUsage">, C<"MobileAssetTracking">, C<"MobileAssetManagement">
 
@@ -152,6 +181,10 @@ Maximum value length: 256 Unicode characters in UTF-8
 
 Can use alphanumeric characters (AE<ndash>Z, aE<ndash>z, 0E<ndash>9),
 and the following characters: + - = . _ : / @.
+
+=item *
+
+Cannot use "aws:" as a prefix for a key.
 
 =back
 

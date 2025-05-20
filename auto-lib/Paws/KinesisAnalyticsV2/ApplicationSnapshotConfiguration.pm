@@ -33,16 +33,16 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::KinesisAnal
 
 =head1 DESCRIPTION
 
-Describes whether snapshots are enabled for a Flink-based Kinesis Data
-Analytics application.
+Describes whether snapshots are enabled for a Managed Service for
+Apache Flink application.
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> SnapshotsEnabled => Bool
 
-Describes whether snapshots are enabled for a Flink-based Kinesis Data
-Analytics application.
+Describes whether snapshots are enabled for a Managed Service for
+Apache Flink application.
 
 
 

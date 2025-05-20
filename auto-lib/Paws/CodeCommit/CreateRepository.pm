@@ -1,6 +1,7 @@
 
 package Paws::CodeCommit::CreateRepository;
   use Moose;
+  has KmsKeyId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'kmsKeyId' );
   has RepositoryDescription => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'repositoryDescription' );
   has RepositoryName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'repositoryName' , required => 1);
   has Tags => (is => 'ro', isa => 'Paws::CodeCommit::TagsMap', traits => ['NameInRequest'], request_name => 'tags' );
@@ -31,6 +32,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $codecommit = Paws->service('CodeCommit');
     my $CreateRepositoryOutput = $codecommit->CreateRepository(
       RepositoryName        => 'MyRepositoryName',
+      KmsKeyId              => 'MyKmsKeyId',                 # OPTIONAL
       RepositoryDescription => 'MyRepositoryDescription',    # OPTIONAL
       Tags                  => {
         'MyTagKey' => 'MyTagValue',    # key: min: 1, max: 128, value: max: 256
@@ -46,6 +48,21 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/codecommit/CreateRepository>
 
 =head1 ATTRIBUTES
+
+
+=head2 KmsKeyId => Str
+
+The ID of the encryption key. You can view the ID of an encryption key
+in the KMS console, or use the KMS APIs to programmatically retrieve a
+key ID. For more information about acceptable values for kmsKeyID, see
+KeyId
+(https://docs.aws.amazon.com/kms/latest/APIReference/API_Decrypt.html#KMS-Decrypt-request-KeyId)
+in the Decrypt API description in the I<Key Management Service API
+Reference>.
+
+If no key is specified, the default C<aws/codecommit> Amazon Web
+Services managed key is used.
+
 
 
 =head2 RepositoryDescription => Str
@@ -65,12 +82,12 @@ description on a webpage.
 
 The name of the new repository to be created.
 
-The repository name must be unique across the calling AWS account.
-Repository names are limited to 100 alphanumeric, dash, and underscore
-characters, and cannot include certain characters. For more information
-about the limits on repository names, see Limits
+The repository name must be unique across the calling Amazon Web
+Services account. Repository names are limited to 100 alphanumeric,
+dash, and underscore characters, and cannot include certain characters.
+For more information about the limits on repository names, see Quotas
 (https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html)
-in the I<AWS CodeCommit User Guide>. The suffix .git is prohibited.
+in the I<CodeCommit User Guide>. The suffix .git is prohibited.
 
 
 

@@ -99,7 +99,69 @@ Whether the DB snapshot is encrypted.
 
 =head2 Engine => Str
 
-The name of the database engine to use for this DB instance.
+The name of the database engine to use for this DB instance. Valid
+values are as follows:
+
+=over
+
+=item *
+
+C<aurora>
+
+=item *
+
+C<aurora-mysql>
+
+=item *
+
+C<aurora-postgresql>
+
+=item *
+
+C<c>
+
+=item *
+
+C<mariadb>
+
+=item *
+
+C<mysql>
+
+=item *
+
+C<oracle-ee>
+
+=item *
+
+C<oracle-se>
+
+=item *
+
+C<oracle-se1>
+
+=item *
+
+C<oracle-se2>
+
+=item *
+
+C<sqlserver-ee>
+
+=item *
+
+C<sqlserver-ex>
+
+=item *
+
+C<sqlserver-se>
+
+=item *
+
+C<sqlserver-web>
+
+=back
+
 
 
 =head2 EngineVersion => Str
@@ -126,8 +188,8 @@ instance at the time of the snapshot.
 
 =head2 KmsKeyId => Str
 
-If C<Encrypted> is C<true>, the AWS KMS key identifier for the
-encrypted DB snapshot.
+If C<Encrypted> is C<true>, the KMS key identifier for the encrypted DB
+snapshot.
 
 
 =head2 LicenseModel => Str
@@ -179,7 +241,8 @@ The DB snapshot ARN that the DB snapshot was copied from.
 
 =head2 SourceRegion => Str
 
-The AWS Region that the DB snapshot was created in or copied from.
+The Amazon Web Services Region that the DB snapshot was created in or
+copied from.
 
 
 =head2 Status => Str
@@ -189,7 +252,25 @@ The status of this DB snapshot.
 
 =head2 StorageType => Str
 
-The storage type associated with the DB snapshot.
+The storage type associated with the DB snapshot. Valid values are as
+follows:
+
+=over
+
+=item *
+
+C<gp2>
+
+=item *
+
+C<io1>
+
+=item *
+
+C<standard>
+
+=back
+
 
 
 =head2 TdeCredentialArn => Str

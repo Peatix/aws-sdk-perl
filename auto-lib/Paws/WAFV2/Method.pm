@@ -32,11 +32,13 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::WAFV2::Meth
 
 =head1 DESCRIPTION
 
-The HTTP method of a web request. The method indicates the type of
-operation that the request is asking the origin to perform.
+Inspect the HTTP method of the web request. The method indicates the
+type of operation that the request is asking the origin to perform.
 
-This is used only to indicate the web request component for WAF to
-inspect, in the FieldToMatch specification.
+This is used in the FieldToMatch specification for some web request
+component types.
+
+JSON specification: C<"Method": {}>
 
 =head1 ATTRIBUTES
 

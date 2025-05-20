@@ -83,8 +83,7 @@ The name of the source instance or disk snapshot.
 
 =head2 ResourceType => Str
 
-The Lightsail resource type (e.g., C<InstanceSnapshot> or
-C<DiskSnapshot>).
+The Lightsail resource type (C<InstanceSnapshot> or C<DiskSnapshot>).
 
 
 

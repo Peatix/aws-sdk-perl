@@ -17,7 +17,8 @@ Paws::MediaTailor::GetChannelPolicyResponse
 
 =head2 Policy => Str
 
-The IAM policy for the channel.
+The IAM policy for the channel. IAM policies are used to control access
+to your channel.
 
 
 =head2 _request_id => Str

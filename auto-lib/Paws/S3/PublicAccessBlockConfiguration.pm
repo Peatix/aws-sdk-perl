@@ -56,7 +56,7 @@ to C<TRUE> causes the following behavior:
 
 =item *
 
-PUT Bucket acl and PUT Object acl calls fail if the specified ACL is
+PUT Bucket ACL and PUT Object ACL calls fail if the specified ACL is
 public.
 
 =item *
@@ -97,8 +97,8 @@ ACLs and doesn't prevent new public ACLs from being set.
 
 Specifies whether Amazon S3 should restrict public bucket policies for
 this bucket. Setting this element to C<TRUE> restricts access to this
-bucket to only AWS service principals and authorized users within this
-account if the bucket has a public policy.
+bucket to only Amazon Web Services service principals and authorized
+users within this account if the bucket has a public policy.
 
 Enabling this setting doesn't affect previously stored bucket policies,
 except that public and cross-account access within any public bucket

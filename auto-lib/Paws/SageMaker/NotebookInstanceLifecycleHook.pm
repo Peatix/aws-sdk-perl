@@ -40,9 +40,9 @@ Each lifecycle configuration script has a limit of 16384 characters.
 The value of the C<$PATH> environment variable that is available to
 both scripts is C</sbin:bin:/usr/sbin:/usr/bin>.
 
-View CloudWatch Logs for notebook instance lifecycle configurations in
-log group C</aws/sagemaker/NotebookInstances> in log stream
-C<[notebook-instance-name]/[LifecycleConfigHook]>.
+View Amazon CloudWatch Logs for notebook instance lifecycle
+configurations in log group C</aws/sagemaker/NotebookInstances> in log
+stream C<[notebook-instance-name]/[LifecycleConfigHook]>.
 
 Lifecycle configuration scripts cannot run for longer than 5 minutes.
 If a script runs for longer than 5 minutes, it fails and the notebook

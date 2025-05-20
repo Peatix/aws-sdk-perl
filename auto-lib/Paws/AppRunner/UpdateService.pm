@@ -4,6 +4,8 @@ package Paws::AppRunner::UpdateService;
   has AutoScalingConfigurationArn => (is => 'ro', isa => 'Str');
   has HealthCheckConfiguration => (is => 'ro', isa => 'Paws::AppRunner::HealthCheckConfiguration');
   has InstanceConfiguration => (is => 'ro', isa => 'Paws::AppRunner::InstanceConfiguration');
+  has NetworkConfiguration => (is => 'ro', isa => 'Paws::AppRunner::NetworkConfiguration');
+  has ObservabilityConfiguration => (is => 'ro', isa => 'Paws::AppRunner::ServiceObservabilityConfiguration');
   has ServiceArn => (is => 'ro', isa => 'Str', required => 1);
   has SourceConfiguration => (is => 'ro', isa => 'Paws::AppRunner::SourceConfiguration');
 
@@ -35,55 +37,84 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       ServiceArn                  => 'MyAppRunnerResourceArn',
       AutoScalingConfigurationArn => 'MyAppRunnerResourceArn',    # OPTIONAL
       HealthCheckConfiguration    => {
-        HealthyThreshold   => 1,             # min: 1, max: 20; OPTIONAL
-        Interval           => 1,             # min: 1, max: 20; OPTIONAL
-        Path               => 'MyString',    # max: 51200; OPTIONAL
-        Protocol           => 'TCP',         # values: TCP, HTTP; OPTIONAL
-        Timeout            => 1,             # min: 1, max: 20; OPTIONAL
-        UnhealthyThreshold => 1,             # min: 1, max: 20; OPTIONAL
+        HealthyThreshold   => 1,                   # min: 1, max: 20; OPTIONAL
+        Interval           => 1,                   # min: 1, max: 20; OPTIONAL
+        Path               => 'MyHealthCheckPath', # min: 1; OPTIONAL
+        Protocol           => 'TCP',               # values: TCP, HTTP; OPTIONAL
+        Timeout            => 1,                   # min: 1, max: 20; OPTIONAL
+        UnhealthyThreshold => 1,                   # min: 1, max: 20; OPTIONAL
       },    # OPTIONAL
       InstanceConfiguration => {
-        Cpu             => 'MyCpu',        # min: 4, max: 6; OPTIONAL
-        InstanceRoleArn => 'MyRoleArn',    # min: 29, max: 102; OPTIONAL
-        Memory          => 'MyMemory',     # min: 4, max: 4; OPTIONAL
+        Cpu             => 'MyCpu',        # min: 3, max: 9; OPTIONAL
+        InstanceRoleArn => 'MyRoleArn',    # min: 29, max: 1024; OPTIONAL
+        Memory          => 'MyMemory',     # min: 3, max: 6; OPTIONAL
+      },    # OPTIONAL
+      NetworkConfiguration => {
+        EgressConfiguration => {
+          EgressType      => 'DEFAULT',    # values: DEFAULT, VPC; OPTIONAL
+          VpcConnectorArn => 'MyAppRunnerResourceArn',    # min: 1, max: 1011
+        },    # OPTIONAL
+        IngressConfiguration => {
+          IsPubliclyAccessible => 1,    # OPTIONAL
+        },    # OPTIONAL
+        IpAddressType => 'IPV4',    # values: IPV4, DUAL_STACK; OPTIONAL
+      },    # OPTIONAL
+      ObservabilityConfiguration => {
+        ObservabilityEnabled          => 1,    # OPTIONAL
+        ObservabilityConfigurationArn =>
+          'MyAppRunnerResourceArn',            # min: 1, max: 1011
       },    # OPTIONAL
       SourceConfiguration => {
         AuthenticationConfiguration => {
-          AccessRoleArn => 'MyRoleArn',    # min: 29, max: 102; OPTIONAL
+          AccessRoleArn => 'MyRoleArn',    # min: 29, max: 1024; OPTIONAL
           ConnectionArn => 'MyAppRunnerResourceArn',    # min: 1, max: 1011
         },    # OPTIONAL
         AutoDeploymentsEnabled => 1,    # OPTIONAL
         CodeRepository         => {
-          RepositoryUrl     => 'MyString',    # max: 51200; OPTIONAL
+          RepositoryUrl     => 'MyString',    # max: 51200
           SourceCodeVersion => {
             Type  => 'BRANCH',                # values: BRANCH
-            Value => 'MyString',              # max: 51200; OPTIONAL
+            Value => 'MyString',              # max: 51200
 
           },
           CodeConfiguration => {
             ConfigurationSource     => 'REPOSITORY',   # values: REPOSITORY, API
             CodeConfigurationValues => {
-              Runtime      => 'PYTHON_3',          # values: PYTHON_3, NODEJS_12
-              BuildCommand => 'MyBuildCommand',    # OPTIONAL
-              Port         => 'MyString',          # max: 51200; OPTIONAL
+              Runtime => 'PYTHON_3'
+              , # values: PYTHON_3, NODEJS_12, NODEJS_14, CORRETTO_8, CORRETTO_11, NODEJS_16, GO_1, DOTNET_6, PHP_81, RUBY_31, PYTHON_311, NODEJS_18, NODEJS_22
+              BuildCommand              => 'MyBuildCommand',    # OPTIONAL
+              Port                      => 'MyString',          # max: 51200
+              RuntimeEnvironmentSecrets => {
+                'MyRuntimeEnvironmentSecretsName' =>
+                  'MyRuntimeEnvironmentSecretsValue'
+                ,    # key: min: 1, max: 2048, value: min: 1, max: 2048
+              },    # OPTIONAL
               RuntimeEnvironmentVariables => {
                 'MyRuntimeEnvironmentVariablesKey' =>
-                  'MyRuntimeEnvironmentVariablesValue',
-              },                                   # OPTIONAL
+                  'MyRuntimeEnvironmentVariablesValue'
+                ,    # key: min: 1, max: 51200, value: max: 51200
+              },    # OPTIONAL
               StartCommand => 'MyStartCommand',    # OPTIONAL
             },    # OPTIONAL
           },    # OPTIONAL
+          SourceDirectory => 'MySourceDirectory',  # min: 1, max: 4096; OPTIONAL
         },    # OPTIONAL
         ImageRepository => {
           ImageIdentifier     => 'MyImageIdentifier',  # min: 1, max: 1024
           ImageRepositoryType => 'ECR',                # values: ECR, ECR_PUBLIC
           ImageConfiguration  => {
-            Port                        => 'MyString',    # max: 51200; OPTIONAL
+            Port                      => 'MyString',    # max: 51200
+            RuntimeEnvironmentSecrets => {
+              'MyRuntimeEnvironmentSecretsName' =>
+                'MyRuntimeEnvironmentSecretsValue'
+              ,    # key: min: 1, max: 2048, value: min: 1, max: 2048
+            },    # OPTIONAL
             RuntimeEnvironmentVariables => {
               'MyRuntimeEnvironmentVariablesKey' =>
-                'MyRuntimeEnvironmentVariablesValue',
-            },                                            # OPTIONAL
-            StartCommand => 'MyString',                   # max: 51200; OPTIONAL
+                'MyRuntimeEnvironmentVariablesValue'
+              ,    # key: min: 1, max: 51200, value: max: 51200
+            },    # OPTIONAL
+            StartCommand => 'MyStartCommand',    # OPTIONAL
           },    # OPTIONAL
         },    # OPTIONAL
       },    # OPTIONAL
@@ -104,21 +135,35 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/app
 =head2 AutoScalingConfigurationArn => Str
 
 The Amazon Resource Name (ARN) of an App Runner automatic scaling
-configuration resource that you want to associate with your service.
+configuration resource that you want to associate with the App Runner
+service.
 
 
 
 =head2 HealthCheckConfiguration => L<Paws::AppRunner::HealthCheckConfiguration>
 
-The settings for the health check that AWS App Runner performs to
-monitor the health of your service.
+The settings for the health check that App Runner performs to monitor
+the health of the App Runner service.
 
 
 
 =head2 InstanceConfiguration => L<Paws::AppRunner::InstanceConfiguration>
 
-The runtime configuration to apply to instances (scaling units) of the
-App Runner service.
+The runtime configuration to apply to instances (scaling units) of your
+service.
+
+
+
+=head2 NetworkConfiguration => L<Paws::AppRunner::NetworkConfiguration>
+
+Configuration settings related to network traffic of the web
+application that the App Runner service runs.
+
+
+
+=head2 ObservabilityConfiguration => L<Paws::AppRunner::ServiceObservabilityConfiguration>
+
+The observability configuration of your service.
 
 
 

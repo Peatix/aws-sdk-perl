@@ -70,13 +70,15 @@ The unique identifier you assigned to this job when it was created.
 
 The namespace used to indicate that a job is a customer-managed job.
 
-When you specify a value for this parameter, AWS IoT Core sends jobs
-notifications to MQTT topics that contain the value in the following
-format.
+When you specify a value for this parameter, Amazon Web Services IoT
+Core sends jobs notifications to MQTT topics that contain the value in
+the following format.
 
 C<$aws/things/I<THING_NAME>/jobs/I<JOB_ID>/notify-namespace-I<NAMESPACE_ID>/>
 
-The C<namespaceId> feature is in public preview.
+The C<namespaceId> feature is only supported by IoT Greengrass at this
+time. For more information, see Setting up IoT Greengrass core devices.
+(https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html)
 
 
 

@@ -1,6 +1,7 @@
 
 package Paws::ApplicationInsights::DescribeComponentConfiguration;
   use Moose;
+  has AccountId => (is => 'ro', isa => 'Str');
   has ComponentName => (is => 'ro', isa => 'Str', required => 1);
   has ResourceGroupName => (is => 'ro', isa => 'Str', required => 1);
 
@@ -32,7 +33,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       $applicationinsights->DescribeComponentConfiguration(
       ComponentName     => 'MyComponentName',
       ResourceGroupName => 'MyResourceGroupName',
-
+      AccountId         => 'MyAccountId',           # OPTIONAL
       );
 
     # Results:
@@ -47,6 +48,12 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/applicationinsights/DescribeComponentConfiguration>
 
 =head1 ATTRIBUTES
+
+
+=head2 AccountId => Str
+
+The Amazon Web Services account ID for the resource group owner.
+
 
 
 =head2 B<REQUIRED> ComponentName => Str

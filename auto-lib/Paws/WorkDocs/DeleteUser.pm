@@ -43,8 +43,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/wor
 =head2 AuthenticationToken => Str
 
 Amazon WorkDocs authentication token. Do not set this field when using
-administrative API actions, as in accessing the API using AWS
-credentials.
+administrative API actions, as in accessing the API using Amazon Web
+Services credentials.
 
 
 

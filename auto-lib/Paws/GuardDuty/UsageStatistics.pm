@@ -3,7 +3,9 @@ package Paws::GuardDuty::UsageStatistics;
   use Moose;
   has SumByAccount => (is => 'ro', isa => 'ArrayRef[Paws::GuardDuty::UsageAccountResult]', request_name => 'sumByAccount', traits => ['NameInRequest']);
   has SumByDataSource => (is => 'ro', isa => 'ArrayRef[Paws::GuardDuty::UsageDataSourceResult]', request_name => 'sumByDataSource', traits => ['NameInRequest']);
+  has SumByFeature => (is => 'ro', isa => 'ArrayRef[Paws::GuardDuty::UsageFeatureResult]', request_name => 'sumByFeature', traits => ['NameInRequest']);
   has SumByResource => (is => 'ro', isa => 'ArrayRef[Paws::GuardDuty::UsageResourceResult]', request_name => 'sumByResource', traits => ['NameInRequest']);
+  has TopAccountsByFeature => (is => 'ro', isa => 'ArrayRef[Paws::GuardDuty::UsageTopAccountsResult]', request_name => 'topAccountsByFeature', traits => ['NameInRequest']);
   has TopResources => (is => 'ro', isa => 'ArrayRef[Paws::GuardDuty::UsageResourceResult]', request_name => 'topResources', traits => ['NameInRequest']);
 
 1;
@@ -52,9 +54,22 @@ The usage statistic sum organized by account ID.
 The usage statistic sum organized by on data source.
 
 
+=head2 SumByFeature => ArrayRef[L<Paws::GuardDuty::UsageFeatureResult>]
+
+The usage statistic sum organized by feature.
+
+
 =head2 SumByResource => ArrayRef[L<Paws::GuardDuty::UsageResourceResult>]
 
 The usage statistic sum organized by resource.
+
+
+=head2 TopAccountsByFeature => ArrayRef[L<Paws::GuardDuty::UsageTopAccountsResult>]
+
+Lists the top 50 accounts by feature that have generated the most
+GuardDuty usage, in the order from most to least expensive.
+
+Currently, this doesn't support C<RDS_LOGIN_EVENTS>.
 
 
 =head2 TopResources => ArrayRef[L<Paws::GuardDuty::UsageResourceResult>]

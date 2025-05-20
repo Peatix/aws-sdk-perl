@@ -61,7 +61,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/com
 
 =head2 AccountIds => ArrayRef[Str|Undef]
 
-The ID of the AWS account for which to return function recommendations.
+The ID of the Amazon Web Services account for which to return function
+recommendations.
 
 If your account is the management account of an organization, use this
 parameter to specify the member account for which you want to return
@@ -73,7 +74,7 @@ Only one account ID can be specified per request.
 
 =head2 Filters => ArrayRef[L<Paws::ComputeOptimizer::LambdaFunctionRecommendationFilter>]
 
-An array of objects that describe a filter that returns a more specific
+An array of objects to specify a filter that returns a more specific
 list of function recommendations.
 
 
@@ -91,7 +92,7 @@ Optimizer will return recommendations for the specified function
 version. For more information about using function versions, see Using
 versions
 (https://docs.aws.amazon.com/lambda/latest/dg/configuration-versions.html#versioning-versions-using)
-in the I<AWS Lambda Developer Guide>.
+in the I<Lambda Developer Guide>.
 
 
 
@@ -101,7 +102,7 @@ The maximum number of function recommendations to return with a single
 request.
 
 To retrieve the remaining results, make another request with the
-returned C<NextToken> value.
+returned C<nextToken> value.
 
 
 

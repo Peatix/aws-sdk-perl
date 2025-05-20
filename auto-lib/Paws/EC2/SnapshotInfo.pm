@@ -1,11 +1,13 @@
 package Paws::EC2::SnapshotInfo;
   use Moose;
+  has AvailabilityZone => (is => 'ro', isa => 'Str', request_name => 'availabilityZone', traits => ['NameInRequest']);
   has Description => (is => 'ro', isa => 'Str', request_name => 'description', traits => ['NameInRequest']);
   has Encrypted => (is => 'ro', isa => 'Bool', request_name => 'encrypted', traits => ['NameInRequest']);
   has OutpostArn => (is => 'ro', isa => 'Str', request_name => 'outpostArn', traits => ['NameInRequest']);
   has OwnerId => (is => 'ro', isa => 'Str', request_name => 'ownerId', traits => ['NameInRequest']);
   has Progress => (is => 'ro', isa => 'Str', request_name => 'progress', traits => ['NameInRequest']);
   has SnapshotId => (is => 'ro', isa => 'Str', request_name => 'snapshotId', traits => ['NameInRequest']);
+  has SseType => (is => 'ro', isa => 'Str', request_name => 'sseType', traits => ['NameInRequest']);
   has StartTime => (is => 'ro', isa => 'Str', request_name => 'startTime', traits => ['NameInRequest']);
   has State => (is => 'ro', isa => 'Str', request_name => 'state', traits => ['NameInRequest']);
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::EC2::Tag]', request_name => 'tagSet', traits => ['NameInRequest']);
@@ -30,20 +32,26 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::EC2::SnapshotInfo object:
 
-  $service_obj->Method(Att1 => { Description => $value, ..., VolumeSize => $value  });
+  $service_obj->Method(Att1 => { AvailabilityZone => $value, ..., VolumeSize => $value  });
 
 =head3 Results returned from an API call
 
 Use accessors for each attribute. If Att1 is expected to be an Paws::EC2::SnapshotInfo object:
 
   $result = $service_obj->Method(...);
-  $result->Att1->Description
+  $result->Att1->AvailabilityZone
 
 =head1 DESCRIPTION
 
 This class has no description
 
 =head1 ATTRIBUTES
+
+
+=head2 AvailabilityZone => Str
+
+The Availability Zone or Local Zone of the snapshots. For example,
+C<us-west-1a> (Availability Zone) or C<us-west-2-lax-1a> (Local Zone).
 
 
 =head2 Description => Str
@@ -59,10 +67,10 @@ Indicates whether the snapshot is encrypted.
 
 =head2 OutpostArn => Str
 
-The ARN of the AWS Outpost on which the snapshot is stored. For more
-information, see EBS Local Snapshot on Outposts
-(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/snapshots-outposts.html)
-in the I<Amazon Elastic Compute Cloud User Guide>.
+The ARN of the Outpost on which the snapshot is stored. For more
+information, see Amazon EBS local snapshots on Outposts
+(https://docs.aws.amazon.com/ebs/latest/userguide/snapshots-outposts.html)
+in the I<Amazon EBS User Guide>.
 
 
 =head2 OwnerId => Str
@@ -78,6 +86,11 @@ Progress this snapshot has made towards completing.
 =head2 SnapshotId => Str
 
 Snapshot id that can be used to describe this snapshot.
+
+
+=head2 SseType => Str
+
+Reserved for future use.
 
 
 =head2 StartTime => Str

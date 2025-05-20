@@ -42,15 +42,16 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ds/
 
 =head2 B<REQUIRED> DirectoryId => Str
 
-The Directory ID that will publish status messages to the SNS topic.
+The Directory ID that will publish status messages to the Amazon SNS
+topic.
 
 
 
 =head2 B<REQUIRED> TopicName => Str
 
-The SNS topic name to which the directory will publish status messages.
-This SNS topic must be in the same region as the specified Directory
-ID.
+The Amazon SNS topic name to which the directory will publish status
+messages. This Amazon SNS topic must be in the same region as the
+specified Directory ID.
 
 
 

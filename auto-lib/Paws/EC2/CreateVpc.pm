@@ -2,11 +2,15 @@
 package Paws::EC2::CreateVpc;
   use Moose;
   has AmazonProvidedIpv6CidrBlock => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'amazonProvidedIpv6CidrBlock' );
-  has CidrBlock => (is => 'ro', isa => 'Str', required => 1);
+  has CidrBlock => (is => 'ro', isa => 'Str');
   has DryRun => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'dryRun' );
   has InstanceTenancy => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'instanceTenancy' );
+  has Ipv4IpamPoolId => (is => 'ro', isa => 'Str');
+  has Ipv4NetmaskLength => (is => 'ro', isa => 'Int');
   has Ipv6CidrBlock => (is => 'ro', isa => 'Str');
   has Ipv6CidrBlockNetworkBorderGroup => (is => 'ro', isa => 'Str');
+  has Ipv6IpamPoolId => (is => 'ro', isa => 'Str');
+  has Ipv6NetmaskLength => (is => 'ro', isa => 'Int');
   has Ipv6Pool => (is => 'ro', isa => 'Str');
   has TagSpecifications => (is => 'ro', isa => 'ArrayRef[Paws::EC2::TagSpecification]', traits => ['NameInRequest'], request_name => 'TagSpecification' );
 
@@ -57,7 +61,7 @@ of the CIDR block.
 
 
 
-=head2 B<REQUIRED> CidrBlock => Str
+=head2 CidrBlock => Str
 
 The IPv4 network range for the VPC, in CIDR notation. For example,
 C<10.0.0.0/16>. We modify the specified CIDR block to its canonical
@@ -91,6 +95,25 @@ Default: C<default>
 
 Valid values are: C<"default">, C<"dedicated">, C<"host">
 
+=head2 Ipv4IpamPoolId => Str
+
+The ID of an IPv4 IPAM pool you want to use for allocating this VPC's
+CIDR. For more information, see What is IPAM?
+(https://docs.aws.amazon.com/vpc/latest/ipam/what-is-it-ipam.html) in
+the I<Amazon VPC IPAM User Guide>.
+
+
+
+=head2 Ipv4NetmaskLength => Int
+
+The netmask length of the IPv4 CIDR you want to allocate to this VPC
+from an Amazon VPC IP Address Manager (IPAM) pool. For more information
+about IPAM, see What is IPAM?
+(https://docs.aws.amazon.com/vpc/latest/ipam/what-is-it-ipam.html) in
+the I<Amazon VPC IPAM User Guide>.
+
+
+
 =head2 Ipv6CidrBlock => Str
 
 The IPv6 CIDR block from the IPv6 address pool. You must also specify
@@ -107,6 +130,29 @@ Use this parameter to limit the address to this location.
 
 You must set C<AmazonProvidedIpv6CidrBlock> to C<true> to use this
 parameter.
+
+
+
+=head2 Ipv6IpamPoolId => Str
+
+The ID of an IPv6 IPAM pool which will be used to allocate this VPC an
+IPv6 CIDR. IPAM is a VPC feature that you can use to automate your IP
+address management workflows including assigning, tracking,
+troubleshooting, and auditing IP addresses across Amazon Web Services
+Regions and accounts throughout your Amazon Web Services Organization.
+For more information, see What is IPAM?
+(https://docs.aws.amazon.com/vpc/latest/ipam/what-is-it-ipam.html) in
+the I<Amazon VPC IPAM User Guide>.
+
+
+
+=head2 Ipv6NetmaskLength => Int
+
+The netmask length of the IPv6 CIDR you want to allocate to this VPC
+from an Amazon VPC IP Address Manager (IPAM) pool. For more information
+about IPAM, see What is IPAM?
+(https://docs.aws.amazon.com/vpc/latest/ipam/what-is-it-ipam.html) in
+the I<Amazon VPC IPAM User Guide>.
 
 
 

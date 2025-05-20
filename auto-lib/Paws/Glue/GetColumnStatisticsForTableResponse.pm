@@ -17,7 +17,7 @@ Paws::Glue::GetColumnStatisticsForTableResponse
 
 =head2 ColumnStatisticsList => ArrayRef[L<Paws::Glue::ColumnStatistics>]
 
-List of ColumnStatistics that failed to be retrieved.
+List of ColumnStatistics.
 
 
 =head2 Errors => ArrayRef[L<Paws::Glue::ColumnError>]

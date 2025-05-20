@@ -47,7 +47,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/lam
 
 =head2 B<REQUIRED> Resource => Str
 
-The function's Amazon Resource Name (ARN).
+The resource's Amazon Resource Name (ARN). Note: Lambda does not
+support adding tags to function aliases or versions.
 
 
 

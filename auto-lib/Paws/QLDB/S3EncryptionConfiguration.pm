@@ -42,9 +42,9 @@ data in an Amazon Simple Storage Service (Amazon S3) bucket.
 
 =head2 KmsKeyArn => Str
 
-The Amazon Resource Name (ARN) for a symmetric customer master key
-(CMK) in AWS Key Management Service (AWS KMS). Amazon S3 does not
-support asymmetric CMKs.
+The Amazon Resource Name (ARN) of a symmetric encryption key in Key
+Management Service (KMS). Amazon S3 does not support asymmetric KMS
+keys.
 
 You must provide a C<KmsKeyArn> if you specify C<SSE_KMS> as the
 C<ObjectEncryptionType>.

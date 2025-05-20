@@ -48,7 +48,11 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ssm
 
 =head2 B<REQUIRED> Names => ArrayRef[Str|Undef]
 
-The names of the parameters to delete.
+The names of the parameters to delete. After deleting a parameter, wait
+for at least 30 seconds to create a parameter with the same name.
+
+You can't enter the Amazon Resource Name (ARN) for a parameter, only
+the parameter name itself.
 
 
 

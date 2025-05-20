@@ -30,18 +30,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $servicediscovery = Paws->service('ServiceDiscovery');
+    # CreateHttpNamespace example
+    # This example creates an HTTP namespace.
     my $CreateHttpNamespaceResponse = $servicediscovery->CreateHttpNamespace(
-      Name             => 'MyNamespaceNameHttp',
-      CreatorRequestId => 'MyResourceId',             # OPTIONAL
-      Description      => 'MyResourceDescription',    # OPTIONAL
-      Tags             => [
-        {
-          Key   => 'MyTagKey',      # min: 1, max: 128
-          Value => 'MyTagValue',    # max: 256
-
-        },
-        ...
-      ],    # OPTIONAL
+      'CreatorRequestId' => 'example-creator-request-id-0001',
+      'Description'      => 'Example.com AWS Cloud Map HTTP Namespace',
+      'Name'             => 'example-http.com'
     );
 
     # Results:

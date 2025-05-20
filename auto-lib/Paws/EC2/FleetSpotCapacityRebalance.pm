@@ -1,6 +1,7 @@
 package Paws::EC2::FleetSpotCapacityRebalance;
   use Moose;
   has ReplacementStrategy => (is => 'ro', isa => 'Str', request_name => 'replacementStrategy', traits => ['NameInRequest']);
+  has TerminationDelay => (is => 'ro', isa => 'Int', request_name => 'terminationDelay', traits => ['NameInRequest']);
 1;
 
 ### main pod documentation begin ###
@@ -20,7 +21,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::EC2::FleetSpotCapacityRebalance object:
 
-  $service_obj->Method(Att1 => { ReplacementStrategy => $value, ..., ReplacementStrategy => $value  });
+  $service_obj->Method(Att1 => { ReplacementStrategy => $value, ..., TerminationDelay => $value  });
 
 =head3 Results returned from an API call
 
@@ -38,15 +39,36 @@ This class has no description
 
 =head2 ReplacementStrategy => Str
 
-To allow EC2 Fleet to launch a replacement Spot Instance when an
-instance rebalance notification is emitted for an existing Spot
-Instance in the fleet, specify C<launch>. Only available for fleets of
-type C<maintain>.
+The replacement strategy to use. Only available for fleets of type
+C<maintain>.
 
-When a replacement instance is launched, the instance marked for
-rebalance is not automatically terminated. You can terminate it, or you
-can leave it running. You are charged for both instances while they are
+C<launch> - EC2 Fleet launches a new replacement Spot Instance when a
+rebalance notification is emitted for an existing Spot Instance in the
+fleet. EC2 Fleet does not terminate the instances that receive a
+rebalance notification. You can terminate the old instances, or you can
+leave them running. You are charged for all instances while they are
 running.
+
+C<launch-before-terminate> - EC2 Fleet launches a new replacement Spot
+Instance when a rebalance notification is emitted for an existing Spot
+Instance in the fleet, and then, after a delay that you specify (in
+C<TerminationDelay>), terminates the instances that received a
+rebalance notification.
+
+
+=head2 TerminationDelay => Int
+
+The amount of time (in seconds) that Amazon EC2 waits before
+terminating the old Spot Instance after launching a new replacement
+Spot Instance.
+
+Required when C<ReplacementStrategy> is set to
+C<launch-before-terminate>.
+
+Not valid when C<ReplacementStrategy> is set to C<launch>.
+
+Valid values: Minimum value of C<120> seconds. Maximum value of C<7200>
+seconds.
 
 
 

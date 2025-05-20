@@ -26,7 +26,7 @@ The identifier of the bot that is being deleted.
 
 The current status of the bot.
 
-Valid values are: C<"Creating">, C<"Available">, C<"Inactive">, C<"Deleting">, C<"Failed">, C<"Versioning">, C<"Importing">
+Valid values are: C<"Creating">, C<"Available">, C<"Inactive">, C<"Deleting">, C<"Failed">, C<"Versioning">, C<"Importing">, C<"Updating">
 =head2 BotVersion => Str
 
 The version of the bot that is being deleted.

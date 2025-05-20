@@ -55,8 +55,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/con
 =head2 Limit => Int
 
 The maximum number of C<OrganizationConfigRuleStatuses> returned on
-each page. If you do no specify a number, AWS Config uses the default.
-The default is 100.
+each page. If you do no specify a number, Config uses the default. The
+default is 100.
 
 
 
@@ -69,9 +69,9 @@ the next page of results in a paginated response.
 
 =head2 OrganizationConfigRuleNames => ArrayRef[Str|Undef]
 
-The names of organization config rules for which you want status
-details. If you do not specify any names, AWS Config returns details
-for all your organization AWS Confg rules.
+The names of organization Config rules for which you want status
+details. If you do not specify any names, Config returns details for
+all your organization Config rules.
 
 
 

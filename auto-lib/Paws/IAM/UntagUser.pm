@@ -28,13 +28,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $iam = Paws->service('IAM');
+    # To remove a tag from an IAM user
+    # The following example shows how to remove tags that are attached to a user
+    # named 'anika'.
     $iam->UntagUser(
-      TagKeys => [
-        'MytagKeyType', ...    # min: 1, max: 128
-      ],
-      UserName => 'MyexistingUserNameType',
-
+      'TagKeys'  => ['Dept'],
+      'UserName' => 'anika'
     );
+
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/iam/UntagUser>
@@ -53,10 +54,10 @@ matching keys are removed from the specified user.
 
 The name of the IAM user from which you want to remove tags.
 
-This parameter accepts (through its regex pattern
-(http://wikipedia.org/wiki/regex)) a string of characters that consist
-of upper and lowercase alphanumeric characters with no spaces. You can
-also include any of the following characters: =,.@-
+This parameter allows (through its regex pattern
+(http://wikipedia.org/wiki/regex)) a string of characters consisting of
+upper and lowercase alphanumeric characters with no spaces. You can
+also include any of the following characters: _+=,.@-
 
 
 

@@ -1,6 +1,7 @@
 
 package Paws::Appflow::DescribeConnectorEntity;
   use Moose;
+  has ApiVersion => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'apiVersion');
   has ConnectorEntityName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'connectorEntityName', required => 1);
   has ConnectorProfileName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'connectorProfileName');
   has ConnectorType => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'connectorType');
@@ -31,7 +32,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $appflow = Paws->service('Appflow');
     my $DescribeConnectorEntityResponse = $appflow->DescribeConnectorEntity(
-      ConnectorEntityName  => 'MyName',
+      ConnectorEntityName  => 'MyEntityName',
+      ApiVersion           => 'MyApiVersion',              # OPTIONAL
       ConnectorProfileName => 'MyConnectorProfileName',    # OPTIONAL
       ConnectorType        => 'Salesforce',                # OPTIONAL
     );
@@ -48,6 +50,12 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/app
 =head1 ATTRIBUTES
 
 
+=head2 ApiVersion => Str
+
+The version of the API that's used by the connector.
+
+
+
 =head2 B<REQUIRED> ConnectorEntityName => Str
 
 The entity name for that connector.
@@ -57,7 +65,7 @@ The entity name for that connector.
 =head2 ConnectorProfileName => Str
 
 The name of the connector profile. The name is unique for each
-C<ConnectorProfile> in the AWS account.
+C<ConnectorProfile> in the Amazon Web Services account.
 
 
 
@@ -66,7 +74,7 @@ C<ConnectorProfile> in the AWS account.
 The type of connector application, such as Salesforce, Amplitude, and
 so on.
 
-Valid values are: C<"Salesforce">, C<"Singular">, C<"Slack">, C<"Redshift">, C<"S3">, C<"Marketo">, C<"Googleanalytics">, C<"Zendesk">, C<"Servicenow">, C<"Datadog">, C<"Trendmicro">, C<"Snowflake">, C<"Dynatrace">, C<"Infornexus">, C<"Amplitude">, C<"Veeva">, C<"EventBridge">, C<"LookoutMetrics">, C<"Upsolver">, C<"Honeycode">, C<"CustomerProfiles">
+Valid values are: C<"Salesforce">, C<"Singular">, C<"Slack">, C<"Redshift">, C<"S3">, C<"Marketo">, C<"Googleanalytics">, C<"Zendesk">, C<"Servicenow">, C<"Datadog">, C<"Trendmicro">, C<"Snowflake">, C<"Dynatrace">, C<"Infornexus">, C<"Amplitude">, C<"Veeva">, C<"EventBridge">, C<"LookoutMetrics">, C<"Upsolver">, C<"Honeycode">, C<"CustomerProfiles">, C<"SAPOData">, C<"CustomConnector">, C<"Pardot">
 
 
 =head1 SEE ALSO

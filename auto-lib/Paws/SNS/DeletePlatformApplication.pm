@@ -40,7 +40,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/sns
 
 =head2 B<REQUIRED> PlatformApplicationArn => Str
 
-PlatformApplicationArn of platform application object to delete.
+C<PlatformApplicationArn> of platform application object to delete.
 
 
 

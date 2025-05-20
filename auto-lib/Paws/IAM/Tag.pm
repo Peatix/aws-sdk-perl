@@ -58,9 +58,10 @@ might have values that consist of the number associated with the
 different cost centers in your company. Typically, many resources have
 tags with the same key name but with different values.
 
-AWS always interprets the tag C<Value> as a single string. If you need
-to store an array, you can store comma-separated values in the string.
-However, you must interpret the value in your code.
+Amazon Web Services always interprets the tag C<Value> as a single
+string. If you need to store an array, you can store comma-separated
+values in the string. However, you must interpret the value in your
+code.
 
 
 

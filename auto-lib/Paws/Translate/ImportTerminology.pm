@@ -5,6 +5,7 @@ package Paws::Translate::ImportTerminology;
   has EncryptionKey => (is => 'ro', isa => 'Paws::Translate::EncryptionKey');
   has MergeStrategy => (is => 'ro', isa => 'Str', required => 1);
   has Name => (is => 'ro', isa => 'Str', required => 1);
+  has Tags => (is => 'ro', isa => 'ArrayRef[Paws::Translate::Tag]');
   has TerminologyData => (is => 'ro', isa => 'Paws::Translate::TerminologyData', required => 1);
 
   use MooseX::ClassAttribute;
@@ -35,19 +36,29 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       MergeStrategy   => 'OVERWRITE',
       Name            => 'MyResourceName',
       TerminologyData => {
-        File   => 'BlobTerminologyFile',    # max: 10485760
-        Format => 'CSV',                    # values: CSV, TMX
-
+        File           => 'BlobTerminologyFile',  # max: 10485760
+        Format         => 'CSV',                  # values: CSV, TMX, TSV
+        Directionality => 'UNI',                  # values: UNI, MULTI; OPTIONAL
       },
-      Description   => 'MyDescription',     # OPTIONAL
+      Description   => 'MyDescription',           # OPTIONAL
       EncryptionKey => {
-        Id   => 'MyEncryptionKeyID',        # min: 1, max: 400
-        Type => 'KMS',                      # values: KMS
+        Id   => 'MyEncryptionKeyID',              # min: 1, max: 400
+        Type => 'KMS',                            # values: KMS
 
       },    # OPTIONAL
+      Tags => [
+        {
+          Key   => 'MyTagKey',      # min: 1, max: 128
+          Value => 'MyTagValue',    # max: 256
+
+        },
+        ...
+      ],    # OPTIONAL
     );
 
     # Results:
+    my $AuxiliaryDataLocation =
+      $ImportTerminologyResponse->AuxiliaryDataLocation;
     my $TerminologyProperties =
       $ImportTerminologyResponse->TerminologyProperties;
 
@@ -83,6 +94,15 @@ Valid values are: C<"OVERWRITE">
 =head2 B<REQUIRED> Name => Str
 
 The name of the custom terminology being imported.
+
+
+
+=head2 Tags => ArrayRef[L<Paws::Translate::Tag>]
+
+Tags to be associated with this resource. A tag is a key-value pair
+that adds metadata to a resource. Each tag key for the resource must be
+unique. For more information, see Tagging your resources
+(https://docs.aws.amazon.com/translate/latest/dg/tagging.html).
 
 
 

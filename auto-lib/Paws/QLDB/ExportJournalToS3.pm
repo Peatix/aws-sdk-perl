@@ -4,6 +4,7 @@ package Paws::QLDB::ExportJournalToS3;
   has ExclusiveEndTime => (is => 'ro', isa => 'Str', required => 1);
   has InclusiveStartTime => (is => 'ro', isa => 'Str', required => 1);
   has Name => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'name', required => 1);
+  has OutputFormat => (is => 'ro', isa => 'Str');
   has RoleArn => (is => 'ro', isa => 'Str', required => 1);
   has S3ExportConfiguration => (is => 'ro', isa => 'Paws::QLDB::S3ExportConfiguration', required => 1);
 
@@ -47,7 +48,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         Prefix => 'MyS3Prefix',    # max: 128
 
       },
-
+      OutputFormat => 'ION_BINARY',    # OPTIONAL
     );
 
     # Results:
@@ -98,6 +99,24 @@ The name of the ledger.
 
 
 
+=head2 OutputFormat => Str
+
+The output format of your exported journal data. A journal export job
+can write the data objects in either the text or binary representation
+of Amazon Ion
+(https://docs.aws.amazon.com/qldb/latest/developerguide/ion.html)
+format, or in JSON Lines (https://jsonlines.org/) text format.
+
+Default: C<ION_TEXT>
+
+In JSON Lines format, each journal block in an exported data object is
+a valid JSON object that is delimited by a newline. You can use this
+format to directly integrate JSON exports with analytics tools such as
+Amazon Athena and Glue because these services can parse
+newline-delimited JSON automatically.
+
+Valid values are: C<"ION_BINARY">, C<"ION_TEXT">, C<"JSON">
+
 =head2 B<REQUIRED> RoleArn => Str
 
 The Amazon Resource Name (ARN) of the IAM role that grants QLDB
@@ -107,16 +126,18 @@ permissions for a journal export job to do the following:
 
 =item *
 
-Write objects into your Amazon Simple Storage Service (Amazon S3)
-bucket.
+Write objects into your Amazon S3 bucket.
 
 =item *
 
-(Optional) Use your customer master key (CMK) in AWS Key Management
-Service (AWS KMS) for server-side encryption of your exported data.
+(Optional) Use your customer managed key in Key Management Service
+(KMS) for server-side encryption of your exported data.
 
 =back
 
+To pass a role to QLDB when requesting a journal export, you must have
+permissions to perform the C<iam:PassRole> action on the IAM role
+resource. This is required for all journal export requests.
 
 
 

@@ -3,6 +3,7 @@ package Paws::EC2::DescribeVpcAttributeResult;
   use Moose;
   has EnableDnsHostnames => (is => 'ro', isa => 'Paws::EC2::AttributeBooleanValue', request_name => 'enableDnsHostnames', traits => ['NameInRequest',]);
   has EnableDnsSupport => (is => 'ro', isa => 'Paws::EC2::AttributeBooleanValue', request_name => 'enableDnsSupport', traits => ['NameInRequest',]);
+  has EnableNetworkAddressUsageMetrics => (is => 'ro', isa => 'Paws::EC2::AttributeBooleanValue', request_name => 'enableNetworkAddressUsageMetrics', traits => ['NameInRequest',]);
   has VpcId => (is => 'ro', isa => 'Str', request_name => 'vpcId', traits => ['NameInRequest',]);
 
   has _request_id => (is => 'ro', isa => 'Str');
@@ -30,6 +31,12 @@ Indicates whether DNS resolution is enabled for the VPC. If this
 attribute is C<true>, the Amazon DNS server resolves DNS hostnames for
 your instances to their corresponding IP addresses; otherwise, it does
 not.
+
+
+=head2 EnableNetworkAddressUsageMetrics => L<Paws::EC2::AttributeBooleanValue>
+
+Indicates whether Network Address Usage metrics are enabled for your
+VPC.
 
 
 =head2 VpcId => Str

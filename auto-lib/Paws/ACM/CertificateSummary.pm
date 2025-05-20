@@ -2,7 +2,24 @@
 package Paws::ACM::CertificateSummary;
   use Moose;
   has CertificateArn => (is => 'ro', isa => 'Str');
+  has CreatedAt => (is => 'ro', isa => 'Str');
   has DomainName => (is => 'ro', isa => 'Str');
+  has Exported => (is => 'ro', isa => 'Bool');
+  has ExtendedKeyUsages => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has HasAdditionalSubjectAlternativeNames => (is => 'ro', isa => 'Bool');
+  has ImportedAt => (is => 'ro', isa => 'Str');
+  has InUse => (is => 'ro', isa => 'Bool');
+  has IssuedAt => (is => 'ro', isa => 'Str');
+  has KeyAlgorithm => (is => 'ro', isa => 'Str');
+  has KeyUsages => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has ManagedBy => (is => 'ro', isa => 'Str');
+  has NotAfter => (is => 'ro', isa => 'Str');
+  has NotBefore => (is => 'ro', isa => 'Str');
+  has RenewalEligibility => (is => 'ro', isa => 'Str');
+  has RevokedAt => (is => 'ro', isa => 'Str');
+  has Status => (is => 'ro', isa => 'Str');
+  has SubjectAlternativeNameSummaries => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has Type => (is => 'ro', isa => 'Str');
 
 1;
 
@@ -23,7 +40,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::ACM::CertificateSummary object:
 
-  $service_obj->Method(Att1 => { CertificateArn => $value, ..., DomainName => $value  });
+  $service_obj->Method(Att1 => { CertificateArn => $value, ..., Type => $value  });
 
 =head3 Results returned from an API call
 
@@ -50,10 +67,151 @@ For more information about ARNs, see Amazon Resource Names (ARNs)
 (https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
 
 
+=head2 CreatedAt => Str
+
+The time at which the certificate was requested.
+
+
 =head2 DomainName => Str
 
 Fully qualified domain name (FQDN), such as www.example.com or
 example.com, for the certificate.
+
+
+=head2 Exported => Bool
+
+Indicates whether the certificate has been exported. This value exists
+only when the certificate type is C<PRIVATE>.
+
+
+=head2 ExtendedKeyUsages => ArrayRef[Str|Undef]
+
+Contains a list of Extended Key Usage X.509 v3 extension objects. Each
+object specifies a purpose for which the certificate public key can be
+used and consists of a name and an object identifier (OID).
+
+
+=head2 HasAdditionalSubjectAlternativeNames => Bool
+
+When called by ListCertificates
+(https://docs.aws.amazon.com/acm/latestAPIReference/API_ListCertificates.html),
+indicates whether the full list of subject alternative names has been
+included in the response. If false, the response includes all of the
+subject alternative names included in the certificate. If true, the
+response only includes the first 100 subject alternative names included
+in the certificate. To display the full list of subject alternative
+names, use DescribeCertificate
+(https://docs.aws.amazon.com/acm/latestAPIReference/API_DescribeCertificate.html).
+
+
+=head2 ImportedAt => Str
+
+The date and time when the certificate was imported. This value exists
+only when the certificate type is C<IMPORTED>.
+
+
+=head2 InUse => Bool
+
+Indicates whether the certificate is currently in use by any Amazon Web
+Services resources.
+
+
+=head2 IssuedAt => Str
+
+The time at which the certificate was issued. This value exists only
+when the certificate type is C<AMAZON_ISSUED>.
+
+
+=head2 KeyAlgorithm => Str
+
+The algorithm that was used to generate the public-private key pair.
+
+
+=head2 KeyUsages => ArrayRef[Str|Undef]
+
+A list of Key Usage X.509 v3 extension objects. Each object is a string
+value that identifies the purpose of the public key contained in the
+certificate. Possible extension values include DIGITAL_SIGNATURE,
+KEY_ENCHIPHERMENT, NON_REPUDIATION, and more.
+
+
+=head2 ManagedBy => Str
+
+Identifies the Amazon Web Services service that manages the certificate
+issued by ACM.
+
+
+=head2 NotAfter => Str
+
+The time after which the certificate is not valid.
+
+
+=head2 NotBefore => Str
+
+The time before which the certificate is not valid.
+
+
+=head2 RenewalEligibility => Str
+
+Specifies whether the certificate is eligible for renewal. At this
+time, only exported private certificates can be renewed with the
+RenewCertificate command.
+
+
+=head2 RevokedAt => Str
+
+The time at which the certificate was revoked. This value exists only
+when the certificate status is C<REVOKED>.
+
+
+=head2 Status => Str
+
+The status of the certificate.
+
+A certificate enters status PENDING_VALIDATION upon being requested,
+unless it fails for any of the reasons given in the troubleshooting
+topic Certificate request fails
+(https://docs.aws.amazon.com/acm/latest/userguide/troubleshooting-failed.html).
+ACM makes repeated attempts to validate a certificate for 72 hours and
+then times out. If a certificate shows status FAILED or
+VALIDATION_TIMED_OUT, delete the request, correct the issue with DNS
+validation
+(https://docs.aws.amazon.com/acm/latest/userguide/dns-validation.html)
+or Email validation
+(https://docs.aws.amazon.com/acm/latest/userguide/email-validation.html),
+and try again. If validation succeeds, the certificate enters status
+ISSUED.
+
+
+=head2 SubjectAlternativeNameSummaries => ArrayRef[Str|Undef]
+
+One or more domain names (subject alternative names) included in the
+certificate. This list contains the domain names that are bound to the
+public key that is contained in the certificate. The subject
+alternative names include the canonical domain name (CN) of the
+certificate and additional domain names that can be used to connect to
+the website.
+
+When called by ListCertificates
+(https://docs.aws.amazon.com/acm/latestAPIReference/API_ListCertificates.html),
+this parameter will only return the first 100 subject alternative names
+included in the certificate. To display the full list of subject
+alternative names, use DescribeCertificate
+(https://docs.aws.amazon.com/acm/latestAPIReference/API_DescribeCertificate.html).
+
+
+=head2 Type => Str
+
+The source of the certificate. For certificates provided by ACM, this
+value is C<AMAZON_ISSUED>. For certificates that you imported with
+ImportCertificate, this value is C<IMPORTED>. ACM does not provide
+managed renewal
+(https://docs.aws.amazon.com/acm/latest/userguide/acm-renewal.html) for
+imported certificates. For more information about the differences
+between certificates that you import and those that ACM provides, see
+Importing Certificates
+(https://docs.aws.amazon.com/acm/latest/userguide/import-certificate.html)
+in the I<Certificate Manager User Guide>.
 
 
 

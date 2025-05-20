@@ -62,7 +62,7 @@ Returns the log format, either JSON or TEXT.
 
 =head2 LogType => Str
 
-Refers to slow-log (https://redis.io/commands/slowlog).
+Refers to slow-log (https://redis.io/commands/slowlog) or engine-log.
 
 
 =head2 Message => Str

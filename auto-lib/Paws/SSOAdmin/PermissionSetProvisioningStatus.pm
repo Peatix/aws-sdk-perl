@@ -46,7 +46,8 @@ operation for a specified permission set.
 
 =head2 AccountId => Str
 
-The identifier of the AWS account from which to list the assignments.
+The identifier of the Amazon Web Services account from which to list
+the assignments.
 
 
 =head2 CreatedDate => Str
@@ -63,8 +64,9 @@ failure.
 =head2 PermissionSetArn => Str
 
 The ARN of the permission set that is being provisioned. For more
-information about ARNs, see Amazon Resource Names (ARNs) and AWS
-Service Namespaces in the I<AWS General Reference>.
+information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web
+Services Service Namespaces in the I<Amazon Web Services General
+Reference>.
 
 
 =head2 RequestId => Str

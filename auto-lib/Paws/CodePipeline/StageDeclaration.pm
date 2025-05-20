@@ -2,8 +2,11 @@
 package Paws::CodePipeline::StageDeclaration;
   use Moose;
   has Actions => (is => 'ro', isa => 'ArrayRef[Paws::CodePipeline::ActionDeclaration]', request_name => 'actions', traits => ['NameInRequest'], required => 1);
+  has BeforeEntry => (is => 'ro', isa => 'Paws::CodePipeline::BeforeEntryConditions', request_name => 'beforeEntry', traits => ['NameInRequest']);
   has Blockers => (is => 'ro', isa => 'ArrayRef[Paws::CodePipeline::BlockerDeclaration]', request_name => 'blockers', traits => ['NameInRequest']);
   has Name => (is => 'ro', isa => 'Str', request_name => 'name', traits => ['NameInRequest'], required => 1);
+  has OnFailure => (is => 'ro', isa => 'Paws::CodePipeline::FailureConditions', request_name => 'onFailure', traits => ['NameInRequest']);
+  has OnSuccess => (is => 'ro', isa => 'Paws::CodePipeline::SuccessConditions', request_name => 'onSuccess', traits => ['NameInRequest']);
 
 1;
 
@@ -24,7 +27,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::CodePipeline::StageDeclaration object:
 
-  $service_obj->Method(Att1 => { Actions => $value, ..., Name => $value  });
+  $service_obj->Method(Att1 => { Actions => $value, ..., OnSuccess => $value  });
 
 =head3 Results returned from an API call
 
@@ -45,6 +48,13 @@ Represents information about a stage and its definition.
 The actions included in a stage.
 
 
+=head2 BeforeEntry => L<Paws::CodePipeline::BeforeEntryConditions>
+
+The method to use when a stage allows entry. For example, configuring
+this field for conditions will allow entry to the stage when the
+conditions are met.
+
+
 =head2 Blockers => ArrayRef[L<Paws::CodePipeline::BlockerDeclaration>]
 
 Reserved for future use.
@@ -53,6 +63,21 @@ Reserved for future use.
 =head2 B<REQUIRED> Name => Str
 
 The name of the stage.
+
+
+=head2 OnFailure => L<Paws::CodePipeline::FailureConditions>
+
+The method to use when a stage has not completed successfully. For
+example, configuring this field for rollback will roll back a failed
+stage automatically to the last successful pipeline execution in the
+stage.
+
+
+=head2 OnSuccess => L<Paws::CodePipeline::SuccessConditions>
+
+The method to use when a stage has succeeded. For example, configuring
+this field for conditions will allow the stage to succeed when the
+conditions are met.
 
 
 

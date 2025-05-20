@@ -110,8 +110,8 @@ The current number CPU cores and threads is set to a non-default value.
 
 =back
 
-For more information, see Configuring the Processor of the DB Instance
-Class
+For more information, see Configuring the processor for a DB instance
+class in RDS for Oracle
 (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html#USER_ConfigureProcessor)
 in the I<Amazon RDS User Guide.>
 
@@ -126,7 +126,7 @@ C<threadsPerCore>.
 
 =head2 Value => Str
 
-The value of a processor feature name.
+The value of a processor feature.
 
 
 

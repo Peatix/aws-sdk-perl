@@ -48,15 +48,17 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 MaxResults => Int
 
-Upper bound on number of records to return. The maximum number of
-results is 100.
+The maximum number of channels that you want MediaTailor to return in
+response to the current request. If there are more than C<MaxResults>
+channels, use the value of C<NextToken> in the response to get the next
+page of results.
 
 
 
 =head2 NextToken => Str
 
-Pagination token from the GET list request. Use the token to fetch the
-next page of results.
+Pagination token returned by the list request when results exceed the
+maximum allowed. Use the token to fetch the next page of results.
 
 
 

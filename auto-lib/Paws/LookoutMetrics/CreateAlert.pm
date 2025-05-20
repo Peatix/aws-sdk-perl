@@ -3,8 +3,9 @@ package Paws::LookoutMetrics::CreateAlert;
   use Moose;
   has Action => (is => 'ro', isa => 'Paws::LookoutMetrics::Action', required => 1);
   has AlertDescription => (is => 'ro', isa => 'Str');
+  has AlertFilters => (is => 'ro', isa => 'Paws::LookoutMetrics::AlertFilters');
   has AlertName => (is => 'ro', isa => 'Str', required => 1);
-  has AlertSensitivityThreshold => (is => 'ro', isa => 'Int', required => 1);
+  has AlertSensitivityThreshold => (is => 'ro', isa => 'Int');
   has AnomalyDetectorArn => (is => 'ro', isa => 'Str', required => 1);
   has Tags => (is => 'ro', isa => 'Paws::LookoutMetrics::TagMap');
 
@@ -43,13 +44,27 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         SNSConfiguration => {
           RoleArn     => 'MyArn',    # max: 256
           SnsTopicArn => 'MyArn',    # max: 256
-
+          SnsFormat   =>
+            'LONG_TEXT',    # values: LONG_TEXT, SHORT_TEXT, JSON; OPTIONAL
         },    # OPTIONAL
       },
-      AlertName                 => 'MyAlertName',
-      AlertSensitivityThreshold => 1,
-      AnomalyDetectorArn        => 'MyArn',
-      AlertDescription          => 'MyAlertDescription',    # OPTIONAL
+      AlertName          => 'MyAlertName',
+      AnomalyDetectorArn => 'MyArn',
+      AlertDescription   => 'MyAlertDescription',    # OPTIONAL
+      AlertFilters       => {
+        DimensionFilterList => [
+          {
+            DimensionName      => 'MyColumnName',    # min: 1, max: 63; OPTIONAL
+            DimensionValueList => [ 'MyDimensionValue', ... ]
+            ,                                        # min: 1, max: 10; OPTIONAL
+          },
+          ...
+        ],    # min: 1, max: 5; OPTIONAL
+        MetricList => [
+          'MyMetricName', ...    # max: 256
+        ],    # min: 1, max: 5; OPTIONAL
+      },    # OPTIONAL
+      AlertSensitivityThreshold => 1,    # OPTIONAL
       Tags                      => {
         'MyTagKey' => 'MyTagValue',    # key: min: 1, max: 128, value: max: 256
       },    # OPTIONAL
@@ -78,13 +93,20 @@ A description of the alert.
 
 
 
+=head2 AlertFilters => L<Paws::LookoutMetrics::AlertFilters>
+
+The configuration of the alert filters, containing MetricList and
+DimensionFilterList.
+
+
+
 =head2 B<REQUIRED> AlertName => Str
 
 The name of the alert.
 
 
 
-=head2 B<REQUIRED> AlertSensitivityThreshold => Int
+=head2 AlertSensitivityThreshold => Int
 
 An integer from 0 to 100 specifying the alert sensitivity threshold.
 

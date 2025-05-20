@@ -39,33 +39,48 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ECS::TaskOv
 
 =head1 DESCRIPTION
 
-The overrides associated with a task.
+The overrides that are associated with a task.
 
 =head1 ATTRIBUTES
 
 
 =head2 ContainerOverrides => ArrayRef[L<Paws::ECS::ContainerOverride>]
 
-One or more container overrides sent to a task.
+One or more container overrides that are sent to a task.
 
 
 =head2 Cpu => Str
 
-The cpu override for the task.
+The CPU override for the task.
 
 
 =head2 EphemeralStorage => L<Paws::ECS::EphemeralStorage>
 
 The ephemeral storage setting override for the task.
 
-This parameter is only supported for tasks hosted on AWS Fargate using
-platform version C<1.4.0> or later.
+This parameter is only supported for tasks hosted on Fargate that use
+the following platform versions:
+
+=over
+
+=item *
+
+Linux platform version C<1.4.0> or later.
+
+=item *
+
+Windows platform version C<1.0.0> or later.
+
+=back
+
 
 
 =head2 ExecutionRoleArn => Str
 
-The Amazon Resource Name (ARN) of the task execution IAM role override
-for the task.
+The Amazon Resource Name (ARN) of the task execution role override for
+the task. For more information, see Amazon ECS task execution IAM role
+(https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_execution_IAM_role.html)
+in the I<Amazon Elastic Container Service Developer Guide>.
 
 
 =head2 InferenceAcceleratorOverrides => ArrayRef[L<Paws::ECS::InferenceAcceleratorOverride>]
@@ -80,9 +95,12 @@ The memory override for the task.
 
 =head2 TaskRoleArn => Str
 
-The Amazon Resource Name (ARN) of the IAM role that containers in this
-task can assume. All containers in this task are granted the
-permissions that are specified in this role.
+The Amazon Resource Name (ARN) of the role that containers in this task
+can assume. All containers in this task are granted the permissions
+that are specified in this role. For more information, see IAM Role for
+Tasks
+(https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html)
+in the I<Amazon Elastic Container Service Developer Guide>.
 
 
 

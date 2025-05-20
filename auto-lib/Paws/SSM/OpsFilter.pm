@@ -35,7 +35,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SSM::OpsFil
 
 =head1 DESCRIPTION
 
-A filter for viewing OpsItem summaries.
+A filter for viewing OpsData summaries.
 
 =head1 ATTRIBUTES
 

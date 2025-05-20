@@ -23,8 +23,8 @@ An array of C<AppsListDataSummary> objects.
 =head2 NextToken => Str
 
 If you specify a value for C<MaxResults> in your list request, and you
-have more objects than the maximum, AWS Firewall Manager returns this
-token in the response. You can use this token in subsequent requests to
+have more objects than the maximum, Firewall Manager returns this token
+in the response. You can use this token in subsequent requests to
 retrieve the next batch of objects.
 
 

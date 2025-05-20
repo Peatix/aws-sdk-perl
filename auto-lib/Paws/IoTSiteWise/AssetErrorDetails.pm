@@ -43,7 +43,7 @@ action.
 
 =head2 B<REQUIRED> AssetId => Str
 
-The ID of the asset.
+The ID of the asset, in UUID format.
 
 
 =head2 B<REQUIRED> Code => Str

@@ -35,7 +35,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::RDS::EventC
 =head1 DESCRIPTION
 
 Contains the results of a successful invocation of the
-C<DescribeEventCategories> operation.
+DescribeEventCategories
+(https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_DescribeEventCategories.html)
+operation.
 
 =head1 ATTRIBUTES
 

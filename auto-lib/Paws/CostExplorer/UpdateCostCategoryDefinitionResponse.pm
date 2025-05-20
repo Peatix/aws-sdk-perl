@@ -22,7 +22,8 @@ The unique identifier for your Cost Category.
 
 =head2 EffectiveStart => Str
 
-The Cost Category's effective start date.
+The Cost Category's effective start date. It can only be a billing
+start date (first day of the month).
 
 
 =head2 _request_id => Str

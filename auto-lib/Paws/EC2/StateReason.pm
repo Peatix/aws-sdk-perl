@@ -79,8 +79,8 @@ increase in the Spot price.
 
 =item *
 
-C<Client.InstanceInitiatedShutdown>: The instance was shut down using
-the C<shutdown -h> command from the instance.
+C<Client.InstanceInitiatedShutdown>: The instance was shut down from
+the operating system of the instance.
 
 =item *
 

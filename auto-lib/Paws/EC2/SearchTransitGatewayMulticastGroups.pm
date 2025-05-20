@@ -5,7 +5,7 @@ package Paws::EC2::SearchTransitGatewayMulticastGroups;
   has Filters => (is => 'ro', isa => 'ArrayRef[Paws::EC2::Filter]', traits => ['NameInRequest'], request_name => 'Filter' );
   has MaxResults => (is => 'ro', isa => 'Int');
   has NextToken => (is => 'ro', isa => 'Str');
-  has TransitGatewayMulticastDomainId => (is => 'ro', isa => 'Str');
+  has TransitGatewayMulticastDomainId => (is => 'ro', isa => 'Str', required => 1);
 
   use MooseX::ClassAttribute;
 
@@ -33,20 +33,19 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $ec2 = Paws->service('EC2');
     my $SearchTransitGatewayMulticastGroupsResult =
       $ec2->SearchTransitGatewayMulticastGroups(
-      DryRun  => 1,    # OPTIONAL
-      Filters => [
+      TransitGatewayMulticastDomainId => 'MyTransitGatewayMulticastDomainId',
+      DryRun                          => 1,    # OPTIONAL
+      Filters                         => [
         {
-          Name   => 'MyString',    # OPTIONAL
+          Name   => 'MyString',                # OPTIONAL
           Values => [
-            'MyString', ...        # OPTIONAL
+            'MyString', ...                    # OPTIONAL
           ],    # OPTIONAL
         },
         ...
       ],    # OPTIONAL
-      MaxResults                      => 1,             # OPTIONAL
-      NextToken                       => 'MyString',    # OPTIONAL
-      TransitGatewayMulticastDomainId =>
-        'MyTransitGatewayMulticastDomainId',            # OPTIONAL
+      MaxResults => 1,             # OPTIONAL
+      NextToken  => 'MyString',    # OPTIONAL
       );
 
     # Results:
@@ -111,11 +110,6 @@ C<source-type> - The source type. Valid values are C<igmp> | C<static>.
 
 =item *
 
-C<state> - The state of the subnet association. Valid values are
-C<associated> | C<associated> | C<disassociated> | C<disassociating>.
-
-=item *
-
 C<subnet-id> - The ID of the subnet.
 
 =item *
@@ -142,7 +136,7 @@ The token for the next page of results.
 
 
 
-=head2 TransitGatewayMulticastDomainId => Str
+=head2 B<REQUIRED> TransitGatewayMulticastDomainId => Str
 
 The ID of the transit gateway multicast domain.
 

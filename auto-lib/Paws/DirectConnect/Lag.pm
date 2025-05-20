@@ -4,6 +4,7 @@ package Paws::DirectConnect::Lag;
   has AllowsHostedConnections => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'allowsHostedConnections' );
   has AwsDevice => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'awsDevice' );
   has AwsDeviceV2 => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'awsDeviceV2' );
+  has AwsLogicalDeviceId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'awsLogicalDeviceId' );
   has Connections => (is => 'ro', isa => 'ArrayRef[Paws::DirectConnect::Connection]', traits => ['NameInRequest'], request_name => 'connections' );
   has ConnectionsBandwidth => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'connectionsBandwidth' );
   has EncryptionMode => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'encryptionMode' );
@@ -40,12 +41,19 @@ Indicates whether the LAG can host other connections.
 
 =head2 AwsDevice => Str
 
-The AWS Direct Connect endpoint that hosts the LAG.
+The Direct Connect endpoint that hosts the LAG.
 
 
 =head2 AwsDeviceV2 => Str
 
-The AWS Direct Connect endpoint that hosts the LAG.
+The Direct Connect endpoint that hosts the LAG.
+
+
+=head2 AwsLogicalDeviceId => Str
+
+The Direct Connect endpoint that terminates the logical connection.
+This device might be different than the device that terminates the
+physical connection.
 
 
 =head2 Connections => ArrayRef[L<Paws::DirectConnect::Connection>]
@@ -56,7 +64,7 @@ The connections bundled by the LAG.
 =head2 ConnectionsBandwidth => Str
 
 The individual bandwidth of the physical connections bundled by the
-LAG. The possible values are 1Gbps and 10Gbps.
+LAG. The possible values are 1Gbps, 10Gbps, 100Gbps, or 400 Gbps..
 
 
 =head2 EncryptionMode => Str
@@ -75,7 +83,7 @@ address family (IPv4/IPv6).
 Valid values are: C<"unknown">, C<"yes">, C<"no">
 =head2 JumboFrameCapable => Bool
 
-Indicates whether jumbo frames (9001 MTU) are supported.
+Indicates whether jumbo frames are supported.
 
 
 =head2 LagId => Str
@@ -151,13 +159,15 @@ operational for the LAG itself to be operational.
 
 =head2 NumberOfConnections => Int
 
-The number of physical dedicated connections bundled by the LAG, up to
-a maximum of 10.
+The number of physical dedicated connections initially provisioned and
+bundled by the LAG. You can have a maximum of four connections when the
+port speed is 1 Gbps or 10 Gbps, or two when the port speed is 100 Gbps
+or 400 Gbps.
 
 
 =head2 OwnerAccount => Str
 
-The ID of the AWS account that owns the LAG.
+The ID of the Amazon Web Services account that owns the LAG.
 
 
 =head2 ProviderName => Str
@@ -167,7 +177,7 @@ The name of the service provider associated with the LAG.
 
 =head2 Region => Str
 
-The AWS Region where the connection is located.
+The Amazon Web Services Region where the connection is located.
 
 
 =head2 Tags => ArrayRef[L<Paws::DirectConnect::Tag>]

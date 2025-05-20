@@ -51,10 +51,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/clo
 =head2 TemplateBody => Str
 
 Structure containing the template body with a minimum length of 1 byte
-and a maximum length of 51,200 bytes. For more information, go to
-Template Anatomy
-(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html)
-in the AWS CloudFormation User Guide.
+and a maximum length of 51,200 bytes.
 
 Conditional: You must pass C<TemplateURL> or C<TemplateBody>. If both
 are passed, only C<TemplateBody> is used.
@@ -63,12 +60,10 @@ are passed, only C<TemplateBody> is used.
 
 =head2 TemplateURL => Str
 
-Location of file containing the template body. The URL must point to a
-template (max size: 460,800 bytes) that is located in an Amazon S3
-bucket or a Systems Manager document. For more information, go to
-Template Anatomy
-(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html)
-in the AWS CloudFormation User Guide.
+The URL of a file containing the template body. The URL must point to a
+template (max size: 1 MB) that is located in an Amazon S3 bucket or a
+Systems Manager document. The location for an Amazon S3 bucket must
+start with C<https://>.
 
 Conditional: You must pass C<TemplateURL> or C<TemplateBody>. If both
 are passed, only C<TemplateBody> is used.

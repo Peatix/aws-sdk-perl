@@ -41,7 +41,7 @@ A structure that contains the ARN of a resource and its resource type.
 
 =head2 ResourceArn => Str
 
-The ARN of a resource.
+The Amazon resource name (ARN) of a resource.
 
 
 =head2 ResourceType => Str

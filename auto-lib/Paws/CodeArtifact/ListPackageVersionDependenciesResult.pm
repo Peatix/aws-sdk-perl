@@ -31,45 +31,40 @@ objects.
 =head2 Format => Str
 
 A format that specifies the type of the package that contains the
-returned dependencies. The valid values are:
+returned dependencies.
+
+Valid values are: C<"npm">, C<"pypi">, C<"maven">, C<"nuget">, C<"generic">, C<"ruby">, C<"swift">, C<"cargo">
+=head2 Namespace => Str
+
+The namespace of the package version that contains the returned
+dependencies. The package component that specifies its namespace
+depends on its type. For example:
+
+The namespace is required when listing dependencies from package
+versions of the following formats:
 
 =over
 
 =item *
 
-C<npm>
-
-=item *
-
-C<pypi>
-
-=item *
-
-C<maven>
+Maven
 
 =back
 
-
-Valid values are: C<"npm">, C<"pypi">, C<"maven">, C<"nuget">
-=head2 Namespace => Str
-
-The namespace of the package. The package component that specifies its
-namespace depends on its type. For example:
-
 =over
 
 =item *
 
-The namespace of a Maven package is its C<groupId>.
+The namespace of a Maven package version is its C<groupId>.
 
 =item *
 
-The namespace of an npm package is its C<scope>.
+The namespace of an npm package version is its C<scope>.
 
 =item *
 
-A Python package does not contain a corresponding component, so Python
-packages do not have a namespace.
+Python and NuGet package versions do not contain a corresponding
+component, package versions of those formats do not have a namespace.
 
 =back
 

@@ -33,16 +33,25 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CloudTrail:
 
 =head1 DESCRIPTION
 
-A JSON string that contains a list of insight types that are logged on
-a trail.
+A JSON string that contains a list of Insights types that are logged on
+a trail or event data store.
 
 =head1 ATTRIBUTES
 
 
 =head2 InsightType => Str
 
-The type of insights to log on a trail. In this release, only
-C<ApiCallRateInsight> is supported as an insight type.
+The type of Insights events to log on a trail or event data store.
+C<ApiCallRateInsight> and C<ApiErrorRateInsight> are valid Insight
+types.
+
+The C<ApiCallRateInsight> Insights type analyzes write-only management
+API calls that are aggregated per minute against a baseline API call
+volume.
+
+The C<ApiErrorRateInsight> Insights type analyzes management API calls
+that result in error codes. The error is shown if the API call is
+unsuccessful.
 
 
 

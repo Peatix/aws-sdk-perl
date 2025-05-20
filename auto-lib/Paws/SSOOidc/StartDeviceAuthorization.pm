@@ -56,9 +56,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/oid
 
 =head2 B<REQUIRED> ClientId => Str
 
-The unique identifier string for the client that is registered with AWS
-SSO. This value should come from the persisted result of the
-RegisterClient API operation.
+The unique identifier string for the client that is registered with IAM
+Identity Center. This value should come from the persisted result of
+the RegisterClient API operation.
 
 
 
@@ -71,10 +71,10 @@ come from the persisted result of the RegisterClient API operation.
 
 =head2 B<REQUIRED> StartUrl => Str
 
-The URL for the AWS SSO user portal. For more information, see Using
-the User Portal
+The URL for the Amazon Web Services access portal. For more
+information, see Using the Amazon Web Services access portal
 (https://docs.aws.amazon.com/singlesignon/latest/userguide/using-the-portal.html)
-in the I<AWS Single Sign-On User Guide>.
+in the I<IAM Identity Center User Guide>.
 
 
 

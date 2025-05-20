@@ -60,12 +60,12 @@ specified for container services.
 
 =head2 Name => Str
 
-The friendly name of the power (e.g., C<nano>).
+The friendly name of the power (C<nano>).
 
 
 =head2 PowerId => Str
 
-The ID of the power (e.g., C<nano-1>).
+The ID of the power (C<nano-1>).
 
 
 =head2 Price => Num

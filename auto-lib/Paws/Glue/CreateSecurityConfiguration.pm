@@ -36,6 +36,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             'DISABLED',    # values: DISABLED, SSE-KMS; OPTIONAL
           KmsKeyArn => 'MyKmsKeyArn',    # OPTIONAL
         },    # OPTIONAL
+        DataQualityEncryption => {
+          DataQualityEncryptionMode =>
+            'DISABLED',    # values: DISABLED, SSE-KMS; OPTIONAL
+          KmsKeyArn => 'MyKmsKeyArn',    # OPTIONAL
+        },    # OPTIONAL
         JobBookmarksEncryption => {
           JobBookmarksEncryptionMode =>
             'DISABLED',    # values: DISABLED, CSE-KMS; OPTIONAL

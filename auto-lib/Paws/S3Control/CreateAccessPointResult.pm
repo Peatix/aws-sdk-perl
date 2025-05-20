@@ -2,6 +2,7 @@
 package Paws::S3Control::CreateAccessPointResult;
   use Moose;
   has AccessPointArn => (is => 'ro', isa => 'Str');
+  has Alias => (is => 'ro', isa => 'Str');
 
 
   has _request_id => (is => 'ro', isa => 'Str');
@@ -21,6 +22,12 @@ Paws::S3Control::CreateAccessPointResult
 The ARN of the access point.
 
 This is only supported by Amazon S3 on Outposts.
+
+
+
+=head2 Alias => Str
+
+The name or alias of the access point.
 
 
 

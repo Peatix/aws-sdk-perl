@@ -6,6 +6,7 @@ package Paws::Personalize::CreateDatasetExportJob;
   has JobName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'jobName' , required => 1);
   has JobOutput => (is => 'ro', isa => 'Paws::Personalize::DatasetExportJobOutput', traits => ['NameInRequest'], request_name => 'jobOutput' , required => 1);
   has RoleArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'roleArn' , required => 1);
+  has Tags => (is => 'ro', isa => 'ArrayRef[Paws::Personalize::Tag]', traits => ['NameInRequest'], request_name => 'tags' );
 
   use MooseX::ClassAttribute;
 
@@ -37,12 +38,20 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       JobOutput  => {
         S3DataDestination => {
           Path      => 'MyS3Location',    # max: 256
-          KmsKeyArn => 'MyKmsKeyArn',     # OPTIONAL
+          KmsKeyArn => 'MyKmsKeyArn',     # max: 2048; OPTIONAL
         },
 
       },
       RoleArn       => 'MyRoleArn',
       IngestionMode => 'BULK',        # OPTIONAL
+      Tags          => [
+        {
+          TagKey   => 'MyTagKey',      # min: 1, max: 128
+          TagValue => 'MyTagValue',    # max: 256
+
+        },
+        ...
+      ],    # OPTIONAL
     );
 
     # Results:
@@ -88,9 +97,16 @@ The path to the Amazon S3 bucket where the job's output is stored.
 
 =head2 B<REQUIRED> RoleArn => Str
 
-The Amazon Resource Name (ARN) of the AWS Identity and Access
-Management service role that has permissions to add data to your output
-Amazon S3 bucket.
+The Amazon Resource Name (ARN) of the IAM service role that has
+permissions to add data to your output Amazon S3 bucket.
+
+
+
+=head2 Tags => ArrayRef[L<Paws::Personalize::Tag>]
+
+A list of tags
+(https://docs.aws.amazon.com/personalize/latest/dg/tagging-resources.html)
+to apply to the dataset export job.
 
 
 

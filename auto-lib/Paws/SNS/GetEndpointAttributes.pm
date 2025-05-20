@@ -45,7 +45,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/sns
 
 =head2 B<REQUIRED> EndpointArn => Str
 
-EndpointArn for GetEndpointAttributes input.
+C<EndpointArn> for C<GetEndpointAttributes> input.
 
 
 

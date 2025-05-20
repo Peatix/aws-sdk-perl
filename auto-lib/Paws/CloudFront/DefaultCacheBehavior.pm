@@ -8,11 +8,13 @@ package Paws::CloudFront::DefaultCacheBehavior;
   has FieldLevelEncryptionId => (is => 'ro', isa => 'Str');
   has ForwardedValues => (is => 'ro', isa => 'Paws::CloudFront::ForwardedValues');
   has FunctionAssociations => (is => 'ro', isa => 'Paws::CloudFront::FunctionAssociations');
+  has GrpcConfig => (is => 'ro', isa => 'Paws::CloudFront::GrpcConfig');
   has LambdaFunctionAssociations => (is => 'ro', isa => 'Paws::CloudFront::LambdaFunctionAssociations');
   has MaxTTL => (is => 'ro', isa => 'Int');
   has MinTTL => (is => 'ro', isa => 'Int');
   has OriginRequestPolicyId => (is => 'ro', isa => 'Str');
   has RealtimeLogConfigArn => (is => 'ro', isa => 'Str');
+  has ResponseHeadersPolicyId => (is => 'ro', isa => 'Str');
   has SmoothStreaming => (is => 'ro', isa => 'Bool');
   has TargetOriginId => (is => 'ro', isa => 'Str', required => 1);
   has TrustedKeyGroups => (is => 'ro', isa => 'Paws::CloudFront::TrustedKeyGroups');
@@ -49,11 +51,10 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CloudFront:
 
 =head1 DESCRIPTION
 
-A complex type that describes the default cache behavior if you
-donE<rsquo>t specify a C<CacheBehavior> element or if request URLs
-donE<rsquo>t match any of the values of C<PathPattern> in
-C<CacheBehavior> elements. You must create exactly one default cache
-behavior.
+A complex type that describes the default cache behavior if you don't
+specify a C<CacheBehavior> element or if request URLs don't match any
+of the values of C<PathPattern> in C<CacheBehavior> elements. You must
+create exactly one default cache behavior.
 
 =head1 ATTRIBUTES
 
@@ -147,14 +148,19 @@ cookies, and HTTP headers.
 =head2 FunctionAssociations => L<Paws::CloudFront::FunctionAssociations>
 
 A list of CloudFront functions that are associated with this cache
-behavior. CloudFront functions must be published to the C<LIVE> stage
-to associate them with a cache behavior.
+behavior. Your functions must be published to the C<LIVE> stage to
+associate them with a cache behavior.
+
+
+=head2 GrpcConfig => L<Paws::CloudFront::GrpcConfig>
+
+The gRPC configuration for your cache behavior.
 
 
 =head2 LambdaFunctionAssociations => L<Paws::CloudFront::LambdaFunctionAssociations>
 
-A complex type that contains zero or more Lambda function associations
-for a cache behavior.
+A complex type that contains zero or more Lambda@Edge function
+associations for a cache behavior.
 
 
 =head2 MaxTTL => Int
@@ -220,6 +226,11 @@ logs
 in the I<Amazon CloudFront Developer Guide>.
 
 
+=head2 ResponseHeadersPolicyId => Str
+
+The identifier for a response headers policy.
+
+
 =head2 SmoothStreaming => Bool
 
 Indicates whether you want to distribute media files in the Microsoft
@@ -255,14 +266,14 @@ in the I<Amazon CloudFront Developer Guide>.
 
 We recommend using C<TrustedKeyGroups> instead of C<TrustedSigners>.
 
-A list of AWS account IDs whose public keys CloudFront can use to
-validate signed URLs or signed cookies.
+A list of Amazon Web Services account IDs whose public keys CloudFront
+can use to validate signed URLs or signed cookies.
 
 When a cache behavior contains trusted signers, CloudFront requires
 signed URLs or signed cookies for all requests that match the cache
 behavior. The URLs or cookies must be signed with the private key of a
-CloudFront key pair in a trusted signerE<rsquo>s AWS account. The
-signed URL or cookie contains information about which public key
+CloudFront key pair in a trusted signer's Amazon Web Services account.
+The signed URL or cookie contains information about which public key
 CloudFront should use to verify the signature. For more information,
 see Serving private content
 (https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html)
@@ -303,11 +314,11 @@ in the I<Amazon CloudFront Developer Guide>.
 The only way to guarantee that viewers retrieve an object that was
 fetched from the origin using HTTPS is never to use any other protocol
 to fetch the object. If you have recently changed from HTTP to HTTPS,
-we recommend that you clear your objectsE<rsquo> cache because cached
-objects are protocol agnostic. That means that an edge location will
-return an object from the cache regardless of whether the current
-request protocol matches the protocol used previously. For more
-information, see Managing Cache Expiration
+we recommend that you clear your objects' cache because cached objects
+are protocol agnostic. That means that an edge location will return an
+object from the cache regardless of whether the current request
+protocol matches the protocol used previously. For more information,
+see Managing Cache Expiration
 (https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Expiration.html)
 in the I<Amazon CloudFront Developer Guide>.
 

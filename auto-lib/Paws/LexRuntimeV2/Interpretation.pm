@@ -2,6 +2,7 @@
 package Paws::LexRuntimeV2::Interpretation;
   use Moose;
   has Intent => (is => 'ro', isa => 'Paws::LexRuntimeV2::Intent', request_name => 'intent', traits => ['NameInRequest']);
+  has InterpretationSource => (is => 'ro', isa => 'Str', request_name => 'interpretationSource', traits => ['NameInRequest']);
   has NluConfidence => (is => 'ro', isa => 'Paws::LexRuntimeV2::ConfidenceScore', request_name => 'nluConfidence', traits => ['NameInRequest']);
   has SentimentResponse => (is => 'ro', isa => 'Paws::LexRuntimeV2::SentimentResponse', request_name => 'sentimentResponse', traits => ['NameInRequest']);
 
@@ -35,8 +36,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::LexRuntimeV
 
 =head1 DESCRIPTION
 
-An intent that Amazon Lex V2 determined might satisfy the user's
-utterance. The intents are ordered by the confidence score.
+An object containing information about an intent that Amazon Lex V2
+determined might satisfy the user's utterance. The intents are ordered
+by the confidence score.
 
 =head1 ATTRIBUTES
 
@@ -45,6 +47,11 @@ utterance. The intents are ordered by the confidence score.
 
 A list of intents that might satisfy the user's utterance. The intents
 are ordered by the confidence score.
+
+
+=head2 InterpretationSource => Str
+
+Specifies the service that interpreted the input.
 
 
 =head2 NluConfidence => L<Paws::LexRuntimeV2::ConfidenceScore>

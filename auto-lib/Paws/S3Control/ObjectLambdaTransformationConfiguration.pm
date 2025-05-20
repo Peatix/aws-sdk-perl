@@ -43,7 +43,8 @@ transformation.
 =head2 B<REQUIRED> Actions => ArrayRef[Str|Undef]
 
 A container for the action of an Object Lambda Access Point
-configuration. Valid input is C<GetObject>.
+configuration. Valid inputs are C<GetObject>, C<ListObjects>,
+C<HeadObject>, and C<ListObjectsV2>.
 
 
 =head2 B<REQUIRED> ContentTransformation => L<Paws::S3Control::ObjectLambdaContentTransformation>

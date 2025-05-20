@@ -2,8 +2,10 @@
 package Paws::Rekognition::ListFaces;
   use Moose;
   has CollectionId => (is => 'ro', isa => 'Str', required => 1);
+  has FaceIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has MaxResults => (is => 'ro', isa => 'Int');
   has NextToken => (is => 'ro', isa => 'Str');
+  has UserId => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -53,6 +55,13 @@ ID of the collection from which to list the faces.
 
 
 
+=head2 FaceIds => ArrayRef[Str|Undef]
+
+An array of face IDs to filter results with when listing faces in a
+collection.
+
+
+
 =head2 MaxResults => Int
 
 Maximum number of faces to return.
@@ -65,6 +74,13 @@ If the previous response was incomplete (because there is more data to
 retrieve), Amazon Rekognition returns a pagination token in the
 response. You can use this pagination token to retrieve the next set of
 faces.
+
+
+
+=head2 UserId => Str
+
+An array of user IDs to filter results with when listing faces in a
+collection.
 
 
 

@@ -18,12 +18,12 @@ Paws::AuditManager::ListKeywordsForDataSourceResponse
 
 =head2 Keywords => ArrayRef[Str|Undef]
 
-The list of keywords for the specified event mapping source.
+The list of keywords for the control mapping source.
 
 
 =head2 NextToken => Str
 
-The pagination token used to fetch the next set of results.
+The pagination token that's used to fetch the next set of results.
 
 
 =head2 _request_id => Str

@@ -1,9 +1,11 @@
 package Paws::EC2::FlowLog;
   use Moose;
   has CreationTime => (is => 'ro', isa => 'Str', request_name => 'creationTime', traits => ['NameInRequest']);
+  has DeliverCrossAccountRole => (is => 'ro', isa => 'Str', request_name => 'deliverCrossAccountRole', traits => ['NameInRequest']);
   has DeliverLogsErrorMessage => (is => 'ro', isa => 'Str', request_name => 'deliverLogsErrorMessage', traits => ['NameInRequest']);
   has DeliverLogsPermissionArn => (is => 'ro', isa => 'Str', request_name => 'deliverLogsPermissionArn', traits => ['NameInRequest']);
   has DeliverLogsStatus => (is => 'ro', isa => 'Str', request_name => 'deliverLogsStatus', traits => ['NameInRequest']);
+  has DestinationOptions => (is => 'ro', isa => 'Paws::EC2::DestinationOptionsResponse', request_name => 'destinationOptions', traits => ['NameInRequest']);
   has FlowLogId => (is => 'ro', isa => 'Str', request_name => 'flowLogId', traits => ['NameInRequest']);
   has FlowLogStatus => (is => 'ro', isa => 'Str', request_name => 'flowLogStatus', traits => ['NameInRequest']);
   has LogDestination => (is => 'ro', isa => 'Str', request_name => 'logDestination', traits => ['NameInRequest']);
@@ -54,6 +56,12 @@ This class has no description
 The date and time the flow log was created.
 
 
+=head2 DeliverCrossAccountRole => Str
+
+The ARN of the IAM role that allows the service to publish flow logs
+across accounts.
+
+
 =head2 DeliverLogsErrorMessage => Str
 
 Information about the error that occurred. C<Rate limited> indicates
@@ -67,7 +75,8 @@ error.
 
 =head2 DeliverLogsPermissionArn => Str
 
-The ARN of the IAM role that posts logs to CloudWatch Logs.
+The ARN of the IAM role allows the service to publish logs to
+CloudWatch Logs.
 
 
 =head2 DeliverLogsStatus => Str
@@ -75,9 +84,14 @@ The ARN of the IAM role that posts logs to CloudWatch Logs.
 The status of the logs delivery (C<SUCCESS> | C<FAILED>).
 
 
+=head2 DestinationOptions => L<Paws::EC2::DestinationOptionsResponse>
+
+The destination options.
+
+
 =head2 FlowLogId => Str
 
-The flow log ID.
+The ID of the flow log.
 
 
 =head2 FlowLogStatus => Str
@@ -87,20 +101,13 @@ The status of the flow log (C<ACTIVE>).
 
 =head2 LogDestination => Str
 
-Specifies the destination to which the flow log data is published. Flow
-log data can be published to an CloudWatch Logs log group or an Amazon
-S3 bucket. If the flow log publishes to CloudWatch Logs, this element
-indicates the Amazon Resource Name (ARN) of the CloudWatch Logs log
-group to which the data is published. If the flow log publishes to
-Amazon S3, this element indicates the ARN of the Amazon S3 bucket to
-which the data is published.
+The Amazon Resource Name (ARN) of the destination for the flow log
+data.
 
 
 =head2 LogDestinationType => Str
 
-Specifies the type of destination to which the flow log data is
-published. Flow log data can be published to CloudWatch Logs or Amazon
-S3.
+The type of destination for the flow log data.
 
 
 =head2 LogFormat => Str
@@ -119,7 +126,7 @@ The maximum interval of time, in seconds, during which a flow of
 packets is captured and aggregated into a flow log record.
 
 When a network interface is attached to a Nitro-based instance
-(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances),
+(https://docs.aws.amazon.com/ec2/latest/instancetypes/ec2-nitro-instances.html),
 the aggregation interval is always 60 seconds (1 minute) or less,
 regardless of the specified value.
 
@@ -128,7 +135,7 @@ Valid Values: C<60> | C<600>
 
 =head2 ResourceId => Str
 
-The ID of the resource on which the flow log was created.
+The ID of the resource being monitored.
 
 
 =head2 Tags => ArrayRef[L<Paws::EC2::Tag>]

@@ -5,6 +5,7 @@ package Paws::ELBv2::ModifyListener;
   has Certificates => (is => 'ro', isa => 'ArrayRef[Paws::ELBv2::Certificate]');
   has DefaultActions => (is => 'ro', isa => 'ArrayRef[Paws::ELBv2::Action]');
   has ListenerArn => (is => 'ro', isa => 'Str', required => 1);
+  has MutualAuthentication => (is => 'ro', isa => 'Paws::ELBv2::MutualAuthenticationAttributes');
   has Port => (is => 'ro', isa => 'Int');
   has Protocol => (is => 'ro', isa => 'Str');
   has SslPolicy => (is => 'ro', isa => 'Str');
@@ -133,9 +134,15 @@ The Amazon Resource Name (ARN) of the listener.
 
 
 
+=head2 MutualAuthentication => L<Paws::ELBv2::MutualAuthenticationAttributes>
+
+The mutual authentication configuration information.
+
+
+
 =head2 Port => Int
 
-The port for connections from clients to the load balancer. You cannot
+The port for connections from clients to the load balancer. You can't
 specify a port for a Gateway Load Balancer.
 
 
@@ -146,7 +153,7 @@ The protocol for connections from clients to the load balancer.
 Application Load Balancers support the HTTP and HTTPS protocols.
 Network Load Balancers support the TCP, TLS, UDP, and TCP_UDP
 protocols. You canE<rsquo>t change the protocol to UDP or TCP_UDP if
-dual-stack mode is enabled. You cannot specify a protocol for a Gateway
+dual-stack mode is enabled. You can't specify a protocol for a Gateway
 Load Balancer.
 
 Valid values are: C<"HTTP">, C<"HTTPS">, C<"TCP">, C<"TLS">, C<"UDP">, C<"TCP_UDP">, C<"GENEVE">

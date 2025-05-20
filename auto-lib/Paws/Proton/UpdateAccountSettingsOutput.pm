@@ -16,8 +16,8 @@ Paws::Proton::UpdateAccountSettingsOutput
 
 =head2 B<REQUIRED> AccountSettings => L<Paws::Proton::AccountSettings>
 
-The AWS Proton pipeline service role detail data that's returned by AWS
-Proton.
+The Proton pipeline service role and repository data shared across the
+Amazon Web Services account.
 
 
 =head2 _request_id => Str

@@ -48,20 +48,20 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SSM::Comman
 
 =head1 DESCRIPTION
 
-An invocation is copy of a command sent to a specific instance. A
-command can apply to one or more instances. A command invocation
-applies to one instance. For example, if a user runs SendCommand
-against three instances, then a command invocation is created for each
-requested instance ID. A command invocation returns status and detail
-information about a command you ran.
+An invocation is a copy of a command sent to a specific managed node. A
+command can apply to one or more managed nodes. A command invocation
+applies to one managed node. For example, if a user runs C<SendCommand>
+against three managed nodes, then a command invocation is created for
+each requested managed node ID. A command invocation returns status and
+detail information about a command you ran.
 
 =head1 ATTRIBUTES
 
 
 =head2 CloudWatchOutputConfig => L<Paws::SSM::CloudWatchOutputConfig>
 
-CloudWatch Logs information where you want Systems Manager to send the
-command output.
+Amazon CloudWatch Logs information where you want Amazon Web Services
+Systems Manager to send the command output.
 
 
 =head2 CommandId => Str
@@ -87,53 +87,54 @@ The document name that was requested for execution.
 
 =head2 DocumentVersion => Str
 
-The SSM document version.
+The Systems Manager document (SSM document) version.
 
 
 =head2 InstanceId => Str
 
-The instance ID in which this invocation was requested.
+The managed node ID in which this invocation was requested.
 
 
 =head2 InstanceName => Str
 
-The name of the invocation target. For EC2 instances this is the value
-for the aws:Name tag. For on-premises instances, this is the name of
-the instance.
+The fully qualified host name of the managed node.
 
 
 =head2 NotificationConfig => L<Paws::SSM::NotificationConfig>
 
 Configurations for sending notifications about command status changes
-on a per instance basis.
+on a per managed node basis.
 
 
 =head2 RequestedDateTime => Str
 
-The time and date the request was sent to this instance.
+The time and date the request was sent to this managed node.
 
 
 =head2 ServiceRole => Str
 
-The IAM service role that Run Command uses to act on your behalf when
-sending notifications about command status changes on a per instance
-basis.
+The Identity and Access Management (IAM) service role that Run Command,
+a tool in Amazon Web Services Systems Manager, uses to act on your
+behalf when sending notifications about command status changes on a per
+managed node basis.
 
 
 =head2 StandardErrorUrl => Str
 
-The URL to the plugin's StdErr file in Amazon S3, if the S3 bucket was
-defined for the parent command. For an invocation, StandardErrorUrl is
-populated if there is just one plugin defined for the command, and the
-S3 bucket was defined for the command.
+The URL to the plugin's StdErr file in Amazon Simple Storage Service
+(Amazon S3), if the S3 bucket was defined for the parent command. For
+an invocation, C<StandardErrorUrl> is populated if there is just one
+plugin defined for the command, and the S3 bucket was defined for the
+command.
 
 
 =head2 StandardOutputUrl => Str
 
-The URL to the plugin's StdOut file in Amazon S3, if the S3 bucket was
-defined for the parent command. For an invocation, StandardOutputUrl is
-populated if there is just one plugin defined for the command, and the
-S3 bucket was defined for the command.
+The URL to the plugin's StdOut file in Amazon Simple Storage Service
+(Amazon S3), if the S3 bucket was defined for the parent command. For
+an invocation, C<StandardOutputUrl> is populated if there is just one
+plugin defined for the command, and the S3 bucket was defined for the
+command.
 
 
 =head2 Status => Str
@@ -144,24 +145,24 @@ Whether or not the invocation succeeded, failed, or is pending.
 =head2 StatusDetails => Str
 
 A detailed status of the command execution for each invocation (each
-instance targeted by the command). StatusDetails includes more
+managed node targeted by the command). StatusDetails includes more
 information than Status because it includes states resulting from error
 and concurrency control parameters. StatusDetails can show different
 results than Status. For more information about these statuses, see
 Understanding command statuses
 (https://docs.aws.amazon.com/systems-manager/latest/userguide/monitor-commands.html)
-in the I<AWS Systems Manager User Guide>. StatusDetails can be one of
-the following values:
+in the I<Amazon Web Services Systems Manager User Guide>. StatusDetails
+can be one of the following values:
 
 =over
 
 =item *
 
-Pending: The command has not been sent to the instance.
+Pending: The command hasn't been sent to the managed node.
 
 =item *
 
-In Progress: The command has been sent to the instance but has not
+In Progress: The command has been sent to the managed node but hasn't
 reached a terminal state.
 
 =item *
@@ -171,36 +172,36 @@ completed. This is a terminal state.
 
 =item *
 
-Delivery Timed Out: The command was not delivered to the instance
-before the delivery timeout expired. Delivery timeouts do not count
-against the parent command's MaxErrors limit, but they do contribute to
-whether the parent command status is Success or Incomplete. This is a
-terminal state.
+Delivery Timed Out: The command wasn't delivered to the managed node
+before the delivery timeout expired. Delivery timeouts don't count
+against the parent command's C<MaxErrors> limit, but they do contribute
+to whether the parent command status is Success or Incomplete. This is
+a terminal state.
 
 =item *
 
-Execution Timed Out: Command execution started on the instance, but the
-execution was not complete before the execution timeout expired.
-Execution timeouts count against the MaxErrors limit of the parent
+Execution Timed Out: Command execution started on the managed node, but
+the execution wasn't complete before the execution timeout expired.
+Execution timeouts count against the C<MaxErrors> limit of the parent
 command. This is a terminal state.
 
 =item *
 
-Failed: The command was not successful on the instance. For a plugin,
-this indicates that the result code was not zero. For a command
+Failed: The command wasn't successful on the managed node. For a
+plugin, this indicates that the result code wasn't zero. For a command
 invocation, this indicates that the result code for one or more plugins
-was not zero. Invocation failures count against the MaxErrors limit of
-the parent command. This is a terminal state.
+wasn't zero. Invocation failures count against the C<MaxErrors> limit
+of the parent command. This is a terminal state.
 
 =item *
 
-Canceled: The command was terminated before it was completed. This is a
-terminal state.
+Cancelled: The command was terminated before it was completed. This is
+a terminal state.
 
 =item *
 
-Undeliverable: The command can't be delivered to the instance. The
-instance might not exist or might not be responding. Undeliverable
+Undeliverable: The command can't be delivered to the managed node. The
+managed node might not exist or might not be responding. Undeliverable
 invocations don't count against the parent command's MaxErrors limit
 and don't contribute to whether the parent command status is Success or
 Incomplete. This is a terminal state.
@@ -210,6 +211,11 @@ Incomplete. This is a terminal state.
 Terminated: The parent command exceeded its MaxErrors limit and
 subsequent command invocations were canceled by the system. This is a
 terminal state.
+
+=item *
+
+Delayed: The system attempted to send the command to the managed node
+but wasn't successful. The system retries again.
 
 =back
 

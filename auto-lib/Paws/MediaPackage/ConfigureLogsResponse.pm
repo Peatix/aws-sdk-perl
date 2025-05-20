@@ -2,6 +2,7 @@
 package Paws::MediaPackage::ConfigureLogsResponse;
   use Moose;
   has Arn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'arn');
+  has CreatedAt => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'createdAt');
   has Description => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'description');
   has EgressAccessLogs => (is => 'ro', isa => 'Paws::MediaPackage::EgressAccessLogs', traits => ['NameInRequest'], request_name => 'egressAccessLogs');
   has HlsIngest => (is => 'ro', isa => 'Paws::MediaPackage::HlsIngest', traits => ['NameInRequest'], request_name => 'hlsIngest');
@@ -24,6 +25,11 @@ Paws::MediaPackage::ConfigureLogsResponse
 =head2 Arn => Str
 
 The Amazon Resource Name (ARN) assigned to the Channel.
+
+
+=head2 CreatedAt => Str
+
+The date and time the Channel was created.
 
 
 =head2 Description => Str

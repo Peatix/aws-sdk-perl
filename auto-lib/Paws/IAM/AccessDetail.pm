@@ -39,9 +39,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::IAM::Access
 =head1 DESCRIPTION
 
 An object that contains details about when a principal in the reported
-AWS Organizations entity last attempted to access an AWS service. A
-principal can be an IAM user, an IAM role, or the AWS account root user
-within the reported Organizations entity.
+Organizations entity last attempted to access an Amazon Web Services
+service. A principal can be an IAM user, an IAM role, or the Amazon Web
+Services account root user within the reported Organizations entity.
 
 This data type is a response element in the
 GetOrganizationsAccessReport operation.
@@ -53,11 +53,12 @@ GetOrganizationsAccessReport operation.
 
 The path of the Organizations entity (root, organizational unit, or
 account) from which an authenticated principal last attempted to access
-the service. AWS does not report unauthenticated requests.
+the service. Amazon Web Services does not report unauthenticated
+requests.
 
 This field is null if no principals (IAM users, IAM roles, or root
-users) in the reported Organizations entity attempted to access the
-service within the reporting period
+user) in the reported Organizations entity attempted to access the
+service within the tracking period
 (https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period).
 
 
@@ -65,11 +66,11 @@ service within the reporting period
 
 The date and time, in ISO 8601 date-time format
 (http://www.iso.org/iso/iso8601), when an authenticated principal most
-recently attempted to access the service. AWS does not report
-unauthenticated requests.
+recently attempted to access the service. Amazon Web Services does not
+report unauthenticated requests.
 
 This field is null if no principals in the reported Organizations
-entity attempted to access the service within the reporting period
+entity attempted to access the service within the tracking period
 (https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period).
 
 
@@ -78,7 +79,7 @@ entity attempted to access the service within the reporting period
 The Region where the last service access attempt occurred.
 
 This field is null if no principals in the reported Organizations
-entity attempted to access the service within the reporting period
+entity attempted to access the service within the tracking period
 (https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period).
 
 
@@ -92,21 +93,22 @@ The name of the service in which access was attempted.
 The namespace of the service in which access was attempted.
 
 To learn the service namespace of a service, see Actions, resources,
-and condition keys for AWS services
+and condition keys for Amazon Web Services services
 (https://docs.aws.amazon.com/service-authorization/latest/reference/reference_policies_actions-resources-contextkeys.html)
 in the I<Service Authorization Reference>. Choose the name of the
 service to view details for that service. In the first paragraph, find
 the service prefix. For example, C<(service prefix: a4b)>. For more
-information about service namespaces, see AWS service namespaces
+information about service namespaces, see Amazon Web Services service
+namespaces
 (https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces)
-in the I<AWS General Reference>.
+in the I<Amazon Web Services General Reference>.
 
 
 =head2 TotalAuthenticatedEntities => Int
 
-The number of accounts with authenticated principals (root users, IAM
+The number of accounts with authenticated principals (root user, IAM
 users, and IAM roles) that attempted to access the service in the
-reporting period.
+tracking period.
 
 
 

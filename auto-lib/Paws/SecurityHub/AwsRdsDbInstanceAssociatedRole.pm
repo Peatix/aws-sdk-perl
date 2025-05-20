@@ -35,15 +35,14 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SecurityHub
 
 =head1 DESCRIPTION
 
-An AWS Identity and Access Management (IAM) role associated with the DB
-instance.
+An IAM role associated with the DB instance.
 
 =head1 ATTRIBUTES
 
 
 =head2 FeatureName => Str
 
-The name of the feature associated with the IAM)role.
+The name of the feature associated with the IAM role.
 
 
 =head2 RoleArn => Str
@@ -61,7 +60,7 @@ instance. The C<Status> property returns one of the following values:
 =item *
 
 C<ACTIVE> - The IAM role ARN is associated with the DB instance and can
-be used to access other AWS services on your behalf.
+be used to access other Amazon Web Services services on your behalf.
 
 =item *
 
@@ -71,7 +70,7 @@ C<PENDING> - The IAM role ARN is being associated with the DB instance.
 
 C<INVALID> - The IAM role ARN is associated with the DB instance. But
 the DB instance is unable to assume the IAM role in order to access
-other AWS services on your behalf.
+other Amazon Web Services services on your behalf.
 
 =back
 

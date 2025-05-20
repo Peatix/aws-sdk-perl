@@ -3,10 +3,13 @@ package Paws::Personalize::SolutionConfig;
   use Moose;
   has AlgorithmHyperParameters => (is => 'ro', isa => 'Paws::Personalize::HyperParameters', request_name => 'algorithmHyperParameters', traits => ['NameInRequest']);
   has AutoMLConfig => (is => 'ro', isa => 'Paws::Personalize::AutoMLConfig', request_name => 'autoMLConfig', traits => ['NameInRequest']);
+  has AutoTrainingConfig => (is => 'ro', isa => 'Paws::Personalize::AutoTrainingConfig', request_name => 'autoTrainingConfig', traits => ['NameInRequest']);
+  has EventsConfig => (is => 'ro', isa => 'Paws::Personalize::EventsConfig', request_name => 'eventsConfig', traits => ['NameInRequest']);
   has EventValueThreshold => (is => 'ro', isa => 'Str', request_name => 'eventValueThreshold', traits => ['NameInRequest']);
   has FeatureTransformationParameters => (is => 'ro', isa => 'Paws::Personalize::FeatureTransformationParameters', request_name => 'featureTransformationParameters', traits => ['NameInRequest']);
   has HpoConfig => (is => 'ro', isa => 'Paws::Personalize::HPOConfig', request_name => 'hpoConfig', traits => ['NameInRequest']);
   has OptimizationObjective => (is => 'ro', isa => 'Paws::Personalize::OptimizationObjective', request_name => 'optimizationObjective', traits => ['NameInRequest']);
+  has TrainingDataConfig => (is => 'ro', isa => 'Paws::Personalize::TrainingDataConfig', request_name => 'trainingDataConfig', traits => ['NameInRequest']);
 
 1;
 
@@ -27,7 +30,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::Personalize::SolutionConfig object:
 
-  $service_obj->Method(Att1 => { AlgorithmHyperParameters => $value, ..., OptimizationObjective => $value  });
+  $service_obj->Method(Att1 => { AlgorithmHyperParameters => $value, ..., TrainingDataConfig => $value  });
 
 =head3 Results returned from an API call
 
@@ -45,13 +48,26 @@ Describes the configuration properties for the solution.
 
 =head2 AlgorithmHyperParameters => L<Paws::Personalize::HyperParameters>
 
-Lists the hyperparameter names and ranges.
+Lists the algorithm hyperparameters and their values.
 
 
 =head2 AutoMLConfig => L<Paws::Personalize::AutoMLConfig>
 
-The AutoMLConfig object containing a list of recipes to search when
-AutoML is performed.
+The AutoMLConfig
+(https://docs.aws.amazon.com/personalize/latest/dg/API_AutoMLConfig.html)
+object containing a list of recipes to search when AutoML is performed.
+
+
+=head2 AutoTrainingConfig => L<Paws::Personalize::AutoTrainingConfig>
+
+Specifies the automatic training configuration to use.
+
+
+=head2 EventsConfig => L<Paws::Personalize::EventsConfig>
+
+Describes the configuration of an event, which includes a list of event
+parameters. You can specify up to 10 event parameters. Events are used
+in solution creation.
 
 
 =head2 EventValueThreshold => Str
@@ -76,6 +92,12 @@ Describes the additional objective for the solution, such as maximizing
 streaming minutes or increasing revenue. For more information see
 Optimizing a solution
 (https://docs.aws.amazon.com/personalize/latest/dg/optimizing-solution-for-objective.html).
+
+
+=head2 TrainingDataConfig => L<Paws::Personalize::TrainingDataConfig>
+
+Specifies the training data configuration to use when creating a custom
+solution version (trained model).
 
 
 

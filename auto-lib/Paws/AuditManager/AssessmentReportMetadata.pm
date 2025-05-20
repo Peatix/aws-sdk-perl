@@ -40,7 +40,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AuditManage
 
 =head1 DESCRIPTION
 
-The metadata objects associated with the specified assessment report.
+The metadata objects that are associated with the specified assessment
+report.
 
 =head1 ATTRIBUTES
 
@@ -67,7 +68,7 @@ Specifies when the assessment report was created.
 
 =head2 Description => Str
 
-The description of the specified assessment report.
+The description of the assessment report.
 
 
 =head2 Id => Str

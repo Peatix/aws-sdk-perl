@@ -48,14 +48,15 @@ have permission to access the S3 bucket and file.
 
 =head2 Bucket => Str
 
-The name of the S3 bucket.
+The name of the S3 bucket. Note that the # character is not valid in
+the file name.
 
 
 =head2 Name => Str
 
 The file name of the input document. Synchronous operations can use
 image files that are in JPEG or PNG format. Asynchronous operations
-also support PDF format files.
+also support PDF and TIFF format files.
 
 
 =head2 Version => Str

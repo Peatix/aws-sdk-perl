@@ -5,6 +5,7 @@ package Paws::DynamoDB::ReplicaSettingsUpdate;
   has ReplicaGlobalSecondaryIndexSettingsUpdate => (is => 'ro', isa => 'ArrayRef[Paws::DynamoDB::ReplicaGlobalSecondaryIndexSettingsUpdate]');
   has ReplicaProvisionedReadCapacityAutoScalingSettingsUpdate => (is => 'ro', isa => 'Paws::DynamoDB::AutoScalingSettingsUpdate');
   has ReplicaProvisionedReadCapacityUnits => (is => 'ro', isa => 'Int');
+  has ReplicaTableClass => (is => 'ro', isa => 'Str');
 
 1;
 
@@ -25,7 +26,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::DynamoDB::ReplicaSettingsUpdate object:
 
-  $service_obj->Method(Att1 => { RegionName => $value, ..., ReplicaProvisionedReadCapacityUnits => $value  });
+  $service_obj->Method(Att1 => { RegionName => $value, ..., ReplicaTableClass => $value  });
 
 =head3 Results returned from an API call
 
@@ -66,6 +67,12 @@ before DynamoDB returns a C<ThrottlingException>. For more information,
 see Specifying Read and Write Requirements
 (https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/WorkingWithTables.html#ProvisionedThroughput)
 in the I<Amazon DynamoDB Developer Guide>.
+
+
+=head2 ReplicaTableClass => Str
+
+Replica-specific table class. If not specified, uses the source table's
+table class.
 
 
 

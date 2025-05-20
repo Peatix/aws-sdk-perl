@@ -47,7 +47,7 @@ The 12-digit account ID of the account being aggregated.
 
 =head2 AllAwsRegions => Bool
 
-If true, aggregate existing AWS Config regions and future regions.
+If true, aggregate existing Config regions and future regions.
 
 
 =head2 AwsRegions => ArrayRef[Str|Undef]

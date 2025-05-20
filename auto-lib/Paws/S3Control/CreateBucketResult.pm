@@ -24,10 +24,11 @@ The Amazon Resource Name (ARN) of the bucket.
 For using this parameter with Amazon S3 on Outposts with the REST API,
 you must specify the name and the x-amz-outpost-id as well.
 
-For using this parameter with S3 on Outposts with the AWS SDK and CLI,
-you must specify the ARN of the bucket accessed in the format
+For using this parameter with S3 on Outposts with the Amazon Web
+Services SDK and CLI, you must specify the ARN of the bucket accessed
+in the format
 C<arn:aws:s3-outposts:E<lt>RegionE<gt>:E<lt>account-idE<gt>:outpost/E<lt>outpost-idE<gt>/bucket/E<lt>my-bucket-nameE<gt>>.
-For example, to access the bucket C<reports> through outpost
+For example, to access the bucket C<reports> through Outpost
 C<my-outpost> owned by account C<123456789012> in Region C<us-west-2>,
 use the URL encoding of
 C<arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports>.

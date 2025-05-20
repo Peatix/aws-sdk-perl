@@ -57,7 +57,8 @@ The name of the access point. This is the value of the C<Name> tag.
 
 =head2 OwnerId => Str
 
-Identified the AWS account that owns the access point resource.
+Identifies the Amazon Web Services account that owns the access point
+resource.
 
 
 =head2 PosixUser => L<Paws::EFS::PosixUser>
@@ -69,8 +70,8 @@ NFS clients using the access point.
 
 =head2 RootDirectory => L<Paws::EFS::RootDirectory>
 
-The directory on the Amazon EFS file system that the access point
-exposes as the root directory to NFS clients using the access point.
+The directory on the EFS file system that the access point exposes as
+the root directory to NFS clients using the access point.
 
 
 =head2 Tags => ArrayRef[L<Paws::EFS::Tag>]

@@ -34,14 +34,14 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ComputeOpti
 
 =head1 DESCRIPTION
 
-Describes a filter that returns a more specific list of AWS Lambda
-function recommendations. Use this filter with the
-C<GetLambdaFunctionRecommendations> action.
+Describes a filter that returns a more specific list of Lambda function
+recommendations. Use this filter with the
+GetLambdaFunctionRecommendations action.
 
-You can use C<EBSFilter> with the C<GetEBSVolumeRecommendations>
-action, C<JobFilter> with the C<DescribeRecommendationExportJobs>
-action, and C<Filter> with the C<GetAutoScalingGroupRecommendations>
-and C<GetEC2InstanceRecommendations> actions.
+You can use C<EBSFilter> with the GetEBSVolumeRecommendations action,
+C<JobFilter> with the DescribeRecommendationExportJobs action, and
+C<Filter> with the GetAutoScalingGroupRecommendations and
+GetEC2InstanceRecommendations actions.
 
 =head1 ATTRIBUTES
 
@@ -51,10 +51,27 @@ and C<GetEC2InstanceRecommendations> actions.
 The name of the filter.
 
 Specify C<Finding> to return recommendations with a specific finding
-classification (e.g., C<NotOptimized>).
+classification (for example, C<NotOptimized>).
 
 Specify C<FindingReasonCode> to return recommendations with a specific
-finding reason code (e.g., C<MemoryUnderprovisioned>).
+finding reason code (for example, C<MemoryUnderprovisioned>).
+
+You can filter your Lambda function recommendations by C<tag:key> and
+C<tag-key> tags.
+
+A C<tag:key> is a key and value combination of a tag assigned to your
+Lambda function recommendations. Use the tag key in the filter name and
+the tag value as the filter value. For example, to find all Lambda
+function recommendations that have a tag with the key of C<Owner> and
+the value of C<TeamA>, specify C<tag:Owner> for the filter name and
+C<TeamA> for the filter value.
+
+A C<tag-key> is the key of a tag assigned to your Lambda function
+recommendations. Use this filter to find all of your Lambda function
+recommendations that have a tag with a specific key. This
+doesnE<rsquo>t consider the tag value. For example, you can find your
+Lambda function recommendations with a tag key value of C<Owner> or
+without any tag keys assigned.
 
 
 =head2 Values => ArrayRef[Str|Undef]

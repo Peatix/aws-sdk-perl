@@ -41,7 +41,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/out
 
 =head2 B<REQUIRED> SiteId => Str
 
-
+The ID or the Amazon Resource Name (ARN) of the site.
 
 
 

@@ -53,8 +53,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/con
 =head2 ConformancePackNames => ArrayRef[Str|Undef]
 
 Comma-separated list of conformance pack names for which you want
-details. If you do not specify any names, AWS Config returns details
-for all your conformance packs.
+details. If you do not specify any names, Config returns details for
+all your conformance packs.
 
 
 

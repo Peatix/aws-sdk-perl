@@ -2,6 +2,7 @@
 package Paws::DynamoDB::PointInTimeRecoverySpecification;
   use Moose;
   has PointInTimeRecoveryEnabled => (is => 'ro', isa => 'Bool', required => 1);
+  has RecoveryPeriodInDays => (is => 'ro', isa => 'Int');
 
 1;
 
@@ -22,7 +23,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::DynamoDB::PointInTimeRecoverySpecification object:
 
-  $service_obj->Method(Att1 => { PointInTimeRecoveryEnabled => $value, ..., PointInTimeRecoveryEnabled => $value  });
+  $service_obj->Method(Att1 => { PointInTimeRecoveryEnabled => $value, ..., RecoveryPeriodInDays => $value  });
 
 =head3 Results returned from an API call
 
@@ -42,6 +43,14 @@ Represents the settings used to enable point in time recovery.
 
 Indicates whether point in time recovery is enabled (true) or disabled
 (false) on the table.
+
+
+=head2 RecoveryPeriodInDays => Int
+
+The number of preceding days for which continuous backups are taken and
+maintained. Your table data is only recoverable to any point-in-time
+from within the configured recovery period. This parameter is optional.
+If no value is provided, the value will default to 35.
 
 
 

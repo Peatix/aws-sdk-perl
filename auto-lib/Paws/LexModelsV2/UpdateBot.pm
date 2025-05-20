@@ -2,9 +2,12 @@
 package Paws::LexModelsV2::UpdateBot;
   use Moose;
   has BotId => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'botId', required => 1);
+  has BotMembers => (is => 'ro', isa => 'ArrayRef[Paws::LexModelsV2::BotMember]', traits => ['NameInRequest'], request_name => 'botMembers');
   has BotName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'botName', required => 1);
+  has BotType => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'botType');
   has DataPrivacy => (is => 'ro', isa => 'Paws::LexModelsV2::DataPrivacy', traits => ['NameInRequest'], request_name => 'dataPrivacy', required => 1);
   has Description => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'description');
+  has ErrorLogSettings => (is => 'ro', isa => 'Paws::LexModelsV2::ErrorLogSettings', traits => ['NameInRequest'], request_name => 'errorLogSettings');
   has IdleSessionTTLInSeconds => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'idleSessionTTLInSeconds', required => 1);
   has RoleArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'roleArn', required => 1);
 
@@ -42,16 +45,35 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       },
       IdleSessionTTLInSeconds => 1,
       RoleArn                 => 'MyRoleArn',
-      Description             => 'MyDescription',    # OPTIONAL
+      BotMembers              => [
+        {
+          BotMemberAliasId   => 'MyBotAliasId',      # min: 10, max: 10
+          BotMemberAliasName => 'MyBotAliasName',    # min: 1, max: 100
+          BotMemberId        => 'MyId',              # min: 10, max: 10
+          BotMemberName      => 'MyName',            # min: 1, max: 100
+          BotMemberVersion   => 'MyBotVersion',      # min: 1, max: 5
+
+        },
+        ...
+      ],    # OPTIONAL
+      BotType          => 'Bot',              # OPTIONAL
+      Description      => 'MyDescription',    # OPTIONAL
+      ErrorLogSettings => {
+        Enabled => 1,
+
+      },                                      # OPTIONAL
     );
 
     # Results:
     my $BotId                   = $UpdateBotResponse->BotId;
+    my $BotMembers              = $UpdateBotResponse->BotMembers;
     my $BotName                 = $UpdateBotResponse->BotName;
     my $BotStatus               = $UpdateBotResponse->BotStatus;
+    my $BotType                 = $UpdateBotResponse->BotType;
     my $CreationDateTime        = $UpdateBotResponse->CreationDateTime;
     my $DataPrivacy             = $UpdateBotResponse->DataPrivacy;
     my $Description             = $UpdateBotResponse->Description;
+    my $ErrorLogSettings        = $UpdateBotResponse->ErrorLogSettings;
     my $IdleSessionTTLInSeconds = $UpdateBotResponse->IdleSessionTTLInSeconds;
     my $LastUpdatedDateTime     = $UpdateBotResponse->LastUpdatedDateTime;
     my $RoleArn                 = $UpdateBotResponse->RoleArn;
@@ -67,7 +89,16 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/mod
 =head2 B<REQUIRED> BotId => Str
 
 The unique identifier of the bot to update. This identifier is returned
-by the CreateBot operation.
+by the CreateBot
+(https://docs.aws.amazon.com/lexv2/latest/APIReference/API_CreateBot.html)
+operation.
+
+
+
+=head2 BotMembers => ArrayRef[L<Paws::LexModelsV2::BotMember>]
+
+The list of bot members in the network associated with the update
+action.
 
 
 
@@ -77,6 +108,12 @@ The new name of the bot. The name must be unique in the account that
 creates the bot.
 
 
+
+=head2 BotType => Str
+
+The type of the bot to be updated.
+
+Valid values are: C<"Bot">, C<"BotNetwork">
 
 =head2 B<REQUIRED> DataPrivacy => L<Paws::LexModelsV2::DataPrivacy>
 
@@ -88,6 +125,14 @@ should use with the bot's data.
 =head2 Description => Str
 
 A description of the bot.
+
+
+
+=head2 ErrorLogSettings => L<Paws::LexModelsV2::ErrorLogSettings>
+
+Allows you to modify how Amazon Lex logs errors during bot
+interactions, including destinations for error logs and the types of
+errors to be captured.
 
 
 

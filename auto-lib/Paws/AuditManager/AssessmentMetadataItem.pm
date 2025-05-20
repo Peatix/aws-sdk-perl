@@ -40,15 +40,16 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AuditManage
 
 =head1 DESCRIPTION
 
-A metadata object associated with an assessment in AWS Audit Manager.
+A metadata object that's associated with an assessment in Audit
+Manager.
 
 =head1 ATTRIBUTES
 
 
 =head2 ComplianceType => Str
 
-The name of the compliance standard related to the assessment, such as
-PCI-DSS.
+The name of the compliance standard that's related to the assessment,
+such as PCI-DSS.
 
 
 =head2 CreationTime => Str
@@ -58,7 +59,7 @@ Specifies when the assessment was created.
 
 =head2 Delegations => ArrayRef[L<Paws::AuditManager::Delegation>]
 
-The delegations associated with the assessment.
+The delegations that are associated with the assessment.
 
 
 =head2 Id => Str
@@ -78,7 +79,7 @@ The name of the assessment.
 
 =head2 Roles => ArrayRef[L<Paws::AuditManager::Role>]
 
-The roles associated with the assessment.
+The roles that are associated with the assessment.
 
 
 =head2 Status => Str

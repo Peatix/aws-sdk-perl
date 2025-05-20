@@ -41,8 +41,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/gre
 
 =head2 B<REQUIRED> CoreDeviceThingName => Str
 
-The name of the core device. This is also the name of the AWS IoT
-thing.
+The name of the core device. This is also the name of the IoT thing.
 
 
 

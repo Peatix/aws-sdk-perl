@@ -58,15 +58,15 @@ Provides details of the Global datastore
 
 The suffix name of a Global datastore. Amazon ElastiCache automatically
 applies a prefix to the Global datastore ID when it is created. Each
-AWS Region has its own prefix. For instance, a Global datastore ID
+Amazon Region has its own prefix. For instance, a Global datastore ID
 created in the US-West-1 region will begin with "dsdfu" along with the
 suffix name you provide. The suffix, combined with the auto-generated
 prefix, guarantees uniqueness of the Global datastore name across
 multiple regions.
 
-For a full list of AWS Regions and their respective Global datastore iD
-prefixes, see Using the AWS CLI with Global datastores
-(http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/Redis-Global-Datastores-CLI.html).
+For a full list of Amazon Regions and their respective Global datastore
+iD prefixes, see Using the Amazon CLI with Global datastores
+(http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Redis-Global-Datastores-CLI.html).
 
 
 

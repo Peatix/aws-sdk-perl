@@ -34,8 +34,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         CreatedAfter    => '1970-01-01T01:00:00',   # OPTIONAL
         CreatedBefore   => '1970-01-01T01:00:00',   # OPTIONAL
         DatastoreName   => 'MyDatastoreName',       # min: 1, max: 256; OPTIONAL
-        DatastoreStatus =>
-          'CREATING',    # values: CREATING, ACTIVE, DELETING, DELETED; OPTIONAL
+        DatastoreStatus => 'CREATING'
+        , # values: CREATING, ACTIVE, DELETING, DELETED, CREATE_FAILED; OPTIONAL
       },    # OPTIONAL
       MaxResults => 1,                # OPTIONAL
       NextToken  => 'MyNextToken',    # OPTIONAL
@@ -56,20 +56,20 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/hea
 
 =head2 Filter => L<Paws::HealthLake::DatastoreFilter>
 
-Lists all filters associated with a FHIR Data Store request.
+Lists all filters associated with a FHIR data store request.
 
 
 
 =head2 MaxResults => Int
 
-The maximum number of Data Stores returned in a single page of a
+The maximum number of data stores returned in a single page of a
 ListFHIRDatastoresRequest call.
 
 
 
 =head2 NextToken => Str
 
-Fetches the next page of Data Stores when results are paginated.
+Fetches the next page of data stores when results are paginated.
 
 
 

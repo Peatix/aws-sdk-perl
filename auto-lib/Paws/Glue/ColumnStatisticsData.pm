@@ -63,7 +63,9 @@ Date column statistics data.
 
 =head2 DecimalColumnStatisticsData => L<Paws::Glue::DecimalColumnStatisticsData>
 
-Decimal column statistics data.
+Decimal column statistics data. UnscaledValues within are
+Base64-encoded binary objects storing big-endian, two's complement
+representations of the decimal's unscaled value.
 
 
 =head2 DoubleColumnStatisticsData => L<Paws::Glue::DoubleColumnStatisticsData>

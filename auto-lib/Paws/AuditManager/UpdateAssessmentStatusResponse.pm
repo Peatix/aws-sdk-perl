@@ -17,8 +17,8 @@ Paws::AuditManager::UpdateAssessmentStatusResponse
 
 =head2 Assessment => L<Paws::AuditManager::Assessment>
 
-The name of the updated assessment returned by the
-C<UpdateAssessmentStatus> API.
+The name of the updated assessment that the C<UpdateAssessmentStatus>
+API returned.
 
 
 =head2 _request_id => Str

@@ -4,10 +4,14 @@ package Paws::Translate::TerminologyProperties;
   has Arn => (is => 'ro', isa => 'Str');
   has CreatedAt => (is => 'ro', isa => 'Str');
   has Description => (is => 'ro', isa => 'Str');
+  has Directionality => (is => 'ro', isa => 'Str');
   has EncryptionKey => (is => 'ro', isa => 'Paws::Translate::EncryptionKey');
+  has Format => (is => 'ro', isa => 'Str');
   has LastUpdatedAt => (is => 'ro', isa => 'Str');
+  has Message => (is => 'ro', isa => 'Str');
   has Name => (is => 'ro', isa => 'Str');
   has SizeBytes => (is => 'ro', isa => 'Int');
+  has SkippedTermCount => (is => 'ro', isa => 'Int');
   has SourceLanguageCode => (is => 'ro', isa => 'Str');
   has TargetLanguageCodes => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has TermCount => (is => 'ro', isa => 'Int');
@@ -63,15 +67,47 @@ timestamp.
 The description of the custom terminology properties.
 
 
+=head2 Directionality => Str
+
+The directionality of your terminology resource indicates whether it
+has one source language (uni-directional) or multiple
+(multi-directional).
+
+=over
+
+=item UNI
+
+The terminology resource has one source language (the first column in a
+CSV file), and all of its other languages are target languages.
+
+=item MULTI
+
+Any language in the terminology resource can be the source language.
+
+=back
+
+
+
 =head2 EncryptionKey => L<Paws::Translate::EncryptionKey>
 
 The encryption key for the custom terminology.
+
+
+=head2 Format => Str
+
+The format of the custom terminology input file.
 
 
 =head2 LastUpdatedAt => Str
 
 The time at which the custom terminology was last update, based on the
 timestamp.
+
+
+=head2 Message => Str
+
+Additional information from Amazon Translate about the terminology
+resource.
 
 
 =head2 Name => Str
@@ -84,6 +120,12 @@ The name of the custom terminology.
 The size of the file used when importing a custom terminology.
 
 
+=head2 SkippedTermCount => Int
+
+The number of terms in the input file that Amazon Translate skipped
+when you created or updated the terminology resource.
+
+
 =head2 SourceLanguageCode => Str
 
 The language code for the source text of the translation request for
@@ -93,7 +135,8 @@ which the custom terminology is being used.
 =head2 TargetLanguageCodes => ArrayRef[Str|Undef]
 
 The language codes for the target languages available with the custom
-terminology file. All possible target languages are returned in array.
+terminology resource. All possible target languages are returned in
+array.
 
 
 =head2 TermCount => Int

@@ -47,17 +47,25 @@ the condition of specific attributes of the item.
 =head2 B<REQUIRED> ConditionExpression => Str
 
 A condition that must be satisfied in order for a conditional update to
-succeed.
+succeed. For more information, see Condition expressions
+(https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.ConditionExpressions.html)
+in the I<Amazon DynamoDB Developer Guide>.
 
 
 =head2 ExpressionAttributeNames => L<Paws::DynamoDB::ExpressionAttributeNameMap>
 
 One or more substitution tokens for attribute names in an expression.
+For more information, see Expression attribute names
+(https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.ExpressionAttributeNames.html)
+in the I<Amazon DynamoDB Developer Guide>.
 
 
 =head2 ExpressionAttributeValues => L<Paws::DynamoDB::ExpressionAttributeValueMap>
 
-One or more values that can be substituted in an expression.
+One or more values that can be substituted in an expression. For more
+information, see Condition expressions
+(https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.ConditionExpressions.html)
+in the I<Amazon DynamoDB Developer Guide>.
 
 
 =head2 B<REQUIRED> Key => L<Paws::DynamoDB::Key>
@@ -76,7 +84,8 @@ ALL_OLD.
 
 =head2 B<REQUIRED> TableName => Str
 
-Name of the table for the check item request.
+Name of the table for the check item request. You can also provide the
+Amazon Resource Name (ARN) of the table in this parameter.
 
 
 

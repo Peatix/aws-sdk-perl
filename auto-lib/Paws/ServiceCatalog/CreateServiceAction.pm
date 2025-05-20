@@ -63,10 +63,6 @@ The language code.
 
 =item *
 
-C<en> - English (default)
-
-=item *
-
 C<jp> - Japanese
 
 =item *
@@ -86,16 +82,16 @@ The self-service action definition. Can be one of the following:
 
 =item Name
 
-The name of the AWS Systems Manager document (SSM document). For
-example, C<AWS-RestartEC2Instance>.
+The name of the Amazon Web Services Systems Manager document (SSM
+document). For example, C<AWS-RestartEC2Instance>.
 
 If you are using a shared SSM document, you must provide the ARN
 instead of the name.
 
 =item Version
 
-The AWS Systems Manager automation document version. For example,
-C<"Version": "1">
+The Amazon Web Services Systems Manager automation document version.
+For example, C<"Version": "1">
 
 =item AssumeRole
 

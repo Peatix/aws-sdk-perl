@@ -53,7 +53,9 @@ Details about a person whose path was tracked in a video.
 =head2 Timestamp => Int
 
 The time, in milliseconds from the start of the video, that the
-person's path was tracked.
+person's path was tracked. Note that C<Timestamp> is not guaranteed to
+be accurate to the individual frame where the person's path first
+appears.
 
 
 

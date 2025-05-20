@@ -34,9 +34,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SSM::Effect
 
 =head1 DESCRIPTION
 
-The EffectivePatch structure defines metadata about a patch along with
-the approval state of the patch in a particular patch baseline. The
-approval state includes information about whether the patch is
+The C<EffectivePatch> structure defines metadata about a patch along
+with the approval state of the patch in a particular patch baseline.
+The approval state includes information about whether the patch is
 currently approved, due to be approved by a rule, explicitly approved,
 or explicitly rejected and the date the patch was or will be approved.
 

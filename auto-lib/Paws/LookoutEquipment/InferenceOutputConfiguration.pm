@@ -42,7 +42,7 @@ inference, including KMS key ID and output S3 location.
 
 =head2 KmsKeyId => Str
 
-The ID number for the AWS KMS key used to encrypt the inference output.
+The ID number for the KMS key key used to encrypt the inference output.
 
 
 =head2 B<REQUIRED> S3OutputConfiguration => L<Paws::LookoutEquipment::InferenceS3OutputConfiguration>

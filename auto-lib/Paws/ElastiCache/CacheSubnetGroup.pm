@@ -5,6 +5,7 @@ package Paws::ElastiCache::CacheSubnetGroup;
   has CacheSubnetGroupDescription => (is => 'ro', isa => 'Str');
   has CacheSubnetGroupName => (is => 'ro', isa => 'Str');
   has Subnets => (is => 'ro', isa => 'ArrayRef[Paws::ElastiCache::Subnet]', request_name => 'Subnet', traits => ['NameInRequest']);
+  has SupportedNetworkTypes => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has VpcId => (is => 'ro', isa => 'Str');
 
 1;
@@ -73,6 +74,14 @@ The name of the cache subnet group.
 =head2 Subnets => ArrayRef[L<Paws::ElastiCache::Subnet>]
 
 A list of subnets associated with the cache subnet group.
+
+
+=head2 SupportedNetworkTypes => ArrayRef[Str|Undef]
+
+Either C<ipv4> | C<ipv6> | C<dual_stack>. IPv6 is supported for
+workloads using Valkey 7.2 and above, Redis OSS engine version 6.2 to
+7.1 or Memcached engine version 1.6.6 and above on all instances built
+on the Nitro system (http://aws.amazon.com/ec2/nitro/).
 
 
 =head2 VpcId => Str

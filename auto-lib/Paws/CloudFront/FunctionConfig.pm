@@ -2,6 +2,7 @@
 package Paws::CloudFront::FunctionConfig;
   use Moose;
   has Comment => (is => 'ro', isa => 'Str', required => 1);
+  has KeyValueStoreAssociations => (is => 'ro', isa => 'Paws::CloudFront::KeyValueStoreAssociations');
   has Runtime => (is => 'ro', isa => 'Str', required => 1);
 
 1;
@@ -44,10 +45,14 @@ Contains configuration information about a CloudFront function.
 A comment to describe the function.
 
 
+=head2 KeyValueStoreAssociations => L<Paws::CloudFront::KeyValueStoreAssociations>
+
+The configuration for the key value store associations.
+
+
 =head2 B<REQUIRED> Runtime => Str
 
-The functionE<rsquo>s runtime environment. The only valid value is
-C<cloudfront-js-1.0>.
+The function's runtime environment version.
 
 
 

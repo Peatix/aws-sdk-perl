@@ -65,7 +65,7 @@ The identifier of the key group that you are updating.
 =head2 IfMatch => Str
 
 The version of the key group that you are updating. The version is the
-key groupE<rsquo>s C<ETag> value.
+key group's C<ETag> value.
 
 
 

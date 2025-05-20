@@ -17,7 +17,8 @@ Paws::DS::ListLogSubscriptionsResult
 
 =head2 LogSubscriptions => ArrayRef[L<Paws::DS::LogSubscription>]
 
-A list of active LogSubscription objects for calling the AWS account.
+A list of active LogSubscription objects for calling the Amazon Web
+Services account.
 
 
 =head2 NextToken => Str

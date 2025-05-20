@@ -4,12 +4,13 @@ package Paws::MediaTailor::UpdateSourceLocation;
   has AccessConfiguration => (is => 'ro', isa => 'Paws::MediaTailor::AccessConfiguration');
   has DefaultSegmentDeliveryConfiguration => (is => 'ro', isa => 'Paws::MediaTailor::DefaultSegmentDeliveryConfiguration');
   has HttpConfiguration => (is => 'ro', isa => 'Paws::MediaTailor::HttpConfiguration', required => 1);
-  has SourceLocationName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'sourceLocationName', required => 1);
+  has SegmentDeliveryConfigurations => (is => 'ro', isa => 'ArrayRef[Paws::MediaTailor::SegmentDeliveryConfiguration]');
+  has SourceLocationName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'SourceLocationName', required => 1);
 
   use MooseX::ClassAttribute;
 
   class_has _api_call => (isa => 'Str', is => 'ro', default => 'UpdateSourceLocation');
-  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/sourceLocation/{sourceLocationName}');
+  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/sourceLocation/{SourceLocationName}');
   class_has _api_method  => (isa => 'Str', is => 'ro', default => 'PUT');
   class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::MediaTailor::UpdateSourceLocationResponse');
 1;
@@ -38,16 +39,23 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       },
       SourceLocationName  => 'My__string',
       AccessConfiguration => {
-        AccessType =>
-          'S3_SIGV4', # values: S3_SIGV4, SECRETS_MANAGER_ACCESS_TOKEN; OPTIONAL
+        AccessType => 'S3_SIGV4'
+        , # values: S3_SIGV4, SECRETS_MANAGER_ACCESS_TOKEN, AUTODETECT_SIGV4; OPTIONAL
         SecretsManagerAccessTokenConfiguration => {
           HeaderName      => 'My__string',
           SecretArn       => 'My__string',
           SecretStringKey => 'My__string',
-        },            # OPTIONAL
+        },    # OPTIONAL
       },    # OPTIONAL
       DefaultSegmentDeliveryConfiguration => { BaseUrl => 'My__string', }
       ,     # OPTIONAL
+      SegmentDeliveryConfigurations => [
+        {
+          BaseUrl => 'My__string',
+          Name    => 'My__string',
+        },
+        ...
+      ],    # OPTIONAL
     );
 
     # Results:
@@ -57,8 +65,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $CreationTime = $UpdateSourceLocationResponse->CreationTime;
     my $DefaultSegmentDeliveryConfiguration =
       $UpdateSourceLocationResponse->DefaultSegmentDeliveryConfiguration;
-    my $HttpConfiguration  = $UpdateSourceLocationResponse->HttpConfiguration;
-    my $LastModifiedTime   = $UpdateSourceLocationResponse->LastModifiedTime;
+    my $HttpConfiguration = $UpdateSourceLocationResponse->HttpConfiguration;
+    my $LastModifiedTime  = $UpdateSourceLocationResponse->LastModifiedTime;
+    my $SegmentDeliveryConfigurations =
+      $UpdateSourceLocationResponse->SegmentDeliveryConfigurations;
     my $SourceLocationName = $UpdateSourceLocationResponse->SourceLocationName;
     my $Tags               = $UpdateSourceLocationResponse->Tags;
 
@@ -89,9 +99,16 @@ The HTTP configuration for the source location.
 
 
 
+=head2 SegmentDeliveryConfigurations => ArrayRef[L<Paws::MediaTailor::SegmentDeliveryConfiguration>]
+
+A list of the segment delivery configurations associated with this
+resource.
+
+
+
 =head2 B<REQUIRED> SourceLocationName => Str
 
-The identifier for the source location you are working on.
+The name of the source location.
 
 
 

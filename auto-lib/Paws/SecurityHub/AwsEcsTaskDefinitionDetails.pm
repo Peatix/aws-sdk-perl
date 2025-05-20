@@ -13,6 +13,7 @@ package Paws::SecurityHub::AwsEcsTaskDefinitionDetails;
   has PlacementConstraints => (is => 'ro', isa => 'ArrayRef[Paws::SecurityHub::AwsEcsTaskDefinitionPlacementConstraintsDetails]');
   has ProxyConfiguration => (is => 'ro', isa => 'Paws::SecurityHub::AwsEcsTaskDefinitionProxyConfigurationDetails');
   has RequiresCompatibilities => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has Status => (is => 'ro', isa => 'Str');
   has TaskRoleArn => (is => 'ro', isa => 'Str');
   has Volumes => (is => 'ro', isa => 'ArrayRef[Paws::SecurityHub::AwsEcsTaskDefinitionVolumesDetails]');
 
@@ -46,7 +47,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SecurityHub
 
 =head1 DESCRIPTION
 
-details about a task definition. A task definition describes the
+Details about a task definition. A task definition describes the
 container and volume definitions of an Amazon Elastic Container Service
 task.
 
@@ -61,7 +62,32 @@ task.
 
 =head2 Cpu => Str
 
-The number of CPU units used by the task.
+The number of CPU units used by the task.Valid values are as follows:
+
+=over
+
+=item *
+
+C<256 (.25 vCPU)>
+
+=item *
+
+C<512 (.5 vCPU)>
+
+=item *
+
+C<1024 (1 vCPU)>
+
+=item *
+
+C<2048 (2 vCPU)>
+
+=item *
+
+C<4096 (4 vCPU)>
+
+=back
+
 
 
 =head2 ExecutionRoleArn => Str
@@ -83,22 +109,71 @@ task.
 
 =head2 IpcMode => Str
 
-The IPC resource namespace to use for the containers in the task.
+The inter-process communication (IPC) resource namespace to use for the
+containers in the task. Valid values are as follows:
+
+=over
+
+=item *
+
+C<host>
+
+=item *
+
+C<none>
+
+=item *
+
+C<task>
+
+=back
+
 
 
 =head2 Memory => Str
 
 The amount (in MiB) of memory used by the task.
 
+For tasks that are hosted on Amazon EC2, you can provide a task-level
+memory value or a container-level memory value. For tasks that are
+hosted on Fargate, you must use one of the specified values
+(https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html#task_size)
+in the I< I<Amazon Elastic Container Service Developer Guide> >, which
+determines your range of supported values for the C<Cpu> and C<Memory>
+parameters.
+
 
 =head2 NetworkMode => Str
 
-The Docker networking mode to use for the containers in the task.
+The Docker networking mode to use for the containers in the task. Valid
+values are as follows:
+
+=over
+
+=item *
+
+C<awsvpc>
+
+=item *
+
+C<bridge>
+
+=item *
+
+C<host>
+
+=item *
+
+C<none>
+
+=back
+
 
 
 =head2 PidMode => Str
 
-The process namespace to use for the containers in the task.
+The process namespace to use for the containers in the task. Valid
+values are C<host> or C<task>.
 
 
 =head2 PlacementConstraints => ArrayRef[L<Paws::SecurityHub::AwsEcsTaskDefinitionPlacementConstraintsDetails>]
@@ -116,10 +191,16 @@ The configuration details for the App Mesh proxy.
 The task launch types that the task definition was validated against.
 
 
+=head2 Status => Str
+
+The status of the task definition.
+
+
 =head2 TaskRoleArn => Str
 
 The short name or ARN of the IAM role that grants containers in the
-task permission to call AWS API operations on your behalf.
+task permission to call Amazon Web Services API operations on your
+behalf.
 
 
 =head2 Volumes => ArrayRef[L<Paws::SecurityHub::AwsEcsTaskDefinitionVolumesDetails>]

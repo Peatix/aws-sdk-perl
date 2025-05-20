@@ -33,15 +33,15 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CostExplore
 
 =head1 DESCRIPTION
 
-The Amazon EC2 hardware specifications that you want AWS to provide
-recommendations for.
+The Amazon EC2 hardware specifications that you want Amazon Web
+Services to provide recommendations for.
 
 =head1 ATTRIBUTES
 
 
 =head2 OfferingClass => Str
 
-Whether you want a recommendation for standard or convertible
+Indicates whether you want a recommendation for standard or convertible
 reservations.
 
 

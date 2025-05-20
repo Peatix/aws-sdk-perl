@@ -35,7 +35,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::EMR::EbsBlo
 =head1 DESCRIPTION
 
 Configuration of requested EBS block device associated with the
-instance group with count of volumes that will be associated to every
+instance group with count of volumes that are associated to every
 instance.
 
 =head1 ATTRIBUTES
@@ -43,14 +43,14 @@ instance.
 
 =head2 B<REQUIRED> VolumeSpecification => L<Paws::EMR::VolumeSpecification>
 
-EBS volume specifications such as volume type, IOPS, and size (GiB)
-that will be requested for the EBS volume attached to an EC2 instance
-in the cluster.
+EBS volume specifications such as volume type, IOPS, size (GiB) and
+throughput (MiB/s) that are requested for the EBS volume attached to an
+Amazon EC2 instance in the cluster.
 
 
 =head2 VolumesPerInstance => Int
 
-Number of EBS volumes with a specific volume configuration that will be
+Number of EBS volumes with a specific volume configuration that are
 associated with every instance in the instance group
 
 

@@ -7,10 +7,12 @@ package Paws::AppRunner::Service;
   has EncryptionConfiguration => (is => 'ro', isa => 'Paws::AppRunner::EncryptionConfiguration');
   has HealthCheckConfiguration => (is => 'ro', isa => 'Paws::AppRunner::HealthCheckConfiguration');
   has InstanceConfiguration => (is => 'ro', isa => 'Paws::AppRunner::InstanceConfiguration', required => 1);
+  has NetworkConfiguration => (is => 'ro', isa => 'Paws::AppRunner::NetworkConfiguration', required => 1);
+  has ObservabilityConfiguration => (is => 'ro', isa => 'Paws::AppRunner::ServiceObservabilityConfiguration');
   has ServiceArn => (is => 'ro', isa => 'Str', required => 1);
   has ServiceId => (is => 'ro', isa => 'Str', required => 1);
   has ServiceName => (is => 'ro', isa => 'Str', required => 1);
-  has ServiceUrl => (is => 'ro', isa => 'Str', required => 1);
+  has ServiceUrl => (is => 'ro', isa => 'Str');
   has SourceConfiguration => (is => 'ro', isa => 'Paws::AppRunner::SourceConfiguration', required => 1);
   has Status => (is => 'ro', isa => 'Str', required => 1);
   has UpdatedAt => (is => 'ro', isa => 'Str', required => 1);
@@ -45,7 +47,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AppRunner::
 
 =head1 DESCRIPTION
 
-Describes an AWS App Runner service. It can describe a service in any
+Describes an App Runner service. It can describe a service in any
 state, including deleted services.
 
 This type contains the full information about a service, including
@@ -86,8 +88,8 @@ stamp format.
 
 The encryption key that App Runner uses to encrypt the service logs and
 the copy of the source repository that App Runner maintains for the
-service. It can be either a customer-provided encryption key or an AWS
-managed CMK.
+service. It can be either a customer-provided encryption key or an
+Amazon Web Services managed key.
 
 
 =head2 HealthCheckConfiguration => L<Paws::AppRunner::HealthCheckConfiguration>
@@ -101,6 +103,17 @@ the health of this service.
 The runtime configuration of instances (scaling units) of this service.
 
 
+=head2 B<REQUIRED> NetworkConfiguration => L<Paws::AppRunner::NetworkConfiguration>
+
+Configuration settings related to network traffic of the web
+application that this service runs.
+
+
+=head2 ObservabilityConfiguration => L<Paws::AppRunner::ServiceObservabilityConfiguration>
+
+The observability configuration of this service.
+
+
 =head2 B<REQUIRED> ServiceArn => Str
 
 The Amazon Resource Name (ARN) of this service.
@@ -109,7 +122,7 @@ The Amazon Resource Name (ARN) of this service.
 =head2 B<REQUIRED> ServiceId => Str
 
 An ID that App Runner generated for this service. It's unique within
-the AWS Region.
+the Amazon Web Services Region.
 
 
 =head2 B<REQUIRED> ServiceName => Str
@@ -117,7 +130,7 @@ the AWS Region.
 The customer-provided service name.
 
 
-=head2 B<REQUIRED> ServiceUrl => Str
+=head2 ServiceUrl => Str
 
 A subdomain URL that App Runner generated for this service. You can use
 this URL to access your service web application.
@@ -138,12 +151,11 @@ mean the following.
 
 =item *
 
-C<CREATE_FAILED> E<ndash> The service failed to create. To troubleshoot
-this failure, read the failure events and logs, change any parameters
-that need to be fixed, and retry the call to create the service.
-
-The failed service isn't usable, and still counts towards your service
-quota. When you're done analyzing the failure, delete the service.
+C<CREATE_FAILED> E<ndash> The service failed to create. The failed
+service isn't usable, and still counts towards your service quota. To
+troubleshoot this failure, read the failure events and logs, change any
+parameters that need to be fixed, and rebuild your service using
+C<UpdateService>.
 
 =item *
 

@@ -85,7 +85,7 @@ A unique, case-sensitive identifier that you provide to ensure the
 idempotency of the operation. An idempotent operation completes no more
 than one time. This identifier is required only if you make a service
 request directly using an HTTP client. It is generated automatically if
-you use an AWS SDK or the AWS CLI.
+you use an Amazon Web Services SDK or the CLI.
 
 
 
@@ -100,7 +100,8 @@ example, "Proposal to add Example Corp. as member."
 
 The unique identifier of the member that is creating the proposal. This
 identifier is especially useful for identifying the member making the
-proposal when multiple members exist in a single AWS account.
+proposal when multiple members exist in a single Amazon Web Services
+account.
 
 
 
@@ -112,13 +113,11 @@ The unique identifier of the network for which the proposal is made.
 
 =head2 Tags => L<Paws::ManagedBlockchain::InputTagMap>
 
-Tags to assign to the proposal. Each tag consists of a key and optional
-value.
+Tags to assign to the proposal.
 
-When specifying tags during creation, you can specify multiple
-key-value pairs in a single request, with an overall maximum of 50 tags
-added to each resource. If the proposal is for a network invitation,
-the invitation inherits the tags added to the proposal.
+Each tag consists of a key and an optional value. You can specify
+multiple key-value pairs in a single request with an overall maximum of
+50 tags allowed per resource.
 
 For more information about tags, see Tagging Resources
 (https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html)

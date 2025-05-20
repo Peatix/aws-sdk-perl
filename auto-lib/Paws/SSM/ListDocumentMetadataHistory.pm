@@ -56,7 +56,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ssm
 
 =head2 DocumentVersion => Str
 
-The version of the document.
+The version of the change template.
 
 
 
@@ -77,7 +77,7 @@ Valid values are: C<"DocumentReviews">
 
 =head2 B<REQUIRED> Name => Str
 
-The name of the document.
+The name of the change template.
 
 
 

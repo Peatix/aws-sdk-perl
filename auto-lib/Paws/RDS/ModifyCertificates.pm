@@ -56,9 +56,9 @@ command or the C<DescribeCertificates> API operation.
 
 =head2 RemoveCustomerOverride => Bool
 
-A value that indicates whether to remove the override for the default
-certificate. If the override is removed, the default certificate is the
-system default.
+Specifies whether to remove the override for the default certificate.
+If the override is removed, the default certificate is the system
+default.
 
 
 

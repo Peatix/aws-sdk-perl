@@ -72,7 +72,7 @@ logical replication slot should already be created and associated with
 the source endpoint. You can verify this by setting the C<slotName>
 extra connection attribute to the name of this logical replication
 slot. For more information, see Extra Connection Attributes When Using
-PostgreSQL as a Source for AWS DMS
+PostgreSQL as a Source for DMS
 (https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.PostgreSQL.html#CHAP_Source.PostgreSQL.ConnectionAttrib).
 
 
@@ -95,8 +95,8 @@ The value can be either server time or commit time.
 Server time example: --cdc-stop-position
 E<ldquo>server_time:2018-02-09T12:12:12E<rdquo>
 
-Commit time example: --cdc-stop-position E<ldquo>commit_time:
-2018-02-09T12:12:12 E<ldquo>
+Commit time example: --cdc-stop-position
+E<ldquo>commit_time:2018-02-09T12:12:12E<ldquo>
 
 
 
@@ -108,7 +108,24 @@ The Amazon Resource Name (ARN) of the replication task to be started.
 
 =head2 B<REQUIRED> StartReplicationTaskType => Str
 
-A type of replication task.
+The type of replication task to start.
+
+When the migration type is C<full-load> or C<full-load-and-cdc>, the
+only valid value for the first run of the task is C<start-replication>.
+This option will start the migration.
+
+You can also use ReloadTables to reload specific tables that failed
+during migration instead of restarting the task.
+
+The C<resume-processing> option isn't applicable for a full-load task,
+because you can't resume partially loaded tables during the full load
+phase.
+
+For a C<full-load-and-cdc> task, DMS migrates table data, and then
+applies data changes that occur on the source. To load all the tables
+again, and start capturing source changes, use C<reload-target>.
+Otherwise use C<resume-processing>, to replicate the changes from the
+last stop position.
 
 Valid values are: C<"start-replication">, C<"resume-processing">, C<"reload-target">
 

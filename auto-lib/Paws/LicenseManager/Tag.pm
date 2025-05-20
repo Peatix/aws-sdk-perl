@@ -34,19 +34,22 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::LicenseMana
 
 =head1 DESCRIPTION
 
-Details about a tag for a license configuration.
+Details about the tags for a resource. For more information about
+tagging support in License Manager, see the TagResource
+(https://docs.aws.amazon.com/license-manager/latest/APIReference/API_TagResource.html)
+operation.
 
 =head1 ATTRIBUTES
 
 
 =head2 Key => Str
 
-Tag key.
+The tag key.
 
 
 =head2 Value => Str
 
-Tag value.
+The tag value.
 
 
 

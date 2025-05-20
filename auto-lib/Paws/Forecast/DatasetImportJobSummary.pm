@@ -5,6 +5,7 @@ package Paws::Forecast::DatasetImportJobSummary;
   has DatasetImportJobArn => (is => 'ro', isa => 'Str');
   has DatasetImportJobName => (is => 'ro', isa => 'Str');
   has DataSource => (is => 'ro', isa => 'Paws::Forecast::DataSource');
+  has ImportMode => (is => 'ro', isa => 'Str');
   has LastModificationTime => (is => 'ro', isa => 'Str');
   has Message => (is => 'ro', isa => 'Str');
   has Status => (is => 'ro', isa => 'Str');
@@ -40,9 +41,12 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Forecast::D
 =head1 DESCRIPTION
 
 Provides a summary of the dataset import job properties used in the
-ListDatasetImportJobs operation. To get the complete set of properties,
-call the DescribeDatasetImportJob operation, and provide the
-C<DatasetImportJobArn>.
+ListDatasetImportJobs
+(https://docs.aws.amazon.com/forecast/latest/dg/API_ListDatasetImportJobs.html)
+operation. To get the complete set of properties, call the
+DescribeDatasetImportJob
+(https://docs.aws.amazon.com/forecast/latest/dg/API_DescribeDatasetImportJob.html)
+operation, and provide the C<DatasetImportJobArn>.
 
 =head1 ATTRIBUTES
 
@@ -64,12 +68,17 @@ The name of the dataset import job.
 
 =head2 DataSource => L<Paws::Forecast::DataSource>
 
-The location of the training data to import and an AWS Identity and
-Access Management (IAM) role that Amazon Forecast can assume to access
-the data. The training data must be stored in an Amazon S3 bucket.
+The location of the training data to import and an Identity and Access
+Management (IAM) role that Amazon Forecast can assume to access the
+data. The training data must be stored in an Amazon S3 bucket.
 
-If encryption is used, C<DataSource> includes an AWS Key Management
-Service (KMS) key.
+If encryption is used, C<DataSource> includes an Key Management Service
+(KMS) key.
+
+
+=head2 ImportMode => Str
+
+The import mode of the dataset import job, FULL or INCREMENTAL.
 
 
 =head2 LastModificationTime => Str

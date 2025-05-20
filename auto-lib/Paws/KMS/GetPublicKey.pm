@@ -28,12 +28,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $kms = Paws->service('KMS');
-    my $GetPublicKeyResponse = $kms->GetPublicKey(
-      KeyId       => 'MyKeyIdType',
-      GrantTokens => [
-        'MyGrantTokenType', ...    # min: 1, max: 8192
-      ],    # OPTIONAL
-    );
+ # To download the public key of an asymmetric KMS key
+ # This example gets the public key of an asymmetric RSA KMS key used for
+ # encryption and decryption. The operation returns the key spec, key usage, and
+ # encryption or signing algorithms to help you use the public key correctly
+ # outside of AWS KMS.
+    my $GetPublicKeyResponse =
+      $kms->GetPublicKey( 'KeyId' =>
+'arn:aws:kms:us-west-2:111122223333:key/0987dcba-09fe-87dc-65ba-ab0987654321'
+      );
 
     # Results:
     my $CustomerMasterKeySpec = $GetPublicKeyResponse->CustomerMasterKeySpec;
@@ -41,7 +44,6 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $KeyId                 = $GetPublicKeyResponse->KeyId;
     my $KeyUsage              = $GetPublicKeyResponse->KeyUsage;
     my $PublicKey             = $GetPublicKeyResponse->PublicKey;
-    my $SigningAlgorithms     = $GetPublicKeyResponse->SigningAlgorithms;
 
     # Returns a L<Paws::KMS::GetPublicKeyResponse> object.
 
@@ -58,18 +60,21 @@ A list of grant tokens.
 Use a grant token when your permission to call this operation comes
 from a new grant that has not yet achieved I<eventual consistency>. For
 more information, see Grant token
-(https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#grant_token)
-in the I<AWS Key Management Service Developer Guide>.
+(https://docs.aws.amazon.com/kms/latest/developerguide/grants.html#grant_token)
+and Using a grant token
+(https://docs.aws.amazon.com/kms/latest/developerguide/grant-manage.html#using-grant-token)
+in the I<Key Management Service Developer Guide>.
 
 
 
 =head2 B<REQUIRED> KeyId => Str
 
-Identifies the asymmetric CMK that includes the public key.
+Identifies the asymmetric KMS key that includes the public key.
 
-To specify a CMK, use its key ID, key ARN, alias name, or alias ARN.
-When using an alias name, prefix it with C<"alias/">. To specify a CMK
-in a different AWS account, you must use the key ARN or alias ARN.
+To specify a KMS key, use its key ID, key ARN, alias name, or alias
+ARN. When using an alias name, prefix it with C<"alias/">. To specify a
+KMS key in a different Amazon Web Services account, you must use the
+key ARN or alias ARN.
 
 For example:
 
@@ -94,8 +99,8 @@ Alias ARN: C<arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias>
 
 =back
 
-To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
-To get the alias name and alias ARN, use ListAliases.
+To get the key ID and key ARN for a KMS key, use ListKeys or
+DescribeKey. To get the alias name and alias ARN, use ListAliases.
 
 
 

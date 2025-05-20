@@ -58,14 +58,18 @@ The unique identifier (ID) of the attack.
 
 =head2 AttackProperties => ArrayRef[L<Paws::Shield::AttackProperty>]
 
-The array of AttackProperty objects.
+The array of objects that provide details of the Shield event.
+
+For infrastructure layer events (L3 and L4 events), you can view
+metrics for top contributors in Amazon CloudWatch metrics. For more
+information, see Shield metrics and alarms
+(https://docs.aws.amazon.com/waf/latest/developerguide/monitoring-cloudwatch.html#set-ddos-alarms)
+in the I<WAF Developer Guide>.
 
 
 =head2 EndTime => Str
 
-The time the attack ended, in Unix time in seconds. For more
-information see timestamp
-(http://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#parameter-types).
+The time the attack ended, in Unix time in seconds.
 
 
 =head2 Mitigations => ArrayRef[L<Paws::Shield::Mitigation>]
@@ -80,9 +84,7 @@ The ARN (Amazon Resource Name) of the resource that was attacked.
 
 =head2 StartTime => Str
 
-The time the attack started, in Unix time in seconds. For more
-information see timestamp
-(http://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#parameter-types).
+The time the attack started, in Unix time in seconds.
 
 
 =head2 SubResources => ArrayRef[L<Paws::Shield::SubResourceSummary>]

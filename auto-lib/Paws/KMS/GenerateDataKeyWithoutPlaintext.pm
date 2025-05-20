@@ -1,6 +1,7 @@
 
 package Paws::KMS::GenerateDataKeyWithoutPlaintext;
   use Moose;
+  has DryRun => (is => 'ro', isa => 'Bool');
   has EncryptionContext => (is => 'ro', isa => 'Paws::KMS::EncryptionContextType');
   has GrantTokens => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has KeyId => (is => 'ro', isa => 'Str', required => 1);
@@ -33,8 +34,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $kms = Paws->service('KMS');
  # To generate an encrypted data key
  # The following example generates an encrypted copy of a 256-bit symmetric data
- # encryption key (data key). The data key is encrypted with the specified
- # customer master key (CMK).
+ # encryption key (data key). The data key is encrypted with the specified KMS
+ # key.
     my $GenerateDataKeyWithoutPlaintextResponse =
       $kms->GenerateDataKeyWithoutPlaintext(
       'KeyId'   => 'alias/ExampleAlias',
@@ -54,21 +55,38 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/kms
 =head1 ATTRIBUTES
 
 
+=head2 DryRun => Bool
+
+Checks if your request will succeed. C<DryRun> is an optional
+parameter.
+
+To learn more about how to use this parameter, see Testing your KMS API
+calls
+(https://docs.aws.amazon.com/kms/latest/developerguide/programming-dryrun.html)
+in the I<Key Management Service Developer Guide>.
+
+
+
 =head2 EncryptionContext => L<Paws::KMS::EncryptionContextType>
 
 Specifies the encryption context that will be used when encrypting the
 data key.
 
+Do not include confidential or sensitive information in this field.
+This field may be displayed in plaintext in CloudTrail logs and other
+output.
+
 An I<encryption context> is a collection of non-secret key-value pairs
-that represents additional authenticated data. When you use an
+that represent additional authenticated data. When you use an
 encryption context to encrypt data, you must specify the same (an exact
 case-sensitive match) encryption context to decrypt the data. An
-encryption context is optional when encrypting with a symmetric CMK,
-but it is highly recommended.
+encryption context is supported only on operations with symmetric
+encryption KMS keys. On operations with symmetric encryption KMS keys,
+an encryption context is optional, but it is strongly recommended.
 
-For more information, see Encryption Context
+For more information, see Encryption context
 (https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context)
-in the I<AWS Key Management Service Developer Guide>.
+in the I<Key Management Service Developer Guide>.
 
 
 
@@ -79,19 +97,24 @@ A list of grant tokens.
 Use a grant token when your permission to call this operation comes
 from a new grant that has not yet achieved I<eventual consistency>. For
 more information, see Grant token
-(https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#grant_token)
-in the I<AWS Key Management Service Developer Guide>.
+(https://docs.aws.amazon.com/kms/latest/developerguide/grants.html#grant_token)
+and Using a grant token
+(https://docs.aws.amazon.com/kms/latest/developerguide/grant-manage.html#using-grant-token)
+in the I<Key Management Service Developer Guide>.
 
 
 
 =head2 B<REQUIRED> KeyId => Str
 
-The identifier of the symmetric customer master key (CMK) that encrypts
-the data key.
+Specifies the symmetric encryption KMS key that encrypts the data key.
+You cannot specify an asymmetric KMS key or a KMS key in a custom key
+store. To get the type and origin of your KMS key, use the DescribeKey
+operation.
 
-To specify a CMK, use its key ID, key ARN, alias name, or alias ARN.
-When using an alias name, prefix it with C<"alias/">. To specify a CMK
-in a different AWS account, you must use the key ARN or alias ARN.
+To specify a KMS key, use its key ID, key ARN, alias name, or alias
+ARN. When using an alias name, prefix it with C<"alias/">. To specify a
+KMS key in a different Amazon Web Services account, you must use the
+key ARN or alias ARN.
 
 For example:
 
@@ -116,8 +139,8 @@ Alias ARN: C<arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias>
 
 =back
 
-To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
-To get the alias name and alias ARN, use ListAliases.
+To get the key ID and key ARN for a KMS key, use ListKeys or
+DescribeKey. To get the alias name and alias ARN, use ListAliases.
 
 
 

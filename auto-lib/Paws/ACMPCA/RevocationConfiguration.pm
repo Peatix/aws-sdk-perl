@@ -2,6 +2,7 @@
 package Paws::ACMPCA::RevocationConfiguration;
   use Moose;
   has CrlConfiguration => (is => 'ro', isa => 'Paws::ACMPCA::CrlConfiguration');
+  has OcspConfiguration => (is => 'ro', isa => 'Paws::ACMPCA::OcspConfiguration');
 
 1;
 
@@ -22,7 +23,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::ACMPCA::RevocationConfiguration object:
 
-  $service_obj->Method(Att1 => { CrlConfiguration => $value, ..., CrlConfiguration => $value  });
+  $service_obj->Method(Att1 => { CrlConfiguration => $value, ..., OcspConfiguration => $value  });
 
 =head3 Results returned from an API call
 
@@ -35,14 +36,19 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ACMPCA::Rev
 
 Certificate revocation information used by the
 CreateCertificateAuthority
-(https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_CreateCertificateAuthority.html)
+(https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html)
 and UpdateCertificateAuthority
-(https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_UpdateCertificateAuthority.html)
-actions. Your private certificate authority (CA) can create and
-maintain a certificate revocation list (CRL). A CRL contains
-information about certificates revoked by your CA. For more
-information, see RevokeCertificate
-(https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_RevokeCertificate.html).
+(https://docs.aws.amazon.com/privateca/latest/APIReference/API_UpdateCertificateAuthority.html)
+actions. Your private certificate authority (CA) can configure Online
+Certificate Status Protocol (OCSP) support and/or maintain a
+certificate revocation list (CRL). OCSP returns validation information
+about certificates as requested by clients, and a CRL contains an
+updated list of certificates revoked by your CA. For more information,
+see RevokeCertificate
+(https://docs.aws.amazon.com/privateca/latest/APIReference/API_RevokeCertificate.html)
+and Setting up a certificate revocation method
+(https://docs.aws.amazon.com/privateca/latest/userguide/revocation-setup.html)
+in the I<Amazon Web Services Private Certificate Authority User Guide>.
 
 =head1 ATTRIBUTES
 
@@ -50,7 +56,17 @@ information, see RevokeCertificate
 =head2 CrlConfiguration => L<Paws::ACMPCA::CrlConfiguration>
 
 Configuration of the certificate revocation list (CRL), if any,
-maintained by your private CA.
+maintained by your private CA. A CRL is typically updated approximately
+30 minutes after a certificate is revoked. If for any reason a CRL
+update fails, Amazon Web Services Private CA makes further attempts
+every 15 minutes.
+
+
+=head2 OcspConfiguration => L<Paws::ACMPCA::OcspConfiguration>
+
+Configuration of Online Certificate Status Protocol (OCSP) support, if
+any, maintained by your private CA. When you revoke a certificate, OCSP
+responses may take up to 60 minutes to reflect the new status.
 
 
 

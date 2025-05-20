@@ -35,7 +35,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::LexModelsV2
 
 =head1 DESCRIPTION
 
-Filtes the response form the operation
+Filters the response form the ListExports
+(https://docs.aws.amazon.com/lexv2/latest/APIReference/API_ListExports.html)
+operation
 
 =head1 ATTRIBUTES
 
@@ -55,7 +57,8 @@ resource types that contain the specified value.
 
 =head2 B<REQUIRED> Values => ArrayRef[Str|Undef]
 
-The values to use to fileter the response.
+The values to use to filter the response. The values must be C<Bot>,
+C<BotLocale>, or C<CustomVocabulary>.
 
 
 

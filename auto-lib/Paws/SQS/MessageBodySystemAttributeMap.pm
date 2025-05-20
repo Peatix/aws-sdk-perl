@@ -3,8 +3,8 @@ package Paws::SQS::MessageBodySystemAttributeMap;
   with 'Paws::API::MapParser';
 
   use MooseX::ClassAttribute;
-  class_has xml_keys =>(is => 'ro', default => 'Name');
-  class_has xml_values =>(is => 'ro', default => 'Value');
+  class_has xml_keys =>(is => 'ro', default => 'key');
+  class_has xml_values =>(is => 'ro', default => 'value');
 
   has AWSTraceHeader => (is => 'ro', isa => 'Paws::SQS::MessageSystemAttributeValue');
 1;

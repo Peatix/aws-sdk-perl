@@ -50,6 +50,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     # Results:
     my $AwsDevice            = $Interconnect->AwsDevice;
     my $AwsDeviceV2          = $Interconnect->AwsDeviceV2;
+    my $AwsLogicalDeviceId   = $Interconnect->AwsLogicalDeviceId;
     my $Bandwidth            = $Interconnect->Bandwidth;
     my $HasLogicalRedundancy = $Interconnect->HasLogicalRedundancy;
     my $InterconnectId       = $Interconnect->InterconnectId;
@@ -73,7 +74,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/dir
 
 =head2 B<REQUIRED> Bandwidth => Str
 
-The port bandwidth, in Gbps. The possible values are 1 and 10.
+The port bandwidth, in Gbps. The possible values are 1, 10, and 100.
 
 
 

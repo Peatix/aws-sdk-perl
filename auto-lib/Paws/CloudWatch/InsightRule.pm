@@ -2,6 +2,7 @@
 package Paws::CloudWatch::InsightRule;
   use Moose;
   has Definition => (is => 'ro', isa => 'Str', required => 1);
+  has ManagedRule => (is => 'ro', isa => 'Bool');
   has Name => (is => 'ro', isa => 'Str', required => 1);
   has Schema => (is => 'ro', isa => 'Str', required => 1);
   has State => (is => 'ro', isa => 'Str', required => 1);
@@ -37,6 +38,10 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CloudWatch:
 =head1 DESCRIPTION
 
 This structure contains the definition for a Contributor Insights rule.
+For more information about this rule, see Using Constributor Insights
+to analyze high-cardinality data
+(https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/ContributorInsights.html)
+in the I<Amazon CloudWatch User Guide>.
 
 =head1 ATTRIBUTES
 
@@ -50,6 +55,11 @@ details on the valid syntax, see Contributor Insights Rule Syntax
 (https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/ContributorInsights-RuleSyntax.html).
 
 
+=head2 ManagedRule => Bool
+
+An optional built-in rule that Amazon Web Services manages.
+
+
 =head2 B<REQUIRED> Name => Str
 
 The name of the rule.
@@ -58,7 +68,7 @@ The name of the rule.
 =head2 B<REQUIRED> Schema => Str
 
 For rules that you create, this is always C<{"Name":
-"CloudWatchLogRule", "Version": 1}>. For built-in rules, this is
+"CloudWatchLogRule", "Version": 1}>. For managed rules, this is
 C<{"Name": "ServiceLogRule", "Version": 1}>
 
 

@@ -3,6 +3,8 @@ package Paws::EC2::AttachNetworkInterface;
   use Moose;
   has DeviceIndex => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'deviceIndex' , required => 1);
   has DryRun => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'dryRun' );
+  has EnaQueueCount => (is => 'ro', isa => 'Int');
+  has EnaSrdSpecification => (is => 'ro', isa => 'Paws::EC2::EnaSrdSpecification');
   has InstanceId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'instanceId' , required => 1);
   has NetworkCardIndex => (is => 'ro', isa => 'Int');
   has NetworkInterfaceId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'networkInterfaceId' , required => 1);
@@ -63,6 +65,19 @@ Checks whether you have the required permissions for the action,
 without actually making the request, and provides an error response. If
 you have the required permissions, the error response is
 C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
+
+
+
+=head2 EnaQueueCount => Int
+
+The number of ENA queues to be created with the instance.
+
+
+
+=head2 EnaSrdSpecification => L<Paws::EC2::EnaSrdSpecification>
+
+Configures ENA Express for the network interface that this action
+attaches to the instance.
 
 
 

@@ -76,6 +76,12 @@ The input data consists of one or more PowerPoint Presentation files
 C<application/vnd.openxmlformats-officedocument.spreadsheetml.sheet>:
 The input data consists of one or more Excel Workbook files (.xlsx).
 
+=item *
+
+C<application/x-xliff+xml>: The input data consists of one or more XML
+Localization Interchange File Format (XLIFF) files (.xlf). Amazon
+Translate supports only XLIFF version 1.2.
+
 =back
 
 If you structure your input data as HTML, ensure that you set this
@@ -87,8 +93,10 @@ cover the translation of every character.
 
 =head2 B<REQUIRED> S3Uri => Str
 
-The URI of the AWS S3 folder that contains the input file. The folder
-must be in the same Region as the API endpoint you are calling.
+The URI of the AWS S3 folder that contains the input files. Amazon
+Translate translates all the files in the folder and all its
+sub-folders. The folder must be in the same Region as the API endpoint
+you are calling.
 
 
 

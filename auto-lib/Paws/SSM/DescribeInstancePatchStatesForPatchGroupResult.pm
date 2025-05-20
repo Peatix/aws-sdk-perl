@@ -17,7 +17,7 @@ Paws::SSM::DescribeInstancePatchStatesForPatchGroupResult
 
 =head2 InstancePatchStates => ArrayRef[L<Paws::SSM::InstancePatchState>]
 
-The high-level patch state for the requested instances.
+The high-level patch state for the requested managed nodes.
 
 
 =head2 NextToken => Str

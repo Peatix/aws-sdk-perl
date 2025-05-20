@@ -86,7 +86,7 @@ A key-value map of headers to simulate an incoming invocation request.
 
 =head2 B<REQUIRED> HttpMethod => Str
 
-[Required] Specifies a test invoke method request's HTTP method.
+Specifies a test invoke method request's HTTP method.
 
 
 
@@ -107,13 +107,13 @@ parameters.
 
 =head2 B<REQUIRED> ResourceId => Str
 
-[Required] Specifies a test invoke method request's resource ID.
+Specifies a test invoke method request's resource ID.
 
 
 
 =head2 B<REQUIRED> RestApiId => Str
 
-[Required] The string identifier of the associated RestApi.
+The string identifier of the associated RestApi.
 
 
 

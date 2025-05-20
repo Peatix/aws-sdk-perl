@@ -29,8 +29,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $discovery = Paws->service('Discovery');
     my $DeleteTagsResponse = $discovery->DeleteTags(
-      ConfigurationIds => [ 'MyConfigurationId', ... ],
-      Tags             => [
+      ConfigurationIds => [
+        'MyConfigurationId', ...    # max: 200
+      ],
+      Tags => [
         {
           Key   => 'MyTagKey',
           Value => 'MyTagValue',

@@ -17,7 +17,9 @@ Paws::EC2::ModifyTrafficMirrorFilterRuleResult
 
 =head2 TrafficMirrorFilterRule => L<Paws::EC2::TrafficMirrorFilterRule>
 
-Modifies a Traffic Mirror rule.
+Tags are not returned for ModifyTrafficMirrorFilterRule.
+
+A Traffic Mirror rule.
 
 
 =head2 _request_id => Str

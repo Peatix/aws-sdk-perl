@@ -3,6 +3,8 @@ package Paws::Connect::Dimensions;
   use Moose;
   has Channel => (is => 'ro', isa => 'Str');
   has Queue => (is => 'ro', isa => 'Paws::Connect::QueueReference');
+  has RoutingProfile => (is => 'ro', isa => 'Paws::Connect::RoutingProfileReference');
+  has RoutingStepExpression => (is => 'ro', isa => 'Str');
 
 1;
 
@@ -23,7 +25,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::Connect::Dimensions object:
 
-  $service_obj->Method(Att1 => { Channel => $value, ..., Queue => $value  });
+  $service_obj->Method(Att1 => { Channel => $value, ..., RoutingStepExpression => $value  });
 
 =head3 Results returned from an API call
 
@@ -47,6 +49,16 @@ The channel used for grouping and filters.
 =head2 Queue => L<Paws::Connect::QueueReference>
 
 Information about the queue for which metrics are returned.
+
+
+=head2 RoutingProfile => L<Paws::Connect::RoutingProfileReference>
+
+
+
+
+=head2 RoutingStepExpression => Str
+
+The expression of a step in a routing criteria.
 
 
 

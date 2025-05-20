@@ -54,32 +54,32 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/aud
 
 =head2 B<REQUIRED> AssessmentId => Str
 
-The identifier for the specified assessment.
+The unique identifier for the assessment.
 
 
 
 =head2 ControlId => Str
 
-The identifier for the specified control.
+The unique identifier for the control.
 
 
 
 =head2 ControlSetId => Str
 
-The identifier for the specified control set.
+The unique identifier for the control set.
 
 
 
 =head2 MaxResults => Int
 
-Represents the maximum number of results per page, or per API request
-call.
+Represents the maximum number of results on a page or for an API
+request call.
 
 
 
 =head2 NextToken => Str
 
-The pagination token used to fetch the next set of results.
+The pagination token that's used to fetch the next set of results.
 
 
 

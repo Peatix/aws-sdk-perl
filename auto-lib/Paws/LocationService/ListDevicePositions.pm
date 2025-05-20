@@ -1,6 +1,7 @@
 
 package Paws::LocationService::ListDevicePositions;
   use Moose;
+  has FilterGeometry => (is => 'ro', isa => 'Paws::LocationService::TrackingFilterGeometry');
   has MaxResults => (is => 'ro', isa => 'Int');
   has NextToken => (is => 'ro', isa => 'Str');
   has TrackerName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'TrackerName', required => 1);
@@ -31,9 +32,17 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $geo = Paws->service('LocationService');
     my $ListDevicePositionsResponse = $geo->ListDevicePositions(
-      TrackerName => 'MyResourceName',
-      MaxResults  => 1,                  # OPTIONAL
-      NextToken   => 'MyToken',          # OPTIONAL
+      TrackerName    => 'MyResourceName',
+      FilterGeometry => {
+        Polygon => [
+          [
+            [ 1, ... ], ...    # min: 2, max: 2
+          ],
+          ...                  # min: 4
+        ],    # min: 1; OPTIONAL
+      },    # OPTIONAL
+      MaxResults => 1,            # OPTIONAL
+      NextToken  => 'MyToken',    # OPTIONAL
     );
 
     # Results:
@@ -46,6 +55,12 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/geo/ListDevicePositions>
 
 =head1 ATTRIBUTES
+
+
+=head2 FilterGeometry => L<Paws::LocationService::TrackingFilterGeometry>
+
+The geometry used to filter device positions.
+
 
 
 =head2 MaxResults => Int

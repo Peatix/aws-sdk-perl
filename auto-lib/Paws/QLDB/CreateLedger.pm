@@ -2,6 +2,7 @@
 package Paws::QLDB::CreateLedger;
   use Moose;
   has DeletionProtection => (is => 'ro', isa => 'Bool');
+  has KmsKey => (is => 'ro', isa => 'Str');
   has Name => (is => 'ro', isa => 'Str', required => 1);
   has PermissionsMode => (is => 'ro', isa => 'Str', required => 1);
   has Tags => (is => 'ro', isa => 'Paws::QLDB::Tags');
@@ -35,6 +36,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       Name               => 'MyLedgerName',
       PermissionsMode    => 'ALLOW_ALL',
       DeletionProtection => 1,                # OPTIONAL
+      KmsKey             => 'MyKmsKey',       # OPTIONAL
       Tags               => {
         'MyTagKey' => 'MyTagValue',    # key: min: 1, max: 128, value: max: 256
       },    # OPTIONAL
@@ -44,6 +46,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $Arn                = $CreateLedgerResponse->Arn;
     my $CreationDateTime   = $CreateLedgerResponse->CreationDateTime;
     my $DeletionProtection = $CreateLedgerResponse->DeletionProtection;
+    my $KmsKeyArn          = $CreateLedgerResponse->KmsKeyArn;
     my $Name               = $CreateLedgerResponse->Name;
     my $PermissionsMode    = $CreateLedgerResponse->PermissionsMode;
     my $State              = $CreateLedgerResponse->State;
@@ -58,20 +61,88 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/qld
 
 =head2 DeletionProtection => Bool
 
-The flag that prevents a ledger from being deleted by any user. If not
-provided on ledger creation, this feature is enabled (C<true>) by
-default.
+Specifies whether the ledger is protected from being deleted by any
+user. If not defined during ledger creation, this feature is enabled
+(C<true>) by default.
 
 If deletion protection is enabled, you must first disable it before you
 can delete the ledger. You can disable it by calling the
-C<UpdateLedger> operation to set the flag to C<false>.
+C<UpdateLedger> operation to set this parameter to C<false>.
+
+
+
+=head2 KmsKey => Str
+
+The key in Key Management Service (KMS) to use for encryption of data
+at rest in the ledger. For more information, see Encryption at rest
+(https://docs.aws.amazon.com/qldb/latest/developerguide/encryption-at-rest.html)
+in the I<Amazon QLDB Developer Guide>.
+
+Use one of the following options to specify this parameter:
+
+=over
+
+=item *
+
+C<AWS_OWNED_KMS_KEY>: Use an KMS key that is owned and managed by
+Amazon Web Services on your behalf.
+
+=item *
+
+B<Undefined>: By default, use an Amazon Web Services owned KMS key.
+
+=item *
+
+B<A valid symmetric customer managed KMS key>: Use the specified
+symmetric encryption KMS key in your account that you create, own, and
+manage.
+
+Amazon QLDB does not support asymmetric keys. For more information, see
+Using symmetric and asymmetric keys
+(https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html)
+in the I<Key Management Service Developer Guide>.
+
+=back
+
+To specify a customer managed KMS key, you can use its key ID, Amazon
+Resource Name (ARN), alias name, or alias ARN. When using an alias
+name, prefix it with C<"alias/">. To specify a key in a different
+Amazon Web Services account, you must use the key ARN or alias ARN.
+
+For example:
+
+=over
+
+=item *
+
+Key ID: C<1234abcd-12ab-34cd-56ef-1234567890ab>
+
+=item *
+
+Key ARN:
+C<arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab>
+
+=item *
+
+Alias name: C<alias/ExampleAlias>
+
+=item *
+
+Alias ARN: C<arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias>
+
+=back
+
+For more information, see Key identifiers (KeyId)
+(https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id)
+in the I<Key Management Service Developer Guide>.
 
 
 
 =head2 B<REQUIRED> Name => Str
 
 The name of the ledger that you want to create. The name must be unique
-among all of your ledgers in the current AWS Region.
+among all of the ledgers in your Amazon Web Services account in the
+current Region.
 
 Naming constraints for ledger names are defined in Quotas in Amazon
 QLDB

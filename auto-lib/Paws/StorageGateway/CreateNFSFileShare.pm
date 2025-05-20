@@ -1,10 +1,13 @@
 
 package Paws::StorageGateway::CreateNFSFileShare;
   use Moose;
+  has AuditDestinationARN => (is => 'ro', isa => 'Str');
+  has BucketRegion => (is => 'ro', isa => 'Str');
   has CacheAttributes => (is => 'ro', isa => 'Paws::StorageGateway::CacheAttributes');
   has ClientList => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has ClientToken => (is => 'ro', isa => 'Str', required => 1);
   has DefaultStorageClass => (is => 'ro', isa => 'Str');
+  has EncryptionType => (is => 'ro', isa => 'Str');
   has FileShareName => (is => 'ro', isa => 'Str');
   has GatewayARN => (is => 'ro', isa => 'Str', required => 1);
   has GuessMIMETypeEnabled => (is => 'ro', isa => 'Bool');
@@ -19,6 +22,7 @@ package Paws::StorageGateway::CreateNFSFileShare;
   has Role => (is => 'ro', isa => 'Str', required => 1);
   has Squash => (is => 'ro', isa => 'Str');
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::StorageGateway::Tag]');
+  has VPCEndpointDNSName => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -45,15 +49,18 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $storagegateway = Paws->service('StorageGateway');
     my $CreateNFSFileShareOutput = $storagegateway->CreateNFSFileShare(
-      ClientToken     => 'MyClientToken',
-      GatewayARN      => 'MyGatewayARN',
-      LocationARN     => 'MyLocationARN',
-      Role            => 'MyRole',
-      CacheAttributes => {
-        CacheStaleTimeoutInSeconds => 1,    # OPTIONAL
+      ClientToken         => 'MyClientToken',
+      GatewayARN          => 'MyGatewayARN',
+      LocationARN         => 'MyLocationARN',
+      Role                => 'MyRole',
+      AuditDestinationARN => 'MyAuditDestinationARN',    # OPTIONAL
+      BucketRegion        => 'MyRegionId',               # OPTIONAL
+      CacheAttributes     => {
+        CacheStaleTimeoutInSeconds => 1,                 # OPTIONAL
       },    # OPTIONAL
       ClientList           => [ 'MyIPV4AddressCIDR', ... ],    # OPTIONAL
       DefaultStorageClass  => 'MyStorageClass',                # OPTIONAL
+      EncryptionType       => 'SseS3',                         # OPTIONAL
       FileShareName        => 'MyFileShareName',               # OPTIONAL
       GuessMIMETypeEnabled => 1,                               # OPTIONAL
       KMSEncrypted         => 1,                               # OPTIONAL
@@ -77,6 +84,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },
         ...
       ],    # OPTIONAL
+      VPCEndpointDNSName => 'MyDNSHostName',    # OPTIONAL
     );
 
     # Results:
@@ -90,6 +98,23 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/sto
 =head1 ATTRIBUTES
 
 
+=head2 AuditDestinationARN => Str
+
+The Amazon Resource Name (ARN) of the storage used for audit logs.
+
+
+
+=head2 BucketRegion => Str
+
+Specifies the Region of the S3 bucket where the NFS file share stores
+files.
+
+This parameter is required for NFS file shares that connect to Amazon
+S3 through a VPC endpoint, a VPC access point, or an access point alias
+that points to a VPC access point.
+
+
+
 =head2 CacheAttributes => L<Paws::StorageGateway::CacheAttributes>
 
 Specifies refresh cache information for the file share.
@@ -98,42 +123,61 @@ Specifies refresh cache information for the file share.
 
 =head2 ClientList => ArrayRef[Str|Undef]
 
-The list of clients that are allowed to access the file gateway. The
+The list of clients that are allowed to access the S3 File Gateway. The
 list must contain either valid IP addresses or valid CIDR blocks.
 
 
 
 =head2 B<REQUIRED> ClientToken => Str
 
-A unique string value that you supply that is used by file gateway to
-ensure idempotent file share creation.
+A unique string value that you supply that is used by S3 File Gateway
+to ensure idempotent file share creation.
 
 
 
 =head2 DefaultStorageClass => Str
 
 The default storage class for objects put into an Amazon S3 bucket by
-the file gateway. The default value is C<S3_INTELLIGENT_TIERING>.
-Optional.
+the S3 File Gateway. The default value is C<S3_STANDARD>. Optional.
 
 Valid Values: C<S3_STANDARD> | C<S3_INTELLIGENT_TIERING> |
 C<S3_STANDARD_IA> | C<S3_ONEZONE_IA>
 
 
 
+=head2 EncryptionType => Str
+
+A value that specifies the type of server-side encryption that the file
+share will use for the data that it stores in Amazon S3.
+
+We recommend using C<EncryptionType> instead of C<KMSEncrypted> to set
+the file share encryption method. You do not need to provide values for
+both parameters.
+
+If values for both parameters exist in the same request, then the
+specified encryption methods must not conflict. For example, if
+C<EncryptionType> is C<SseS3>, then C<KMSEncrypted> must be C<false>.
+If C<EncryptionType> is C<SseKms> or C<DsseKms>, then C<KMSEncrypted>
+must be C<true>.
+
+Valid values are: C<"SseS3">, C<"SseKms">, C<"DsseKms">
+
 =head2 FileShareName => Str
 
 The name of the file share. Optional.
 
 C<FileShareName> must be set if an S3 prefix name is set in
-C<LocationARN>.
+C<LocationARN>, or if an access point or access point alias is used.
+
+A valid NFS file share name can only contain the following characters:
+C<a>-C<z>, C<A>-C<Z>, C<0>-C<9>, C<->, C<.>, and C<_>.
 
 
 
 =head2 B<REQUIRED> GatewayARN => Str
 
-The Amazon Resource Name (ARN) of the file gateway on which you want to
-create a file share.
+The Amazon Resource Name (ARN) of the S3 File Gateway on which you want
+to create a file share.
 
 
 
@@ -149,8 +193,20 @@ Valid Values: C<true> | C<false>
 
 =head2 KMSEncrypted => Bool
 
-Set to C<true> to use Amazon S3 server-side encryption with your own
-AWS KMS key, or C<false> to use a key managed by Amazon S3. Optional.
+Optional. Set to C<true> to use Amazon S3 server-side encryption with
+your own KMS key (SSE-KMS), or C<false> to use a key managed by Amazon
+S3 (SSE-S3). To use dual-layer encryption (DSSE-KMS), set the
+C<EncryptionType> parameter instead.
+
+We recommend using C<EncryptionType> instead of C<KMSEncrypted> to set
+the file share encryption method. You do not need to provide values for
+both parameters.
+
+If values for both parameters exist in the same request, then the
+specified encryption methods must not conflict. For example, if
+C<EncryptionType> is C<SseS3>, then C<KMSEncrypted> must be C<false>.
+If C<EncryptionType> is C<SseKms> or C<DsseKms>, then C<KMSEncrypted>
+must be C<true>.
 
 Valid Values: C<true> | C<false>
 
@@ -158,17 +214,40 @@ Valid Values: C<true> | C<false>
 
 =head2 KMSKey => Str
 
-The Amazon Resource Name (ARN) of a symmetric customer master key (CMK)
-used for Amazon S3 server-side encryption. Storage Gateway does not
-support asymmetric CMKs. This value can only be set when
-C<KMSEncrypted> is C<true>. Optional.
+Optional. The Amazon Resource Name (ARN) of a symmetric customer master
+key (CMK) used for Amazon S3 server-side encryption. Storage Gateway
+does not support asymmetric CMKs. This value must be set if
+C<KMSEncrypted> is C<true>, or if C<EncryptionType> is C<SseKms> or
+C<DsseKms>.
 
 
 
 =head2 B<REQUIRED> LocationARN => Str
 
-The ARN of the backend storage used for storing file data. A prefix
-name can be added to the S3 bucket name. It must end with a "/".
+A custom ARN for the backend storage used for storing data for file
+shares. It includes a resource ARN with an optional prefix
+concatenation. The prefix must end with a forward slash (/).
+
+You can specify LocationARN as a bucket ARN, access point ARN or access
+point alias, as shown in the following examples.
+
+Bucket ARN:
+
+C<arn:aws:s3:::amzn-s3-demo-bucket/prefix/>
+
+Access point ARN:
+
+C<arn:aws:s3:region:account-id:accesspoint/access-point-name/prefix/>
+
+If you specify an access point, the bucket policy must be configured to
+delegate access control to the access point. For information, see
+Delegating access control to access points
+(https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-policies.html#access-points-delegating-control)
+in the I<Amazon S3 User Guide>.
+
+Access point alias:
+
+C<test-ap-ab123cdef4gehijklmn5opqrstuvuse1a-s3alias>
 
 
 
@@ -190,6 +269,10 @@ multiple notifications for the same file in a small time period.
 C<SettlingTimeInSeconds> has no effect on the timing of the object
 uploading to Amazon S3, only the timing of the notification.
 
+This setting is not meant to specify an exact time at which the
+notification will be sent. In some cases, the gateway might require
+more than the specified delay time to generate and send notifications.
+
 The following example sets C<NotificationPolicy> on with
 C<SettlingTimeInSeconds> set to 60.
 
@@ -204,7 +287,7 @@ C<{}>
 =head2 ObjectACL => Str
 
 A value that sets the access control list (ACL) permission for objects
-in the S3 bucket that a file gateway puts objects into. The default
+in the S3 bucket that a S3 File Gateway puts objects into. The default
 value is C<private>.
 
 Valid values are: C<"private">, C<"public-read">, C<"public-read-write">, C<"authenticated-read">, C<"bucket-owner-read">, C<"bucket-owner-full-control">, C<"aws-exec-read">
@@ -237,8 +320,8 @@ Valid Values: C<true> | C<false>
 
 =head2 B<REQUIRED> Role => Str
 
-The ARN of the AWS Identity and Access Management (IAM) role that a
-file gateway assumes when it accesses the underlying storage.
+The ARN of the Identity and Access Management (IAM) role that an S3
+File Gateway assumes when it accesses the underlying storage.
 
 
 
@@ -276,6 +359,17 @@ Valid characters for key and value are letters, spaces, and numbers
 representable in UTF-8 format, and the following special characters: +
 - = . _ : / @. The maximum length of a tag's key is 128 characters, and
 the maximum length for a tag's value is 256.
+
+
+
+=head2 VPCEndpointDNSName => Str
+
+Specifies the DNS name for the VPC endpoint that the NFS file share
+uses to connect to Amazon S3.
+
+This parameter is required for NFS file shares that connect to Amazon
+S3 through a VPC endpoint, a VPC access point, or an access point alias
+that points to a VPC access point.
 
 
 

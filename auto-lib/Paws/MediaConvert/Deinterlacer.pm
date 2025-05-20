@@ -42,12 +42,12 @@ Settings for deinterlacer
 
 =head2 Algorithm => Str
 
-Only applies when you set Deinterlacer (DeinterlaceMode) to Deinterlace
-(DEINTERLACE) or Adaptive (ADAPTIVE). Motion adaptive interpolate
-(INTERPOLATE) produces sharper pictures, while blend (BLEND) produces
-smoother motion. Use (INTERPOLATE_TICKER) OR (BLEND_TICKER) if your
-source file includes a ticker, such as a scrolling headline at the
-bottom of the frame.
+Only applies when you set Deinterlace mode to Deinterlace or Adaptive.
+Interpolate produces sharper pictures, while blend produces smoother
+motion. If your source file includes a ticker, such as a scrolling
+headline at the bottom of the frame: Choose Interpolate ticker or Blend
+ticker. To apply field doubling: Choose Linear interpolation. Note that
+Linear interpolation may introduce video artifacts into your output.
 
 
 =head2 Control => Str
@@ -65,10 +65,10 @@ probably result in lower quality video.
 
 =head2 Mode => Str
 
-Use Deinterlacer (DeinterlaceMode) to choose how the service will do
-deinterlacing. Default is Deinterlace. - Deinterlace converts
-interlaced to progressive. - Inverse telecine converts Hard Telecine
-29.97i to progressive 23.976p. - Adaptive auto-detects and converts to
+Use Deinterlacer to choose how the service will do deinterlacing.
+Default is Deinterlace. - Deinterlace converts interlaced to
+progressive. - Inverse telecine converts Hard Telecine 29.97i to
+progressive 23.976p. - Adaptive auto-detects and converts to
 progressive.
 
 

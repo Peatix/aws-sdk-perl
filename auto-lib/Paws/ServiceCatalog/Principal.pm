@@ -41,12 +41,20 @@ Information about a principal.
 
 =head2 PrincipalARN => Str
 
-The ARN of the principal (IAM user, role, or group).
+The ARN of the principal (user, role, or group). This field allows for
+an ARN with no C<accountID>, with or without wildcard characters if the
+C<PrincipalType> is an C<IAM_PATTERN>.
+
+For more information, review associate-principal-with-portfolio
+(https://docs.aws.amazon.com/cli/latest/reference/servicecatalog/associate-principal-with-portfolio.html#options)
+in the Amazon Web Services CLI Command Reference.
 
 
 =head2 PrincipalType => Str
 
-The principal type. The supported value is C<IAM>.
+The principal type. The supported value is C<IAM> if you use a fully
+defined ARN, or C<IAM_PATTERN> if you use an ARN with no C<accountID>,
+with or without wildcard characters.
 
 
 

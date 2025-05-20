@@ -9,6 +9,7 @@ package Paws::ECR::ImageDetail;
   has ImageScanStatus => (is => 'ro', isa => 'Paws::ECR::ImageScanStatus', request_name => 'imageScanStatus', traits => ['NameInRequest']);
   has ImageSizeInBytes => (is => 'ro', isa => 'Int', request_name => 'imageSizeInBytes', traits => ['NameInRequest']);
   has ImageTags => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'imageTags', traits => ['NameInRequest']);
+  has LastRecordedPullTime => (is => 'ro', isa => 'Str', request_name => 'lastRecordedPullTime', traits => ['NameInRequest']);
   has RegistryId => (is => 'ro', isa => 'Str', request_name => 'registryId', traits => ['NameInRequest']);
   has RepositoryName => (is => 'ro', isa => 'Str', request_name => 'repositoryName', traits => ['NameInRequest']);
 
@@ -86,10 +87,10 @@ The size, in bytes, of the image in the repository.
 If the image is a manifest list, this will be the max size of all
 manifests in the list.
 
-Beginning with Docker version 1.9, the Docker client compresses image
+Starting with Docker version 1.9, the Docker client compresses image
 layers before pushing them to a V2 Docker registry. The output of the
-C<docker images> command shows the uncompressed image size, so it may
-return a larger image size than the image sizes returned by
+C<docker images> command shows the uncompressed image size. Therefore,
+Docker might return a larger image than the image sizes returned by
 DescribeImages.
 
 
@@ -98,10 +99,24 @@ DescribeImages.
 The list of tags associated with this image.
 
 
+=head2 LastRecordedPullTime => Str
+
+The date and time, expressed in standard JavaScript date format, when
+Amazon ECR recorded the last image pull.
+
+Amazon ECR refreshes the last image pull timestamp at least once every
+24 hours. For example, if you pull an image once a day then the
+C<lastRecordedPullTime> timestamp will indicate the exact time that the
+image was last pulled. However, if you pull an image once an hour,
+because Amazon ECR refreshes the C<lastRecordedPullTime> timestamp at
+least once every 24 hours, the result may not be the exact time that
+the image was last pulled.
+
+
 =head2 RegistryId => Str
 
-The AWS account ID associated with the registry to which this image
-belongs.
+The Amazon Web Services account ID associated with the registry to
+which this image belongs.
 
 
 =head2 RepositoryName => Str

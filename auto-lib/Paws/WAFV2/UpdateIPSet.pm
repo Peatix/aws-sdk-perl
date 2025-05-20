@@ -56,35 +56,36 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/waf
 
 =head2 B<REQUIRED> Addresses => ArrayRef[Str|Undef]
 
-Contains an array of strings that specify one or more IP addresses or
-blocks of IP addresses in Classless Inter-Domain Routing (CIDR)
-notation. WAF supports all IPv4 and IPv6 CIDR ranges except for /0.
+Contains an array of strings that specifies zero or more IP addresses
+or blocks of IP addresses that you want WAF to inspect for in incoming
+requests. All addresses must be specified using Classless Inter-Domain
+Routing (CIDR) notation. WAF supports all IPv4 and IPv6 CIDR ranges
+except for C</0>.
 
-Examples:
+Example address strings:
 
 =over
 
 =item *
 
-To configure WAF to allow, block, or count requests that originated
-from the IP address 192.0.2.44, specify C<192.0.2.44/32>.
+For requests that originated from the IP address 192.0.2.44, specify
+C<192.0.2.44/32>.
 
 =item *
 
-To configure WAF to allow, block, or count requests that originated
-from IP addresses from 192.0.2.0 to 192.0.2.255, specify
-C<192.0.2.0/24>.
+For requests that originated from IP addresses from 192.0.2.0 to
+192.0.2.255, specify C<192.0.2.0/24>.
 
 =item *
 
-To configure WAF to allow, block, or count requests that originated
-from the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify
+For requests that originated from the IP address
+1111:0000:0000:0000:0000:0000:0000:0111, specify
 C<1111:0000:0000:0000:0000:0000:0000:0111/128>.
 
 =item *
 
-To configure WAF to allow, block, or count requests that originated
-from IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to
+For requests that originated from IP addresses
+1111:0000:0000:0000:0000:0000:0000:0000 to
 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify
 C<1111:0000:0000:0000:0000:0000:0000:0000/64>.
 
@@ -93,6 +94,30 @@ C<1111:0000:0000:0000:0000:0000:0000:0000/64>.
 For more information about CIDR notation, see the Wikipedia entry
 Classless Inter-Domain Routing
 (https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing).
+
+Example JSON C<Addresses> specifications:
+
+=over
+
+=item *
+
+Empty array: C<"Addresses": []>
+
+=item *
+
+Array with one address: C<"Addresses": ["192.0.2.44/32"]>
+
+=item *
+
+Array with three addresses: C<"Addresses": ["192.0.2.44/32",
+"192.0.2.0/24", "192.0.0.0/16"]>
+
+=item *
+
+INVALID specification: C<"Addresses": [""]> INVALID
+
+=back
+
 
 
 
@@ -112,14 +137,14 @@ and delete.
 
 =head2 B<REQUIRED> LockToken => Str
 
-A token used for optimistic locking. WAF returns a token to your get
-and list requests, to mark the state of the entity at the time of the
-request. To make changes to the entity associated with the token, you
-provide the token to operations like update and delete. WAF uses the
-token to ensure that no changes have been made to the entity since you
-last retrieved it. If a change has been made, the update fails with a
-C<WAFOptimisticLockException>. If this happens, perform another get,
-and use the new token returned by that operation.
+A token used for optimistic locking. WAF returns a token to your C<get>
+and C<list> requests, to mark the state of the entity at the time of
+the request. To make changes to the entity associated with the token,
+you provide the token to operations like C<update> and C<delete>. WAF
+uses the token to ensure that no changes have been made to the entity
+since you last retrieved it. If a change has been made, the update
+fails with a C<WAFOptimisticLockException>. If this happens, perform
+another C<get>, and use the new token returned by that operation.
 
 
 
@@ -132,10 +157,8 @@ you create it.
 
 =head2 B<REQUIRED> Scope => Str
 
-Specifies whether this is for an Amazon CloudFront distribution or for
-a regional application. A regional application can be an Application
-Load Balancer (ALB), an Amazon API Gateway REST API, or an AppSync
-GraphQL API.
+Specifies whether this is for a global resource type, such as a Amazon
+CloudFront distribution. For an Amplify application, use C<CLOUDFRONT>.
 
 To work with CloudFront, you must also specify the Region US East (N.
 Virginia) as follows:

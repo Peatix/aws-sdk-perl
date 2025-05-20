@@ -3,6 +3,7 @@ package Paws::DataExchange::ExportRevisionsToS3ResponseDetails;
   use Moose;
   has DataSetId => (is => 'ro', isa => 'Str', required => 1);
   has Encryption => (is => 'ro', isa => 'Paws::DataExchange::ExportServerSideEncryption');
+  has EventActionArn => (is => 'ro', isa => 'Str');
   has RevisionDestinations => (is => 'ro', isa => 'ArrayRef[Paws::DataExchange::RevisionDestinationEntry]', required => 1);
 
 1;
@@ -48,6 +49,11 @@ The unique identifier for the data set associated with this export job.
 =head2 Encryption => L<Paws::DataExchange::ExportServerSideEncryption>
 
 Encryption configuration of the export job.
+
+
+=head2 EventActionArn => Str
+
+The Amazon Resource Name (ARN) of the event action.
 
 
 =head2 B<REQUIRED> RevisionDestinations => ArrayRef[L<Paws::DataExchange::RevisionDestinationEntry>]

@@ -3,7 +3,7 @@ package Paws::SageMaker::CreateModel;
   use Moose;
   has Containers => (is => 'ro', isa => 'ArrayRef[Paws::SageMaker::ContainerDefinition]');
   has EnableNetworkIsolation => (is => 'ro', isa => 'Bool');
-  has ExecutionRoleArn => (is => 'ro', isa => 'Str', required => 1);
+  has ExecutionRoleArn => (is => 'ro', isa => 'Str');
   has InferenceExecutionConfig => (is => 'ro', isa => 'Paws::SageMaker::InferenceExecutionConfig');
   has ModelName => (is => 'ro', isa => 'Str', required => 1);
   has PrimaryContainer => (is => 'ro', isa => 'Paws::SageMaker::ContainerDefinition');
@@ -35,15 +35,37 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $api.sagemaker = Paws->service('SageMaker');
     my $CreateModelOutput = $api . sagemaker->CreateModel(
-      ExecutionRoleArn => 'MyRoleArn',
-      ModelName        => 'MyModelName',
-      Containers       => [
+      ModelName  => 'MyModelName',
+      Containers => [
         {
+          AdditionalModelDataSources => [
+            {
+              ChannelName  => 'MyAdditionalModelChannelName',  # min: 1, max: 64
+              S3DataSource => {
+                CompressionType => 'None',          # values: None, Gzip
+                S3DataType      => 'S3Prefix',      # values: S3Prefix, S3Object
+                S3Uri           => 'MyS3ModelUri',  # max: 1024
+                ETag            => 'MyString',      # OPTIONAL
+                HubAccessConfig => {
+                  HubContentArn => 'MyHubContentArn',    # max: 255
+
+                },    # OPTIONAL
+                ManifestEtag      => 'MyString',        # OPTIONAL
+                ManifestS3Uri     => 'MyS3ModelUri',    # max: 1024
+                ModelAccessConfig => {
+                  AcceptEula => 1,
+
+                },                                      # OPTIONAL
+              },
+
+            },
+            ...
+          ],    # max: 5; OPTIONAL
           ContainerHostname => 'MyContainerHostname',    # max: 63; OPTIONAL
           Environment       => {
             'MyEnvironmentKey' =>
               'MyEnvironmentValue',    # key: max: 1024, value: max: 1024
-          },    # max: 16; OPTIONAL
+          },    # max: 100; OPTIONAL
           Image       => 'MyContainerImage',    # max: 255; OPTIONAL
           ImageConfig => {
             RepositoryAccessMode => 'Platform',    # values: Platform, Vpc
@@ -53,7 +75,27 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
             },    # OPTIONAL
           },    # OPTIONAL
+          InferenceSpecificationName =>
+            'MyInferenceSpecificationName',    # min: 1, max: 63; OPTIONAL
           Mode => 'SingleModel',    # values: SingleModel, MultiModel; OPTIONAL
+          ModelDataSource => {
+            S3DataSource => {
+              CompressionType => 'None',            # values: None, Gzip
+              S3DataType      => 'S3Prefix',        # values: S3Prefix, S3Object
+              S3Uri           => 'MyS3ModelUri',    # max: 1024
+              ETag            => 'MyString',        # OPTIONAL
+              HubAccessConfig => {
+                HubContentArn => 'MyHubContentArn',    # max: 255
+
+              },    # OPTIONAL
+              ManifestEtag      => 'MyString',        # OPTIONAL
+              ManifestS3Uri     => 'MyS3ModelUri',    # max: 1024
+              ModelAccessConfig => {
+                AcceptEula => 1,
+
+              },                                      # OPTIONAL
+            },
+          },    # OPTIONAL
           ModelDataUrl     => 'MyUrl',    # max: 1024; OPTIONAL
           ModelPackageName =>
             'MyVersionedArnOrName',       # min: 1, max: 176; OPTIONAL
@@ -64,17 +106,41 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },
         ...
       ],    # OPTIONAL
-      EnableNetworkIsolation   => 1,    # OPTIONAL
+      EnableNetworkIsolation   => 1,              # OPTIONAL
+      ExecutionRoleArn         => 'MyRoleArn',    # OPTIONAL
       InferenceExecutionConfig => {
-        Mode => 'Serial',               # values: Serial, Direct
+        Mode => 'Serial',                         # values: Serial, Direct
 
       },    # OPTIONAL
       PrimaryContainer => {
+        AdditionalModelDataSources => [
+          {
+            ChannelName  => 'MyAdditionalModelChannelName',    # min: 1, max: 64
+            S3DataSource => {
+              CompressionType => 'None',            # values: None, Gzip
+              S3DataType      => 'S3Prefix',        # values: S3Prefix, S3Object
+              S3Uri           => 'MyS3ModelUri',    # max: 1024
+              ETag            => 'MyString',        # OPTIONAL
+              HubAccessConfig => {
+                HubContentArn => 'MyHubContentArn',    # max: 255
+
+              },    # OPTIONAL
+              ManifestEtag      => 'MyString',        # OPTIONAL
+              ManifestS3Uri     => 'MyS3ModelUri',    # max: 1024
+              ModelAccessConfig => {
+                AcceptEula => 1,
+
+              },                                      # OPTIONAL
+            },
+
+          },
+          ...
+        ],    # max: 5; OPTIONAL
         ContainerHostname => 'MyContainerHostname',    # max: 63; OPTIONAL
         Environment       => {
           'MyEnvironmentKey' =>
             'MyEnvironmentValue',    # key: max: 1024, value: max: 1024
-        },    # max: 16; OPTIONAL
+        },    # max: 100; OPTIONAL
         Image       => 'MyContainerImage',    # max: 255; OPTIONAL
         ImageConfig => {
           RepositoryAccessMode => 'Platform',    # values: Platform, Vpc
@@ -84,7 +150,27 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
           },    # OPTIONAL
         },    # OPTIONAL
+        InferenceSpecificationName =>
+          'MyInferenceSpecificationName',    # min: 1, max: 63; OPTIONAL
         Mode => 'SingleModel',    # values: SingleModel, MultiModel; OPTIONAL
+        ModelDataSource => {
+          S3DataSource => {
+            CompressionType => 'None',            # values: None, Gzip
+            S3DataType      => 'S3Prefix',        # values: S3Prefix, S3Object
+            S3Uri           => 'MyS3ModelUri',    # max: 1024
+            ETag            => 'MyString',        # OPTIONAL
+            HubAccessConfig => {
+              HubContentArn => 'MyHubContentArn',    # max: 255
+
+            },    # OPTIONAL
+            ManifestEtag      => 'MyString',        # OPTIONAL
+            ManifestS3Uri     => 'MyS3ModelUri',    # max: 1024
+            ModelAccessConfig => {
+              AcceptEula => 1,
+
+            },                                      # OPTIONAL
+          },
+        },    # OPTIONAL
         ModelDataUrl     => 'MyUrl',                # max: 1024; OPTIONAL
         ModelPackageName => 'MyVersionedArnOrName', # min: 1, max: 176; OPTIONAL
         MultiModelConfig => {
@@ -134,17 +220,17 @@ be made to or from the model container.
 
 
 
-=head2 B<REQUIRED> ExecutionRoleArn => Str
+=head2 ExecutionRoleArn => Str
 
-The Amazon Resource Name (ARN) of the IAM role that Amazon SageMaker
-can assume to access model artifacts and docker image for deployment on
-ML compute instances or for batch transform jobs. Deploying on ML
-compute instances is part of model hosting. For more information, see
-Amazon SageMaker Roles
+The Amazon Resource Name (ARN) of the IAM role that SageMaker can
+assume to access model artifacts and docker image for deployment on ML
+compute instances or for batch transform jobs. Deploying on ML compute
+instances is part of model hosting. For more information, see SageMaker
+Roles
 (https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html).
 
-To be able to pass this role to Amazon SageMaker, the caller of this
-API must have the C<iam:PassRole> permission.
+To be able to pass this role to SageMaker, the caller of this API must
+have the C<iam:PassRole> permission.
 
 
 
@@ -181,11 +267,13 @@ Services Resources
 
 =head2 VpcConfig => L<Paws::SageMaker::VpcConfig>
 
-A VpcConfig object that specifies the VPC that you want your model to
-connect to. Control access to and from your model container by
-configuring the VPC. C<VpcConfig> is used in hosting services and in
-batch transform. For more information, see Protect Endpoints by Using
-an Amazon Virtual Private Cloud
+A VpcConfig
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_VpcConfig.html)
+object that specifies the VPC that you want your model to connect to.
+Control access to and from your model container by configuring the VPC.
+C<VpcConfig> is used in hosting services and in batch transform. For
+more information, see Protect Endpoints by Using an Amazon Virtual
+Private Cloud
 (https://docs.aws.amazon.com/sagemaker/latest/dg/host-vpc.html) and
 Protect Data in Batch Transform Jobs by Using an Amazon Virtual Private
 Cloud (https://docs.aws.amazon.com/sagemaker/latest/dg/batch-vpc.html).

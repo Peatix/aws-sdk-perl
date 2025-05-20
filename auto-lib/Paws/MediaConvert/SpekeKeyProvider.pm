@@ -2,6 +2,7 @@
 package Paws::MediaConvert::SpekeKeyProvider;
   use Moose;
   has CertificateArn => (is => 'ro', isa => 'Str', request_name => 'certificateArn', traits => ['NameInRequest']);
+  has EncryptionContractConfiguration => (is => 'ro', isa => 'Paws::MediaConvert::EncryptionContractConfiguration', request_name => 'encryptionContractConfiguration', traits => ['NameInRequest']);
   has ResourceId => (is => 'ro', isa => 'Str', request_name => 'resourceId', traits => ['NameInRequest']);
   has SystemIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'systemIds', traits => ['NameInRequest']);
   has Url => (is => 'ro', isa => 'Str', request_name => 'url', traits => ['NameInRequest']);
@@ -52,6 +53,15 @@ AWS Certificate Manager. Specify the certificate's Amazon Resource Name
 (ARN) here.
 
 
+=head2 EncryptionContractConfiguration => L<Paws::MediaConvert::EncryptionContractConfiguration>
+
+Specify the SPEKE version, either v1.0 or v2.0, that MediaConvert uses
+when encrypting your output. For more information, see:
+https://docs.aws.amazon.com/speke/latest/documentation/speke-api-specification.html
+To use SPEKE v1.0: Leave blank. To use SPEKE v2.0: Specify a SPEKE v2.0
+video preset and a SPEKE v2.0 audio preset.
+
+
 =head2 ResourceId => Str
 
 Specify the resource ID that your SPEKE-compliant key provider uses to
@@ -61,9 +71,9 @@ identify this content.
 =head2 SystemIds => ArrayRef[Str|Undef]
 
 Relates to SPEKE implementation. DRM system identifiers. DASH output
-groups support a max of two system ids. Other group types support one
-system id. See https://dashif.org/identifiers/content_protection/ for
-more details.
+groups support a max of two system ids. HLS output groups support a max
+of 3 system ids. Other group types support one system id. See
+https://dashif.org/identifiers/content_protection/ for more details.
 
 
 =head2 Url => Str

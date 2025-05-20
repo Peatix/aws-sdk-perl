@@ -79,7 +79,7 @@ training job produced a model artifact.
 =back
 
 
-Valid values are: C<"ContributedTo">, C<"AssociatedWith">, C<"DerivedFrom">, C<"Produced">
+Valid values are: C<"ContributedTo">, C<"AssociatedWith">, C<"DerivedFrom">, C<"Produced">, C<"SameAs">
 
 =head2 B<REQUIRED> DestinationArn => Str
 

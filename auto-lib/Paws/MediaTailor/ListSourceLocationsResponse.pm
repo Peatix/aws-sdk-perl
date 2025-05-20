@@ -18,13 +18,13 @@ Paws::MediaTailor::ListSourceLocationsResponse
 
 =head2 Items => ArrayRef[L<Paws::MediaTailor::SourceLocation>]
 
-An array of source locations.
+A list of source locations.
 
 
 =head2 NextToken => Str
 
-Pagination token from the list request. Use the token to fetch the next
-page of results.
+Pagination token returned by the list request when results exceed the
+maximum allowed. Use the token to fetch the next page of results.
 
 
 =head2 _request_id => Str

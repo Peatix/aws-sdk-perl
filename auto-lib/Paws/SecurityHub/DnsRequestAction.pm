@@ -50,10 +50,14 @@ Indicates whether the DNS request was blocked.
 
 The DNS domain that is associated with the DNS request.
 
+Length Constraints: 128.
+
 
 =head2 Protocol => Str
 
 The protocol that was used for the DNS request.
+
+Length Constraints: Minimum length of 1. Maximum length of 64.
 
 
 

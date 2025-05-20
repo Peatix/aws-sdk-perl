@@ -3,6 +3,7 @@ package Paws::SESv2::EventDestinationDefinition;
   use Moose;
   has CloudWatchDestination => (is => 'ro', isa => 'Paws::SESv2::CloudWatchDestination');
   has Enabled => (is => 'ro', isa => 'Bool');
+  has EventBridgeDestination => (is => 'ro', isa => 'Paws::SESv2::EventBridgeDestination');
   has KinesisFirehoseDestination => (is => 'ro', isa => 'Paws::SESv2::KinesisFirehoseDestination');
   has MatchingEventTypes => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has PinpointDestination => (is => 'ro', isa => 'Paws::SESv2::PinpointDestination');
@@ -64,6 +65,13 @@ destination is disabled, events aren't sent to the specified
 destinations.
 
 
+=head2 EventBridgeDestination => L<Paws::SESv2::EventBridgeDestination>
+
+An object that defines an Amazon EventBridge destination for email
+events. You can use Amazon EventBridge to send notifications when
+certain email events occur.
+
+
 =head2 KinesisFirehoseDestination => L<Paws::SESv2::KinesisFirehoseDestination>
 
 An object that defines an Amazon Kinesis Data Firehose destination for
@@ -91,7 +99,7 @@ in the I<Amazon Pinpoint User Guide>.
 =head2 SnsDestination => L<Paws::SESv2::SnsDestination>
 
 An object that defines an Amazon SNS destination for email events. You
-can use Amazon SNS to send notification when certain email events
+can use Amazon SNS to send notifications when certain email events
 occur.
 
 

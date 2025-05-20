@@ -76,6 +76,46 @@ C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
 
 One or more filters.
 
+=over
+
+=item *
+
+C<local-address> - The local address.
+
+=item *
+
+C<local-bgp-asn> - The Border Gateway Protocol (BGP) Autonomous System
+Number (ASN) of the local gateway.
+
+=item *
+
+C<local-gateway-id> - The ID of the local gateway.
+
+=item *
+
+C<local-gateway-virtual-interface-id> - The ID of the virtual
+interface.
+
+=item *
+
+C<owner-id> - The ID of the Amazon Web Services account that owns the
+local gateway virtual interface.
+
+=item *
+
+C<peer-address> - The peer address.
+
+=item *
+
+C<peer-bgp-asn> - The peer BGP ASN.
+
+=item *
+
+C<vlan> - The ID of the VLAN.
+
+=back
+
+
 
 
 =head2 LocalGatewayVirtualInterfaceIds => ArrayRef[Str|Undef]

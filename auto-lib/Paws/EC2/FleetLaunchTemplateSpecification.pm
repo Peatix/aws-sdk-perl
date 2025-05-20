@@ -40,14 +40,18 @@ This class has no description
 
 =head2 LaunchTemplateId => Str
 
-The ID of the launch template. If you specify the template ID, you
-can't specify the template name.
+The ID of the launch template.
+
+You must specify the C<LaunchTemplateId> or the C<LaunchTemplateName>,
+but not both.
 
 
 =head2 LaunchTemplateName => Str
 
-The name of the launch template. If you specify the template name, you
-can't specify the template ID.
+The name of the launch template.
+
+You must specify the C<LaunchTemplateName> or the C<LaunchTemplateId>,
+but not both.
 
 
 =head2 Version => Str

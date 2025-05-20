@@ -6,6 +6,7 @@ package Paws::EC2::LaunchTemplate;
   has LatestVersionNumber => (is => 'ro', isa => 'Int', request_name => 'latestVersionNumber', traits => ['NameInRequest']);
   has LaunchTemplateId => (is => 'ro', isa => 'Str', request_name => 'launchTemplateId', traits => ['NameInRequest']);
   has LaunchTemplateName => (is => 'ro', isa => 'Str', request_name => 'launchTemplateName', traits => ['NameInRequest']);
+  has Operator => (is => 'ro', isa => 'Paws::EC2::OperatorResponse', request_name => 'operator', traits => ['NameInRequest']);
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::EC2::Tag]', request_name => 'tagSet', traits => ['NameInRequest']);
 1;
 
@@ -70,6 +71,11 @@ The ID of the launch template.
 =head2 LaunchTemplateName => Str
 
 The name of the launch template.
+
+
+=head2 Operator => L<Paws::EC2::OperatorResponse>
+
+The entity that manages the launch template.
 
 
 =head2 Tags => ArrayRef[L<Paws::EC2::Tag>]

@@ -37,8 +37,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     # Results:
     my $AllowProfileCreation =
       $GetProfileObjectTypeTemplateResponse->AllowProfileCreation;
-    my $Fields       = $GetProfileObjectTypeTemplateResponse->Fields;
-    my $Keys         = $GetProfileObjectTypeTemplateResponse->Keys;
+    my $Fields = $GetProfileObjectTypeTemplateResponse->Fields;
+    my $Keys   = $GetProfileObjectTypeTemplateResponse->Keys;
+    my $SourceLastUpdatedTimestampFormat =
+      $GetProfileObjectTypeTemplateResponse->SourceLastUpdatedTimestampFormat;
     my $SourceName   = $GetProfileObjectTypeTemplateResponse->SourceName;
     my $SourceObject = $GetProfileObjectTypeTemplateResponse->SourceObject;
     my $TemplateId   = $GetProfileObjectTypeTemplateResponse->TemplateId;

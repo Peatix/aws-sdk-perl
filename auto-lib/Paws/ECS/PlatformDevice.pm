@@ -42,15 +42,15 @@ supported device type is a GPU.
 
 =head2 B<REQUIRED> Id => Str
 
-The ID for the GPU(s) on the container instance. The available GPU IDs
+The ID for the GPUs on the container instance. The available GPU IDs
 can also be obtained on the container instance in the
 C</var/lib/ecs/gpu/nvidia_gpu_info.json> file.
 
 
 =head2 B<REQUIRED> Type => Str
 
-The type of device that is available on the container instance. The
-only supported value is C<GPU>.
+The type of device that's available on the container instance. The only
+supported value is C<GPU>.
 
 
 

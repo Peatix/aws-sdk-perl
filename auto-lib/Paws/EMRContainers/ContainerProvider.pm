@@ -52,8 +52,8 @@ The information about the container cluster.
 
 =head2 B<REQUIRED> Type => Str
 
-The type of the container provider. EKS is the only supported type as
-of now.
+The type of the container provider. Amazon EKS is the only supported
+type as of now.
 
 
 

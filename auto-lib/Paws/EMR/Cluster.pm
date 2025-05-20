@@ -7,7 +7,9 @@ package Paws::EMR::Cluster;
   has ClusterArn => (is => 'ro', isa => 'Str');
   has Configurations => (is => 'ro', isa => 'ArrayRef[Paws::EMR::Configuration]');
   has CustomAmiId => (is => 'ro', isa => 'Str');
+  has EbsRootVolumeIops => (is => 'ro', isa => 'Int');
   has EbsRootVolumeSize => (is => 'ro', isa => 'Int');
+  has EbsRootVolumeThroughput => (is => 'ro', isa => 'Int');
   has Ec2InstanceAttributes => (is => 'ro', isa => 'Paws::EMR::Ec2InstanceAttributes');
   has Id => (is => 'ro', isa => 'Str');
   has InstanceCollectionType => (is => 'ro', isa => 'Str');
@@ -17,6 +19,7 @@ package Paws::EMR::Cluster;
   has MasterPublicDnsName => (is => 'ro', isa => 'Str');
   has Name => (is => 'ro', isa => 'Str');
   has NormalizedInstanceHours => (is => 'ro', isa => 'Int');
+  has OSReleaseLabel => (is => 'ro', isa => 'Str');
   has OutpostArn => (is => 'ro', isa => 'Str');
   has PlacementGroups => (is => 'ro', isa => 'ArrayRef[Paws::EMR::PlacementGroupConfig]');
   has ReleaseLabel => (is => 'ro', isa => 'Str');
@@ -30,6 +33,7 @@ package Paws::EMR::Cluster;
   has StepConcurrencyLevel => (is => 'ro', isa => 'Int');
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::EMR::Tag]');
   has TerminationProtected => (is => 'ro', isa => 'Bool');
+  has UnhealthyNodeReplacement => (is => 'ro', isa => 'Bool');
   has VisibleToAllUsers => (is => 'ro', isa => 'Bool');
 
 1;
@@ -76,8 +80,8 @@ The applications installed on this cluster.
 
 An IAM role for automatic scaling policies. The default role is
 C<EMR_AutoScaling_DefaultRole>. The IAM role provides permissions that
-the automatic scaling feature requires to launch and terminate EC2
-instances in an instance group.
+the automatic scaling feature requires to launch and terminate Amazon
+EC2 instances in an instance group.
 
 
 =head2 AutoTerminate => Bool
@@ -94,27 +98,41 @@ The Amazon Resource Name of the cluster.
 =head2 Configurations => ArrayRef[L<Paws::EMR::Configuration>]
 
 Applies only to Amazon EMR releases 4.x and later. The list of
-Configurations supplied to the EMR cluster.
+configurations that are supplied to the Amazon EMR cluster.
 
 
 =head2 CustomAmiId => Str
 
-Available only in Amazon EMR version 5.7.0 and later. The ID of a
+Available only in Amazon EMR releases 5.7.0 and later. The ID of a
 custom Amazon EBS-backed Linux AMI if the cluster uses a custom AMI.
+
+
+=head2 EbsRootVolumeIops => Int
+
+The IOPS, of the Amazon EBS root device volume of the Linux AMI that is
+used for each Amazon EC2 instance. Available in Amazon EMR releases
+6.15.0 and later.
 
 
 =head2 EbsRootVolumeSize => Int
 
 The size, in GiB, of the Amazon EBS root device volume of the Linux AMI
-that is used for each EC2 instance. Available in Amazon EMR version 4.x
-and later.
+that is used for each Amazon EC2 instance. Available in Amazon EMR
+releases 4.x and later.
+
+
+=head2 EbsRootVolumeThroughput => Int
+
+The throughput, in MiB/s, of the Amazon EBS root device volume of the
+Linux AMI that is used for each Amazon EC2 instance. Available in
+Amazon EMR releases 6.15.0 and later.
 
 
 =head2 Ec2InstanceAttributes => L<Paws::EMR::Ec2InstanceAttributes>
 
-Provides information about the EC2 instances in a cluster grouped by
-category. For example, key name, subnet ID, IAM instance profile, and
-so on.
+Provides information about the Amazon EC2 instances in a cluster
+grouped by category. For example, key name, subnet ID, IAM instance
+profile, and so on.
 
 
 =head2 Id => Str
@@ -125,7 +143,7 @@ The unique identifier for the cluster.
 =head2 InstanceCollectionType => Str
 
 The instance fleet configuration is available only in Amazon EMR
-versions 4.8.0 and later, excluding 5.0.x versions.
+releases 4.8.0 and later, excluding 5.0.x versions.
 
 The instance group configuration of the cluster. A value of
 C<INSTANCE_GROUP> indicates a uniform instance group configuration. A
@@ -143,9 +161,8 @@ in the I<Amazon EMR Management Guide>.
 
 =head2 LogEncryptionKmsKeyId => Str
 
-The AWS KMS customer master key (CMK) used for encrypting log files.
-This attribute is only available with EMR version 5.30.0 and later,
-excluding EMR 6.0.0.
+The KMS key used for encrypting log files. This attribute is only
+available with Amazon EMR 5.30.0 and later, excluding Amazon EMR 6.0.0.
 
 
 =head2 LogUri => Str
@@ -163,17 +180,26 @@ DNS name.
 
 =head2 Name => Str
 
-The name of the cluster.
+The name of the cluster. This parameter can't contain the characters
+E<lt>, E<gt>, $, |, or ` (backtick).
 
 
 =head2 NormalizedInstanceHours => Int
 
 An approximation of the cost of the cluster, represented in
 m1.small/hours. This value is incremented one time for every hour an
-m1.small instance runs. Larger instances are weighted more, so an EC2
-instance that is roughly four times more expensive would result in the
-normalized instance hours being incremented by four. This result is
-only an approximation and does not reflect the actual billing rate.
+m1.small instance runs. Larger instances are weighted more, so an
+Amazon EC2 instance that is roughly four times more expensive would
+result in the normalized instance hours being incremented by four. This
+result is only an approximation and does not reflect the actual billing
+rate.
+
+
+=head2 OSReleaseLabel => Str
+
+The Amazon Linux release specified in a cluster launch RunJobFlow
+request. If no Amazon Linux release was specified, the default Amazon
+Linux release is shown in the response.
 
 
 =head2 OutpostArn => Str
@@ -203,8 +229,8 @@ Earlier versions use C<AmiVersion>.
 =head2 RepoUpgradeOnBoot => Str
 
 Applies only when C<CustomAmiID> is used. Specifies the type of updates
-that are applied from the Amazon Linux AMI package repositories when an
-instance boots using the AMI.
+that the Amazon Linux AMI package repositories apply when an instance
+boots using the AMI.
 
 
 =head2 RequestedAmiVersion => Str
@@ -231,7 +257,7 @@ terminating the Amazon EC2 instances, regardless of the instance-hour
 boundary. With either behavior, Amazon EMR removes the least active
 nodes first and blocks instance termination if it could lead to HDFS
 corruption. C<TERMINATE_AT_TASK_COMPLETION> is available only in Amazon
-EMR version 4.1.0 and later, and is the default for versions of Amazon
+EMR releases 4.1.0 and later, and is the default for versions of Amazon
 EMR earlier than 5.1.0.
 
 
@@ -242,8 +268,8 @@ The name of the security configuration applied to the cluster.
 
 =head2 ServiceRole => Str
 
-The IAM role that will be assumed by the Amazon EMR service to access
-AWS resources on your behalf.
+The IAM role that Amazon EMR assumes in order to access Amazon Web
+Services resources on your behalf.
 
 
 =head2 Status => L<Paws::EMR::ClusterStatus>
@@ -263,22 +289,33 @@ A list of tags associated with a cluster.
 
 =head2 TerminationProtected => Bool
 
-Indicates whether Amazon EMR will lock the cluster to prevent the EC2
-instances from being terminated by an API call or user intervention, or
-in the event of a cluster error.
+Indicates whether Amazon EMR will lock the cluster to prevent the
+Amazon EC2 instances from being terminated by an API call or user
+intervention, or in the event of a cluster error.
+
+
+=head2 UnhealthyNodeReplacement => Bool
+
+Indicates whether Amazon EMR should gracefully replace Amazon EC2 core
+instances that have degraded within the cluster.
 
 
 =head2 VisibleToAllUsers => Bool
 
-Indicates whether the cluster is visible to all IAM users of the AWS
-account associated with the cluster. The default value, C<true>,
-indicates that all IAM users in the AWS account can perform cluster
-actions if they have the proper IAM policy permissions. If this value
-is C<false>, only the IAM user that created the cluster can perform
-actions. This value can be changed on a running cluster by using the
-SetVisibleToAllUsers action. You can override the default value of
-C<true> when you create a cluster by using the C<VisibleToAllUsers>
-parameter of the C<RunJobFlow> action.
+Indicates whether the cluster is visible to IAM principals in the
+Amazon Web Services account associated with the cluster. When C<true>,
+IAM principals in the Amazon Web Services account can perform Amazon
+EMR cluster actions on the cluster that their IAM policies allow. When
+C<false>, only the IAM principal that created the cluster and the
+Amazon Web Services account root user can perform Amazon EMR actions,
+regardless of IAM permissions policies attached to other IAM
+principals.
+
+The default value is C<true> if a value is not provided when creating a
+cluster using the Amazon EMR API RunJobFlow command, the CLI
+create-cluster
+(https://docs.aws.amazon.com/cli/latest/reference/emr/create-cluster.html)
+command, or the Amazon Web Services Management Console.
 
 
 

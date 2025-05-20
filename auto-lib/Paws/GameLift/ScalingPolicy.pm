@@ -49,13 +49,6 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::GameLift::S
 Rule that controls how a fleet is scaled. Scaling policies are uniquely
 identified by the combination of name and fleet ID.
 
-B<Related actions>
-
-DescribeFleetCapacity | UpdateFleetCapacity | DescribeEC2InstanceLimits
-| PutScalingPolicy | DescribeScalingPolicies | DeleteScalingPolicy |
-StopFleetActions | StartFleetActions | All APIs by task
-(https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-awssdk.html#reference-awssdk-resources-fleets)
-
 =head1 ATTRIBUTES
 
 
@@ -75,8 +68,8 @@ threshold before a scaling event is triggered.
 
 The Amazon Resource Name (ARN
 (https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html))
-that is assigned to a GameLift fleet resource and uniquely identifies
-it. ARNs are unique across all Regions. Format is
+that is assigned to a Amazon GameLift fleet resource and uniquely
+identifies it. ARNs are unique across all Regions. Format is
 C<arn:aws:gamelift:E<lt>regionE<gt>::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912>.
 
 
@@ -88,7 +81,7 @@ policy.
 
 =head2 Location => Str
 
-
+The fleet location.
 
 
 =head2 MetricName => Str
@@ -184,8 +177,7 @@ Amount of adjustment to make, based on the scaling adjustment type.
 
 =head2 ScalingAdjustmentType => Str
 
-The type of adjustment to make to a fleet's instance count (see
-FleetCapacity):
+The type of adjustment to make to a fleet's instance count.
 
 =over
 
@@ -214,9 +206,8 @@ scale up while negative values scale down.
 
 Current status of the scaling policy. The scaling policy can be in
 force only when in an C<ACTIVE> status. Scaling policies can be
-suspended for individual fleets (see StopFleetActions; if suspended for
-a fleet, the policy status does not change. View a fleet's stopped
-actions by calling DescribeFleetCapacity.
+suspended for individual fleets. If the policy is suspended for a
+fleet, the policy status does not change.
 
 =over
 

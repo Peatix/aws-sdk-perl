@@ -19,7 +19,7 @@ Paws::SSM::GetCalendarStateResponse
 =head2 AtTime => Str
 
 The time, as an ISO 8601 (https://en.wikipedia.org/wiki/ISO_8601)
-string, that you specified in your command. If you did not specify a
+string, that you specified in your command. If you don't specify a
 time, C<GetCalendarState> uses the current time.
 
 
@@ -35,7 +35,7 @@ state changes to C<CLOSED>, and vice-versa.
 
 The state of the calendar. An C<OPEN> calendar indicates that actions
 are allowed to proceed, and a C<CLOSED> calendar indicates that actions
-are not allowed to proceed.
+aren't allowed to proceed.
 
 Valid values are: C<"OPEN">, C<"CLOSED">
 =head2 _request_id => Str

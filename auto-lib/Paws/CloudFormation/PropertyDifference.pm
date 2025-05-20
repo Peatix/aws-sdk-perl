@@ -40,8 +40,8 @@ Information about a resource property whose actual value differs from
 its expected value, as defined in the stack template and any values
 specified as template parameters. These will be present only for
 resources whose C<StackResourceDriftStatus> is C<MODIFIED>. For more
-information, see Detecting Unregulated Configuration Changes to Stacks
-and Resources
+information, see Detect unmanaged configuration changes to stacks and
+resources with drift detection
 (https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html).
 
 =head1 ATTRIBUTES
@@ -60,7 +60,7 @@ The type of property difference.
 
 =item *
 
-C<ADD>: A value has been added to a resource property that is an array
+C<ADD>: A value has been added to a resource property that's an array
 or list data type.
 
 =item *

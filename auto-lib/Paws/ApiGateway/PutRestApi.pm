@@ -51,6 +51,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $MinimumCompressionSize    = $RestApi->MinimumCompressionSize;
     my $Name                      = $RestApi->Name;
     my $Policy                    = $RestApi->Policy;
+    my $RootResourceId            = $RestApi->RootResourceId;
     my $Tags                      = $RestApi->Tags;
     my $Version                   = $RestApi->Version;
     my $Warnings                  = $RestApi->Warnings;
@@ -65,9 +66,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 B<REQUIRED> Body => Str
 
-[Required] The PUT request body containing external API definitions.
-Currently, only OpenAPI definition JSON/YAML files are supported. The
-maximum size of the API definition file is 6MB.
+The PUT request body containing external API definitions. Currently,
+only OpenAPI definition JSON/YAML files are supported. The maximum size
+of the API definition file is 6MB.
 
 
 
@@ -98,7 +99,7 @@ ignore=documentation --body 'file:///path/to/imported-api-body.json'>.
 
 =head2 B<REQUIRED> RestApiId => Str
 
-[Required] The string identifier of the associated RestApi.
+The string identifier of the associated RestApi.
 
 
 

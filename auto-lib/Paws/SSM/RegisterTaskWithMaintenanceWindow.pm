@@ -1,7 +1,9 @@
 
 package Paws::SSM::RegisterTaskWithMaintenanceWindow;
   use Moose;
+  has AlarmConfiguration => (is => 'ro', isa => 'Paws::SSM::AlarmConfiguration');
   has ClientToken => (is => 'ro', isa => 'Str');
+  has CutoffBehavior => (is => 'ro', isa => 'Str');
   has Description => (is => 'ro', isa => 'Str');
   has LoggingInfo => (is => 'ro', isa => 'Paws::SSM::LoggingInfo');
   has MaxConcurrency => (is => 'ro', isa => 'Str');
@@ -42,15 +44,26 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $ssm = Paws->service('SSM');
     my $RegisterTaskWithMaintenanceWindowResult =
       $ssm->RegisterTaskWithMaintenanceWindow(
-      TaskArn     => 'MyMaintenanceWindowTaskArn',
-      TaskType    => 'RUN_COMMAND',
-      WindowId    => 'MyMaintenanceWindowId',
-      ClientToken => 'MyClientToken',                     # OPTIONAL
-      Description => 'MyMaintenanceWindowDescription',    # OPTIONAL
-      LoggingInfo => {
-        S3BucketName => 'MyS3BucketName',                 # min: 3, max: 63
-        S3Region     => 'MyS3Region',                     # min: 3, max: 20
-        S3KeyPrefix  => 'MyS3KeyPrefix',                  # max: 500; OPTIONAL
+      TaskArn            => 'MyMaintenanceWindowTaskArn',
+      TaskType           => 'RUN_COMMAND',
+      WindowId           => 'MyMaintenanceWindowId',
+      AlarmConfiguration => {
+        Alarms => [
+          {
+            Name => 'MyAlarmName',    # min: 1, max: 255
+
+          },
+          ...
+        ],    # min: 1, max: 1
+        IgnorePollAlarmFailure => 1,    # OPTIONAL
+      },    # OPTIONAL
+      ClientToken    => 'MyClientToken',                     # OPTIONAL
+      CutoffBehavior => 'CONTINUE_TASK',                     # OPTIONAL
+      Description    => 'MyMaintenanceWindowDescription',    # OPTIONAL
+      LoggingInfo    => {
+        S3BucketName => 'MyS3BucketName',    # min: 3, max: 63
+        S3Region     => 'MyS3Region',        # min: 3, max: 20
+        S3KeyPrefix  => 'MyS3KeyPrefix',     # max: 500; OPTIONAL
       },    # OPTIONAL
       MaxConcurrency => 'MyMaxConcurrency',           # OPTIONAL
       MaxErrors      => 'MyMaxErrors',                # OPTIONAL
@@ -133,11 +146,57 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ssm
 =head1 ATTRIBUTES
 
 
+=head2 AlarmConfiguration => L<Paws::SSM::AlarmConfiguration>
+
+The CloudWatch alarm you want to apply to your maintenance window task.
+
+
+
 =head2 ClientToken => Str
 
 User-provided idempotency token.
 
 
+
+=head2 CutoffBehavior => Str
+
+Indicates whether tasks should continue to run after the cutoff time
+specified in the maintenance windows is reached.
+
+=over
+
+=item *
+
+C<CONTINUE_TASK>: When the cutoff time is reached, any tasks that are
+running continue. The default value.
+
+=item *
+
+C<CANCEL_TASK>:
+
+=over
+
+=item *
+
+For Automation, Lambda, Step Functions tasks: When the cutoff time is
+reached, any task invocations that are already running continue, but no
+new task invocations are started.
+
+=item *
+
+For Run Command tasks: When the cutoff time is reached, the system
+sends a CancelCommand operation that attempts to cancel the command
+associated with the task. However, there is no guarantee that the
+command will be terminated and the underlying process stopped.
+
+=back
+
+The status for tasks that are not completed is C<TIMED_OUT>.
+
+=back
+
+
+Valid values are: C<"CONTINUE_TASK">, C<"CANCEL_TASK">
 
 =head2 Description => Str
 
@@ -147,13 +206,14 @@ An optional description for the task.
 
 =head2 LoggingInfo => L<Paws::SSM::LoggingInfo>
 
-A structure containing information about an S3 bucket to write
-instance-level logs to.
+A structure containing information about an Amazon Simple Storage
+Service (Amazon S3) bucket to write managed node-level logs to.
 
-C<LoggingInfo> has been deprecated. To specify an S3 bucket to contain
-logs, instead use the C<OutputS3BucketName> and C<OutputS3KeyPrefix>
-options in the C<TaskInvocationParameters> structure. For information
-about how Systems Manager handles these options for the supported
+C<LoggingInfo> has been deprecated. To specify an Amazon Simple Storage
+Service (Amazon S3) bucket to contain logs, instead use the
+C<OutputS3BucketName> and C<OutputS3KeyPrefix> options in the
+C<TaskInvocationParameters> structure. For information about how Amazon
+Web Services Systems Manager handles these options for the supported
 maintenance window task types, see
 MaintenanceWindowTaskInvocationParameters.
 
@@ -161,11 +221,16 @@ MaintenanceWindowTaskInvocationParameters.
 
 =head2 MaxConcurrency => Str
 
-The maximum number of targets this task can be run for in parallel.
+The maximum number of targets this task can be run for, in parallel.
 
-For maintenance window tasks without a target specified, you cannot
+Although this element is listed as "Required: No", a value can be
+omitted only when you are registering or updating a targetless task
+(https://docs.aws.amazon.com/systems-manager/latest/userguide/maintenance-windows-targetless-tasks.html)
+You must provide a value in all other cases.
+
+For maintenance window tasks without a target specified, you can't
 supply a value for this option. Instead, the system inserts a
-placeholder value of C<1>. This value does not affect the running of
+placeholder value of C<1>. This value doesn't affect the running of
 your task.
 
 
@@ -175,9 +240,14 @@ your task.
 The maximum number of errors allowed before this task stops being
 scheduled.
 
-For maintenance window tasks without a target specified, you cannot
+Although this element is listed as "Required: No", a value can be
+omitted only when you are registering or updating a targetless task
+(https://docs.aws.amazon.com/systems-manager/latest/userguide/maintenance-windows-targetless-tasks.html)
+You must provide a value in all other cases.
+
+For maintenance window tasks without a target specified, you can't
 supply a value for this option. Instead, the system inserts a
-placeholder value of C<1>. This value does not affect the running of
+placeholder value of C<1>. This value doesn't affect the running of
 your task.
 
 
@@ -199,47 +269,36 @@ scheduled in parallel.
 
 =head2 ServiceRoleArn => Str
 
-The ARN of the IAM service role for Systems Manager to assume when
-running a maintenance window task. If you do not specify a service role
-ARN, Systems Manager uses your account's service-linked role. If no
-service-linked role for Systems Manager exists in your account, it is
-created when you run C<RegisterTaskWithMaintenanceWindow>.
+The Amazon Resource Name (ARN) of the IAM service role for Amazon Web
+Services Systems Manager to assume when running a maintenance window
+task. If you do not specify a service role ARN, Systems Manager uses a
+service-linked role in your account. If no appropriate service-linked
+role for Systems Manager exists in your account, it is created when you
+run C<RegisterTaskWithMaintenanceWindow>.
 
-For more information, see the following topics in the in the I<AWS
-Systems Manager User Guide>:
-
-=over
-
-=item *
-
-Using service-linked roles for Systems Manager
-(https://docs.aws.amazon.com/systems-manager/latest/userguide/using-service-linked-roles.html#slr-permissions)
-
-=item *
-
-Should I use a service-linked role or a custom service role to run
-maintenance window tasks?
-(https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-maintenance-permissions.html#maintenance-window-tasks-service-role)
-
-=back
-
+However, for an improved security posture, we strongly recommend
+creating a custom policy and custom service role for running your
+maintenance window tasks. The policy can be crafted to provide only the
+permissions needed for your particular maintenance window tasks. For
+more information, see Setting up Maintenance Windows
+(https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-maintenance-permissions.html)
+in the in the I<Amazon Web Services Systems Manager User Guide>.
 
 
 
 =head2 Targets => ArrayRef[L<Paws::SSM::Target>]
 
-The targets (either instances or maintenance window targets).
+The targets (either managed nodes or maintenance window targets).
 
 One or more targets must be specified for maintenance window Run
 Command-type tasks. Depending on the task, targets are optional for
-other maintenance window task types (Automation, AWS Lambda, and AWS
-Step Functions). For more information about running tasks that do not
-specify targets, see Registering maintenance window tasks without
-targets
+other maintenance window task types (Automation, Lambda, and Step
+Functions). For more information about running tasks that don't specify
+targets, see Registering maintenance window tasks without targets
 (https://docs.aws.amazon.com/systems-manager/latest/userguide/maintenance-windows-targetless-tasks.html)
-in the I<AWS Systems Manager User Guide>.
+in the I<Amazon Web Services Systems Manager User Guide>.
 
-Specify instances using the following format:
+Specify managed nodes using the following format:
 
 C<Key=InstanceIds,Values=E<lt>instance-id-1E<gt>,E<lt>instance-id-2E<gt>>
 

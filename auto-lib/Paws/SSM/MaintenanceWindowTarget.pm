@@ -56,9 +56,9 @@ The name for the maintenance window target.
 
 =head2 OwnerInformation => Str
 
-A user-provided value that will be included in any CloudWatch events
-that are raised while running tasks for these targets in this
-maintenance window.
+A user-provided value that will be included in any Amazon CloudWatch
+Events events that are raised while running tasks for these targets in
+this maintenance window.
 
 
 =head2 ResourceType => Str
@@ -69,9 +69,9 @@ window.
 
 =head2 Targets => ArrayRef[L<Paws::SSM::Target>]
 
-The targets, either instances or tags.
+The targets, either managed nodes or tags.
 
-Specify instances using the following format:
+Specify managed nodes using the following format:
 
 C<Key=instanceids,Values=E<lt>instanceid1E<gt>,E<lt>instanceid2E<gt>>
 

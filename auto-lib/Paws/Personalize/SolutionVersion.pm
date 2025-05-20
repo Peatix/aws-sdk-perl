@@ -6,6 +6,7 @@ package Paws::Personalize::SolutionVersion;
   has EventType => (is => 'ro', isa => 'Str', request_name => 'eventType', traits => ['NameInRequest']);
   has FailureReason => (is => 'ro', isa => 'Str', request_name => 'failureReason', traits => ['NameInRequest']);
   has LastUpdatedDateTime => (is => 'ro', isa => 'Str', request_name => 'lastUpdatedDateTime', traits => ['NameInRequest']);
+  has Name => (is => 'ro', isa => 'Str', request_name => 'name', traits => ['NameInRequest']);
   has PerformAutoML => (is => 'ro', isa => 'Bool', request_name => 'performAutoML', traits => ['NameInRequest']);
   has PerformHPO => (is => 'ro', isa => 'Bool', request_name => 'performHPO', traits => ['NameInRequest']);
   has RecipeArn => (is => 'ro', isa => 'Str', request_name => 'recipeArn', traits => ['NameInRequest']);
@@ -15,6 +16,7 @@ package Paws::Personalize::SolutionVersion;
   has Status => (is => 'ro', isa => 'Str', request_name => 'status', traits => ['NameInRequest']);
   has TrainingHours => (is => 'ro', isa => 'Num', request_name => 'trainingHours', traits => ['NameInRequest']);
   has TrainingMode => (is => 'ro', isa => 'Str', request_name => 'trainingMode', traits => ['NameInRequest']);
+  has TrainingType => (is => 'ro', isa => 'Str', request_name => 'trainingType', traits => ['NameInRequest']);
   has TunedHPOParams => (is => 'ro', isa => 'Paws::Personalize::TunedHPOParams', request_name => 'tunedHPOParams', traits => ['NameInRequest']);
 
 1;
@@ -48,7 +50,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Personalize
 =head1 DESCRIPTION
 
 An object that provides information about a specific version of a
-Solution.
+Solution
+(https://docs.aws.amazon.com/personalize/latest/dg/API_Solution.html)
+in a Custom dataset group.
 
 =head1 ATTRIBUTES
 
@@ -79,6 +83,11 @@ If training a solution version fails, the reason for the failure.
 =head2 LastUpdatedDateTime => Str
 
 The date and time (in Unix time) that the solution was last updated.
+
+
+=head2 Name => Str
+
+The name of the solution version.
 
 
 =head2 PerformAutoML => Bool
@@ -160,19 +169,15 @@ successfully trains a model.
 =head2 TrainingMode => Str
 
 The scope of training to be performed when creating the solution
-version. The C<FULL> option trains the solution version based on the
-entirety of the input solution's training data, while the C<UPDATE>
-option processes only the data that has changed in comparison to the
-input solution. Choose C<UPDATE> when you want to incrementally update
-your solution version instead of creating an entirely new one.
+version. A C<FULL> training considers all of the data in your dataset
+group. An C<UPDATE> processes only the data that has changed since the
+latest training. Only solution versions created with the
+User-Personalization recipe can use C<UPDATE>.
 
-The C<UPDATE> option can only be used when you already have an active
-solution version created from the input solution using the C<FULL>
-option and the input solution was trained with the User-Personalization
-(https://docs.aws.amazon.com/personalize/latest/dg/native-recipe-new-item-USER_PERSONALIZATION.html)
-recipe or the HRNN-Coldstart
-(https://docs.aws.amazon.com/personalize/latest/dg/native-recipe-hrnn-coldstart.html)
-recipe.
+
+=head2 TrainingType => Str
+
+Whether the solution version was created automatically or manually.
 
 
 =head2 TunedHPOParams => L<Paws::Personalize::TunedHPOParams>

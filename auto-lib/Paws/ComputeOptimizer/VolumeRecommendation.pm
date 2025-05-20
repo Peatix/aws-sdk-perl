@@ -3,9 +3,12 @@ package Paws::ComputeOptimizer::VolumeRecommendation;
   use Moose;
   has AccountId => (is => 'ro', isa => 'Str', request_name => 'accountId', traits => ['NameInRequest']);
   has CurrentConfiguration => (is => 'ro', isa => 'Paws::ComputeOptimizer::VolumeConfiguration', request_name => 'currentConfiguration', traits => ['NameInRequest']);
+  has CurrentPerformanceRisk => (is => 'ro', isa => 'Str', request_name => 'currentPerformanceRisk', traits => ['NameInRequest']);
+  has EffectiveRecommendationPreferences => (is => 'ro', isa => 'Paws::ComputeOptimizer::EBSEffectiveRecommendationPreferences', request_name => 'effectiveRecommendationPreferences', traits => ['NameInRequest']);
   has Finding => (is => 'ro', isa => 'Str', request_name => 'finding', traits => ['NameInRequest']);
   has LastRefreshTimestamp => (is => 'ro', isa => 'Str', request_name => 'lastRefreshTimestamp', traits => ['NameInRequest']);
   has LookBackPeriodInDays => (is => 'ro', isa => 'Num', request_name => 'lookBackPeriodInDays', traits => ['NameInRequest']);
+  has Tags => (is => 'ro', isa => 'ArrayRef[Paws::ComputeOptimizer::Tag]', request_name => 'tags', traits => ['NameInRequest']);
   has UtilizationMetrics => (is => 'ro', isa => 'ArrayRef[Paws::ComputeOptimizer::EBSUtilizationMetric]', request_name => 'utilizationMetrics', traits => ['NameInRequest']);
   has VolumeArn => (is => 'ro', isa => 'Str', request_name => 'volumeArn', traits => ['NameInRequest']);
   has VolumeRecommendationOptions => (is => 'ro', isa => 'ArrayRef[Paws::ComputeOptimizer::VolumeRecommendationOption]', request_name => 'volumeRecommendationOptions', traits => ['NameInRequest']);
@@ -48,12 +51,25 @@ recommendation.
 
 =head2 AccountId => Str
 
-The AWS account ID of the volume.
+The Amazon Web Services account ID of the volume.
 
 
 =head2 CurrentConfiguration => L<Paws::ComputeOptimizer::VolumeConfiguration>
 
 An array of objects that describe the current configuration of the
+volume.
+
+
+=head2 CurrentPerformanceRisk => Str
+
+The risk of the current EBS volume not meeting the performance needs of
+its workloads. The higher the risk, the more likely the current EBS
+volume doesn't have sufficient capacity.
+
+
+=head2 EffectiveRecommendationPreferences => L<Paws::ComputeOptimizer::EBSEffectiveRecommendationPreferences>
+
+Describes the effective recommendation preferences for Amazon EBS
 volume.
 
 
@@ -68,8 +84,8 @@ Findings for volumes include:
 =item *
 
 B<C<NotOptimized> >E<mdash>A volume is considered not optimized when
-AWS Compute Optimizer identifies a recommendation that can provide
-better performance for your workload.
+Compute Optimizer identifies a recommendation that can provide better
+performance for your workload.
 
 =item *
 
@@ -84,13 +100,18 @@ Compute Optimizer might recommend a new generation volume type.
 
 =head2 LastRefreshTimestamp => Str
 
-The time stamp of when the volume recommendation was last refreshed.
+The timestamp of when the volume recommendation was last generated.
 
 
 =head2 LookBackPeriodInDays => Num
 
 The number of days for which utilization metrics were analyzed for the
 volume.
+
+
+=head2 Tags => ArrayRef[L<Paws::ComputeOptimizer::Tag>]
+
+A list of tags assigned to your Amazon EBS volume recommendations.
 
 
 =head2 UtilizationMetrics => ArrayRef[L<Paws::ComputeOptimizer::EBSUtilizationMetric>]

@@ -5,6 +5,7 @@ package Paws::RDS::GlobalClusterMember;
   has GlobalWriteForwardingStatus => (is => 'ro', isa => 'Str');
   has IsWriter => (is => 'ro', isa => 'Bool');
   has Readers => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has SynchronizationStatus => (is => 'ro', isa => 'Str');
 
 1;
 
@@ -25,7 +26,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::RDS::GlobalClusterMember object:
 
-  $service_obj->Method(Att1 => { DBClusterArn => $value, ..., Readers => $value  });
+  $service_obj->Method(Att1 => { DBClusterArn => $value, ..., SynchronizationStatus => $value  });
 
 =head3 Results returned from an API call
 
@@ -37,34 +38,40 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::RDS::Global
 =head1 DESCRIPTION
 
 A data structure with information about any primary and secondary
-clusters associated with an Aurora global database.
+clusters associated with a global cluster (Aurora global database).
 
 =head1 ATTRIBUTES
 
 
 =head2 DBClusterArn => Str
 
-The Amazon Resource Name (ARN) for each Aurora cluster.
+The Amazon Resource Name (ARN) for each Aurora DB cluster in the global
+cluster.
 
 
 =head2 GlobalWriteForwardingStatus => Str
 
-Specifies whether a secondary cluster in an Aurora global database has
-write forwarding enabled, not enabled, or is in the process of enabling
-it.
+The status of write forwarding for a secondary cluster in the global
+cluster.
 
 
 =head2 IsWriter => Bool
 
-Specifies whether the Aurora cluster is the primary cluster (that is,
-has read-write capability) for the Aurora global database with which it
-is associated.
+Indicates whether the Aurora DB cluster is the primary cluster (that
+is, has read-write capability) for the global cluster with which it is
+associated.
 
 
 =head2 Readers => ArrayRef[Str|Undef]
 
 The Amazon Resource Name (ARN) for each read-only secondary cluster
-associated with the Aurora global database.
+associated with the global cluster.
+
+
+=head2 SynchronizationStatus => Str
+
+The status of synchronization of each Aurora DB cluster in the global
+cluster.
 
 
 

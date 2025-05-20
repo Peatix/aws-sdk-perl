@@ -34,11 +34,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       );
 
     # Results:
-    my $AccessKey      = $DescribeLocationObjectStorageResponse->AccessKey;
-    my $AgentArns      = $DescribeLocationObjectStorageResponse->AgentArns;
-    my $CreationTime   = $DescribeLocationObjectStorageResponse->CreationTime;
-    my $LocationArn    = $DescribeLocationObjectStorageResponse->LocationArn;
-    my $LocationUri    = $DescribeLocationObjectStorageResponse->LocationUri;
+    my $AccessKey    = $DescribeLocationObjectStorageResponse->AccessKey;
+    my $AgentArns    = $DescribeLocationObjectStorageResponse->AgentArns;
+    my $CreationTime = $DescribeLocationObjectStorageResponse->CreationTime;
+    my $LocationArn  = $DescribeLocationObjectStorageResponse->LocationArn;
+    my $LocationUri  = $DescribeLocationObjectStorageResponse->LocationUri;
+    my $ServerCertificate =
+      $DescribeLocationObjectStorageResponse->ServerCertificate;
     my $ServerPort     = $DescribeLocationObjectStorageResponse->ServerPort;
     my $ServerProtocol = $DescribeLocationObjectStorageResponse->ServerProtocol;
 
@@ -52,8 +54,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/dat
 
 =head2 B<REQUIRED> LocationArn => Str
 
-The Amazon Resource Name (ARN) of the self-managed object storage
-server location that was described.
+Specifies the Amazon Resource Name (ARN) of the object storage system
+location.
 
 
 

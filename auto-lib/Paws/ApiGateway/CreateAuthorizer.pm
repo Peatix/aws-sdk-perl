@@ -115,34 +115,26 @@ without functional impact.
 
 =head2 IdentitySource => Str
 
-The identity source for which authorization is requested.
-
-=over
-
-=item * For a C<TOKEN> or C<COGNITO_USER_POOLS> authorizer, this is
-required and specifies the request header mapping expression for the
-custom header holding the authorization token submitted by the client.
-For example, if the token header name is C<Auth>, the header mapping
-expression is C<method.request.header.Auth>.
-
-=item * For the C<REQUEST> authorizer, this is required when
-authorization caching is enabled. The value is a comma-separated string
-of one or more mapping expressions of the specified request parameters.
-For example, if an C<Auth> header, a C<Name> query string parameter are
-defined as identity sources, this value is
-C<method.request.header.Auth, method.request.querystring.Name>. These
-parameters will be used to derive the authorization caching key and to
-perform runtime validation of the C<REQUEST> authorizer by verifying
-all of the identity-related request parameters are present, not null
-and non-empty. Only when this is true does the authorizer invoke the
-authorizer Lambda function, otherwise, it returns a 401 Unauthorized
-response without calling the Lambda function. The valid value is a
-string of comma-separated mapping expressions of the specified request
-parameters. When the authorization caching is not enabled, this
-property is optional.
-
-=back
-
+The identity source for which authorization is requested. For a
+C<TOKEN> or C<COGNITO_USER_POOLS> authorizer, this is required and
+specifies the request header mapping expression for the custom header
+holding the authorization token submitted by the client. For example,
+if the token header name is C<Auth>, the header mapping expression is
+C<method.request.header.Auth>. For the C<REQUEST> authorizer, this is
+required when authorization caching is enabled. The value is a
+comma-separated string of one or more mapping expressions of the
+specified request parameters. For example, if an C<Auth> header, a
+C<Name> query string parameter are defined as identity sources, this
+value is C<method.request.header.Auth,
+method.request.querystring.Name>. These parameters will be used to
+derive the authorization caching key and to perform runtime validation
+of the C<REQUEST> authorizer by verifying all of the identity-related
+request parameters are present, not null and non-empty. Only when this
+is true does the authorizer invoke the authorizer Lambda function,
+otherwise, it returns a 401 Unauthorized response without calling the
+Lambda function. The valid value is a string of comma-separated mapping
+expressions of the specified request parameters. When the authorization
+caching is not enabled, this property is optional.
 
 
 
@@ -161,7 +153,7 @@ does not apply to the C<REQUEST> authorizer.
 
 =head2 B<REQUIRED> Name => Str
 
-[Required] The name of the authorizer.
+The name of the authorizer.
 
 
 
@@ -176,17 +168,16 @@ For a C<TOKEN> or C<REQUEST> authorizer, this is not defined.
 
 =head2 B<REQUIRED> RestApiId => Str
 
-[Required] The string identifier of the associated RestApi.
+The string identifier of the associated RestApi.
 
 
 
 =head2 B<REQUIRED> Type => Str
 
-[Required] The authorizer type. Valid values are C<TOKEN> for a Lambda
-function using a single authorization token submitted in a custom
-header, C<REQUEST> for a Lambda function using incoming request
-parameters, and C<COGNITO_USER_POOLS> for using an Amazon Cognito user
-pool.
+The authorizer type. Valid values are C<TOKEN> for a Lambda function
+using a single authorization token submitted in a custom header,
+C<REQUEST> for a Lambda function using incoming request parameters, and
+C<COGNITO_USER_POOLS> for using an Amazon Cognito user pool.
 
 Valid values are: C<"TOKEN">, C<"REQUEST">, C<"COGNITO_USER_POOLS">
 

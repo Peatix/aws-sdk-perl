@@ -70,14 +70,15 @@ Must specify a valid cluster parameter group.
 
 =item *
 
-If the source cluster parameter group is in the same Region as the
-copy, specify a valid parameter group identifier; for example,
-C<my-db-cluster-param-group>, or a valid ARN.
+If the source cluster parameter group is in the same Amazon Web
+Services Region as the copy, specify a valid parameter group
+identifier; for example, C<my-db-cluster-param-group>, or a valid ARN.
 
 =item *
 
-If the source parameter group is in a different Region than the copy,
-specify a valid cluster parameter group ARN; for example,
+If the source parameter group is in a different Amazon Web Services
+Region than the copy, specify a valid cluster parameter group ARN; for
+example,
 C<arn:aws:rds:us-east-1:123456789012:sample-cluster:sample-parameter-group>.
 
 =back

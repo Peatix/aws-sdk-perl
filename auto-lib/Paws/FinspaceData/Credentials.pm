@@ -35,7 +35,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::FinspaceDat
 
 =head1 DESCRIPTION
 
-Set short term API credentials.
+Short term API credentials.
 
 =head1 ATTRIBUTES
 

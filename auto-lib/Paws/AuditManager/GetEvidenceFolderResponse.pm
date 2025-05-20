@@ -17,7 +17,7 @@ Paws::AuditManager::GetEvidenceFolderResponse
 
 =head2 EvidenceFolder => L<Paws::AuditManager::AssessmentEvidenceFolder>
 
-The folder in which evidence is stored.
+The folder that the evidence is stored in.
 
 
 =head2 _request_id => Str

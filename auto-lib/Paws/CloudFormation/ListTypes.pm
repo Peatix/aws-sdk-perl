@@ -88,8 +88,10 @@ Valid values are: C<"LIVE">, C<"DEPRECATED">
 
 Filter criteria to use in determining which extensions to return.
 
-If you specify a filter, CloudFormation ignores any specified
-C<Visibility> value when returning the list of types.
+Filters must be compatible with C<Visibility> to return valid results.
+For example, specifying C<AWS_TYPES> for C<Category> and C<PRIVATE> for
+C<Visibility> returns an empty list of types, but specifying C<PUBLIC>
+for C<Visibility> returns the desired list.
 
 
 
@@ -104,7 +106,7 @@ parameter to get the next set of results.
 
 =head2 NextToken => Str
 
-If the previous paginated request didn't return all of the remaining
+If the previous paginated request didn't return all the remaining
 results, the response object's C<NextToken> parameter value is set to a
 token. To retrieve the next set of results, call this action again and
 assign that token to the request object's C<NextToken> parameter. If
@@ -115,7 +117,7 @@ C<NextToken> parameter is set to C<null>.
 
 =head2 ProvisioningType => Str
 
-For resource types, the provisioning behavior of the resource type. AWS
+For resource types, the provisioning behavior of the resource type.
 CloudFormation determines the provisioning type during registration,
 based on the types of handlers in the schema handler package submitted.
 
@@ -130,14 +132,14 @@ process updates to the type during stack update operations.
 
 =item *
 
-C<IMMUTABLE>: The resource type does not include an update handler, so
-the type cannot be updated and must instead be replaced during stack
+C<IMMUTABLE>: The resource type doesn't include an update handler, so
+the type can't be updated and must instead be replaced during stack
 update operations.
 
 =item *
 
-C<NON_PROVISIONABLE>: The resource type does not include create, read,
-and delete handlers, and therefore cannot actually be provisioned.
+C<NON_PROVISIONABLE>: The resource type doesn't include create, read,
+and delete handlers, and therefore can't actually be provisioned.
 
 =back
 
@@ -149,7 +151,7 @@ Valid values are: C<"NON_PROVISIONABLE">, C<"IMMUTABLE">, C<"FULLY_MUTABLE">
 
 The type of extension.
 
-Valid values are: C<"RESOURCE">, C<"MODULE">
+Valid values are: C<"RESOURCE">, C<"MODULE">, C<"HOOK">
 
 =head2 Visibility => Str
 
@@ -163,25 +165,26 @@ Valid values include:
 =item *
 
 C<PRIVATE>: Extensions that are visible and usable within this account
-and region. This includes:
+and Region. This includes:
 
 =over
 
 =item *
 
-Private extensions you have registered in this account and region.
+Private extensions you have registered in this account and Region.
 
 =item *
 
-Public extensions that you have activated in this account and region.
+Public extensions that you have activated in this account and Region.
 
 =back
 
 =item *
 
 C<PUBLIC>: Extensions that are publicly visible and available to be
-activated within any Amazon account. This includes extensions from
-Amazon, as well as third-party publishers.
+activated within any Amazon Web Services account. This includes
+extensions from Amazon Web Services, in addition to third-party
+publishers.
 
 =back
 

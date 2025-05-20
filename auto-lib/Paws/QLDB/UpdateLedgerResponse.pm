@@ -4,6 +4,7 @@ package Paws::QLDB::UpdateLedgerResponse;
   has Arn => (is => 'ro', isa => 'Str');
   has CreationDateTime => (is => 'ro', isa => 'Str');
   has DeletionProtection => (is => 'ro', isa => 'Bool');
+  has EncryptionDescription => (is => 'ro', isa => 'Paws::QLDB::LedgerEncryptionDescription');
   has Name => (is => 'ro', isa => 'Str');
   has State => (is => 'ro', isa => 'Str');
 
@@ -33,13 +34,20 @@ January 1, 1970 UTC.)
 
 =head2 DeletionProtection => Bool
 
-The flag that prevents a ledger from being deleted by any user. If not
-provided on ledger creation, this feature is enabled (C<true>) by
-default.
+Specifies whether the ledger is protected from being deleted by any
+user. If not defined during ledger creation, this feature is enabled
+(C<true>) by default.
 
 If deletion protection is enabled, you must first disable it before you
 can delete the ledger. You can disable it by calling the
-C<UpdateLedger> operation to set the flag to C<false>.
+C<UpdateLedger> operation to set this parameter to C<false>.
+
+
+=head2 EncryptionDescription => L<Paws::QLDB::LedgerEncryptionDescription>
+
+Information about the encryption of data at rest in the ledger. This
+includes the current status, the KMS key, and when the key became
+inaccessible (in the case of an error).
 
 
 =head2 Name => Str

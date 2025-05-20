@@ -34,22 +34,23 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::RedShift::A
 
 =head1 DESCRIPTION
 
-Describes an AWS customer account authorized to restore a snapshot.
+Describes an Amazon Web Services account authorized to restore a
+snapshot.
 
 =head1 ATTRIBUTES
 
 
 =head2 AccountAlias => Str
 
-The identifier of an AWS support account authorized to restore a
-snapshot. For AWS support, the identifier is
+The identifier of an Amazon Web Services support account authorized to
+restore a snapshot. For Amazon Web Services Support, the identifier is
 C<amazon-redshift-support>.
 
 
 =head2 AccountId => Str
 
-The identifier of an AWS customer account authorized to restore a
-snapshot.
+The identifier of an Amazon Web Services account authorized to restore
+a snapshot.
 
 
 

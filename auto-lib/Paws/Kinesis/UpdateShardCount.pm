@@ -2,7 +2,8 @@
 package Paws::Kinesis::UpdateShardCount;
   use Moose;
   has ScalingType => (is => 'ro', isa => 'Str', required => 1);
-  has StreamName => (is => 'ro', isa => 'Str', required => 1);
+  has StreamARN => (is => 'ro', isa => 'Str');
+  has StreamName => (is => 'ro', isa => 'Str');
   has TargetShardCount => (is => 'ro', isa => 'Int', required => 1);
 
   use MooseX::ClassAttribute;
@@ -31,13 +32,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $kinesis = Paws->service('Kinesis');
     my $UpdateShardCountOutput = $kinesis->UpdateShardCount(
       ScalingType      => 'UNIFORM_SCALING',
-      StreamName       => 'MyStreamName',
       TargetShardCount => 1,
-
+      StreamARN        => 'MyStreamARN',       # OPTIONAL
+      StreamName       => 'MyStreamName',      # OPTIONAL
     );
 
     # Results:
     my $CurrentShardCount = $UpdateShardCountOutput->CurrentShardCount;
+    my $StreamARN         = $UpdateShardCountOutput->StreamARN;
     my $StreamName        = $UpdateShardCountOutput->StreamName;
     my $TargetShardCount  = $UpdateShardCountOutput->TargetShardCount;
 
@@ -55,7 +57,13 @@ The scaling type. Uniform scaling creates shards of equal size.
 
 Valid values are: C<"UNIFORM_SCALING">
 
-=head2 B<REQUIRED> StreamName => Str
+=head2 StreamARN => Str
+
+The ARN of the stream.
+
+
+
+=head2 StreamName => Str
 
 The name of the stream.
 
@@ -79,14 +87,14 @@ Set this value below half your current shard count for a stream.
 
 =item *
 
-Set this value to more than 500 shards in a stream (the default limit
-for shard count per stream is 500 per account per region), unless you
+Set this value to more than 10000 shards in a stream (the default limit
+for shard count per stream is 10000 per account per region), unless you
 request a limit increase.
 
 =item *
 
-Scale a stream with more than 500 shards down unless you set this value
-to less than 500 shards.
+Scale a stream with more than 10000 shards down unless you set this
+value to less than 10000 shards.
 
 =back
 

@@ -22,7 +22,7 @@ The object that defines the rules in a rule group. This, along with
 RuleGroupResponse, define the rule group. You can retrieve all objects
 for a rule group by calling DescribeRuleGroup.
 
-AWS Network Firewall uses a rule group to inspect and control network
+Network Firewall uses a rule group to inspect and control network
 traffic. You define stateless rule groups to inspect individual packets
 and you define stateful rule groups to inspect packets in the context
 of their traffic flow.

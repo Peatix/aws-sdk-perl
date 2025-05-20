@@ -55,9 +55,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ec2
 =head2 ClientToken => Str
 
 Unique, case-sensitive identifier that you provide to ensure the
-idempotency of the request. For more information, see How to Ensure
-Idempotency
-(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+idempotency of the request. For more information, see Ensuring
+idempotency
+(https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
 
 
 
@@ -90,8 +90,8 @@ To add a route for a peered VPC, enter the peered VPC's IPv4 CIDR range
 
 =item *
 
-To add a route for an on-premises network, enter the AWS Site-to-Site
-VPN connection's IPv4 CIDR range
+To add a route for an on-premises network, enter the Amazon Web
+Services Site-to-Site VPN connection's IPv4 CIDR range
 
 =item *
 

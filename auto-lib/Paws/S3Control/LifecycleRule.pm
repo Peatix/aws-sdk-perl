@@ -50,7 +50,7 @@ The container for the Outposts bucket lifecycle rule.
 Specifies the days since the initiation of an incomplete multipart
 upload that Amazon S3 waits before permanently removing all parts of
 the upload. For more information, see Aborting Incomplete Multipart
-Uploads Using a Bucket Lifecycle Policy
+Uploads Using a Bucket Lifecycle Configuration
 (https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuoverview.html#mpu-abort-incomplete-mpu-lifecycle-config)
 in the I<Amazon S3 User Guide>.
 
@@ -75,8 +75,6 @@ characters.
 =head2 NoncurrentVersionExpiration => L<Paws::S3Control::NoncurrentVersionExpiration>
 
 The noncurrent version expiration of the lifecycle rule.
-
-This is not supported by Amazon S3 on Outposts buckets.
 
 
 =head2 NoncurrentVersionTransitions => ArrayRef[L<Paws::S3Control::NoncurrentVersionTransition>]

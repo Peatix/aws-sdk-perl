@@ -3,6 +3,7 @@ package Paws::CodeArtifact::RepositorySummary;
   use Moose;
   has AdministratorAccount => (is => 'ro', isa => 'Str', request_name => 'administratorAccount', traits => ['NameInRequest']);
   has Arn => (is => 'ro', isa => 'Str', request_name => 'arn', traits => ['NameInRequest']);
+  has CreatedTime => (is => 'ro', isa => 'Str', request_name => 'createdTime', traits => ['NameInRequest']);
   has Description => (is => 'ro', isa => 'Str', request_name => 'description', traits => ['NameInRequest']);
   has DomainName => (is => 'ro', isa => 'Str', request_name => 'domainName', traits => ['NameInRequest']);
   has DomainOwner => (is => 'ro', isa => 'Str', request_name => 'domainOwner', traits => ['NameInRequest']);
@@ -48,12 +49,18 @@ operation returns a list of C<RepositorySummary> objects.
 
 =head2 AdministratorAccount => Str
 
-The AWS account ID that manages the repository.
+The Amazon Web Services account ID that manages the repository.
 
 
 =head2 Arn => Str
 
 The ARN of the repository.
+
+
+=head2 CreatedTime => Str
+
+A timestamp that represents the date and time the repository was
+created.
 
 
 =head2 Description => Str
@@ -68,8 +75,8 @@ The name of the domain that contains the repository.
 
 =head2 DomainOwner => Str
 
-The 12-digit account number of the AWS account that owns the domain. It
-does not include dashes or spaces.
+The 12-digit account number of the Amazon Web Services account that
+owns the domain. It does not include dashes or spaces.
 
 
 =head2 Name => Str

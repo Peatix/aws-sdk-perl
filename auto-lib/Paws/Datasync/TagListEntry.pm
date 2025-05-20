@@ -34,23 +34,20 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Datasync::T
 
 =head1 DESCRIPTION
 
-Represents a single entry in a list of AWS resource tags.
-C<TagListEntry> returns an array that contains a list of tasks when the
-ListTagsForResource
-(https://docs.aws.amazon.com/datasync/latest/userguide/API_ListTagsForResource.html)
-operation is called.
+A key-value pair representing a single tag that's been applied to an
+Amazon Web Services resource.
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> Key => Str
 
-The key for an AWS resource tag.
+The key for an Amazon Web Services resource tag.
 
 
 =head2 Value => Str
 
-The value for an AWS resource tag.
+The value for an Amazon Web Services resource tag.
 
 
 

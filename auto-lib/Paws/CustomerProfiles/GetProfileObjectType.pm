@@ -45,9 +45,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $Fields         = $GetProfileObjectTypeResponse->Fields;
     my $Keys           = $GetProfileObjectTypeResponse->Keys;
     my $LastUpdatedAt  = $GetProfileObjectTypeResponse->LastUpdatedAt;
+    my $MaxAvailableProfileObjectCount =
+      $GetProfileObjectTypeResponse->MaxAvailableProfileObjectCount;
+    my $MaxProfileObjectCount =
+      $GetProfileObjectTypeResponse->MaxProfileObjectCount;
     my $ObjectTypeName = $GetProfileObjectTypeResponse->ObjectTypeName;
-    my $Tags           = $GetProfileObjectTypeResponse->Tags;
-    my $TemplateId     = $GetProfileObjectTypeResponse->TemplateId;
+    my $SourceLastUpdatedTimestampFormat =
+      $GetProfileObjectTypeResponse->SourceLastUpdatedTimestampFormat;
+    my $Tags       = $GetProfileObjectTypeResponse->Tags;
+    my $TemplateId = $GetProfileObjectTypeResponse->TemplateId;
 
     # Returns a L<Paws::CustomerProfiles::GetProfileObjectTypeResponse> object.
 

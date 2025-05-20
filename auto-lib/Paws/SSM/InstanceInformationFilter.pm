@@ -34,14 +34,14 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SSM::Instan
 
 =head1 DESCRIPTION
 
-Describes a filter for a specific list of instances. You can filter
-instances information by using tags. You specify tags by using a
-key-value mapping.
+Describes a filter for a specific list of managed nodes. You can filter
+node information by using tags. You specify tags by using a key-value
+mapping.
 
-Use this action instead of the
+Use this operation instead of the
 DescribeInstanceInformationRequest$InstanceInformationFilterList
 method. The C<InstanceInformationFilterList> method is a legacy method
-and does not support tags.
+and doesn't support tags.
 
 =head1 ATTRIBUTES
 

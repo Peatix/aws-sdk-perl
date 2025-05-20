@@ -32,7 +32,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $AcceptMatchOutput = $gamelift->AcceptMatch(
       AcceptanceType => 'ACCEPT',
       PlayerIds      => [
-        'MyNonZeroAndMaxString', ...    # min: 1, max: 1024
+        'MyPlayerId', ...    # min: 1, max: 1024
       ],
       TicketId => 'MyMatchmakingIdStringModel',
 

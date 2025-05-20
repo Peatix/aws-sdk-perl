@@ -1,6 +1,8 @@
 
 package Paws::GroundStation::GetDataflowEndpointGroupResponse;
   use Moose;
+  has ContactPostPassDurationSeconds => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'contactPostPassDurationSeconds');
+  has ContactPrePassDurationSeconds => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'contactPrePassDurationSeconds');
   has DataflowEndpointGroupArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'dataflowEndpointGroupArn');
   has DataflowEndpointGroupId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'dataflowEndpointGroupId');
   has EndpointsDetails => (is => 'ro', isa => 'ArrayRef[Paws::GroundStation::EndpointDetails]', traits => ['NameInRequest'], request_name => 'endpointsDetails');
@@ -16,6 +18,23 @@ package Paws::GroundStation::GetDataflowEndpointGroupResponse;
 Paws::GroundStation::GetDataflowEndpointGroupResponse
 
 =head1 ATTRIBUTES
+
+
+=head2 ContactPostPassDurationSeconds => Int
+
+Amount of time, in seconds, after a contact ends that the Ground
+Station Dataflow Endpoint Group will be in a C<POSTPASS> state. A
+Ground Station Dataflow Endpoint Group State Change event will be
+emitted when the Dataflow Endpoint Group enters and exits the
+C<POSTPASS> state.
+
+
+=head2 ContactPrePassDurationSeconds => Int
+
+Amount of time, in seconds, before a contact starts that the Ground
+Station Dataflow Endpoint Group will be in a C<PREPASS> state. A Ground
+Station Dataflow Endpoint Group State Change event will be emitted when
+the Dataflow Endpoint Group enters and exits the C<PREPASS> state.
 
 
 =head2 DataflowEndpointGroupArn => Str

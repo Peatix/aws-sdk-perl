@@ -5,28 +5,35 @@ package Paws::RDS::RestoreDBInstanceFromS3;
   has AutoMinorVersionUpgrade => (is => 'ro', isa => 'Bool');
   has AvailabilityZone => (is => 'ro', isa => 'Str');
   has BackupRetentionPeriod => (is => 'ro', isa => 'Int');
+  has CACertificateIdentifier => (is => 'ro', isa => 'Str');
   has CopyTagsToSnapshot => (is => 'ro', isa => 'Bool');
+  has DatabaseInsightsMode => (is => 'ro', isa => 'Str');
   has DBInstanceClass => (is => 'ro', isa => 'Str', required => 1);
   has DBInstanceIdentifier => (is => 'ro', isa => 'Str', required => 1);
   has DBName => (is => 'ro', isa => 'Str');
   has DBParameterGroupName => (is => 'ro', isa => 'Str');
   has DBSecurityGroups => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has DBSubnetGroupName => (is => 'ro', isa => 'Str');
+  has DedicatedLogVolume => (is => 'ro', isa => 'Bool');
   has DeletionProtection => (is => 'ro', isa => 'Bool');
   has EnableCloudwatchLogsExports => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has EnableIAMDatabaseAuthentication => (is => 'ro', isa => 'Bool');
   has EnablePerformanceInsights => (is => 'ro', isa => 'Bool');
   has Engine => (is => 'ro', isa => 'Str', required => 1);
+  has EngineLifecycleSupport => (is => 'ro', isa => 'Str');
   has EngineVersion => (is => 'ro', isa => 'Str');
   has Iops => (is => 'ro', isa => 'Int');
   has KmsKeyId => (is => 'ro', isa => 'Str');
   has LicenseModel => (is => 'ro', isa => 'Str');
+  has ManageMasterUserPassword => (is => 'ro', isa => 'Bool');
   has MasterUsername => (is => 'ro', isa => 'Str');
   has MasterUserPassword => (is => 'ro', isa => 'Str');
+  has MasterUserSecretKmsKeyId => (is => 'ro', isa => 'Str');
   has MaxAllocatedStorage => (is => 'ro', isa => 'Int');
   has MonitoringInterval => (is => 'ro', isa => 'Int');
   has MonitoringRoleArn => (is => 'ro', isa => 'Str');
   has MultiAZ => (is => 'ro', isa => 'Bool');
+  has NetworkType => (is => 'ro', isa => 'Str');
   has OptionGroupName => (is => 'ro', isa => 'Str');
   has PerformanceInsightsKMSKeyId => (is => 'ro', isa => 'Str');
   has PerformanceInsightsRetentionPeriod => (is => 'ro', isa => 'Int');
@@ -41,6 +48,7 @@ package Paws::RDS::RestoreDBInstanceFromS3;
   has SourceEngine => (is => 'ro', isa => 'Str', required => 1);
   has SourceEngineVersion => (is => 'ro', isa => 'Str', required => 1);
   has StorageEncrypted => (is => 'ro', isa => 'Bool');
+  has StorageThroughput => (is => 'ro', isa => 'Int');
   has StorageType => (is => 'ro', isa => 'Str');
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::RDS::Tag]');
   has UseDefaultProcessorFeatures => (is => 'ro', isa => 'Bool');
@@ -82,25 +90,32 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       AutoMinorVersionUpgrade            => 1,                      # OPTIONAL
       AvailabilityZone                   => 'MyString',             # OPTIONAL
       BackupRetentionPeriod              => 1,                      # OPTIONAL
+      CACertificateIdentifier            => 'MyString',             # OPTIONAL
       CopyTagsToSnapshot                 => 1,                      # OPTIONAL
       DBName                             => 'MyString',             # OPTIONAL
       DBParameterGroupName               => 'MyString',             # OPTIONAL
       DBSecurityGroups                   => [ 'MyString', ... ],    # OPTIONAL
       DBSubnetGroupName                  => 'MyString',             # OPTIONAL
+      DatabaseInsightsMode               => 'standard',             # OPTIONAL
+      DedicatedLogVolume                 => 1,                      # OPTIONAL
       DeletionProtection                 => 1,                      # OPTIONAL
       EnableCloudwatchLogsExports        => [ 'MyString', ... ],    # OPTIONAL
       EnableIAMDatabaseAuthentication    => 1,                      # OPTIONAL
       EnablePerformanceInsights          => 1,                      # OPTIONAL
+      EngineLifecycleSupport             => 'MyString',             # OPTIONAL
       EngineVersion                      => 'MyString',             # OPTIONAL
       Iops                               => 1,                      # OPTIONAL
       KmsKeyId                           => 'MyString',             # OPTIONAL
       LicenseModel                       => 'MyString',             # OPTIONAL
+      ManageMasterUserPassword           => 1,                      # OPTIONAL
       MasterUserPassword                 => 'MyString',             # OPTIONAL
+      MasterUserSecretKmsKeyId           => 'MyString',             # OPTIONAL
       MasterUsername                     => 'MyString',             # OPTIONAL
       MaxAllocatedStorage                => 1,                      # OPTIONAL
       MonitoringInterval                 => 1,                      # OPTIONAL
       MonitoringRoleArn                  => 'MyString',             # OPTIONAL
       MultiAZ                            => 1,                      # OPTIONAL
+      NetworkType                        => 'MyString',             # OPTIONAL
       OptionGroupName                    => 'MyString',             # OPTIONAL
       PerformanceInsightsKMSKeyId        => 'MyString',             # OPTIONAL
       PerformanceInsightsRetentionPeriod => 1,                      # OPTIONAL
@@ -117,6 +132,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       PubliclyAccessible => 1,                                      # OPTIONAL
       S3Prefix           => 'MyString',                             # OPTIONAL
       StorageEncrypted   => 1,                                      # OPTIONAL
+      StorageThroughput  => 1,                                      # OPTIONAL
       StorageType        => 'MyString',                             # OPTIONAL
       Tags               => [
         {
@@ -142,20 +158,26 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/rds
 
 =head2 AllocatedStorage => Int
 
-The amount of storage (in gigabytes) to allocate initially for the DB
+The amount of storage (in gibibytes) to allocate initially for the DB
 instance. Follow the allocation rules specified in C<CreateDBInstance>.
 
-Be sure to allocate enough memory for your new DB instance so that the
-restore operation can succeed. You can also allocate additional memory
+This setting isn't valid for RDS for SQL Server.
+
+Be sure to allocate enough storage for your new DB instance so that the
+restore operation can succeed. You can also allocate additional storage
 for future growth.
 
 
 
 =head2 AutoMinorVersionUpgrade => Bool
 
-A value that indicates whether minor engine upgrades are applied
-automatically to the DB instance during the maintenance window. By
-default, minor engine upgrades are not applied automatically.
+Specifies whether to automatically apply minor engine upgrades to the
+DB instance during the maintenance window. By default, minor engine
+upgrades are not applied automatically.
+
+For more information about automatic minor version upgrades, see
+Automatically upgrading the minor engine version
+(https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Upgrading.html#USER_UpgradeDBInstance.Upgrading.AutoMinorVersionUpgrades).
 
 
 
@@ -186,17 +208,43 @@ information, see C<CreateDBInstance>.
 
 
 
+=head2 CACertificateIdentifier => Str
+
+The CA certificate identifier to use for the DB instance's server
+certificate.
+
+This setting doesn't apply to RDS Custom DB instances.
+
+For more information, see Using SSL/TLS to encrypt a connection to a DB
+instance
+(https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html)
+in the I<Amazon RDS User Guide> and Using SSL/TLS to encrypt a
+connection to a DB cluster
+(https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.SSL.html)
+in the I<Amazon Aurora User Guide>.
+
+
+
 =head2 CopyTagsToSnapshot => Bool
 
-A value that indicates whether to copy all tags from the DB instance to
-snapshots of the DB instance. By default, tags are not copied.
+Specifies whether to copy all tags from the DB instance to snapshots of
+the DB instance. By default, tags are not copied.
 
 
+
+=head2 DatabaseInsightsMode => Str
+
+Specifies the mode of Database Insights to enable for the DB instance.
+
+Aurora DB instances inherit this value from the DB cluster, so you
+can't change this value.
+
+Valid values are: C<"standard">, C<"advanced">
 
 =head2 B<REQUIRED> DBInstanceClass => Str
 
-The compute and memory capacity of the DB instance, for example,
-C<db.m4.large>. Not all DB instance classes are available in all Amazon
+The compute and memory capacity of the DB instance, for example
+db.m4.large. Not all DB instance classes are available in all Amazon
 Web Services Regions, or for all database engines. For the full list of
 DB instance classes, and availability for your engine, see DB Instance
 Class
@@ -263,14 +311,26 @@ Default: The default DB security group for the database engine.
 
 A DB subnet group to associate with this DB instance.
 
+Constraints: If supplied, must match the name of an existing
+DBSubnetGroup.
+
+Example: C<mydbsubnetgroup>
+
+
+
+=head2 DedicatedLogVolume => Bool
+
+Specifies whether to enable a dedicated log volume (DLV) for the DB
+instance.
+
 
 
 =head2 DeletionProtection => Bool
 
-A value that indicates whether the DB instance has deletion protection
-enabled. The database can't be deleted when deletion protection is
-enabled. By default, deletion protection is disabled. For more
-information, see Deleting a DB Instance
+Specifies whether to enable deletion protection for the DB instance.
+The database can't be deleted when deletion protection is enabled. By
+default, deletion protection isn't enabled. For more information, see
+Deleting a DB Instance
 (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_DeleteInstance.html).
 
 
@@ -288,9 +348,9 @@ in the I<Amazon RDS User Guide>.
 
 =head2 EnableIAMDatabaseAuthentication => Bool
 
-A value that indicates whether to enable mapping of Amazon Web Services
-Identity and Access Management (IAM) accounts to database accounts. By
-default, mapping is disabled.
+Specifies whether to enable mapping of Amazon Web Services Identity and
+Access Management (IAM) accounts to database accounts. By default,
+mapping isn't enabled.
 
 For more information about IAM database authentication, see IAM
 Database Authentication for MySQL and PostgreSQL
@@ -301,12 +361,11 @@ in the I<Amazon RDS User Guide.>
 
 =head2 EnablePerformanceInsights => Bool
 
-A value that indicates whether to enable Performance Insights for the
-DB instance.
+Specifies whether to enable Performance Insights for the DB instance.
 
 For more information, see Using Amazon Performance Insights
 (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PerfInsights.html)
-in the I<Amazon Relational Database Service User Guide>.
+in the I<Amazon RDS User Guide>.
 
 
 
@@ -315,6 +374,37 @@ in the I<Amazon Relational Database Service User Guide>.
 The name of the database engine to be used for this instance.
 
 Valid Values: C<mysql>
+
+
+
+=head2 EngineLifecycleSupport => Str
+
+The life cycle type for this DB instance.
+
+By default, this value is set to C<open-source-rds-extended-support>,
+which enrolls your DB instance into Amazon RDS Extended Support. At the
+end of standard support, you can avoid charges for Extended Support by
+setting the value to C<open-source-rds-extended-support-disabled>. In
+this case, RDS automatically upgrades your restored DB instance to a
+higher engine version, if the major engine version is past its end of
+standard support date.
+
+You can use this setting to enroll your DB instance into Amazon RDS
+Extended Support. With RDS Extended Support, you can run the selected
+major engine version on your DB instance past the end of standard
+support for that engine version. For more information, see Using Amazon
+RDS Extended Support
+(https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html)
+in the I<Amazon RDS User Guide>.
+
+This setting applies only to RDS for MySQL and RDS for PostgreSQL. For
+Amazon Aurora DB instances, the life cycle type is managed by the DB
+cluster.
+
+Valid Values: C<open-source-rds-extended-support |
+open-source-rds-extended-support-disabled>
+
+Default: C<open-source-rds-extended-support>
 
 
 
@@ -330,8 +420,7 @@ versions, see C<CreateDBInstance>, or call C<DescribeDBEngineVersions>.
 
 The amount of Provisioned IOPS (input/output operations per second) to
 allocate initially for the DB instance. For information about valid
-Iops values, see Amazon RDS Provisioned IOPS Storage to Improve
-Performance
+IOPS values, see Amazon RDS Provisioned IOPS storage
 (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Storage.html#USER_PIOPS)
 in the I<Amazon RDS User Guide.>
 
@@ -343,21 +432,45 @@ The Amazon Web Services KMS key identifier for an encrypted DB
 instance.
 
 The Amazon Web Services KMS key identifier is the key ARN, key ID,
-alias ARN, or alias name for the Amazon Web Services KMS customer
-master key (CMK). To use a CMK in a different Amazon Web Services
-account, specify the key ARN or alias ARN.
+alias ARN, or alias name for the KMS key. To use a KMS key in a
+different Amazon Web Services account, specify the key ARN or alias
+ARN.
 
 If the C<StorageEncrypted> parameter is enabled, and you do not specify
 a value for the C<KmsKeyId> parameter, then Amazon RDS will use your
-default CMK. There is a default CMK for your Amazon Web Services
-account. Your Amazon Web Services account has a different default CMK
-for each Amazon Web Services Region.
+default KMS key. There is a default KMS key for your Amazon Web
+Services account. Your Amazon Web Services account has a different
+default KMS key for each Amazon Web Services Region.
 
 
 
 =head2 LicenseModel => Str
 
 The license model for this DB instance. Use C<general-public-license>.
+
+
+
+=head2 ManageMasterUserPassword => Bool
+
+Specifies whether to manage the master user password with Amazon Web
+Services Secrets Manager.
+
+For more information, see Password management with Amazon Web Services
+Secrets Manager
+(https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-secrets-manager.html)
+in the I<Amazon RDS User Guide.>
+
+Constraints:
+
+=over
+
+=item *
+
+Can't manage the master user password with Amazon Web Services Secrets
+Manager if C<MasterUserPassword> is specified.
+
+=back
+
 
 
 
@@ -388,17 +501,87 @@ Can't be a reserved word for the chosen database engine.
 
 =head2 MasterUserPassword => Str
 
-The password for the master user. The password can include any
-printable ASCII character except "/", """, or "@".
+The password for the master user.
 
-Constraints: Must contain from 8 to 41 characters.
+Constraints:
+
+=over
+
+=item *
+
+Can't be specified if C<ManageMasterUserPassword> is turned on.
+
+=item *
+
+Can include any printable ASCII character except "/", """, or "@". For
+RDS for Oracle, can't include the "&" (ampersand) or the "'" (single
+quotes) character.
+
+=back
+
+Length Constraints:
+
+=over
+
+=item *
+
+RDS for Db2 - Must contain from 8 to 128 characters.
+
+=item *
+
+RDS for MariaDB - Must contain from 8 to 41 characters.
+
+=item *
+
+RDS for Microsoft SQL Server - Must contain from 8 to 128 characters.
+
+=item *
+
+RDS for MySQL - Must contain from 8 to 41 characters.
+
+=item *
+
+RDS for Oracle - Must contain from 8 to 30 characters.
+
+=item *
+
+RDS for PostgreSQL - Must contain from 8 to 128 characters.
+
+=back
+
+
+
+
+=head2 MasterUserSecretKmsKeyId => Str
+
+The Amazon Web Services KMS key identifier to encrypt a secret that is
+automatically generated and managed in Amazon Web Services Secrets
+Manager.
+
+This setting is valid only if the master user password is managed by
+RDS in Amazon Web Services Secrets Manager for the DB instance.
+
+The Amazon Web Services KMS key identifier is the key ARN, key ID,
+alias ARN, or alias name for the KMS key. To use a KMS key in a
+different Amazon Web Services account, specify the key ARN or alias
+ARN.
+
+If you don't specify C<MasterUserSecretKmsKeyId>, then the
+C<aws/secretsmanager> KMS key is used to encrypt the secret. If the
+secret is in a different Amazon Web Services account, then you can't
+use the C<aws/secretsmanager> KMS key to encrypt the secret, and you
+must use a customer managed KMS key.
+
+There is a default KMS key for your Amazon Web Services account. Your
+Amazon Web Services account has a different default KMS key for each
+Amazon Web Services Region.
 
 
 
 =head2 MaxAllocatedStorage => Int
 
-The upper limit to which Amazon RDS can automatically scale the storage
-of the DB instance.
+The upper limit in gibibytes (GiB) to which Amazon RDS can
+automatically scale the storage of the DB instance.
 
 For more information about this setting, including limitations that
 apply to it, see Managing capacity automatically with Amazon RDS
@@ -439,9 +622,37 @@ supply a C<MonitoringRoleArn> value.
 
 =head2 MultiAZ => Bool
 
-A value that indicates whether the DB instance is a Multi-AZ
-deployment. If the DB instance is a Multi-AZ deployment, you can't set
-the C<AvailabilityZone> parameter.
+Specifies whether the DB instance is a Multi-AZ deployment. If the DB
+instance is a Multi-AZ deployment, you can't set the
+C<AvailabilityZone> parameter.
+
+
+
+=head2 NetworkType => Str
+
+The network type of the DB instance.
+
+Valid Values:
+
+=over
+
+=item *
+
+C<IPV4>
+
+=item *
+
+C<DUAL>
+
+=back
+
+The network type is determined by the C<DBSubnetGroup> specified for
+the DB instance. A C<DBSubnetGroup> can support only the IPv4 protocol
+or the IPv4 and the IPv6 protocols (C<DUAL>).
+
+For more information, see Working with a DB instance in a VPC
+(https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_VPC.WorkingWithRDSInstanceinaVPC.html)
+in the I<Amazon RDS User Guide.>
 
 
 
@@ -459,20 +670,60 @@ The Amazon Web Services KMS key identifier for encryption of
 Performance Insights data.
 
 The Amazon Web Services KMS key identifier is the key ARN, key ID,
-alias ARN, or alias name for the Amazon Web Services KMS customer
-master key (CMK).
+alias ARN, or alias name for the KMS key.
 
 If you do not specify a value for C<PerformanceInsightsKMSKeyId>, then
-Amazon RDS uses your default CMK. There is a default CMK for your
-Amazon Web Services account. Your Amazon Web Services account has a
-different default CMK for each Amazon Web Services Region.
+Amazon RDS uses your default KMS key. There is a default KMS key for
+your Amazon Web Services account. Your Amazon Web Services account has
+a different default KMS key for each Amazon Web Services Region.
 
 
 
 =head2 PerformanceInsightsRetentionPeriod => Int
 
-The amount of time, in days, to retain Performance Insights data. Valid
-values are 7 or 731 (2 years).
+The number of days to retain Performance Insights data. The default is
+7 days. The following values are valid:
+
+=over
+
+=item *
+
+7
+
+=item *
+
+I<month> * 31, where I<month> is a number of months from 1-23
+
+=item *
+
+731
+
+=back
+
+For example, the following values are valid:
+
+=over
+
+=item *
+
+93 (3 months * 31)
+
+=item *
+
+341 (11 months * 31)
+
+=item *
+
+589 (19 months * 31)
+
+=item *
+
+731
+
+=back
+
+If you specify a retention period such as 94, which isn't a valid
+value, RDS issues an error.
 
 
 
@@ -566,14 +817,15 @@ instance class of the DB instance.
 
 =head2 PubliclyAccessible => Bool
 
-A value that indicates whether the DB instance is publicly accessible.
+Specifies whether the DB instance is publicly accessible.
 
-When the DB instance is publicly accessible, its DNS endpoint resolves
-to the private IP address from within the DB instance's VPC, and to the
-public IP address from outside of the DB instance's VPC. Access to the
-DB instance is ultimately controlled by the security group it uses, and
-that public access is not permitted if the security group assigned to
-the DB instance doesn't permit it.
+When the DB instance is publicly accessible, its Domain Name System
+(DNS) endpoint resolves to the private IP address from within the DB
+instance's virtual private cloud (VPC). It resolves to the public IP
+address from outside of the DB instance's VPC. Access to the DB
+instance is ultimately controlled by the security group it uses. That
+public access is not permitted if the security group assigned to the DB
+instance doesn't permit it.
 
 When the DB instance isn't publicly accessible, it is an internal DB
 instance with a DNS name that resolves to a private IP address.
@@ -591,8 +843,12 @@ file.
 
 =head2 B<REQUIRED> S3IngestionRoleArn => Str
 
-An Amazon Web Services Identity and Access Management (IAM) role to
-allow Amazon RDS to access your Amazon S3 bucket.
+An Amazon Web Services Identity and Access Management (IAM) role with a
+trust policy and a permissions policy that allows Amazon RDS to access
+your Amazon S3 bucket. For information about this role, see Creating an
+IAM role manually
+(https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/MySQL.Procedural.Importing.html#MySQL.Procedural.Importing.Enabling.IAM)
+in the I<Amazon RDS User Guide.>
 
 
 
@@ -622,7 +878,15 @@ Example: C<5.6.40>
 
 =head2 StorageEncrypted => Bool
 
-A value that indicates whether the new DB instance is encrypted or not.
+Specifies whether the new DB instance is encrypted or not.
+
+
+
+=head2 StorageThroughput => Int
+
+Specifies the storage throughput value for the DB instance.
+
+This setting doesn't apply to RDS Custom or Amazon Aurora.
 
 
 
@@ -630,10 +894,10 @@ A value that indicates whether the new DB instance is encrypted or not.
 
 Specifies the storage type to be associated with the DB instance.
 
-Valid values: C<standard> | C<gp2> | C<io1>
+Valid Values: C<gp2 | gp3 | io1 | io2 | standard>
 
-If you specify C<io1>, you must also include a value for the C<Iops>
-parameter.
+If you specify C<io1>, C<io2>, or C<gp3>, you must also include a value
+for the C<Iops> parameter.
 
 Default: C<io1> if the C<Iops> parameter is specified; otherwise C<gp2>
 
@@ -650,8 +914,8 @@ in the I<Amazon RDS User Guide.>
 
 =head2 UseDefaultProcessorFeatures => Bool
 
-A value that indicates whether the DB instance class of the DB instance
-uses its default processor features.
+Specifies whether the DB instance class of the DB instance uses its
+default processor features.
 
 
 

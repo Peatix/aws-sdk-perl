@@ -16,8 +16,8 @@ Paws::ACM::GetAccountConfigurationResponse
 
 =head2 ExpiryEvents => L<Paws::ACM::ExpiryEventsConfiguration>
 
-Expiration events configuration options associated with the AWS
-account.
+Expiration events configuration options associated with the Amazon Web
+Services account.
 
 
 =head2 _request_id => Str

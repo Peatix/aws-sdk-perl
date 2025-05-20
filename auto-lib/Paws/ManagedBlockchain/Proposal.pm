@@ -63,7 +63,7 @@ The actions to perform on the network if the proposal is C<APPROVED>.
 The Amazon Resource Name (ARN) of the proposal. For more information
 about ARNs and their format, see Amazon Resource Names (ARNs)
 (https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
-in the I<AWS General Reference>.
+in the I<Amazon Web Services General Reference>.
 
 
 =head2 CreationDate => Str
@@ -81,9 +81,9 @@ The description of the proposal.
 The date and time that the proposal expires. This is the
 C<CreationDate> plus the C<ProposalDurationInHours> that is specified
 in the C<ProposalThresholdPolicy>. After this date and time, if members
-have not cast enough votes to determine the outcome according to the
-voting policy, the proposal is C<EXPIRED> and C<Actions> are not
-carried out.
+haven't cast enough votes to determine the outcome according to the
+voting policy, the proposal is C<EXPIRED> and C<Actions> aren't carried
+out.
 
 
 =head2 NetworkId => Str
@@ -138,18 +138,18 @@ C<Network>. The specified proposal actions are carried out.
 
 C<REJECTED> - The proposal was rejected with insufficient C<YES> votes
 among members according to the C<VotingPolicy> specified for the
-C<Network>. The specified C<ProposalActions> are not carried out.
+C<Network>. The specified C<ProposalActions> aren't carried out.
 
 =item *
 
-C<EXPIRED> - Members did not cast the number of votes required to
+C<EXPIRED> - Members didn't cast the number of votes required to
 determine the proposal outcome before the proposal expired. The
-specified C<ProposalActions> are not carried out.
+specified C<ProposalActions> aren't carried out.
 
 =item *
 
 C<ACTION_FAILED> - One or more of the specified C<ProposalActions> in a
-proposal that was approved could not be completed because of an error.
+proposal that was approved couldn't be completed because of an error.
 The C<ACTION_FAILED> status occurs even if only one ProposalAction
 fails and other actions are successful.
 

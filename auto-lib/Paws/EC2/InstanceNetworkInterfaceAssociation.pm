@@ -1,6 +1,7 @@
 package Paws::EC2::InstanceNetworkInterfaceAssociation;
   use Moose;
   has CarrierIp => (is => 'ro', isa => 'Str', request_name => 'carrierIp', traits => ['NameInRequest']);
+  has CustomerOwnedIp => (is => 'ro', isa => 'Str', request_name => 'customerOwnedIp', traits => ['NameInRequest']);
   has IpOwnerId => (is => 'ro', isa => 'Str', request_name => 'ipOwnerId', traits => ['NameInRequest']);
   has PublicDnsName => (is => 'ro', isa => 'Str', request_name => 'publicDnsName', traits => ['NameInRequest']);
   has PublicIp => (is => 'ro', isa => 'Str', request_name => 'publicIp', traits => ['NameInRequest']);
@@ -42,6 +43,11 @@ This class has no description
 =head2 CarrierIp => Str
 
 The carrier IP address associated with the network interface.
+
+
+=head2 CustomerOwnedIp => Str
+
+The customer-owned IP address associated with the network interface.
 
 
 =head2 IpOwnerId => Str

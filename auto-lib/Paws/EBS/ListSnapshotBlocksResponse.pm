@@ -26,7 +26,7 @@ An array of objects containing information about the blocks.
 
 =head2 BlockSize => Int
 
-The size of the block.
+The size of the blocks in the snapshot, in bytes.
 
 
 =head2 ExpiryTime => Str

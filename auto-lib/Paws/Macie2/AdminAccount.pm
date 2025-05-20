@@ -35,7 +35,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Macie2::Adm
 =head1 DESCRIPTION
 
 Provides information about the delegated Amazon Macie administrator
-account for an Amazon Web Services organization.
+account for an organization in Organizations.
 
 =head1 ATTRIBUTES
 
@@ -47,8 +47,8 @@ The Amazon Web Services account ID for the account.
 
 =head2 Status => Str
 
-The current status of the account as the delegated administrator of
-Amazon Macie for the organization.
+The current status of the account as the delegated Amazon Macie
+administrator account for the organization.
 
 
 

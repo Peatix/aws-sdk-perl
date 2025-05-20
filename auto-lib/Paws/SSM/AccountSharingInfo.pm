@@ -34,15 +34,16 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SSM::Accoun
 
 =head1 DESCRIPTION
 
-Information includes the AWS account ID where the current document is
-shared and the version shared with that account.
+Information includes the Amazon Web Services account ID where the
+current document is shared and the version shared with that account.
 
 =head1 ATTRIBUTES
 
 
 =head2 AccountId => Str
 
-The AWS account ID where the current document is shared.
+The Amazon Web Services account ID where the current document is
+shared.
 
 
 =head2 SharedDocumentVersion => Str

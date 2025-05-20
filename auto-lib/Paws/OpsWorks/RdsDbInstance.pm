@@ -53,12 +53,12 @@ The instance's address.
 
 =head2 DbInstanceIdentifier => Str
 
-The DB instance identifier.
+The database instance identifier.
 
 
 =head2 DbPassword => Str
 
-AWS OpsWorks Stacks returns C<*****FILTERED*****> instead of the actual
+OpsWorks Stacks returns C<*****FILTERED*****> instead of the actual
 value.
 
 
@@ -74,10 +74,10 @@ The instance's database engine.
 
 =head2 MissingOnRds => Bool
 
-Set to C<true> if AWS OpsWorks Stacks is unable to discover the Amazon
-RDS instance. AWS OpsWorks Stacks attempts to discover the instance
-only once. If this value is set to C<true>, you must deregister the
-instance, and then register it again.
+Set to C<true> if OpsWorks Stacks is unable to discover the Amazon RDS
+instance. OpsWorks Stacks attempts to discover the instance only once.
+If this value is set to C<true>, you must deregister the instance, and
+then register it again.
 
 
 =head2 RdsDbInstanceArn => Str
@@ -87,7 +87,7 @@ The instance's ARN.
 
 =head2 Region => Str
 
-The instance's AWS region.
+The instance's Amazon Web Services Region.
 
 
 =head2 StackId => Str

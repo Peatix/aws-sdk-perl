@@ -20,8 +20,8 @@ Paws::Route53::ListQueryLoggingConfigsResponse
 =head2 NextToken => Str
 
 If a response includes the last of the query logging configurations
-that are associated with the current AWS account, C<NextToken> doesn't
-appear in the response.
+that are associated with the current Amazon Web Services account,
+C<NextToken> doesn't appear in the response.
 
 If a response doesn't include the last of the configurations, you can
 get more configurations by submitting another ListQueryLoggingConfigs
@@ -37,7 +37,7 @@ request.
 An array that contains one QueryLoggingConfig
 (https://docs.aws.amazon.com/Route53/latest/APIReference/API_QueryLoggingConfig.html)
 element for each configuration for DNS query logging that is associated
-with the current AWS account.
+with the current Amazon Web Services account.
 
 
 

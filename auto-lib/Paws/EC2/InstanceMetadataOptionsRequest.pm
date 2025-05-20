@@ -1,8 +1,10 @@
 package Paws::EC2::InstanceMetadataOptionsRequest;
   use Moose;
   has HttpEndpoint => (is => 'ro', isa => 'Str');
+  has HttpProtocolIpv6 => (is => 'ro', isa => 'Str');
   has HttpPutResponseHopLimit => (is => 'ro', isa => 'Int');
   has HttpTokens => (is => 'ro', isa => 'Str');
+  has InstanceMetadataTags => (is => 'ro', isa => 'Str');
 1;
 
 ### main pod documentation begin ###
@@ -22,7 +24,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::EC2::InstanceMetadataOptionsRequest object:
 
-  $service_obj->Method(Att1 => { HttpEndpoint => $value, ..., HttpTokens => $value  });
+  $service_obj->Method(Att1 => { HttpEndpoint => $value, ..., InstanceMetadataTags => $value  });
 
 =head3 Results returned from an API call
 
@@ -40,42 +42,81 @@ This class has no description
 
 =head2 HttpEndpoint => Str
 
-This parameter enables or disables the HTTP metadata endpoint on your
-instances. If the parameter is not specified, the default state is
-C<enabled>.
+Enables or disables the HTTP metadata endpoint on your instances.
 
-If you specify a value of C<disabled>, you will not be able to access
-your instance metadata.
+If you specify a value of C<disabled>, you cannot access your instance
+metadata.
+
+Default: C<enabled>
+
+
+=head2 HttpProtocolIpv6 => Str
+
+Enables or disables the IPv6 endpoint for the instance metadata
+service.
+
+Default: C<disabled>
 
 
 =head2 HttpPutResponseHopLimit => Int
 
-The desired HTTP PUT response hop limit for instance metadata requests.
-The larger the number, the further instance metadata requests can
-travel.
-
-Default: 1
+The maximum number of hops that the metadata token can travel.
 
 Possible values: Integers from 1 to 64
 
 
 =head2 HttpTokens => Str
 
-The state of token usage for your instance metadata requests. If the
-parameter is not specified in the request, the default state is
-C<optional>.
+Indicates whether IMDSv2 is required.
 
-If the state is C<optional>, you can choose to retrieve instance
-metadata with or without a signed token header on your request. If you
-retrieve the IAM role credentials without a token, the version 1.0 role
-credentials are returned. If you retrieve the IAM role credentials
-using a valid signed token, the version 2.0 role credentials are
-returned.
+=over
 
-If the state is C<required>, you must send a signed token header with
-any instance metadata retrieval requests. In this state, retrieving the
-IAM role credentials always returns the version 2.0 credentials; the
-version 1.0 credentials are not available.
+=item *
+
+C<optional> - IMDSv2 is optional, which means that you can use either
+IMDSv2 or IMDSv1.
+
+=item *
+
+C<required> - IMDSv2 is required, which means that IMDSv1 is disabled,
+and you must use IMDSv2.
+
+=back
+
+Default:
+
+=over
+
+=item *
+
+If the value of C<ImdsSupport> for the Amazon Machine Image (AMI) for
+your instance is C<v2.0> and the account level default is set to
+C<no-preference>, the default is C<required>.
+
+=item *
+
+If the value of C<ImdsSupport> for the Amazon Machine Image (AMI) for
+your instance is C<v2.0>, but the account level default is set to C<V1
+or V2>, the default is C<optional>.
+
+=back
+
+The default value can also be affected by other combinations of
+parameters. For more information, see Order of precedence for instance
+metadata options
+(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-options.html#instance-metadata-options-order-of-precedence)
+in the I<Amazon EC2 User Guide>.
+
+
+=head2 InstanceMetadataTags => Str
+
+Set to C<enabled> to allow access to instance tags from the instance
+metadata. Set to C<disabled> to turn off access to instance tags from
+the instance metadata. For more information, see Work with instance
+tags using the instance metadata
+(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html#work-with-tags-in-IMDS).
+
+Default: C<disabled>
 
 
 

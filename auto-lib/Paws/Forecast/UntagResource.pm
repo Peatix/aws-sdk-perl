@@ -45,9 +45,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/for
 =head2 B<REQUIRED> ResourceArn => Str
 
 The Amazon Resource Name (ARN) that identifies the resource for which
-to list the tags. Currently, the supported resources are Forecast
-dataset groups, datasets, dataset import jobs, predictors, forecasts,
-and forecast exports.
+to list the tags.
 
 
 

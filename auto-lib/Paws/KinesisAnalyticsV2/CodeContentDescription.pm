@@ -36,7 +36,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::KinesisAnal
 
 =head1 DESCRIPTION
 
-Describes details about the code of a Kinesis Data Analytics
+Describes details about the code of a Managed Service for Apache Flink
 application.
 
 =head1 ATTRIBUTES

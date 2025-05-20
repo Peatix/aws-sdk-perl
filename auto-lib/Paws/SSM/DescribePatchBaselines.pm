@@ -57,12 +57,32 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ssm
 
 =head2 Filters => ArrayRef[L<Paws::SSM::PatchOrchestratorFilter>]
 
-Each element in the array is a structure containing:
+Each element in the array is a structure containing a key-value pair.
 
-Key: (string, "NAME_PREFIX" or "OWNER")
+Supported keys for C<DescribePatchBaselines> include the following:
 
-Value: (array of strings, exactly 1 entry, between 1 and 255
-characters)
+=over
+
+=item *
+
+B<C<NAME_PREFIX>>
+
+Sample values: C<AWS-> | C<My->
+
+=item *
+
+B<C<OWNER>>
+
+Sample values: C<AWS> | C<Self>
+
+=item *
+
+B<C<OPERATING_SYSTEM>>
+
+Sample values: C<AMAZON_LINUX> | C<SUSE> | C<WINDOWS>
+
+=back
+
 
 
 

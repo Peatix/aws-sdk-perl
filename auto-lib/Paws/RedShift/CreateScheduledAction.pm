@@ -44,11 +44,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
         },    # OPTIONAL
         ResizeCluster => {
-          ClusterIdentifier => 'MyString',    # max: 2147483647
-          Classic           => 1,             # OPTIONAL
-          ClusterType       => 'MyString',    # max: 2147483647
-          NodeType          => 'MyString',    # max: 2147483647
-          NumberOfNodes     => 1,             # OPTIONAL
+          ClusterIdentifier            => 'MyString',    # max: 2147483647
+          Classic                      => 1,             # OPTIONAL
+          ClusterType                  => 'MyString',    # max: 2147483647
+          NodeType                     => 'MyString',    # max: 2147483647
+          NumberOfNodes                => 1,             # OPTIONAL
+          ReservedNodeId               => 'MyString',    # max: 2147483647
+          TargetReservedNodeOfferingId => 'MyString',    # max: 2147483647
         },    # OPTIONAL
         ResumeCluster => {
           ClusterIdentifier => 'MyString',    # max: 2147483647

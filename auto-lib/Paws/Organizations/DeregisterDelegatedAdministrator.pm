@@ -49,13 +49,14 @@ you want to deregister as a delegated administrator.
 
 =head2 B<REQUIRED> ServicePrincipal => Str
 
-The service principal name of an AWS service for which the account is a
-delegated administrator.
+The service principal name of an Amazon Web Services service for which
+the account is a delegated administrator.
 
 Delegated administrator privileges are revoked for only the specified
-AWS service from the member account. If the specified service is the
-only service for which the member account is a delegated administrator,
-the operation also revokes Organizations read action permissions.
+Amazon Web Services service from the member account. If the specified
+service is the only service for which the member account is a delegated
+administrator, the operation also revokes Organizations read action
+permissions.
 
 
 

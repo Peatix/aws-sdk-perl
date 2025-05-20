@@ -1,6 +1,7 @@
 
 package Paws::Rekognition::GetCelebrityInfoResponse;
   use Moose;
+  has KnownGender => (is => 'ro', isa => 'Paws::Rekognition::KnownGender');
   has Name => (is => 'ro', isa => 'Str');
   has Urls => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
 
@@ -13,6 +14,11 @@ package Paws::Rekognition::GetCelebrityInfoResponse;
 Paws::Rekognition::GetCelebrityInfoResponse
 
 =head1 ATTRIBUTES
+
+
+=head2 KnownGender => L<Paws::Rekognition::KnownGender>
+
+Retrieves the known gender for the celebrity.
 
 
 =head2 Name => Str

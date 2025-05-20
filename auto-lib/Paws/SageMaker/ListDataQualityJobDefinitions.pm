@@ -111,7 +111,8 @@ Valid values are: C<"Name">, C<"CreationTime">
 
 =head2 SortOrder => Str
 
-The sort order for results. The default is C<Descending>.
+Whether to sort the results in C<Ascending> or C<Descending> order. The
+default is C<Descending>.
 
 Valid values are: C<"Ascending">, C<"Descending">
 

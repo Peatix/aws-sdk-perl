@@ -50,7 +50,7 @@ The metric specification for the load forecast.
 
 =head2 B<REQUIRED> Timestamps => ArrayRef[Str|Undef]
 
-The time stamps for the data points, in UTC format.
+The timestamps for the data points, in UTC format.
 
 
 =head2 B<REQUIRED> Values => ArrayRef[Num]

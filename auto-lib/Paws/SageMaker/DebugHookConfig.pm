@@ -36,11 +36,11 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SageMaker::
 
 =head1 DESCRIPTION
 
-Configuration information for the Debugger hook parameters, metric and
-tensor collections, and storage paths. To learn more about how to
-configure the C<DebugHookConfig> parameter, see Use the SageMaker and
-Debugger Configuration API Operations to Create, Update, and Debug Your
-Training Job
+Configuration information for the Amazon SageMaker Debugger hook
+parameters, metric and tensor collections, and storage paths. To learn
+more about how to configure the C<DebugHookConfig> parameter, see Use
+the SageMaker and Debugger Configuration API Operations to Create,
+Update, and Debug Your Training Job
 (https://docs.aws.amazon.com/sagemaker/latest/dg/debugger-createtrainingjob-api.html).
 
 =head1 ATTRIBUTES
@@ -48,16 +48,18 @@ Training Job
 
 =head2 CollectionConfigurations => ArrayRef[L<Paws::SageMaker::CollectionConfiguration>]
 
-Configuration information for Debugger tensor collections. To learn
-more about how to configure the C<CollectionConfiguration> parameter,
-see Use the SageMaker and Debugger Configuration API Operations to
-Create, Update, and Debug Your Training Job
+Configuration information for Amazon SageMaker Debugger tensor
+collections. To learn more about how to configure the
+C<CollectionConfiguration> parameter, see Use the SageMaker and
+Debugger Configuration API Operations to Create, Update, and Debug Your
+Training Job
 (https://docs.aws.amazon.com/sagemaker/latest/dg/debugger-createtrainingjob-api.html).
 
 
 =head2 HookParameters => L<Paws::SageMaker::HookParameters>
 
-Configuration information for the Debugger hook parameters.
+Configuration information for the Amazon SageMaker Debugger hook
+parameters.
 
 
 =head2 LocalPath => Str

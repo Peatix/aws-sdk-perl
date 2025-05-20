@@ -76,7 +76,7 @@ For TCP or UDP protocols, the range of ports that the rule applies to.
 =head2 Protocol => Str
 
 The protocol that the rule applies to. To deny or allow access to all
-protocols, use the value -1.
+protocols, use the value C<-1>.
 
 
 =head2 RuleAction => Str

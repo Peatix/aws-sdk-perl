@@ -23,7 +23,7 @@ The list of user activity for the control.
 
 =head2 NextToken => Str
 
-The pagination token used to fetch the next set of results.
+The pagination token that's used to fetch the next set of results.
 
 
 =head2 _request_id => Str

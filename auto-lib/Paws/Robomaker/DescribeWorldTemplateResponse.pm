@@ -7,6 +7,7 @@ package Paws::Robomaker::DescribeWorldTemplateResponse;
   has LastUpdatedAt => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'lastUpdatedAt');
   has Name => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'name');
   has Tags => (is => 'ro', isa => 'Paws::Robomaker::TagMap', traits => ['NameInRequest'], request_name => 'tags');
+  has Version => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'version');
 
   has _request_id => (is => 'ro', isa => 'Str');
 1;
@@ -52,6 +53,11 @@ The name of the world template.
 
 A map that contains tag keys and tag values that are attached to the
 world template.
+
+
+=head2 Version => Str
+
+The version of the world template that you're using.
 
 
 =head2 _request_id => Str

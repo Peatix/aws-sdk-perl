@@ -5,6 +5,7 @@ package Paws::Batch::AttemptDetail;
   has StartedAt => (is => 'ro', isa => 'Int', request_name => 'startedAt', traits => ['NameInRequest']);
   has StatusReason => (is => 'ro', isa => 'Str', request_name => 'statusReason', traits => ['NameInRequest']);
   has StoppedAt => (is => 'ro', isa => 'Int', request_name => 'stoppedAt', traits => ['NameInRequest']);
+  has TaskProperties => (is => 'ro', isa => 'ArrayRef[Paws::Batch::AttemptEcsTaskDetails]', request_name => 'taskProperties', traits => ['NameInRequest']);
 
 1;
 
@@ -25,7 +26,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::Batch::AttemptDetail object:
 
-  $service_obj->Method(Att1 => { Container => $value, ..., StoppedAt => $value  });
+  $service_obj->Method(Att1 => { Container => $value, ..., TaskProperties => $value  });
 
 =head3 Results returned from an API call
 
@@ -36,14 +37,14 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Batch::Atte
 
 =head1 DESCRIPTION
 
-An object representing a job attempt.
+An object that represents a job attempt.
 
 =head1 ATTRIBUTES
 
 
 =head2 Container => L<Paws::Batch::AttemptContainerDetail>
 
-Details about the container in this job attempt.
+The details for the container in this job attempt.
 
 
 =head2 StartedAt => Int
@@ -55,7 +56,7 @@ C<RUNNING> state).
 
 =head2 StatusReason => Str
 
-A short, human-readable string to provide additional details about the
+A short, human-readable string to provide additional details for the
 current status of the job attempt.
 
 
@@ -64,6 +65,12 @@ current status of the job attempt.
 The Unix timestamp (in milliseconds) for when the attempt was stopped
 (when the attempt transitioned from the C<RUNNING> state to a terminal
 state, such as C<SUCCEEDED> or C<FAILED>).
+
+
+=head2 TaskProperties => ArrayRef[L<Paws::Batch::AttemptEcsTaskDetails>]
+
+The properties for a task definition that describes the container and
+volume definitions of an Amazon ECS task.
 
 
 

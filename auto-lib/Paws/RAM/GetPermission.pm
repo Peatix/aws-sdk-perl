@@ -47,13 +47,24 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ram
 
 =head2 B<REQUIRED> PermissionArn => Str
 
-The ARN of the permission.
+Specifies the Amazon Resource Name (ARN)
+(https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+of the permission whose contents you want to retrieve. To find the ARN
+for a permission, use either the ListPermissions operation or go to the
+Permissions library
+(https://console.aws.amazon.com/ram/home#Permissions:) page in the RAM
+console and then choose the name of the permission. The ARN is
+displayed on the detail page.
 
 
 
 =head2 PermissionVersion => Int
 
-The identifier for the version of the permission.
+Specifies the version number of the RAM permission to retrieve. If you
+don't specify this parameter, the operation retrieves the default
+version.
+
+To see the list of available versions, use ListPermissionVersions.
 
 
 

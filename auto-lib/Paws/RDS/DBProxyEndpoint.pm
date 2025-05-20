@@ -87,10 +87,10 @@ application.
 
 =head2 IsDefault => Bool
 
-A value that indicates whether this endpoint is the default endpoint
-for the associated DB proxy. Default DB proxy endpoints always have
-read/write capability. Other endpoints that you associate with the DB
-proxy can be either read/write or read-only.
+Indicates whether this endpoint is the default endpoint for the
+associated DB proxy. Default DB proxy endpoints always have read/write
+capability. Other endpoints that you associate with the DB proxy can be
+either read/write or read-only.
 
 
 =head2 Status => Str

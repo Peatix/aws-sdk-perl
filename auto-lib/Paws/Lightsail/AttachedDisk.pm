@@ -42,7 +42,7 @@ included in an automatic snapshot.
 
 =head2 Path => Str
 
-The path of the disk (e.g., C</dev/xvdf>).
+The path of the disk (C</dev/xvdf>).
 
 
 =head2 SizeInGb => Int

@@ -11,6 +11,8 @@ package Paws::LookoutEquipment::InferenceExecutionSummary;
   has InferenceSchedulerName => (is => 'ro', isa => 'Str');
   has ModelArn => (is => 'ro', isa => 'Str');
   has ModelName => (is => 'ro', isa => 'Str');
+  has ModelVersion => (is => 'ro', isa => 'Int');
+  has ModelVersionArn => (is => 'ro', isa => 'Str');
   has ScheduledStartTime => (is => 'ro', isa => 'Str');
   has Status => (is => 'ro', isa => 'Str');
 
@@ -53,7 +55,7 @@ status, and so on.
 
 =head2 CustomerResultObject => L<Paws::LookoutEquipment::S3Object>
 
-
+The S3 object that the inference execution results were uploaded to.
 
 
 =head2 DataEndTime => Str
@@ -71,7 +73,7 @@ inference scheduler, including delimiter, format, and dataset location.
 =head2 DataOutputConfiguration => L<Paws::LookoutEquipment::InferenceOutputConfiguration>
 
 Specifies configuration information for the output results from for the
-inference execution, including the output S3 location.
+inference execution, including the output Amazon S3 location.
 
 
 =head2 DataStartTime => Str
@@ -100,13 +102,25 @@ execution.
 
 =head2 ModelArn => Str
 
-The Amazon Resource Name (ARN) of the ML model used for the inference
-execution.
+The Amazon Resource Name (ARN) of the machine learning model used for
+the inference execution.
 
 
 =head2 ModelName => Str
 
-The name of the ML model being used for the inference execution.
+The name of the machine learning model being used for the inference
+execution.
+
+
+=head2 ModelVersion => Int
+
+The model version used for the inference execution.
+
+
+=head2 ModelVersionArn => Str
+
+The Amazon Resource Number (ARN) of the model version used for the
+inference execution.
 
 
 =head2 ScheduledStartTime => Str

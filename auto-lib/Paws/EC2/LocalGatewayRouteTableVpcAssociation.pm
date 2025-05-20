@@ -66,8 +66,8 @@ The ID of the association.
 
 =head2 OwnerId => Str
 
-The AWS account ID that owns the local gateway route table for the
-association.
+The ID of the Amazon Web Services account that owns the local gateway
+route table for the association.
 
 
 =head2 State => Str

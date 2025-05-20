@@ -33,9 +33,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     );
 
     # Results:
-    my $AutoEnableControls = $DescribeHubResponse->AutoEnableControls;
-    my $HubArn             = $DescribeHubResponse->HubArn;
-    my $SubscribedAt       = $DescribeHubResponse->SubscribedAt;
+    my $AutoEnableControls      = $DescribeHubResponse->AutoEnableControls;
+    my $ControlFindingGenerator = $DescribeHubResponse->ControlFindingGenerator;
+    my $HubArn                  = $DescribeHubResponse->HubArn;
+    my $SubscribedAt            = $DescribeHubResponse->SubscribedAt;
 
     # Returns a L<Paws::SecurityHub::DescribeHubResponse> object.
 

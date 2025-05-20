@@ -36,7 +36,10 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AccessAnaly
 
 =head1 DESCRIPTION
 
-The criteria to use in the filter that defines the archive rule.
+The criteria to use in the filter that defines the archive rule. For
+more information on available filter keys, see IAM Access Analyzer
+filter keys
+(https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-filter-keys.html).
 
 =head1 ATTRIBUTES
 

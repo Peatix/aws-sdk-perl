@@ -4,6 +4,7 @@ package Paws::Personalize::SolutionSummary;
   has CreationDateTime => (is => 'ro', isa => 'Str', request_name => 'creationDateTime', traits => ['NameInRequest']);
   has LastUpdatedDateTime => (is => 'ro', isa => 'Str', request_name => 'lastUpdatedDateTime', traits => ['NameInRequest']);
   has Name => (is => 'ro', isa => 'Str', request_name => 'name', traits => ['NameInRequest']);
+  has RecipeArn => (is => 'ro', isa => 'Str', request_name => 'recipeArn', traits => ['NameInRequest']);
   has SolutionArn => (is => 'ro', isa => 'Str', request_name => 'solutionArn', traits => ['NameInRequest']);
   has Status => (is => 'ro', isa => 'Str', request_name => 'status', traits => ['NameInRequest']);
 
@@ -38,7 +39,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Personalize
 =head1 DESCRIPTION
 
 Provides a summary of the properties of a solution. For a complete
-listing, call the DescribeSolution API.
+listing, call the DescribeSolution
+(https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeSolution.html)
+API.
 
 =head1 ATTRIBUTES
 
@@ -56,6 +59,11 @@ The date and time (in Unix time) that the solution was last updated.
 =head2 Name => Str
 
 The name of the solution.
+
+
+=head2 RecipeArn => Str
+
+The Amazon Resource Name (ARN) of the recipe used by the solution.
 
 
 =head2 SolutionArn => Str

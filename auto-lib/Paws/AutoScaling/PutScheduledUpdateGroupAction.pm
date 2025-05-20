@@ -69,11 +69,15 @@ after the scheduled action runs and the capacity it attempts to
 maintain. It can scale beyond this capacity if you add more scaling
 conditions.
 
+You must specify at least one of the following properties: C<MaxSize>,
+C<MinSize>, or C<DesiredCapacity>.
+
 
 
 =head2 EndTime => Str
 
-The date and time for the recurring schedule to end, in UTC.
+The date and time for the recurring schedule to end, in UTC. For
+example, C<"2021-06-01T00:00:00Z">.
 
 
 
@@ -114,20 +118,17 @@ The name of this scaling action.
 
 The date and time for this action to start, in YYYY-MM-DDThh:mm:ssZ
 format in UTC/GMT only and in quotes (for example,
-C<"2019-06-01T00:00:00Z">).
+C<"2021-06-01T00:00:00Z">).
 
 If you specify C<Recurrence> and C<StartTime>, Amazon EC2 Auto Scaling
 performs the action at this time, and then performs the action based on
 the specified recurrence.
 
-If you try to schedule your action in the past, Amazon EC2 Auto Scaling
-returns an error message.
-
 
 
 =head2 Time => Str
 
-This parameter is no longer used.
+This property is no longer used.
 
 
 

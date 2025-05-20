@@ -2,6 +2,8 @@
 package Paws::SageMaker::SourceAlgorithm;
   use Moose;
   has AlgorithmName => (is => 'ro', isa => 'Str', required => 1);
+  has ModelDataETag => (is => 'ro', isa => 'Str');
+  has ModelDataSource => (is => 'ro', isa => 'Paws::SageMaker::ModelDataSource');
   has ModelDataUrl => (is => 'ro', isa => 'Str');
 
 1;
@@ -35,7 +37,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SageMaker::
 =head1 DESCRIPTION
 
 Specifies an algorithm that was used to create the model package. The
-algorithm must be either an algorithm resource in your Amazon SageMaker
+algorithm must be either an algorithm resource in your SageMaker
 account or an algorithm in Amazon Web Services Marketplace that you are
 subscribed to.
 
@@ -45,9 +47,20 @@ subscribed to.
 =head2 B<REQUIRED> AlgorithmName => Str
 
 The name of an algorithm that was used to create the model package. The
-algorithm must be either an algorithm resource in your Amazon SageMaker
+algorithm must be either an algorithm resource in your SageMaker
 account or an algorithm in Amazon Web Services Marketplace that you are
 subscribed to.
+
+
+=head2 ModelDataETag => Str
+
+The ETag associated with Model Data URL.
+
+
+=head2 ModelDataSource => L<Paws::SageMaker::ModelDataSource>
+
+Specifies the location of ML model data to deploy during endpoint
+creation.
 
 
 =head2 ModelDataUrl => Str
@@ -56,8 +69,8 @@ The Amazon S3 path where the model artifacts, which result from model
 training, are stored. This path must point to a single C<gzip>
 compressed tar archive (C<.tar.gz> suffix).
 
-The model artifacts must be in an S3 bucket that is in the same region
-as the algorithm.
+The model artifacts must be in an S3 bucket that is in the same Amazon
+Web Services region as the algorithm.
 
 
 

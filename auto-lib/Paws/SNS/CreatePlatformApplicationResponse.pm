@@ -17,7 +17,7 @@ Paws::SNS::CreatePlatformApplicationResponse
 
 =head2 PlatformApplicationArn => Str
 
-PlatformApplicationArn is returned.
+C<PlatformApplicationArn> is returned.
 
 
 =head2 _request_id => Str

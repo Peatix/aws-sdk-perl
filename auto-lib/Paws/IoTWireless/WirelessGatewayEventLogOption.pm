@@ -34,9 +34,11 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::IoTWireless
 
 =head1 DESCRIPTION
 
-The log option for a wireless gateway event. Can be used to set log
-level for a specific wireless gateway event. For a LoRaWAN gateway, the
-possible events for a log message are: CUPS_Request, Certificate.
+The log options for a wireless gateway event and can be used to set log
+levels for a specific wireless gateway event.
+
+For a LoRaWAN gateway, possible events for a log message are
+C<CUPS_Request> and C<Certificate>.
 
 =head1 ATTRIBUTES
 

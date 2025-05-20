@@ -10,6 +10,10 @@ package Paws::Route53Resolver::ResolverEndpoint;
   has IpAddressCount => (is => 'ro', isa => 'Int');
   has ModificationTime => (is => 'ro', isa => 'Str');
   has Name => (is => 'ro', isa => 'Str');
+  has OutpostArn => (is => 'ro', isa => 'Str');
+  has PreferredInstanceType => (is => 'ro', isa => 'Str');
+  has Protocols => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has ResolverEndpointType => (is => 'ro', isa => 'Str');
   has SecurityGroupIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has Status => (is => 'ro', isa => 'Str');
   has StatusMessage => (is => 'ro', isa => 'Str');
@@ -50,9 +54,8 @@ DeleteResolverEndpoint
 (https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_DeleteResolverEndpoint.html),
 GetResolverEndpoint
 (https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_GetResolverEndpoint.html),
-ListResolverEndpoints
-(https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_ListResolverEndpoints.html),
-or UpdateResolverEndpoint
+Updates the name, or ResolverEndpointType for an endpoint, or
+UpdateResolverEndpoint
 (https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_UpdateResolverEndpoint.html)
 request, a complex type that contains settings for an existing inbound
 or outbound Resolver endpoint.
@@ -125,6 +128,80 @@ The name that you assigned to the Resolver endpoint when you submitted
 a CreateResolverEndpoint
 (https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_CreateResolverEndpoint.html)
 request.
+
+
+=head2 OutpostArn => Str
+
+The ARN (Amazon Resource Name) for the Outpost.
+
+
+=head2 PreferredInstanceType => Str
+
+The Amazon EC2 instance type.
+
+
+=head2 Protocols => ArrayRef[Str|Undef]
+
+Protocols used for the endpoint. DoH-FIPS is applicable for inbound
+endpoints only.
+
+For an inbound endpoint you can apply the protocols as follows:
+
+=over
+
+=item *
+
+Do53 and DoH in combination.
+
+=item *
+
+Do53 and DoH-FIPS in combination.
+
+=item *
+
+Do53 alone.
+
+=item *
+
+DoH alone.
+
+=item *
+
+DoH-FIPS alone.
+
+=item *
+
+None, which is treated as Do53.
+
+=back
+
+For an outbound endpoint you can apply the protocols as follows:
+
+=over
+
+=item *
+
+Do53 and DoH in combination.
+
+=item *
+
+Do53 alone.
+
+=item *
+
+DoH alone.
+
+=item *
+
+None, which is treated as Do53.
+
+=back
+
+
+
+=head2 ResolverEndpointType => Str
+
+The Resolver endpoint IP address type.
 
 
 =head2 SecurityGroupIds => ArrayRef[Str|Undef]

@@ -23,8 +23,8 @@ the next call.)
 
 =head2 WindowIdentities => ArrayRef[L<Paws::SSM::MaintenanceWindowIdentityForTarget>]
 
-Information about the maintenance window targets and tasks an instance
-is associated with.
+Information about the maintenance window targets and tasks a managed
+node is associated with.
 
 
 =head2 _request_id => Str

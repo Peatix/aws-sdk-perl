@@ -100,8 +100,7 @@ deleted table to the state it was in just before the point of deletion.
 
 =item *
 
-C<AWS_BACKUP> - On-demand backup created by you from AWS Backup
-service.
+C<AWS_BACKUP> - On-demand backup created by you from Backup service.
 
 =back
 

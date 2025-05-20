@@ -19,7 +19,7 @@ Paws::SageMakerFeatureStoreRuntime::BatchGetRecordResponse
 
 =head2 B<REQUIRED> Errors => ArrayRef[L<Paws::SageMakerFeatureStoreRuntime::BatchGetRecordError>]
 
-A list of errors that have occured when retrieving a batch of Records.
+A list of errors that have occurred when retrieving a batch of Records.
 
 
 =head2 B<REQUIRED> Records => ArrayRef[L<Paws::SageMakerFeatureStoreRuntime::BatchGetRecordResultDetail>]

@@ -40,7 +40,8 @@ The connector metadata specific to Snowflake.
 
 =head2 SupportedRegions => ArrayRef[Str|Undef]
 
-Specifies the supported AWS Regions when using Snowflake.
+Specifies the supported Amazon Web Services Regions when using
+Snowflake.
 
 
 

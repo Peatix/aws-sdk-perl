@@ -41,8 +41,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Organizatio
 =head1 DESCRIPTION
 
 Contains the status about a CreateAccount or CreateGovCloudAccount
-request to create an AWS account or an AWS GovCloud (US) account in an
-organization.
+request to create an Amazon Web Services account or an Amazon Web
+Services GovCloud (US) account in an organization.
 
 =head1 ATTRIBUTES
 
@@ -86,24 +86,24 @@ the same information.
 =item *
 
 EMAIL_ALREADY_EXISTS: The account could not be created because another
-AWS account with that email address already exists.
+Amazon Web Services account with that email address already exists.
 
 =item *
 
-FAILED_BUSINESS_VALIDATION: The AWS account that owns your organization
-failed to receive business license validation.
+FAILED_BUSINESS_VALIDATION: The Amazon Web Services account that owns
+your organization failed to receive business license validation.
 
 =item *
 
-GOVCLOUD_ACCOUNT_ALREADY_EXISTS: The account in the AWS GovCloud (US)
-Region could not be created because this Region already includes an
-account with that email address.
+GOVCLOUD_ACCOUNT_ALREADY_EXISTS: The account in the Amazon Web Services
+GovCloud (US) Region could not be created because this Region already
+includes an account with that email address.
 
 =item *
 
-IDENTITY_INVALID_BUSINESS_VALIDATION: The AWS account that owns your
-organization can't complete business license validation because it
-doesn't have valid identity data.
+IDENTITY_INVALID_BUSINESS_VALIDATION: The Amazon Web Services account
+that owns your organization can't complete business license validation
+because it doesn't have valid identity data.
 
 =item *
 
@@ -117,14 +117,23 @@ address you provided is not valid.
 
 =item *
 
-INTERNAL_FAILURE: The account could not be created because of an
-internal failure. Try again later. If the problem persists, contact AWS
-Customer Support.
+INVALID_PAYMENT_INSTRUMENT: The Amazon Web Services account that owns
+your organization does not have a supported payment method associated
+with the account. Amazon Web Services does not support cards issued by
+financial institutions in Russia or Belarus. For more information, see
+Managing your Amazon Web Services payments
+(https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/manage-general.html).
 
 =item *
 
-MISSING_BUSINESS_VALIDATION: The AWS account that owns your
-organization has not received Business Validation.
+INTERNAL_FAILURE: The account could not be created because of an
+internal failure. Try again later. If the problem persists, contact
+Amazon Web Services Customer Support.
+
+=item *
+
+MISSING_BUSINESS_VALIDATION: The Amazon Web Services account that owns
+your organization has not received Business Validation.
 
 =item *
 
@@ -133,14 +142,15 @@ with a valid payment method, such as a credit card.
 
 =item *
 
-PENDING_BUSINESS_VALIDATION: The AWS account that owns your
-organization is still in the process of completing business license
-validation.
+PENDING_BUSINESS_VALIDATION: The Amazon Web Services account that owns
+your organization is still in the process of completing business
+license validation.
 
 =item *
 
-UNKNOWN_BUSINESS_VALIDATION: The AWS account that owns your
-organization has an unknown issue with business license validation.
+UNKNOWN_BUSINESS_VALIDATION: The Amazon Web Services account that owns
+your organization has an unknown issue with business license
+validation.
 
 =back
 
@@ -149,7 +159,7 @@ organization has an unknown issue with business license validation.
 =head2 GovCloudAccountId => Str
 
 If the account was created successfully, the unique identifier (ID) of
-the new account in the AWS GovCloud (US) Region.
+the new account in the Amazon Web Services GovCloud (US) Region.
 
 
 =head2 Id => Str
@@ -170,7 +180,8 @@ The date and time that the request was made for the account creation.
 
 =head2 State => Str
 
-The status of the asynchronous request to create an AWS account.
+The status of the asynchronous request to create an Amazon Web Services
+account.
 
 
 

@@ -34,7 +34,38 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SSM::Mainte
 
 =head1 DESCRIPTION
 
-Filter used in the request. Supported filter keys are Name and Enabled.
+Filter used in the request. Supported filter keys depend on the API
+operation that includes the filter. API operations that use
+C<MaintenanceWindowFilterE<gt>> include the following:
+
+=over
+
+=item *
+
+DescribeMaintenanceWindowExecutions
+
+=item *
+
+DescribeMaintenanceWindowExecutionTaskInvocations
+
+=item *
+
+DescribeMaintenanceWindowExecutionTasks
+
+=item *
+
+DescribeMaintenanceWindows
+
+=item *
+
+DescribeMaintenanceWindowTargets
+
+=item *
+
+DescribeMaintenanceWindowTasks
+
+=back
+
 
 =head1 ATTRIBUTES
 

@@ -35,19 +35,19 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ECS::Servic
 
 =head1 DESCRIPTION
 
-Details on an event associated with a service.
+The details for an event that's associated with a service.
 
 =head1 ATTRIBUTES
 
 
 =head2 CreatedAt => Str
 
-The Unix timestamp for when the event was triggered.
+The Unix timestamp for the time when the event was triggered.
 
 
 =head2 Id => Str
 
-The ID string of the event.
+The ID string for the event.
 
 
 =head2 Message => Str

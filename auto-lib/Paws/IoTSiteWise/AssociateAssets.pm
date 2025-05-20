@@ -32,9 +32,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $iotsitewise = Paws->service('IoTSiteWise');
     $iotsitewise->AssociateAssets(
-      AssetId      => 'MyID',
-      ChildAssetId => 'MyID',
-      HierarchyId  => 'MyID',
+      AssetId      => 'MyCustomID',
+      ChildAssetId => 'MyCustomID',
+      HierarchyId  => 'MyCustomID',
       ClientToken  => 'MyClientToken',    # OPTIONAL
     );
 
@@ -46,13 +46,22 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/iot
 
 =head2 B<REQUIRED> AssetId => Str
 
-The ID of the parent asset.
+The ID of the parent asset. This can be either the actual ID in UUID
+format, or else C<externalId:> followed by the external ID, if it has
+one. For more information, see Referencing objects with external IDs
+(https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references)
+in the I<IoT SiteWise User Guide>.
 
 
 
 =head2 B<REQUIRED> ChildAssetId => Str
 
-The ID of the child asset to be associated.
+The ID of the child asset to be associated. This can be either the
+actual ID in UUID format, or else C<externalId:> followed by the
+external ID, if it has one. For more information, see Referencing
+objects with external IDs
+(https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references)
+in the I<IoT SiteWise User Guide>.
 
 
 
@@ -66,11 +75,16 @@ idempotent request is required.
 
 =head2 B<REQUIRED> HierarchyId => Str
 
-The ID of a hierarchy in the parent asset's model. Hierarchies allow
-different groupings of assets to be formed that all come from the same
-asset model. For more information, see Asset hierarchies
+The ID of a hierarchy in the parent asset's model. (This can be either
+the actual ID in UUID format, or else C<externalId:> followed by the
+external ID, if it has one. For more information, see Referencing
+objects with external IDs
+(https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references)
+in the I<IoT SiteWise User Guide>.) Hierarchies allow different
+groupings of assets to be formed that all come from the same asset
+model. For more information, see Asset hierarchies
 (https://docs.aws.amazon.com/iot-sitewise/latest/userguide/asset-hierarchies.html)
-in the I<AWS IoT SiteWise User Guide>.
+in the I<IoT SiteWise User Guide>.
 
 
 

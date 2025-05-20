@@ -31,6 +31,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $UpdateServiceIntegrationResponse =
       $devops -guru->UpdateServiceIntegration(
       ServiceIntegration => {
+        KMSServerSideEncryption => {
+          KMSKeyId    => 'MyKMSKeyId',    # min: 1, max: 2048; OPTIONAL
+          OptInStatus => 'ENABLED',       # values: ENABLED, DISABLED; OPTIONAL
+          Type        => 'CUSTOMER_MANAGED_KEY'
+          ,    # values: CUSTOMER_MANAGED_KEY, AWS_OWNED_KMS_KEY; OPTIONAL
+        },    # OPTIONAL
+        LogsAnomalyDetection => {
+          OptInStatus => 'ENABLED',    # values: ENABLED, DISABLED; OPTIONAL
+        },    # OPTIONAL
         OpsCenter => {
           OptInStatus => 'ENABLED',    # values: ENABLED, DISABLED; OPTIONAL
         },    # OPTIONAL

@@ -34,7 +34,30 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SSM::PatchO
 
 =head1 DESCRIPTION
 
-Defines a filter used in Patch Manager APIs.
+Defines a filter used in Patch Manager APIs. Supported filter keys
+depend on the API operation that includes the filter. Patch Manager API
+operations that use C<PatchOrchestratorFilter> include the following:
+
+=over
+
+=item *
+
+DescribeAvailablePatches
+
+=item *
+
+DescribeInstancePatches
+
+=item *
+
+DescribePatchBaselines
+
+=item *
+
+DescribePatchGroups
+
+=back
+
 
 =head1 ATTRIBUTES
 

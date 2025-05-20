@@ -1,6 +1,7 @@
 package Paws::EC2::LaunchTemplateOverrides;
   use Moose;
   has AvailabilityZone => (is => 'ro', isa => 'Str', request_name => 'availabilityZone', traits => ['NameInRequest']);
+  has InstanceRequirements => (is => 'ro', isa => 'Paws::EC2::InstanceRequirements', request_name => 'instanceRequirements', traits => ['NameInRequest']);
   has InstanceType => (is => 'ro', isa => 'Str', request_name => 'instanceType', traits => ['NameInRequest']);
   has Priority => (is => 'ro', isa => 'Num', request_name => 'priority', traits => ['NameInRequest']);
   has SpotPrice => (is => 'ro', isa => 'Str', request_name => 'spotPrice', traits => ['NameInRequest']);
@@ -46,6 +47,18 @@ This class has no description
 The Availability Zone in which to launch the instances.
 
 
+=head2 InstanceRequirements => L<Paws::EC2::InstanceRequirements>
+
+The instance requirements. When you specify instance requirements,
+Amazon EC2 will identify instance types with the provided requirements,
+and then use your On-Demand and Spot allocation strategies to launch
+instances from these instance types, in the same way as when you
+specify a list of instance types.
+
+If you specify C<InstanceRequirements>, you can't specify
+C<InstanceType>.
+
+
 =head2 InstanceType => Str
 
 The instance type.
@@ -74,7 +87,12 @@ different launch template overrides.
 =head2 SpotPrice => Str
 
 The maximum price per unit hour that you are willing to pay for a Spot
-Instance.
+Instance. We do not recommend using this parameter because it can lead
+to increased interruptions. If you do not specify this parameter, you
+will pay the current Spot price.
+
+If you specify a maximum price, your instances will be interrupted more
+frequently than if you do not specify this parameter.
 
 
 =head2 SubnetId => Str
@@ -84,7 +102,21 @@ The ID of the subnet in which to launch the instances.
 
 =head2 WeightedCapacity => Num
 
-The number of units provided by the specified instance type.
+The number of units provided by the specified instance type. These are
+the same units that you chose to set the target capacity in terms of
+instances, or a performance characteristic such as vCPUs, memory, or
+I/O.
+
+If the target capacity divided by this value is not a whole number,
+Amazon EC2 rounds the number of instances to the next whole number. If
+this value is not specified, the default is 1.
+
+When specifying weights, the price used in the C<lowestPrice> and
+C<priceCapacityOptimized> allocation strategies is per I<unit> hour
+(where the instance price is divided by the specified weight). However,
+if all the specified weights are above the requested C<TargetCapacity>,
+resulting in only 1 instance being launched, the price used is per
+I<instance> hour.
 
 
 

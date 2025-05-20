@@ -49,7 +49,9 @@ Valid values are: C<"RETAIL">, C<"CUSTOM">, C<"INVENTORY_PLANNING">, C<"EC2_CAPA
 =head2 LastModificationTime => Str
 
 When the dataset group was created or last updated from a call to the
-UpdateDatasetGroup operation. While the dataset group is being updated,
+UpdateDatasetGroup
+(https://docs.aws.amazon.com/forecast/latest/dg/API_UpdateDatasetGroup.html)
+operation. While the dataset group is being updated,
 C<LastModificationTime> is the current time of the
 C<DescribeDatasetGroup> call.
 
@@ -79,6 +81,7 @@ C<UPDATE_PENDING>, C<UPDATE_IN_PROGRESS>, C<UPDATE_FAILED>
 =back
 
 The C<UPDATE> states apply when you call the UpdateDatasetGroup
+(https://docs.aws.amazon.com/forecast/latest/dg/API_UpdateDatasetGroup.html)
 operation.
 
 The C<Status> of the dataset group must be C<ACTIVE> before you can use

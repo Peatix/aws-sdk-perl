@@ -2,8 +2,12 @@
 package Paws::Backup::ListRestoreJobs;
   use Moose;
   has ByAccountId => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'accountId');
+  has ByCompleteAfter => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'completeAfter');
+  has ByCompleteBefore => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'completeBefore');
   has ByCreatedAfter => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'createdAfter');
   has ByCreatedBefore => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'createdBefore');
+  has ByResourceType => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'resourceType');
+  has ByRestoreTestingPlanArn => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'restoreTestingPlanArn');
   has ByStatus => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'status');
   has MaxResults => (is => 'ro', isa => 'Int', traits => ['ParamInQuery'], query_name => 'maxResults');
   has NextToken => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'nextToken');
@@ -34,12 +38,16 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $backup = Paws->service('Backup');
     my $ListRestoreJobsOutput = $backup->ListRestoreJobs(
-      ByAccountId     => 'MyAccountId',            # OPTIONAL
-      ByCreatedAfter  => '1970-01-01T01:00:00',    # OPTIONAL
-      ByCreatedBefore => '1970-01-01T01:00:00',    # OPTIONAL
-      ByStatus        => 'PENDING',                # OPTIONAL
-      MaxResults      => 1,                        # OPTIONAL
-      NextToken       => 'Mystring',               # OPTIONAL
+      ByAccountId             => 'MyAccountId',            # OPTIONAL
+      ByCompleteAfter         => '1970-01-01T01:00:00',    # OPTIONAL
+      ByCompleteBefore        => '1970-01-01T01:00:00',    # OPTIONAL
+      ByCreatedAfter          => '1970-01-01T01:00:00',    # OPTIONAL
+      ByCreatedBefore         => '1970-01-01T01:00:00',    # OPTIONAL
+      ByResourceType          => 'MyResourceType',         # OPTIONAL
+      ByRestoreTestingPlanArn => 'MyARN',                  # OPTIONAL
+      ByStatus                => 'PENDING',                # OPTIONAL
+      MaxResults              => 1,                        # OPTIONAL
+      NextToken               => 'Mystring',               # OPTIONAL
     );
 
     # Results:
@@ -61,6 +69,20 @@ associated with the specified account ID.
 
 
 
+=head2 ByCompleteAfter => Str
+
+Returns only copy jobs completed after a date expressed in Unix format
+and Coordinated Universal Time (UTC).
+
+
+
+=head2 ByCompleteBefore => Str
+
+Returns only copy jobs completed before a date expressed in Unix format
+and Coordinated Universal Time (UTC).
+
+
+
 =head2 ByCreatedAfter => Str
 
 Returns only restore jobs that were created after the specified date.
@@ -70,6 +92,90 @@ Returns only restore jobs that were created after the specified date.
 =head2 ByCreatedBefore => Str
 
 Returns only restore jobs that were created before the specified date.
+
+
+
+=head2 ByResourceType => Str
+
+Include this parameter to return only restore jobs for the specified
+resources:
+
+=over
+
+=item *
+
+C<Aurora> for Amazon Aurora
+
+=item *
+
+C<CloudFormation> for CloudFormation
+
+=item *
+
+C<DocumentDB> for Amazon DocumentDB (with MongoDB compatibility)
+
+=item *
+
+C<DynamoDB> for Amazon DynamoDB
+
+=item *
+
+C<EBS> for Amazon Elastic Block Store
+
+=item *
+
+C<EC2> for Amazon Elastic Compute Cloud
+
+=item *
+
+C<EFS> for Amazon Elastic File System
+
+=item *
+
+C<FSx> for Amazon FSx
+
+=item *
+
+C<Neptune> for Amazon Neptune
+
+=item *
+
+C<RDS> for Amazon Relational Database Service
+
+=item *
+
+C<Redshift> for Amazon Redshift
+
+=item *
+
+C<S3> for Amazon Simple Storage Service (Amazon S3)
+
+=item *
+
+C<SAP HANA on Amazon EC2> for SAP HANA databases on Amazon Elastic
+Compute Cloud instances
+
+=item *
+
+C<Storage Gateway> for Storage Gateway
+
+=item *
+
+C<Timestream> for Amazon Timestream
+
+=item *
+
+C<VirtualMachine> for VMware virtual machines
+
+=back
+
+
+
+
+=head2 ByRestoreTestingPlanArn => Str
+
+This returns only restore testing jobs that match the specified
+resource Amazon Resource Name (ARN).
 
 
 
@@ -88,7 +194,7 @@ The maximum number of items to be returned.
 =head2 NextToken => Str
 
 The next item following a partial list of returned items. For example,
-if a request is made to return C<maxResults> number of items,
+if a request is made to return C<MaxResults> number of items,
 C<NextToken> allows you to return more items in your list starting at
 the location pointed to by the next token.
 

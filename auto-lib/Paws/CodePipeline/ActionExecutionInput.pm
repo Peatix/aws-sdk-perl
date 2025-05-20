@@ -68,7 +68,7 @@ produced as output by this action fall under this namespace.
 
 =head2 Region => Str
 
-The AWS Region for the action, such as us-east-1.
+The Amazon Web Services Region for the action, such as us-east-1.
 
 
 =head2 ResolvedConfiguration => L<Paws::CodePipeline::ResolvedActionConfigurationMap>

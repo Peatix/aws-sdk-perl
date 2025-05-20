@@ -1,6 +1,7 @@
 
 package Paws::Transcribe::UpdateVocabulary;
   use Moose;
+  has DataAccessRoleArn => (is => 'ro', isa => 'Str');
   has LanguageCode => (is => 'ro', isa => 'Str', required => 1);
   has Phrases => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has VocabularyFileUri => (is => 'ro', isa => 'Str');
@@ -31,10 +32,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $transcribe = Paws->service('Transcribe');
     my $UpdateVocabularyResponse = $transcribe->UpdateVocabulary(
-      LanguageCode   => 'af-ZA',
-      VocabularyName => 'MyVocabularyName',
-      Phrases        => [
-        'MyPhrase', ...    # max: 256
+      LanguageCode      => 'af-ZA',
+      VocabularyName    => 'MyVocabularyName',
+      DataAccessRoleArn => 'MyDataAccessRoleArn',    # OPTIONAL
+      Phrases           => [
+        'MyPhrase', ...                              # max: 256
       ],    # OPTIONAL
       VocabularyFileUri => 'MyUri',    # OPTIONAL
     );
@@ -53,41 +55,80 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/tra
 =head1 ATTRIBUTES
 
 
+=head2 DataAccessRoleArn => Str
+
+The Amazon Resource Name (ARN) of an IAM role that has permissions to
+access the Amazon S3 bucket that contains your input files (in this
+case, your custom vocabulary). If the role that you specify
+doesnE<rsquo>t have the appropriate permissions to access the specified
+Amazon S3 location, your request fails.
+
+IAM role ARNs have the format
+C<arn:partition:iam::account:role/role-name-with-path>. For example:
+C<arn:aws:iam::111122223333:role/Admin>.
+
+For more information, see IAM ARNs
+(https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns).
+
+
+
 =head2 B<REQUIRED> LanguageCode => Str
 
-The language code of the vocabulary entries. For a list of languages
-and their corresponding language codes, see what-is-transcribe.
+The language code that represents the language of the entries in the
+custom vocabulary you want to update. Each custom vocabulary must
+contain terms in only one language.
 
-Valid values are: C<"af-ZA">, C<"ar-AE">, C<"ar-SA">, C<"cy-GB">, C<"da-DK">, C<"de-CH">, C<"de-DE">, C<"en-AB">, C<"en-AU">, C<"en-GB">, C<"en-IE">, C<"en-IN">, C<"en-US">, C<"en-WL">, C<"es-ES">, C<"es-US">, C<"fa-IR">, C<"fr-CA">, C<"fr-FR">, C<"ga-IE">, C<"gd-GB">, C<"he-IL">, C<"hi-IN">, C<"id-ID">, C<"it-IT">, C<"ja-JP">, C<"ko-KR">, C<"ms-MY">, C<"nl-NL">, C<"pt-BR">, C<"pt-PT">, C<"ru-RU">, C<"ta-IN">, C<"te-IN">, C<"tr-TR">, C<"zh-CN">
+A custom vocabulary can only be used to transcribe files in the same
+language as the custom vocabulary. For example, if you create a custom
+vocabulary using US English (C<en-US>), you can only apply this custom
+vocabulary to files that contain English audio.
+
+For a list of supported languages and their associated language codes,
+refer to the Supported languages
+(https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html)
+table.
+
+Valid values are: C<"af-ZA">, C<"ar-AE">, C<"ar-SA">, C<"da-DK">, C<"de-CH">, C<"de-DE">, C<"en-AB">, C<"en-AU">, C<"en-GB">, C<"en-IE">, C<"en-IN">, C<"en-US">, C<"en-WL">, C<"es-ES">, C<"es-US">, C<"fa-IR">, C<"fr-CA">, C<"fr-FR">, C<"he-IL">, C<"hi-IN">, C<"id-ID">, C<"it-IT">, C<"ja-JP">, C<"ko-KR">, C<"ms-MY">, C<"nl-NL">, C<"pt-BR">, C<"pt-PT">, C<"ru-RU">, C<"ta-IN">, C<"te-IN">, C<"tr-TR">, C<"zh-CN">, C<"zh-TW">, C<"th-TH">, C<"en-ZA">, C<"en-NZ">, C<"vi-VN">, C<"sv-SE">, C<"ab-GE">, C<"ast-ES">, C<"az-AZ">, C<"ba-RU">, C<"be-BY">, C<"bg-BG">, C<"bn-IN">, C<"bs-BA">, C<"ca-ES">, C<"ckb-IQ">, C<"ckb-IR">, C<"cs-CZ">, C<"cy-WL">, C<"el-GR">, C<"et-ET">, C<"eu-ES">, C<"fi-FI">, C<"gl-ES">, C<"gu-IN">, C<"ha-NG">, C<"hr-HR">, C<"hu-HU">, C<"hy-AM">, C<"is-IS">, C<"ka-GE">, C<"kab-DZ">, C<"kk-KZ">, C<"kn-IN">, C<"ky-KG">, C<"lg-IN">, C<"lt-LT">, C<"lv-LV">, C<"mhr-RU">, C<"mi-NZ">, C<"mk-MK">, C<"ml-IN">, C<"mn-MN">, C<"mr-IN">, C<"mt-MT">, C<"no-NO">, C<"or-IN">, C<"pa-IN">, C<"pl-PL">, C<"ps-AF">, C<"ro-RO">, C<"rw-RW">, C<"si-LK">, C<"sk-SK">, C<"sl-SI">, C<"so-SO">, C<"sr-RS">, C<"su-ID">, C<"sw-BI">, C<"sw-KE">, C<"sw-RW">, C<"sw-TZ">, C<"sw-UG">, C<"tl-PH">, C<"tt-RU">, C<"ug-CN">, C<"uk-UA">, C<"uz-UZ">, C<"wo-SN">, C<"zh-HK">, C<"zu-ZA">
 
 =head2 Phrases => ArrayRef[Str|Undef]
 
-An array of strings containing the vocabulary entries.
+Use this parameter if you want to update your custom vocabulary by
+including all desired terms, as comma-separated values, within your
+request. The other option for updating your custom vocabulary is to
+save your entries in a text file and upload them to an Amazon S3
+bucket, then specify the location of your file using the
+C<VocabularyFileUri> parameter.
+
+Note that if you include C<Phrases> in your request, you cannot use
+C<VocabularyFileUri>; you must choose one or the other.
+
+Each language has a character set that contains all allowed characters
+for that specific language. If you use unsupported characters, your
+custom vocabulary filter request fails. Refer to Character Sets for
+Custom Vocabularies
+(https://docs.aws.amazon.com/transcribe/latest/dg/charsets.html) to get
+the character set for your language.
 
 
 
 =head2 VocabularyFileUri => Str
 
-The S3 location of the text file that contains the definition of the
-custom vocabulary. The URI must be in the same region as the API
-endpoint that you are calling. The general form is
+The Amazon S3 location of the text file that contains your custom
+vocabulary. The URI must be located in the same Amazon Web Services
+Region as the resource you're calling.
 
-For example:
+Here's an example URI path:
+C<s3://DOC-EXAMPLE-BUCKET/my-vocab-file.txt>
 
-For more information about S3 object names, see Object Keys
-(http://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html#object-keys)
-in the I<Amazon S3 Developer Guide>.
-
-For more information about custom vocabularies, see Custom Vocabularies
-(http://docs.aws.amazon.com/transcribe/latest/dg/how-it-works.html#how-vocabulary).
+Note that if you include C<VocabularyFileUri> in your request, you
+cannot use the C<Phrases> flag; you must choose one or the other.
 
 
 
 =head2 B<REQUIRED> VocabularyName => Str
 
-The name of the vocabulary to update. The name is case sensitive. If
-you try to update a vocabulary with the same name as a previous
-vocabulary you will receive a C<ConflictException> error.
+The name of the custom vocabulary you want to update. Custom vocabulary
+names are case sensitive.
 
 
 

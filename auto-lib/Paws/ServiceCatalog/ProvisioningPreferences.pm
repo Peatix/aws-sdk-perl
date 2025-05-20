@@ -42,14 +42,15 @@ The user-defined preferences that will be applied when updating a
 provisioned product. Not all preferences are applicable to all
 provisioned product type
 
-One or more AWS accounts that will have access to the provisioned
-product.
+One or more Amazon Web Services accounts that will have access to the
+provisioned product.
 
 Applicable only to a C<CFN_STACKSET> provisioned product type.
 
-The AWS accounts specified should be within the list of accounts in the
-C<STACKSET> constraint. To get the list of accounts in the C<STACKSET>
-constraint, use the C<DescribeProvisioningParameters> operation.
+The Amazon Web Services accounts specified should be within the list of
+accounts in the C<STACKSET> constraint. To get the list of accounts in
+the C<STACKSET> constraint, use the C<DescribeProvisioningParameters>
+operation.
 
 If no values are specified, the default value is all accounts from the
 C<STACKSET> constraint.
@@ -59,8 +60,8 @@ C<STACKSET> constraint.
 
 =head2 StackSetAccounts => ArrayRef[Str|Undef]
 
-One or more AWS accounts where the provisioned product will be
-available.
+One or more Amazon Web Services accounts where the provisioned product
+will be available.
 
 Applicable only to a C<CFN_STACKSET> provisioned product type.
 
@@ -74,10 +75,10 @@ C<STACKSET> constraint.
 
 =head2 StackSetFailureToleranceCount => Int
 
-The number of accounts, per region, for which this operation can fail
-before AWS Service Catalog stops the operation in that region. If the
-operation is stopped in a region, AWS Service Catalog doesn't attempt
-the operation in any subsequent regions.
+The number of accounts, per Region, for which this operation can fail
+before Service Catalog stops the operation in that Region. If the
+operation is stopped in a Region, Service Catalog doesn't attempt the
+operation in any subsequent Regions.
 
 Applicable only to a C<CFN_STACKSET> provisioned product type.
 
@@ -89,13 +90,13 @@ The default value is C<0> if no value is specified.
 
 =head2 StackSetFailureTolerancePercentage => Int
 
-The percentage of accounts, per region, for which this stack operation
-can fail before AWS Service Catalog stops the operation in that region.
-If the operation is stopped in a region, AWS Service Catalog doesn't
-attempt the operation in any subsequent regions.
+The percentage of accounts, per Region, for which this stack operation
+can fail before Service Catalog stops the operation in that Region. If
+the operation is stopped in a Region, Service Catalog doesn't attempt
+the operation in any subsequent Regions.
 
 When calculating the number of accounts based on the specified
-percentage, AWS Service Catalog rounds down to the next whole number.
+percentage, Service Catalog rounds down to the next whole number.
 
 Applicable only to a C<CFN_STACKSET> provisioned product type.
 
@@ -127,9 +128,9 @@ The maximum percentage of accounts in which to perform this operation
 at one time.
 
 When calculating the number of accounts based on the specified
-percentage, AWS Service Catalog rounds down to the next whole number.
-This is true except in cases where rounding down would result is zero.
-In this case, AWS Service Catalog sets the number as C<1> instead.
+percentage, Service Catalog rounds down to the next whole number. This
+is true except in cases where rounding down would result is zero. In
+this case, Service Catalog sets the number as C<1> instead.
 
 Note that this setting lets you specify the maximum for operations. For
 large deployments, under certain circumstances the actual number of
@@ -144,16 +145,16 @@ C<StackSetMaxConcurrentPercentage>, but not both.
 
 =head2 StackSetRegions => ArrayRef[Str|Undef]
 
-One or more AWS Regions where the provisioned product will be
-available.
+One or more Amazon Web Services Regions where the provisioned product
+will be available.
 
 Applicable only to a C<CFN_STACKSET> provisioned product type.
 
-The specified regions should be within the list of regions from the
-C<STACKSET> constraint. To get the list of regions in the C<STACKSET>
+The specified Regions should be within the list of Regions from the
+C<STACKSET> constraint. To get the list of Regions in the C<STACKSET>
 constraint, use the C<DescribeProvisioningParameters> operation.
 
-If no values are specified, the default value is all regions from the
+If no values are specified, the default value is all Regions from the
 C<STACKSET> constraint.
 
 

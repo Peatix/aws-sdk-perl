@@ -1,7 +1,7 @@
 
 package Paws::HealthLake::DescribeFHIRDatastore;
   use Moose;
-  has DatastoreId => (is => 'ro', isa => 'Str');
+  has DatastoreId => (is => 'ro', isa => 'Str', required => 1);
 
   use MooseX::ClassAttribute;
 
@@ -28,7 +28,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $healthlake = Paws->service('HealthLake');
     my $DescribeFHIRDatastoreResponse = $healthlake->DescribeFHIRDatastore(
-      DatastoreId => 'MyDatastoreId',    # OPTIONAL
+      DatastoreId => 'MyDatastoreId',
+
     );
 
     # Results:
@@ -43,10 +44,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/hea
 =head1 ATTRIBUTES
 
 
-=head2 DatastoreId => Str
+=head2 B<REQUIRED> DatastoreId => Str
 
-The AWS-generated Data Store id. This is part of the
-E<lsquo>CreateFHIRDatastoreE<rsquo> output.
+The AWS-generated data store ID.
 
 
 

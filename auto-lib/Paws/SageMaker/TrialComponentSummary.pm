@@ -44,15 +44,16 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SageMaker::
 =head1 DESCRIPTION
 
 A summary of the properties of a trial component. To get all the
-properties, call the DescribeTrialComponent API and provide the
-C<TrialComponentName>.
+properties, call the DescribeTrialComponent
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeTrialComponent.html)
+API and provide the C<TrialComponentName>.
 
 =head1 ATTRIBUTES
 
 
 =head2 CreatedBy => L<Paws::SageMaker::UserContext>
 
-Who created the component.
+Who created the trial component.
 
 
 =head2 CreationTime => Str
@@ -110,7 +111,7 @@ Failed
 
 =head2 TrialComponentArn => Str
 
-The ARN of the trial component.
+The Amazon Resource Name (ARN) of the trial component.
 
 
 =head2 TrialComponentName => Str

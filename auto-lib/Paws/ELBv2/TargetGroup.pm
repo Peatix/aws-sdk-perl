@@ -8,6 +8,7 @@ package Paws::ELBv2::TargetGroup;
   has HealthCheckProtocol => (is => 'ro', isa => 'Str');
   has HealthCheckTimeoutSeconds => (is => 'ro', isa => 'Int');
   has HealthyThresholdCount => (is => 'ro', isa => 'Int');
+  has IpAddressType => (is => 'ro', isa => 'Str');
   has LoadBalancerArns => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has Matcher => (is => 'ro', isa => 'Paws::ELBv2::Matcher');
   has Port => (is => 'ro', isa => 'Int');
@@ -93,10 +94,16 @@ The number of consecutive health checks successes required before
 considering an unhealthy target healthy.
 
 
+=head2 IpAddressType => Str
+
+The IP address type. The default value is C<ipv4>.
+
+
 =head2 LoadBalancerArns => ArrayRef[Str|Undef]
 
-The Amazon Resource Names (ARN) of the load balancers that route
-traffic to this target group.
+The Amazon Resource Name (ARN) of the load balancer that routes traffic
+to this target group. You can use each target group with only one load
+balancer.
 
 
 =head2 Matcher => L<Paws::ELBv2::Matcher>
@@ -107,8 +114,8 @@ from a target.
 
 =head2 Port => Int
 
-The port on which the targets are listening. Not used if the target is
-a Lambda function.
+The port on which the targets are listening. This parameter is not used
+if the target is a Lambda function.
 
 
 =head2 Protocol => Str
@@ -136,8 +143,9 @@ The name of the target group.
 
 The type of target that you must specify when registering targets with
 this target group. The possible values are C<instance> (register
-targets by instance ID), C<ip> (register targets by IP address), or
-C<lambda> (register a single Lambda function as a target).
+targets by instance ID), C<ip> (register targets by IP address),
+C<lambda> (register a single Lambda function as a target), or C<alb>
+(register a single Application Load Balancer as a target).
 
 
 =head2 UnhealthyThresholdCount => Int

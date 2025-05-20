@@ -4,7 +4,7 @@ package Paws::LocationService::CreateMap;
   has Configuration => (is => 'ro', isa => 'Paws::LocationService::MapConfiguration', required => 1);
   has Description => (is => 'ro', isa => 'Str');
   has MapName => (is => 'ro', isa => 'Str', required => 1);
-  has PricingPlan => (is => 'ro', isa => 'Str', required => 1);
+  has PricingPlan => (is => 'ro', isa => 'Str');
   has Tags => (is => 'ro', isa => 'Paws::LocationService::TagMap');
 
   use MooseX::ClassAttribute;
@@ -34,12 +34,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $geo = Paws->service('LocationService');
     my $CreateMapResponse = $geo->CreateMap(
       Configuration => {
-        Style => 'MyMapStyle',    # min: 1, max: 100
-
+        Style        => 'MyMapStyle',    # min: 1, max: 100
+        CustomLayers => [
+          'MyCustomLayer', ...           # min: 1, max: 100
+        ],    # max: 10; OPTIONAL
+        PoliticalView => 'MyCountryCode3',    # min: 3, max: 3; OPTIONAL
       },
       MapName     => 'MyResourceName',
-      PricingPlan => 'RequestBasedUsage',
       Description => 'MyResourceDescription',    # OPTIONAL
+      PricingPlan => 'RequestBasedUsage',        # OPTIONAL
       Tags        => {
         'MyTagKey' => 'MyTagValue',    # key: min: 1, max: 128, value: max: 256
       },    # OPTIONAL
@@ -60,7 +63,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/geo
 
 =head2 B<REQUIRED> Configuration => L<Paws::LocationService::MapConfiguration>
 
-Specifies the map style selected from an available data provider.
+Specifies the C<MapConfiguration>, including the map style, for the map
+resource that you create. The map style defines the look of maps and
+the data provider for your map resource.
 
 
 
@@ -96,13 +101,10 @@ No spaces allowed. For example, C<ExampleMap>.
 
 
 
-=head2 B<REQUIRED> PricingPlan => Str
+=head2 PricingPlan => Str
 
-Specifies the pricing plan for your map resource.
-
-For additional details and restrictions on each pricing plan option,
-see the Amazon Location Service pricing page
-(https://aws.amazon.com/location/pricing/).
+No longer used. If included, the only allowed value is
+C<RequestBasedUsage>.
 
 Valid values are: C<"RequestBasedUsage">, C<"MobileAssetTracking">, C<"MobileAssetManagement">
 
@@ -138,6 +140,10 @@ Maximum value length: 256 Unicode characters in UTF-8
 
 Can use alphanumeric characters (AE<ndash>Z, aE<ndash>z, 0E<ndash>9),
 and the following characters: + - = . _ : / @.
+
+=item *
+
+Cannot use "aws:" as a prefix for a key.
 
 =back
 

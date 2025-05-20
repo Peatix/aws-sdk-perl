@@ -3,6 +3,7 @@ package Paws::LocationService::GetDevicePositionHistory;
   use Moose;
   has DeviceId => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'DeviceId', required => 1);
   has EndTimeExclusive => (is => 'ro', isa => 'Str');
+  has MaxResults => (is => 'ro', isa => 'Int');
   has NextToken => (is => 'ro', isa => 'Str');
   has StartTimeInclusive => (is => 'ro', isa => 'Str');
   has TrackerName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'TrackerName', required => 1);
@@ -36,6 +37,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       DeviceId           => 'MyId',
       TrackerName        => 'MyResourceName',
       EndTimeExclusive   => '1970-01-01T01:00:00',    # OPTIONAL
+      MaxResults         => 1,                        # OPTIONAL
       NextToken          => 'MyToken',                # OPTIONAL
       StartTimeInclusive => '1970-01-01T01:00:00',    # OPTIONAL
     );
@@ -76,6 +78,15 @@ C<StartTimeInclusive>.
 
 =back
 
+
+
+
+=head2 MaxResults => Int
+
+An optional limit for the number of device positions returned in a
+single call.
+
+Default value: C<100>
 
 
 

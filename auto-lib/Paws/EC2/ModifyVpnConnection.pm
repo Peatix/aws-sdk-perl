@@ -79,8 +79,8 @@ The ID of the VPN connection.
 
 =head2 VpnGatewayId => Str
 
-The ID of the virtual private gateway at the AWS side of the VPN
-connection.
+The ID of the virtual private gateway at the Amazon Web Services side
+of the VPN connection.
 
 
 

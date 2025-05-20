@@ -37,10 +37,10 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ResourceGro
 =head1 DESCRIPTION
 
 A service configuration associated with a resource group. The
-configuration options are determined by the AWS service that defines
-the C<Type>, and specifies which resources can be included in the
-group. You can add a service configuration when you create the group by
-using CreateGroup, or later by using the PutGroupConfiguration
+configuration options are determined by the Amazon Web Services service
+that defines the C<Type>, and specifies which resources can be included
+in the group. You can add a service configuration when you create the
+group by using CreateGroup, or later by using the PutGroupConfiguration
 operation. For details about group service configuration syntax, see
 Service configurations for resource groups
 (https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html).

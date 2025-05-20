@@ -46,11 +46,24 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           },
           MonitoringInputs => [
             {
-              EndpointInput => {
-                EndpointName  => 'MyEndpointName',           # max: 63
+              BatchTransformInput => {
+                DataCapturedDestinationS3Uri => 'MyDestinationS3Uri', # max: 512
+                DatasetFormat                => {
+                  Csv => {
+                    Header => 1,                                      # OPTIONAL
+                  },    # OPTIONAL
+                  Json => {
+                    Line => 1,    # OPTIONAL
+                  },    # OPTIONAL
+                  Parquet => {
+
+                  },    # OPTIONAL
+                },
                 LocalPath     => 'MyProcessingLocalPath',    # max: 256
                 EndTimeOffset =>
                   'MyMonitoringTimeOffsetString',    # min: 1, max: 15; OPTIONAL
+                ExcludeFeaturesAttribute =>
+                  'MyExcludeFeaturesAttribute',      # max: 100; OPTIONAL
                 FeaturesAttribute             => 'MyString',         # OPTIONAL
                 InferenceAttribute            => 'MyString',         # OPTIONAL
                 ProbabilityAttribute          => 'MyString',         # OPTIONAL
@@ -60,8 +73,24 @@ You shouldn't make instances of this class. Each attribute should be used as a n
                 S3InputMode     => 'Pipe',    # values: Pipe, File; OPTIONAL
                 StartTimeOffset =>
                   'MyMonitoringTimeOffsetString',    # min: 1, max: 15; OPTIONAL
-              },
-
+              },    # OPTIONAL
+              EndpointInput => {
+                EndpointName  => 'MyEndpointName',           # max: 63
+                LocalPath     => 'MyProcessingLocalPath',    # max: 256
+                EndTimeOffset =>
+                  'MyMonitoringTimeOffsetString',    # min: 1, max: 15; OPTIONAL
+                ExcludeFeaturesAttribute =>
+                  'MyExcludeFeaturesAttribute',      # max: 100; OPTIONAL
+                FeaturesAttribute             => 'MyString',         # OPTIONAL
+                InferenceAttribute            => 'MyString',         # OPTIONAL
+                ProbabilityAttribute          => 'MyString',         # OPTIONAL
+                ProbabilityThresholdAttribute => 1,                  # OPTIONAL
+                S3DataDistributionType        => 'FullyReplicated'
+                ,    # values: FullyReplicated, ShardedByS3Key; OPTIONAL
+                S3InputMode     => 'Pipe',    # values: Pipe, File; OPTIONAL
+                StartTimeOffset =>
+                  'MyMonitoringTimeOffsetString',    # min: 1, max: 15; OPTIONAL
+              },    # OPTIONAL
             },
             ...
           ],    # min: 1, max: 1
@@ -84,7 +113,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             ClusterConfig => {
               InstanceCount => 1,                # min: 1, max: 100
               InstanceType  => 'ml.t3.medium'
-              , # values: ml.t3.medium, ml.t3.large, ml.t3.xlarge, ml.t3.2xlarge, ml.m4.xlarge, ml.m4.2xlarge, ml.m4.4xlarge, ml.m4.10xlarge, ml.m4.16xlarge, ml.c4.xlarge, ml.c4.2xlarge, ml.c4.4xlarge, ml.c4.8xlarge, ml.p2.xlarge, ml.p2.8xlarge, ml.p2.16xlarge, ml.p3.2xlarge, ml.p3.8xlarge, ml.p3.16xlarge, ml.c5.xlarge, ml.c5.2xlarge, ml.c5.4xlarge, ml.c5.9xlarge, ml.c5.18xlarge, ml.m5.large, ml.m5.xlarge, ml.m5.2xlarge, ml.m5.4xlarge, ml.m5.12xlarge, ml.m5.24xlarge, ml.r5.large, ml.r5.xlarge, ml.r5.2xlarge, ml.r5.4xlarge, ml.r5.8xlarge, ml.r5.12xlarge, ml.r5.16xlarge, ml.r5.24xlarge, ml.g4dn.xlarge, ml.g4dn.2xlarge, ml.g4dn.4xlarge, ml.g4dn.8xlarge, ml.g4dn.12xlarge, ml.g4dn.16xlarge
+              , # values: ml.t3.medium, ml.t3.large, ml.t3.xlarge, ml.t3.2xlarge, ml.m4.xlarge, ml.m4.2xlarge, ml.m4.4xlarge, ml.m4.10xlarge, ml.m4.16xlarge, ml.c4.xlarge, ml.c4.2xlarge, ml.c4.4xlarge, ml.c4.8xlarge, ml.p2.xlarge, ml.p2.8xlarge, ml.p2.16xlarge, ml.p3.2xlarge, ml.p3.8xlarge, ml.p3.16xlarge, ml.c5.xlarge, ml.c5.2xlarge, ml.c5.4xlarge, ml.c5.9xlarge, ml.c5.18xlarge, ml.m5.large, ml.m5.xlarge, ml.m5.2xlarge, ml.m5.4xlarge, ml.m5.12xlarge, ml.m5.24xlarge, ml.r5.large, ml.r5.xlarge, ml.r5.2xlarge, ml.r5.4xlarge, ml.r5.8xlarge, ml.r5.12xlarge, ml.r5.16xlarge, ml.r5.24xlarge, ml.g4dn.xlarge, ml.g4dn.2xlarge, ml.g4dn.4xlarge, ml.g4dn.8xlarge, ml.g4dn.12xlarge, ml.g4dn.16xlarge, ml.g5.xlarge, ml.g5.2xlarge, ml.g5.4xlarge, ml.g5.8xlarge, ml.g5.16xlarge, ml.g5.12xlarge, ml.g5.24xlarge, ml.g5.48xlarge, ml.r5d.large, ml.r5d.xlarge, ml.r5d.2xlarge, ml.r5d.4xlarge, ml.r5d.8xlarge, ml.r5d.12xlarge, ml.r5d.16xlarge, ml.r5d.24xlarge, ml.g6.xlarge, ml.g6.2xlarge, ml.g6.4xlarge, ml.g6.8xlarge, ml.g6.12xlarge, ml.g6.16xlarge, ml.g6.24xlarge, ml.g6.48xlarge, ml.g6e.xlarge, ml.g6e.2xlarge, ml.g6e.4xlarge, ml.g6e.8xlarge, ml.g6e.12xlarge, ml.g6e.16xlarge, ml.g6e.24xlarge, ml.g6e.48xlarge, ml.m6i.large, ml.m6i.xlarge, ml.m6i.2xlarge, ml.m6i.4xlarge, ml.m6i.8xlarge, ml.m6i.12xlarge, ml.m6i.16xlarge, ml.m6i.24xlarge, ml.m6i.32xlarge, ml.c6i.xlarge, ml.c6i.2xlarge, ml.c6i.4xlarge, ml.c6i.8xlarge, ml.c6i.12xlarge, ml.c6i.16xlarge, ml.c6i.24xlarge, ml.c6i.32xlarge
               VolumeSizeInGB => 1,               # min: 1, max: 16384
               VolumeKmsKeyId => 'MyKmsKeyId',    # max: 2048; OPTIONAL
             },
@@ -128,8 +157,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         MonitoringType => 'DataQuality'
         , # values: DataQuality, ModelQuality, ModelBias, ModelExplainability; OPTIONAL
         ScheduleConfig => {
-          ScheduleExpression => 'MyScheduleExpression',    # min: 1, max: 256
-
+          ScheduleExpression    => 'MyScheduleExpression',    # min: 1, max: 256
+          DataAnalysisEndTime   => 'MyString',                # OPTIONAL
+          DataAnalysisStartTime => 'MyString',                # OPTIONAL
         },    # OPTIONAL
       },
       MonitoringScheduleName => 'MyMonitoringScheduleName',

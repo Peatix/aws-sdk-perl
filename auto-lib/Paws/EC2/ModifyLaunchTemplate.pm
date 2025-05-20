@@ -53,7 +53,10 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ec2
 =head2 ClientToken => Str
 
 Unique, case-sensitive identifier you provide to ensure the idempotency
-of the request. For more information, see Ensuring Idempotency
+of the request. If a client token isn't specified, a randomly generated
+token is used in the request to ensure idempotency.
+
+For more information, see Ensuring idempotency
 (https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 
 Constraint: Maximum 128 ASCII characters.
@@ -78,15 +81,19 @@ C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
 
 =head2 LaunchTemplateId => Str
 
-The ID of the launch template. You must specify either the launch
-template ID or launch template name in the request.
+The ID of the launch template.
+
+You must specify either the launch template ID or the launch template
+name, but not both.
 
 
 
 =head2 LaunchTemplateName => Str
 
-The name of the launch template. You must specify either the launch
-template ID or launch template name in the request.
+The name of the launch template.
+
+You must specify either the launch template ID or the launch template
+name, but not both.
 
 
 

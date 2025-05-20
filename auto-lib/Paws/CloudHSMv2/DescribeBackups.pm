@@ -4,6 +4,7 @@ package Paws::CloudHSMv2::DescribeBackups;
   has Filters => (is => 'ro', isa => 'Paws::CloudHSMv2::Filters');
   has MaxResults => (is => 'ro', isa => 'Int');
   has NextToken => (is => 'ro', isa => 'Str');
+  has Shared => (is => 'ro', isa => 'Bool');
   has SortAscending => (is => 'ro', isa => 'Bool');
 
   use MooseX::ClassAttribute;
@@ -34,6 +35,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       Filters       => { 'MyField' => [ 'MyString', ... ], },    # OPTIONAL
       MaxResults    => 1,                                        # OPTIONAL
       NextToken     => 'MyNextToken',                            # OPTIONAL
+      Shared        => 1,                                        # OPTIONAL
       SortAscending => 1,                                        # OPTIONAL
     );
 
@@ -85,6 +87,24 @@ C<NextToken> value.
 
 The C<NextToken> value that you received in the previous response. Use
 this value to get more backups.
+
+
+
+=head2 Shared => Bool
+
+Describe backups that are shared with you.
+
+By default when using this option, the command returns backups that
+have been shared using a standard Resource Access Manager resource
+share. In order for a backup that was shared using the
+PutResourcePolicy command to be returned, the share must be promoted to
+a standard resource share using the RAM
+PromoteResourceShareCreatedFromPolicy
+(https://docs.aws.amazon.com/cli/latest/reference/ram/promote-resource-share-created-from-policy.html)
+API operation. For more information about sharing backups, see Working
+with shared backups
+(https://docs.aws.amazon.com/cloudhsm/latest/userguide/sharing.html) in
+the CloudHSM User Guide.
 
 
 

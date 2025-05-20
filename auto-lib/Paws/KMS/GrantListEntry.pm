@@ -63,8 +63,9 @@ The identity that gets the permissions in the grant.
 
 The C<GranteePrincipal> field in the C<ListGrants> response usually
 contains the user or role designated as the grantee principal in the
-grant. However, when the grantee principal in the grant is an AWS
-service, the C<GranteePrincipal> field contains the service principal
+grant. However, when the grantee principal in the grant is an Amazon
+Web Services service, the C<GranteePrincipal> field contains the
+service principal
 (https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html#principal-services),
 which might represent several different grantee principals.
 
@@ -76,13 +77,12 @@ The unique identifier for the grant.
 
 =head2 IssuingAccount => Str
 
-The AWS account under which the grant was issued.
+The Amazon Web Services account under which the grant was issued.
 
 
 =head2 KeyId => Str
 
-The unique identifier for the customer master key (CMK) to which the
-grant applies.
+The unique identifier for the KMS key to which the grant applies.
 
 
 =head2 Name => Str

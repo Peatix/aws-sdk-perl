@@ -19,8 +19,8 @@ Paws::ComputeOptimizer::ExportEBSVolumeRecommendationsResponse
 
 The identification number of the export job.
 
-Use the C<DescribeRecommendationExportJobs> action, and specify the job
-ID to view the status of an export job.
+Use the DescribeRecommendationExportJobs action, and specify the job ID
+to view the status of an export job.
 
 
 =head2 S3Destination => L<Paws::ComputeOptimizer::S3Destination>

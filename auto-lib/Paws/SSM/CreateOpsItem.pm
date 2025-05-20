@@ -1,6 +1,7 @@
 
 package Paws::SSM::CreateOpsItem;
   use Moose;
+  has AccountId => (is => 'ro', isa => 'Str');
   has ActualEndTime => (is => 'ro', isa => 'Str');
   has ActualStartTime => (is => 'ro', isa => 'Str');
   has Category => (is => 'ro', isa => 'Str');
@@ -45,6 +46,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       Description     => 'MyOpsItemDescription',
       Source          => 'MyOpsItemSource',
       Title           => 'MyOpsItemTitle',
+      AccountId       => 'MyOpsItemAccountId',     # OPTIONAL
       ActualEndTime   => '1970-01-01T01:00:00',    # OPTIONAL
       ActualStartTime => '1970-01-01T01:00:00',    # OPTIONAL
       Category        => 'MyOpsItemCategory',      # OPTIONAL
@@ -76,7 +78,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       Tags     => [
         {
           Key   => 'MyTagKey',      # min: 1, max: 128
-          Value => 'MyTagValue',    # min: 1, max: 256
+          Value => 'MyTagValue',    # max: 256
 
         },
         ...
@@ -84,7 +86,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     );
 
     # Results:
-    my $OpsItemId = $CreateOpsItemResponse->OpsItemId;
+    my $OpsItemArn = $CreateOpsItemResponse->OpsItemArn;
+    my $OpsItemId  = $CreateOpsItemResponse->OpsItemId;
 
     # Returns a L<Paws::SSM::CreateOpsItemResponse> object.
 
@@ -92,6 +95,17 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ssm/CreateOpsItem>
 
 =head1 ATTRIBUTES
+
+
+=head2 AccountId => Str
+
+The target Amazon Web Services account where you want to create an
+OpsItem. To make this call, your account must be configured to work
+with OpsItems across accounts. For more information, see Set up
+OpsCenter
+(https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-setup.html)
+in the I<Amazon Web Services Systems Manager User Guide>.
+
 
 
 =head2 ActualEndTime => Str
@@ -116,7 +130,11 @@ Specify a category to assign to an OpsItem.
 
 =head2 B<REQUIRED> Description => Str
 
-Information about the OpsItem.
+User-defined text that contains information about the OpsItem, in
+Markdown format.
+
+Provide enough information so that users viewing this OpsItem for the
+first time understand the issue.
 
 
 
@@ -135,30 +153,56 @@ strings, license keys, troubleshooting tips, or other relevant data.
 You enter operational data as key-value pairs. The key has a maximum
 length of 128 characters. The value has a maximum size of 20 KB.
 
-Operational data keys I<can't> begin with the following: amazon, aws,
-amzn, ssm, /amazon, /aws, /amzn, /ssm.
+Operational data keys I<can't> begin with the following: C<amazon>,
+C<aws>, C<amzn>, C<ssm>, C</amazon>, C</aws>, C</amzn>, C</ssm>.
 
 You can choose to make the data searchable by other users in the
 account or you can restrict search access. Searchable data means that
 all users with access to the OpsItem Overview page (as provided by the
-DescribeOpsItems API action) can view and search on the specified data.
-Operational data that is not searchable is only viewable by users who
-have access to the OpsItem (as provided by the GetOpsItem API action).
+DescribeOpsItems API operation) can view and search on the specified
+data. Operational data that isn't searchable is only viewable by users
+who have access to the OpsItem (as provided by the GetOpsItem API
+operation).
 
 Use the C</aws/resources> key in OperationalData to specify a related
 resource in the request. Use the C</aws/automations> key in
 OperationalData to associate an Automation runbook with the OpsItem. To
-view AWS CLI example commands that use these keys, see Creating
-OpsItems manually
-(https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-creating-OpsItems.html#OpsCenter-manually-create-OpsItems)
-in the I<AWS Systems Manager User Guide>.
+view Amazon Web Services CLI example commands that use these keys, see
+Create OpsItems manually
+(https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-manually-create-OpsItems.html)
+in the I<Amazon Web Services Systems Manager User Guide>.
 
 
 
 =head2 OpsItemType => Str
 
-The type of OpsItem to create. Currently, the only valid values are
-C</aws/changerequest> and C</aws/issue>.
+The type of OpsItem to create. Systems Manager supports the following
+types of OpsItems:
+
+=over
+
+=item *
+
+C</aws/issue>
+
+This type of OpsItem is used for default OpsItems created by OpsCenter.
+
+=item *
+
+C</aws/changerequest>
+
+This type of OpsItem is used by Change Manager for reviewing and
+approving or rejecting change requests.
+
+=item *
+
+C</aws/insight>
+
+This type of OpsItem is used by OpsCenter for aggregating and reporting
+on duplicate OpsItems.
+
+=back
+
 
 
 
@@ -202,24 +246,23 @@ Specify a severity to assign to an OpsItem.
 
 The origin of the OpsItem, such as Amazon EC2 or Systems Manager.
 
-The source name can't contain the following strings: aws, amazon, and
-amzn.
+The source name can't contain the following strings: C<aws>, C<amazon>,
+and C<amzn>.
 
 
 
 =head2 Tags => ArrayRef[L<Paws::SSM::Tag>]
 
-Optional metadata that you assign to a resource. You can restrict
-access to OpsItems by using an inline IAM policy that specifies tags.
-For more information, see Getting started with OpsCenter
-(https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-getting-started.html#OpsCenter-getting-started-user-permissions)
-in the I<AWS Systems Manager User Guide>.
+Optional metadata that you assign to a resource.
 
 Tags use a key-value pair. For example:
 
 C<Key=Department,Value=Finance>
 
-To add tags to an existing OpsItem, use the AddTagsToResource action.
+To add tags to a new OpsItem, a user must have IAM permissions for both
+the C<ssm:CreateOpsItems> operation and the C<ssm:AddTagsToResource>
+operation. To add tags to an existing OpsItem, use the
+AddTagsToResource operation.
 
 
 

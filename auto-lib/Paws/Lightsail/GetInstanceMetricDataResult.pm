@@ -24,7 +24,7 @@ An array of objects that describe the metric data returned.
 
 The name of the metric returned.
 
-Valid values are: C<"CPUUtilization">, C<"NetworkIn">, C<"NetworkOut">, C<"StatusCheckFailed">, C<"StatusCheckFailed_Instance">, C<"StatusCheckFailed_System">, C<"BurstCapacityTime">, C<"BurstCapacityPercentage">
+Valid values are: C<"CPUUtilization">, C<"NetworkIn">, C<"NetworkOut">, C<"StatusCheckFailed">, C<"StatusCheckFailed_Instance">, C<"StatusCheckFailed_System">, C<"BurstCapacityTime">, C<"BurstCapacityPercentage">, C<"MetadataNoToken">
 =head2 _request_id => Str
 
 

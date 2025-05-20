@@ -6,6 +6,8 @@ package Paws::RedShift::ResizeClusterMessage;
   has ClusterType => (is => 'ro', isa => 'Str');
   has NodeType => (is => 'ro', isa => 'Str');
   has NumberOfNodes => (is => 'ro', isa => 'Int');
+  has ReservedNodeId => (is => 'ro', isa => 'Str');
+  has TargetReservedNodeOfferingId => (is => 'ro', isa => 'Str');
 
 1;
 
@@ -26,7 +28,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::RedShift::ResizeClusterMessage object:
 
-  $service_obj->Method(Att1 => { Classic => $value, ..., NumberOfNodes => $value  });
+  $service_obj->Method(Att1 => { Classic => $value, ..., TargetReservedNodeOfferingId => $value  });
 
 =head3 Results returned from an API call
 
@@ -70,6 +72,16 @@ cluster's current node type is used.
 
 The new number of nodes for the cluster. If not specified, the
 cluster's current number of nodes is used.
+
+
+=head2 ReservedNodeId => Str
+
+The identifier of the reserved node.
+
+
+=head2 TargetReservedNodeOfferingId => Str
+
+The identifier of the target reserved node offering.
 
 
 

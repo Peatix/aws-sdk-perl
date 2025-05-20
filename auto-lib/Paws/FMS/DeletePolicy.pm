@@ -43,14 +43,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/fms
 
 If C<True>, the request performs cleanup according to the policy type.
 
-For AWS WAF and Shield Advanced policies, the cleanup does the
-following:
+For WAF and Shield Advanced policies, the cleanup does the following:
 
 =over
 
 =item *
 
-Deletes rule groups created by AWS Firewall Manager
+Deletes rule groups created by Firewall Manager
 
 =item *
 
@@ -78,6 +77,10 @@ and if it's no longer associated with any resources through another
 policy
 
 =back
+
+For security group common policies, even if set to C<False>, Firewall
+Manager deletes all security groups created by Firewall Manager that
+aren't associated with any other resources through another policy.
 
 After the cleanup, in-scope resources are no longer protected by web
 ACLs in this policy. Protection of out-of-scope resources remains

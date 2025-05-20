@@ -8,15 +8,19 @@ package Paws::AppStream::Image;
   has CreatedTime => (is => 'ro', isa => 'Str');
   has Description => (is => 'ro', isa => 'Str');
   has DisplayName => (is => 'ro', isa => 'Str');
+  has DynamicAppProvidersEnabled => (is => 'ro', isa => 'Str');
   has ImageBuilderName => (is => 'ro', isa => 'Str');
   has ImageBuilderSupported => (is => 'ro', isa => 'Bool');
   has ImageErrors => (is => 'ro', isa => 'ArrayRef[Paws::AppStream::ResourceError]');
   has ImagePermissions => (is => 'ro', isa => 'Paws::AppStream::ImagePermissions');
+  has ImageSharedWithOthers => (is => 'ro', isa => 'Str');
+  has LatestAppstreamAgentVersion => (is => 'ro', isa => 'Str');
   has Name => (is => 'ro', isa => 'Str', required => 1);
   has Platform => (is => 'ro', isa => 'Str');
   has PublicBaseImageReleasedDate => (is => 'ro', isa => 'Str');
   has State => (is => 'ro', isa => 'Str');
   has StateChangeReason => (is => 'ro', isa => 'Paws::AppStream::ImageStateChangeReason');
+  has SupportedInstanceFamilies => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has Visibility => (is => 'ro', isa => 'Str');
 
 1;
@@ -90,6 +94,12 @@ The description to display.
 The image name to display.
 
 
+=head2 DynamicAppProvidersEnabled => Str
+
+Indicates whether dynamic app providers are enabled within an AppStream
+2.0 image or not.
+
+
 =head2 ImageBuilderName => Str
 
 The name of the image builder that was used to create the private
@@ -111,6 +121,17 @@ created.
 
 The permissions to provide to the destination AWS account for the
 specified image.
+
+
+=head2 ImageSharedWithOthers => Str
+
+Indicates whether the image is shared with another account ID.
+
+
+=head2 LatestAppstreamAgentVersion => Str
+
+Indicates whether the image is using the latest AppStream 2.0 agent
+version or not.
 
 
 =head2 B<REQUIRED> Name => Str
@@ -140,6 +161,50 @@ C<FAILED>.
 =head2 StateChangeReason => L<Paws::AppStream::ImageStateChangeReason>
 
 The reason why the last state change occurred.
+
+
+=head2 SupportedInstanceFamilies => ArrayRef[Str|Undef]
+
+The supported instances families that determine which image a customer
+can use when the customer launches a fleet or image builder. The
+following instances families are supported:
+
+=over
+
+=item *
+
+General Purpose
+
+=item *
+
+Compute Optimized
+
+=item *
+
+Memory Optimized
+
+=item *
+
+Graphics
+
+=item *
+
+Graphics Design
+
+=item *
+
+Graphics Pro
+
+=item *
+
+Graphics G4
+
+=item *
+
+Graphics G5
+
+=back
+
 
 
 =head2 Visibility => Str

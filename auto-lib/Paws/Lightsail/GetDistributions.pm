@@ -49,11 +49,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/lig
 
 The name of the distribution for which to return information.
 
-Use the C<GetDistributions> action to get a list of distribution names
-that you can specify.
-
 When omitted, the response includes all of your distributions in the
-AWS Region where the request is made.
+Amazon Web Services Region where the request is made.
 
 
 

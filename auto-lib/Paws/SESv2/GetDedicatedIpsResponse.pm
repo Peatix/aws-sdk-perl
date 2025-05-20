@@ -18,8 +18,8 @@ Paws::SESv2::GetDedicatedIpsResponse
 
 =head2 DedicatedIps => ArrayRef[L<Paws::SESv2::DedicatedIp>]
 
-A list of dedicated IP addresses that are associated with your AWS
-account.
+A list of dedicated IP addresses that are associated with your Amazon
+Web Services account.
 
 
 =head2 NextToken => Str

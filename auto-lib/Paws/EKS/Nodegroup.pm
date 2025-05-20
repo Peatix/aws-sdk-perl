@@ -13,6 +13,7 @@ package Paws::EKS::Nodegroup;
   has ModifiedAt => (is => 'ro', isa => 'Str', request_name => 'modifiedAt', traits => ['NameInRequest']);
   has NodegroupArn => (is => 'ro', isa => 'Str', request_name => 'nodegroupArn', traits => ['NameInRequest']);
   has NodegroupName => (is => 'ro', isa => 'Str', request_name => 'nodegroupName', traits => ['NameInRequest']);
+  has NodeRepairConfig => (is => 'ro', isa => 'Paws::EKS::NodeRepairConfig', request_name => 'nodeRepairConfig', traits => ['NameInRequest']);
   has NodeRole => (is => 'ro', isa => 'Str', request_name => 'nodeRole', traits => ['NameInRequest']);
   has ReleaseVersion => (is => 'ro', isa => 'Str', request_name => 'releaseVersion', traits => ['NameInRequest']);
   has RemoteAccess => (is => 'ro', isa => 'Paws::EKS::RemoteAccessConfig', request_name => 'remoteAccess', traits => ['NameInRequest']);
@@ -75,13 +76,12 @@ The capacity type of your managed node group.
 
 =head2 ClusterName => Str
 
-The name of the cluster that the managed node group resides in.
+The name of your cluster.
 
 
 =head2 CreatedAt => Str
 
-The Unix epoch timestamp in seconds for when the managed node group was
-created.
+The Unix epoch timestamp at object creation.
 
 
 =head2 DiskSize => Int
@@ -106,10 +106,10 @@ group was deployed with a launch template, then this is C<null>.
 
 =head2 Labels => L<Paws::EKS::LabelsMap>
 
-The Kubernetes labels applied to the nodes in the node group.
+The Kubernetes C<labels> applied to the nodes in the node group.
 
-Only labels that are applied with the Amazon EKS API are shown here.
-There may be other Kubernetes labels applied to the nodes in this
+Only C<labels> that are applied with the Amazon EKS API are shown here.
+There may be other Kubernetes C<labels> applied to the nodes in this
 group.
 
 
@@ -121,8 +121,7 @@ the launch template that was used.
 
 =head2 ModifiedAt => Str
 
-The Unix epoch timestamp in seconds for when the managed node group was
-last modified.
+The Unix epoch timestamp for the last modification to the object.
 
 
 =head2 NodegroupArn => Str
@@ -135,12 +134,17 @@ The Amazon Resource Name (ARN) associated with the managed node group.
 The name associated with an Amazon EKS managed node group.
 
 
+=head2 NodeRepairConfig => L<Paws::EKS::NodeRepairConfig>
+
+The node auto repair configuration for the node group.
+
+
 =head2 NodeRole => Str
 
 The IAM role associated with your node group. The Amazon EKS node
-C<kubelet> daemon makes calls to AWS APIs on your behalf. Nodes receive
-permissions for these API calls through an IAM instance profile and
-associated policies.
+C<kubelet> daemon makes calls to Amazon Web Services APIs on your
+behalf. Nodes receive permissions for these API calls through an IAM
+instance profile and associated policies.
 
 
 =head2 ReleaseVersion => Str
@@ -185,24 +189,25 @@ associated with your node group.
 
 =head2 Tags => L<Paws::EKS::TagMap>
 
-The metadata applied to the node group to assist with categorization
-and organization. Each tag consists of a key and an optional value,
-both of which you define. Node group tags do not propagate to any other
-resources associated with the node group, such as the Amazon EC2
-instances or subnets.
+Metadata that assists with categorization and organization. Each tag
+consists of a key and an optional value. You define both. Tags don't
+propagate to any other cluster or Amazon Web Services resources.
 
 
 =head2 Taints => ArrayRef[L<Paws::EKS::Taint>]
 
 The Kubernetes taints to be applied to the nodes in the node group when
-they are created. Effect is one of C<NoSchedule>, C<PreferNoSchedule>,
-or C<NoExecute>. Kubernetes taints can be used together with
-tolerations to control how workloads are scheduled to your nodes.
+they are created. Effect is one of C<No_Schedule>,
+C<Prefer_No_Schedule>, or C<No_Execute>. Kubernetes taints can be used
+together with tolerations to control how workloads are scheduled to
+your nodes. For more information, see Node taints on managed node
+groups
+(https://docs.aws.amazon.com/eks/latest/userguide/node-taints-managed-node-groups.html).
 
 
 =head2 UpdateConfig => L<Paws::EKS::NodegroupUpdateConfig>
 
-
+The node group update configuration.
 
 
 =head2 Version => Str

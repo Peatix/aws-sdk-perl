@@ -37,9 +37,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Macie2::Blo
 =head1 DESCRIPTION
 
 Provides information about the block public access settings for an S3
-bucket. These settings can apply to a bucket at the account level or
-bucket level. For detailed information about each setting, see Blocking
-public access to your Amazon S3 storage
+bucket. These settings can apply to a bucket at the account or bucket
+level. For detailed information about each setting, see Blocking public
+access to your Amazon S3 storage
 (https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-control-block-public-access.html)
 in the I<Amazon Simple Storage Service User Guide>.
 

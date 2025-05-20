@@ -30,7 +30,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $resource-groups = Paws->service('ResourceGroups');
     my $TagOutput = $resource -groups->Tag(
-      Arn  => 'MyGroupArn',
+      Arn  => 'MyGroupArnV2',
       Tags => {
         'MyTagKey' => 'MyTagValue',    # key: min: 1, max: 128, value: max: 256
       },
@@ -51,7 +51,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/res
 
 =head2 B<REQUIRED> Arn => Str
 
-The ARN of the resource group to which to add tags.
+The Amazon resource name (ARN) of the resource group to which to add
+tags.
 
 
 

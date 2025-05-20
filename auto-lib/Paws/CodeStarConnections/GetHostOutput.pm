@@ -33,7 +33,7 @@ The endpoint of the infrastructure represented by the requested host.
 The provider type of the requested host, such as GitHub Enterprise
 Server.
 
-Valid values are: C<"Bitbucket">, C<"GitHub">, C<"GitHubEnterpriseServer">
+Valid values are: C<"Bitbucket">, C<"GitHub">, C<"GitHubEnterpriseServer">, C<"GitLab">, C<"GitLabSelfManaged">
 =head2 Status => Str
 
 The status of the requested host.

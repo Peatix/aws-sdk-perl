@@ -6,6 +6,7 @@ package Paws::Lightsail::LoadBalancer;
   has CreatedAt => (is => 'ro', isa => 'Str', request_name => 'createdAt', traits => ['NameInRequest']);
   has DnsName => (is => 'ro', isa => 'Str', request_name => 'dnsName', traits => ['NameInRequest']);
   has HealthCheckPath => (is => 'ro', isa => 'Str', request_name => 'healthCheckPath', traits => ['NameInRequest']);
+  has HttpsRedirectionEnabled => (is => 'ro', isa => 'Bool', request_name => 'httpsRedirectionEnabled', traits => ['NameInRequest']);
   has InstanceHealthSummary => (is => 'ro', isa => 'ArrayRef[Paws::Lightsail::InstanceHealthSummary]', request_name => 'instanceHealthSummary', traits => ['NameInRequest']);
   has InstancePort => (is => 'ro', isa => 'Int', request_name => 'instancePort', traits => ['NameInRequest']);
   has IpAddressType => (is => 'ro', isa => 'Str', request_name => 'ipAddressType', traits => ['NameInRequest']);
@@ -18,6 +19,7 @@ package Paws::Lightsail::LoadBalancer;
   has SupportCode => (is => 'ro', isa => 'Str', request_name => 'supportCode', traits => ['NameInRequest']);
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::Lightsail::Tag]', request_name => 'tags', traits => ['NameInRequest']);
   has TlsCertificateSummaries => (is => 'ro', isa => 'ArrayRef[Paws::Lightsail::LoadBalancerTlsCertificateSummary]', request_name => 'tlsCertificateSummaries', traits => ['NameInRequest']);
+  has TlsPolicyName => (is => 'ro', isa => 'Str', request_name => 'tlsPolicyName', traits => ['NameInRequest']);
 
 1;
 
@@ -38,7 +40,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::Lightsail::LoadBalancer object:
 
-  $service_obj->Method(Att1 => { Arn => $value, ..., TlsCertificateSummaries => $value  });
+  $service_obj->Method(Att1 => { Arn => $value, ..., TlsPolicyName => $value  });
 
 =head3 Results returned from an API call
 
@@ -49,7 +51,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Lightsail::
 
 =head1 DESCRIPTION
 
-Describes the Lightsail load balancer.
+Describes a load balancer.
 
 =head1 ATTRIBUTES
 
@@ -82,6 +84,12 @@ specified, the load balancer tries to make a request to the default
 (root) page.
 
 
+=head2 HttpsRedirectionEnabled => Bool
+
+A Boolean value that indicates whether HTTPS redirection is enabled for
+the load balancer.
+
+
 =head2 InstanceHealthSummary => ArrayRef[L<Paws::Lightsail::InstanceHealthSummary>]
 
 An array of InstanceHealthSummary objects describing the health of the
@@ -99,20 +107,20 @@ instances. For HTTP traffic, it's port 80. For HTTPS traffic, it's port
 
 The IP address type of the load balancer.
 
-The possible values are C<ipv4> for IPv4 only, and C<dualstack> for
-IPv4 and IPv6.
+The possible values are C<ipv4> for IPv4 only, C<ipv6> for IPv6 only,
+and C<dualstack> for IPv4 and IPv6.
 
 
 =head2 Location => L<Paws::Lightsail::ResourceLocation>
 
-The AWS Region where your load balancer was created (e.g.,
-C<us-east-2a>). Lightsail automatically creates your load balancer
-across Availability Zones.
+The AWS Region where your load balancer was created (C<us-east-2a>).
+Lightsail automatically creates your load balancer across Availability
+Zones.
 
 
 =head2 Name => Str
 
-The name of the load balancer (e.g., C<my-load-balancer>).
+The name of the load balancer (C<my-load-balancer>).
 
 
 =head2 Protocol => Str
@@ -131,7 +139,7 @@ port 80. For HTTPS, use port 443.
 
 =head2 ResourceType => Str
 
-The resource type (e.g., C<LoadBalancer>.
+The resource type (C<LoadBalancer>.
 
 
 =head2 State => Str
@@ -149,8 +157,8 @@ our support team to look up your Lightsail information more easily.
 =head2 Tags => ArrayRef[L<Paws::Lightsail::Tag>]
 
 The tag keys and optional values for the resource. For more information
-about tags in Lightsail, see the Lightsail Dev Guide
-(https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-tags).
+about tags in Lightsail, see the Amazon Lightsail Developer Guide
+(https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-tags).
 
 
 =head2 TlsCertificateSummaries => ArrayRef[L<Paws::Lightsail::LoadBalancerTlsCertificateSummary>]
@@ -158,6 +166,11 @@ about tags in Lightsail, see the Lightsail Dev Guide
 An array of LoadBalancerTlsCertificateSummary objects that provide
 additional information about the SSL/TLS certificates. For example, if
 C<true>, the certificate is attached to the load balancer.
+
+
+=head2 TlsPolicyName => Str
+
+The name of the TLS security policy for the load balancer.
 
 
 

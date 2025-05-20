@@ -18,7 +18,7 @@ Paws::HealthLake::StartFHIRImportJobResponse
 
 =head2 DatastoreId => Str
 
-The AWS-generated Data Store ID.
+The AWS-generated data store ID.
 
 
 =head2 B<REQUIRED> JobId => Str
@@ -30,7 +30,7 @@ The AWS-generated job ID.
 
 The status of an import job.
 
-Valid values are: C<"SUBMITTED">, C<"IN_PROGRESS">, C<"COMPLETED">, C<"FAILED">
+Valid values are: C<"SUBMITTED">, C<"QUEUED">, C<"IN_PROGRESS">, C<"COMPLETED_WITH_ERRORS">, C<"COMPLETED">, C<"FAILED">, C<"CANCEL_SUBMITTED">, C<"CANCEL_IN_PROGRESS">, C<"CANCEL_COMPLETED">, C<"CANCEL_FAILED">
 =head2 _request_id => Str
 
 

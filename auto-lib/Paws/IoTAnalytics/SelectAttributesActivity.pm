@@ -35,8 +35,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::IoTAnalytic
 
 =head1 DESCRIPTION
 
-Creates a new message using only the specified attributes from the
-original message.
+Used to create a new message using only the specified attributes from
+the original message.
 
 =head1 ATTRIBUTES
 

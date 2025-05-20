@@ -17,7 +17,8 @@ Paws::SNS::GetSMSSandboxAccountStatusResult
 
 =head2 B<REQUIRED> IsInSandbox => Bool
 
-Indicates whether the calling account is in the SMS sandbox.
+Indicates whether the calling Amazon Web Services account is in the SMS
+sandbox.
 
 
 =head2 _request_id => Str

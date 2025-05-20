@@ -39,8 +39,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Organizatio
 
 =head1 DESCRIPTION
 
-Contains information about an AWS account that is a member of an
-organization.
+Contains information about an Amazon Web Services account that is a
+member of an organization.
 
 =head1 ATTRIBUTES
 
@@ -52,12 +52,12 @@ The Amazon Resource Name (ARN) of the account.
 For more information about ARNs in Organizations, see ARN Formats
 Supported by Organizations
 (https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsorganizations.html#awsorganizations-resources-for-iam-policies)
-in the I<AWS Service Authorization Reference>.
+in the I<Amazon Web Services Service Authorization Reference>.
 
 
 =head2 Email => Str
 
-The email address associated with the AWS account.
+The email address associated with the Amazon Web Services account.
 
 The regex pattern (http://wikipedia.org/wiki/regex) for this parameter
 is a string of characters that represents a standard internet email

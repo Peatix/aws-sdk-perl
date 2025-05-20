@@ -52,6 +52,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     # Results:
     my $AwsDevice            = $Connection->AwsDevice;
     my $AwsDeviceV2          = $Connection->AwsDeviceV2;
+    my $AwsLogicalDeviceId   = $Connection->AwsLogicalDeviceId;
     my $Bandwidth            = $Connection->Bandwidth;
     my $ConnectionId         = $Connection->ConnectionId;
     my $ConnectionName       = $Connection->ConnectionName;
@@ -120,7 +121,7 @@ MAC Security (MACsec) is only available on dedicated connections. For
 information about MAC Security (MACsec) prerequisties, see MACsec
 prerequisties
 (https://docs.aws.amazon.com/directconnect/latest/UserGuide/direct-connect-mac-sec-getting-started.html#mac-sec-prerequisites)
-in the I<AWS Direct Connect User Guide>.
+in the I<Direct Connect User Guide>.
 
 
 

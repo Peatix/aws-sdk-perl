@@ -1,7 +1,8 @@
 
 package Paws::RAM::UntagResource;
   use Moose;
-  has ResourceShareArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'resourceShareArn', required => 1);
+  has ResourceArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'resourceArn');
+  has ResourceShareArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'resourceShareArn');
   has TagKeys => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'tagKeys', required => 1);
 
   use MooseX::ClassAttribute;
@@ -30,9 +31,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $ram = Paws->service('RAM');
     my $UntagResourceResponse = $ram->UntagResource(
-      ResourceShareArn => 'MyString',
       TagKeys          => [ 'MyTagKey', ... ],
-
+      ResourceArn      => 'MyString',            # OPTIONAL
+      ResourceShareArn => 'MyString',            # OPTIONAL
     );
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
@@ -41,15 +42,29 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ram
 =head1 ATTRIBUTES
 
 
-=head2 B<REQUIRED> ResourceShareArn => Str
+=head2 ResourceArn => Str
 
-The Amazon Resource Name (ARN) of the resource share.
+Specifies the Amazon Resource Name (ARN)
+(https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+of the managed permission that you want to remove tags from. You must
+specify either C<resourceArn>, or C<resourceShareArn>, but not both.
+
+
+
+=head2 ResourceShareArn => Str
+
+Specifies the Amazon Resource Name (ARN)
+(https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+of the resource share that you want to remove tags from. The tags are
+removed from the resource share, not the resources in the resource
+share. You must specify either C<resourceShareArn>, or C<resourceArn>,
+but not both.
 
 
 
 =head2 B<REQUIRED> TagKeys => ArrayRef[Str|Undef]
 
-The tag keys of the tags to remove.
+Specifies a list of one or more tag keys that you want to remove.
 
 
 

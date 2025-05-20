@@ -18,8 +18,8 @@ Paws::AccessAnalyzer::ValidatePolicyResponse
 
 =head2 B<REQUIRED> Findings => ArrayRef[L<Paws::AccessAnalyzer::ValidatePolicyFinding>]
 
-The list of findings in a policy returned by Access Analyzer based on
-its suite of policy checks.
+The list of findings in a policy returned by IAM Access Analyzer based
+on its suite of policy checks.
 
 
 =head2 NextToken => Str

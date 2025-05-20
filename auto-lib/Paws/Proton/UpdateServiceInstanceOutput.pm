@@ -16,7 +16,7 @@ Paws::Proton::UpdateServiceInstanceOutput
 
 =head2 B<REQUIRED> ServiceInstance => L<Paws::Proton::ServiceInstance>
 
-The service instance summary data returned by AWS Proton.
+The service instance summary data that's returned by Proton.
 
 
 =head2 _request_id => Str

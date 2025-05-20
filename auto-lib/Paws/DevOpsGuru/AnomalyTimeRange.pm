@@ -35,7 +35,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::DevOpsGuru:
 =head1 DESCRIPTION
 
 A time range that specifies when the observed unusual behavior in an
-anomaly started and ended.
+anomaly started and ended. This is different from
+C<AnomalyReportedTimeRange>, which specifies the time range when DevOps
+Guru opens and then closes an anomaly.
 
 =head1 ATTRIBUTES
 

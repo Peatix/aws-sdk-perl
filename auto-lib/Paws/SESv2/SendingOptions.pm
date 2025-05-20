@@ -34,7 +34,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SESv2::Send
 =head1 DESCRIPTION
 
 Used to enable or disable email sending for messages that use this
-configuration set in the current AWS Region.
+configuration set in the current Amazon Web Services Region.
 
 =head1 ATTRIBUTES
 

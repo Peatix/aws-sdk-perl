@@ -19,24 +19,24 @@ Paws::ResourceGroups::GroupResourcesOutput
 
 =head2 Failed => ArrayRef[L<Paws::ResourceGroups::FailedResource>]
 
-A list of ARNs of any resources that failed to be added to the group by
-this operation.
+A list of Amazon resource names (ARNs) of any resources that this
+operation failed to add to the group.
 
 
 =head2 Pending => ArrayRef[L<Paws::ResourceGroups::PendingResource>]
 
-A list of ARNs of any resources that are still in the process of being
-added to the group by this operation. These pending additions continue
-asynchronously. You can check the status of pending additions by using
-the C< ListGroupResources > operation, and checking the C<Resources>
-array in the response and the C<Status> field of each object in that
-array.
+A list of Amazon resource names (ARNs) of any resources that this
+operation is still in the process adding to the group. These pending
+additions continue asynchronously. You can check the status of pending
+additions by using the C< ListGroupResources > operation, and checking
+the C<Resources> array in the response and the C<Status> field of each
+object in that array.
 
 
 =head2 Succeeded => ArrayRef[Str|Undef]
 
-A list of ARNs of resources that were successfully added to the group
-by this operation.
+A list of Amazon resource names (ARNs) of the resources that this
+operation successfully added to the group.
 
 
 =head2 _request_id => Str

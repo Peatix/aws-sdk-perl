@@ -42,7 +42,9 @@ Contains the configuration information for a job's manifest.
 =head2 B<REQUIRED> Location => L<Paws::S3Control::JobManifestLocation>
 
 Contains the information required to locate the specified job's
-manifest.
+manifest. Manifests can't be imported from directory buckets. For more
+information, see Directory buckets
+(https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-overview.html).
 
 
 =head2 B<REQUIRED> Spec => L<Paws::S3Control::JobManifestSpec>

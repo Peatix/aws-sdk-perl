@@ -33,9 +33,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ManagedBloc
 
 =head1 DESCRIPTION
 
-An action to invite a specific AWS account to create a member and join
-the network. The C<InviteAction> is carried out when a C<Proposal> is
-C<APPROVED>.
+An action to invite a specific Amazon Web Services account to create a
+member and join the network. The C<InviteAction> is carried out when a
+C<Proposal> is C<APPROVED>.
 
 Applies only to Hyperledger Fabric.
 
@@ -44,7 +44,7 @@ Applies only to Hyperledger Fabric.
 
 =head2 B<REQUIRED> Principal => Str
 
-The AWS account ID to invite.
+The Amazon Web Services account ID to invite.
 
 
 

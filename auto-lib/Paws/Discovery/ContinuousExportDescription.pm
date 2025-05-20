@@ -134,8 +134,9 @@ type can have the following values:
 =item *
 
 ACCESS_DENIED - You donE<rsquo>t have permission to start Data
-Exploration in Amazon Athena. Contact your AWS administrator for help.
-For more information, see Setting Up AWS Application Discovery Service
+Exploration in Amazon Athena. Contact your Amazon Web Services
+administrator for help. For more information, see Setting Up Amazon Web
+Services Application Discovery Service
 (http://docs.aws.amazon.com/application-discovery/latest/userguide/setting-up.html)
 in the Application Discovery Service User Guide.
 
@@ -151,32 +152,82 @@ in the Amazon Kinesis Data Streams Developer Guide.
 =item *
 
 FIREHOSE_ROLE_MISSING - The Data Exploration feature is in an error
-state because your IAM User is missing the
-AWSApplicationDiscoveryServiceFirehose role. Turn on Data Exploration
-in Amazon Athena and try again. For more information, see Step 3:
-Provide Application Discovery Service Access to Non-Administrator Users
-by Attaching Policies
-(http://docs.aws.amazon.com/application-discovery/latest/userguide/setting-up.html#setting-up-user-policy)
+state because your user is missing the Amazon Web
+ServicesApplicationDiscoveryServiceFirehose role. Turn on Data
+Exploration in Amazon Athena and try again. For more information, see
+Creating the Amazon Web ServicesApplicationDiscoveryServiceFirehose
+Role
+(https://docs.aws.amazon.com/application-discovery/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-create-firehose-role)
 in the Application Discovery Service User Guide.
 
 =item *
 
 FIREHOSE_STREAM_DOES_NOT_EXIST - The Data Exploration feature is in an
-error state because your IAM User is missing one or more of the Kinesis
+error state because your user is missing one or more of the Kinesis
 data delivery streams.
 
 =item *
 
 INTERNAL_FAILURE - The Data Exploration feature is in an error state
 because of an internal failure. Try again later. If this problem
-persists, contact AWS Support.
+persists, contact Amazon Web Services Support.
+
+=item *
+
+LAKE_FORMATION_ACCESS_DENIED - You don't have sufficient lake formation
+permissions to start continuous export. For more information, see
+Upgrading Amazon Web Services Glue Data Permissions to the Amazon Web
+Services Lake Formation Model
+(http://docs.aws.amazon.com/lake-formation/latest/dg/upgrade-glue-lake-formation.html)
+in the Amazon Web Services I<Lake Formation Developer Guide>.
+
+You can use one of the following two ways to resolve this issue.
+
+=over
+
+=item 1.
+
+If you donE<rsquo>t want to use the Lake Formation permission model,
+you can change the default Data Catalog settings to use only Amazon Web
+Services Identity and Access Management (IAM) access control for new
+databases. For more information, see Change Data Catalog Settings
+(https://docs.aws.amazon.com/lake-formation/latest/dg/getting-started-setup.html#setup-change-cat-settings)
+in the I<Lake Formation Developer Guide>.
+
+=item 2.
+
+You can give the service-linked IAM roles
+AWSServiceRoleForApplicationDiscoveryServiceContinuousExport and
+AWSApplicationDiscoveryServiceFirehose the required Lake Formation
+permissions. For more information, see Granting Database Permissions
+(https://docs.aws.amazon.com/lake-formation/latest/dg/granting-database-permissions.html)
+in the I<Lake Formation Developer Guide>.
+
+=over
+
+=item 1.
+
+AWSServiceRoleForApplicationDiscoveryServiceContinuousExport - Grant
+database creator permissions, which gives the role database creation
+ability and implicit permissions for any created tables. For more
+information, see Implicit Lake Formation Permissions
+(https://docs.aws.amazon.com/lake-formation/latest/dg/implicit-permissions.html)
+in the I<Lake Formation Developer Guide>.
+
+=item 2.
+
+AWSApplicationDiscoveryServiceFirehose - Grant describe permissions for
+all tables in the database.
+
+=back
+
+=back
 
 =item *
 
 S3_BUCKET_LIMIT_FAILURE - You reached the limit for Amazon S3 buckets.
-Reduce the number of Amazon S3 buckets or request a limit increase and
-try again. For more information, see Bucket Restrictions and
-Limitations
+Reduce the number of S3 buckets or request a limit increase and try
+again. For more information, see Bucket Restrictions and Limitations
 (http://docs.aws.amazon.com/AmazonS3/latest/dev/BucketRestrictions.html)
 in the Amazon Simple Storage Service Developer Guide.
 

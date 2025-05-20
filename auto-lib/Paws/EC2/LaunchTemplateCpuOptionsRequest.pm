@@ -1,5 +1,6 @@
 package Paws::EC2::LaunchTemplateCpuOptionsRequest;
   use Moose;
+  has AmdSevSnp => (is => 'ro', isa => 'Str');
   has CoreCount => (is => 'ro', isa => 'Int');
   has ThreadsPerCore => (is => 'ro', isa => 'Int');
 1;
@@ -21,20 +22,28 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::EC2::LaunchTemplateCpuOptionsRequest object:
 
-  $service_obj->Method(Att1 => { CoreCount => $value, ..., ThreadsPerCore => $value  });
+  $service_obj->Method(Att1 => { AmdSevSnp => $value, ..., ThreadsPerCore => $value  });
 
 =head3 Results returned from an API call
 
 Use accessors for each attribute. If Att1 is expected to be an Paws::EC2::LaunchTemplateCpuOptionsRequest object:
 
   $result = $service_obj->Method(...);
-  $result->Att1->CoreCount
+  $result->Att1->AmdSevSnp
 
 =head1 DESCRIPTION
 
 This class has no description
 
 =head1 ATTRIBUTES
+
+
+=head2 AmdSevSnp => Str
+
+Indicates whether to enable the instance for AMD SEV-SNP. AMD SEV-SNP
+is supported with M6a, R6a, and C6a instance types only. For more
+information, see AMD SEV-SNP for Amazon EC2 instances
+(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/sev-snp.html).
 
 
 =head2 CoreCount => Int
@@ -45,8 +54,8 @@ The number of CPU cores for the instance.
 =head2 ThreadsPerCore => Int
 
 The number of threads per CPU core. To disable multithreading for the
-instance, specify a value of 1. Otherwise, specify the default value of
-2.
+instance, specify a value of C<1>. Otherwise, specify the default value
+of C<2>.
 
 
 

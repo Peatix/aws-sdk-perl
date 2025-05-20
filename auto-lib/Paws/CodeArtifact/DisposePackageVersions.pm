@@ -74,86 +74,68 @@ dispose.
 
 =head2 DomainOwner => Str
 
-The 12-digit account number of the AWS account that owns the domain. It
-does not include dashes or spaces.
+The 12-digit account number of the Amazon Web Services account that
+owns the domain. It does not include dashes or spaces.
 
 
 
 =head2 ExpectedStatus => Str
 
-The expected status of the package version to dispose. Valid values
-are:
-
-=over
-
-=item *
-
-C<Published>
-
-=item *
-
-C<Unfinished>
-
-=item *
-
-C<Unlisted>
-
-=item *
-
-C<Archived>
-
-=item *
-
-C<Disposed>
-
-=back
-
+The expected status of the package version to dispose.
 
 Valid values are: C<"Published">, C<"Unfinished">, C<"Unlisted">, C<"Archived">, C<"Disposed">, C<"Deleted">
 
 =head2 B<REQUIRED> Format => Str
 
 A format that specifies the type of package versions you want to
-dispose. The valid values are:
+dispose.
 
-=over
-
-=item *
-
-C<npm>
-
-=item *
-
-C<pypi>
-
-=item *
-
-C<maven>
-
-=back
-
-
-Valid values are: C<"npm">, C<"pypi">, C<"maven">, C<"nuget">
+Valid values are: C<"npm">, C<"pypi">, C<"maven">, C<"nuget">, C<"generic">, C<"ruby">, C<"swift">, C<"cargo">
 
 =head2 Namespace => Str
 
-The namespace of the package. The package component that specifies its
-namespace depends on its type. For example:
+The namespace of the package versions to be disposed. The package
+component that specifies its namespace depends on its type. For
+example:
+
+The namespace is required when disposing package versions of the
+following formats:
 
 =over
 
 =item *
 
-The namespace of a Maven package is its C<groupId>.
+Maven
 
 =item *
 
-The namespace of an npm package is its C<scope>.
+Swift
 
 =item *
 
-A Python package does not contain a corresponding component, so Python
-packages do not have a namespace.
+generic
+
+=back
+
+=over
+
+=item *
+
+The namespace of a Maven package version is its C<groupId>.
+
+=item *
+
+The namespace of an npm or Swift package version is its C<scope>.
+
+=item *
+
+The namespace of a generic package is its C<namespace>.
+
+=item *
+
+Python, NuGet, Ruby, and Cargo package versions do not contain a
+corresponding component, package versions of those formats do not have
+a namespace.
 
 =back
 

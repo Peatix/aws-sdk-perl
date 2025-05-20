@@ -33,8 +33,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $DescribeDataRepositoryTasksResponse = $fsx->DescribeDataRepositoryTasks(
       Filters => [
         {
-          Name =>
-            'file-system-id', # values: file-system-id, task-lifecycle; OPTIONAL
+          Name => 'file-system-id'
+          , # values: file-system-id, task-lifecycle, data-repository-association-id, file-cache-id; OPTIONAL
           Values => [
             'MyDataRepositoryTaskFilterValue', ...    # min: 1, max: 128
           ],    # max: 20; OPTIONAL

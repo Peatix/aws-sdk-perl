@@ -93,7 +93,7 @@ The description of the usage plan.
 
 =head2 B<REQUIRED> Name => Str
 
-[Required] The name of the usage plan.
+The name of the usage plan.
 
 
 

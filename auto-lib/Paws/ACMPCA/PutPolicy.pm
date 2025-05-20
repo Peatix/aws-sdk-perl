@@ -57,7 +57,7 @@ of JSON Policies
 The Amazon Resource Number (ARN) of the private CA to associate with
 the policy. The ARN of the CA can be found by calling the
 ListCertificateAuthorities
-(https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_ListCertificateAuthorities.html)
+(https://docs.aws.amazon.com/privateca/latest/APIReference/API_ListCertificateAuthorities.html)
 action.
 
 

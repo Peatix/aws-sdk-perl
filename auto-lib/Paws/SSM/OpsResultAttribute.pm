@@ -40,9 +40,9 @@ The OpsItem data type to return.
 
 =head2 B<REQUIRED> TypeName => Str
 
-Name of the data type. Valid value: AWS:OpsItem,
-AWS:EC2InstanceInformation, AWS:OpsItemTrendline, or
-AWS:ComplianceSummary.
+Name of the data type. Valid value: C<AWS:OpsItem>,
+C<AWS:EC2InstanceInformation>, C<AWS:OpsItemTrendline>, or
+C<AWS:ComplianceSummary>.
 
 
 

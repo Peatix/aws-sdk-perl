@@ -35,11 +35,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     # Results:
     my $BotId                   = $DescribeBotResponse->BotId;
+    my $BotMembers              = $DescribeBotResponse->BotMembers;
     my $BotName                 = $DescribeBotResponse->BotName;
     my $BotStatus               = $DescribeBotResponse->BotStatus;
+    my $BotType                 = $DescribeBotResponse->BotType;
     my $CreationDateTime        = $DescribeBotResponse->CreationDateTime;
     my $DataPrivacy             = $DescribeBotResponse->DataPrivacy;
     my $Description             = $DescribeBotResponse->Description;
+    my $ErrorLogSettings        = $DescribeBotResponse->ErrorLogSettings;
+    my $FailureReasons          = $DescribeBotResponse->FailureReasons;
     my $IdleSessionTTLInSeconds = $DescribeBotResponse->IdleSessionTTLInSeconds;
     my $LastUpdatedDateTime     = $DescribeBotResponse->LastUpdatedDateTime;
     my $RoleArn                 = $DescribeBotResponse->RoleArn;

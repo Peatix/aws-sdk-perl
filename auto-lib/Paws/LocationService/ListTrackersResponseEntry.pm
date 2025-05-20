@@ -3,7 +3,7 @@ package Paws::LocationService::ListTrackersResponseEntry;
   use Moose;
   has CreateTime => (is => 'ro', isa => 'Str', required => 1);
   has Description => (is => 'ro', isa => 'Str', required => 1);
-  has PricingPlan => (is => 'ro', isa => 'Str', required => 1);
+  has PricingPlan => (is => 'ro', isa => 'Str');
   has PricingPlanDataSource => (is => 'ro', isa => 'Str');
   has TrackerName => (is => 'ro', isa => 'Str', required => 1);
   has UpdateTime => (is => 'ro', isa => 'Str', required => 1);
@@ -55,18 +55,14 @@ C<YYYY-MM-DDThh:mm:ss.sssZ>.
 The description for the tracker resource.
 
 
-=head2 B<REQUIRED> PricingPlan => Str
+=head2 PricingPlan => Str
 
-The pricing plan for the specified tracker resource.
-
-For additional details and restrictions on each pricing plan option,
-see the Amazon Location Service pricing page
-(https://aws.amazon.com/location/pricing/).
+Always returns C<RequestBasedUsage>.
 
 
 =head2 PricingPlanDataSource => Str
 
-The specified data provider for the tracker resource.
+No longer used. Always returns an empty string.
 
 
 =head2 B<REQUIRED> TrackerName => Str

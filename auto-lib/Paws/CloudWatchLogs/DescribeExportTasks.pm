@@ -73,7 +73,7 @@ Valid values are: C<"CANCELLED">, C<"COMPLETED">, C<"FAILED">, C<"PENDING">, C<"
 =head2 TaskId => Str
 
 The ID of the export task. Specifying a task ID filters the results to
-zero or one export tasks.
+one or zero export tasks.
 
 
 

@@ -1,9 +1,11 @@
 
 package Paws::SageMakerFeatureStoreRuntime::DeleteRecord;
   use Moose;
+  has DeletionMode => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'DeletionMode');
   has EventTime => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'EventTime', required => 1);
   has FeatureGroupName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'FeatureGroupName', required => 1);
   has RecordIdentifierValueAsString => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'RecordIdentifierValueAsString', required => 1);
+  has TargetStores => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['ParamInQuery'], query_name => 'TargetStores');
 
   use MooseX::ClassAttribute;
 
@@ -32,9 +34,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $featurestore-runtime.sagemaker = Paws->service('SageMakerFeatureStoreRuntime');
     $featurestore -runtime . sagemaker->DeleteRecord(
       EventTime                     => 'MyValueAsString',
-      FeatureGroupName              => 'MyFeatureGroupName',
+      FeatureGroupName              => 'MyFeatureGroupNameOrArn',
       RecordIdentifierValueAsString => 'MyValueAsString',
-
+      DeletionMode                  => 'SoftDelete',                # OPTIONAL
+      TargetStores                  => [
+        'OnlineStore', ...    # values: OnlineStore, OfflineStore
+      ],    # OPTIONAL
     );
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
@@ -42,6 +47,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/fea
 
 =head1 ATTRIBUTES
 
+
+=head2 DeletionMode => Str
+
+The name of the deletion mode for deleting the record. By default, the
+deletion mode is set to C<SoftDelete>.
+
+Valid values are: C<"SoftDelete">, C<"HardDelete">
 
 =head2 B<REQUIRED> EventTime => Str
 
@@ -52,7 +64,8 @@ be used to query data at a certain point in time.
 
 =head2 B<REQUIRED> FeatureGroupName => Str
 
-The name of the feature group to delete the record from.
+The name or Amazon Resource Name (ARN) of the feature group to delete
+the record from.
 
 
 
@@ -60,6 +73,14 @@ The name of the feature group to delete the record from.
 
 The value for the C<RecordIdentifier> that uniquely identifies the
 record, in string format.
+
+
+
+=head2 TargetStores => ArrayRef[Str|Undef]
+
+A list of stores from which you're deleting the record. By default,
+Feature Store deletes the record from all of the stores that you're
+using for the C<FeatureGroup>.
 
 
 

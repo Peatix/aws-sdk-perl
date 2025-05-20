@@ -30,19 +30,22 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $workmail = Paws->service('WorkMail');
     my $DescribeResourceResponse = $workmail->DescribeResource(
       OrganizationId => 'MyOrganizationId',
-      ResourceId     => 'MyResourceId',
+      ResourceId     => 'MyEntityIdentifier',
 
     );
 
     # Results:
     my $BookingOptions = $DescribeResourceResponse->BookingOptions;
+    my $Description    = $DescribeResourceResponse->Description;
     my $DisabledDate   = $DescribeResourceResponse->DisabledDate;
     my $Email          = $DescribeResourceResponse->Email;
     my $EnabledDate    = $DescribeResourceResponse->EnabledDate;
-    my $Name           = $DescribeResourceResponse->Name;
-    my $ResourceId     = $DescribeResourceResponse->ResourceId;
-    my $State          = $DescribeResourceResponse->State;
-    my $Type           = $DescribeResourceResponse->Type;
+    my $HiddenFromGlobalAddressList =
+      $DescribeResourceResponse->HiddenFromGlobalAddressList;
+    my $Name       = $DescribeResourceResponse->Name;
+    my $ResourceId = $DescribeResourceResponse->ResourceId;
+    my $State      = $DescribeResourceResponse->State;
+    my $Type       = $DescribeResourceResponse->Type;
 
     # Returns a L<Paws::WorkMail::DescribeResourceResponse> object.
 
@@ -62,6 +65,26 @@ is described.
 =head2 B<REQUIRED> ResourceId => Str
 
 The identifier of the resource to be described.
+
+The identifier can accept I<ResourceId>, I<Resourcename>, or I<email>.
+The following identity formats are available:
+
+=over
+
+=item *
+
+Resource ID: r-0123456789a0123456789b0123456789
+
+=item *
+
+Email address: resource@domain.tld
+
+=item *
+
+Resource name: resource
+
+=back
+
 
 
 

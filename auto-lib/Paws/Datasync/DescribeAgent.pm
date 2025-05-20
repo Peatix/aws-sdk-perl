@@ -38,6 +38,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $EndpointType       = $DescribeAgentResponse->EndpointType;
     my $LastConnectionTime = $DescribeAgentResponse->LastConnectionTime;
     my $Name               = $DescribeAgentResponse->Name;
+    my $Platform           = $DescribeAgentResponse->Platform;
     my $PrivateLinkConfig  = $DescribeAgentResponse->PrivateLinkConfig;
     my $Status             = $DescribeAgentResponse->Status;
 
@@ -51,7 +52,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/dat
 
 =head2 B<REQUIRED> AgentArn => Str
 
-The Amazon Resource Name (ARN) of the agent to describe.
+Specifies the Amazon Resource Name (ARN) of the DataSync agent that you
+want information about.
 
 
 

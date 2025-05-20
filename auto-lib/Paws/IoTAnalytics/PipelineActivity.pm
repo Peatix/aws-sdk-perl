@@ -64,12 +64,12 @@ Specifies where to store the processed message data.
 
 =head2 DeviceRegistryEnrich => L<Paws::IoTAnalytics::DeviceRegistryEnrichActivity>
 
-Adds data from the AWS IoT device registry to your message.
+Adds data from the IoT device registry to your message.
 
 
 =head2 DeviceShadowEnrich => L<Paws::IoTAnalytics::DeviceShadowEnrichActivity>
 
-Adds information from the AWS IoT Device Shadow service to a message.
+Adds information from the IoT Device Shadow service to a message.
 
 
 =head2 Filter => L<Paws::IoTAnalytics::FilterActivity>
@@ -95,8 +95,8 @@ Removes attributes from a message.
 
 =head2 SelectAttributes => L<Paws::IoTAnalytics::SelectAttributesActivity>
 
-Creates a new message using only the specified attributes from the
-original message.
+Used to create a new message using only the specified attributes from
+the original message.
 
 
 

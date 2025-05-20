@@ -58,9 +58,9 @@ The name of the bucket for which to get the versioning information.
 
 =head2 ExpectedBucketOwner => Str
 
-The account ID of the expected bucket owner. If the bucket is owned by
-a different account, the request will fail with an HTTP C<403 (Access
-Denied)> error.
+The account ID of the expected bucket owner. If the account ID that you
+provide does not match the actual owner of the bucket, the request
+fails with the HTTP status code C<403 Forbidden> (access denied).
 
 
 

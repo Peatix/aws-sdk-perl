@@ -6,6 +6,8 @@ package Paws::GroundStation::CreateMissionProfile;
   has DataflowEdges => (is => 'ro', isa => 'ArrayRef[ArrayRef[Str|Undef]]', traits => ['NameInRequest'], request_name => 'dataflowEdges', required => 1);
   has MinimumViableContactDurationSeconds => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'minimumViableContactDurationSeconds', required => 1);
   has Name => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'name', required => 1);
+  has StreamsKmsKey => (is => 'ro', isa => 'Paws::GroundStation::KmsKey', traits => ['NameInRequest'], request_name => 'streamsKmsKey');
+  has StreamsKmsRole => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'streamsKmsRole');
   has Tags => (is => 'ro', isa => 'Paws::GroundStation::TagsMap', traits => ['NameInRequest'], request_name => 'tags');
   has TrackingConfigArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'trackingConfigArn', required => 1);
 
@@ -36,14 +38,23 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $groundstation = Paws->service('GroundStation');
     my $MissionProfileIdResponse = $groundstation->CreateMissionProfile(
       DataflowEdges => [
-        [ 'MyConfigArn', ... ], ...    # min: 2, max: 2
+        [
+          'MyConfigArn', ...    # min: 82, max: 424
+        ],
+        ...                     # min: 2, max: 2
       ],
       MinimumViableContactDurationSeconds => 1,
       Name                                => 'MySafeName',
       TrackingConfigArn                   => 'MyConfigArn',
       ContactPostPassDurationSeconds      => 1,               # OPTIONAL
       ContactPrePassDurationSeconds       => 1,               # OPTIONAL
-      Tags => { 'MyString' => 'MyString', },                  # OPTIONAL
+      StreamsKmsKey                       => {
+        KmsAliasArn  => 'MyKeyAliasArn',     # min: 1, max: 512; OPTIONAL
+        KmsAliasName => 'MyKeyAliasName',    # min: 1, max: 256; OPTIONAL
+        KmsKeyArn    => 'MyKeyArn',          # OPTIONAL
+      },    # OPTIONAL
+      StreamsKmsRole => 'MyRoleArn',                      # OPTIONAL
+      Tags           => { 'MyString' => 'MyString', },    # OPTIONAL
     );
 
     # Results:
@@ -60,14 +71,15 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/gro
 =head2 ContactPostPassDurationSeconds => Int
 
 Amount of time after a contact ends that youE<rsquo>d like to receive a
-CloudWatch event indicating the pass has finished.
+Ground Station Contact State Change event indicating the pass has
+finished.
 
 
 
 =head2 ContactPrePassDurationSeconds => Int
 
 Amount of time prior to contact start youE<rsquo>d like to receive a
-CloudWatch event indicating an upcoming pass.
+Ground Station Contact State Change event indicating an upcoming pass.
 
 
 
@@ -89,6 +101,18 @@ contacts shorter than this duration.
 =head2 B<REQUIRED> Name => Str
 
 Name of a mission profile.
+
+
+
+=head2 StreamsKmsKey => L<Paws::GroundStation::KmsKey>
+
+KMS key to use for encrypting streams.
+
+
+
+=head2 StreamsKmsRole => Str
+
+Role to use for encrypting streams with KMS key.
 
 
 

@@ -3,13 +3,15 @@ package Paws::SageMaker::DescribeProjectOutput;
   use Moose;
   has CreatedBy => (is => 'ro', isa => 'Paws::SageMaker::UserContext');
   has CreationTime => (is => 'ro', isa => 'Str', required => 1);
+  has LastModifiedBy => (is => 'ro', isa => 'Paws::SageMaker::UserContext');
+  has LastModifiedTime => (is => 'ro', isa => 'Str');
   has ProjectArn => (is => 'ro', isa => 'Str', required => 1);
   has ProjectDescription => (is => 'ro', isa => 'Str');
   has ProjectId => (is => 'ro', isa => 'Str', required => 1);
   has ProjectName => (is => 'ro', isa => 'Str', required => 1);
   has ProjectStatus => (is => 'ro', isa => 'Str', required => 1);
   has ServiceCatalogProvisionedProductDetails => (is => 'ro', isa => 'Paws::SageMaker::ServiceCatalogProvisionedProductDetails');
-  has ServiceCatalogProvisioningDetails => (is => 'ro', isa => 'Paws::SageMaker::ServiceCatalogProvisioningDetails', required => 1);
+  has ServiceCatalogProvisioningDetails => (is => 'ro', isa => 'Paws::SageMaker::ServiceCatalogProvisioningDetails');
 
   has _request_id => (is => 'ro', isa => 'Str');
 
@@ -30,6 +32,16 @@ Paws::SageMaker::DescribeProjectOutput
 =head2 B<REQUIRED> CreationTime => Str
 
 The time when the project was created.
+
+
+=head2 LastModifiedBy => L<Paws::SageMaker::UserContext>
+
+
+
+
+=head2 LastModifiedTime => Str
+
+The timestamp when project was last modified.
 
 
 =head2 B<REQUIRED> ProjectArn => Str
@@ -56,13 +68,13 @@ The name of the project.
 
 The status of the project.
 
-Valid values are: C<"Pending">, C<"CreateInProgress">, C<"CreateCompleted">, C<"CreateFailed">, C<"DeleteInProgress">, C<"DeleteFailed">, C<"DeleteCompleted">
+Valid values are: C<"Pending">, C<"CreateInProgress">, C<"CreateCompleted">, C<"CreateFailed">, C<"DeleteInProgress">, C<"DeleteFailed">, C<"DeleteCompleted">, C<"UpdateInProgress">, C<"UpdateCompleted">, C<"UpdateFailed">
 =head2 ServiceCatalogProvisionedProductDetails => L<Paws::SageMaker::ServiceCatalogProvisionedProductDetails>
 
 Information about a provisioned service catalog product.
 
 
-=head2 B<REQUIRED> ServiceCatalogProvisioningDetails => L<Paws::SageMaker::ServiceCatalogProvisioningDetails>
+=head2 ServiceCatalogProvisioningDetails => L<Paws::SageMaker::ServiceCatalogProvisioningDetails>
 
 Information used to provision a service catalog product. For
 information, see What is Amazon Web Services Service Catalog

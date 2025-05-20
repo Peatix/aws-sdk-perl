@@ -35,27 +35,31 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::LexRuntimeV
 
 =head1 DESCRIPTION
 
-The value of a slot.
+Information about the value provided for a slot and Amazon Lex V2's
+interpretation.
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> InterpretedValue => Str
 
-The value that Amazon Lex V2 determines for the slot. The actual value
-depends on the setting of the value selection strategy for the bot. You
-can choose to use the value entered by the user, or you can have Amazon
-Lex V2 choose the first value in the C<resolvedValues> list.
+The value that Amazon Lex V2 determines for the slot, given the user
+input. The actual value depends on the setting of the value selection
+strategy for the bot. You can choose to use the value entered by the
+user, or you can have Amazon Lex V2 choose the first value in the
+C<resolvedValues> list.
 
 
 =head2 OriginalValue => Str
 
-The text of the utterance from the user that was entered for the slot.
+The part of the user's response to the slot elicitation that Amazon Lex
+V2 determines is relevant to the slot value.
 
 
 =head2 ResolvedValues => ArrayRef[Str|Undef]
 
-A list of additional values that have been recognized for the slot.
+A list of values that Amazon Lex V2 determines are possible resolutions
+for the user input. The first value matches the C<interpretedValue>.
 
 
 

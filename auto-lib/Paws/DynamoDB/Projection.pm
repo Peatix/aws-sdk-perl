@@ -46,10 +46,14 @@ key attributes, which are automatically projected.
 Represents the non-key attribute names which will be projected into the
 index.
 
-For local secondary indexes, the total count of C<NonKeyAttributes>
-summed across all of the local secondary indexes, must not exceed 20.
-If you project the same attribute into two different indexes, this
-counts as two distinct attributes when determining the total.
+For global and local secondary indexes, the total count of
+C<NonKeyAttributes> summed across all of the secondary indexes, must
+not exceed 100. If you project the same attribute into two different
+indexes, this counts as two distinct attributes when determining the
+total. This limit only applies when you specify the ProjectionType of
+C<INCLUDE>. You still can specify the ProjectionType of C<ALL> to
+project all attributes from the source table, even if the table has
+more than 100 attributes.
 
 
 =head2 ProjectionType => Str
@@ -75,6 +79,7 @@ C<ALL> - All of the table attributes are projected into the index.
 
 =back
 
+When using the DynamoDB console, C<ALL> is selected by default.
 
 
 

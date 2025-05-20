@@ -37,10 +37,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::MediaConver
 =head1 DESCRIPTION
 
 Use these settings to insert a DVB Service Description Table (SDT) in
-the transport stream of this output. When you work directly in your
-JSON job specification, include this object only when your job has a
-transport stream output and the container settings contain the object
-M2tsSettings.
+the transport stream of this output.
 
 =head1 ATTRIBUTES
 

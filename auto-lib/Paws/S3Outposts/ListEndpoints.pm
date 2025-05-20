@@ -48,13 +48,14 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/s3-
 
 =head2 MaxResults => Int
 
-The max number of endpoints that can be returned on the request.
+The maximum number of endpoints that will be returned in the response.
 
 
 
 =head2 NextToken => Str
 
-The next endpoint requested in the list.
+If a previous response from this operation included a C<NextToken>
+value, provide that value here to retrieve the next page of results.
 
 
 

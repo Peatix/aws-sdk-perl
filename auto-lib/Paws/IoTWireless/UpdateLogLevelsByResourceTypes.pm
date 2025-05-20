@@ -2,6 +2,7 @@
 package Paws::IoTWireless::UpdateLogLevelsByResourceTypes;
   use Moose;
   has DefaultLogLevel => (is => 'ro', isa => 'Str');
+  has FuotaTaskLogOptions => (is => 'ro', isa => 'ArrayRef[Paws::IoTWireless::FuotaTaskLogOption]');
   has WirelessDeviceLogOptions => (is => 'ro', isa => 'ArrayRef[Paws::IoTWireless::WirelessDeviceLogOption]');
   has WirelessGatewayLogOptions => (is => 'ro', isa => 'ArrayRef[Paws::IoTWireless::WirelessGatewayLogOption]');
 
@@ -32,7 +33,22 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $api.iotwireless = Paws->service('IoTWireless');
     my $UpdateLogLevelsByResourceTypesResponse =
       $api . iotwireless->UpdateLogLevelsByResourceTypes(
-      DefaultLogLevel          => 'INFO',    # OPTIONAL
+      DefaultLogLevel     => 'INFO',    # OPTIONAL
+      FuotaTaskLogOptions => [
+        {
+          LogLevel => 'INFO',       # values: INFO, ERROR, DISABLED
+          Type     => 'LoRaWAN',    # values: LoRaWAN
+          Events   => [
+            {
+              Event    => 'Fuota',    # values: Fuota
+              LogLevel => 'INFO',     # values: INFO, ERROR, DISABLED
+
+            },
+            ...
+          ],    # OPTIONAL
+        },
+        ...
+      ],    # OPTIONAL
       WirelessDeviceLogOptions => [
         {
           LogLevel => 'INFO',        # values: INFO, ERROR, DISABLED
@@ -77,6 +93,12 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 
 Valid values are: C<"INFO">, C<"ERROR">, C<"DISABLED">
+
+=head2 FuotaTaskLogOptions => ArrayRef[L<Paws::IoTWireless::FuotaTaskLogOption>]
+
+
+
+
 
 =head2 WirelessDeviceLogOptions => ArrayRef[L<Paws::IoTWireless::WirelessDeviceLogOption>]
 

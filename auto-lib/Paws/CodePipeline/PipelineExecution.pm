@@ -2,11 +2,16 @@
 package Paws::CodePipeline::PipelineExecution;
   use Moose;
   has ArtifactRevisions => (is => 'ro', isa => 'ArrayRef[Paws::CodePipeline::ArtifactRevision]', request_name => 'artifactRevisions', traits => ['NameInRequest']);
+  has ExecutionMode => (is => 'ro', isa => 'Str', request_name => 'executionMode', traits => ['NameInRequest']);
+  has ExecutionType => (is => 'ro', isa => 'Str', request_name => 'executionType', traits => ['NameInRequest']);
   has PipelineExecutionId => (is => 'ro', isa => 'Str', request_name => 'pipelineExecutionId', traits => ['NameInRequest']);
   has PipelineName => (is => 'ro', isa => 'Str', request_name => 'pipelineName', traits => ['NameInRequest']);
   has PipelineVersion => (is => 'ro', isa => 'Int', request_name => 'pipelineVersion', traits => ['NameInRequest']);
+  has RollbackMetadata => (is => 'ro', isa => 'Paws::CodePipeline::PipelineRollbackMetadata', request_name => 'rollbackMetadata', traits => ['NameInRequest']);
   has Status => (is => 'ro', isa => 'Str', request_name => 'status', traits => ['NameInRequest']);
   has StatusSummary => (is => 'ro', isa => 'Str', request_name => 'statusSummary', traits => ['NameInRequest']);
+  has Trigger => (is => 'ro', isa => 'Paws::CodePipeline::ExecutionTrigger', request_name => 'trigger', traits => ['NameInRequest']);
+  has Variables => (is => 'ro', isa => 'ArrayRef[Paws::CodePipeline::ResolvedPipelineVariable]', request_name => 'variables', traits => ['NameInRequest']);
 
 1;
 
@@ -27,7 +32,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::CodePipeline::PipelineExecution object:
 
-  $service_obj->Method(Att1 => { ArtifactRevisions => $value, ..., StatusSummary => $value  });
+  $service_obj->Method(Att1 => { ArtifactRevisions => $value, ..., Variables => $value  });
 
 =head3 Results returned from an API call
 
@@ -48,6 +53,17 @@ Represents information about an execution of a pipeline.
 A list of C<ArtifactRevision> objects included in a pipeline execution.
 
 
+=head2 ExecutionMode => Str
+
+The method that the pipeline will use to handle multiple executions.
+The default mode is SUPERSEDED.
+
+
+=head2 ExecutionType => Str
+
+The type of the pipeline execution.
+
+
 =head2 PipelineExecutionId => Str
 
 The ID of the pipeline execution.
@@ -62,6 +78,11 @@ The name of the pipeline with the specified pipeline execution.
 
 The version number of the pipeline with the specified pipeline
 execution.
+
+
+=head2 RollbackMetadata => L<Paws::CodePipeline::PipelineRollbackMetadata>
+
+The metadata about the execution pertaining to stage rollback.
 
 
 =head2 Status => Str
@@ -116,6 +137,16 @@ Failed: The pipeline execution was not completed successfully.
 =head2 StatusSummary => Str
 
 A summary that contains a description of the pipeline execution status.
+
+
+=head2 Trigger => L<Paws::CodePipeline::ExecutionTrigger>
+
+
+
+
+=head2 Variables => ArrayRef[L<Paws::CodePipeline::ResolvedPipelineVariable>]
+
+A list of pipeline variables used for the pipeline execution.
 
 
 

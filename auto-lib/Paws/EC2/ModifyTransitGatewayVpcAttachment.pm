@@ -40,6 +40,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ApplianceModeSupport => 'enable',    # values: enable, disable; OPTIONAL
         DnsSupport           => 'enable',    # values: enable, disable; OPTIONAL
         Ipv6Support          => 'enable',    # values: enable, disable; OPTIONAL
+        SecurityGroupReferencingSupport =>
+          'enable',                          # values: enable, disable; OPTIONAL
       },    # OPTIONAL
       RemoveSubnetIds => [ 'MySubnetId', ... ],    # OPTIONAL
       );
@@ -75,8 +77,6 @@ C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
 =head2 Options => L<Paws::EC2::ModifyTransitGatewayVpcAttachmentRequestOptions>
 
 The new VPC attachment options.
-
-You cannot modify the IPv6 options.
 
 
 

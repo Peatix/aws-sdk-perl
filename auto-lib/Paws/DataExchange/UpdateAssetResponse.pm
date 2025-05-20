@@ -31,15 +31,14 @@ The ARN for the asset.
 
 =head2 AssetDetails => L<Paws::DataExchange::AssetDetails>
 
-Information about the asset, including its size.
+Details about the asset.
 
 
 =head2 AssetType => Str
 
-The type of file your data is stored in. Currently, the supported asset
-type is S3_SNAPSHOT.
+The type of asset that is added to a data set.
 
-Valid values are: C<"S3_SNAPSHOT">
+Valid values are: C<"S3_SNAPSHOT">, C<"REDSHIFT_DATA_SHARE">, C<"API_GATEWAY_API">, C<"S3_DATA_ACCESS">, C<"LAKE_FORMATION_DATA_PERMISSION">
 =head2 CreatedAt => Str
 
 The date and time that the asset was created, in ISO 8601 format.
@@ -57,9 +56,14 @@ The unique identifier for the asset.
 
 =head2 Name => Str
 
-The name of the asset When importing from Amazon S3, the S3 object key
-is used as the asset name. When exporting to Amazon S3, the asset name
-is used as default target S3 object key.
+The name of the asset. When importing from Amazon S3, the Amazon S3
+object key is used as the asset name. When exporting to Amazon S3, the
+asset name is used as default target Amazon S3 object key. When
+importing from Amazon API Gateway API, the API name is used as the
+asset name. When importing from Amazon Redshift, the datashare name is
+used as the asset name. When importing from AWS Lake Formation, the
+static values of "Database(s) included in the LF-tag policy"- or
+"Table(s) included in LF-tag policy" are used as the asset name.
 
 
 =head2 RevisionId => Str

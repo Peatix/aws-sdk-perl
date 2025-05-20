@@ -41,9 +41,9 @@ Describes an encryption key for a destination in Amazon S3.
 =head2 B<REQUIRED> AWSKMSKeyARN => Str
 
 The Amazon Resource Name (ARN) of the encryption key. Must belong to
-the same AWS Region as the destination Amazon S3 bucket. For more
-information, see Amazon Resource Names (ARNs) and AWS Service
-Namespaces
+the same Amazon Web Services Region as the destination Amazon S3
+bucket. For more information, see Amazon Resource Names (ARNs) and
+Amazon Web Services Service Namespaces
 (https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
 
 

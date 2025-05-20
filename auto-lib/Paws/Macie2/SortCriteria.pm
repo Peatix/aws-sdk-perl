@@ -41,8 +41,10 @@ Specifies criteria for sorting the results of a request for findings.
 
 =head2 AttributeName => Str
 
-The name of the property to sort the results by. This value can be the
-name of any property that Amazon Macie defines for a finding.
+The name of the property to sort the results by. Valid values are:
+count, createdAt, policyDetails.action.apiCallDetails.firstSeen,
+policyDetails.action.apiCallDetails.lastSeen, resourcesAffected,
+severity.score, type, and updatedAt.
 
 
 =head2 OrderBy => Str

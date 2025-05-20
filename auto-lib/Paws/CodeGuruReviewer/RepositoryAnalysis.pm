@@ -36,7 +36,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CodeGuruRev
 
 A code review type that analyzes all code under a specified branch in
 an associated repository. The associated repository is specified using
-its ARN when you call C<CreateCodeReview>
+its ARN when you call CreateCodeReview
 (https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_CreateCodeReview).
 
 =head1 ATTRIBUTES
@@ -44,7 +44,7 @@ its ARN when you call C<CreateCodeReview>
 
 =head2 RepositoryHead => L<Paws::CodeGuruReviewer::RepositoryHeadSourceCodeType>
 
-A C<SourceCodeType>
+A SourceCodeType
 (https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_SourceCodeType)
 that specifies the tip of a branch in an associated repository.
 

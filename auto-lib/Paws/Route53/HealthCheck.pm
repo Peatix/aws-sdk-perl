@@ -39,7 +39,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Route53::He
 =head1 DESCRIPTION
 
 A complex type that contains information about one health check that is
-associated with the current AWS account.
+associated with the current Amazon Web Services account.
 
 =head1 ATTRIBUTES
 

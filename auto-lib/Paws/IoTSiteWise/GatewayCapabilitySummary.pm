@@ -42,7 +42,7 @@ Contains a summary of a gateway capability configuration.
 =head2 B<REQUIRED> CapabilityNamespace => Str
 
 The namespace of the capability configuration. For example, if you
-configure OPC-UA sources from the AWS IoT SiteWise console, your OPC-UA
+configure OPC-UA sources from the IoT SiteWise console, your OPC-UA
 capability configuration has the namespace
 C<iotsitewise:opcuacollector:version>, where C<version> is a number
 such as C<1>.
@@ -62,6 +62,13 @@ configuration.
 
 =item *
 
+C<NOT_APPLICABLE> E<ndash> Synchronization is not required for this
+capability configuration. This is most common when integrating partner
+data sources, because the data integration is handled externally by the
+partner.
+
+=item *
+
 C<OUT_OF_SYNC> E<ndash> The gateway hasn't received the capability
 configuration.
 
@@ -69,6 +76,11 @@ configuration.
 
 C<SYNC_FAILED> E<ndash> The gateway rejected the capability
 configuration.
+
+=item *
+
+C<UNKNOWN> E<ndash> The synchronization status is currently unknown due
+to an undetermined or temporary error.
 
 =back
 

@@ -34,8 +34,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CodeDeploy:
 
 =head1 DESCRIPTION
 
-A revision for an AWS Lambda or Amazon ECS deployment that is a
-YAML-formatted or JSON-formatted string. For AWS Lambda and Amazon ECS
+A revision for an Lambda or Amazon ECS deployment that is a
+YAML-formatted or JSON-formatted string. For Lambda and Amazon ECS
 deployments, the revision is the same as the AppSpec file. This method
 replaces the deprecated C<RawString> data type.
 
@@ -46,10 +46,10 @@ replaces the deprecated C<RawString> data type.
 
 The YAML-formatted or JSON-formatted revision string.
 
-For an AWS Lambda deployment, the content includes a Lambda function
-name, the alias for its original version, and the alias for its
-replacement version. The deployment shifts traffic from the original
-version of the Lambda function to the replacement version.
+For an Lambda deployment, the content includes a Lambda function name,
+the alias for its original version, and the alias for its replacement
+version. The deployment shifts traffic from the original version of the
+Lambda function to the replacement version.
 
 For an Amazon ECS deployment, the content includes the task name,
 information about the load balancer that serves traffic to the

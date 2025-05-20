@@ -67,11 +67,14 @@ The certificate data, in PEM format.
 
 A boolean value that specifies if the certificate is set to active.
 
+Valid values: C<ACTIVE | INACTIVE>
+
 
 
 =head2 Status => Str
 
-The status of the register certificate request.
+The status of the register certificate request. Valid values that you
+can use include C<ACTIVE>, C<INACTIVE>, and C<REVOKED>.
 
 Valid values are: C<"ACTIVE">, C<"INACTIVE">, C<"REVOKED">, C<"PENDING_TRANSFER">, C<"REGISTER_INACTIVE">, C<"PENDING_ACTIVATION">
 

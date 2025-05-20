@@ -18,7 +18,7 @@ Paws::Connect::ListContactFlowsResponse
 
 =head2 ContactFlowSummaryList => ArrayRef[L<Paws::Connect::ContactFlowSummary>]
 
-Information about the contact flows.
+Information about the flows.
 
 
 =head2 NextToken => Str

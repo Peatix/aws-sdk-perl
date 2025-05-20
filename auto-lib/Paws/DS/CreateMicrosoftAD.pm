@@ -67,23 +67,24 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ds/
 
 =head2 Description => Str
 
-A description for the directory. This label will appear on the AWS
-console C<Directory Details> page after the directory is created.
+A description for the directory. This label will appear on the Amazon
+Web Services console C<Directory Details> page after the directory is
+created.
 
 
 
 =head2 Edition => Str
 
-AWS Managed Microsoft AD is available in two editions: C<Standard> and
+Managed Microsoft AD is available in two editions: C<Standard> and
 C<Enterprise>. C<Enterprise> is the default.
 
 Valid values are: C<"Enterprise">, C<"Standard">
 
 =head2 B<REQUIRED> Name => Str
 
-The fully qualified domain name for the AWS Managed Microsoft AD
-directory, such as C<corp.example.com>. This name will resolve inside
-your VPC only. It does not need to be publicly resolvable.
+The fully qualified domain name for the Managed Microsoft AD directory,
+such as C<corp.example.com>. This name will resolve inside your VPC
+only. It does not need to be publicly resolvable.
 
 
 
@@ -106,7 +107,7 @@ DNS. For example, C<CORP> for the directory DNS C<corp.example.com>.
 
 =head2 Tags => ArrayRef[L<Paws::DS::Tag>]
 
-The tags to be assigned to the AWS Managed Microsoft AD directory.
+The tags to be assigned to the Managed Microsoft AD directory.
 
 
 

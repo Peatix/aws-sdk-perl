@@ -4,6 +4,7 @@ package Paws::Datasync::TaskListEntry;
   has Name => (is => 'ro', isa => 'Str');
   has Status => (is => 'ro', isa => 'Str');
   has TaskArn => (is => 'ro', isa => 'Str');
+  has TaskMode => (is => 'ro', isa => 'Str');
 
 1;
 
@@ -24,7 +25,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::Datasync::TaskListEntry object:
 
-  $service_obj->Method(Att1 => { Name => $value, ..., TaskArn => $value  });
+  $service_obj->Method(Att1 => { Name => $value, ..., TaskMode => $value  });
 
 =head3 Results returned from an API call
 
@@ -57,6 +58,13 @@ The status of the task.
 =head2 TaskArn => Str
 
 The Amazon Resource Name (ARN) of the task.
+
+
+=head2 TaskMode => Str
+
+The task mode that you're using. For more information, see Choosing a
+task mode for your data transfer
+(https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html).
 
 
 

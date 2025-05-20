@@ -37,7 +37,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::NetworkFire
 The status of the firewall endpoint and firewall policy configuration
 for a single VPC subnet.
 
-For each VPC subnet that you associate with a firewall, AWS Network
+For each VPC subnet that you associate with a firewall, Network
 Firewall does the following:
 
 =over

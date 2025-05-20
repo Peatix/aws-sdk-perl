@@ -37,20 +37,20 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ECRPublic::
 
 =head1 DESCRIPTION
 
-An object representing an Amazon ECR image.
+An object that represents an Amazon ECR image.
 
 =head1 ATTRIBUTES
 
 
 =head2 ImageId => L<Paws::ECRPublic::ImageIdentifier>
 
-An object containing the image tag and image digest associated with an
-image.
+An object that contains the image tag and image digest associated with
+an image.
 
 
 =head2 ImageManifest => Str
 
-The image manifest associated with the image.
+The image manifest that's associated with the image.
 
 
 =head2 ImageManifestMediaType => Str
@@ -60,12 +60,13 @@ The manifest media type of the image.
 
 =head2 RegistryId => Str
 
-The AWS account ID associated with the registry containing the image.
+The Amazon Web Services account ID that's associated with the registry
+containing the image.
 
 
 =head2 RepositoryName => Str
 
-The name of the repository associated with the image.
+The name of the repository that's associated with the image.
 
 
 

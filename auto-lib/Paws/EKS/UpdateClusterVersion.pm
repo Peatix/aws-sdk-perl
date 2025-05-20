@@ -2,6 +2,7 @@
 package Paws::EKS::UpdateClusterVersion;
   use Moose;
   has ClientRequestToken => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'clientRequestToken');
+  has Force => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'force');
   has Name => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'name', required => 1);
   has Version => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'version', required => 1);
 
@@ -34,6 +35,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       Name               => 'MyString',
       Version            => 'MyString',
       ClientRequestToken => 'MyString',    # OPTIONAL
+      Force              => 1,             # OPTIONAL
     );
 
     # Results:
@@ -49,8 +51,15 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/eks
 
 =head2 ClientRequestToken => Str
 
-Unique, case-sensitive identifier that you provide to ensure the
+A unique, case-sensitive identifier that you provide to ensure the
 idempotency of the request.
+
+
+
+=head2 Force => Bool
+
+Set this value to C<true> to override upgrade-blocking readiness checks
+when updating a cluster.
 
 
 

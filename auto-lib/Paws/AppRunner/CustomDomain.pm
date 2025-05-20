@@ -36,8 +36,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AppRunner::
 
 =head1 DESCRIPTION
 
-Describes a custom domain that's associated with an AWS App Runner
-service.
+Describes a custom domain that's associated with an App Runner service.
 
 =head1 ATTRIBUTES
 

@@ -74,7 +74,8 @@ The name of the domain that you want the gateway to join.
 =head2 B<REQUIRED> GatewayARN => Str
 
 The Amazon Resource Name (ARN) of the gateway. Use the C<ListGateways>
-operation to return a list of gateways for your account and AWS Region.
+operation to return a list of gateways for your account and Amazon Web
+Services Region.
 
 
 

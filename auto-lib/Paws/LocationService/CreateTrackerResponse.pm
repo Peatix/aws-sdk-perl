@@ -27,7 +27,7 @@ C<YYYY-MM-DDThh:mm:ss.sssZ>.
 =head2 B<REQUIRED> TrackerArn => Str
 
 The Amazon Resource Name (ARN) for the tracker resource. Used when you
-need to specify a resource across all AWS.
+need to specify a resource across all Amazon Web Services.
 
 =over
 

@@ -51,7 +51,8 @@ Contains data about a job execution.
 =head2 ApproximateSecondsBeforeTimedOut => Int
 
 The estimated number of seconds that remain before the job execution
-status will be changed to C<TIMED_OUT>.
+status will be changed to C<TIMED_OUT>. The actual job execution
+timeout can occur up to 60 seconds later than the estimated duration.
 
 
 =head2 ExecutionNumber => Int
@@ -73,33 +74,36 @@ The unique identifier you assigned to this job when it was created.
 
 =head2 LastUpdatedAt => Int
 
-The time, in milliseconds since the epoch, when the job execution was
-last updated.
+The time, in seconds since the epoch, when the job execution was last
+updated.
 
 
 =head2 QueuedAt => Int
 
-The time, in milliseconds since the epoch, when the job execution was
+The time, in seconds since the epoch, when the job execution was
 enqueued.
 
 
 =head2 StartedAt => Int
 
-The time, in milliseconds since the epoch, when the job execution was
+The time, in seconds since the epoch, when the job execution was
 started.
 
 
 =head2 Status => Str
 
 The status of the job execution. Can be one of: "QUEUED",
-"IN_PROGRESS", "FAILED", "SUCCESS", "CANCELED", "REJECTED", or
-"REMOVED".
+"IN_PROGRESS", "FAILED", "SUCCESS", "CANCELED", "TIMED_OUT",
+"REJECTED", or "REMOVED".
 
 
 =head2 StatusDetails => L<Paws::IoTJobsData::DetailsMap>
 
 A collection of name/value pairs that describe the status of the job
 execution.
+
+The maximum length of the value in the name/value pair is 1,024
+characters.
 
 
 =head2 ThingName => Str

@@ -23,7 +23,7 @@ Paws::ECR::DescribeImageScanFindings - Arguments for method DescribeImageScanFin
 =head1 DESCRIPTION
 
 This class represents the parameters used for calling the method DescribeImageScanFindings on the
-L<Amazon EC2 Container Registry|Paws::ECR> service. Use the attributes of this class
+L<Amazon Elastic Container Registry|Paws::ECR> service. Use the attributes of this class
 as arguments to method DescribeImageScanFindings.
 
 You shouldn't make instances of this class. Each attribute should be used as a named argument in the call to DescribeImageScanFindings.
@@ -92,9 +92,9 @@ value. This value is null when there are no more results to return.
 
 =head2 RegistryId => Str
 
-The AWS account ID associated with the registry that contains the
-repository in which to describe the image scan findings for. If you do
-not specify a registry, the default registry is assumed.
+The Amazon Web Services account ID associated with the registry that
+contains the repository in which to describe the image scan findings
+for. If you do not specify a registry, the default registry is assumed.
 
 
 

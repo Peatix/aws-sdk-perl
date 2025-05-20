@@ -46,7 +46,7 @@ The C<sha256> digest of the image manifest.
 
 =head2 ImageTag => Str
 
-The tag used for the image.
+The tag that's used for the image.
 
 
 

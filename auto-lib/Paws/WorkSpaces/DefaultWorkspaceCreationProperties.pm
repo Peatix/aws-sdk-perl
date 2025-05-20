@@ -5,7 +5,7 @@ package Paws::WorkSpaces::DefaultWorkspaceCreationProperties;
   has DefaultOu => (is => 'ro', isa => 'Str');
   has EnableInternetAccess => (is => 'ro', isa => 'Bool');
   has EnableMaintenanceMode => (is => 'ro', isa => 'Bool');
-  has EnableWorkDocs => (is => 'ro', isa => 'Bool');
+  has InstanceIamRoleArn => (is => 'ro', isa => 'Str');
   has UserEnabledAsLocalAdministrator => (is => 'ro', isa => 'Bool');
 
 1;
@@ -82,9 +82,9 @@ information, see WorkSpace Maintenance
 (https://docs.aws.amazon.com/workspaces/latest/adminguide/workspace-maintenance.html).
 
 
-=head2 EnableWorkDocs => Bool
+=head2 InstanceIamRoleArn => Str
 
-Specifies whether the directory is enabled for Amazon WorkDocs.
+Indicates the IAM role ARN of the instance.
 
 
 =head2 UserEnabledAsLocalAdministrator => Bool

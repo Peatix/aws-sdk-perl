@@ -61,6 +61,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
               Strings => [ 'MystringValue', ... ],    # OPTIONAL
             },    # OPTIONAL
           },    # OPTIONAL
+          ExportMetric    => 1,                     # OPTIONAL
           Metric          => 'MyBehaviorMetric',    # OPTIONAL
           MetricDimension => {
             DimensionName => 'MyDimensionName',   # min: 1, max: 128

@@ -51,10 +51,10 @@ The new description that you want to apply to the specified role.
 
 The maximum session duration (in seconds) that you want to set for the
 specified role. If you do not specify a value for this setting, the
-default maximum of one hour is applied. This setting can have a value
+default value of one hour is applied. This setting can have a value
 from 1 hour to 12 hours.
 
-Anyone who assumes the role from the AWS CLI or API can use the
+Anyone who assumes the role from the CLI or API can use the
 C<DurationSeconds> API parameter or the C<duration-seconds> CLI
 parameter to request a longer session. The C<MaxSessionDuration>
 setting determines the maximum duration that can be requested using the
@@ -66,6 +66,9 @@ when you use those operations to create a console URL. For more
 information, see Using IAM roles
 (https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use.html) in
 the I<IAM User Guide>.
+
+IAM role credentials provided by Amazon EC2 instances assigned to the
+role are not subject to the specified maximum session duration.
 
 
 

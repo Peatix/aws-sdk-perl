@@ -17,7 +17,7 @@ Paws::SSM::GetInventoryResult
 
 =head2 Entities => ArrayRef[L<Paws::SSM::InventoryResultEntity>]
 
-Collection of inventory entities such as a collection of instance
+Collection of inventory entities such as a collection of managed node
 inventory.
 
 

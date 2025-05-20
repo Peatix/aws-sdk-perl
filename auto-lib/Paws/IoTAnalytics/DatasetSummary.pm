@@ -38,7 +38,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::IoTAnalytic
 
 =head1 DESCRIPTION
 
-A summary of information about a data set.
+A summary of information about a dataset.
 
 =head1 ATTRIBUTES
 
@@ -50,28 +50,28 @@ A list of C<DataActionSummary> objects.
 
 =head2 CreationTime => Str
 
-The time the data set was created.
+The time the dataset was created.
 
 
 =head2 DatasetName => Str
 
-The name of the data set.
+The name of the dataset.
 
 
 =head2 LastUpdateTime => Str
 
-The last time the data set was updated.
+The last time the dataset was updated.
 
 
 =head2 Status => Str
 
-The status of the data set.
+The status of the dataset.
 
 
 =head2 Triggers => ArrayRef[L<Paws::IoTAnalytics::DatasetTrigger>]
 
-A list of triggers. A trigger causes data set content to be populated
-at a specified time interval or when another data set is populated. The
+A list of triggers. A trigger causes dataset content to be populated at
+a specified time interval or when another dataset is populated. The
 list of triggers can be empty or contain up to five C<DataSetTrigger>
 objects
 

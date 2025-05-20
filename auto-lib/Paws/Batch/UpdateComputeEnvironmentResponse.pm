@@ -23,8 +23,9 @@ The Amazon Resource Name (ARN) of the compute environment.
 
 =head2 ComputeEnvironmentName => Str
 
-The name of the compute environment. Up to 128 letters (uppercase and
-lowercase), numbers, hyphens, and underscores are allowed.
+The name of the compute environment. It can be up to 128 characters
+long. It can contain uppercase and lowercase letters, numbers, hyphens
+(-), and underscores (_).
 
 
 =head2 _request_id => Str

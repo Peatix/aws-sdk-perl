@@ -41,7 +41,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/aud
 
 =head2 B<REQUIRED> ControlId => Str
 
-The identifier for the specified control.
+The unique identifier for the control.
 
 
 

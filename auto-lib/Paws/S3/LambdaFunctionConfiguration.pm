@@ -36,16 +36,15 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::S3::LambdaF
 
 =head1 DESCRIPTION
 
-A container for specifying the configuration for AWS Lambda
-notifications.
+A container for specifying the configuration for Lambda notifications.
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> Events => ArrayRef[Str|Undef]
 
-The Amazon S3 bucket event for which to invoke the AWS Lambda function.
-For more information, see Supported Event Types
+The Amazon S3 bucket event for which to invoke the Lambda function. For
+more information, see Supported Event Types
 (https://docs.aws.amazon.com/AmazonS3/latest/dev/NotificationHowTo.html)
 in the I<Amazon S3 User Guide>.
 
@@ -62,8 +61,8 @@ in the I<Amazon S3 User Guide>.
 
 =head2 B<REQUIRED> LambdaFunctionArn => Str
 
-The Amazon Resource Name (ARN) of the AWS Lambda function that Amazon
-S3 invokes when the specified event type occurs.
+The Amazon Resource Name (ARN) of the Lambda function that Amazon S3
+invokes when the specified event type occurs.
 
 
 

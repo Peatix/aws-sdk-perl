@@ -28,13 +28,27 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $ecs = Paws->service('ECS');
+    # To delete your account setting
+    # This example deletes the account setting for your user for the specified
+    # resource type.
+    my $DeleteAccountSettingResponse =
+      $ecs->DeleteAccountSetting( 'Name' => 'serviceLongArnFormat' );
+
+    # Results:
+    my $setting = $DeleteAccountSettingResponse->setting;
+
+  # Returns a L<Paws::ECS::DeleteAccountSettingResponse> object.
+  # To delete the account settings for a specific IAM user or IAM role
+  # This example deletes the account setting for a specific IAM user or IAM role
+  # for the specified resource type. Only the root user can view or modify the
+  # account settings for another user.
     my $DeleteAccountSettingResponse = $ecs->DeleteAccountSetting(
-      Name         => 'serviceLongArnFormat',
-      PrincipalArn => 'MyString',               # OPTIONAL
+      'Name'         => 'containerInstanceLongArnFormat',
+      'PrincipalArn' => 'arn:aws:iam::<aws_account_id>:user/principalName'
     );
 
     # Results:
-    my $Setting = $DeleteAccountSettingResponse->Setting;
+    my $setting = $DeleteAccountSettingResponse->setting;
 
     # Returns a L<Paws::ECS::DeleteAccountSettingResponse> object.
 
@@ -46,7 +60,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ecs
 
 =head2 B<REQUIRED> Name => Str
 
-The resource name for which to disable the account setting. If
+The resource name to disable the account setting for. If
 C<serviceLongArnFormat> is specified, the ARN for your Amazon ECS
 services is affected. If C<taskLongArnFormat> is specified, the ARN and
 resource ID for your Amazon ECS tasks is affected. If
@@ -55,16 +69,19 @@ for your Amazon ECS container instances is affected. If
 C<awsvpcTrunking> is specified, the ENI limit for your Amazon ECS
 container instances is affected.
 
-Valid values are: C<"serviceLongArnFormat">, C<"taskLongArnFormat">, C<"containerInstanceLongArnFormat">, C<"awsvpcTrunking">, C<"containerInsights">
+Valid values are: C<"serviceLongArnFormat">, C<"taskLongArnFormat">, C<"containerInstanceLongArnFormat">, C<"awsvpcTrunking">, C<"containerInsights">, C<"fargateFIPSMode">, C<"tagResourceAuthorization">, C<"fargateTaskRetirementWaitPeriod">, C<"guardDutyActivate">, C<"defaultLogDriverMode">
 
 =head2 PrincipalArn => Str
 
-The ARN of the principal, which can be an IAM user, IAM role, or the
-root user. If you specify the root user, it disables the account
-setting for all IAM users, IAM roles, and the root user of the account
-unless an IAM user or role explicitly overrides these settings. If this
+The Amazon Resource Name (ARN) of the principal. It can be a user,
+role, or the root user. If you specify the root user, it disables the
+account setting for all users, roles, and the root user of the account
+unless a user or role explicitly overrides these settings. If this
 field is omitted, the setting is changed only for the authenticated
 user.
+
+In order to use this parameter, you must be the root user, or the
+principal.
 
 
 

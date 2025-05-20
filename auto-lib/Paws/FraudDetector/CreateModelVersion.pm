@@ -2,6 +2,7 @@
 package Paws::FraudDetector::CreateModelVersion;
   use Moose;
   has ExternalEventsDetail => (is => 'ro', isa => 'Paws::FraudDetector::ExternalEventsDetail', traits => ['NameInRequest'], request_name => 'externalEventsDetail' );
+  has IngestedEventsDetail => (is => 'ro', isa => 'Paws::FraudDetector::IngestedEventsDetail', traits => ['NameInRequest'], request_name => 'ingestedEventsDetail' );
   has ModelId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'modelId' , required => 1);
   has ModelType => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'modelType' , required => 1);
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::FraudDetector::Tag]', traits => ['NameInRequest'], request_name => 'tags' );
@@ -36,17 +37,25 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       ModelId            => 'MymodelIdentifier',
       ModelType          => 'ONLINE_FRAUD_INSIGHTS',
       TrainingDataSchema => {
-        LabelSchema => {
-          LabelMapper => { 'Mystring' => [ 'Mystring', ... ], },
-
-        },
         ModelVariables => [ 'Mystring', ... ],
-
+        LabelSchema    => {
+          LabelMapper => { 'Mystring' => [ 'Mystring', ... ], },    # OPTIONAL
+          UnlabeledEventsTreatment =>
+            'IGNORE',    # values: IGNORE, FRAUD, LEGIT, AUTO; OPTIONAL
+        },    # OPTIONAL
       },
       TrainingDataSource   => 'EXTERNAL_EVENTS',
       ExternalEventsDetail => {
         DataAccessRoleArn => 'MyiamRoleArn',          # min: 1, max: 256
         DataLocation      => 'Mys3BucketLocation',    # min: 1, max: 512
+
+      },    # OPTIONAL
+      IngestedEventsDetail => {
+        IngestedEventsTimeWindow => {
+          EndTime   => 'Mytime',    # min: 11, max: 30
+          StartTime => 'Mytime',    # min: 11, max: 30
+
+        },
 
       },    # OPTIONAL
       Tags => [
@@ -75,8 +84,15 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/fra
 
 =head2 ExternalEventsDetail => L<Paws::FraudDetector::ExternalEventsDetail>
 
-Details for the external events data used for model version training.
+Details of the external events data used for model version training.
 Required if C<trainingDataSource> is C<EXTERNAL_EVENTS>.
+
+
+
+=head2 IngestedEventsDetail => L<Paws::FraudDetector::IngestedEventsDetail>
+
+Details of the ingested events data used for model version training.
+Required if C<trainingDataSource> is C<INGESTED_EVENTS>.
 
 
 
@@ -90,7 +106,7 @@ The model ID.
 
 The model type.
 
-Valid values are: C<"ONLINE_FRAUD_INSIGHTS">
+Valid values are: C<"ONLINE_FRAUD_INSIGHTS">, C<"TRANSACTION_FRAUD_INSIGHTS">, C<"ACCOUNT_TAKEOVER_INSIGHTS">
 
 =head2 Tags => ArrayRef[L<Paws::FraudDetector::Tag>]
 
@@ -108,7 +124,7 @@ The training data schema.
 
 The training data source location in Amazon S3.
 
-Valid values are: C<"EXTERNAL_EVENTS">
+Valid values are: C<"EXTERNAL_EVENTS">, C<"INGESTED_EVENTS">
 
 
 =head1 SEE ALSO

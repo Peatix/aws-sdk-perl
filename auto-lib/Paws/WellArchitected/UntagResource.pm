@@ -45,7 +45,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/wel
 
 =head2 B<REQUIRED> TagKeys => ArrayRef[Str|Undef]
 
-The keys of the tags to be removed.
+A list of tag keys. Existing tags of the resource whose keys are
+members of this list are removed from the resource.
 
 
 

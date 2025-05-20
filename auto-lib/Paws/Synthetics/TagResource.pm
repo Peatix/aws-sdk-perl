@@ -30,7 +30,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $synthetics = Paws->service('Synthetics');
     my $TagResourceResponse = $synthetics->TagResource(
-      ResourceArn => 'MyCanaryArn',
+      ResourceArn => 'MyResourceArn',
       Tags        => {
         'MyTagKey' => 'MyTagValue',    # key: min: 1, max: 128, value: max: 256
       },
@@ -45,16 +45,19 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/syn
 
 =head2 B<REQUIRED> ResourceArn => Str
 
-The ARN of the canary that you're adding tags to.
+The ARN of the canary or group that you're adding tags to.
 
 The ARN format of a canary is
 C<arn:aws:synthetics:I<Region>:I<account-id>:canary:I<canary-name> >.
+
+The ARN format of a group is
+C<arn:aws:synthetics:I<Region>:I<account-id>:group:I<group-name>>
 
 
 
 =head2 B<REQUIRED> Tags => L<Paws::Synthetics::TagMap>
 
-The list of key-value pairs to associate with the canary.
+The list of key-value pairs to associate with the resource.
 
 
 

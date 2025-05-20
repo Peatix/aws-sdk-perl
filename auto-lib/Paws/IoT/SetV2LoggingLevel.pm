@@ -32,7 +32,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     $iot->SetV2LoggingLevel(
       LogLevel  => 'DEBUG',
       LogTarget => {
-        TargetType => 'DEFAULT',            # values: DEFAULT, THING_GROUP
+        TargetType => 'DEFAULT'
+        ,    # values: DEFAULT, THING_GROUP, CLIENT_ID, SOURCE_IP, PRINCIPAL_ID
         TargetName => 'MyLogTargetName',    # OPTIONAL
       },
 

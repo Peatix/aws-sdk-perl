@@ -59,7 +59,9 @@ next set of results.
 
 =head2 B<REQUIRED> Name => Str
 
-The name of the parameter for which you want to review history.
+The name or Amazon Resource Name (ARN) of the parameter for which you
+want to review history. For parameters shared with you from another
+account, you must use the full ARN.
 
 
 
@@ -73,7 +75,7 @@ from a previous call.)
 =head2 WithDecryption => Bool
 
 Return decrypted values for secure string parameters. This flag is
-ignored for String and StringList parameter types.
+ignored for C<String> and C<StringList> parameter types.
 
 
 

@@ -40,6 +40,10 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Application
 Represents a step scaling policy configuration to use with Application
 Auto Scaling.
 
+For more information, see Step scaling policies
+(https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-step-scaling-policies.html)
+in the I<Application Auto Scaling User Guide>.
+
 =head1 ATTRIBUTES
 
 
@@ -58,97 +62,10 @@ policy configuration.
 =head2 Cooldown => Int
 
 The amount of time, in seconds, to wait for a previous scaling activity
-to take effect.
-
-With scale-out policies, the intention is to continuously (but not
-excessively) scale out. After Application Auto Scaling successfully
-scales out using a step scaling policy, it starts to calculate the
-cooldown time. The scaling policy won't increase the desired capacity
-again unless either a larger scale out is triggered or the cooldown
-period ends. While the cooldown period is in effect, capacity added by
-the initiating scale-out activity is calculated as part of the desired
-capacity for the next scale-out activity. For example, when an alarm
-triggers a step scaling policy to increase the capacity by 2, the
-scaling activity completes successfully, and a cooldown period starts.
-If the alarm triggers again during the cooldown period but at a more
-aggressive step adjustment of 3, the previous increase of 2 is
-considered part of the current capacity. Therefore, only 1 is added to
-the capacity.
-
-With scale-in policies, the intention is to scale in conservatively to
-protect your applicationE<rsquo>s availability, so scale-in activities
-are blocked until the cooldown period has expired. However, if another
-alarm triggers a scale-out activity during the cooldown period after a
-scale-in activity, Application Auto Scaling scales out the target
-immediately. In this case, the cooldown period for the scale-in
-activity stops and doesn't complete.
-
-Application Auto Scaling provides a default value of 300 for the
-following scalable targets:
-
-=over
-
-=item *
-
-ECS services
-
-=item *
-
-Spot Fleet requests
-
-=item *
-
-EMR clusters
-
-=item *
-
-AppStream 2.0 fleets
-
-=item *
-
-Aurora DB clusters
-
-=item *
-
-Amazon SageMaker endpoint variants
-
-=item *
-
-Custom resources
-
-=back
-
-For all other scalable targets, the default value is 0:
-
-=over
-
-=item *
-
-DynamoDB tables
-
-=item *
-
-DynamoDB global secondary indexes
-
-=item *
-
-Amazon Comprehend document classification and entity recognizer
-endpoints
-
-=item *
-
-Lambda provisioned concurrency
-
-=item *
-
-Amazon Keyspaces tables
-
-=item *
-
-Amazon MSK broker storage
-
-=back
-
+to take effect. If not specified, the default value is 300. For more
+information, see Cooldown period
+(https://docs.aws.amazon.com/autoscaling/application/userguide/step-scaling-policy-overview.html#step-scaling-cooldown)
+in the I<Application Auto Scaling User Guide>.
 
 
 =head2 MetricAggregationType => Str

@@ -62,15 +62,18 @@ C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
 
 The IDs of the EC2 Fleets.
 
+Constraints: In a single request, you can specify up to 25 C<instant>
+fleet IDs and up to 100 C<maintain> or C<request> fleet IDs.
+
 
 
 =head2 B<REQUIRED> TerminateInstances => Bool
 
-Indicates whether to terminate the instances when the EC2 Fleet is
-deleted. The default is to terminate the instances.
+Indicates whether to terminate the associated instances when the EC2
+Fleet is deleted. The default is to terminate the instances.
 
 To let the instances continue to run after the EC2 Fleet is deleted,
-specify C<NoTerminateInstances>. Supported only for fleets of type
+specify C<no-terminate-instances>. Supported only for fleets of type
 C<maintain> and C<request>.
 
 For C<instant> fleets, you cannot specify C<NoTerminateInstances>. A

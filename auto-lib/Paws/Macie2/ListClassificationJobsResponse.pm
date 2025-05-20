@@ -18,7 +18,7 @@ Paws::Macie2::ListClassificationJobsResponse
 
 =head2 Items => ArrayRef[L<Paws::Macie2::JobSummary>]
 
-An array of objects, one for each job that meets the filter criteria
+An array of objects, one for each job that matches the filter criteria
 specified in the request.
 
 

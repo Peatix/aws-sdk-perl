@@ -58,8 +58,8 @@ Filter response by engine type.
 
 =head2 MaxResults => Int
 
-The maximum number of engine types that Amazon MQ can return per page
-(20 by default). This value must be an integer from 5 to 100.
+The maximum number of brokers that Amazon MQ can return per page (20 by
+default). This value must be an integer from 5 to 100.
 
 
 

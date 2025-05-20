@@ -51,7 +51,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/iot
 
 =head2 MaxResults => Int
 
-The maximum number of results to return at one time. The default is 25.
+The maximum number of results to return at one time. The default is 10.
 
 
 

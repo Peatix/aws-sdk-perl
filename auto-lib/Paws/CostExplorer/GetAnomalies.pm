@@ -90,9 +90,9 @@ anomaly monitor Amazon Resource Name (ARN).
 
 =head2 NextPageToken => Str
 
-The token to retrieve the next set of results. AWS provides the token
-when the response from a previous call has more results than the
-maximum page size.
+The token to retrieve the next set of results. Amazon Web Services
+provides the token when the response from a previous call has more
+results than the maximum page size.
 
 
 

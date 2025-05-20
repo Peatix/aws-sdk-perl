@@ -252,7 +252,7 @@ Known issue: when a development endpoint is created with the C<G.2X>
 C<WorkerType> configuration, the Spark drivers for the development
 endpoint will run on 4 vCPU, 16 GB of memory, and a 64 GB disk.
 
-Valid values are: C<"Standard">, C<"G.1X">, C<"G.2X">
+Valid values are: C<"Standard">, C<"G.1X">, C<"G.2X">, C<"G.025X">, C<"G.4X">, C<"G.8X">, C<"Z.2X">
 
 
 =head1 SEE ALSO

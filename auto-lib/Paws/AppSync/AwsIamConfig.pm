@@ -34,19 +34,19 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AppSync::Aw
 
 =head1 DESCRIPTION
 
-The AWS IAM configuration.
+The Identity and Access Management (IAM) configuration.
 
 =head1 ATTRIBUTES
 
 
 =head2 SigningRegion => Str
 
-The signing region for AWS IAM authorization.
+The signing Amazon Web Services Region for IAM authorization.
 
 
 =head2 SigningServiceName => Str
 
-The signing service name for AWS IAM authorization.
+The signing service name for IAM authorization.
 
 
 

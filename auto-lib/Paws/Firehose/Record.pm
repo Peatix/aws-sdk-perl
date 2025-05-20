@@ -33,7 +33,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Firehose::R
 
 =head1 DESCRIPTION
 
-The unit of data in a delivery stream.
+The unit of data in a Firehose stream.
 
 =head1 ATTRIBUTES
 

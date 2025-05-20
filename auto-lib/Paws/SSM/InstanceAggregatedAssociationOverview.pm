@@ -46,7 +46,7 @@ Detailed status information about the aggregated associations.
 
 =head2 InstanceAssociationStatusAggregatedCount => L<Paws::SSM::InstanceAssociationStatusAggregatedCount>
 
-The number of associations for the instance(s).
+The number of associations for the managed nodes.
 
 
 

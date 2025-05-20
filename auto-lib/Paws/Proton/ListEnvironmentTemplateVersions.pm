@@ -54,10 +54,10 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/pro
 =head2 MajorVersion => Str
 
 To view a list of minor of versions under a major version of an
-environment template, include C<majorVersion>.
+environment template, include C<major Version>.
 
 To view a list of major versions of an environment template, I<exclude>
-C<majorVersion>.
+C<major Version>.
 
 
 
@@ -70,9 +70,10 @@ template to list.
 
 =head2 NextToken => Str
 
-A token to indicate the location of the next major or minor version in
-the array of major or minor versions of an environment template, after
-the list of major or minor versions that was previously requested.
+A token that indicates the location of the next major or minor version
+in the array of major or minor versions of an environment template,
+after the list of major or minor versions that was previously
+requested.
 
 
 

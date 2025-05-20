@@ -2,7 +2,9 @@ package Paws::EC2::TunnelOption;
   use Moose;
   has DpdTimeoutAction => (is => 'ro', isa => 'Str', request_name => 'dpdTimeoutAction', traits => ['NameInRequest']);
   has DpdTimeoutSeconds => (is => 'ro', isa => 'Int', request_name => 'dpdTimeoutSeconds', traits => ['NameInRequest']);
+  has EnableTunnelLifecycleControl => (is => 'ro', isa => 'Bool', request_name => 'enableTunnelLifecycleControl', traits => ['NameInRequest']);
   has IkeVersions => (is => 'ro', isa => 'ArrayRef[Paws::EC2::IKEVersionsListValue]', request_name => 'ikeVersionSet', traits => ['NameInRequest']);
+  has LogOptions => (is => 'ro', isa => 'Paws::EC2::VpnTunnelLogOptions', request_name => 'logOptions', traits => ['NameInRequest']);
   has OutsideIpAddress => (is => 'ro', isa => 'Str', request_name => 'outsideIpAddress', traits => ['NameInRequest']);
   has Phase1DHGroupNumbers => (is => 'ro', isa => 'ArrayRef[Paws::EC2::Phase1DHGroupNumbersListValue]', request_name => 'phase1DHGroupNumberSet', traits => ['NameInRequest']);
   has Phase1EncryptionAlgorithms => (is => 'ro', isa => 'ArrayRef[Paws::EC2::Phase1EncryptionAlgorithmsListValue]', request_name => 'phase1EncryptionAlgorithmSet', traits => ['NameInRequest']);
@@ -64,9 +66,19 @@ The action to take after a DPD timeout occurs.
 The number of seconds after which a DPD timeout occurs.
 
 
+=head2 EnableTunnelLifecycleControl => Bool
+
+Status of tunnel endpoint lifecycle control feature.
+
+
 =head2 IkeVersions => ArrayRef[L<Paws::EC2::IKEVersionsListValue>]
 
 The IKE versions that are permitted for the VPN tunnel.
+
+
+=head2 LogOptions => L<Paws::EC2::VpnTunnelLogOptions>
+
+Options for logging VPN tunnel activity.
 
 
 =head2 OutsideIpAddress => Str
@@ -136,7 +148,8 @@ selected.
 =head2 RekeyMarginTimeSeconds => Int
 
 The margin time, in seconds, before the phase 2 lifetime expires,
-during which the AWS side of the VPN connection performs an IKE rekey.
+during which the Amazon Web Services side of the VPN connection
+performs an IKE rekey.
 
 
 =head2 ReplayWindowSize => Int

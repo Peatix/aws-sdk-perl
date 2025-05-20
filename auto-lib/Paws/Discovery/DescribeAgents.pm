@@ -31,18 +31,22 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $discovery = Paws->service('Discovery');
     my $DescribeAgentsResponse = $discovery->DescribeAgents(
-      AgentIds => [ 'MyAgentId', ... ],    # OPTIONAL
-      Filters  => [
+      AgentIds => [
+        'MyAgentId', ...    # min: 10, max: 20
+      ],    # OPTIONAL
+      Filters => [
         {
-          Condition => 'MyCondition',
-          Name      => 'MyString',
-          Values    => [ 'MyFilterValue', ... ],
+          Condition => 'MyCondition',    # max: 200
+          Name      => 'MyString',       # max: 10000
+          Values    => [
+            'MyFilterValue', ...         # max: 1000
+          ],
 
         },
         ...
-      ],                                   # OPTIONAL
-      MaxResults => 1,                     # OPTIONAL
-      NextToken  => 'MyNextToken',         # OPTIONAL
+      ],    # OPTIONAL
+      MaxResults => 1,                # OPTIONAL
+      NextToken  => 'MyNextToken',    # OPTIONAL
     );
 
     # Results:
@@ -59,9 +63,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/dis
 
 =head2 AgentIds => ArrayRef[Str|Undef]
 
-The agent or the Connector IDs for which you want information. If you
+The agent or the collector IDs for which you want information. If you
 specify no IDs, the system returns information about all
-agents/Connectors associated with your AWS user account.
+agents/collectors associated with your user.
 
 
 
@@ -76,7 +80,7 @@ C<{"key": "collectionStatus", "value": "STARTED"}>
 
 =head2 MaxResults => Int
 
-The total number of agents/Connectors to return in a single page of
+The total number of agents/collectors to return in a single page of
 output. The maximum value is 100.
 
 

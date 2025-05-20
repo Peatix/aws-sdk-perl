@@ -1,6 +1,7 @@
 package Paws::EC2::CustomerGateway;
   use Moose;
   has BgpAsn => (is => 'ro', isa => 'Str', request_name => 'bgpAsn', traits => ['NameInRequest']);
+  has BgpAsnExtended => (is => 'ro', isa => 'Str', request_name => 'bgpAsnExtended', traits => ['NameInRequest']);
   has CertificateArn => (is => 'ro', isa => 'Str', request_name => 'certificateArn', traits => ['NameInRequest']);
   has CustomerGatewayId => (is => 'ro', isa => 'Str', request_name => 'customerGatewayId', traits => ['NameInRequest']);
   has DeviceName => (is => 'ro', isa => 'Str', request_name => 'deviceName', traits => ['NameInRequest']);
@@ -45,8 +46,18 @@ This class has no description
 
 =head2 BgpAsn => Str
 
-The customer gateway's Border Gateway Protocol (BGP) Autonomous System
-Number (ASN).
+The customer gateway device's Border Gateway Protocol (BGP) Autonomous
+System Number (ASN).
+
+Valid values: C<1> to C<2,147,483,647>
+
+
+=head2 BgpAsnExtended => Str
+
+The customer gateway device's Border Gateway Protocol (BGP) Autonomous
+System Number (ASN).
+
+Valid values: C<2,147,483,648> to C<4,294,967,295>
 
 
 =head2 CertificateArn => Str
@@ -66,8 +77,11 @@ The name of customer gateway device.
 
 =head2 IpAddress => Str
 
-The Internet-routable IP address of the customer gateway's outside
-interface.
+IPv4 address for the customer gateway device's outside interface. The
+address must be static. If C<OutsideIpAddressType> in your VPN
+connection options is set to C<PrivateIpv4>, you can use an RFC6598 or
+RFC1918 private IPv4 address. If C<OutsideIpAddressType> is set to
+C<PublicIpv4>, you can use a public IPv4 address.
 
 
 =head2 State => Str

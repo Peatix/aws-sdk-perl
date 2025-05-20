@@ -7,6 +7,7 @@ package Paws::MediaConvert::AudioNormalizationSettings;
   has LoudnessLogging => (is => 'ro', isa => 'Str', request_name => 'loudnessLogging', traits => ['NameInRequest']);
   has PeakCalculation => (is => 'ro', isa => 'Str', request_name => 'peakCalculation', traits => ['NameInRequest']);
   has TargetLkfs => (is => 'ro', isa => 'Num', request_name => 'targetLkfs', traits => ['NameInRequest']);
+  has TruePeakLimiterThreshold => (is => 'ro', isa => 'Num', request_name => 'truePeakLimiterThreshold', traits => ['NameInRequest']);
 
 1;
 
@@ -27,7 +28,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::MediaConvert::AudioNormalizationSettings object:
 
-  $service_obj->Method(Att1 => { Algorithm => $value, ..., TargetLkfs => $value  });
+  $service_obj->Method(Att1 => { Algorithm => $value, ..., TruePeakLimiterThreshold => $value  });
 
 =head3 Results returned from an API call
 
@@ -84,12 +85,20 @@ audio track loudness.
 
 =head2 TargetLkfs => Num
 
-When you use Audio normalization (AudioNormalizationSettings),
-optionally use this setting to specify a target loudness. If you don't
-specify a value here, the encoder chooses a value for you, based on the
-algorithm that you choose for Algorithm (algorithm). If you choose
-algorithm 1770-1, the encoder will choose -24 LKFS; otherwise, the
-encoder will choose -23 LKFS.
+When you use Audio normalization, optionally use this setting to
+specify a target loudness. If you don't specify a value here, the
+encoder chooses a value for you, based on the algorithm that you choose
+for Algorithm. If you choose algorithm 1770-1, the encoder will choose
+-24 LKFS; otherwise, the encoder will choose -23 LKFS.
+
+
+=head2 TruePeakLimiterThreshold => Num
+
+Specify the True-peak limiter threshold in decibels relative to full
+scale (dBFS). The peak inter-audio sample loudness in your output will
+be limited to the value that you specify, without affecting the overall
+target LKFS. Enter a value from 0 to -8. Leave blank to use the default
+value 0.
 
 
 

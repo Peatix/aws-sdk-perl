@@ -162,13 +162,14 @@ passed in as a JSON string. For example, C<"CompilerOptions":
 "\"--verbose 1 --num-neuroncores 2 -O2\"">.
 
 For information about supported compiler options, see Neuron Compiler
-CLI
-(https://github.com/aws/aws-neuron-sdk/blob/master/docs/neuron-cc/command-line-reference.md).
+CLI Reference Guide
+(https://awsdocs-neuron.readthedocs-hosted.com/en/latest/compiler/neuronx-cc/api-reference-guide/neuron-compiler-cli-reference-guide.html).
 
 =item *
 
-C<CoreML>: Compilation for the CoreML OutputConfig$TargetDevice
-supports the following compiler options:
+C<CoreML>: Compilation for the CoreML OutputConfig
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_OutputConfig.html)
+C<TargetDevice> supports the following compiler options:
 
 =over
 
@@ -181,34 +182,6 @@ separated by newlines.
 
 =back
 
-=item *
-
-C<EIA>: Compilation for the Elastic Inference Accelerator supports the
-following compiler options:
-
-=over
-
-=item *
-
-C<precision_mode>: Specifies the precision of compiled artifacts.
-Supported values are C<"FP16"> and C<"FP32">. Default is C<"FP32">.
-
-=item *
-
-C<signature_def_key>: Specifies the signature to use for models in
-SavedModel format. Defaults is TensorFlow's default signature def key.
-
-=item *
-
-C<output_names>: Specifies a list of output tensor names for models in
-FrozenGraph format. Set at most one API field, either:
-C<signature_def_key> or C<output_names>.
-
-=back
-
-For example: C<{"precision_mode": "FP32", "output_names":
-["output:0"]}>
-
 =back
 
 
@@ -216,9 +189,9 @@ For example: C<{"precision_mode": "FP32", "output_names":
 =head2 KmsKeyId => Str
 
 The Amazon Web Services Key Management Service key (Amazon Web Services
-KMS) that Amazon SageMaker uses to encrypt your output models with
+KMS) that Amazon SageMaker AI uses to encrypt your output models with
 Amazon S3 server-side encryption after compilation job. If you don't
-provide a KMS key ID, Amazon SageMaker uses the default KMS key for
+provide a KMS key ID, Amazon SageMaker AI uses the default KMS key for
 Amazon S3 for your role's account. For more information, see
 KMS-Managed Encryption Keys
 (https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingKMSEncryption.html)
@@ -252,8 +225,8 @@ C<arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias>
 
 =head2 B<REQUIRED> S3OutputLocation => Str
 
-Identifies the S3 bucket where you want Amazon SageMaker to store the
-model artifacts. For example, C<s3://bucket-name/key-name-prefix>.
+Identifies the S3 bucket where you want Amazon SageMaker AI to store
+the model artifacts. For example, C<s3://bucket-name/key-name-prefix>.
 
 
 =head2 TargetDevice => Str
@@ -261,7 +234,12 @@ model artifacts. For example, C<s3://bucket-name/key-name-prefix>.
 Identifies the target device or the machine learning instance that you
 want to run your model on after the compilation has completed.
 Alternatively, you can specify OS, architecture, and accelerator using
-TargetPlatform fields. It can be used instead of C<TargetPlatform>.
+TargetPlatform
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_TargetPlatform.html)
+fields. It can be used instead of C<TargetPlatform>.
+
+Currently C<ml_trn1> is available only in US East (N. Virginia) Region,
+and C<ml_inf2> is available only in US East (Ohio) Region.
 
 
 =head2 TargetPlatform => L<Paws::SageMaker::TargetPlatform>

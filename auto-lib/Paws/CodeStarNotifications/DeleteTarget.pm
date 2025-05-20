@@ -43,15 +43,16 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/cod
 =head2 ForceUnsubscribeAll => Bool
 
 A Boolean value that can be used to delete all associations with this
-SNS topic. The default value is FALSE. If set to TRUE, all associations
-between that target and every notification rule in your AWS account are
-deleted.
+Chatbot topic. The default value is FALSE. If set to TRUE, all
+associations between that target and every notification rule in your
+Amazon Web Services account are deleted.
 
 
 
 =head2 B<REQUIRED> TargetAddress => Str
 
-The Amazon Resource Name (ARN) of the SNS topic to delete.
+The Amazon Resource Name (ARN) of the Chatbot topic or Chatbot client
+to delete.
 
 
 

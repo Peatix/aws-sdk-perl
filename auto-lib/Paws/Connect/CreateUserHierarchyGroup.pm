@@ -4,6 +4,7 @@ package Paws::Connect::CreateUserHierarchyGroup;
   has InstanceId => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'InstanceId', required => 1);
   has Name => (is => 'ro', isa => 'Str', required => 1);
   has ParentGroupId => (is => 'ro', isa => 'Str');
+  has Tags => (is => 'ro', isa => 'Paws::Connect::TagMap');
 
   use MooseX::ClassAttribute;
 
@@ -34,6 +35,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       InstanceId    => 'MyInstanceId',
       Name          => 'MyHierarchyGroupName',
       ParentGroupId => 'MyHierarchyGroupId',     # OPTIONAL
+      Tags          => {
+        'MyTagKey' => 'MyTagValue',    # key: min: 1, max: 128, value: max: 256
+      },    # OPTIONAL
     );
 
     # Results:
@@ -52,7 +56,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/con
 =head2 B<REQUIRED> InstanceId => Str
 
 The identifier of the Amazon Connect instance. You can find the
-instanceId in the ARN of the instance.
+instance ID
+(https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html)
+in the Amazon Resource Name (ARN) of the instance.
 
 
 
@@ -67,6 +73,13 @@ characters.
 
 The identifier for the parent hierarchy group. The user hierarchy is
 created at level one if the parent group ID is null.
+
+
+
+=head2 Tags => L<Paws::Connect::TagMap>
+
+The tags used to organize, track, or control access for this resource.
+For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
 
 
 

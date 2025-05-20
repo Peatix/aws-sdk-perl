@@ -34,17 +34,19 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Comprehend:
 
 =head1 DESCRIPTION
 
-Provides configuration parameters for the output of topic detection
-jobs.
+Provides configuration parameters for the output of inference jobs.
 
 =head1 ATTRIBUTES
 
 
 =head2 KmsKeyId => Str
 
-ID for the AWS Key Management Service (KMS) key that Amazon Comprehend
-uses to encrypt the output results from an analysis job. The KmsKeyId
-can be one of the following formats:
+ID for the Amazon Web Services Key Management Service (KMS) key that
+Amazon Comprehend uses to encrypt the output results from an analysis
+job. Specify the Key Id of a symmetric key, because you cannot use an
+asymmetric key for uploading data to S3.
+
+The KmsKeyId can be one of the following formats:
 
 =over
 
@@ -74,7 +76,7 @@ C<"arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias">
 
 When you use the C<OutputDataConfig> object with asynchronous
 operations, you specify the Amazon S3 location where you want to write
-the output data. The URI must be in the same region as the API endpoint
+the output data. The URI must be in the same Region as the API endpoint
 that you are calling. The location is used as the prefix for the actual
 location of the output file.
 
@@ -82,6 +84,10 @@ When the topic detection job is finished, the service creates an output
 file in a directory specific to the job. The C<S3Uri> field contains
 the location of the output file, called C<output.tar.gz>. It is a
 compressed archive that contains the ouput of the operation.
+
+For a PII entity detection job, the output file is plain text, not a
+compressed archive. The output file name is the same as the input file,
+with C<.out> appended at the end.
 
 
 

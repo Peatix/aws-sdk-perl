@@ -42,34 +42,43 @@ This class has no description
 
 =head2 BlockDurationMinutes => Int
 
-The required duration for the Spot Instances (also known as Spot
-blocks), in minutes. This value must be a multiple of 60 (60, 120, 180,
-240, 300, or 360).
-
-The duration period starts as soon as your Spot Instance receives its
-instance ID. At the end of the duration period, Amazon EC2 marks the
-Spot Instance for termination and provides a Spot Instance termination
-notice, which gives the instance a two-minute warning before it
-terminates.
-
-You can't specify an Availability Zone group or a launch group if you
-specify a duration.
-
-New accounts or accounts with no previous billing history with Amazon
-Web Services are not eligible for Spot Instances with a defined
-duration (also known as Spot blocks).
+Deprecated.
 
 
 =head2 InstanceInterruptionBehavior => Str
 
-The behavior when a Spot Instance is interrupted. The default is
-C<terminate>.
+The behavior when a Spot Instance is interrupted.
+
+If C<Configured> (for C<HibernationOptions>
+(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_HibernationOptionsRequest.html))
+is set to C<true>, the C<InstanceInterruptionBehavior> parameter is
+automatically set to C<hibernate>. If you set it to C<stop> or
+C<terminate>, you'll get an error.
+
+If C<Configured> (for C<HibernationOptions>
+(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_HibernationOptionsRequest.html))
+is set to C<false> or C<null>, the C<InstanceInterruptionBehavior>
+parameter is automatically set to C<terminate>. You can also set it to
+C<stop> or C<hibernate>.
+
+For more information, see Interruption behavior
+(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/interruption-behavior.html)
+in the I<Amazon EC2 User Guide>.
 
 
 =head2 MaxPrice => Str
 
-The maximum hourly price you're willing to pay for the Spot Instances.
-The default is the On-Demand price.
+The maximum hourly price that you're willing to pay for a Spot
+Instance. We do not recommend using this parameter because it can lead
+to increased interruptions. If you do not specify this parameter, you
+will pay the current Spot price.
+
+If you specify a maximum price, your Spot Instances will be interrupted
+more frequently than if you do not specify this parameter.
+
+If you specify a maximum price, it must be more than USD $0.001.
+Specifying a value below USD $0.001 will result in an
+C<InvalidParameterValue> error message.
 
 
 =head2 SpotInstanceType => Str

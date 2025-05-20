@@ -10,12 +10,13 @@ package Paws::EC2::AuthorizeSecurityGroupIngress;
   has IpProtocol => (is => 'ro', isa => 'Str');
   has SourceSecurityGroupName => (is => 'ro', isa => 'Str');
   has SourceSecurityGroupOwnerId => (is => 'ro', isa => 'Str');
+  has TagSpecifications => (is => 'ro', isa => 'ArrayRef[Paws::EC2::TagSpecification]', traits => ['NameInRequest'], request_name => 'TagSpecification' );
   has ToPort => (is => 'ro', isa => 'Int');
 
   use MooseX::ClassAttribute;
 
   class_has _api_call => (isa => 'Str', is => 'ro', default => 'AuthorizeSecurityGroupIngress');
-  class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::API::Response');
+  class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::EC2::AuthorizeSecurityGroupIngressResult');
   class_has _result_key => (isa => 'Str', is => 'ro');
 1;
 
@@ -39,7 +40,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 # To add a rule that allows inbound SSH traffic from an IPv4 address range
 # This example enables inbound traffic on TCP port 22 (SSH). The rule includes a
 # description to help you identify it later.
-    $ec2->AuthorizeSecurityGroupIngress(
+    my $AuthorizeSecurityGroupIngressResult =
+      $ec2->AuthorizeSecurityGroupIngress(
       'GroupId'       => 'sg-903004f8',
       'IpPermissions' => [
 
@@ -56,14 +58,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           'ToPort' => 22
         }
       ]
-    );
+      );
 
     # To add a rule that allows inbound HTTP traffic from another security group
     # This example enables inbound traffic on TCP port 80 from the specified
     # security group. The group must be in the same VPC or a peer VPC. Incoming
     # traffic is allowed based on the private IP addresses of instances that are
     # associated with the specified security group.
-    $ec2->AuthorizeSecurityGroupIngress(
+    my $AuthorizeSecurityGroupIngressResult =
+      $ec2->AuthorizeSecurityGroupIngress(
       'GroupId'       => 'sg-111aaa22',
       'IpPermissions' => [
 
@@ -80,13 +83,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           ]
         }
       ]
-    );
+      );
 
   # To add a rule that allows inbound RDP traffic from an IPv6 address range
   # This example adds an inbound rule that allows RDP traffic from the specified
   # IPv6 address range. The rule includes a description to help you identify it
   # later.
-    $ec2->AuthorizeSecurityGroupIngress(
+    my $AuthorizeSecurityGroupIngressResult =
+      $ec2->AuthorizeSecurityGroupIngress(
       'GroupId'       => 'sg-123abc12 ',
       'IpPermissions' => [
 
@@ -103,7 +107,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           'ToPort' => 3389
         }
       ]
-    );
+      );
 
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
@@ -114,12 +118,23 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ec2
 
 =head2 CidrIp => Str
 
-The IPv4 address range, in CIDR format. You can't specify this
-parameter when specifying a source security group. To specify an IPv6
-address range, use a set of IP permissions.
+The IPv4 address range, in CIDR format.
 
-Alternatively, use a set of IP permissions to specify multiple rules
-and a description for the rule.
+Amazon Web Services canonicalizes
+(https://en.wikipedia.org/wiki/Canonicalization) IPv4 and IPv6 CIDRs.
+For example, if you specify 100.68.0.18/18 for the CIDR block, Amazon
+Web Services canonicalizes the CIDR block to 100.68.0.0/18. Any
+subsequent DescribeSecurityGroups and DescribeSecurityGroupRules calls
+will return the canonicalized form of the CIDR block. Additionally, if
+you attempt to add another rule with the non-canonical form of the CIDR
+(such as 100.68.0.18/18) and there is already a rule for the
+canonicalized form of the CIDR block (such as 100.68.0.0/18), the API
+throws an duplicate rule error.
+
+To specify an IPv6 address range, use IP permissions instead.
+
+To specify multiple rules and descriptions for the rules, use IP
+permissions instead.
 
 
 
@@ -134,34 +149,32 @@ C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
 
 =head2 FromPort => Int
 
-The start of port range for the TCP and UDP protocols, or an ICMP type
-number. For the ICMP type number, use C<-1> to specify all types. If
-you specify all ICMP types, you must specify all codes.
+If the protocol is TCP or UDP, this is the start of the port range. If
+the protocol is ICMP, this is the ICMP type or -1 (all ICMP types).
 
-Alternatively, use a set of IP permissions to specify multiple rules
-and a description for the rule.
+To specify multiple rules and descriptions for the rules, use IP
+permissions instead.
 
 
 
 =head2 GroupId => Str
 
-The ID of the security group. You must specify either the security
-group ID or the security group name in the request. For security groups
-in a nondefault VPC, you must specify the security group ID.
+The ID of the security group.
 
 
 
 =head2 GroupName => Str
 
-[EC2-Classic, default VPC] The name of the security group. You must
-specify either the security group ID or the security group name in the
-request.
+[Default VPC] The name of the security group. For security groups for a
+default VPC you can specify either the ID or the name of the security
+group. For security groups for a nondefault VPC, you must specify the
+ID of the security group.
 
 
 
 =head2 IpPermissions => ArrayRef[L<Paws::EC2::IpPermission>]
 
-The sets of IP permissions.
+The permissions for the security group rules.
 
 
 
@@ -170,49 +183,54 @@ The sets of IP permissions.
 The IP protocol name (C<tcp>, C<udp>, C<icmp>) or number (see Protocol
 Numbers
 (http://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml)).
-To specify C<icmpv6>, use a set of IP permissions.
+To specify all protocols, use C<-1>.
 
-[VPC only] Use C<-1> to specify all protocols. If you specify C<-1> or
-a protocol other than C<tcp>, C<udp>, or C<icmp>, traffic on all ports
-is allowed, regardless of any ports you specify.
+To specify C<icmpv6>, use IP permissions instead.
 
-Alternatively, use a set of IP permissions to specify multiple rules
-and a description for the rule.
+If you specify a protocol other than one of the supported values,
+traffic is allowed on all ports, regardless of any ports that you
+specify.
+
+To specify multiple rules and descriptions for the rules, use IP
+permissions instead.
 
 
 
 =head2 SourceSecurityGroupName => Str
 
-[EC2-Classic, default VPC] The name of the source security group. You
-can't specify this parameter in combination with the following
-parameters: the CIDR IP address range, the start of the port range, the
-IP protocol, and the end of the port range. Creates rules that grant
-full ICMP, UDP, and TCP access. To create a rule with a specific IP
-protocol and port range, use a set of IP permissions instead. For
-EC2-VPC, the source security group must be in the same VPC.
+[Default VPC] The name of the source security group.
+
+The rule grants full ICMP, UDP, and TCP access. To create a rule with a
+specific protocol and port range, specify a set of IP permissions
+instead.
 
 
 
 =head2 SourceSecurityGroupOwnerId => Str
 
-[nondefault VPC] The AWS account ID for the source security group, if
-the source security group is in a different account. You can't specify
-this parameter in combination with the following parameters: the CIDR
-IP address range, the IP protocol, the start of the port range, and the
-end of the port range. Creates rules that grant full ICMP, UDP, and TCP
-access. To create a rule with a specific IP protocol and port range,
-use a set of IP permissions instead.
+The Amazon Web Services account ID for the source security group, if
+the source security group is in a different account.
+
+The rule grants full ICMP, UDP, and TCP access. To create a rule with a
+specific protocol and port range, use IP permissions instead.
+
+
+
+=head2 TagSpecifications => ArrayRef[L<Paws::EC2::TagSpecification>]
+
+The tags applied to the security group rule.
 
 
 
 =head2 ToPort => Int
 
-The end of port range for the TCP and UDP protocols, or an ICMP code
-number. For the ICMP code number, use C<-1> to specify all codes. If
-you specify all ICMP types, you must specify all codes.
+If the protocol is TCP or UDP, this is the end of the port range. If
+the protocol is ICMP, this is the ICMP code or -1 (all ICMP codes). If
+the start port is -1 (all ICMP types), then the end port must be -1
+(all ICMP codes).
 
-Alternatively, use a set of IP permissions to specify multiple rules
-and a description for the rule.
+To specify multiple rules and descriptions for the rules, use IP
+permissions instead.
 
 
 

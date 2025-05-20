@@ -40,9 +40,11 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/con
 
 =head2 B<REQUIRED> ConfigurationRecorderName => Str
 
-The name of the configuration recorder to be deleted. You can retrieve
-the name of your configuration recorder by using the
-C<DescribeConfigurationRecorders> action.
+The name of the customer managed configuration recorder that you want
+to delete. You can retrieve the name of your configuration recorders by
+using the DescribeConfigurationRecorders
+(https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html)
+operation.
 
 
 

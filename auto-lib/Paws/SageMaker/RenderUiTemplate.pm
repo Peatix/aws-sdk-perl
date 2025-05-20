@@ -61,7 +61,8 @@ The C<HumanTaskUiArn> of the worker UI that you want to render. Do not
 provide a C<HumanTaskUiArn> if you use the C<UiTemplate> parameter.
 
 See a list of available Human Ui Amazon Resource Names (ARNs) in
-UiConfig.
+UiConfig
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_UiConfig.html).
 
 
 

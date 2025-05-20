@@ -9,6 +9,7 @@ package Paws::Comprehend::StartPiiEntitiesDetectionJob;
   has Mode => (is => 'ro', isa => 'Str', required => 1);
   has OutputDataConfig => (is => 'ro', isa => 'Paws::Comprehend::OutputDataConfig', required => 1);
   has RedactionConfig => (is => 'ro', isa => 'Paws::Comprehend::RedactionConfig');
+  has Tags => (is => 'ro', isa => 'ArrayRef[Paws::Comprehend::Tag]');
 
   use MooseX::ClassAttribute;
 
@@ -38,9 +39,18 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       $comprehend->StartPiiEntitiesDetectionJob(
       DataAccessRoleArn => 'MyIamRoleArn',
       InputDataConfig   => {
-        S3Uri       => 'MyS3Uri',           # max: 1024
+        S3Uri                => 'MyS3Uri',    # max: 1024
+        DocumentReaderConfig => {
+          DocumentReadAction => 'TEXTRACT_DETECT_DOCUMENT_TEXT'
+          ,   # values: TEXTRACT_DETECT_DOCUMENT_TEXT, TEXTRACT_ANALYZE_DOCUMENT
+          DocumentReadMode => 'SERVICE_DEFAULT'
+          ,    # values: SERVICE_DEFAULT, FORCE_DOCUMENT_READ_ACTION; OPTIONAL
+          FeatureTypes => [
+            'TABLES', ...    # values: TABLES, FORMS
+          ],    # min: 1, max: 2; OPTIONAL
+        },    # OPTIONAL
         InputFormat => 'ONE_DOC_PER_FILE'
-        ,    # values: ONE_DOC_PER_FILE, ONE_DOC_PER_LINE; OPTIONAL
+        ,     # values: ONE_DOC_PER_FILE, ONE_DOC_PER_LINE; OPTIONAL
       },
       LanguageCode     => 'en',
       Mode             => 'ONLY_REDACTION',
@@ -56,12 +66,20 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           'MASK',    # values: MASK, REPLACE_WITH_PII_ENTITY_TYPE; OPTIONAL
         PiiEntityTypes => [
           'BANK_ACCOUNT_NUMBER',
-          ... # values: BANK_ACCOUNT_NUMBER, BANK_ROUTING, CREDIT_DEBIT_NUMBER, CREDIT_DEBIT_CVV, CREDIT_DEBIT_EXPIRY, PIN, EMAIL, ADDRESS, NAME, PHONE, SSN, DATE_TIME, PASSPORT_NUMBER, DRIVER_ID, URL, AGE, USERNAME, PASSWORD, AWS_ACCESS_KEY, AWS_SECRET_KEY, IP_ADDRESS, MAC_ADDRESS, ALL
+          ... # values: BANK_ACCOUNT_NUMBER, BANK_ROUTING, CREDIT_DEBIT_NUMBER, CREDIT_DEBIT_CVV, CREDIT_DEBIT_EXPIRY, PIN, EMAIL, ADDRESS, NAME, PHONE, SSN, DATE_TIME, PASSPORT_NUMBER, DRIVER_ID, URL, AGE, USERNAME, PASSWORD, AWS_ACCESS_KEY, AWS_SECRET_KEY, IP_ADDRESS, MAC_ADDRESS, ALL, LICENSE_PLATE, VEHICLE_IDENTIFICATION_NUMBER, UK_NATIONAL_INSURANCE_NUMBER, CA_SOCIAL_INSURANCE_NUMBER, US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER, UK_UNIQUE_TAXPAYER_REFERENCE_NUMBER, IN_PERMANENT_ACCOUNT_NUMBER, IN_NREGA, INTERNATIONAL_BANK_ACCOUNT_NUMBER, SWIFT_CODE, UK_NATIONAL_HEALTH_SERVICE_NUMBER, CA_HEALTH_NUMBER, IN_AADHAAR, IN_VOTER_NUMBER
         ],    # OPTIONAL
       },    # OPTIONAL
+      Tags => [
+        {
+          Key   => 'MyTagKey',      # min: 1, max: 128
+          Value => 'MyTagValue',    # max: 256; OPTIONAL
+        },
+        ...
+      ],    # OPTIONAL
       );
 
     # Results:
+    my $JobArn    = $StartPiiEntitiesDetectionJobResponse->JobArn;
     my $JobId     = $StartPiiEntitiesDetectionJobResponse->JobId;
     my $JobStatus = $StartPiiEntitiesDetectionJobResponse->JobStatus;
 
@@ -82,9 +100,8 @@ request token, Amazon Comprehend generates one.
 
 =head2 B<REQUIRED> DataAccessRoleArn => Str
 
-The Amazon Resource Name (ARN) of the AWS Identity and Access
-Management (IAM) role that grants Amazon Comprehend read access to your
-input data.
+The Amazon Resource Name (ARN) of the IAM role that grants Amazon
+Comprehend read access to your input data.
 
 
 
@@ -102,7 +119,8 @@ The identifier of the job.
 
 =head2 B<REQUIRED> LanguageCode => Str
 
-The language of the input documents.
+The language of the input documents. Enter the language code for
+English (en) or Spanish (es).
 
 Valid values are: C<"en">, C<"es">, C<"fr">, C<"de">, C<"it">, C<"pt">, C<"ar">, C<"hi">, C<"ja">, C<"ko">, C<"zh">, C<"zh-TW">
 
@@ -127,6 +145,15 @@ Provides configuration parameters for PII entity redaction.
 This parameter is required if you set the C<Mode> parameter to
 C<ONLY_REDACTION>. In that case, you must provide a C<RedactionConfig>
 definition that includes the C<PiiEntityTypes> parameter.
+
+
+
+=head2 Tags => ArrayRef[L<Paws::Comprehend::Tag>]
+
+Tags to associate with the PII entities detection job. A tag is a
+key-value pair that adds metadata to a resource used by Amazon
+Comprehend. For example, a tag with "Sales" as the key might be added
+to a resource to indicate its use by the sales department.
 
 
 

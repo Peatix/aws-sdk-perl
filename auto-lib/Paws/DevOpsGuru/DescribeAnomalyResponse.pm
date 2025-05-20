@@ -18,12 +18,12 @@ Paws::DevOpsGuru::DescribeAnomalyResponse
 
 =head2 ProactiveAnomaly => L<Paws::DevOpsGuru::ProactiveAnomaly>
 
-A C<ReactiveAnomaly> object that represents the requested anomaly.
+A C<ProactiveAnomaly> object that represents the requested anomaly.
 
 
 =head2 ReactiveAnomaly => L<Paws::DevOpsGuru::ReactiveAnomaly>
 
-A C<ProactiveAnomaly> object that represents the requested anomaly.
+A C<ReactiveAnomaly> object that represents the requested anomaly.
 
 
 =head2 _request_id => Str

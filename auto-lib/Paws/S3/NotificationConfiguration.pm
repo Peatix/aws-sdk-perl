@@ -1,6 +1,7 @@
 
 package Paws::S3::NotificationConfiguration;
   use Moose;
+  has EventBridgeConfiguration => (is => 'ro', isa => 'Paws::S3::EventBridgeConfiguration');
   has LambdaFunctionConfigurations => (is => 'ro', isa => 'ArrayRef[Paws::S3::LambdaFunctionConfiguration]', request_name => 'CloudFunctionConfiguration', traits => ['NameInRequest']);
   has QueueConfigurations => (is => 'ro', isa => 'ArrayRef[Paws::S3::QueueConfiguration]', request_name => 'QueueConfiguration', traits => ['NameInRequest']);
   has TopicConfigurations => (is => 'ro', isa => 'ArrayRef[Paws::S3::TopicConfiguration]', request_name => 'TopicConfiguration', traits => ['NameInRequest']);
@@ -18,10 +19,16 @@ Paws::S3::NotificationConfiguration
 =head1 ATTRIBUTES
 
 
+=head2 EventBridgeConfiguration => L<Paws::S3::EventBridgeConfiguration>
+
+Enables delivery of events to Amazon EventBridge.
+
+
+
 =head2 LambdaFunctionConfigurations => ArrayRef[L<Paws::S3::LambdaFunctionConfiguration>]
 
-Describes the AWS Lambda functions to invoke and the events for which
-to invoke them.
+Describes the Lambda functions to invoke and the events for which to
+invoke them.
 
 
 

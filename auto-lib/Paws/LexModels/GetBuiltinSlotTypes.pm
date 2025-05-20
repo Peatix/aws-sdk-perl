@@ -54,7 +54,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/mod
 
 A list of locales that the slot type supports.
 
-Valid values are: C<"de-DE">, C<"en-AU">, C<"en-GB">, C<"en-US">, C<"es-419">, C<"es-ES">, C<"es-US">, C<"fr-FR">, C<"fr-CA">, C<"it-IT">, C<"ja-JP">
+Valid values are: C<"de-DE">, C<"en-AU">, C<"en-GB">, C<"en-IN">, C<"en-US">, C<"es-419">, C<"es-ES">, C<"es-US">, C<"fr-FR">, C<"fr-CA">, C<"it-IT">, C<"ja-JP">, C<"ko-KR">
 
 =head2 MaxResults => Int
 

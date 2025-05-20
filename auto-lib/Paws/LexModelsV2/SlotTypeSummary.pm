@@ -4,6 +4,7 @@ package Paws::LexModelsV2::SlotTypeSummary;
   has Description => (is => 'ro', isa => 'Str', request_name => 'description', traits => ['NameInRequest']);
   has LastUpdatedDateTime => (is => 'ro', isa => 'Str', request_name => 'lastUpdatedDateTime', traits => ['NameInRequest']);
   has ParentSlotTypeSignature => (is => 'ro', isa => 'Str', request_name => 'parentSlotTypeSignature', traits => ['NameInRequest']);
+  has SlotTypeCategory => (is => 'ro', isa => 'Str', request_name => 'slotTypeCategory', traits => ['NameInRequest']);
   has SlotTypeId => (is => 'ro', isa => 'Str', request_name => 'slotTypeId', traits => ['NameInRequest']);
   has SlotTypeName => (is => 'ro', isa => 'Str', request_name => 'slotTypeName', traits => ['NameInRequest']);
 
@@ -56,6 +57,35 @@ A timestamp of the date and time that the slot type was last updated.
 
 If the slot type is derived from a built-on slot type, the name of the
 parent slot type.
+
+
+=head2 SlotTypeCategory => Str
+
+Indicates the type of the slot type.
+
+=over
+
+=item *
+
+C<Custom> - A slot type that you created using custom values. For more
+information, see Creating custom slot types
+(https://docs.aws.amazon.com/lexv2/latest/dg/custom-slot-types.html).
+
+=item *
+
+C<Extended> - A slot type created by extending the
+C<AMAZON.AlphaNumeric> built-in slot type. For more information, see
+C<AMAZON.AlphaNumeric>
+(https://docs.aws.amazon.com/lexv2/latest/dg/built-in-slot-alphanumerice.html).
+
+=item *
+
+C<ExternalGrammar> - A slot type using a custom GRXML grammar to define
+values. For more information, see Using a custom grammar slot type
+(https://docs.aws.amazon.com/lexv2/latest/dg/building-grxml.html).
+
+=back
+
 
 
 =head2 SlotTypeId => Str

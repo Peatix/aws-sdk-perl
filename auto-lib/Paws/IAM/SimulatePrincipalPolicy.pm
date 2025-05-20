@@ -111,7 +111,7 @@ use in evaluating the policy.
 
 For more information about ARNs, see Amazon Resource Names (ARNs)
 (https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
-in the I<AWS General Reference>.
+in the I<Amazon Web Services General Reference>.
 
 
 
@@ -161,6 +161,12 @@ Permissions boundaries for IAM entities
 in the I<IAM User Guide>. The policy input is specified as a string
 containing the complete, valid JSON text of a permissions boundary
 policy.
+
+The maximum length of the policy document that you can pass in this
+operation, including whitespace, is listed below. To view the maximum
+character counts of a managed policy with no whitespaces, see IAM and
+STS character quotas
+(https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html#reference_iam-quotas-entity-length).
 
 The regex pattern (http://wikipedia.org/wiki/regex) used to validate
 this parameter is a string of characters consisting of the following:
@@ -226,20 +232,27 @@ role, the simulation includes all policies that are associated with
 that entity. If you specify a user, the simulation also includes all
 policies that are attached to any groups the user belongs to.
 
+The maximum length of the policy document that you can pass in this
+operation, including whitespace, is listed below. To view the maximum
+character counts of a managed policy with no whitespaces, see IAM and
+STS character quotas
+(https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html#reference_iam-quotas-entity-length).
+
 For more information about ARNs, see Amazon Resource Names (ARNs)
 (https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
-in the I<AWS General Reference>.
+in the I<Amazon Web Services General Reference>.
 
 
 
 =head2 ResourceArns => ArrayRef[Str|Undef]
 
-A list of ARNs of AWS resources to include in the simulation. If this
-parameter is not provided, then the value defaults to C<*> (all
-resources). Each API in the C<ActionNames> parameter is evaluated for
-each resource in this list. The simulation determines the access result
-(allowed or denied) of each combination and reports it in the response.
-You can simulate resources that don't exist in your account.
+A list of ARNs of Amazon Web Services resources to include in the
+simulation. If this parameter is not provided, then the value defaults
+to C<*> (all resources). Each API in the C<ActionNames> parameter is
+evaluated for each resource in this list. The simulation determines the
+access result (allowed or denied) of each combination and reports it in
+the response. You can simulate resources that don't exist in your
+account.
 
 The simulation does not automatically retrieve policies for the
 specified resources. If you want to include a resource policy in the
@@ -248,7 +261,9 @@ C<ResourcePolicy> parameter.
 
 For more information about ARNs, see Amazon Resource Names (ARNs)
 (https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
-in the I<AWS General Reference>.
+in the I<Amazon Web Services General Reference>.
+
+Simulation of resource-based policies isn't supported for IAM roles.
 
 
 
@@ -263,29 +278,17 @@ one of the following scenarios, then you can omit this parameter. The
 following list shows each of the supported scenario values and the
 resources that you must define to run the simulation.
 
-Each of the EC2 scenarios requires that you specify instance, image,
-and security group resources. If your scenario includes an EBS volume,
-then you must specify that volume as a resource. If the EC2 scenario
-includes VPC, then you must supply the network interface resource. If
-it includes an IP subnet, then you must specify the subnet resource.
-For more information on the EC2 scenario options, see Supported
-platforms
+Each of the Amazon EC2 scenarios requires that you specify instance,
+image, and security group resources. If your scenario includes an EBS
+volume, then you must specify that volume as a resource. If the Amazon
+EC2 scenario includes VPC, then you must supply the network interface
+resource. If it includes an IP subnet, then you must specify the subnet
+resource. For more information on the Amazon EC2 scenario options, see
+Supported platforms
 (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-supported-platforms.html)
 in the I<Amazon EC2 User Guide>.
 
 =over
-
-=item *
-
-B<EC2-Classic-InstanceStore>
-
-instance, image, security group
-
-=item *
-
-B<EC2-Classic-EBS>
-
-instance, image, security group, volume
 
 =item *
 
@@ -318,16 +321,17 @@ instance, image, security group, network interface, subnet, volume
 
 =head2 ResourceOwner => Str
 
-An AWS account ID that specifies the owner of any simulated resource
-that does not identify its owner in the resource ARN. Examples of
-resource ARNs include an S3 bucket or object. If C<ResourceOwner> is
-specified, it is also used as the account owner of any
-C<ResourcePolicy> included in the simulation. If the C<ResourceOwner>
-parameter is not specified, then the owner of the resources and the
-resource policy defaults to the account of the identity provided in
-C<CallerArn>. This parameter is required only if you specify a
-resource-based policy and account that owns the resource is different
-from the account that owns the simulated calling user C<CallerArn>.
+An Amazon Web Services account ID that specifies the owner of any
+simulated resource that does not identify its owner in the resource
+ARN. Examples of resource ARNs include an S3 bucket or object. If
+C<ResourceOwner> is specified, it is also used as the account owner of
+any C<ResourcePolicy> included in the simulation. If the
+C<ResourceOwner> parameter is not specified, then the owner of the
+resources and the resource policy defaults to the account of the
+identity provided in C<CallerArn>. This parameter is required only if
+you specify a resource-based policy and account that owns the resource
+is different from the account that owns the simulated calling user
+C<CallerArn>.
 
 
 
@@ -337,6 +341,12 @@ A resource-based policy to include in the simulation provided as a
 string. Each resource in the simulation is treated as if it had this
 policy attached. You can include only one resource-based policy in a
 simulation.
+
+The maximum length of the policy document that you can pass in this
+operation, including whitespace, is listed below. To view the maximum
+character counts of a managed policy with no whitespaces, see IAM and
+STS character quotas
+(https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html#reference_iam-quotas-entity-length).
 
 The regex pattern (http://wikipedia.org/wiki/regex) used to validate
 this parameter is a string of characters consisting of the following:
@@ -360,6 +370,7 @@ carriage return (C<\u000D>)
 
 =back
 
+Simulation of resource-based policies isn't supported for IAM roles.
 
 
 

@@ -38,18 +38,19 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       MetricDataQueries => [
         {
           Id         => 'MyMetricId',            # min: 1, max: 255
-          Expression => 'MyMetricExpression',    # min: 1, max: 1024; OPTIONAL
+          AccountId  => 'MyAccountId',           # min: 1, max: 255; OPTIONAL
+          Expression => 'MyMetricExpression',    # min: 1, max: 2048; OPTIONAL
           Label      => 'MyMetricLabel',         # OPTIONAL
           MetricStat => {
             Metric => {
               Dimensions => [
                 {
                   Name  => 'MyDimensionName',     # min: 1, max: 255
-                  Value => 'MyDimensionValue',    # min: 1, max: 255
+                  Value => 'MyDimensionValue',    # min: 1, max: 1024
 
                 },
                 ...
-              ],    # max: 10; OPTIONAL
+              ],    # max: 30; OPTIONAL
               MetricName => 'MyMetricName',    # min: 1, max: 255; OPTIONAL
               Namespace  => 'MyNamespace',     # min: 1, max: 255; OPTIONAL
             },
@@ -119,8 +120,8 @@ paginating. If you omit this, the default of 100,800 is used.
 
 The metric queries to be returned. A single C<GetMetricData> call can
 include as many as 500 C<MetricDataQuery> structures. Each of these
-structures can specify either a metric to retrieve, or a math
-expression to perform on retrieved data.
+structures can specify either a metric to retrieve, a Metrics Insights
+query, or a math expression to perform on retrieved data.
 
 
 
@@ -138,6 +139,9 @@ C<TimestampDescending> returns the newest data first and paginates when
 the C<MaxDatapoints> limit is reached. C<TimestampAscending> returns
 the oldest data first and paginates when the C<MaxDatapoints> limit is
 reached.
+
+If you omit this parameter, the default of C<TimestampDescending> is
+used.
 
 Valid values are: C<"TimestampDescending">, C<"TimestampAscending">
 

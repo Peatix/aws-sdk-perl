@@ -46,9 +46,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       InstanceNames    => [ 'Mystring', ... ],
       AddOns           => [
         {
-          AddOnType                => 'AutoSnapshot',    # values: AutoSnapshot
+          AddOnType =>
+            'AutoSnapshot',    # values: AutoSnapshot, StopInstanceOnIdle
           AutoSnapshotAddOnRequest => {
-            SnapshotTimeOfDay => 'MyTimeOfDay',          # OPTIONAL
+            SnapshotTimeOfDay => 'MyTimeOfDay',    # OPTIONAL
+          },    # OPTIONAL
+          StopInstanceOnIdleRequest => {
+            Duration  => 'Mystring',
+            Threshold => 'Mystring',
           },    # OPTIONAL
         },
         ...
@@ -116,7 +121,7 @@ to your request.
 =head2 B<REQUIRED> BundleId => Str
 
 The bundle of specification information for your virtual private server
-(or I<instance>), including the pricing plan (e.g., C<micro_1_0>).
+(or I<instance>), including the pricing plan (C<micro_x_x>).
 
 
 
@@ -151,12 +156,12 @@ name> parameters are mutually exclusive.
 
 The IP address type for the instance.
 
-The possible values are C<ipv4> for IPv4 only, and C<dualstack> for
-IPv4 and IPv6.
+The possible values are C<ipv4> for IPv4 only, C<ipv6> for IPv6 only,
+and C<dualstack> for IPv4 and IPv6.
 
 The default value is C<dualstack>.
 
-Valid values are: C<"dualstack">, C<"ipv4">
+Valid values are: C<"dualstack">, C<"ipv4">, C<"ipv6">
 
 =head2 KeyPairName => Str
 
@@ -187,8 +192,9 @@ latest restorable auto snapshot> parameters are mutually exclusive.
 =item *
 
 Define this parameter only when creating a new instance from an
-automatic snapshot. For more information, see the Lightsail Dev Guide
-(https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configuring-automatic-snapshots).
+automatic snapshot. For more information, see the Amazon Lightsail
+Developer Guide
+(https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-configuring-automatic-snapshots).
 
 =back
 
@@ -213,8 +219,9 @@ name> parameters are mutually exclusive.
 =item *
 
 Define this parameter only when creating a new instance from an
-automatic snapshot. For more information, see the Lightsail Dev Guide
-(https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configuring-automatic-snapshots).
+automatic snapshot. For more information, see the Amazon Lightsail
+Developer Guide
+(https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-configuring-automatic-snapshots).
 
 =back
 
@@ -247,8 +254,9 @@ date> parameters are mutually exclusive.
 =item *
 
 Define this parameter only when creating a new instance from an
-automatic snapshot. For more information, see the Lightsail Dev Guide
-(https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configuring-automatic-snapshots).
+automatic snapshot. For more information, see the Amazon Lightsail
+Developer Guide
+(https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-configuring-automatic-snapshots).
 
 =back
 
@@ -263,8 +271,8 @@ user data. For example, C<apt-get -y update>.
 Depending on the machine image you choose, the command to get software
 on your instance varies. Amazon Linux and CentOS use C<yum>, Debian and
 Ubuntu use C<apt-get>, and FreeBSD uses C<pkg>. For a complete list,
-see the Dev Guide
-(https://lightsail.aws.amazon.com/ls/docs/getting-started/article/compare-options-choose-lightsail-instance-image).
+see the Amazon Lightsail Developer Guide
+(https://docs.aws.amazon.com/lightsail/latest/userguide/compare-options-choose-lightsail-instance-image).
 
 
 

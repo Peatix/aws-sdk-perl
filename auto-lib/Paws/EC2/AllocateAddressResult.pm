@@ -24,15 +24,13 @@ Paws::EC2::AllocateAddressResult
 
 =head2 AllocationId => Str
 
-[EC2-VPC] The ID that Amazon Web Services assigns to represent the
-allocation of the Elastic IP address for use with instances in a VPC.
+The ID that represents the allocation of the Elastic IP address.
 
 
 =head2 CarrierIp => Str
 
 The carrier IP address. This option is only available for network
-interfaces which reside in a subnet in a Wavelength Zone (for example
-an EC2 instance).
+interfaces that reside in a subnet in a Wavelength Zone.
 
 
 =head2 CustomerOwnedIp => Str
@@ -47,14 +45,13 @@ The ID of the customer-owned address pool.
 
 =head2 Domain => Str
 
-Indicates whether the Elastic IP address is for use with instances in a
-VPC (C<vpc>) or instances in EC2-Classic (C<standard>).
+The network (C<vpc>).
 
 Valid values are: C<"vpc">, C<"standard">
 =head2 NetworkBorderGroup => Str
 
 The set of Availability Zones, Local Zones, or Wavelength Zones from
-which AWS advertises IP addresses.
+which Amazon Web Services advertises IP addresses.
 
 
 =head2 PublicIp => Str

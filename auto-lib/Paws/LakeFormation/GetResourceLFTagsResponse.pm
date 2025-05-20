@@ -6,6 +6,7 @@ package Paws::LakeFormation::GetResourceLFTagsResponse;
   has LFTagsOnTable => (is => 'ro', isa => 'ArrayRef[Paws::LakeFormation::LFTagPair]');
 
   has _request_id => (is => 'ro', isa => 'Str');
+1;
 
 ### main pod documentation begin ###
 
@@ -18,17 +19,17 @@ Paws::LakeFormation::GetResourceLFTagsResponse
 
 =head2 LFTagOnDatabase => ArrayRef[L<Paws::LakeFormation::LFTagPair>]
 
-A list of tags applied to a database resource.
+A list of LF-tags applied to a database resource.
 
 
 =head2 LFTagsOnColumns => ArrayRef[L<Paws::LakeFormation::ColumnLFTag>]
 
-A list of tags applied to a column resource.
+A list of LF-tags applied to a column resource.
 
 
 =head2 LFTagsOnTable => ArrayRef[L<Paws::LakeFormation::LFTagPair>]
 
-A list of tags applied to a table resource.
+A list of LF-tags applied to a table resource.
 
 
 =head2 _request_id => Str
@@ -36,4 +37,3 @@ A list of tags applied to a table resource.
 
 =cut
 
-1;

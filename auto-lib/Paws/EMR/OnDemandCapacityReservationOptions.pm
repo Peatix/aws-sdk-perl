@@ -82,8 +82,8 @@ Reservations is less than the On-Demand target capacity, the remaining
 On-Demand target capacity is launched according to the On-Demand
 allocation strategy (C<lowest-price>).
 
-If you do not specify a value, the fleet fulfils the On-Demand capacity
-according to the chosen On-Demand allocation strategy.
+If you do not specify a value, the fleet fulfills the On-Demand
+capacity according to the chosen On-Demand allocation strategy.
 
 
 

@@ -35,18 +35,49 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       BackupSelection => {
         IamRoleArn    => 'MyIAMRoleArn',
         SelectionName => 'MyBackupSelectionName',
-        ListOfTags    => [
+        Conditions    => {
+          StringEquals => [
+            {
+              ConditionKey   => 'MyConditionKey',      # OPTIONAL
+              ConditionValue => 'MyConditionValue',    # OPTIONAL
+            },
+            ...
+          ],    # OPTIONAL
+          StringLike => [
+            {
+              ConditionKey   => 'MyConditionKey',      # OPTIONAL
+              ConditionValue => 'MyConditionValue',    # OPTIONAL
+            },
+            ...
+          ],    # OPTIONAL
+          StringNotEquals => [
+            {
+              ConditionKey   => 'MyConditionKey',      # OPTIONAL
+              ConditionValue => 'MyConditionValue',    # OPTIONAL
+            },
+            ...
+          ],    # OPTIONAL
+          StringNotLike => [
+            {
+              ConditionKey   => 'MyConditionKey',      # OPTIONAL
+              ConditionValue => 'MyConditionValue',    # OPTIONAL
+            },
+            ...
+          ],    # OPTIONAL
+        },    # OPTIONAL
+        ListOfTags => [
           {
-            ConditionKey   => 'MyConditionKey',
-            ConditionType  => 'STRINGEQUALS',       # values: STRINGEQUALS
-            ConditionValue => 'MyConditionValue',
+            ConditionKey   => 'MyConditionKey',      # OPTIONAL
+            ConditionType  => 'STRINGEQUALS',        # values: STRINGEQUALS
+            ConditionValue => 'MyConditionValue',    # OPTIONAL
 
           },
           ...
         ],    # OPTIONAL
-        Resources => [ 'MyARN', ... ],    # OPTIONAL
+        NotResources => [ 'MyARN', ... ],    # OPTIONAL
+        Resources    => [ 'MyARN', ... ],    # OPTIONAL
       },
-      CreatorRequestId => 'Mystring',     # OPTIONAL
+      CreatorRequestId => 'Mystring',        # OPTIONAL
     );
 
     # Results:
@@ -64,22 +95,24 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/bac
 
 =head2 B<REQUIRED> BackupPlanId => Str
 
-Uniquely identifies the backup plan to be associated with the selection
-of resources.
+The ID of the backup plan.
 
 
 
 =head2 B<REQUIRED> BackupSelection => L<Paws::Backup::BackupSelection>
 
-Specifies the body of a request to assign a set of resources to a
-backup plan.
+The body of a request to assign a set of resources to a backup plan.
 
 
 
 =head2 CreatorRequestId => Str
 
 A unique string that identifies the request and allows failed requests
-to be retried without the risk of running the operation twice.
+to be retried without the risk of running the operation twice. This
+parameter is optional.
+
+If used, this parameter must contain 1 to 50 alphanumeric or '-_.'
+characters.
 
 
 

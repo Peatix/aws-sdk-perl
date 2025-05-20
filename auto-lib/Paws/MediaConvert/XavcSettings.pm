@@ -7,6 +7,7 @@ package Paws::MediaConvert::XavcSettings;
   has FramerateConversionAlgorithm => (is => 'ro', isa => 'Str', request_name => 'framerateConversionAlgorithm', traits => ['NameInRequest']);
   has FramerateDenominator => (is => 'ro', isa => 'Int', request_name => 'framerateDenominator', traits => ['NameInRequest']);
   has FramerateNumerator => (is => 'ro', isa => 'Int', request_name => 'framerateNumerator', traits => ['NameInRequest']);
+  has PerFrameMetrics => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'perFrameMetrics', traits => ['NameInRequest']);
   has Profile => (is => 'ro', isa => 'Str', request_name => 'profile', traits => ['NameInRequest']);
   has SlowPal => (is => 'ro', isa => 'Str', request_name => 'slowPal', traits => ['NameInRequest']);
   has Softness => (is => 'ro', isa => 'Int', request_name => 'softness', traits => ['NameInRequest']);
@@ -48,26 +49,24 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::MediaConver
 
 =head1 DESCRIPTION
 
-Required when you set (Codec) under
-(VideoDescription)E<gt>(CodecSettings) to the value XAVC.
+Required when you set Codec to the value XAVC.
 
 =head1 ATTRIBUTES
 
 
 =head2 AdaptiveQuantization => Str
 
-Keep the default value, Auto (AUTO), for this setting to have
-MediaConvert automatically apply the best types of quantization for
-your video content. When you want to apply your quantization settings
-manually, you must set Adaptive quantization (adaptiveQuantization) to
-a value other than Auto (AUTO). Use this setting to specify the
-strength of any adaptive quantization filters that you enable. If you
-don't want MediaConvert to do any adaptive quantization in this
-transcode, set Adaptive quantization to Off (OFF). Related settings:
-The value that you choose here applies to the following settings:
-Flicker adaptive quantization (flickerAdaptiveQuantization), Spatial
-adaptive quantization (spatialAdaptiveQuantization), and Temporal
-adaptive quantization (temporalAdaptiveQuantization).
+Keep the default value, Auto, for this setting to have MediaConvert
+automatically apply the best types of quantization for your video
+content. When you want to apply your quantization settings manually,
+you must set Adaptive quantization to a value other than Auto. Use this
+setting to specify the strength of any adaptive quantization filters
+that you enable. If you don't want MediaConvert to do any adaptive
+quantization in this transcode, set Adaptive quantization to Off.
+Related settings: The value that you choose here applies to the
+following settings: Flicker adaptive quantization
+(flickerAdaptiveQuantization), Spatial adaptive quantization, and
+Temporal adaptive quantization.
 
 
 =head2 EntropyEncoding => Str
@@ -84,29 +83,29 @@ If you are using the console, use the Frame rate setting to specify the
 frame rate for this output. If you want to keep the same frame rate as
 the input video, choose Follow source. If you want to do frame rate
 conversion, choose a frame rate from the dropdown list. The framerates
-shown in the dropdown list are decimal approximations of fractions. If
-you are creating your transcoding job specification as a JSON file
-without the console, use FramerateControl to specify which value the
-service uses for the frame rate for this output. Choose
-INITIALIZE_FROM_SOURCE if you want the service to use the frame rate
-from the input. Choose SPECIFIED if you want the service to use the
-frame rate that you specify in the settings FramerateNumerator and
-FramerateDenominator.
+shown in the dropdown list are decimal approximations of fractions.
 
 
 =head2 FramerateConversionAlgorithm => Str
 
 Choose the method that you want MediaConvert to use when increasing or
-decreasing the frame rate. We recommend using drop duplicate
-(DUPLICATE_DROP) for numerically simple conversions, such as 60 fps to
-30 fps. For numerically complex conversions, you can use interpolate
-(INTERPOLATE) to avoid stutter. This results in a smooth picture, but
-might introduce undesirable video artifacts. For complex frame rate
+decreasing your video's frame rate. For numerically simple conversions,
+such as 60 fps to 30 fps: We recommend that you keep the default value,
+Drop duplicate. For numerically complex conversions, to avoid stutter:
+Choose Interpolate. This results in a smooth picture, but might
+introduce undesirable video artifacts. For complex frame rate
 conversions, especially if your source video has already been converted
-from its original cadence, use FrameFormer (FRAMEFORMER) to do
-motion-compensated interpolation. FrameFormer chooses the best
-conversion method frame by frame. Note that using FrameFormer increases
-the transcoding time and incurs a significant add-on cost.
+from its original cadence: Choose FrameFormer to do motion-compensated
+interpolation. FrameFormer uses the best conversion method frame by
+frame. Note that using FrameFormer increases the transcoding time and
+incurs a significant add-on cost. When you choose FrameFormer, your
+input video resolution must be at least 128x96. To create an output
+with the same number of frames as your input: Choose Maintain frame
+count. When you do, MediaConvert will not drop, interpolate, add, or
+otherwise change the frame count from your input to your output. Note
+that since the frame count is maintained, the duration of your output
+will become shorter at higher frame rates and longer at lower frame
+rates.
 
 
 =head2 FramerateDenominator => Int
@@ -131,6 +130,29 @@ use frame rate conversion, provide the value as a decimal number for
 Framerate. In this example, specify 23.976.
 
 
+=head2 PerFrameMetrics => ArrayRef[Str|Undef]
+
+Optionally choose one or more per frame metric reports to generate
+along with your output. You can use these metrics to analyze your video
+output according to one or more commonly used image quality metrics.
+You can specify per frame metrics for output groups or for individual
+outputs. When you do, MediaConvert writes a CSV (Comma-Separated
+Values) file to your S3 output destination, named after the output name
+and metric type. For example: videofile_PSNR.csv Jobs that generate per
+frame metrics will take longer to complete, depending on the resolution
+and complexity of your output. For example, some 4K jobs might take up
+to twice as long to complete. Note that when analyzing the video
+quality of your output, or when comparing the video quality of multiple
+different outputs, we generally also recommend a detailed visual review
+in a controlled environment. You can choose from the following per
+frame metrics: * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural
+Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index
+Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System *
+VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined
+Variable Bitrate. This option is only available when your output uses
+the QVBR rate control mode.
+
+
 =head2 Profile => Str
 
 Specify the XAVC profile for this output. For more information, see the
@@ -146,9 +168,7 @@ Ignore this setting unless your input frame rate is 23.976 or 24 frames
 per second (fps). Enable slow PAL to create a 25 fps output by
 relabeling the video frames and resampling your audio. Note that
 enabling this setting will slightly reduce the duration of your video.
-Related settings: You must also set Frame rate to 25. In your JSON job
-specification, set (framerateControl) to (SPECIFIED),
-(framerateNumerator) to 25 and (framerateDenominator) to 1.
+Related settings: You must also set Frame rate to 25.
 
 
 =head2 Softness => Int
@@ -156,38 +176,37 @@ specification, set (framerateControl) to (SPECIFIED),
 Ignore this setting unless your downstream workflow requires that you
 specify it explicitly. Otherwise, we recommend that you adjust the
 softness of your output by using a lower value for the setting
-Sharpness (sharpness) or by enabling a noise reducer filter
-(noiseReducerFilter). The Softness (softness) setting specifies the
-quantization matrices that the encoder uses. Keep the default value, 0,
-for flat quantization. Choose the value 1 or 16 to use the default JVT
-softening quantization matricies from the H.264 specification. Choose a
-value from 17 to 128 to use planar interpolation. Increasing values
-from 17 to 128 result in increasing reduction of high-frequency data.
-The value 128 results in the softest video.
+Sharpness or by enabling a noise reducer filter. The Softness setting
+specifies the quantization matrices that the encoder uses. Keep the
+default value, 0, for flat quantization. Choose the value 1 or 16 to
+use the default JVT softening quantization matricies from the H.264
+specification. Choose a value from 17 to 128 to use planar
+interpolation. Increasing values from 17 to 128 result in increasing
+reduction of high-frequency data. The value 128 results in the softest
+video.
 
 
 =head2 SpatialAdaptiveQuantization => Str
 
 The best way to set up adaptive quantization is to keep the default
-value, Auto (AUTO), for the setting Adaptive quantization
-(adaptiveQuantization). When you do so, MediaConvert automatically
-applies the best types of quantization for your video content. Include
-this setting in your JSON job specification only when you choose to
-change the default value for Adaptive quantization. For this setting,
-keep the default value, Enabled (ENABLED), to adjust quantization
-within each frame based on spatial variation of content complexity.
-When you enable this feature, the encoder uses fewer bits on areas that
-can sustain more distortion with no noticeable visual degradation and
-uses more bits on areas where any small distortion will be noticeable.
-For example, complex textured blocks are encoded with fewer bits and
-smooth textured blocks are encoded with more bits. Enabling this
-feature will almost always improve your video quality. Note, though,
-that this feature doesn't take into account where the viewer's
-attention is likely to be. If viewers are likely to be focusing their
-attention on a part of the screen with a lot of complex texture, you
-might choose to disable this feature. Related setting: When you enable
-spatial adaptive quantization, set the value for Adaptive quantization
-(adaptiveQuantization) depending on your content. For homogeneous
+value, Auto, for the setting Adaptive quantization. When you do so,
+MediaConvert automatically applies the best types of quantization for
+your video content. Include this setting in your JSON job specification
+only when you choose to change the default value for Adaptive
+quantization. For this setting, keep the default value, Enabled, to
+adjust quantization within each frame based on spatial variation of
+content complexity. When you enable this feature, the encoder uses
+fewer bits on areas that can sustain more distortion with no noticeable
+visual degradation and uses more bits on areas where any small
+distortion will be noticeable. For example, complex textured blocks are
+encoded with fewer bits and smooth textured blocks are encoded with
+more bits. Enabling this feature will almost always improve your video
+quality. Note, though, that this feature doesn't take into account
+where the viewer's attention is likely to be. If viewers are likely to
+be focusing their attention on a part of the screen with a lot of
+complex texture, you might choose to disable this feature. Related
+setting: When you enable spatial adaptive quantization, set the value
+for Adaptive quantization depending on your content. For homogeneous
 content, such as cartoons and video games, set it to Low. For content
 with a wider variety of textures, set it to High or Higher.
 
@@ -195,60 +214,49 @@ with a wider variety of textures, set it to High or Higher.
 =head2 TemporalAdaptiveQuantization => Str
 
 The best way to set up adaptive quantization is to keep the default
-value, Auto (AUTO), for the setting Adaptive quantization
-(adaptiveQuantization). When you do so, MediaConvert automatically
-applies the best types of quantization for your video content. Include
-this setting in your JSON job specification only when you choose to
-change the default value for Adaptive quantization. For this setting,
-keep the default value, Enabled (ENABLED), to adjust quantization
-within each frame based on temporal variation of content complexity.
-When you enable this feature, the encoder uses fewer bits on areas of
-the frame that aren't moving and uses more bits on complex objects with
-sharp edges that move a lot. For example, this feature improves the
-readability of text tickers on newscasts and scoreboards on sports
-matches. Enabling this feature will almost always improve your video
-quality. Note, though, that this feature doesn't take into account
-where the viewer's attention is likely to be. If viewers are likely to
-be focusing their attention on a part of the screen that doesn't have
-moving objects with sharp edges, such as sports athletes' faces, you
-might choose to disable this feature. Related setting: When you enable
-temporal adaptive quantization, adjust the strength of the filter with
-the setting Adaptive quantization (adaptiveQuantization).
+value, Auto, for the setting Adaptive quantization. When you do so,
+MediaConvert automatically applies the best types of quantization for
+your video content. Include this setting in your JSON job specification
+only when you choose to change the default value for Adaptive
+quantization. For this setting, keep the default value, Enabled, to
+adjust quantization within each frame based on temporal variation of
+content complexity. When you enable this feature, the encoder uses
+fewer bits on areas of the frame that aren't moving and uses more bits
+on complex objects with sharp edges that move a lot. For example, this
+feature improves the readability of text tickers on newscasts and
+scoreboards on sports matches. Enabling this feature will almost always
+improve your video quality. Note, though, that this feature doesn't
+take into account where the viewer's attention is likely to be. If
+viewers are likely to be focusing their attention on a part of the
+screen that doesn't have moving objects with sharp edges, such as
+sports athletes' faces, you might choose to disable this feature.
+Related setting: When you enable temporal adaptive quantization, adjust
+the strength of the filter with the setting Adaptive quantization.
 
 
 =head2 Xavc4kIntraCbgProfileSettings => L<Paws::MediaConvert::Xavc4kIntraCbgProfileSettings>
 
-Required when you set (Profile) under
-(VideoDescription)E<gt>(CodecSettings)E<gt>(XavcSettings) to the value
-XAVC_4K_INTRA_CBG.
+Required when you set Profile to the value XAVC_4K_INTRA_CBG.
 
 
 =head2 Xavc4kIntraVbrProfileSettings => L<Paws::MediaConvert::Xavc4kIntraVbrProfileSettings>
 
-Required when you set (Profile) under
-(VideoDescription)E<gt>(CodecSettings)E<gt>(XavcSettings) to the value
-XAVC_4K_INTRA_VBR.
+Required when you set Profile to the value XAVC_4K_INTRA_VBR.
 
 
 =head2 Xavc4kProfileSettings => L<Paws::MediaConvert::Xavc4kProfileSettings>
 
-Required when you set (Profile) under
-(VideoDescription)E<gt>(CodecSettings)E<gt>(XavcSettings) to the value
-XAVC_4K.
+Required when you set Profile to the value XAVC_4K.
 
 
 =head2 XavcHdIntraCbgProfileSettings => L<Paws::MediaConvert::XavcHdIntraCbgProfileSettings>
 
-Required when you set (Profile) under
-(VideoDescription)E<gt>(CodecSettings)E<gt>(XavcSettings) to the value
-XAVC_HD_INTRA_CBG.
+Required when you set Profile to the value XAVC_HD_INTRA_CBG.
 
 
 =head2 XavcHdProfileSettings => L<Paws::MediaConvert::XavcHdProfileSettings>
 
-Required when you set (Profile) under
-(VideoDescription)E<gt>(CodecSettings)E<gt>(XavcSettings) to the value
-XAVC_HD.
+Required when you set Profile to the value XAVC_HD.
 
 
 

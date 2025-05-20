@@ -83,8 +83,8 @@ The value can be either server time or commit time.
 Server time example: --cdc-stop-position
 E<ldquo>server_time:2018-02-09T12:12:12E<rdquo>
 
-Commit time example: --cdc-stop-position E<ldquo>commit_time:
-2018-02-09T12:12:12 E<ldquo>
+Commit time example: --cdc-stop-position
+E<ldquo>commit_time:2018-02-09T12:12:12E<ldquo>
 
 
 =head2 LastFailureMessage => Str
@@ -287,24 +287,67 @@ can return one of the following values:
 
 =item *
 
-C<"STOP_REASON_FULL_LOAD_COMPLETED"> E<ndash> Full-load migration
-completed.
+C<"Stop Reason NORMAL"> E<ndash> The task completed successfully with
+no additional information returned.
 
 =item *
 
-C<"STOP_REASON_CACHED_CHANGES_APPLIED"> E<ndash> Change data capture
-(CDC) load completed.
+C<"Stop Reason RECOVERABLE_ERROR">
 
 =item *
 
-C<"STOP_REASON_CACHED_CHANGES_NOT_APPLIED"> E<ndash> In a full-load and
-CDC migration, the full load stopped as specified before starting the
-CDC migration.
+C<"Stop Reason FATAL_ERROR">
 
 =item *
 
-C<"STOP_REASON_SERVER_TIME"> E<ndash> The migration stopped at the
-specified server time.
+C<"Stop Reason FULL_LOAD_ONLY_FINISHED"> E<ndash> The task completed
+the full load phase. DMS applied cached changes if you set
+C<StopTaskCachedChangesApplied> to C<true>.
+
+=item *
+
+C<"Stop Reason STOPPED_AFTER_FULL_LOAD"> E<ndash> Full load completed,
+with cached changes not applied
+
+=item *
+
+C<"Stop Reason STOPPED_AFTER_CACHED_EVENTS"> E<ndash> Full load
+completed, with cached changes applied
+
+=item *
+
+C<"Stop Reason EXPRESS_LICENSE_LIMITS_REACHED">
+
+=item *
+
+C<"Stop Reason STOPPED_AFTER_DDL_APPLY"> E<ndash> User-defined stop
+task after DDL applied
+
+=item *
+
+C<"Stop Reason STOPPED_DUE_TO_LOW_MEMORY">
+
+=item *
+
+C<"Stop Reason STOPPED_DUE_TO_LOW_DISK">
+
+=item *
+
+C<"Stop Reason STOPPED_AT_SERVER_TIME"> E<ndash> User-defined server
+time for stopping task
+
+=item *
+
+C<"Stop Reason STOPPED_AT_COMMIT_TIME"> E<ndash> User-defined commit
+time for stopping task
+
+=item *
+
+C<"Stop Reason RECONFIGURATION_RESTART">
+
+=item *
+
+C<"Stop Reason RECYCLE_TASK">
 
 =back
 
@@ -335,7 +378,7 @@ Supplemental information that the task requires to migrate the data for
 certain source and target endpoints. For more information, see
 Specifying Supplemental Data for Task Settings
 (https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.TaskData.html)
-in the I<AWS Database Migration Service User Guide.>
+in the I<Database Migration Service User Guide.>
 
 
 

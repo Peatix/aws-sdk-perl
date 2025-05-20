@@ -5,6 +5,7 @@ package Paws::SESv2::SendEmail;
   has Content => (is => 'ro', isa => 'Paws::SESv2::EmailContent', required => 1);
   has Destination => (is => 'ro', isa => 'Paws::SESv2::Destination');
   has EmailTags => (is => 'ro', isa => 'ArrayRef[Paws::SESv2::MessageTag]');
+  has EndpointId => (is => 'ro', isa => 'Str');
   has FeedbackForwardingEmailAddress => (is => 'ro', isa => 'Str');
   has FeedbackForwardingEmailAddressIdentityArn => (is => 'ro', isa => 'Str');
   has FromEmailAddress => (is => 'ro', isa => 'Str');
@@ -58,12 +59,64 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             Data    => 'MyMessageData',
             Charset => 'MyCharset',       # OPTIONAL
           },    # OPTIONAL
+          Attachments => [
+            {
+              FileName           => 'MyAttachmentFileName',    # max: 255
+              RawContent         => 'BlobRawAttachmentData',
+              ContentDescription =>
+                'MyAttachmentContentDescription',    # max: 1000; OPTIONAL
+              ContentDisposition =>
+                'ATTACHMENT',    # values: ATTACHMENT, INLINE; OPTIONAL
+              ContentId => 'MyAttachmentContentId',  # min: 1, max: 78; OPTIONAL
+              ContentTransferEncoding => 'BASE64'
+              ,    # values: BASE64, QUOTED_PRINTABLE, SEVEN_BIT; OPTIONAL
+              ContentType =>
+                'MyAttachmentContentType',    # min: 1, max: 78; OPTIONAL
+            },
+            ...
+          ],    # OPTIONAL
+          Headers => [
+            {
+              Name  => 'MyMessageHeaderName',     # min: 1, max: 126
+              Value => 'MyMessageHeaderValue',    # min: 1, max: 870
 
+            },
+            ...
+          ],    # max: 15; OPTIONAL
         },    # OPTIONAL
         Template => {
-          TemplateArn  => 'MyAmazonResourceName',    # OPTIONAL
-          TemplateData => 'MyEmailTemplateData',     # max: 262144; OPTIONAL
-          TemplateName => 'MyEmailTemplateName',     # min: 1; OPTIONAL
+          Attachments => [
+            {
+              FileName           => 'MyAttachmentFileName',    # max: 255
+              RawContent         => 'BlobRawAttachmentData',
+              ContentDescription =>
+                'MyAttachmentContentDescription',    # max: 1000; OPTIONAL
+              ContentDisposition =>
+                'ATTACHMENT',    # values: ATTACHMENT, INLINE; OPTIONAL
+              ContentId => 'MyAttachmentContentId',  # min: 1, max: 78; OPTIONAL
+              ContentTransferEncoding => 'BASE64'
+              ,    # values: BASE64, QUOTED_PRINTABLE, SEVEN_BIT; OPTIONAL
+              ContentType =>
+                'MyAttachmentContentType',    # min: 1, max: 78; OPTIONAL
+            },
+            ...
+          ],    # OPTIONAL
+          Headers => [
+            {
+              Name  => 'MyMessageHeaderName',     # min: 1, max: 126
+              Value => 'MyMessageHeaderValue',    # min: 1, max: 870
+
+            },
+            ...
+          ],    # max: 15; OPTIONAL
+          TemplateArn     => 'MyAmazonResourceName',    # OPTIONAL
+          TemplateContent => {
+            Html    => 'MyEmailTemplateHtml',           # OPTIONAL
+            Subject => 'MyEmailTemplateSubject',        # OPTIONAL
+            Text    => 'MyEmailTemplateText',           # OPTIONAL
+          },    # OPTIONAL
+          TemplateData => 'MyEmailTemplateData',    # max: 262144; OPTIONAL
+          TemplateName => 'MyEmailTemplateName',    # min: 1; OPTIONAL
         },    # OPTIONAL
       },
       ConfigurationSetName => 'MyConfigurationSetName',    # OPTIONAL
@@ -80,6 +133,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },
         ...
       ],    # OPTIONAL
+      EndpointId                                => 'MyEndpointId',    # OPTIONAL
       FeedbackForwardingEmailAddress            => 'MyEmailAddress',  # OPTIONAL
       FeedbackForwardingEmailAddressIdentityArn =>
         'MyAmazonResourceName',                                       # OPTIONAL
@@ -105,15 +159,14 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ema
 
 =head2 ConfigurationSetName => Str
 
-The name of the configuration set that you want to use when sending the
-email.
+The name of the configuration set to use when sending the email.
 
 
 
 =head2 B<REQUIRED> Content => L<Paws::SESv2::EmailContent>
 
 An object that contains the body of the message. You can send either a
-Simple message Raw message or a template Message.
+Simple message, Raw message, or a Templated message.
 
 
 
@@ -129,6 +182,12 @@ A list of tags, in the form of name/value pairs, to apply to an email
 that you send using the C<SendEmail> operation. Tags correspond to
 characteristics of the email that you define, so that you can publish
 email sending events.
+
+
+
+=head2 EndpointId => Str
+
+The ID of the multi-region endpoint (global-endpoint).
 
 
 
@@ -161,8 +220,8 @@ Developer Guide
 
 =head2 FromEmailAddress => Str
 
-The email address that you want to use as the "From" address for the
-email. The address that you specify has to be verified.
+The email address to use as the "From" address for the email. The
+address that you specify has to be verified.
 
 
 

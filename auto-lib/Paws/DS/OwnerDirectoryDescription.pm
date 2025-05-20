@@ -51,8 +51,8 @@ Identifier of the directory owner account.
 
 =head2 DirectoryId => Str
 
-Identifier of the AWS Managed Microsoft AD directory in the directory
-owner account.
+Identifier of the Managed Microsoft AD directory in the directory owner
+account.
 
 
 =head2 DnsIpAddrs => ArrayRef[Str|Undef]

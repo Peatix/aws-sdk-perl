@@ -3,11 +3,17 @@ package Paws::IVS::Channel;
   use Moose;
   has Arn => (is => 'ro', isa => 'Str', request_name => 'arn', traits => ['NameInRequest']);
   has Authorized => (is => 'ro', isa => 'Bool', request_name => 'authorized', traits => ['NameInRequest']);
+  has ContainerFormat => (is => 'ro', isa => 'Str', request_name => 'containerFormat', traits => ['NameInRequest']);
   has IngestEndpoint => (is => 'ro', isa => 'Str', request_name => 'ingestEndpoint', traits => ['NameInRequest']);
+  has InsecureIngest => (is => 'ro', isa => 'Bool', request_name => 'insecureIngest', traits => ['NameInRequest']);
   has LatencyMode => (is => 'ro', isa => 'Str', request_name => 'latencyMode', traits => ['NameInRequest']);
+  has MultitrackInputConfiguration => (is => 'ro', isa => 'Paws::IVS::MultitrackInputConfiguration', request_name => 'multitrackInputConfiguration', traits => ['NameInRequest']);
   has Name => (is => 'ro', isa => 'Str', request_name => 'name', traits => ['NameInRequest']);
+  has PlaybackRestrictionPolicyArn => (is => 'ro', isa => 'Str', request_name => 'playbackRestrictionPolicyArn', traits => ['NameInRequest']);
   has PlaybackUrl => (is => 'ro', isa => 'Str', request_name => 'playbackUrl', traits => ['NameInRequest']);
+  has Preset => (is => 'ro', isa => 'Str', request_name => 'preset', traits => ['NameInRequest']);
   has RecordingConfigurationArn => (is => 'ro', isa => 'Str', request_name => 'recordingConfigurationArn', traits => ['NameInRequest']);
+  has Srt => (is => 'ro', isa => 'Paws::IVS::Srt', request_name => 'srt', traits => ['NameInRequest']);
   has Tags => (is => 'ro', isa => 'Paws::IVS::Tags', request_name => 'tags', traits => ['NameInRequest']);
   has Type => (is => 'ro', isa => 'Str', request_name => 'type', traits => ['NameInRequest']);
 
@@ -57,18 +63,37 @@ Whether the channel is private (enabled for playback authorization).
 Default: C<false>.
 
 
+=head2 ContainerFormat => Str
+
+Indicates which content-packaging format is used (MPEG-TS or fMP4). If
+C<multitrackInputConfiguration> is specified and C<enabled> is C<true>,
+then C<containerFormat> is required and must be set to
+C<FRAGMENTED_MP4>. Otherwise, C<containerFormat> may be set to C<TS> or
+C<FRAGMENTED_MP4>. Default: C<TS>.
+
+
 =head2 IngestEndpoint => Str
 
 Channel ingest endpoint, part of the definition of an ingest server,
 used when you set up streaming software.
 
 
+=head2 InsecureIngest => Bool
+
+Whether the channel allows insecure RTMP ingest. Default: C<false>.
+
+
 =head2 LatencyMode => Str
 
 Channel latency mode. Use C<NORMAL> to broadcast and deliver live video
 up to Full HD. Use C<LOW> for near-real-time interaction with viewers.
-Default: C<LOW>. (Note: In the Amazon IVS console, C<LOW> and C<NORMAL>
-correspond to Ultra-low and Standard, respectively.)
+Default: C<LOW>.
+
+
+=head2 MultitrackInputConfiguration => L<Paws::IVS::MultitrackInputConfiguration>
+
+Object specifying multitrack input configuration. Default: no
+multitrack input configuration is specified.
 
 
 =head2 Name => Str
@@ -76,47 +101,58 @@ correspond to Ultra-low and Standard, respectively.)
 Channel name.
 
 
+=head2 PlaybackRestrictionPolicyArn => Str
+
+Playback-restriction-policy ARN. A valid ARN value here both specifies
+the ARN and enables playback restriction. Default: "" (empty string, no
+playback restriction policy is applied).
+
+
 =head2 PlaybackUrl => Str
 
 Channel playback URL.
 
 
+=head2 Preset => Str
+
+Optional transcode preset for the channel. This is selectable only for
+C<ADVANCED_HD> and C<ADVANCED_SD> channel types. For those channel
+types, the default C<preset> is C<HIGHER_BANDWIDTH_DELIVERY>. For other
+channel types (C<BASIC> and C<STANDARD>), C<preset> is the empty string
+(C<"">).
+
+
 =head2 RecordingConfigurationArn => Str
 
-Recording-configuration ARN. A value other than an empty string
-indicates that recording is enabled. Default: "" (empty string,
-recording is disabled).
+Recording-configuration ARN. A valid ARN value here both specifies the
+ARN and enables recording. Default: "" (empty string, recording is
+disabled).
+
+
+=head2 Srt => L<Paws::IVS::Srt>
+
+Specifies the endpoint and optional passphrase for streaming with the
+SRT protocol.
 
 
 =head2 Tags => L<Paws::IVS::Tags>
 
-Array of 1-50 maps, each of the form C<string:string (key:value)>.
+Tags attached to the resource. Array of 1-50 maps, each of the form
+C<string:string (key:value)>. See Best practices and strategies
+(https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html)
+in I<Tagging Amazon Web Services Resources and Tag Editor> for details,
+including restrictions that apply to tags and "Tag naming limits and
+requirements"; Amazon IVS has no service-specific constraints beyond
+what is documented there.
 
 
 =head2 Type => Str
 
 Channel type, which determines the allowable resolution and bitrate.
-I<If you exceed the allowable resolution or bitrate, the stream
-probably will disconnect immediately.> Default: C<STANDARD>. Valid
-values:
-
-=over
-
-=item *
-
-C<STANDARD>: Multiple qualities are generated from the original input,
-to automatically give viewers the best experience for their devices and
-network conditions. Vertical resolution can be up to 1080 and bitrate
-can be up to 8.5 Mbps.
-
-=item *
-
-C<BASIC>: Amazon IVS delivers the original input to viewers. The
-viewerE<rsquo>s video-quality choice is limited to the original input.
-Vertical resolution can be up to 480 and bitrate can be up to 1.5 Mbps.
-
-=back
-
+I<If you exceed the allowable input resolution or bitrate, the stream
+probably will disconnect immediately.> Default: C<STANDARD>. For
+details, see Channel Types
+(https://docs.aws.amazon.com/ivs/latest/LowLatencyAPIReference/channel-types.html).
 
 
 

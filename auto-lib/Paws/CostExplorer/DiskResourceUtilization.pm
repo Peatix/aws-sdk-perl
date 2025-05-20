@@ -36,7 +36,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CostExplore
 
 =head1 DESCRIPTION
 
-The field that contains a list of disk (local storage) metrics
+The field that contains a list of disk (local storage) metrics that are
 associated with the current instance.
 
 =head1 ATTRIBUTES

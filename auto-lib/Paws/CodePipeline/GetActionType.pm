@@ -80,10 +80,14 @@ C<Approval>
 
 C<Invoke>
 
+=item *
+
+C<Compute>
+
 =back
 
 
-Valid values are: C<"Source">, C<"Build">, C<"Deploy">, C<"Test">, C<"Invoke">, C<"Approval">
+Valid values are: C<"Source">, C<"Build">, C<"Deploy">, C<"Test">, C<"Invoke">, C<"Approval">, C<"Compute">
 
 =head2 B<REQUIRED> Owner => Str
 

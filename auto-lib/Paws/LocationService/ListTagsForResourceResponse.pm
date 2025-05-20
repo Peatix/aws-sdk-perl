@@ -17,8 +17,17 @@ Paws::LocationService::ListTagsForResourceResponse
 
 =head2 Tags => L<Paws::LocationService::TagMap>
 
-The mapping from tag key to tag value for each tag associated with the
-specified resource.
+Tags that have been applied to the specified resource. Tags are mapped
+from the tag key to the tag value: C<"TagKey" : "TagValue">.
+
+=over
+
+=item *
+
+Format example: C<{"tag1" : "value1", "tag2" : "value2"}>
+
+=back
+
 
 
 =head2 _request_id => Str

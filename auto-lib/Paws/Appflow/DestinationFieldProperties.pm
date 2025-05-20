@@ -2,6 +2,7 @@
 package Paws::Appflow::DestinationFieldProperties;
   use Moose;
   has IsCreatable => (is => 'ro', isa => 'Bool', request_name => 'isCreatable', traits => ['NameInRequest']);
+  has IsDefaultedOnCreate => (is => 'ro', isa => 'Bool', request_name => 'isDefaultedOnCreate', traits => ['NameInRequest']);
   has IsNullable => (is => 'ro', isa => 'Bool', request_name => 'isNullable', traits => ['NameInRequest']);
   has IsUpdatable => (is => 'ro', isa => 'Bool', request_name => 'isUpdatable', traits => ['NameInRequest']);
   has IsUpsertable => (is => 'ro', isa => 'Bool', request_name => 'isUpsertable', traits => ['NameInRequest']);
@@ -46,6 +47,12 @@ used as a destination.
 =head2 IsCreatable => Bool
 
 Specifies if the destination field can be created by the current user.
+
+
+=head2 IsDefaultedOnCreate => Bool
+
+Specifies whether the field can use the default value during a Create
+operation.
 
 
 =head2 IsNullable => Bool

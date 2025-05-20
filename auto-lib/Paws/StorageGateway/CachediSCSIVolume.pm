@@ -141,6 +141,12 @@ volume, which is the value that is used to calculate your bill.
 This value is not available for volumes created prior to May 13, 2015,
 until you store data on the volume.
 
+If you use a delete tool that overwrites the data on your volume with
+random data, your usage will not be reduced. This is because the random
+data is not compressible. If you want to reduce the amount of billed
+storage on your volume, we recommend overwriting your files with zeros
+to compress the data to a negligible amount of actual storage.
+
 
 
 =head1 SEE ALSO

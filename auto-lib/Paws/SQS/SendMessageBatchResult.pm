@@ -1,11 +1,10 @@
 
 package Paws::SQS::SendMessageBatchResult;
   use Moose;
-  has Failed => (is => 'ro', isa => 'ArrayRef[Paws::SQS::BatchResultErrorEntry]', request_name => 'BatchResultErrorEntry', traits => ['NameInRequest',], required => 1);
-  has Successful => (is => 'ro', isa => 'ArrayRef[Paws::SQS::SendMessageBatchResultEntry]', request_name => 'SendMessageBatchResultEntry', traits => ['NameInRequest',], required => 1);
+  has Failed => (is => 'ro', isa => 'ArrayRef[Paws::SQS::BatchResultErrorEntry]', required => 1);
+  has Successful => (is => 'ro', isa => 'ArrayRef[Paws::SQS::SendMessageBatchResultEntry]', required => 1);
 
   has _request_id => (is => 'ro', isa => 'Str');
-1;
 
 ### main pod documentation begin ###
 
@@ -32,3 +31,4 @@ A list of C< SendMessageBatchResultEntry > items.
 
 =cut
 
+1;

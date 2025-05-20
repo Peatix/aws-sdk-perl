@@ -49,15 +49,15 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/rou
 
 =head2 B<REQUIRED> AccountId => Str
 
-The account ID of the AWS account that you want to transfer the domain
-to, for example, C<111122223333>.
+The account ID of the Amazon Web Services account that you want to
+transfer the domain to, for example, C<111122223333>.
 
 
 
 =head2 B<REQUIRED> DomainName => Str
 
-The name of the domain that you want to transfer from the current AWS
-account to another account.
+The name of the domain that you want to transfer from the current
+Amazon Web Services account to another account.
 
 
 

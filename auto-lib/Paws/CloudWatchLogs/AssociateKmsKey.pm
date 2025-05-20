@@ -2,7 +2,8 @@
 package Paws::CloudWatchLogs::AssociateKmsKey;
   use Moose;
   has KmsKeyId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'kmsKeyId' , required => 1);
-  has LogGroupName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'logGroupName' , required => 1);
+  has LogGroupName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'logGroupName' );
+  has ResourceIdentifier => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'resourceIdentifier' );
 
   use MooseX::ClassAttribute;
 
@@ -29,9 +30,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $logs = Paws->service('CloudWatchLogs');
     $logs->AssociateKmsKey(
-      KmsKeyId     => 'MyKmsKeyId',
-      LogGroupName => 'MyLogGroupName',
-
+      KmsKeyId           => 'MyKmsKeyId',
+      LogGroupName       => 'MyLogGroupName',          # OPTIONAL
+      ResourceIdentifier => 'MyResourceIdentifier',    # OPTIONAL
     );
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
@@ -42,18 +43,56 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/log
 
 =head2 B<REQUIRED> KmsKeyId => Str
 
-The Amazon Resource Name (ARN) of the CMK to use when encrypting log
-data. This must be a symmetric CMK. For more information, see Amazon
-Resource Names - AWS Key Management Service (AWS KMS)
+The Amazon Resource Name (ARN) of the KMS key to use when encrypting
+log data. This must be a symmetric KMS key. For more information, see
+Amazon Resource Names
 (https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-kms)
 and Using Symmetric and Asymmetric Keys
 (https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html).
 
 
 
-=head2 B<REQUIRED> LogGroupName => Str
+=head2 LogGroupName => Str
 
 The name of the log group.
+
+In your C<AssociateKmsKey> operation, you must specify either the
+C<resourceIdentifier> parameter or the C<logGroup> parameter, but you
+can't specify both.
+
+
+
+=head2 ResourceIdentifier => Str
+
+Specifies the target for this operation. You must specify one of the
+following:
+
+=over
+
+=item *
+
+Specify the following ARN to have future GetQueryResults
+(https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_GetQueryResults.html)
+operations in this account encrypt the results with the specified KMS
+key. Replace I<REGION> and I<ACCOUNT_ID> with your Region and account
+ID.
+
+C<arn:aws:logs:I<REGION>:I<ACCOUNT_ID>:query-result:*>
+
+=item *
+
+Specify the ARN of a log group to have CloudWatch Logs use the KMS key
+to encrypt log events that are ingested and stored by that log group.
+The log group ARN must be in the following format. Replace I<REGION>
+and I<ACCOUNT_ID> with your Region and account ID.
+
+C<arn:aws:logs:I<REGION>:I<ACCOUNT_ID>:log-group:I<LOG_GROUP_NAME>>
+
+=back
+
+In your C<AssociateKmsKey> operation, you must specify either the
+C<resourceIdentifier> parameter or the C<logGroup> parameter, but you
+can't specify both.
 
 
 

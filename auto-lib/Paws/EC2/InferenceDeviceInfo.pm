@@ -2,6 +2,7 @@ package Paws::EC2::InferenceDeviceInfo;
   use Moose;
   has Count => (is => 'ro', isa => 'Int', request_name => 'count', traits => ['NameInRequest']);
   has Manufacturer => (is => 'ro', isa => 'Str', request_name => 'manufacturer', traits => ['NameInRequest']);
+  has MemoryInfo => (is => 'ro', isa => 'Paws::EC2::InferenceDeviceMemoryInfo', request_name => 'memoryInfo', traits => ['NameInRequest']);
   has Name => (is => 'ro', isa => 'Str', request_name => 'name', traits => ['NameInRequest']);
 1;
 
@@ -46,6 +47,11 @@ The number of Inference accelerators for the instance type.
 =head2 Manufacturer => Str
 
 The manufacturer of the Inference accelerator.
+
+
+=head2 MemoryInfo => L<Paws::EC2::InferenceDeviceMemoryInfo>
+
+Describes the memory available to the inference accelerator.
 
 
 =head2 Name => Str

@@ -53,15 +53,15 @@ Specify the type of the working location.
 
 =item *
 
-C<SAGEMAKER> - Use the Amazon S3 location as a temporary location to
-store data content when working with FinSpace Notebooks that run on
-SageMaker studio.
+C<SAGEMAKER> E<ndash> Use the Amazon S3 location as a temporary
+location to store data content when working with FinSpace Notebooks
+that run on SageMaker studio.
 
 =item *
 
-C<INGESTION> - Use the Amazon S3 location as a staging location to copy
-your data content and then use the location with the changeset creation
-operation.
+C<INGESTION> E<ndash> Use the Amazon S3 location as a staging location
+to copy your data content and then use the location with the Changeset
+creation operation.
 
 =back
 

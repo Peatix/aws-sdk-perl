@@ -48,14 +48,15 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ivs
 
 =head2 MaxResults => Int
 
-The first key pair to retrieve. This is used for pagination; see the
-C<nextToken> response field. Default: 50.
+Maximum number of key pairs to return. Default: your service quota or
+100, whichever is smaller.
 
 
 
 =head2 NextToken => Str
 
-Maximum number of key pairs to return.
+The first key pair to retrieve. This is used for pagination; see the
+C<nextToken> response field.
 
 
 

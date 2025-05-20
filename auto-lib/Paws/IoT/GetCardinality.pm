@@ -63,7 +63,7 @@ The name of the index to search.
 
 =head2 B<REQUIRED> QueryString => Str
 
-The search query.
+The search query string.
 
 
 

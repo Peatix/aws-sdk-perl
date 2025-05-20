@@ -70,7 +70,7 @@ C<pending_termination> while instances are terminating.
 
 Unique, case-sensitive identifier that you provide to ensure the
 idempotency of the request. For more information, see Ensuring
-Idempotency
+idempotency
 (https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 
 Constraints: Maximum 64 ASCII characters
@@ -97,6 +97,8 @@ fleet. Valid only when B<Type> is set to C<instant>.
 Indicates whether running instances should be terminated if the target
 capacity of the EC2 Fleet is decreased below the current size of the
 EC2 Fleet.
+
+Supported only for fleets of type C<maintain>.
 
 
 =head2 FleetId => Str

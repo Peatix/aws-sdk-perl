@@ -48,8 +48,8 @@ Lists details about the C<Trail> used to generated policy.
 =head2 IsComplete => Bool
 
 This value is set to C<true> if the generated policy contains all
-possible actions for a service that Access Analyzer identified from the
-CloudTrail trail that you specified, and C<false> otherwise.
+possible actions for a service that IAM Access Analyzer identified from
+the CloudTrail trail that you specified, and C<false> otherwise.
 
 
 =head2 B<REQUIRED> PrincipalArn => Str

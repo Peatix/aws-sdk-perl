@@ -3,9 +3,12 @@ package Paws::ImageBuilder::Distribution;
   use Moose;
   has AmiDistributionConfiguration => (is => 'ro', isa => 'Paws::ImageBuilder::AmiDistributionConfiguration', request_name => 'amiDistributionConfiguration', traits => ['NameInRequest']);
   has ContainerDistributionConfiguration => (is => 'ro', isa => 'Paws::ImageBuilder::ContainerDistributionConfiguration', request_name => 'containerDistributionConfiguration', traits => ['NameInRequest']);
+  has FastLaunchConfigurations => (is => 'ro', isa => 'ArrayRef[Paws::ImageBuilder::FastLaunchConfiguration]', request_name => 'fastLaunchConfigurations', traits => ['NameInRequest']);
   has LaunchTemplateConfigurations => (is => 'ro', isa => 'ArrayRef[Paws::ImageBuilder::LaunchTemplateConfiguration]', request_name => 'launchTemplateConfigurations', traits => ['NameInRequest']);
   has LicenseConfigurationArns => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'licenseConfigurationArns', traits => ['NameInRequest']);
   has Region => (is => 'ro', isa => 'Str', request_name => 'region', traits => ['NameInRequest'], required => 1);
+  has S3ExportConfiguration => (is => 'ro', isa => 'Paws::ImageBuilder::S3ExportConfiguration', request_name => 's3ExportConfiguration', traits => ['NameInRequest']);
+  has SsmParameterConfigurations => (is => 'ro', isa => 'ArrayRef[Paws::ImageBuilder::SsmParameterConfiguration]', request_name => 'ssmParameterConfigurations', traits => ['NameInRequest']);
 
 1;
 
@@ -26,7 +29,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::ImageBuilder::Distribution object:
 
-  $service_obj->Method(Att1 => { AmiDistributionConfiguration => $value, ..., Region => $value  });
+  $service_obj->Method(Att1 => { AmiDistributionConfiguration => $value, ..., SsmParameterConfigurations => $value  });
 
 =head3 Results returned from an API call
 
@@ -53,6 +56,12 @@ Container distribution settings for encryption, licensing, and sharing
 in a specific Region.
 
 
+=head2 FastLaunchConfigurations => ArrayRef[L<Paws::ImageBuilder::FastLaunchConfiguration>]
+
+The Windows faster-launching configurations to use for AMI
+distribution.
+
+
 =head2 LaunchTemplateConfigurations => ArrayRef[L<Paws::ImageBuilder::LaunchTemplateConfiguration>]
 
 A group of launchTemplateConfiguration settings that apply to image
@@ -68,6 +77,20 @@ specified Region.
 =head2 B<REQUIRED> Region => Str
 
 The target Region.
+
+
+=head2 S3ExportConfiguration => L<Paws::ImageBuilder::S3ExportConfiguration>
+
+Configure export settings to deliver disk images created from your
+image build, using a file format that is compatible with your VMs in
+that Region.
+
+
+=head2 SsmParameterConfigurations => ArrayRef[L<Paws::ImageBuilder::SsmParameterConfiguration>]
+
+Contains settings to update Amazon Web Services Systems Manager (SSM)
+Parameter Store Parameters with output AMI IDs from the build by target
+Region.
 
 
 

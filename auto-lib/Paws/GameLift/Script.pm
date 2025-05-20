@@ -43,8 +43,7 @@ Properties describing a Realtime script.
 
 B<Related actions>
 
-CreateScript | ListScripts | DescribeScript | UpdateScript |
-DeleteScript | All APIs by task
+All APIs by task
 (https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-awssdk.html#reference-awssdk-resources-fleets)
 
 =head1 ATTRIBUTES
@@ -67,9 +66,9 @@ not need to be unique.
 
 The Amazon Resource Name (ARN
 (https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html))
-that is assigned to a GameLift script resource and uniquely identifies
-it. ARNs are unique across all Regions. In a GameLift script ARN, the
-resource ID matches the I<ScriptId> value.
+that is assigned to a Amazon GameLift script resource and uniquely
+identifies it. ARNs are unique across all Regions. In a GameLift script
+ARN, the resource ID matches the I<ScriptId> value.
 
 
 =head2 ScriptId => Str
@@ -85,7 +84,14 @@ files are uploaded from an S3 location, this value remains at "0".
 
 =head2 StorageLocation => L<Paws::GameLift::S3Location>
 
-
+The location of the Amazon S3 bucket where a zipped file containing
+your Realtime scripts is stored. The storage location must specify the
+Amazon S3 bucket name, the zip file name (the "key"), and a role ARN
+that allows Amazon GameLift to access the Amazon S3 storage location.
+The S3 bucket must be in the same Region where you want to create a new
+script. By default, Amazon GameLift uploads the latest version of the
+zip file; if you have S3 object versioning turned on, you can use the
+C<ObjectVersion> parameter to specify an earlier version.
 
 
 =head2 Version => Str

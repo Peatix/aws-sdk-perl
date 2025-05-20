@@ -4,6 +4,7 @@ package Paws::AmplifyBackend::SocialProviderSettings;
   has Facebook => (is => 'ro', isa => 'Paws::AmplifyBackend::BackendAuthSocialProviderConfig');
   has Google => (is => 'ro', isa => 'Paws::AmplifyBackend::BackendAuthSocialProviderConfig');
   has LoginWithAmazon => (is => 'ro', isa => 'Paws::AmplifyBackend::BackendAuthSocialProviderConfig');
+  has SignInWithApple => (is => 'ro', isa => 'Paws::AmplifyBackend::BackendAuthAppleProviderConfig');
 
 1;
 
@@ -24,7 +25,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::AmplifyBackend::SocialProviderSettings object:
 
-  $service_obj->Method(Att1 => { Facebook => $value, ..., LoginWithAmazon => $value  });
+  $service_obj->Method(Att1 => { Facebook => $value, ..., SignInWithApple => $value  });
 
 =head3 Results returned from an API call
 
@@ -52,6 +53,11 @@ Amplify app.
 
 
 =head2 LoginWithAmazon => L<Paws::AmplifyBackend::BackendAuthSocialProviderConfig>
+
+
+
+
+=head2 SignInWithApple => L<Paws::AmplifyBackend::BackendAuthAppleProviderConfig>
 
 
 

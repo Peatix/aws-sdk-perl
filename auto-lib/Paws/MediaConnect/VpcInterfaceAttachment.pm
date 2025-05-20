@@ -33,14 +33,14 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::MediaConnec
 
 =head1 DESCRIPTION
 
-The settings for attaching a VPC interface to an output.
+The settings for attaching a VPC interface to an resource.
 
 =head1 ATTRIBUTES
 
 
 =head2 VpcInterfaceName => Str
 
-The name of the VPC interface to use for this output.
+The name of the VPC interface to use for this resource.
 
 
 

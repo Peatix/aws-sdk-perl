@@ -35,19 +35,20 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::DevOpsGuru:
 =head1 DESCRIPTION
 
 Contains the number of open proactive and reactive insights in an
-analyzed AWS service.
+analyzed Amazon Web Services service.
 
 =head1 ATTRIBUTES
 
 
 =head2 OpenProactiveInsights => Int
 
-The number of open proactive insights in the AWS service
+The number of open proactive insights in the Amazon Web Services
+service
 
 
 =head2 OpenReactiveInsights => Int
 
-The number of open reactive insights in the AWS service
+The number of open reactive insights in the Amazon Web Services service
 
 
 

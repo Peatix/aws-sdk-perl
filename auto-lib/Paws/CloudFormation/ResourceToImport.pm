@@ -57,9 +57,9 @@ C<MyS3Bucket>).
 
 The type of resource to import into your stack, such as
 C<AWS::S3::Bucket>. For a list of supported resource types, see
-Resources that support import operations
+Resource type support for imports and drift detection
 (https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import-supported-resources.html)
-in the AWS CloudFormation User Guide.
+in the I<CloudFormation User Guide>.
 
 
 

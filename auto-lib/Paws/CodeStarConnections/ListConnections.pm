@@ -76,7 +76,7 @@ which can be used to return the next set of connections in the list.
 Filters the list of connections to those associated with a specified
 provider, such as Bitbucket.
 
-Valid values are: C<"Bitbucket">, C<"GitHub">, C<"GitHubEnterpriseServer">
+Valid values are: C<"Bitbucket">, C<"GitHub">, C<"GitHubEnterpriseServer">, C<"GitLab">, C<"GitLabSelfManaged">
 
 
 =head1 SEE ALSO

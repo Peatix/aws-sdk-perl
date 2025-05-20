@@ -48,9 +48,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/iam
 
 =head2 ServiceName => Str
 
-Filters the returned results to only those for the specified AWS
-service. If not specified, then AWS returns service-specific
-credentials for all services.
+Filters the returned results to only those for the specified Amazon Web
+Services service. If not specified, then Amazon Web Services returns
+service-specific credentials for all services.
 
 
 

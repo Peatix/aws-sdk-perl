@@ -17,7 +17,7 @@ Paws::Connect::DescribeContactFlowResponse
 
 =head2 ContactFlow => L<Paws::Connect::ContactFlow>
 
-Information about the contact flow.
+Information about the flow.
 
 
 =head2 _request_id => Str

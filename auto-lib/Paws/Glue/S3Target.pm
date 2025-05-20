@@ -2,6 +2,8 @@
 package Paws::Glue::S3Target;
   use Moose;
   has ConnectionName => (is => 'ro', isa => 'Str');
+  has DlqEventQueueArn => (is => 'ro', isa => 'Str');
+  has EventQueueArn => (is => 'ro', isa => 'Str');
   has Exclusions => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has Path => (is => 'ro', isa => 'Str');
   has SampleSize => (is => 'ro', isa => 'Int');
@@ -46,6 +48,17 @@ Specifies a data store in Amazon Simple Storage Service (Amazon S3).
 The name of a connection which allows a job or crawler to access data
 in Amazon S3 within an Amazon Virtual Private Cloud environment (Amazon
 VPC).
+
+
+=head2 DlqEventQueueArn => Str
+
+A valid Amazon dead-letter SQS ARN. For example,
+C<arn:aws:sqs:region:account:deadLetterQueue>.
+
+
+=head2 EventQueueArn => Str
+
+A valid Amazon SQS ARN. For example, C<arn:aws:sqs:region:account:sqs>.
 
 
 =head2 Exclusions => ArrayRef[Str|Undef]

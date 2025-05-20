@@ -28,8 +28,9 @@ C<arn:${Partition}:iotsitewise:${Region}:${Account}:asset/${AssetId}>
 
 =head2 B<REQUIRED> AssetId => Str
 
-The ID of the asset. This ID uniquely identifies the asset within AWS
-IoT SiteWise and can be used with other AWS IoT SiteWise APIs.
+The ID of the asset, in UUID format. This ID uniquely identifies the
+asset within IoT SiteWise and can be used with other IoT SiteWise API
+operations.
 
 
 =head2 B<REQUIRED> AssetStatus => L<Paws::IoTSiteWise::AssetStatus>

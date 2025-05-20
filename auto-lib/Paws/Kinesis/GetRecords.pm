@@ -3,6 +3,7 @@ package Paws::Kinesis::GetRecords;
   use Moose;
   has Limit => (is => 'ro', isa => 'Int');
   has ShardIterator => (is => 'ro', isa => 'Str', required => 1);
+  has StreamARN => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -31,6 +32,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $GetRecordsOutput = $kinesis->GetRecords(
       ShardIterator => 'MyShardIterator',
       Limit         => 1,                   # OPTIONAL
+      StreamARN     => 'MyStreamARN',       # OPTIONAL
     );
 
     # Results:
@@ -60,6 +62,12 @@ throws C<InvalidArgumentException>. The default value is 10,000.
 The position in the shard from which you want to start sequentially
 reading data records. A shard iterator specifies this position using
 the sequence number of a data record in the shard.
+
+
+
+=head2 StreamARN => Str
+
+The ARN of the stream.
 
 
 

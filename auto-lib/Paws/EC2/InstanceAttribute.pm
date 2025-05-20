@@ -2,6 +2,7 @@
 package Paws::EC2::InstanceAttribute;
   use Moose;
   has BlockDeviceMappings => (is => 'ro', isa => 'ArrayRef[Paws::EC2::InstanceBlockDeviceMapping]', request_name => 'blockDeviceMapping', traits => ['NameInRequest',]);
+  has DisableApiStop => (is => 'ro', isa => 'Paws::EC2::AttributeBooleanValue', request_name => 'disableApiStop', traits => ['NameInRequest',]);
   has DisableApiTermination => (is => 'ro', isa => 'Paws::EC2::AttributeBooleanValue', request_name => 'disableApiTermination', traits => ['NameInRequest',]);
   has EbsOptimized => (is => 'ro', isa => 'Paws::EC2::AttributeBooleanValue', request_name => 'ebsOptimized', traits => ['NameInRequest',]);
   has EnaSupport => (is => 'ro', isa => 'Paws::EC2::AttributeBooleanValue', request_name => 'enaSupport', traits => ['NameInRequest',]);
@@ -35,10 +36,16 @@ Paws::EC2::InstanceAttribute
 The block device mapping of the instance.
 
 
+=head2 DisableApiStop => L<Paws::EC2::AttributeBooleanValue>
+
+Indicates whether stop protection is enabled for the instance.
+
+
 =head2 DisableApiTermination => L<Paws::EC2::AttributeBooleanValue>
 
-If the value is C<true>, you can't terminate the instance through the
-Amazon EC2 console, CLI, or API; otherwise, you can.
+Indicates whether termination protection is enabled. If the value is
+C<true>, you can't terminate the instance using the Amazon EC2 console,
+command line tools, or API.
 
 
 =head2 EbsOptimized => L<Paws::EC2::AttributeBooleanValue>
@@ -53,8 +60,8 @@ Indicates whether enhanced networking with ENA is enabled.
 
 =head2 EnclaveOptions => L<Paws::EC2::EnclaveOptions>
 
-To enable the instance for Amazon Web Services Nitro Enclaves, set this
-parameter to C<true>; otherwise, set it to C<false>.
+Indicates whether the instance is enabled for Amazon Web Services Nitro
+Enclaves.
 
 
 =head2 Groups => ArrayRef[L<Paws::EC2::GroupIdentifier>]
@@ -86,7 +93,7 @@ The kernel ID.
 
 =head2 ProductCodes => ArrayRef[L<Paws::EC2::ProductCode>]
 
-A list of product codes.
+The product codes.
 
 
 =head2 RamdiskId => L<Paws::EC2::AttributeValue>
@@ -101,12 +108,7 @@ The device name of the root device volume (for example, C</dev/sda1>).
 
 =head2 SourceDestCheck => L<Paws::EC2::AttributeBooleanValue>
 
-Enable or disable source/destination checks, which ensure that the
-instance is either the source or the destination of any traffic that it
-receives. If the value is C<true>, source/destination checks are
-enabled; otherwise, they are disabled. The default value is C<true>.
-You must disable source/destination checks if the instance runs
-services such as network address translation, routing, or firewalls.
+Indicates whether source/destination checks are enabled.
 
 
 =head2 SriovNetSupport => L<Paws::EC2::AttributeValue>

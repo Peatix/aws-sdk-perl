@@ -78,6 +78,11 @@ Valid values are: C<"S3">
 The ID of the GuardDuty detector associated with the publishing
 destination.
 
+To find the C<detectorId> in the current Region, see the Settings page
+in the GuardDuty console, or run the ListDetectors
+(https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+API.
+
 
 
 

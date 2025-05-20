@@ -20,22 +20,22 @@ Paws::IoT::DescribeProvisioningTemplateVersionResponse
 
 =head2 CreationDate => Str
 
-The date when the fleet provisioning template version was created.
+The date when the provisioning template version was created.
 
 
 =head2 IsDefaultVersion => Bool
 
-True if the fleet provisioning template version is the default version.
+True if the provisioning template version is the default version.
 
 
 =head2 TemplateBody => Str
 
-The JSON formatted contents of the fleet provisioning template version.
+The JSON formatted contents of the provisioning template version.
 
 
 =head2 VersionId => Int
 
-The fleet provisioning template version ID.
+The provisioning template version ID.
 
 
 =head2 _request_id => Str

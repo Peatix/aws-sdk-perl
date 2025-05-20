@@ -1,6 +1,7 @@
 
 package Paws::DevOpsGuru::ListRecommendations;
   use Moose;
+  has AccountId => (is => 'ro', isa => 'Str');
   has InsightId => (is => 'ro', isa => 'Str', required => 1);
   has Locale => (is => 'ro', isa => 'Str');
   has NextToken => (is => 'ro', isa => 'Str');
@@ -32,6 +33,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $devops-guru = Paws->service('DevOpsGuru');
     my $ListRecommendationsResponse = $devops -guru->ListRecommendations(
       InsightId => 'MyInsightId',
+      AccountId => 'MyAwsAccountId',     # OPTIONAL
       Locale    => 'DE_DE',              # OPTIONAL
       NextToken => 'MyUuidNextToken',    # OPTIONAL
     );
@@ -46,6 +48,12 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/devops-guru/ListRecommendations>
 
 =head1 ATTRIBUTES
+
+
+=head2 AccountId => Str
+
+The ID of the Amazon Web Services account.
+
 
 
 =head2 B<REQUIRED> InsightId => Str

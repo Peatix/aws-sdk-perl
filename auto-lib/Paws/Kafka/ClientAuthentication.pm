@@ -3,6 +3,7 @@ package Paws::Kafka::ClientAuthentication;
   use Moose;
   has Sasl => (is => 'ro', isa => 'Paws::Kafka::Sasl', request_name => 'sasl', traits => ['NameInRequest']);
   has Tls => (is => 'ro', isa => 'Paws::Kafka::Tls', request_name => 'tls', traits => ['NameInRequest']);
+  has Unauthenticated => (is => 'ro', isa => 'Paws::Kafka::Unauthenticated', request_name => 'unauthenticated', traits => ['NameInRequest']);
 
 1;
 
@@ -23,7 +24,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::Kafka::ClientAuthentication object:
 
-  $service_obj->Method(Att1 => { Sasl => $value, ..., Tls => $value  });
+  $service_obj->Method(Att1 => { Sasl => $value, ..., Unauthenticated => $value  });
 
 =head3 Results returned from an API call
 
@@ -47,6 +48,11 @@ Details for ClientAuthentication using SASL.
 =head2 Tls => L<Paws::Kafka::Tls>
 
 Details for ClientAuthentication using TLS.
+
+
+=head2 Unauthenticated => L<Paws::Kafka::Unauthenticated>
+
+Contains information about unauthenticated traffic to the cluster.
 
 
 

@@ -2,6 +2,7 @@
 package Paws::ApiGateway::DeleteDomainName;
   use Moose;
   has DomainName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'domain_name', required => 1);
+  has DomainNameId => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'domainNameId');
 
   use MooseX::ClassAttribute;
 
@@ -29,8 +30,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $apigateway = Paws->service('ApiGateway');
     $apigateway->DeleteDomainName(
-      DomainName => 'MyString',
-
+      DomainName   => 'MyString',
+      DomainNameId => 'MyString',    # OPTIONAL
     );
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
@@ -41,7 +42,14 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 B<REQUIRED> DomainName => Str
 
-[Required] The name of the DomainName resource to be deleted.
+The name of the DomainName resource to be deleted.
+
+
+
+=head2 DomainNameId => Str
+
+The identifier for the domain name resource. Supported only for private
+custom domain names.
 
 
 

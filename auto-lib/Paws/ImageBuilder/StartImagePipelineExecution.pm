@@ -52,7 +52,10 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ima
 
 =head2 B<REQUIRED> ClientToken => Str
 
-The idempotency token used to make this request idempotent.
+Unique, case-sensitive identifier you provide to ensure idempotency of
+the request. For more information, see Ensuring idempotency
+(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html)
+in the I<Amazon EC2 API Reference>.
 
 
 

@@ -34,7 +34,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::S3::SseKmsE
 =head1 DESCRIPTION
 
 A container for filter information for the selection of S3 objects
-encrypted with AWS KMS.
+encrypted with Amazon Web Services KMS.
 
 =head1 ATTRIBUTES
 
@@ -42,7 +42,8 @@ encrypted with AWS KMS.
 =head2 B<REQUIRED> Status => Str
 
 Specifies whether Amazon S3 replicates objects created with server-side
-encryption using an AWS KMS key stored in AWS Key Management Service.
+encryption using an Amazon Web Services KMS key stored in Amazon Web
+Services Key Management Service.
 
 
 

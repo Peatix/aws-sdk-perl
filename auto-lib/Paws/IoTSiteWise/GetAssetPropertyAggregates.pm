@@ -79,7 +79,7 @@ The data aggregating function.
 
 =head2 AssetId => Str
 
-The ID of the asset.
+The ID of the asset, in UUID format.
 
 
 
@@ -92,9 +92,22 @@ expressed in seconds in Unix epoch time.
 
 =head2 MaxResults => Int
 
-The maximum number of results to be returned per paginated request.
+The maximum number of results to return for each paginated request. A
+result set is returned in the two cases, whichever occurs first.
 
-Default: 100
+=over
+
+=item *
+
+The size of the result set is equal to 1 MB.
+
+=item *
+
+The number of data points in the result set is equal to the value of
+C<maxResults>. The maximum value of C<maxResults> is 2500.
+
+=back
+
 
 
 
@@ -106,18 +119,18 @@ The token to be used for the next set of paginated results.
 
 =head2 PropertyAlias => Str
 
-The property alias that identifies the property, such as an OPC-UA
-server data stream path (for example,
+The alias that identifies the property, such as an OPC-UA server data
+stream path (for example,
 C</company/windfarm/3/turbine/7/temperature>). For more information,
 see Mapping industrial data streams to asset properties
 (https://docs.aws.amazon.com/iot-sitewise/latest/userguide/connect-data-streams.html)
-in the I<AWS IoT SiteWise User Guide>.
+in the I<IoT SiteWise User Guide>.
 
 
 
 =head2 PropertyId => Str
 
-The ID of the asset property.
+The ID of the asset property, in UUID format.
 
 
 

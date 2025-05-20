@@ -1,6 +1,7 @@
 
 package Paws::DynamoDB::DisableKinesisStreamingDestination;
   use Moose;
+  has EnableKinesisStreamingConfiguration => (is => 'ro', isa => 'Paws::DynamoDB::EnableKinesisStreamingConfiguration');
   has StreamArn => (is => 'ro', isa => 'Str', required => 1);
   has TableName => (is => 'ro', isa => 'Str', required => 1);
 
@@ -30,14 +31,19 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $dynamodb = Paws->service('DynamoDB');
     my $KinesisStreamingDestinationOutput =
       $dynamodb->DisableKinesisStreamingDestination(
-      StreamArn => 'MyStreamArn',
-      TableName => 'MyTableName',
-
+      StreamArn                           => 'MyStreamArn',
+      TableName                           => 'MyTableArn',
+      EnableKinesisStreamingConfiguration => {
+        ApproximateCreationDateTimePrecision =>
+          'MILLISECOND',    # values: MILLISECOND, MICROSECOND; OPTIONAL
+      },    # OPTIONAL
       );
 
     # Results:
     my $DestinationStatus =
       $KinesisStreamingDestinationOutput->DestinationStatus;
+    my $EnableKinesisStreamingConfiguration =
+      $KinesisStreamingDestinationOutput->EnableKinesisStreamingConfiguration;
     my $StreamArn = $KinesisStreamingDestinationOutput->StreamArn;
     my $TableName = $KinesisStreamingDestinationOutput->TableName;
 
@@ -49,6 +55,12 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/dyn
 =head1 ATTRIBUTES
 
 
+=head2 EnableKinesisStreamingConfiguration => L<Paws::DynamoDB::EnableKinesisStreamingConfiguration>
+
+The source for the Kinesis streaming information that is being enabled.
+
+
+
 =head2 B<REQUIRED> StreamArn => Str
 
 The ARN for a Kinesis data stream.
@@ -57,7 +69,8 @@ The ARN for a Kinesis data stream.
 
 =head2 B<REQUIRED> TableName => Str
 
-The name of the DynamoDB table.
+The name of the DynamoDB table. You can also provide the Amazon
+Resource Name (ARN) of the table in this parameter.
 
 
 

@@ -41,15 +41,15 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/fir
 
 =head2 AllowForceDelete => Bool
 
-Set this to true if you want to delete the delivery stream even if
-Kinesis Data Firehose is unable to retire the grant for the CMK.
-Kinesis Data Firehose might be unable to retire the grant due to a
-customer error, such as when the CMK or the grant are in an invalid
-state. If you force deletion, you can then use the RevokeGrant
+Set this to true if you want to delete the Firehose stream even if
+Firehose is unable to retire the grant for the CMK. Firehose might be
+unable to retire the grant due to a customer error, such as when the
+CMK or the grant are in an invalid state. If you force deletion, you
+can then use the RevokeGrant
 (https://docs.aws.amazon.com/kms/latest/APIReference/API_RevokeGrant.html)
-operation to revoke the grant you gave to Kinesis Data Firehose. If a
-failure to retire the grant happens due to an AWS KMS issue, Kinesis
-Data Firehose keeps retrying the delete operation.
+operation to revoke the grant you gave to Firehose. If a failure to
+retire the grant happens due to an Amazon Web Services KMS issue,
+Firehose keeps retrying the delete operation.
 
 The default value is false.
 
@@ -57,7 +57,7 @@ The default value is false.
 
 =head2 B<REQUIRED> DeliveryStreamName => Str
 
-The name of the delivery stream.
+The name of the Firehose stream.
 
 
 

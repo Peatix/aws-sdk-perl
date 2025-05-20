@@ -2,11 +2,13 @@
 package Paws::EC2::ModifyCapacityReservation;
   use Moose;
   has Accept => (is => 'ro', isa => 'Bool');
+  has AdditionalInfo => (is => 'ro', isa => 'Str');
   has CapacityReservationId => (is => 'ro', isa => 'Str', required => 1);
   has DryRun => (is => 'ro', isa => 'Bool');
   has EndDate => (is => 'ro', isa => 'Str');
   has EndDateType => (is => 'ro', isa => 'Str');
   has InstanceCount => (is => 'ro', isa => 'Int');
+  has InstanceMatchCriteria => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -35,10 +37,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $ModifyCapacityReservationResult = $ec2->ModifyCapacityReservation(
       CapacityReservationId => 'MyCapacityReservationId',
       Accept                => 1,                           # OPTIONAL
+      AdditionalInfo        => 'MyString',                  # OPTIONAL
       DryRun                => 1,                           # OPTIONAL
       EndDate               => '1970-01-01T01:00:00',       # OPTIONAL
       EndDateType           => 'unlimited',                 # OPTIONAL
       InstanceCount         => 1,                           # OPTIONAL
+      InstanceMatchCriteria => 'open',                      # OPTIONAL
     );
 
     # Results:
@@ -56,6 +60,12 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ec2
 
 Reserved. Capacity Reservations you have created are accepted by
 default.
+
+
+
+=head2 AdditionalInfo => Str
+
+Reserved for future use.
 
 
 
@@ -117,9 +127,26 @@ Valid values are: C<"unlimited">, C<"limited">
 
 =head2 InstanceCount => Int
 
-The number of instances for which to reserve capacity.
+The number of instances for which to reserve capacity. The number of
+instances can't be increased or decreased by more than C<1000> in a
+single request.
 
 
+
+=head2 InstanceMatchCriteria => Str
+
+The matching criteria (instance eligibility) that you want to use in
+the modified Capacity Reservation. If you change the instance
+eligibility of an existing Capacity Reservation from C<targeted> to
+C<open>, any running instances that match the attributes of the
+Capacity Reservation, have the C<CapacityReservationPreference> set to
+C<open>, and are not yet running in the Capacity Reservation, will
+automatically use the modified Capacity Reservation.
+
+To modify the instance eligibility, the Capacity Reservation must be
+completely idle (zero usage).
+
+Valid values are: C<"open">, C<"targeted">
 
 
 =head1 SEE ALSO

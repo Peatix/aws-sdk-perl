@@ -64,7 +64,7 @@ limit for your account.
 =item *
 
 B<IpNotAvailable>: A subnet associated with the cluster doesn't have
-any free IP addresses.
+any available IP addresses.
 
 =item *
 

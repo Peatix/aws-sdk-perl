@@ -71,9 +71,9 @@ Specifies whether the rule is disabled.
 =head2 B<REQUIRED> Sql => Str
 
 The SQL statement used to query the topic. For more information, see
-AWS IoT SQL Reference
+IoT SQL Reference
 (https://docs.aws.amazon.com/iot/latest/developerguide/iot-sql-reference.html)
-in the I<AWS IoT Developer Guide>.
+in the I<IoT Developer Guide>.
 
 
 

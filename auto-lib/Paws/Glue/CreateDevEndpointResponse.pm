@@ -54,7 +54,8 @@ defaults to Python 2.
 
 =head2 AvailabilityZone => Str
 
-The AWS Availability Zone where this C<DevEndpoint> is located.
+The Amazon Web Services Availability Zone where this C<DevEndpoint> is
+located.
 
 
 =head2 CreatedTimestamp => Str
@@ -145,7 +146,7 @@ The ID of the virtual private cloud (VPC) used by this C<DevEndpoint>.
 The type of predefined worker that is allocated to the development
 endpoint. May be a value of Standard, G.1X, or G.2X.
 
-Valid values are: C<"Standard">, C<"G.1X">, C<"G.2X">
+Valid values are: C<"Standard">, C<"G.1X">, C<"G.2X">, C<"G.025X">, C<"G.4X">, C<"G.8X">, C<"Z.2X">
 =head2 YarnEndpointAddress => Str
 
 The address of the YARN endpoint used by this C<DevEndpoint>.

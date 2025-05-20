@@ -38,8 +38,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AppRunner::
 
 =head1 DESCRIPTION
 
-Describes the settings for the health check that AWS App Runner
-performs to monitor the health of a service.
+Describes the settings for the health check that App Runner performs to
+monitor the health of a service.
 
 =head1 ATTRIBUTES
 
@@ -49,7 +49,7 @@ performs to monitor the health of a service.
 The number of consecutive checks that must succeed before App Runner
 decides that the service is healthy.
 
-Default: C<3>
+Default: C<1>
 
 
 =head2 Interval => Int
@@ -92,7 +92,7 @@ Default: C<2>
 The number of consecutive checks that must fail before App Runner
 decides that the service is unhealthy.
 
-Default: C<3>
+Default: C<5>
 
 
 

@@ -45,9 +45,9 @@ Container for all error elements.
 
 The error code is a string that uniquely identifies an error condition.
 It is meant to be read and understood by programs that detect and
-handle errors by type.
-
-B<Amazon S3 error codes>
+handle errors by type. The following is a list of Amazon S3 error
+codes. For more information, see Error responses
+(https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html).
 
 =over
 
@@ -83,9 +83,9 @@ I<Code:> AccountProblem
 
 =item *
 
-I<Description:> There is a problem with your AWS account that prevents
-the action from completing successfully. Contact AWS Support for
-further assistance.
+I<Description:> There is a problem with your Amazon Web Services
+account that prevents the action from completing successfully. Contact
+Amazon Web Services Support for further assistance.
 
 =item *
 
@@ -108,7 +108,7 @@ I<Code:> AllAccessDisabled
 =item *
 
 I<Description:> All access to this Amazon S3 resource has been
-disabled. Contact AWS Support for further assistance.
+disabled. Contact Amazon Web Services Support for further assistance.
 
 =item *
 
@@ -223,11 +223,11 @@ I<Code:> BucketAlreadyOwnedByYou
 =item *
 
 I<Description:> The bucket you tried to create already exists, and you
-own it. Amazon S3 returns this error in all AWS Regions except in the
-North Virginia Region. For legacy compatibility, if you re-create an
-existing bucket that you already own in the North Virginia Region,
-Amazon S3 returns 200 OK and resets the bucket access control lists
-(ACLs).
+own it. Amazon S3 returns this error in all Amazon Web Services Regions
+except in the North Virginia Region. For legacy compatibility, if you
+re-create an existing bucket that you already own in the North Virginia
+Region, Amazon S3 returns 200 OK and resets the bucket access control
+lists (ACLs).
 
 =item *
 
@@ -497,8 +497,8 @@ I<Code:> InvalidAccessKeyId
 
 =item *
 
-I<Description:> The AWS access key ID you provided does not exist in
-our records.
+I<Description:> The Amazon Web Services access key ID you provided does
+not exist in our records.
 
 =item *
 
@@ -750,7 +750,7 @@ I<Code:> InvalidPayer
 =item *
 
 I<Description:> All access to this object has been disabled. Please
-contact AWS Support for further assistance.
+contact Amazon Web Services Support for further assistance.
 
 =item *
 
@@ -817,7 +817,7 @@ I<Code:> InvalidRequest
 
 =item *
 
-I<Description:> Please use AWS4-HMAC-SHA256.
+I<Description:> Please use C<AWS4-HMAC-SHA256>.
 
 =item *
 
@@ -977,7 +977,7 @@ I<Code:> InvalidRequest
 =item *
 
 I<Description:> Amazon S3 Transfer Acceleration is not supported on
-this bucket. Contact AWS Support for more information.
+this bucket. Contact Amazon Web Services Support for more information.
 
 =item *
 
@@ -1000,7 +1000,7 @@ I<Code:> InvalidRequest
 =item *
 
 I<Description:> Amazon S3 Transfer Acceleration cannot be enabled on
-this bucket. Contact AWS Support for more information.
+this bucket. Contact Amazon Web Services Support for more information.
 
 =item *
 
@@ -1634,7 +1634,7 @@ I<Code:> NotSignedUp
 
 I<Description:> Your account is not signed up for the Amazon S3
 service. You must sign up before you can use Amazon S3. You can sign up
-at the following URL: https://aws.amazon.com/s3
+at the following URL: Amazon S3 (http://aws.amazon.com/s3)
 
 =item *
 
@@ -1863,8 +1863,8 @@ I<Code:> SignatureDoesNotMatch
 =item *
 
 I<Description:> The request signature we calculated does not match the
-signature you provided. Check your AWS secret access key and signing
-method. For more information, see REST Authentication
+signature you provided. Check your Amazon Web Services secret access
+key and signing method. For more information, see REST Authentication
 (https://docs.aws.amazon.com/AmazonS3/latest/dev/RESTAuthentication.html)
 and SOAP Authentication
 (https://docs.aws.amazon.com/AmazonS3/latest/dev/SOAPAuthentication.html)
@@ -1890,7 +1890,7 @@ I<Code:> ServiceUnavailable
 
 =item *
 
-I<Description:> Reduce your request rate.
+I<Description:> Service is unable to handle request.
 
 =item *
 
@@ -2081,6 +2081,8 @@ internationalization are more likely to ignore the error message.
 =head2 VersionId => Str
 
 The version ID of the error.
+
+This functionality is not supported for directory buckets.
 
 
 

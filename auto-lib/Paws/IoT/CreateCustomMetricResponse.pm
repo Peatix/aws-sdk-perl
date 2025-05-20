@@ -18,7 +18,7 @@ Paws::IoT::CreateCustomMetricResponse
 
 =head2 MetricArn => Str
 
-The Amazon Resource Number (ARN) of the custom metric, e.g.
+The Amazon Resource Number (ARN) of the custom metric. For example,
 C<arn:I<aws-partition>:iot:I<region>:I<accountId>:custommetric/I<metricName>>
 
 

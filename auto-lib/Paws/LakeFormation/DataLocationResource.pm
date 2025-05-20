@@ -43,8 +43,7 @@ revoked.
 =head2 CatalogId => Str
 
 The identifier for the Data Catalog where the location is registered
-with AWS Lake Formation. By default, it is the account ID of the
-caller.
+with Lake Formation. By default, it is the account ID of the caller.
 
 
 =head2 B<REQUIRED> ResourceArn => Str

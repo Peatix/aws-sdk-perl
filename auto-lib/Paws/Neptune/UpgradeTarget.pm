@@ -6,6 +6,7 @@ package Paws::Neptune::UpgradeTarget;
   has Engine => (is => 'ro', isa => 'Str');
   has EngineVersion => (is => 'ro', isa => 'Str');
   has IsMajorVersionUpgrade => (is => 'ro', isa => 'Bool');
+  has SupportsGlobalDatabases => (is => 'ro', isa => 'Bool');
 
 1;
 
@@ -26,7 +27,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::Neptune::UpgradeTarget object:
 
-  $service_obj->Method(Att1 => { AutoUpgrade => $value, ..., IsMajorVersionUpgrade => $value  });
+  $service_obj->Method(Att1 => { AutoUpgrade => $value, ..., SupportsGlobalDatabases => $value  });
 
 =head3 Results returned from an API call
 
@@ -69,6 +70,12 @@ The version number of the upgrade target database engine.
 
 A value that indicates whether a database engine is upgraded to a major
 version.
+
+
+=head2 SupportsGlobalDatabases => Bool
+
+A value that indicates whether you can use Neptune global databases
+with the target engine version.
 
 
 

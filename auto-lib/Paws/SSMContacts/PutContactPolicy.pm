@@ -28,11 +28,16 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $ssm-contacts = Paws->service('SSMContacts');
+# To share a contact and engagements
+# The following put-contact-policy example adds a resource policy to the contact
+# Akua that shares the contact and related engagements with the principal.
     my $PutContactPolicyResult = $ssm -contacts->PutContactPolicy(
-      ContactArn => 'MySsmContactsArn',
-      Policy     => 'MyPolicy',
-
+      'ContactArn' =>
+        'arn:aws:ssm-contacts:us-east-1:111122223333:contact/akuam',
+      'Policy' =>
+'{"Version":"2012-10-17","Statement":[{"Sid":"ExampleResourcePolicy","Action":["ssm-contacts:GetContact","ssm-contacts:StartEngagement","ssm-contacts:DescribeEngagement","ssm-contacts:ListPagesByEngagement","ssm-contacts:StopEngagement"],"Principal":{"AWS":"222233334444"},"Effect":"Allow","Resource":["arn:aws:ssm-contacts:*:111122223333:contact/akuam","arn:aws:ssm-contacts:*:111122223333:engagement/akuam/*"]}]}'
     );
+
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ssm-contacts/PutContactPolicy>

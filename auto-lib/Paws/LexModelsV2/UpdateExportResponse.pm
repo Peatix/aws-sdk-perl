@@ -38,9 +38,11 @@ archive is available for download.
 Valid values are: C<"InProgress">, C<"Completed">, C<"Failed">, C<"Deleting">
 =head2 FileFormat => Str
 
-The file format used for the files that define the resource.
+The file format used for the files that define the resource. The C<TSV>
+format is required to export a custom vocabulary only; otherwise use
+C<LexJson> format.
 
-Valid values are: C<"LexJson">
+Valid values are: C<"LexJson">, C<"TSV">, C<"CSV">
 =head2 LastUpdatedDateTime => Str
 
 The date and time that the export was last updated.

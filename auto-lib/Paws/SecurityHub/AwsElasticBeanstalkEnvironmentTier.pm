@@ -42,12 +42,14 @@ Contains information about the tier of the environment.
 
 =head2 Name => Str
 
-The name of the environment tier.
+The name of the environment tier. Valid values are C<WebServer> or
+C<Worker>.
 
 
 =head2 Type => Str
 
-The type of environment tier.
+The type of environment tier. Valid values are C<Standard> or
+C<SQS/HTTP>.
 
 
 =head2 Version => Str

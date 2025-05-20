@@ -111,8 +111,8 @@ the Resolver rule.
 
 =head2 OwnerId => Str
 
-When a rule is shared with another AWS account, the account ID of the
-account that the rule is shared with.
+When a rule is shared with another Amazon Web Services account, the
+account ID of the account that the rule is shared with.
 
 
 =head2 ResolverEndpointId => Str
@@ -159,8 +159,7 @@ A detailed description of the status of a Resolver rule.
 
 An array that contains the IP addresses and ports that an outbound
 endpoint forwards DNS queries to. Typically, these are the IP addresses
-of DNS resolvers on your network. Specify IPv4 addresses. IPv6 is not
-supported.
+of DNS resolvers on your network.
 
 
 

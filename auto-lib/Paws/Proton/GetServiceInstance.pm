@@ -47,14 +47,14 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/pro
 
 =head2 B<REQUIRED> Name => Str
 
-The name of a service instance that you want to get the detail data
+The name of a service instance that you want to get the detailed data
 for.
 
 
 
 =head2 B<REQUIRED> ServiceName => Str
 
-The name of the service that the service instance belongs to.
+The name of the service that you want the service instance input for.
 
 
 

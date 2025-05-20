@@ -37,9 +37,6 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CodeBuild::
 Information about the authorization settings for CodeBuild to access
 the source code to be built.
 
-This information is for the CodeBuild console's use only. Your code
-should not get or set this information directly.
-
 =head1 ATTRIBUTES
 
 
@@ -50,10 +47,8 @@ The resource value that applies to the specified authorization type.
 
 =head2 B<REQUIRED> Type => Str
 
-This data type is deprecated and is no longer accurate or used.
-
-The authorization type to use. The only valid value is C<OAUTH>, which
-represents the OAuth authorization type.
+The authorization type to use. Valid options are OAUTH,
+CODECONNECTIONS, or SECRETS_MANAGER.
 
 
 

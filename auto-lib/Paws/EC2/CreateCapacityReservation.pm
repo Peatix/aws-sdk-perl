@@ -4,6 +4,8 @@ package Paws::EC2::CreateCapacityReservation;
   has AvailabilityZone => (is => 'ro', isa => 'Str');
   has AvailabilityZoneId => (is => 'ro', isa => 'Str');
   has ClientToken => (is => 'ro', isa => 'Str');
+  has CommitmentDuration => (is => 'ro', isa => 'Int');
+  has DeliveryPreference => (is => 'ro', isa => 'Str');
   has DryRun => (is => 'ro', isa => 'Bool');
   has EbsOptimized => (is => 'ro', isa => 'Bool');
   has EndDate => (is => 'ro', isa => 'Str');
@@ -14,6 +16,8 @@ package Paws::EC2::CreateCapacityReservation;
   has InstancePlatform => (is => 'ro', isa => 'Str', required => 1);
   has InstanceType => (is => 'ro', isa => 'Str', required => 1);
   has OutpostArn => (is => 'ro', isa => 'Str');
+  has PlacementGroupArn => (is => 'ro', isa => 'Str');
+  has StartDate => (is => 'ro', isa => 'Str');
   has TagSpecifications => (is => 'ro', isa => 'ArrayRef[Paws::EC2::TagSpecification]');
   has Tenancy => (is => 'ro', isa => 'Str');
 
@@ -45,20 +49,24 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       InstanceCount         => 1,
       InstancePlatform      => 'Linux/UNIX',
       InstanceType          => 'MyString',
-      AvailabilityZone      => 'MyString',               # OPTIONAL
-      AvailabilityZoneId    => 'MyString',               # OPTIONAL
-      ClientToken           => 'MyString',               # OPTIONAL
-      DryRun                => 1,                        # OPTIONAL
-      EbsOptimized          => 1,                        # OPTIONAL
-      EndDate               => '1970-01-01T01:00:00',    # OPTIONAL
-      EndDateType           => 'unlimited',              # OPTIONAL
-      EphemeralStorage      => 1,                        # OPTIONAL
-      InstanceMatchCriteria => 'open',                   # OPTIONAL
-      OutpostArn            => 'MyOutpostArn',           # OPTIONAL
+      AvailabilityZone      => 'MyAvailabilityZoneName',    # OPTIONAL
+      AvailabilityZoneId    => 'MyAvailabilityZoneId',      # OPTIONAL
+      ClientToken           => 'MyString',                  # OPTIONAL
+      CommitmentDuration    => 1,                           # OPTIONAL
+      DeliveryPreference    => 'fixed',                     # OPTIONAL
+      DryRun                => 1,                           # OPTIONAL
+      EbsOptimized          => 1,                           # OPTIONAL
+      EndDate               => '1970-01-01T01:00:00',       # OPTIONAL
+      EndDateType           => 'unlimited',                 # OPTIONAL
+      EphemeralStorage      => 1,                           # OPTIONAL
+      InstanceMatchCriteria => 'open',                      # OPTIONAL
+      OutpostArn            => 'MyOutpostArn',              # OPTIONAL
+      PlacementGroupArn     => 'MyPlacementGroupArn',       # OPTIONAL
+      StartDate             => '1970-01-01T01:00:00',       # OPTIONAL
       TagSpecifications     => [
         {
-          ResourceType => 'client-vpn-endpoint'
-          , # values: client-vpn-endpoint, customer-gateway, dedicated-host, dhcp-options, egress-only-internet-gateway, elastic-ip, elastic-gpu, export-image-task, export-instance-task, fleet, fpga-image, host-reservation, image, import-image-task, import-snapshot-task, instance, internet-gateway, key-pair, launch-template, local-gateway-route-table-vpc-association, natgateway, network-acl, network-interface, network-insights-analysis, network-insights-path, placement-group, reserved-instances, route-table, security-group, snapshot, spot-fleet-request, spot-instances-request, subnet, traffic-mirror-filter, traffic-mirror-session, traffic-mirror-target, transit-gateway, transit-gateway-attachment, transit-gateway-connect-peer, transit-gateway-multicast-domain, transit-gateway-route-table, volume, vpc, vpc-peering-connection, vpn-connection, vpn-gateway, vpc-flow-log; OPTIONAL
+          ResourceType => 'capacity-reservation'
+          , # values: capacity-reservation, client-vpn-endpoint, customer-gateway, carrier-gateway, coip-pool, declarative-policies-report, dedicated-host, dhcp-options, egress-only-internet-gateway, elastic-ip, elastic-gpu, export-image-task, export-instance-task, fleet, fpga-image, host-reservation, image, import-image-task, import-snapshot-task, instance, instance-event-window, internet-gateway, ipam, ipam-pool, ipam-scope, ipv4pool-ec2, ipv6pool-ec2, key-pair, launch-template, local-gateway, local-gateway-route-table, local-gateway-virtual-interface, local-gateway-virtual-interface-group, local-gateway-route-table-vpc-association, local-gateway-route-table-virtual-interface-group-association, natgateway, network-acl, network-interface, network-insights-analysis, network-insights-path, network-insights-access-scope, network-insights-access-scope-analysis, outpost-lag, placement-group, prefix-list, replace-root-volume-task, reserved-instances, route-table, security-group, security-group-rule, service-link-virtual-interface, snapshot, spot-fleet-request, spot-instances-request, subnet, subnet-cidr-reservation, traffic-mirror-filter, traffic-mirror-session, traffic-mirror-target, transit-gateway, transit-gateway-attachment, transit-gateway-connect-peer, transit-gateway-multicast-domain, transit-gateway-policy-table, transit-gateway-route-table, transit-gateway-route-table-announcement, volume, vpc, vpc-endpoint, vpc-endpoint-connection, vpc-endpoint-service, vpc-endpoint-service-permission, vpc-peering-connection, vpn-connection, vpn-gateway, vpc-flow-log, capacity-reservation-fleet, traffic-mirror-filter-rule, vpc-endpoint-connection-device-type, verified-access-instance, verified-access-group, verified-access-endpoint, verified-access-policy, verified-access-trust-provider, vpn-connection-device-type, vpc-block-public-access-exclusion, route-server, route-server-endpoint, route-server-peer, ipam-resource-discovery, ipam-resource-discovery-association, instance-connect-endpoint, verified-access-endpoint-target, ipam-external-resource-verification-token, mac-modification-task; OPTIONAL
           Tags => [
             {
               Key   => 'MyString',
@@ -106,6 +114,36 @@ Idempotency
 
 
 
+=head2 CommitmentDuration => Int
+
+Required for future-dated Capacity Reservations only. To create a
+Capacity Reservation for immediate use, omit this parameter.
+
+Specify a commitment duration, in seconds, for the future-dated
+Capacity Reservation.
+
+The commitment duration is a minimum duration for which you commit to
+having the future-dated Capacity Reservation in the C<active> state in
+your account after it has been delivered.
+
+For more information, see Commitment duration
+(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/cr-concepts.html#cr-commitment-duration).
+
+
+
+=head2 DeliveryPreference => Str
+
+Required for future-dated Capacity Reservations only. To create a
+Capacity Reservation for immediate use, omit this parameter.
+
+Indicates that the requested capacity will be delivered in addition to
+any running instances or reserved capacity that you have in your
+account at the requested date and time.
+
+The only supported value is C<incremental>.
+
+Valid values are: C<"fixed">, C<"incremental">
+
 =head2 DryRun => Bool
 
 Checks whether you have the required permissions for the action,
@@ -140,6 +178,9 @@ cancelled within an hour from the specified time. For example, if you
 specify 5/31/2019, 13:30:55, the Capacity Reservation is guaranteed to
 end between 13:30:55 and 14:30:55 on 5/31/2019.
 
+If you are requesting a future-dated Capacity Reservation, you can't
+specify an end date and time that is within the commitment duration.
+
 
 
 =head2 EndDateType => Str
@@ -168,14 +209,20 @@ Valid values are: C<"unlimited">, C<"limited">
 
 =head2 EphemeralStorage => Bool
 
-Indicates whether the Capacity Reservation supports instances with
-temporary, block-level storage.
+I<Deprecated.>
 
 
 
 =head2 B<REQUIRED> InstanceCount => Int
 
 The number of instances for which to reserve capacity.
+
+You can request future-dated Capacity Reservations for an instance
+count with a minimum of 100 vCPUs. For example, if you request a
+future-dated Capacity Reservation for C<m5.xlarge> instances, you must
+request at least 25 instances (I<25 * m5.xlarge = 100 vCPUs>).
+
+Valid range: 1 - 1000
 
 
 
@@ -203,6 +250,9 @@ permitted instances can use the reserved capacity.
 
 =back
 
+If you are requesting a future-dated Capacity Reservation, you must
+specify C<targeted>.
+
 Default: C<open>
 
 Valid values are: C<"open">, C<"targeted">
@@ -211,12 +261,16 @@ Valid values are: C<"open">, C<"targeted">
 
 The type of operating system for which to reserve capacity.
 
-Valid values are: C<"Linux/UNIX">, C<"Red Hat Enterprise Linux">, C<"SUSE Linux">, C<"Windows">, C<"Windows with SQL Server">, C<"Windows with SQL Server Enterprise">, C<"Windows with SQL Server Standard">, C<"Windows with SQL Server Web">, C<"Linux with SQL Server Standard">, C<"Linux with SQL Server Web">, C<"Linux with SQL Server Enterprise">
+Valid values are: C<"Linux/UNIX">, C<"Red Hat Enterprise Linux">, C<"SUSE Linux">, C<"Windows">, C<"Windows with SQL Server">, C<"Windows with SQL Server Enterprise">, C<"Windows with SQL Server Standard">, C<"Windows with SQL Server Web">, C<"Linux with SQL Server Standard">, C<"Linux with SQL Server Web">, C<"Linux with SQL Server Enterprise">, C<"RHEL with SQL Server Standard">, C<"RHEL with SQL Server Enterprise">, C<"RHEL with SQL Server Web">, C<"RHEL with HA">, C<"RHEL with HA and SQL Server Standard">, C<"RHEL with HA and SQL Server Enterprise">, C<"Ubuntu Pro">
 
 =head2 B<REQUIRED> InstanceType => Str
 
-The instance type for which to reserve capacity. For more information,
-see Instance types
+The instance type for which to reserve capacity.
+
+You can request future-dated Capacity Reservations for instance types
+in the C, M, R, I, and T instance families only.
+
+For more information, see Instance types
 (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html)
 in the I<Amazon EC2 User Guide>.
 
@@ -224,8 +278,36 @@ in the I<Amazon EC2 User Guide>.
 
 =head2 OutpostArn => Str
 
+Not supported for future-dated Capacity Reservations.
+
 The Amazon Resource Name (ARN) of the Outpost on which to create the
 Capacity Reservation.
+
+
+
+=head2 PlacementGroupArn => Str
+
+Not supported for future-dated Capacity Reservations.
+
+The Amazon Resource Name (ARN) of the cluster placement group in which
+to create the Capacity Reservation. For more information, see Capacity
+Reservations for cluster placement groups
+(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/cr-cpg.html) in
+the I<Amazon EC2 User Guide>.
+
+
+
+=head2 StartDate => Str
+
+Required for future-dated Capacity Reservations only. To create a
+Capacity Reservation for immediate use, omit this parameter.
+
+The date and time at which the future-dated Capacity Reservation should
+become available for use, in the ISO8601 format in the UTC time zone
+(C<YYYY-MM-DDThh:mm:ss.sssZ>).
+
+You can request a future-dated Capacity Reservation between 5 and 120
+days in advance.
 
 
 
@@ -245,12 +327,12 @@ Reservation can have one of the following tenancy settings:
 =item *
 
 C<default> - The Capacity Reservation is created on hardware that is
-shared with other accounts.
+shared with other Amazon Web Services accounts.
 
 =item *
 
 C<dedicated> - The Capacity Reservation is created on single-tenant
-hardware that is dedicated to a single account.
+hardware that is dedicated to a single Amazon Web Services account.
 
 =back
 

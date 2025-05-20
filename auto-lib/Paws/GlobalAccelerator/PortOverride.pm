@@ -40,9 +40,9 @@ override in which the listener receives user traffic on ports 80 and
 443, but your accelerator routes that traffic to ports 1080 and 1443,
 respectively, on the endpoints.
 
-For more information, see Port overrides
+For more information, see Overriding listener ports
 (https://docs.aws.amazon.com/global-accelerator/latest/dg/about-endpoint-groups-port-override.html)
-in the I<AWS Global Accelerator Developer Guide>.
+in the I<Global Accelerator Developer Guide>.
 
 =head1 ATTRIBUTES
 

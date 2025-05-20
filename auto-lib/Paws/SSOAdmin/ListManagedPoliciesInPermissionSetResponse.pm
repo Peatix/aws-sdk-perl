@@ -17,7 +17,7 @@ Paws::SSOAdmin::ListManagedPoliciesInPermissionSetResponse
 
 =head2 AttachedManagedPolicies => ArrayRef[L<Paws::SSOAdmin::AttachedManagedPolicy>]
 
-The array of the AttachedManagedPolicy data type object.
+An array of the AttachedManagedPolicy data type object.
 
 
 =head2 NextToken => Str

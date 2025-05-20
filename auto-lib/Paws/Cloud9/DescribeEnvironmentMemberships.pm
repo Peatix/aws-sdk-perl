@@ -33,7 +33,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $cloud9 = Paws->service('Cloud9');
    # DescribeEnvironmentMemberships1
    # The following example gets information about all of the environment members
-   # for the specified AWS Cloud9 development environment.
+   # for the specified development environment.
     my $DescribeEnvironmentMembershipsResult =
       $cloud9->DescribeEnvironmentMemberships(
       'EnvironmentId' => '8d9967e2f0624182b74e7690ad69ebEX' );
@@ -41,10 +41,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     # Results:
     my $memberships = $DescribeEnvironmentMembershipsResult->memberships;
 
-   # Returns a L<Paws::Cloud9::DescribeEnvironmentMembershipsResult> object.
-   # DescribeEnvironmentMemberships2
-   # The following example gets information about the owner of the specified AWS
-   # Cloud9 development environment.
+    # Returns a L<Paws::Cloud9::DescribeEnvironmentMembershipsResult> object.
+    # DescribeEnvironmentMemberships2
+    # The following example gets information about the owner of the specified
+    # development environment.
     my $DescribeEnvironmentMembershipsResult =
       $cloud9->DescribeEnvironmentMemberships(
       'EnvironmentId' => '8d9967e2f0624182b74e7690ad69ebEX',
@@ -54,10 +54,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     # Results:
     my $memberships = $DescribeEnvironmentMembershipsResult->memberships;
 
-    # Returns a L<Paws::Cloud9::DescribeEnvironmentMembershipsResult> object.
-    # DescribeEnvironmentMemberships3
-    # The following example gets AWS Cloud9 development environment membership
-    # information for the specified user.
+ # Returns a L<Paws::Cloud9::DescribeEnvironmentMembershipsResult> object.
+ # DescribeEnvironmentMemberships3
+ # The following example gets development environment membership information for
+ # the specified user.
     my $DescribeEnvironmentMembershipsResult =
       $cloud9->DescribeEnvironmentMemberships(
       'UserArn' => 'arn:aws:iam::123456789012:user/MyDemoUser' );

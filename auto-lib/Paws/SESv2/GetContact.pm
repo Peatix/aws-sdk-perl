@@ -61,7 +61,7 @@ The name of the contact list to which the contact belongs.
 
 =head2 B<REQUIRED> EmailAddress => Str
 
-The contact's email addres.
+The contact's email address.
 
 
 

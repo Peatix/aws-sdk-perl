@@ -47,7 +47,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ser
 
 =head2 B<REQUIRED> RequestId => Str
 
-The ID of the quota increase request.
+Specifies the ID of the quota increase request.
 
 
 

@@ -7,6 +7,7 @@ package Paws::MediaTailor::DescribeSourceLocationResponse;
   has DefaultSegmentDeliveryConfiguration => (is => 'ro', isa => 'Paws::MediaTailor::DefaultSegmentDeliveryConfiguration');
   has HttpConfiguration => (is => 'ro', isa => 'Paws::MediaTailor::HttpConfiguration');
   has LastModifiedTime => (is => 'ro', isa => 'Str');
+  has SegmentDeliveryConfigurations => (is => 'ro', isa => 'ArrayRef[Paws::MediaTailor::SegmentDeliveryConfiguration]');
   has SourceLocationName => (is => 'ro', isa => 'Str');
   has Tags => (is => 'ro', isa => 'Paws::MediaTailor::__mapOf__string', traits => ['NameInRequest'], request_name => 'tags');
 
@@ -53,6 +54,12 @@ The timestamp that indicates when the source location was last
 modified.
 
 
+=head2 SegmentDeliveryConfigurations => ArrayRef[L<Paws::MediaTailor::SegmentDeliveryConfiguration>]
+
+A list of the segment delivery configurations associated with this
+resource.
+
+
 =head2 SourceLocationName => Str
 
 The name of the source location.
@@ -60,7 +67,11 @@ The name of the source location.
 
 =head2 Tags => L<Paws::MediaTailor::__mapOf__string>
 
-The tags assigned to the source location.
+The tags assigned to the source location. Tags are key-value pairs that
+you can associate with Amazon resources to help with organization,
+access control, and cost tracking. For more information, see Tagging
+AWS Elemental MediaTailor Resources
+(https://docs.aws.amazon.com/mediatailor/latest/ug/tagging.html).
 
 
 =head2 _request_id => Str

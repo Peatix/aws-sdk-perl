@@ -39,11 +39,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
         },    # OPTIONAL
         IamRole => {
-          Arn => 'MyARN',    # min: 1, max: 1600
+          Arn => 'MyIamArn',    # min: 1, max: 1600
 
         },    # OPTIONAL
         IamUser => {
-          Arn => 'MyARN',    # min: 1, max: 1600
+          Arn => 'MyIamArn',    # min: 1, max: 1600
 
         },    # OPTIONAL
         User => {
@@ -82,8 +82,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/iot
 
 =head2 B<REQUIRED> AccessPolicyIdentity => L<Paws::IoTSiteWise::Identity>
 
-The identity for this access policy. Choose an AWS SSO user, an AWS SSO
-group, or an IAM user.
+The identity for this access policy. Choose an IAM Identity Center
+user, an IAM Identity Center group, or an IAM user.
 
 
 
@@ -96,8 +96,8 @@ Valid values are: C<"ADMINISTRATOR">, C<"VIEWER">
 
 =head2 B<REQUIRED> AccessPolicyResource => L<Paws::IoTSiteWise::Resource>
 
-The AWS IoT SiteWise Monitor resource for this access policy. Choose
-either a portal or a project.
+The IoT SiteWise Monitor resource for this access policy. Choose either
+a portal or a project.
 
 
 
@@ -112,9 +112,9 @@ idempotent request is required.
 =head2 Tags => L<Paws::IoTSiteWise::TagMap>
 
 A list of key-value pairs that contain metadata for the access policy.
-For more information, see Tagging your AWS IoT SiteWise resources
+For more information, see Tagging your IoT SiteWise resources
 (https://docs.aws.amazon.com/iot-sitewise/latest/userguide/tag-resources.html)
-in the I<AWS IoT SiteWise User Guide>.
+in the I<IoT SiteWise User Guide>.
 
 
 

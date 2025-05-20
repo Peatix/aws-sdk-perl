@@ -1,6 +1,7 @@
 
 package Paws::Rekognition::DetectLabelsResponse;
   use Moose;
+  has ImageProperties => (is => 'ro', isa => 'Paws::Rekognition::DetectLabelsImageProperties');
   has LabelModelVersion => (is => 'ro', isa => 'Str');
   has Labels => (is => 'ro', isa => 'ArrayRef[Paws::Rekognition::Label]');
   has OrientationCorrection => (is => 'ro', isa => 'Str');
@@ -14,6 +15,12 @@ package Paws::Rekognition::DetectLabelsResponse;
 Paws::Rekognition::DetectLabelsResponse
 
 =head1 ATTRIBUTES
+
+
+=head2 ImageProperties => L<Paws::Rekognition::DetectLabelsImageProperties>
+
+Information about the properties of the input image, such as
+brightness, sharpness, contrast, and dominant colors.
 
 
 =head2 LabelModelVersion => Str

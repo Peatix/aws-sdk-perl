@@ -1,6 +1,7 @@
 
 package Paws::Lightsail::GetRelationalDatabaseBundles;
   use Moose;
+  has IncludeInactive => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'includeInactive' );
   has PageToken => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'pageToken' );
 
   use MooseX::ClassAttribute;
@@ -29,7 +30,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $lightsail = Paws->service('Lightsail');
     my $GetRelationalDatabaseBundlesResult =
       $lightsail->GetRelationalDatabaseBundles(
-      PageToken => 'Mystring',    # OPTIONAL
+      IncludeInactive => 1,             # OPTIONAL
+      PageToken       => 'Mystring',    # OPTIONAL
       );
 
     # Results:
@@ -42,6 +44,13 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/lightsail/GetRelationalDatabaseBundles>
 
 =head1 ATTRIBUTES
+
+
+=head2 IncludeInactive => Bool
+
+A Boolean value that indicates whether to include inactive
+(unavailable) bundles in the response of your request.
+
 
 
 =head2 PageToken => Str

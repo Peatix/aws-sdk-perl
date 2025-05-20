@@ -34,14 +34,14 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Lambda::Ima
 
 =head1 DESCRIPTION
 
-Response to GetFunctionConfiguration request.
+Response to a C<GetFunctionConfiguration> request.
 
 =head1 ATTRIBUTES
 
 
 =head2 Error => L<Paws::Lambda::ImageConfigError>
 
-Error response to GetFunctionConfiguration.
+Error response to C<GetFunctionConfiguration>.
 
 
 =head2 ImageConfig => L<Paws::Lambda::ImageConfig>

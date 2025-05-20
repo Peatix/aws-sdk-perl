@@ -20,7 +20,7 @@ Paws::EMR::RemoveTags - Arguments for method RemoveTags on L<Paws::EMR>
 =head1 DESCRIPTION
 
 This class represents the parameters used for calling the method RemoveTags on the
-L<Amazon Elastic MapReduce|Paws::EMR> service. Use the attributes of this class
+L<Amazon EMR|Paws::EMR> service. Use the attributes of this class
 as arguments to method RemoveTags.
 
 You shouldn't make instances of this class. Each attribute should be used as a named argument in the call to RemoveTags.
@@ -42,14 +42,14 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ela
 
 =head2 B<REQUIRED> ResourceId => Str
 
-The Amazon EMR resource identifier from which tags will be removed.
-This value must be a cluster identifier.
+The Amazon EMR resource identifier from which tags will be removed. For
+example, a cluster identifier or an Amazon EMR Studio ID.
 
 
 
 =head2 B<REQUIRED> TagKeys => ArrayRef[Str|Undef]
 
-A list of tag keys to remove from a resource.
+A list of tag keys to remove from the resource.
 
 
 

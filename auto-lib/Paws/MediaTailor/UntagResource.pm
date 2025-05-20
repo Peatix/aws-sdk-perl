@@ -43,15 +43,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 B<REQUIRED> ResourceArn => Str
 
-The Amazon Resource Name (ARN) for the playback configuration. You can
-get this from the response to any playback configuration request.
+The Amazon Resource Name (ARN) of the resource to untag.
 
 
 
 =head2 B<REQUIRED> TagKeys => ArrayRef[Str|Undef]
 
-A comma-separated list of the tag keys to remove from the playback
-configuration.
+The tag keys associated with the resource.
 
 
 

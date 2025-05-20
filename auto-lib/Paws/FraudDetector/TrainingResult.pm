@@ -3,6 +3,7 @@ package Paws::FraudDetector::TrainingResult;
   use Moose;
   has DataValidationMetrics => (is => 'ro', isa => 'Paws::FraudDetector::DataValidationMetrics', request_name => 'dataValidationMetrics', traits => ['NameInRequest']);
   has TrainingMetrics => (is => 'ro', isa => 'Paws::FraudDetector::TrainingMetrics', request_name => 'trainingMetrics', traits => ['NameInRequest']);
+  has VariableImportanceMetrics => (is => 'ro', isa => 'Paws::FraudDetector::VariableImportanceMetrics', request_name => 'variableImportanceMetrics', traits => ['NameInRequest']);
 
 1;
 
@@ -23,7 +24,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::FraudDetector::TrainingResult object:
 
-  $service_obj->Method(Att1 => { DataValidationMetrics => $value, ..., TrainingMetrics => $value  });
+  $service_obj->Method(Att1 => { DataValidationMetrics => $value, ..., VariableImportanceMetrics => $value  });
 
 =head3 Results returned from an API call
 
@@ -47,6 +48,11 @@ The validation metrics.
 =head2 TrainingMetrics => L<Paws::FraudDetector::TrainingMetrics>
 
 The training metric details.
+
+
+=head2 VariableImportanceMetrics => L<Paws::FraudDetector::VariableImportanceMetrics>
+
+The variable importance metrics.
 
 
 

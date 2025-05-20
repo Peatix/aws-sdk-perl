@@ -6,6 +6,8 @@ package Paws::AppRunner::AutoScalingConfiguration;
   has AutoScalingConfigurationRevision => (is => 'ro', isa => 'Int');
   has CreatedAt => (is => 'ro', isa => 'Str');
   has DeletedAt => (is => 'ro', isa => 'Str');
+  has HasAssociatedService => (is => 'ro', isa => 'Bool');
+  has IsDefault => (is => 'ro', isa => 'Bool');
   has Latest => (is => 'ro', isa => 'Bool');
   has MaxConcurrency => (is => 'ro', isa => 'Int');
   has MaxSize => (is => 'ro', isa => 'Int');
@@ -42,17 +44,18 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AppRunner::
 
 =head1 DESCRIPTION
 
-Describes an AWS App Runner automatic scaling configuration resource.
-Multiple revisions of a configuration have the same
-C<AutoScalingConfigurationName> and different
-C<AutoScalingConfigurationRevision> values.
+Describes an App Runner automatic scaling configuration resource.
 
 A higher C<MinSize> increases the spread of your App Runner service
-over more Availability Zones in the AWS Region. The tradeoff is a
-higher minimal cost.
+over more Availability Zones in the Amazon Web Services Region. The
+tradeoff is a higher minimal cost.
 
 A lower C<MaxSize> controls your cost. The tradeoff is lower
 responsiveness during peak demand.
+
+Multiple revisions of a configuration might have the same
+C<AutoScalingConfigurationName> and different
+C<AutoScalingConfigurationRevision> values.
 
 =head1 ATTRIBUTES
 
@@ -87,11 +90,29 @@ The time when the auto scaling configuration was deleted. It's in Unix
 time stamp format.
 
 
+=head2 HasAssociatedService => Bool
+
+Indicates if this auto scaling configuration has an App Runner service
+associated with it. A value of C<true> indicates one or more services
+are associated. A value of C<false> indicates no services are
+associated.
+
+
+=head2 IsDefault => Bool
+
+Indicates if this auto scaling configuration should be used as the
+default for a new App Runner service that does not have an auto scaling
+configuration ARN specified during creation. Each account can have only
+one default C<AutoScalingConfiguration> per region. The default
+C<AutoScalingConfiguration> can be any revision under the same
+C<AutoScalingConfigurationName>.
+
+
 =head2 Latest => Bool
 
 It's set to C<true> for the configuration with the highest C<Revision>
-among all configurations that share the same C<Name>. It's set to
-C<false> otherwise.
+among all configurations that share the same
+C<AutoScalingConfigurationName>. It's set to C<false> otherwise.
 
 
 =head2 MaxConcurrency => Int

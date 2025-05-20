@@ -23,8 +23,8 @@ A JSON set of elements of the affected accounts.
 
 =head2 EventScopeCode => Str
 
-This parameter specifies if the AWS Health event is a public AWS
-service event or an account-specific event.
+This parameter specifies if the Health event is a public Amazon Web
+Services service event or an account-specific event.
 
 =over
 
@@ -36,10 +36,11 @@ C<affectedAccounts> value is always empty.
 =item *
 
 If the C<eventScopeCode> value is C<ACCOUNT_SPECIFIC>, then the
-C<affectedAccounts> value lists the affected AWS accounts in your
-organization. For example, if an event affects a service such as Amazon
-Elastic Compute Cloud and you have AWS accounts that use that service,
-those account IDs appear in the response.
+C<affectedAccounts> value lists the affected Amazon Web Services
+accounts in your organization. For example, if an event affects a
+service such as Amazon Elastic Compute Cloud and you have Amazon Web
+Services accounts that use that service, those account IDs appear in
+the response.
 
 =item *
 

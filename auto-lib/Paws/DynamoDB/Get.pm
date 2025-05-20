@@ -65,7 +65,9 @@ attributes are not found, they do not appear in the result.
 
 =head2 B<REQUIRED> TableName => Str
 
-The name of the table from which to retrieve the specified item.
+The name of the table from which to retrieve the specified item. You
+can also provide the Amazon Resource Name (ARN) of the table in this
+parameter.
 
 
 

@@ -1,6 +1,7 @@
 
 package Paws::IoT::DescribeJob;
   use Moose;
+  has BeforeSubstitution => (is => 'ro', isa => 'Bool', traits => ['ParamInQuery'], query_name => 'beforeSubstitution');
   has JobId => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'jobId', required => 1);
 
   use MooseX::ClassAttribute;
@@ -29,8 +30,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $iot = Paws->service('IoT');
     my $DescribeJobResponse = $iot->DescribeJob(
-      JobId => 'MyJobId',
-
+      JobId              => 'MyJobId',
+      BeforeSubstitution => 1,           # OPTIONAL
     );
 
     # Results:
@@ -43,6 +44,13 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/iot/DescribeJob>
 
 =head1 ATTRIBUTES
+
+
+=head2 BeforeSubstitution => Bool
+
+Provides a view of the job document before and after the substitution
+parameters have been resolved with their exact values.
+
 
 
 =head2 B<REQUIRED> JobId => Str

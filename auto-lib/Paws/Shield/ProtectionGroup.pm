@@ -38,7 +38,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Shield::Pro
 
 =head1 DESCRIPTION
 
-A grouping of protected resources that you and AWS Shield Advanced can
+A grouping of protected resources that you and Shield Advanced can
 monitor as a collective. This resource grouping improves the accuracy
 of detection and reduces false positives.
 
@@ -47,7 +47,7 @@ of detection and reduces false positives.
 
 =head2 B<REQUIRED> Aggregation => Str
 
-Defines how AWS Shield combines resource data for the group in order to
+Defines how Shield combines resource data for the group in order to
 detect, mitigate, and report events.
 
 =over
@@ -68,8 +68,8 @@ accelerators and load balancers.
 
 Max - Use the highest traffic from each resource. This is useful for
 resources that don't share traffic and for resources that share that
-traffic in a non-uniform way. Examples include CloudFront distributions
-and origin resources for CloudFront distributions.
+traffic in a non-uniform way. Examples include Amazon CloudFront
+distributions and origin resources for CloudFront distributions.
 
 =back
 
@@ -77,7 +77,7 @@ and origin resources for CloudFront distributions.
 
 =head2 B<REQUIRED> Members => ArrayRef[Str|Undef]
 
-The Amazon Resource Names (ARNs) of the resources to include in the
+The ARNs (Amazon Resource Names) of the resources to include in the
 protection group. You must set this when you set C<Pattern> to
 C<ARBITRARY> and you must not set it for any other C<Pattern> setting.
 
@@ -86,7 +86,7 @@ C<ARBITRARY> and you must not set it for any other C<Pattern> setting.
 
 The criteria to use to choose the protected resources for inclusion in
 the group. You can include all resources that have protections, provide
-a list of resource Amazon Resource Names (ARNs), or include all
+a list of resource ARNs (Amazon Resource Names), or include all
 resources of a specified resource type.
 
 

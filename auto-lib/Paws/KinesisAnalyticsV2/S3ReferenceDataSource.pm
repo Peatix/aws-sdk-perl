@@ -37,9 +37,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::KinesisAnal
 For a SQL-based Kinesis Data Analytics application, identifies the
 Amazon S3 bucket and object that contains the reference data.
 
-A Kinesis Data Analytics application loads reference data only once. If
-the data changes, you call the UpdateApplication operation to trigger
-reloading of data into your application.
+A SQL-based Kinesis Data Analytics application loads reference data
+only once. If the data changes, you call the UpdateApplication
+operation to trigger reloading of data into your application.
 
 =head1 ATTRIBUTES
 

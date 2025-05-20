@@ -33,7 +33,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Batch::Arra
 
 =head1 DESCRIPTION
 
-An object representing an AWS Batch array job.
+An object that represents an Batch array job.
 
 =head1 ATTRIBUTES
 

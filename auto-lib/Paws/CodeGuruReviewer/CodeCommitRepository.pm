@@ -33,19 +33,20 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CodeGuruRev
 
 =head1 DESCRIPTION
 
-Information about an AWS CodeCommit repository. The CodeCommit
-repository must be in the same AWS Region and AWS account where its
-CodeGuru Reviewer code reviews are configured.
+Information about an Amazon Web Services CodeCommit repository. The
+CodeCommit repository must be in the same Amazon Web Services Region
+and Amazon Web Services account where its CodeGuru Reviewer code
+reviews are configured.
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> Name => Str
 
-The name of the AWS CodeCommit repository. For more information, see
-repositoryName
+The name of the Amazon Web Services CodeCommit repository. For more
+information, see repositoryName
 (https://docs.aws.amazon.com/codecommit/latest/APIReference/API_GetRepository.html#CodeCommit-GetRepository-request-repositoryName)
-in the I<AWS CodeCommit API Reference>.
+in the I<Amazon Web Services CodeCommit API Reference>.
 
 
 

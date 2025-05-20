@@ -3,6 +3,7 @@ package Paws::GlueDataBrew::DescribeJobResponse;
   use Moose;
   has CreateDate => (is => 'ro', isa => 'Str');
   has CreatedBy => (is => 'ro', isa => 'Str');
+  has DatabaseOutputs => (is => 'ro', isa => 'ArrayRef[Paws::GlueDataBrew::DatabaseOutput]');
   has DataCatalogOutputs => (is => 'ro', isa => 'ArrayRef[Paws::GlueDataBrew::DataCatalogOutput]');
   has DatasetName => (is => 'ro', isa => 'Str');
   has EncryptionKeyArn => (is => 'ro', isa => 'Str');
@@ -15,6 +16,7 @@ package Paws::GlueDataBrew::DescribeJobResponse;
   has MaxRetries => (is => 'ro', isa => 'Int');
   has Name => (is => 'ro', isa => 'Str', required => 1);
   has Outputs => (is => 'ro', isa => 'ArrayRef[Paws::GlueDataBrew::Output]');
+  has ProfileConfiguration => (is => 'ro', isa => 'Paws::GlueDataBrew::ProfileConfiguration');
   has ProjectName => (is => 'ro', isa => 'Str');
   has RecipeReference => (is => 'ro', isa => 'Paws::GlueDataBrew::RecipeReference');
   has ResourceArn => (is => 'ro', isa => 'Str');
@@ -22,6 +24,7 @@ package Paws::GlueDataBrew::DescribeJobResponse;
   has Tags => (is => 'ro', isa => 'Paws::GlueDataBrew::TagMap');
   has Timeout => (is => 'ro', isa => 'Int');
   has Type => (is => 'ro', isa => 'Str');
+  has ValidationConfigurations => (is => 'ro', isa => 'ArrayRef[Paws::GlueDataBrew::ValidationConfiguration]');
 
   has _request_id => (is => 'ro', isa => 'Str');
 1;
@@ -46,10 +49,16 @@ The identifier (user name) of the user associated with the creation of
 the job.
 
 
+=head2 DatabaseOutputs => ArrayRef[L<Paws::GlueDataBrew::DatabaseOutput>]
+
+Represents a list of JDBC database output objects which defines the
+output destination for a DataBrew recipe job to write into.
+
+
 =head2 DataCatalogOutputs => ArrayRef[L<Paws::GlueDataBrew::DataCatalogOutput>]
 
-One or more artifacts that represent the AWS Glue Data Catalog output
-from running the job.
+One or more artifacts that represent the Glue Data Catalog output from
+running the job.
 
 
 =head2 DatasetName => Str
@@ -123,6 +132,13 @@ The name of the job.
 One or more artifacts that represent the output from running the job.
 
 
+=head2 ProfileConfiguration => L<Paws::GlueDataBrew::ProfileConfiguration>
+
+Configuration for profile jobs. Used to select columns, do evaluations,
+and override default parameters of evaluations. When configuration is
+null, the profile job will run with default settings.
+
+
 =head2 ProjectName => Str
 
 The DataBrew project associated with this job.
@@ -174,6 +190,11 @@ C<RECIPE> - The job applies one or more transformations to a dataset.
 
 
 Valid values are: C<"PROFILE">, C<"RECIPE">
+=head2 ValidationConfigurations => ArrayRef[L<Paws::GlueDataBrew::ValidationConfiguration>]
+
+List of validation configurations that are applied to the profile job.
+
+
 =head2 _request_id => Str
 
 

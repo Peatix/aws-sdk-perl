@@ -42,7 +42,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/dat
 
 The Amazon Resource Name (ARN) of the agent to delete. Use the
 C<ListAgents> operation to return a list of agents for your account and
-AWS Region.
+Amazon Web Services Region.
 
 
 

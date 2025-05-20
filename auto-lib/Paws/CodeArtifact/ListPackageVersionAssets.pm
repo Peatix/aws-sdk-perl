@@ -75,35 +75,17 @@ package version assets.
 
 =head2 DomainOwner => Str
 
-The 12-digit account number of the AWS account that owns the domain. It
-does not include dashes or spaces.
+The 12-digit account number of the Amazon Web Services account that
+owns the domain. It does not include dashes or spaces.
 
 
 
 =head2 B<REQUIRED> Format => Str
 
-The format of the package that contains the returned package version
-assets. The valid package types are:
+The format of the package that contains the requested package version
+assets.
 
-=over
-
-=item *
-
-C<npm>: A Node Package Manager (npm) package.
-
-=item *
-
-C<pypi>: A Python Package Index (PyPI) package.
-
-=item *
-
-C<maven>: A Maven package that contains compiled code in a
-distributable format, such as a JAR file.
-
-=back
-
-
-Valid values are: C<"npm">, C<"pypi">, C<"maven">, C<"nuget">
+Valid values are: C<"npm">, C<"pypi">, C<"maven">, C<"nuget">, C<"generic">, C<"ruby">, C<"swift">, C<"cargo">
 
 =head2 MaxResults => Int
 
@@ -113,23 +95,48 @@ The maximum number of results to return per page.
 
 =head2 Namespace => Str
 
-The namespace of the package. The package component that specifies its
+The namespace of the package version that contains the requested
+package version assets. The package component that specifies its
 namespace depends on its type. For example:
+
+The namespace is required requesting assets from package versions of
+the following formats:
 
 =over
 
 =item *
 
-The namespace of a Maven package is its C<groupId>.
+Maven
 
 =item *
 
-The namespace of an npm package is its C<scope>.
+Swift
 
 =item *
 
-A Python package does not contain a corresponding component, so Python
-packages do not have a namespace.
+generic
+
+=back
+
+=over
+
+=item *
+
+The namespace of a Maven package version is its C<groupId>.
+
+=item *
+
+The namespace of an npm or Swift package version is its C<scope>.
+
+=item *
+
+The namespace of a generic package is its C<namespace>.
+
+=item *
+
+Python, NuGet, Ruby, and Cargo package versions do not contain a
+corresponding component, package versions of those formats do not have
+a namespace.
 
 =back
 
@@ -146,7 +153,7 @@ results.
 
 =head2 B<REQUIRED> Package => Str
 
-The name of the package that contains the returned package version
+The name of the package that contains the requested package version
 assets.
 
 
@@ -160,7 +167,7 @@ A string that contains the package version (for example, C<3.5.2>).
 =head2 B<REQUIRED> Repository => Str
 
 The name of the repository that contains the package that contains the
-returned package version assets.
+requested package version assets.
 
 
 

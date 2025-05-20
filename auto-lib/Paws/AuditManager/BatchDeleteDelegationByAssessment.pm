@@ -51,13 +51,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/aud
 
 =head2 B<REQUIRED> AssessmentId => Str
 
-The identifier for the specified assessment.
+The identifier for the assessment.
 
 
 
 =head2 B<REQUIRED> DelegationIds => ArrayRef[Str|Undef]
 
-The identifiers for the specified delegations.
+The identifiers for the delegations.
 
 
 

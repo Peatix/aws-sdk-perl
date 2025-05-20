@@ -28,10 +28,27 @@ element comes back as C<null>.
 
 =head2 QueryErrors => ArrayRef[L<Paws::ResourceGroups::QueryError>]
 
-A list of C<QueryError> objects. Each error is an object that contains
-C<ErrorCode> and C<Message> structures. Possible values for
-C<ErrorCode> are C<CLOUDFORMATION_STACK_INACTIVE> and
-C<CLOUDFORMATION_STACK_NOT_EXISTING>.
+A list of C<QueryError> objects. Each error contains an C<ErrorCode>
+and C<Message>.
+
+Possible values for C<ErrorCode>:
+
+=over
+
+=item *
+
+C<CLOUDFORMATION_STACK_INACTIVE>
+
+=item *
+
+C<CLOUDFORMATION_STACK_NOT_EXISTING>
+
+=item *
+
+C<CLOUDFORMATION_STACK_UNASSUMABLE_ROLE>
+
+=back
+
 
 
 =head2 ResourceIdentifiers => ArrayRef[L<Paws::ResourceGroups::ResourceIdentifier>]

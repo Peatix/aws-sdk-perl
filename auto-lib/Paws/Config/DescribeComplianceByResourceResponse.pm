@@ -17,8 +17,8 @@ Paws::Config::DescribeComplianceByResourceResponse
 
 =head2 ComplianceByResources => ArrayRef[L<Paws::Config::ComplianceByResource>]
 
-Indicates whether the specified AWS resource complies with all of the
-AWS Config rules that evaluate it.
+Indicates whether the specified Amazon Web Services resource complies
+with all of the Config rules that evaluate it.
 
 
 =head2 NextToken => Str

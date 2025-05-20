@@ -47,6 +47,17 @@ Represents information about a webhook and its definition.
 
 Supported options are GITHUB_HMAC, IP, and UNAUTHENTICATED.
 
+When creating CodePipeline webhooks, do not use your own credentials or
+reuse the same secret token across multiple webhooks. For optimal
+security, generate a unique secret token for each webhook you create.
+The secret token is an arbitrary string that you provide, which GitHub
+uses to compute and sign the webhook payloads sent to CodePipeline, for
+protecting the integrity and authenticity of the webhook payloads.
+Using your own credentials or reusing the same token across multiple
+webhooks can lead to security vulnerabilities.
+
+If a secret token was provided, it will be redacted in the response.
+
 =over
 
 =item *

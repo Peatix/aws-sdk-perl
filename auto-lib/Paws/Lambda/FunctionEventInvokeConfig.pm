@@ -34,11 +34,15 @@ B<Function> - The Amazon Resource Name (ARN) of a Lambda function.
 
 =item *
 
-B<Queue> - The ARN of an SQS queue.
+B<Queue> - The ARN of a standard SQS queue.
 
 =item *
 
-B<Topic> - The ARN of an SNS topic.
+B<Bucket> - The ARN of an Amazon S3 bucket.
+
+=item *
+
+B<Topic> - The ARN of a standard SNS topic.
 
 =item *
 
@@ -46,6 +50,8 @@ B<Event Bus> - The ARN of an Amazon EventBridge event bus.
 
 =back
 
+S3 buckets are supported only for on-failure destinations. To retain
+records of successful invocations, use another destination type.
 
 
 =head2 FunctionArn => Str

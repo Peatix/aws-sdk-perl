@@ -42,7 +42,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       $DescribeNotebookInstanceOutput->DefaultCodeRepository;
     my $DirectInternetAccess =
       $DescribeNotebookInstanceOutput->DirectInternetAccess;
-    my $FailureReason    = $DescribeNotebookInstanceOutput->FailureReason;
+    my $FailureReason = $DescribeNotebookInstanceOutput->FailureReason;
+    my $InstanceMetadataServiceConfiguration =
+      $DescribeNotebookInstanceOutput->InstanceMetadataServiceConfiguration;
     my $InstanceType     = $DescribeNotebookInstanceOutput->InstanceType;
     my $KmsKeyId         = $DescribeNotebookInstanceOutput->KmsKeyId;
     my $LastModifiedTime = $DescribeNotebookInstanceOutput->LastModifiedTime;
@@ -56,6 +58,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       $DescribeNotebookInstanceOutput->NotebookInstanceName;
     my $NotebookInstanceStatus =
       $DescribeNotebookInstanceOutput->NotebookInstanceStatus;
+    my $PlatformIdentifier =
+      $DescribeNotebookInstanceOutput->PlatformIdentifier;
     my $RoleArn        = $DescribeNotebookInstanceOutput->RoleArn;
     my $RootAccess     = $DescribeNotebookInstanceOutput->RootAccess;
     my $SecurityGroups = $DescribeNotebookInstanceOutput->SecurityGroups;

@@ -46,8 +46,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 B<REQUIRED> ResourceArn => Str
 
-The Amazon Resource Name (ARN) for the playback configuration. You can
-get this from the response to any playback configuration request.
+The Amazon Resource Name (ARN) associated with this resource.
 
 
 

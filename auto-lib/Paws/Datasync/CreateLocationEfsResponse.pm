@@ -17,7 +17,7 @@ Paws::Datasync::CreateLocationEfsResponse
 =head2 LocationArn => Str
 
 The Amazon Resource Name (ARN) of the Amazon EFS file system location
-that is created.
+that you create.
 
 
 =head2 _request_id => Str

@@ -2,8 +2,10 @@
 package Paws::S3::PutBucketLifecycleConfiguration;
   use Moose;
   has Bucket => (is => 'ro', isa => 'Str', uri_name => 'Bucket', traits => ['ParamInURI'], required => 1);
+  has ChecksumAlgorithm => (is => 'ro', isa => 'Str', header_name => 'x-amz-sdk-checksum-algorithm', traits => ['ParamInHeader']);
   has ExpectedBucketOwner => (is => 'ro', isa => 'Str', header_name => 'x-amz-expected-bucket-owner', traits => ['ParamInHeader']);
   has LifecycleConfiguration => (is => 'ro', isa => 'Paws::S3::BucketLifecycleConfiguration', traits => ['ParamInBody']);
+  has TransitionDefaultMinimumObjectSize => (is => 'ro', isa => 'Str', header_name => 'x-amz-transition-default-minimum-object-size', traits => ['ParamInHeader']);
 
 
   use MooseX::ClassAttribute;
@@ -11,7 +13,7 @@ package Paws::S3::PutBucketLifecycleConfiguration;
   class_has _api_call => (isa => 'Str', is => 'ro', default => 'PutBucketLifecycleConfiguration');
   class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/{Bucket}?lifecycle');
   class_has _api_method  => (isa => 'Str', is => 'ro', default => 'PUT');
-  class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::API::Response');
+  class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::S3::PutBucketLifecycleConfigurationOutput');
   class_has _result_key => (isa => 'Str', is => 'ro');
   
     
@@ -37,7 +39,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
    # Put bucket lifecycle
    # The following example replaces existing lifecycle configuration, if any, on
    # the specified bucket.
-    $s3->PutBucketLifecycleConfiguration(
+    my $PutBucketLifecycleConfigurationOutput =
+      $s3->PutBucketLifecycleConfiguration(
       'Bucket'                 => 'examplebucket',
       'LifecycleConfiguration' => {
         'Rules' => [
@@ -61,7 +64,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           }
         ]
       }
-    );
+      );
 
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
@@ -76,11 +79,31 @@ The name of the bucket for which to set the configuration.
 
 
 
+=head2 ChecksumAlgorithm => Str
+
+Indicates the algorithm used to create the checksum for the request
+when you use the SDK. This header will not provide any additional
+functionality if you don't use the SDK. When you send this header,
+there must be a corresponding C<x-amz-checksum> or C<x-amz-trailer>
+header sent. Otherwise, Amazon S3 fails the request with the HTTP
+status code C<400 Bad Request>. For more information, see Checking
+object integrity
+(https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html)
+in the I<Amazon S3 User Guide>.
+
+If you provide an individual checksum, Amazon S3 ignores any provided
+C<ChecksumAlgorithm> parameter.
+
+Valid values are: C<"CRC32">, C<"CRC32C">, C<"SHA1">, C<"SHA256">, C<"CRC64NVME">
+
 =head2 ExpectedBucketOwner => Str
 
-The account ID of the expected bucket owner. If the bucket is owned by
-a different account, the request will fail with an HTTP C<403 (Access
-Denied)> error.
+The account ID of the expected bucket owner. If the account ID that you
+provide does not match the actual owner of the bucket, the request
+fails with the HTTP status code C<403 Forbidden> (access denied).
+
+This parameter applies to general purpose buckets only. It is not
+supported for directory bucket lifecycle configurations.
 
 
 
@@ -89,6 +112,37 @@ Denied)> error.
 Container for lifecycle rules. You can add as many as 1,000 rules.
 
 
+
+=head2 TransitionDefaultMinimumObjectSize => Str
+
+Indicates which default minimum object size behavior is applied to the
+lifecycle configuration.
+
+This parameter applies to general purpose buckets only. It is not
+supported for directory bucket lifecycle configurations.
+
+=over
+
+=item *
+
+C<all_storage_classes_128K> - Objects smaller than 128 KB will not
+transition to any storage class by default.
+
+=item *
+
+C<varies_by_storage_class> - Objects smaller than 128 KB will
+transition to Glacier Flexible Retrieval or Glacier Deep Archive
+storage classes. By default, all other storage classes will prevent
+transitions smaller than 128 KB.
+
+=back
+
+To customize the minimum object size for any transition you can add a
+filter that specifies a custom C<ObjectSizeGreaterThan> or
+C<ObjectSizeLessThan> in the body of your transition rule. Custom
+filters always take precedence over the default transition behavior.
+
+Valid values are: C<"varies_by_storage_class">, C<"all_storage_classes_128K">
 
 
 =head1 SEE ALSO

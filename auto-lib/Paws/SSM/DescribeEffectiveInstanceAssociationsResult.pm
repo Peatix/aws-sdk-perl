@@ -17,7 +17,7 @@ Paws::SSM::DescribeEffectiveInstanceAssociationsResult
 
 =head2 Associations => ArrayRef[L<Paws::SSM::InstanceAssociation>]
 
-The associations for the requested instance.
+The associations for the requested managed node.
 
 
 =head2 NextToken => Str

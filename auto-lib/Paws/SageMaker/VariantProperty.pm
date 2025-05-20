@@ -35,11 +35,13 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SageMaker::
 
 Specifies a production variant property type for an Endpoint.
 
-If you are updating an endpoint with the
-UpdateEndpointInput$RetainAllVariantProperties option set to C<true>,
-the C<VariantProperty> objects listed in
-UpdateEndpointInput$ExcludeRetainedVariantProperties override the
-existing variant properties of the endpoint.
+If you are updating an endpoint with the C<RetainAllVariantProperties>
+option of UpdateEndpointInput
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_UpdateEndpoint.html)
+set to C<true>, the C<VariantProperty> objects listed in the
+C<ExcludeRetainedVariantProperties> parameter of UpdateEndpointInput
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_UpdateEndpoint.html)
+override the existing variant properties of the endpoint.
 
 =head1 ATTRIBUTES
 
@@ -53,14 +55,16 @@ The type of variant property. The supported values are:
 =item *
 
 C<DesiredInstanceCount>: Overrides the existing variant instance counts
-using the ProductionVariant$InitialInstanceCount values in the
-CreateEndpointConfigInput$ProductionVariants.
+using the C<InitialInstanceCount> values in the C<ProductionVariants>
+of CreateEndpointConfig
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateEndpointConfig.html).
 
 =item *
 
 C<DesiredWeight>: Overrides the existing variant weights using the
-ProductionVariant$InitialVariantWeight values in the
-CreateEndpointConfigInput$ProductionVariants.
+C<InitialVariantWeight> values in the C<ProductionVariants> of
+CreateEndpointConfig
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateEndpointConfig.html).
 
 =item *
 

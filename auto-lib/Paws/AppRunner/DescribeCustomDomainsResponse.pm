@@ -5,6 +5,7 @@ package Paws::AppRunner::DescribeCustomDomainsResponse;
   has DNSTarget => (is => 'ro', isa => 'Str', required => 1);
   has NextToken => (is => 'ro', isa => 'Str');
   has ServiceArn => (is => 'ro', isa => 'Str', required => 1);
+  has VpcDNSTargets => (is => 'ro', isa => 'ArrayRef[Paws::AppRunner::VpcDNSTarget]', required => 1);
 
   has _request_id => (is => 'ro', isa => 'Str');
 
@@ -40,6 +41,11 @@ result page. It's returned in a paginated request.
 
 The Amazon Resource Name (ARN) of the App Runner service whose
 associated custom domain names you want to describe.
+
+
+=head2 B<REQUIRED> VpcDNSTargets => ArrayRef[L<Paws::AppRunner::VpcDNSTarget>]
+
+DNS Target records for the custom domains of this Amazon VPC.
 
 
 =head2 _request_id => Str

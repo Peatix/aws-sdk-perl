@@ -42,9 +42,7 @@ This class has no description
 
 =head2 BlockDurationMinutes => Int
 
-The required duration for the Spot Instances (also known as Spot
-blocks), in minutes. This value must be a multiple of 60 (60, 120, 180,
-240, 300, or 360).
+Deprecated.
 
 
 =head2 InstanceInterruptionBehavior => Str
@@ -55,7 +53,16 @@ C<terminate>.
 
 =head2 MaxPrice => Str
 
-The maximum hourly price you're willing to pay for the Spot Instances.
+The maximum hourly price you're willing to pay for a Spot Instance. We
+do not recommend using this parameter because it can lead to increased
+interruptions. If you do not specify this parameter, you will pay the
+current Spot price. If you do specify this parameter, it must be more
+than USD $0.001. Specifying a value below USD $0.001 will result in an
+C<InvalidParameterValue> error message when the launch template is used
+to launch an instance.
+
+If you specify a maximum price, your Spot Instances will be interrupted
+more frequently than if you do not specify this parameter.
 
 
 =head2 SpotInstanceType => Str
@@ -65,11 +72,25 @@ The Spot Instance request type.
 
 =head2 ValidUntil => Str
 
-The end date of the request. For a one-time request, the request
-remains active until all instances launch, the request is canceled, or
-this date is reached. If the request is persistent, it remains active
-until it is canceled or this date and time is reached. The default end
-date is 7 days from the current date.
+The end date of the request, in UTC format
+(I<YYYY-MM-DD>TI<HH:MM:SS>Z). Supported only for persistent requests.
+
+=over
+
+=item *
+
+For a persistent request, the request remains active until the
+C<ValidUntil> date and time is reached. Otherwise, the request remains
+active until you cancel it.
+
+=item *
+
+For a one-time request, C<ValidUntil> is not supported. The request
+remains active until all instances launch or you cancel the request.
+
+=back
+
+Default: 7 days from the current date
 
 
 

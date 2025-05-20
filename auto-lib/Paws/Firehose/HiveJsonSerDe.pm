@@ -33,7 +33,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Firehose::H
 
 =head1 DESCRIPTION
 
-The native Hive / HCatalog JsonSerDe. Used by Kinesis Data Firehose for
+The native Hive / HCatalog JsonSerDe. Used by Firehose for
 deserializing data, which means converting it from the JSON format in
 preparation for serializing it to the Parquet or ORC format. This is
 one of two deserializers you can choose, depending on which one offers
@@ -44,15 +44,14 @@ the functionality you need. The other option is the OpenX SerDe.
 
 =head2 TimestampFormats => ArrayRef[Str|Undef]
 
-Indicates how you want Kinesis Data Firehose to parse the date and
-timestamps that may be present in your input data JSON. To specify
-these format strings, follow the pattern syntax of JodaTime's
-DateTimeFormat format strings. For more information, see Class
-DateTimeFormat
+Indicates how you want Firehose to parse the date and timestamps that
+may be present in your input data JSON. To specify these format
+strings, follow the pattern syntax of JodaTime's DateTimeFormat format
+strings. For more information, see Class DateTimeFormat
 (https://www.joda.org/joda-time/apidocs/org/joda/time/format/DateTimeFormat.html).
 You can also use the special value C<millis> to parse timestamps in
-epoch milliseconds. If you don't specify a format, Kinesis Data
-Firehose uses C<java.sql.Timestamp::valueOf> by default.
+epoch milliseconds. If you don't specify a format, Firehose uses
+C<java.sql.Timestamp::valueOf> by default.
 
 
 

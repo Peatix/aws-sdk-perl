@@ -47,8 +47,8 @@ objects associated with this job.
 
 =head2 LambdaArn => Str
 
-An Amazon Resource Name (ARN) that represents an AWS Lambda function to
-be triggered by PUT object actions on the associated local Amazon S3
+An Amazon Resource Name (ARN) that represents an Lambda function to be
+triggered by PUT object actions on the associated local Amazon S3
 resource.
 
 

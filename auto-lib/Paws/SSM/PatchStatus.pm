@@ -43,7 +43,7 @@ Information about the approval status of a patch.
 =head2 ApprovalDate => Str
 
 The date the patch was approved (or will be approved if the status is
-PENDING_APPROVAL).
+C<PENDING_APPROVAL>).
 
 
 =head2 ComplianceLevel => Str
@@ -53,8 +53,7 @@ The compliance severity level for a patch.
 
 =head2 DeploymentStatus => Str
 
-The approval status of a patch (APPROVED, PENDING_APPROVAL,
-EXPLICIT_APPROVED, EXPLICIT_REJECTED).
+The approval status of a patch.
 
 
 

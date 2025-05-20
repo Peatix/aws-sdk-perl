@@ -17,7 +17,7 @@ Paws::STS::GetAccessKeyInfoResponse
 
 =head2 Account => Str
 
-The number used to identify the AWS account.
+The number used to identify the Amazon Web Services account.
 
 
 =head2 _request_id => Str

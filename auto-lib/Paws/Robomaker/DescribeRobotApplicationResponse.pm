@@ -2,6 +2,8 @@
 package Paws::Robomaker::DescribeRobotApplicationResponse;
   use Moose;
   has Arn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'arn');
+  has Environment => (is => 'ro', isa => 'Paws::Robomaker::Environment', traits => ['NameInRequest'], request_name => 'environment');
+  has ImageDigest => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'imageDigest');
   has LastUpdatedAt => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'lastUpdatedAt');
   has Name => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'name');
   has RevisionId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'revisionId');
@@ -27,6 +29,18 @@ Paws::Robomaker::DescribeRobotApplicationResponse
 The Amazon Resource Name (ARN) of the robot application.
 
 
+=head2 Environment => L<Paws::Robomaker::Environment>
+
+The object that contains the Docker image URI used to create the robot
+application.
+
+
+=head2 ImageDigest => Str
+
+A SHA256 identifier for the Docker image that you use for your robot
+application.
+
+
 =head2 LastUpdatedAt => Str
 
 The time, in milliseconds since the epoch, when the robot application
@@ -45,8 +59,7 @@ The revision id of the robot application.
 
 =head2 RobotSoftwareSuite => L<Paws::Robomaker::RobotSoftwareSuite>
 
-The robot software suite (ROS distribution) used by the robot
-application.
+The robot software suite used by the robot application.
 
 
 =head2 Sources => ArrayRef[L<Paws::Robomaker::Source>]

@@ -2,6 +2,7 @@
 package Paws::WAFV2::SqliMatchStatement;
   use Moose;
   has FieldToMatch => (is => 'ro', isa => 'Paws::WAFV2::FieldToMatch', required => 1);
+  has SensitivityLevel => (is => 'ro', isa => 'Str');
   has TextTransformations => (is => 'ro', isa => 'ArrayRef[Paws::WAFV2::TextTransformation]', required => 1);
 
 1;
@@ -34,32 +35,48 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::WAFV2::Sqli
 
 =head1 DESCRIPTION
 
-Attackers sometimes insert malicious SQL code into web requests in an
-effort to extract data from your database. To allow or block web
-requests that appear to contain malicious SQL code, create one or more
-SQL injection match conditions. An SQL injection match condition
-identifies the part of web requests, such as the URI or the query
-string, that you want WAF to inspect. Later in the process, when you
-create a web ACL, you specify whether to allow or block requests that
-appear to contain malicious SQL code.
+A rule statement that inspects for malicious SQL code. Attackers insert
+malicious SQL code into web requests to do things like modify your
+database or extract data from it.
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> FieldToMatch => L<Paws::WAFV2::FieldToMatch>
 
-The part of a web request that you want WAF to inspect. For more
-information, see FieldToMatch.
+The part of the web request that you want WAF to inspect.
+
+
+=head2 SensitivityLevel => Str
+
+The sensitivity that you want WAF to use to inspect for SQL injection
+attacks.
+
+C<HIGH> detects more attacks, but might generate more false positives,
+especially if your web requests frequently contain unusual strings. For
+information about identifying and mitigating false positives, see
+Testing and tuning
+(https://docs.aws.amazon.com/waf/latest/developerguide/web-acl-testing.html)
+in the I<WAF Developer Guide>.
+
+C<LOW> is generally a better choice for resources that already have
+other protections against SQL injection attacks or that have a low
+tolerance for false positives.
+
+Default: C<LOW>
 
 
 =head2 B<REQUIRED> TextTransformations => ArrayRef[L<Paws::WAFV2::TextTransformation>]
 
 Text transformations eliminate some of the unusual formatting that
-attackers use in web requests in an effort to bypass detection. If you
-specify one or more transformations in a rule statement, WAF performs
-all transformations on the content of the request component identified
-by C<FieldToMatch>, starting from the lowest priority setting, before
-inspecting the content for a match.
+attackers use in web requests in an effort to bypass detection. Text
+transformations are used in rule match statements, to transform the
+C<FieldToMatch> request component before inspecting it, and they're
+used in rate-based rule statements, to transform request components
+before using them as custom aggregation keys. If you specify one or
+more transformations to apply, WAF performs all transformations on the
+specified content, starting from the lowest priority setting, and then
+uses the transformed component contents.
 
 
 

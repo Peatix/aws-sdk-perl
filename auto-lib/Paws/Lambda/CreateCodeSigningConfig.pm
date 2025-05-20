@@ -4,6 +4,7 @@ package Paws::Lambda::CreateCodeSigningConfig;
   has AllowedPublishers => (is => 'ro', isa => 'Paws::Lambda::AllowedPublishers', required => 1);
   has CodeSigningPolicies => (is => 'ro', isa => 'Paws::Lambda::CodeSigningPolicies');
   has Description => (is => 'ro', isa => 'Str');
+  has Tags => (is => 'ro', isa => 'Paws::Lambda::Tags');
 
   use MooseX::ClassAttribute;
 
@@ -39,7 +40,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         UntrustedArtifactOnDeployment =>
           'Warn',    # values: Warn, Enforce; OPTIONAL
       },    # OPTIONAL
-      Description => 'MyDescription',    # OPTIONAL
+      Description => 'MyDescription',                    # OPTIONAL
+      Tags        => { 'MyTagKey' => 'MyTagValue', },    # OPTIONAL
     );
 
     # Results:
@@ -69,6 +71,12 @@ checks fail.
 =head2 Description => Str
 
 Descriptive name for this code signing configuration.
+
+
+
+=head2 Tags => L<Paws::Lambda::Tags>
+
+A list of tags to add to the code signing configuration.
 
 
 

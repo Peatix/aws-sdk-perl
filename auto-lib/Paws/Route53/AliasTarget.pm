@@ -35,19 +35,14 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Route53::Al
 
 =head1 DESCRIPTION
 
-I<Alias resource record sets only:> Information about the AWS resource,
-such as a CloudFront distribution or an Amazon S3 bucket, that you want
-to route traffic to.
+I<Alias resource record sets only:> Information about the Amazon Web
+Services resource, such as a CloudFront distribution or an Amazon S3
+bucket, that you want to route traffic to.
 
 When creating resource record sets for a private hosted zone, note the
 following:
 
 =over
-
-=item *
-
-Creating geolocation alias resource record sets or latency alias
-resource record sets in a private hosted zone is unsupported.
 
 =item *
 
@@ -71,7 +66,7 @@ on where you want to route queries:
 =item Amazon API Gateway custom regional APIs and edge-optimized APIs
 
 Specify the applicable domain name for your API. You can get the
-applicable value using the AWS CLI command get-domain-names
+applicable value using the CLI command get-domain-names
 (https://docs.aws.amazon.com/cli/latest/reference/apigateway/get-domain-names.html):
 
 =over
@@ -97,7 +92,7 @@ Enter the API endpoint for the interface endpoint, such as
 C<vpce-123456789abcdef01-example-us-east-1a.elasticloadbalancing.us-east-1.vpce.amazonaws.com>.
 For edge-optimized APIs, this is the domain name for the corresponding
 CloudFront distribution. You can get the value of C<DnsName> using the
-AWS CLI command describe-vpc-endpoints
+CLI command describe-vpc-endpoints
 (https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-vpc-endpoints.html).
 
 =item CloudFront distribution
@@ -148,11 +143,11 @@ following methods to get the value of the CNAME attribute:
 
 =item *
 
-I<AWS Management Console>: For information about how to get the value
-by using the console, see Using Custom Domains with AWS Elastic
-Beanstalk
+I<Amazon Web Services Management Console>: For information about how to
+get the value by using the console, see Using Custom Domains with
+Elastic Beanstalk
 (https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/customdomains.html)
-in the I<AWS Elastic Beanstalk Developer Guide>.
+in the I<Elastic Beanstalk Developer Guide>.
 
 =item *
 
@@ -160,31 +155,31 @@ I<Elastic Beanstalk API>: Use the C<DescribeEnvironments> action to get
 the value of the C<CNAME> attribute. For more information, see
 DescribeEnvironments
 (https://docs.aws.amazon.com/elasticbeanstalk/latest/api/API_DescribeEnvironments.html)
-in the I<AWS Elastic Beanstalk API Reference>.
+in the I<Elastic Beanstalk API Reference>.
 
 =item *
 
-I<AWS CLI>: Use the C<describe-environments> command to get the value
-of the C<CNAME> attribute. For more information, see
-describe-environments
+I<CLI>: Use the C<describe-environments> command to get the value of
+the C<CNAME> attribute. For more information, see describe-environments
 (https://docs.aws.amazon.com/cli/latest/reference/elasticbeanstalk/describe-environments.html)
-in the I<AWS CLI Command Reference>.
+in the I<CLI Command Reference>.
 
 =back
 
 =item ELB load balancer
 
 Specify the DNS name that is associated with the load balancer. Get the
-DNS name by using the AWS Management Console, the ELB API, or the AWS
-CLI.
+DNS name by using the Amazon Web Services Management Console, the ELB
+API, or the CLI.
 
 =over
 
 =item *
 
-B<AWS Management Console>: Go to the EC2 page, choose B<Load Balancers>
-in the navigation pane, choose the load balancer, choose the
-B<Description> tab, and get the value of the B<DNS name> field.
+B<Amazon Web Services Management Console>: Go to the EC2 page, choose
+B<Load Balancers> in the navigation pane, choose the load balancer,
+choose the B<Description> tab, and get the value of the B<DNS name>
+field.
 
 If you're routing traffic to a Classic Load Balancer, get the value
 that begins with B<dualstack>. If you're routing traffic to another
@@ -212,8 +207,8 @@ Application and Network Load Balancers: DescribeLoadBalancers
 
 =item *
 
-B<AWS CLI>: Use C<describe-load-balancers> to get the value of
-C<DNSName>. For more information, see the applicable guide:
+B<CLI>: Use C<describe-load-balancers> to get the value of C<DNSName>.
+For more information, see the applicable guide:
 
 =over
 
@@ -231,7 +226,7 @@ Application and Network Load Balancers: describe-load-balancers
 
 =back
 
-=item AWS Global Accelerator accelerator
+=item Global Accelerator accelerator
 
 Specify the DNS name for your accelerator:
 
@@ -244,7 +239,7 @@ B<Global Accelerator API:> To get the DNS name, use DescribeAccelerator
 
 =item *
 
-B<AWS CLI:> To get the DNS name, use describe-accelerator
+B<CLI:> To get the DNS name, use describe-accelerator
 (https://docs.aws.amazon.com/cli/latest/reference/globalaccelerator/describe-accelerator.html).
 
 =back
@@ -283,8 +278,9 @@ supported even for an alias record.
 I<Applies only to alias, failover alias, geolocation alias, latency
 alias, and weighted alias resource record sets:> When
 C<EvaluateTargetHealth> is C<true>, an alias resource record set
-inherits the health of the referenced AWS resource, such as an ELB load
-balancer or another resource record set in the hosted zone.
+inherits the health of the referenced Amazon Web Services resource,
+such as an ELB load balancer or another resource record set in the
+hosted zone.
 
 Note the following:
 
@@ -363,11 +359,11 @@ to C<true> when the alias target is an S3 bucket.
 
 =item Other records in the same hosted zone
 
-If the AWS resource that you specify in C<DNSName> is a record or a
-group of records (for example, a group of weighted records) but is not
-another alias record, we recommend that you associate a health check
-with all of the records in the alias target. For more information, see
-What Happens When You Omit Health Checks?
+If the Amazon Web Services resource that you specify in C<DNSName> is a
+record or a group of records (for example, a group of weighted records)
+but is not another alias record, we recommend that you associate a
+health check with all of the records in the alias target. For more
+information, see What Happens When You Omit Health Checks?
 (https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-complex-configs.html#dns-failover-complex-configs-hc-omitting)
 in the I<Amazon Route 53 Developer Guide>.
 
@@ -389,7 +385,7 @@ you want to route traffic:
 =item Amazon API Gateway custom regional APIs and edge-optimized APIs
 
 Specify the hosted zone ID for your API. You can get the applicable
-value using the AWS CLI command get-domain-names
+value using the CLI command get-domain-names
 (https://docs.aws.amazon.com/cli/latest/reference/apigateway/get-domain-names.html):
 
 =over
@@ -408,8 +404,7 @@ C<distributionHostedZoneId>.
 =item Amazon Virtual Private Cloud interface VPC endpoint
 
 Specify the hosted zone ID for your interface endpoint. You can get the
-value of C<HostedZoneId> using the AWS CLI command
-describe-vpc-endpoints
+value of C<HostedZoneId> using the CLI command describe-vpc-endpoints
 (https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-vpc-endpoints.html).
 
 =item CloudFront distribution
@@ -423,10 +418,10 @@ zone.
 
 Specify the hosted zone ID for the region that you created the
 environment in. The environment must have a regionalized subdomain. For
-a list of regions and the corresponding hosted zone IDs, see AWS
-Elastic Beanstalk endpoints and quotas
+a list of regions and the corresponding hosted zone IDs, see Elastic
+Beanstalk endpoints and quotas
 (https://docs.aws.amazon.com/general/latest/gr/elasticbeanstalk.html)
-in the the I<Amazon Web Services General Reference>.
+in the I<Amazon Web Services General Reference>.
 
 =item ELB load balancer
 
@@ -446,9 +441,10 @@ Balancers and for Network Load Balancers.
 
 =item *
 
-B<AWS Management Console>: Go to the Amazon EC2 page, choose B<Load
-Balancers> in the navigation pane, select the load balancer, and get
-the value of the B<Hosted zone> field on the B<Description> tab.
+B<Amazon Web Services Management Console>: Go to the Amazon EC2 page,
+choose B<Load Balancers> in the navigation pane, select the load
+balancer, and get the value of the B<Hosted zone> field on the
+B<Description> tab.
 
 =item *
 
@@ -473,8 +469,8 @@ to get the value of C<CanonicalHostedZoneId>.
 
 =item *
 
-B<AWS CLI>: Use C<describe-load-balancers> to get the applicable value.
-For more information, see the applicable guide:
+B<CLI>: Use C<describe-load-balancers> to get the applicable value. For
+more information, see the applicable guide:
 
 =over
 
@@ -494,7 +490,7 @@ to get the value of C<CanonicalHostedZoneId>.
 
 =back
 
-=item AWS Global Accelerator accelerator
+=item Global Accelerator accelerator
 
 Specify C<Z2BJ6XQ5FK7U4H>.
 

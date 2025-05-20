@@ -75,7 +75,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/cod
 
 =head2 B<REQUIRED> ApplicationName => Str
 
-The name of an AWS CodeDeploy application about which to get revision
+The name of an CodeDeploy application about which to get revision
 information.
 
 

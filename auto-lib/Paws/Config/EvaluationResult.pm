@@ -38,9 +38,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Config::Eva
 
 =head1 DESCRIPTION
 
-The details of an AWS Config evaluation. Provides the AWS resource that
-was evaluated, the compliance of the resource, related time stamps, and
-supplementary information.
+The details of an Config evaluation. Provides the Amazon Web Services
+resource that was evaluated, the compliance of the resource, related
+time stamps, and supplementary information.
 
 =head1 ATTRIBUTES
 
@@ -53,18 +53,19 @@ compliance.
 
 =head2 ComplianceType => Str
 
-Indicates whether the AWS resource complies with the AWS Config rule
-that evaluated it.
+Indicates whether the Amazon Web Services resource complies with the
+Config rule that evaluated it.
 
-For the C<EvaluationResult> data type, AWS Config supports only the
-C<COMPLIANT>, C<NON_COMPLIANT>, and C<NOT_APPLICABLE> values. AWS
-Config does not support the C<INSUFFICIENT_DATA> value for the
+For the C<EvaluationResult> data type, Config supports only the
+C<COMPLIANT>, C<NON_COMPLIANT>, and C<NOT_APPLICABLE> values. Config
+does not support the C<INSUFFICIENT_DATA> value for the
 C<EvaluationResult> data type.
 
 
 =head2 ConfigRuleInvokedTime => Str
 
-The time when the AWS Config rule evaluated the AWS resource.
+The time when the Config rule evaluated the Amazon Web Services
+resource.
 
 
 =head2 EvaluationResultIdentifier => L<Paws::Config::EvaluationResultIdentifier>
@@ -74,14 +75,14 @@ Uniquely identifies the evaluation result.
 
 =head2 ResultRecordedTime => Str
 
-The time when AWS Config recorded the evaluation result.
+The time when Config recorded the evaluation result.
 
 
 =head2 ResultToken => Str
 
-An encrypted token that associates an evaluation with an AWS Config
-rule. The token identifies the rule, the AWS resource being evaluated,
-and the event that triggered the evaluation.
+An encrypted token that associates an evaluation with an Config rule.
+The token identifies the rule, the Amazon Web Services resource being
+evaluated, and the event that triggered the evaluation.
 
 
 

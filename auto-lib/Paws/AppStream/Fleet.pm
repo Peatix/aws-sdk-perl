@@ -16,10 +16,15 @@ package Paws::AppStream::Fleet;
   has ImageArn => (is => 'ro', isa => 'Str');
   has ImageName => (is => 'ro', isa => 'Str');
   has InstanceType => (is => 'ro', isa => 'Str', required => 1);
+  has MaxConcurrentSessions => (is => 'ro', isa => 'Int');
+  has MaxSessionsPerInstance => (is => 'ro', isa => 'Int');
   has MaxUserDurationInSeconds => (is => 'ro', isa => 'Int');
   has Name => (is => 'ro', isa => 'Str', required => 1);
+  has Platform => (is => 'ro', isa => 'Str');
+  has SessionScriptS3Location => (is => 'ro', isa => 'Paws::AppStream::S3Location');
   has State => (is => 'ro', isa => 'Str', required => 1);
   has StreamView => (is => 'ro', isa => 'Str');
+  has UsbDeviceFilterStrings => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has VpcConfig => (is => 'ro', isa => 'Paws::AppStream::VpcConfig');
 
 1;
@@ -85,7 +90,7 @@ disconnection or network interruption within this time interval, they
 are connected to their previous session. Otherwise, they are connected
 to a new session with a new streaming instance.
 
-Specify a value between 60 and 360000.
+Specify a value between 60 and 36000.
 
 
 =head2 DisplayName => Str
@@ -162,8 +167,8 @@ as user activity. If users continue to be idle after the time interval
 in C<IdleDisconnectTimeoutInSeconds> elapses, they are disconnected.
 
 To prevent users from being disconnected due to inactivity, specify a
-value of 0. Otherwise, specify a value between 60 and 3600. The default
-value is 0.
+value of 0. Otherwise, specify a value between 60 and 36000. The
+default value is 0.
 
 If you enable this feature, we recommend that you specify a value that
 corresponds exactly to a whole number of minutes (for example, 60, 120,
@@ -328,6 +333,17 @@ stream.graphics-pro.16xlarge
 
 
 
+=head2 MaxConcurrentSessions => Int
+
+The maximum number of concurrent sessions for the fleet.
+
+
+=head2 MaxSessionsPerInstance => Int
+
+The maximum number of user sessions on an instance. This only applies
+to multi-session fleets.
+
+
 =head2 MaxUserDurationInSeconds => Int
 
 The maximum amount of time that a streaming session can remain active,
@@ -344,6 +360,17 @@ Specify a value between 600 and 360000.
 The name of the fleet.
 
 
+=head2 Platform => Str
+
+The platform of the fleet.
+
+
+=head2 SessionScriptS3Location => L<Paws::AppStream::S3Location>
+
+The S3 location of the session scripts configuration zip file. This
+only applies to Elastic fleets.
+
+
 =head2 B<REQUIRED> State => Str
 
 The current state for the fleet.
@@ -357,6 +384,11 @@ applications opened by users display. When C<DESKTOP> is specified, the
 standard desktop that is provided by the operating system displays.
 
 The default value is C<APP>.
+
+
+=head2 UsbDeviceFilterStrings => ArrayRef[Str|Undef]
+
+The USB device filter strings associated with the fleet.
 
 
 =head2 VpcConfig => L<Paws::AppStream::VpcConfig>

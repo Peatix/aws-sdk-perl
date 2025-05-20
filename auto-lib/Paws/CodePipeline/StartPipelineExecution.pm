@@ -3,6 +3,8 @@ package Paws::CodePipeline::StartPipelineExecution;
   use Moose;
   has ClientRequestToken => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'clientRequestToken' );
   has Name => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'name' , required => 1);
+  has SourceRevisions => (is => 'ro', isa => 'ArrayRef[Paws::CodePipeline::SourceRevisionOverride]', traits => ['NameInRequest'], request_name => 'sourceRevisions' );
+  has Variables => (is => 'ro', isa => 'ArrayRef[Paws::CodePipeline::PipelineVariable]', traits => ['NameInRequest'], request_name => 'variables' );
 
   use MooseX::ClassAttribute;
 
@@ -31,6 +33,24 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $StartPipelineExecutionOutput = $codepipeline->StartPipelineExecution(
       Name               => 'MyPipelineName',
       ClientRequestToken => 'MyClientRequestToken',    # OPTIONAL
+      SourceRevisions    => [
+        {
+          ActionName   => 'MyActionName',    # min: 1, max: 100
+          RevisionType => 'COMMIT_ID'
+          , # values: COMMIT_ID, IMAGE_DIGEST, S3_OBJECT_VERSION_ID, S3_OBJECT_KEY
+          RevisionValue => 'MyRevision',    # min: 1, max: 1500
+
+        },
+        ...
+      ],    # OPTIONAL
+      Variables => [
+        {
+          Name  => 'MyPipelineVariableName',     # min: 1, max: 128
+          Value => 'MyPipelineVariableValue',    # min: 1, max: 1000
+
+        },
+        ...
+      ],    # OPTIONAL
     );
 
     # Results:
@@ -55,6 +75,23 @@ request.
 =head2 B<REQUIRED> Name => Str
 
 The name of the pipeline to start.
+
+
+
+=head2 SourceRevisions => ArrayRef[L<Paws::CodePipeline::SourceRevisionOverride>]
+
+A list that allows you to specify, or override, the source revision for
+a pipeline execution that's being started. A source revision is the
+version with all the changes to your application code, or source
+artifact, for the pipeline execution.
+
+
+
+=head2 Variables => ArrayRef[L<Paws::CodePipeline::PipelineVariable>]
+
+A list that overrides pipeline variables for a pipeline execution
+that's being started. Variable names must match C<[A-Za-z0-9@\-_]+>,
+and the values can be anything except an empty string.
 
 
 

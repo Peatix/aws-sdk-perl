@@ -96,11 +96,11 @@ receives from Security Hub.
 
 =head2 MarketplaceUrl => Str
 
-For integrations with AWS services, the AWS Console URL from which to
-activate the service.
+For integrations with Amazon Web Services services, the Amazon Web
+Services Console URL from which to activate the service.
 
-For integrations with third-party products, the AWS Marketplace URL
-from which to subscribe to or purchase the product.
+For integrations with third-party products, the Amazon Web Services
+Marketplace URL from which to subscribe to or purchase the product.
 
 
 =head2 B<REQUIRED> ProductArn => Str

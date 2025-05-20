@@ -15,10 +15,14 @@ package Paws::RedShift::ModifyCluster;
   has EnhancedVpcRouting => (is => 'ro', isa => 'Bool');
   has HsmClientCertificateIdentifier => (is => 'ro', isa => 'Str');
   has HsmConfigurationIdentifier => (is => 'ro', isa => 'Str');
+  has IpAddressType => (is => 'ro', isa => 'Str');
   has KmsKeyId => (is => 'ro', isa => 'Str');
   has MaintenanceTrackName => (is => 'ro', isa => 'Str');
+  has ManageMasterPassword => (is => 'ro', isa => 'Bool');
   has ManualSnapshotRetentionPeriod => (is => 'ro', isa => 'Int');
+  has MasterPasswordSecretKmsKeyId => (is => 'ro', isa => 'Str');
   has MasterUserPassword => (is => 'ro', isa => 'Str');
+  has MultiAZ => (is => 'ro', isa => 'Bool');
   has NewClusterIdentifier => (is => 'ro', isa => 'Str');
   has NodeType => (is => 'ro', isa => 'Str');
   has NumberOfNodes => (is => 'ro', isa => 'Int');
@@ -61,25 +65,29 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       ClusterSecurityGroups            => [
         'MyString', ...                                  # max: 2147483647
       ],    # OPTIONAL
-      ClusterType                    => 'MyString',    # OPTIONAL
-      ClusterVersion                 => 'MyString',    # OPTIONAL
-      ElasticIp                      => 'MyString',    # OPTIONAL
-      Encrypted                      => 1,             # OPTIONAL
-      EnhancedVpcRouting             => 1,             # OPTIONAL
-      HsmClientCertificateIdentifier => 'MyString',    # OPTIONAL
-      HsmConfigurationIdentifier     => 'MyString',    # OPTIONAL
-      KmsKeyId                       => 'MyString',    # OPTIONAL
-      MaintenanceTrackName           => 'MyString',    # OPTIONAL
-      ManualSnapshotRetentionPeriod  => 1,             # OPTIONAL
-      MasterUserPassword             => 'MyString',    # OPTIONAL
-      NewClusterIdentifier           => 'MyString',    # OPTIONAL
-      NodeType                       => 'MyString',    # OPTIONAL
-      NumberOfNodes                  => 1,             # OPTIONAL
-      Port                           => 1,             # OPTIONAL
-      PreferredMaintenanceWindow     => 'MyString',    # OPTIONAL
-      PubliclyAccessible             => 1,             # OPTIONAL
+      ClusterType                    => 'MyString',             # OPTIONAL
+      ClusterVersion                 => 'MyString',             # OPTIONAL
+      ElasticIp                      => 'MyString',             # OPTIONAL
+      Encrypted                      => 1,                      # OPTIONAL
+      EnhancedVpcRouting             => 1,                      # OPTIONAL
+      HsmClientCertificateIdentifier => 'MyString',             # OPTIONAL
+      HsmConfigurationIdentifier     => 'MyString',             # OPTIONAL
+      IpAddressType                  => 'MyString',             # OPTIONAL
+      KmsKeyId                       => 'MyString',             # OPTIONAL
+      MaintenanceTrackName           => 'MyString',             # OPTIONAL
+      ManageMasterPassword           => 1,                      # OPTIONAL
+      ManualSnapshotRetentionPeriod  => 1,                      # OPTIONAL
+      MasterPasswordSecretKmsKeyId   => 'MyString',             # OPTIONAL
+      MasterUserPassword             => 'MySensitiveString',    # OPTIONAL
+      MultiAZ                        => 1,                      # OPTIONAL
+      NewClusterIdentifier           => 'MyString',             # OPTIONAL
+      NodeType                       => 'MyString',             # OPTIONAL
+      NumberOfNodes                  => 1,                      # OPTIONAL
+      Port                           => 1,                      # OPTIONAL
+      PreferredMaintenanceWindow     => 'MyString',             # OPTIONAL
+      PubliclyAccessible             => 1,                      # OPTIONAL
       VpcSecurityGroupIds            => [
-        'MyString', ...                                # max: 2147483647
+        'MyString', ...    # max: 2147483647
       ],    # OPTIONAL
     );
 
@@ -273,10 +281,17 @@ keys in an HSM.
 
 
 
+=head2 IpAddressType => Str
+
+The IP address types that the cluster supports. Possible values are
+C<ipv4> and C<dualstack>.
+
+
+
 =head2 KmsKeyId => Str
 
-The AWS Key Management Service (KMS) key ID of the encryption key that
-you want to use to encrypt data in the cluster.
+The Key Management Service (KMS) key ID of the encryption key that you
+want to use to encrypt data in the cluster.
 
 
 
@@ -288,6 +303,16 @@ the C<PendingModifiedValues> for the cluster until the next maintenance
 window. When the maintenance track changes, the cluster is switched to
 the latest cluster release available for the maintenance track. At this
 point, the maintenance track name is applied.
+
+
+
+=head2 ManageMasterPassword => Bool
+
+If C<true>, Amazon Redshift uses Secrets Manager to manage this
+cluster's admin credentials. You can't use C<MasterUserPassword> if
+C<ManageMasterPassword> is true. If C<ManageMasterPassword> is false or
+not set, Amazon Redshift uses C<MasterUserPassword> for the admin user
+account's password.
 
 
 
@@ -304,16 +329,27 @@ The default value is -1.
 
 
 
+=head2 MasterPasswordSecretKmsKeyId => Str
+
+The ID of the Key Management Service (KMS) key used to encrypt and
+store the cluster's admin credentials secret. You can only use this
+parameter if C<ManageMasterPassword> is true.
+
+
+
 =head2 MasterUserPassword => Str
 
-The new password for the cluster master user. This change is
+The new password for the cluster admin user. This change is
 asynchronously applied as soon as possible. Between the time of the
 request and the completion of the request, the C<MasterUserPassword>
 element exists in the C<PendingModifiedValues> element of the operation
 response.
 
+You can't use C<MasterUserPassword> if C<ManageMasterPassword> is
+C<true>.
+
 Operations never return the password, so this operation provides a way
-to regain access to the master user account for a cluster if the
+to regain access to the admin user account for a cluster if the
 password is lost.
 
 Default: Uses existing setting.
@@ -340,11 +376,19 @@ Must contain one number.
 
 =item *
 
-Can be any printable ASCII character (ASCII code 33 to 126) except '
-(single quote), " (double quote), \, /, @, or space.
+Can be any printable ASCII character (ASCII code 33-126) except C<'>
+(single quote), C<"> (double quote), C<\>, C</>, or C<@>.
 
 =back
 
+
+
+
+=head2 MultiAZ => Bool
+
+If true and the cluster is currently only deployed in a single
+Availability Zone, the cluster will be modified to be deployed in two
+Availability Zones.
 
 
 
@@ -374,7 +418,7 @@ Cannot end with a hyphen or contain two consecutive hyphens.
 
 =item *
 
-Must be unique for all clusters within an AWS account.
+Must be unique for all clusters within an Amazon Web Services account.
 
 =back
 
@@ -392,9 +436,8 @@ in Amazon Redshift
 (https://docs.aws.amazon.com/redshift/latest/mgmt/rs-resize-tutorial.html)
 in the I<Amazon Redshift Cluster Management Guide>.
 
-Valid Values: C<ds2.xlarge> | C<ds2.8xlarge> | C<dc1.large> |
-C<dc1.8xlarge> | C<dc2.large> | C<dc2.8xlarge> | C<ra3.xlplus> |
-C<ra3.4xlarge> | C<ra3.16xlarge>
+Valid Values: C<dc2.large> | C<dc2.8xlarge> | C<ra3.large> |
+C<ra3.xlplus> | C<ra3.4xlarge> | C<ra3.16xlarge>
 
 
 
@@ -415,6 +458,24 @@ Valid Values: Integer greater than C<0>.
 =head2 Port => Int
 
 The option to change the port of an Amazon Redshift cluster.
+
+Valid Values:
+
+=over
+
+=item *
+
+For clusters with ra3 nodes - Select a port within the ranges
+C<5431-5455> or C<8191-8215>. (If you have an existing cluster with ra3
+nodes, it isn't required that you change the port to these ranges.)
+
+=item *
+
+For clusters with dc2 nodes - Select a port within the range
+C<1150-65535>.
+
+=back
+
 
 
 
@@ -443,6 +504,8 @@ Constraints: Must be at least 30 minutes.
 
 If C<true>, the cluster can be accessed from a public network. Only
 clusters in VPCs can be set to be publicly available.
+
+Default: false
 
 
 

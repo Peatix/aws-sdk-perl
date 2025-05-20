@@ -34,19 +34,19 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Discovery::
 
 =head1 DESCRIPTION
 
-Network details about the host where the agent/connector resides.
+Network details about the host where the agent/collector resides.
 
 =head1 ATTRIBUTES
 
 
 =head2 IpAddress => Str
 
-The IP address for the host where the agent/connector resides.
+The IP address for the host where the agent/collector resides.
 
 
 =head2 MacAddress => Str
 
-The MAC address for the host where the agent/connector resides.
+The MAC address for the host where the agent/collector resides.
 
 
 

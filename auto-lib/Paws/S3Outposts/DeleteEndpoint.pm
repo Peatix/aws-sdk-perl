@@ -43,13 +43,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/s3-
 
 =head2 B<REQUIRED> EndpointId => Str
 
-The ID of the end point.
+The ID of the endpoint.
 
 
 
 =head2 B<REQUIRED> OutpostId => Str
 
-The ID of the AWS Outpost.
+The ID of the Outposts.
 
 
 

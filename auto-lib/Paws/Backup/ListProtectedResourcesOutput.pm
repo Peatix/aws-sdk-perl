@@ -19,15 +19,15 @@ Paws::Backup::ListProtectedResourcesOutput
 =head2 NextToken => Str
 
 The next item following a partial list of returned items. For example,
-if a request is made to return C<maxResults> number of items,
+if a request is made to return C<MaxResults> number of items,
 C<NextToken> allows you to return more items in your list starting at
 the location pointed to by the next token.
 
 
 =head2 Results => ArrayRef[L<Paws::Backup::ProtectedResource>]
 
-An array of resources successfully backed up by AWS Backup including
-the time the resource was saved, an Amazon Resource Name (ARN) of the
+An array of resources successfully backed up by Backup including the
+time the resource was saved, an Amazon Resource Name (ARN) of the
 resource, and a resource type.
 
 

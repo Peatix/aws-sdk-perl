@@ -35,7 +35,10 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::EKS::Taint 
 
 =head1 DESCRIPTION
 
-A property that allows a node to repel a set of pods.
+A property that allows a node to repel a C<Pod>. For more information,
+see Node taints on managed node groups
+(https://docs.aws.amazon.com/eks/latest/userguide/node-taints-managed-node-groups.html)
+in the I<Amazon EKS User Guide>.
 
 =head1 ATTRIBUTES
 

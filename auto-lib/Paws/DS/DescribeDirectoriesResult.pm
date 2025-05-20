@@ -17,7 +17,7 @@ Paws::DS::DescribeDirectoriesResult
 
 =head2 DirectoryDescriptions => ArrayRef[L<Paws::DS::DirectoryDescription>]
 
-The list of DirectoryDescription objects that were retrieved.
+The list of available DirectoryDescription objects that were retrieved.
 
 It is possible that this list contains less than the number of items
 specified in the C<Limit> member of the request. This occurs if there

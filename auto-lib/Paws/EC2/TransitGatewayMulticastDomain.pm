@@ -55,8 +55,8 @@ The options for the transit gateway multicast domain.
 
 =head2 OwnerId => Str
 
-The ID of the AWS account that owns the transit gateway multiicast
-domain.
+The ID of the Amazon Web Services account that owns the transit gateway
+multicast domain.
 
 
 =head2 State => Str

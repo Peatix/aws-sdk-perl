@@ -60,13 +60,13 @@ Sets a fleet provision template version as the default version.
 
 =head2 B<REQUIRED> TemplateBody => Str
 
-The JSON formatted contents of the fleet provisioning template.
+The JSON formatted contents of the provisioning template.
 
 
 
 =head2 B<REQUIRED> TemplateName => Str
 
-The name of the fleet provisioning template.
+The name of the provisioning template.
 
 
 

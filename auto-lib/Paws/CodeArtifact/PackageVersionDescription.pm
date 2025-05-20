@@ -6,6 +6,7 @@ package Paws::CodeArtifact::PackageVersionDescription;
   has HomePage => (is => 'ro', isa => 'Str', request_name => 'homePage', traits => ['NameInRequest']);
   has Licenses => (is => 'ro', isa => 'ArrayRef[Paws::CodeArtifact::LicenseInfo]', request_name => 'licenses', traits => ['NameInRequest']);
   has Namespace => (is => 'ro', isa => 'Str', request_name => 'namespace', traits => ['NameInRequest']);
+  has Origin => (is => 'ro', isa => 'Paws::CodeArtifact::PackageVersionOrigin', request_name => 'origin', traits => ['NameInRequest']);
   has PackageName => (is => 'ro', isa => 'Str', request_name => 'packageName', traits => ['NameInRequest']);
   has PublishedTime => (is => 'ro', isa => 'Str', request_name => 'publishedTime', traits => ['NameInRequest']);
   has Revision => (is => 'ro', isa => 'Str', request_name => 'revision', traits => ['NameInRequest']);
@@ -59,25 +60,7 @@ C<npm>, then the C<displayName> is C<@vue/ui>.
 
 =head2 Format => Str
 
-The format of the package version. The valid package formats are:
-
-=over
-
-=item *
-
-C<npm>: A Node Package Manager (npm) package.
-
-=item *
-
-C<pypi>: A Python Package Index (PyPI) package.
-
-=item *
-
-C<maven>: A Maven package that contains compiled code in a
-distributable format, such as a JAR file.
-
-=back
-
+The format of the package version.
 
 
 =head2 HomePage => Str
@@ -92,26 +75,39 @@ Information about licenses associated with the package version.
 
 =head2 Namespace => Str
 
-The namespace of the package. The package component that specifies its
-namespace depends on its type. For example:
+The namespace of the package version. The package component that
+specifies its namespace depends on its type. For example:
 
 =over
 
 =item *
 
-The namespace of a Maven package is its C<groupId>.
+The namespace of a Maven package version is its C<groupId>.
 
 =item *
 
-The namespace of an npm package is its C<scope>.
+The namespace of an npm or Swift package version is its C<scope>.
 
 =item *
 
-A Python package does not contain a corresponding component, so Python
-packages do not have a namespace.
+The namespace of a generic package is its C<namespace>.
+
+=item *
+
+Python, NuGet, Ruby, and Cargo package versions do not contain a
+corresponding component, package versions of those formats do not have
+a namespace.
 
 =back
 
+
+
+=head2 Origin => L<Paws::CodeArtifact::PackageVersionOrigin>
+
+A PackageVersionOrigin
+(https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageVersionOrigin.html)
+object that contains information about how the package version was
+added to the repository.
 
 
 =head2 PackageName => Str
@@ -138,33 +134,7 @@ source code used to build it.
 
 =head2 Status => Str
 
-A string that contains the status of the package version. It can be one
-of the following:
-
-=over
-
-=item *
-
-C<Published>
-
-=item *
-
-C<Unfinished>
-
-=item *
-
-C<Unlisted>
-
-=item *
-
-C<Archived>
-
-=item *
-
-C<Disposed>
-
-=back
-
+A string that contains the status of the package version.
 
 
 =head2 Summary => Str

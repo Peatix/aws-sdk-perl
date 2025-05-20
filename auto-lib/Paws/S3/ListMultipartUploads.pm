@@ -8,6 +8,7 @@ package Paws::S3::ListMultipartUploads;
   has KeyMarker => (is => 'ro', isa => 'Str', query_name => 'key-marker', traits => ['ParamInQuery']);
   has MaxUploads => (is => 'ro', isa => 'Int', query_name => 'max-uploads', traits => ['ParamInQuery']);
   has Prefix => (is => 'ro', isa => 'Str', query_name => 'prefix', traits => ['ParamInQuery']);
+  has RequestPayer => (is => 'ro', isa => 'Str', header_name => 'x-amz-request-payer', traits => ['ParamInHeader']);
   has UploadIdMarker => (is => 'ro', isa => 'Str', query_name => 'upload-id-marker', traits => ['ParamInQuery']);
 
 
@@ -81,22 +82,42 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/s3/
 
 The name of the bucket to which the multipart upload was initiated.
 
-When using this action with an access point, you must direct requests
-to the access point hostname. The access point hostname takes the form
+B<Directory buckets> - When you use this operation with a directory
+bucket, you must use virtual-hosted-style requests in the format C<
+I<Bucket-name>.s3express-I<zone-id>.I<region-code>.amazonaws.com>.
+Path-style requests are not supported. Directory bucket names must be
+unique in the chosen Zone (Availability Zone or Local Zone). Bucket
+names must follow the format C< I<bucket-base-name>--I<zone-id>--x-s3>
+(for example, C< I<amzn-s3-demo-bucket>--I<usw2-az1>--x-s3>). For
+information about bucket naming restrictions, see Directory bucket
+naming rules
+(https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-bucket-naming-rules.html)
+in the I<Amazon S3 User Guide>.
+
+B<Access points> - When you use this action with an access point for
+general purpose buckets, you must provide the alias of the access point
+in place of the bucket name or specify the access point ARN. When you
+use this action with an access point for directory buckets, you must
+provide the access point name in place of the bucket name. When using
+the access point ARN, you must direct requests to the access point
+hostname. The access point hostname takes the form
 I<AccessPointName>-I<AccountId>.s3-accesspoint.I<Region>.amazonaws.com.
-When using this action with an access point through the AWS SDKs, you
-provide the access point ARN in place of the bucket name. For more
-information about access point ARNs, see Using access points
+When using this action with an access point through the Amazon Web
+Services SDKs, you provide the access point ARN in place of the bucket
+name. For more information about access point ARNs, see Using access
+points
 (https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html)
 in the I<Amazon S3 User Guide>.
 
-When using this action with Amazon S3 on Outposts, you must direct
-requests to the S3 on Outposts hostname. The S3 on Outposts hostname
-takes the form
-I<AccessPointName>-I<AccountId>.I<outpostID>.s3-outposts.I<Region>.amazonaws.com.
-When using this action using S3 on Outposts through the AWS SDKs, you
-provide the Outposts bucket ARN in place of the bucket name. For more
-information about S3 on Outposts ARNs, see Using S3 on Outposts
+Object Lambda access points are not supported by directory buckets.
+
+B<S3 on Outposts> - When you use this action with S3 on Outposts, you
+must direct requests to the S3 on Outposts hostname. The S3 on Outposts
+hostname takes the form C<
+I<AccessPointName>-I<AccountId>.I<outpostID>.s3-outposts.I<Region>.amazonaws.com>.
+When you use this action with S3 on Outposts, the destination bucket
+must be the Outposts access point ARN or the access point alias. For
+more information about S3 on Outposts, see What is S3 on Outposts?
 (https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html)
 in the I<Amazon S3 User Guide>.
 
@@ -113,6 +134,9 @@ the prefix parameter, then the substring starts at the beginning of the
 key. The keys that are grouped under C<CommonPrefixes> result element
 are not returned elsewhere in the response.
 
+B<Directory buckets> - For directory buckets, C</> is the only
+supported delimiter.
+
 
 
 =head2 EncodingType => Str
@@ -123,16 +147,23 @@ Valid values are: C<"url">
 
 =head2 ExpectedBucketOwner => Str
 
-The account ID of the expected bucket owner. If the bucket is owned by
-a different account, the request will fail with an HTTP C<403 (Access
-Denied)> error.
+The account ID of the expected bucket owner. If the account ID that you
+provide does not match the actual owner of the bucket, the request
+fails with the HTTP status code C<403 Forbidden> (access denied).
 
 
 
 =head2 KeyMarker => Str
 
-Together with upload-id-marker, this parameter specifies the multipart
-upload after which listing should begin.
+Specifies the multipart upload after which listing should begin.
+
+=over
+
+=item *
+
+B<General purpose buckets> - For general purpose buckets, C<key-marker>
+is an object key. Together with C<upload-id-marker>, this parameter
+specifies the multipart upload after which listing should begin.
 
 If C<upload-id-marker> is not specified, only the keys
 lexicographically greater than the specified C<key-marker> will be
@@ -142,6 +173,20 @@ If C<upload-id-marker> is specified, any multipart uploads for a key
 equal to the C<key-marker> might also be included, provided those
 multipart uploads have upload IDs lexicographically greater than the
 specified C<upload-id-marker>.
+
+=item *
+
+B<Directory buckets> - For directory buckets, C<key-marker> is
+obfuscated and isn't a real object key. The C<upload-id-marker>
+parameter isn't supported by directory buckets. To list the additional
+multipart uploads, you only need to set the value of C<key-marker> to
+the C<NextKeyMarker> value from the previous response.
+
+In the C<ListMultipartUploads> response, the multipart uploads aren't
+sorted lexicographically based on the object keys.
+
+=back
+
 
 
 
@@ -157,10 +202,19 @@ that can be returned in a response.
 
 Lists in-progress uploads only for those keys that begin with the
 specified prefix. You can use prefixes to separate a bucket into
-different grouping of keys. (You can think of using prefix to make
-groups in the same way you'd use a folder in a file system.)
+different grouping of keys. (You can think of using C<prefix> to make
+groups in the same way that you'd use a folder in a file system.)
+
+B<Directory buckets> - For directory buckets, only prefixes that end in
+a delimiter (C</>) are supported.
 
 
+
+=head2 RequestPayer => Str
+
+
+
+Valid values are: C<"requester">
 
 =head2 UploadIdMarker => Str
 
@@ -170,6 +224,8 @@ upload-id-marker parameter is ignored. Otherwise, any multipart uploads
 for a key equal to the key-marker might be included in the list only if
 they have an upload ID lexicographically greater than the specified
 C<upload-id-marker>.
+
+This functionality is not supported for directory buckets.
 
 
 

@@ -34,19 +34,19 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::S3Control::
 
 =head1 DESCRIPTION
 
-This class has no description
+A container for a key-value name pair.
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> Key => Str
 
-
+Key of the tag
 
 
 =head2 B<REQUIRED> Value => Str
 
-
+Value of the tag
 
 
 

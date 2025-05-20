@@ -10,6 +10,7 @@ package Paws::Firehose::HttpEndpointDestinationConfiguration;
   has RoleARN => (is => 'ro', isa => 'Str');
   has S3BackupMode => (is => 'ro', isa => 'Str');
   has S3Configuration => (is => 'ro', isa => 'Paws::Firehose::S3DestinationConfiguration', required => 1);
+  has SecretsManagerConfiguration => (is => 'ro', isa => 'Paws::Firehose::SecretsManagerConfiguration');
 
 1;
 
@@ -30,7 +31,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::Firehose::HttpEndpointDestinationConfiguration object:
 
-  $service_obj->Method(Att1 => { BufferingHints => $value, ..., S3Configuration => $value  });
+  $service_obj->Method(Att1 => { BufferingHints => $value, ..., SecretsManagerConfiguration => $value  });
 
 =head3 Results returned from an API call
 
@@ -49,11 +50,10 @@ Describes the configuration of the HTTP endpoint destination.
 =head2 BufferingHints => L<Paws::Firehose::HttpEndpointBufferingHints>
 
 The buffering options that can be used before data is delivered to the
-specified destination. Kinesis Data Firehose treats these options as
-hints, and it might choose to use more optimal values. The C<SizeInMBs>
-and C<IntervalInSeconds> parameters are optional. However, if you
-specify a value for one of them, you must also provide a value for the
-other.
+specified destination. Firehose treats these options as hints, and it
+might choose to use more optimal values. The C<SizeInMBs> and
+C<IntervalInSeconds> parameters are optional. However, if you specify a
+value for one of them, you must also provide a value for the other.
 
 
 =head2 CloudWatchLoggingOptions => L<Paws::Firehose::CloudWatchLoggingOptions>
@@ -73,36 +73,41 @@ The configuration of the HTTP endpoint selected as the destination.
 
 =head2 RequestConfiguration => L<Paws::Firehose::HttpEndpointRequestConfiguration>
 
-The configuration of the requeste sent to the HTTP endpoint specified
-as the destination.
+The configuration of the request sent to the HTTP endpoint that is
+specified as the destination.
 
 
 =head2 RetryOptions => L<Paws::Firehose::HttpEndpointRetryOptions>
 
-Describes the retry behavior in case Kinesis Data Firehose is unable to
-deliver data to the specified HTTP endpoint destination, or if it
-doesn't receive a valid acknowledgment of receipt from the specified
-HTTP endpoint destination.
+Describes the retry behavior in case Firehose is unable to deliver data
+to the specified HTTP endpoint destination, or if it doesn't receive a
+valid acknowledgment of receipt from the specified HTTP endpoint
+destination.
 
 
 =head2 RoleARN => Str
 
-Kinesis Data Firehose uses this IAM role for all the permissions that
-the delivery stream needs.
+Firehose uses this IAM role for all the permissions that the delivery
+stream needs.
 
 
 =head2 S3BackupMode => Str
 
-Describes the S3 bucket backup options for the data that Kinesis Data
-Firehose delivers to the HTTP endpoint destination. You can back up all
-documents (C<AllData>) or only the documents that Kinesis Data Firehose
-could not deliver to the specified HTTP endpoint destination
-(C<FailedDataOnly>).
+Describes the S3 bucket backup options for the data that Firehose
+delivers to the HTTP endpoint destination. You can back up all
+documents (C<AllData>) or only the documents that Firehose could not
+deliver to the specified HTTP endpoint destination (C<FailedDataOnly>).
 
 
 =head2 B<REQUIRED> S3Configuration => L<Paws::Firehose::S3DestinationConfiguration>
 
 
+
+
+=head2 SecretsManagerConfiguration => L<Paws::Firehose::SecretsManagerConfiguration>
+
+The configuration that defines how you access secrets for HTTP Endpoint
+destination.
 
 
 

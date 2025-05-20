@@ -22,46 +22,34 @@ Paws::CodeArtifact::GetPackageVersionReadmeResult
 
 =head2 Format => Str
 
-The format of the package with the requested readme file. Valid format
-types are:
+The format of the package with the requested readme file.
 
-=over
-
-=item *
-
-C<npm>
-
-=item *
-
-C<pypi>
-
-=item *
-
-C<maven>
-
-=back
-
-
-Valid values are: C<"npm">, C<"pypi">, C<"maven">, C<"nuget">
+Valid values are: C<"npm">, C<"pypi">, C<"maven">, C<"nuget">, C<"generic">, C<"ruby">, C<"swift">, C<"cargo">
 =head2 Namespace => Str
 
-The namespace of the package. The package component that specifies its
-namespace depends on its type. For example:
+The namespace of the package version with the requested readme file.
+The package component that specifies its namespace depends on its type.
+For example:
 
 =over
 
 =item *
 
-The namespace of a Maven package is its C<groupId>.
+The namespace of a Maven package version is its C<groupId>.
 
 =item *
 
-The namespace of an npm package is its C<scope>.
+The namespace of an npm or Swift package version is its C<scope>.
 
 =item *
 
-A Python package does not contain a corresponding component, so Python
-packages do not have a namespace.
+The namespace of a generic package is its C<namespace>.
+
+=item *
+
+Python, NuGet, Ruby, and Cargo package versions do not contain a
+corresponding component, package versions of those formats do not have
+a namespace.
 
 =back
 

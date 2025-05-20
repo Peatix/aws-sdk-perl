@@ -3,10 +3,12 @@ package Paws::AppConfig::CreateConfigurationProfile;
   use Moose;
   has ApplicationId => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'ApplicationId', required => 1);
   has Description => (is => 'ro', isa => 'Str');
+  has KmsKeyIdentifier => (is => 'ro', isa => 'Str');
   has LocationUri => (is => 'ro', isa => 'Str', required => 1);
   has Name => (is => 'ro', isa => 'Str', required => 1);
   has RetrievalRoleArn => (is => 'ro', isa => 'Str');
   has Tags => (is => 'ro', isa => 'Paws::AppConfig::TagMap');
+  has Type => (is => 'ro', isa => 'Str');
   has Validators => (is => 'ro', isa => 'ArrayRef[Paws::AppConfig::Validator]');
 
   use MooseX::ClassAttribute;
@@ -34,33 +36,24 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $appconfig = Paws->service('AppConfig');
+    # To create a configuration profile
+    # The following create-configuration-profile example creates a configuration
+    # profile using a configuration stored in Parameter Store, a capability of
+    # Systems Manager.
     my $ConfigurationProfile = $appconfig->CreateConfigurationProfile(
-      ApplicationId    => 'MyId',
-      LocationUri      => 'MyUri',
-      Name             => 'MyName',
-      Description      => 'MyDescription',    # OPTIONAL
-      RetrievalRoleArn => 'MyRoleArn',        # OPTIONAL
-      Tags             => {
-        'MyTagKey' => 'MyTagValue',    # key: min: 1, max: 128, value: max: 256
-      },    # OPTIONAL
-      Validators => [
-        {
-          Content => 'MyStringWithLengthBetween0And32768',    # max: 32768
-          Type    => 'JSON_SCHEMA',    # values: JSON_SCHEMA, LAMBDA
-
-        },
-        ...
-      ],    # OPTIONAL
+      'ApplicationId'    => '339ohji',
+      'LocationUri'      => 'ssm-parameter://Example-Parameter',
+      'Name'             => 'Example-Configuration-Profile',
+      'RetrievalRoleArn' =>
+        'arn:aws:iam::111122223333:role/Example-App-Config-Role'
     );
 
     # Results:
     my $ApplicationId    = $ConfigurationProfile->ApplicationId;
-    my $Description      = $ConfigurationProfile->Description;
     my $Id               = $ConfigurationProfile->Id;
     my $LocationUri      = $ConfigurationProfile->LocationUri;
     my $Name             = $ConfigurationProfile->Name;
     my $RetrievalRoleArn = $ConfigurationProfile->RetrievalRoleArn;
-    my $Validators       = $ConfigurationProfile->Validators;
 
     # Returns a L<Paws::AppConfig::ConfigurationProfile> object.
 
@@ -82,17 +75,59 @@ A description of the configuration profile.
 
 
 
+=head2 KmsKeyIdentifier => Str
+
+The identifier for an Key Management Service key to encrypt new
+configuration data versions in the AppConfig hosted configuration
+store. This attribute is only used for C<hosted> configuration types.
+The identifier can be an KMS key ID, alias, or the Amazon Resource Name
+(ARN) of the key ID or alias. To encrypt data managed in other
+configuration stores, see the documentation for how to specify an KMS
+key for that particular service.
+
+
+
 =head2 B<REQUIRED> LocationUri => Str
 
-A URI to locate the configuration. You can specify a Systems Manager
-(SSM) document, an SSM Parameter Store parameter, or an Amazon S3
-object. For an SSM document, specify either the document name in the
-format C<ssm-document://E<lt>Document_nameE<gt>> or the Amazon Resource
-Name (ARN). For a parameter, specify either the parameter name in the
-format C<ssm-parameter://E<lt>Parameter_nameE<gt>> or the ARN. For an
-Amazon S3 object, specify the URI in the following format:
+A URI to locate the configuration. You can specify the following:
+
+=over
+
+=item *
+
+For the AppConfig hosted configuration store and for feature flags,
+specify C<hosted>.
+
+=item *
+
+For an Amazon Web Services Systems Manager Parameter Store parameter,
+specify either the parameter name in the format
+C<ssm-parameter://E<lt>parameter nameE<gt>> or the ARN.
+
+=item *
+
+For an Amazon Web Services CodePipeline pipeline, specify the URI in
+the following format: C<codepipeline>://E<lt>pipeline nameE<gt>.
+
+=item *
+
+For an Secrets Manager secret, specify the URI in the following format:
+C<secretsmanager>://E<lt>secret nameE<gt>.
+
+=item *
+
+For an Amazon S3 object, specify the URI in the following format:
 C<s3://E<lt>bucketE<gt>/E<lt>objectKeyE<gt> >. Here is an example:
-s3://my-bucket/my-app/us-east-1/my-config.json
+C<s3://amzn-s3-demo-bucket/my-app/us-east-1/my-config.json>
+
+=item *
+
+For an SSM document, specify either the document name in the format
+C<ssm-document://E<lt>document nameE<gt>> or the Amazon Resource Name
+(ARN).
+
+=back
+
 
 
 
@@ -105,7 +140,11 @@ A name for the configuration profile.
 =head2 RetrievalRoleArn => Str
 
 The ARN of an IAM role with permission to access the configuration at
-the specified LocationUri.
+the specified C<LocationUri>.
+
+A retrieval role ARN is not required for configurations stored in
+CodePipeline or the AppConfig hosted configuration store. It is
+required for all other sources that store your configuration.
 
 
 
@@ -114,6 +153,21 @@ the specified LocationUri.
 Metadata to assign to the configuration profile. Tags help organize and
 categorize your AppConfig resources. Each tag consists of a key and an
 optional value, both of which you define.
+
+
+
+=head2 Type => Str
+
+The type of configurations contained in the profile. AppConfig supports
+C<feature flags> and C<freeform> configurations. We recommend you
+create feature flag configurations to enable or disable new features
+and freeform configurations to distribute configurations to an
+application. When calling this API, enter one of the following values
+for C<Type>:
+
+C<AWS.AppConfig.FeatureFlags>
+
+C<AWS.Freeform>
 
 
 

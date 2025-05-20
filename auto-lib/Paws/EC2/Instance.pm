@@ -8,6 +8,7 @@ package Paws::EC2::Instance;
   has CapacityReservationSpecification => (is => 'ro', isa => 'Paws::EC2::CapacityReservationSpecificationResponse', request_name => 'capacityReservationSpecification', traits => ['NameInRequest']);
   has ClientToken => (is => 'ro', isa => 'Str', request_name => 'clientToken', traits => ['NameInRequest']);
   has CpuOptions => (is => 'ro', isa => 'Paws::EC2::CpuOptions', request_name => 'cpuOptions', traits => ['NameInRequest']);
+  has CurrentInstanceBootMode => (is => 'ro', isa => 'Str', request_name => 'currentInstanceBootMode', traits => ['NameInRequest']);
   has EbsOptimized => (is => 'ro', isa => 'Bool', request_name => 'ebsOptimized', traits => ['NameInRequest']);
   has ElasticGpuAssociations => (is => 'ro', isa => 'ArrayRef[Paws::EC2::ElasticGpuAssociation]', request_name => 'elasticGpuAssociationSet', traits => ['NameInRequest']);
   has ElasticInferenceAcceleratorAssociations => (is => 'ro', isa => 'ArrayRef[Paws::EC2::ElasticInferenceAcceleratorAssociation]', request_name => 'elasticInferenceAcceleratorAssociationSet', traits => ['NameInRequest']);
@@ -20,17 +21,23 @@ package Paws::EC2::Instance;
   has InstanceId => (is => 'ro', isa => 'Str', request_name => 'instanceId', traits => ['NameInRequest']);
   has InstanceLifecycle => (is => 'ro', isa => 'Str', request_name => 'instanceLifecycle', traits => ['NameInRequest']);
   has InstanceType => (is => 'ro', isa => 'Str', request_name => 'instanceType', traits => ['NameInRequest']);
+  has Ipv6Address => (is => 'ro', isa => 'Str', request_name => 'ipv6Address', traits => ['NameInRequest']);
   has KernelId => (is => 'ro', isa => 'Str', request_name => 'kernelId', traits => ['NameInRequest']);
   has KeyName => (is => 'ro', isa => 'Str', request_name => 'keyName', traits => ['NameInRequest']);
   has LaunchTime => (is => 'ro', isa => 'Str', request_name => 'launchTime', traits => ['NameInRequest']);
   has Licenses => (is => 'ro', isa => 'ArrayRef[Paws::EC2::LicenseConfiguration]', request_name => 'licenseSet', traits => ['NameInRequest']);
+  has MaintenanceOptions => (is => 'ro', isa => 'Paws::EC2::InstanceMaintenanceOptions', request_name => 'maintenanceOptions', traits => ['NameInRequest']);
   has MetadataOptions => (is => 'ro', isa => 'Paws::EC2::InstanceMetadataOptionsResponse', request_name => 'metadataOptions', traits => ['NameInRequest']);
   has Monitoring => (is => 'ro', isa => 'Paws::EC2::Monitoring', request_name => 'monitoring', traits => ['NameInRequest']);
   has NetworkInterfaces => (is => 'ro', isa => 'ArrayRef[Paws::EC2::InstanceNetworkInterface]', request_name => 'networkInterfaceSet', traits => ['NameInRequest']);
+  has NetworkPerformanceOptions => (is => 'ro', isa => 'Paws::EC2::InstanceNetworkPerformanceOptions', request_name => 'networkPerformanceOptions', traits => ['NameInRequest']);
+  has Operator => (is => 'ro', isa => 'Paws::EC2::OperatorResponse', request_name => 'operator', traits => ['NameInRequest']);
   has OutpostArn => (is => 'ro', isa => 'Str', request_name => 'outpostArn', traits => ['NameInRequest']);
   has Placement => (is => 'ro', isa => 'Paws::EC2::Placement', request_name => 'placement', traits => ['NameInRequest']);
   has Platform => (is => 'ro', isa => 'Str', request_name => 'platform', traits => ['NameInRequest']);
+  has PlatformDetails => (is => 'ro', isa => 'Str', request_name => 'platformDetails', traits => ['NameInRequest']);
   has PrivateDnsName => (is => 'ro', isa => 'Str', request_name => 'privateDnsName', traits => ['NameInRequest']);
+  has PrivateDnsNameOptions => (is => 'ro', isa => 'Paws::EC2::PrivateDnsNameOptionsResponse', request_name => 'privateDnsNameOptions', traits => ['NameInRequest']);
   has PrivateIpAddress => (is => 'ro', isa => 'Str', request_name => 'privateIpAddress', traits => ['NameInRequest']);
   has ProductCodes => (is => 'ro', isa => 'ArrayRef[Paws::EC2::ProductCode]', request_name => 'productCodes', traits => ['NameInRequest']);
   has PublicDnsName => (is => 'ro', isa => 'Str', request_name => 'dnsName', traits => ['NameInRequest']);
@@ -47,6 +54,9 @@ package Paws::EC2::Instance;
   has StateTransitionReason => (is => 'ro', isa => 'Str', request_name => 'reason', traits => ['NameInRequest']);
   has SubnetId => (is => 'ro', isa => 'Str', request_name => 'subnetId', traits => ['NameInRequest']);
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::EC2::Tag]', request_name => 'tagSet', traits => ['NameInRequest']);
+  has TpmSupport => (is => 'ro', isa => 'Str', request_name => 'tpmSupport', traits => ['NameInRequest']);
+  has UsageOperation => (is => 'ro', isa => 'Str', request_name => 'usageOperation', traits => ['NameInRequest']);
+  has UsageOperationUpdateTime => (is => 'ro', isa => 'Str', request_name => 'usageOperationUpdateTime', traits => ['NameInRequest']);
   has VirtualizationType => (is => 'ro', isa => 'Str', request_name => 'virtualizationType', traits => ['NameInRequest']);
   has VpcId => (is => 'ro', isa => 'Str', request_name => 'vpcId', traits => ['NameInRequest']);
 1;
@@ -102,7 +112,15 @@ Any block device mapping entries for the instance.
 
 =head2 BootMode => Str
 
-The boot mode of the instance. For more information, see Boot modes
+The boot mode that was specified by the AMI. If the value is
+C<uefi-preferred>, the AMI supports both UEFI and Legacy BIOS. The
+C<currentInstanceBootMode> parameter is the boot mode that is used to
+boot the instance at launch or start.
+
+The operating system contained in the AMI must be configured to support
+the specified boot mode.
+
+For more information, see Boot modes
 (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-boot.html) in
 the I<Amazon EC2 User Guide>.
 
@@ -128,6 +146,14 @@ applicable.
 The CPU options for the instance.
 
 
+=head2 CurrentInstanceBootMode => Str
+
+The boot mode that is used to boot the instance at launch or start. For
+more information, see Boot modes
+(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-boot.html) in
+the I<Amazon EC2 User Guide>.
+
+
 =head2 EbsOptimized => Bool
 
 Indicates whether the instance is optimized for Amazon EBS I/O. This
@@ -139,12 +165,16 @@ charges apply when using an EBS Optimized instance.
 
 =head2 ElasticGpuAssociations => ArrayRef[L<Paws::EC2::ElasticGpuAssociation>]
 
-The Elastic GPU associated with the instance.
+Deprecated.
+
+Amazon Elastic Graphics reached end of life on January 8, 2024.
 
 
 =head2 ElasticInferenceAcceleratorAssociations => ArrayRef[L<Paws::EC2::ElasticInferenceAcceleratorAssociation>]
 
-The elastic inference accelerator associated with the instance.
+Deprecated
+
+Amazon Elastic Inference is no longer available.
 
 
 =head2 EnaSupport => Bool
@@ -194,6 +224,11 @@ Indicates whether this is a Spot Instance or a Scheduled Instance.
 The instance type.
 
 
+=head2 Ipv6Address => Str
+
+The IPv6 address assigned to the instance.
+
+
 =head2 KernelId => Str
 
 The kernel associated with this instance, if applicable.
@@ -207,12 +242,20 @@ associated key pair.
 
 =head2 LaunchTime => Str
 
-The time the instance was launched.
+The time that the instance was last launched. To determine the time
+that instance was first launched, see the attachment time for the
+primary network interface.
 
 
 =head2 Licenses => ArrayRef[L<Paws::EC2::LicenseConfiguration>]
 
-The license configurations.
+The license configurations for the instance.
+
+
+=head2 MaintenanceOptions => L<Paws::EC2::InstanceMaintenanceOptions>
+
+Provides information on the recovery and maintenance options of your
+instance.
 
 
 =head2 MetadataOptions => L<Paws::EC2::InstanceMetadataOptionsResponse>
@@ -227,7 +270,18 @@ The monitoring for the instance.
 
 =head2 NetworkInterfaces => ArrayRef[L<Paws::EC2::InstanceNetworkInterface>]
 
-[EC2-VPC] The network interfaces for the instance.
+The network interfaces for the instance.
+
+
+=head2 NetworkPerformanceOptions => L<Paws::EC2::InstanceNetworkPerformanceOptions>
+
+Contains settings for the network performance options for your
+instance.
+
+
+=head2 Operator => L<Paws::EC2::OperatorResponse>
+
+The service provider that manages the instance.
 
 
 =head2 OutpostArn => Str
@@ -242,20 +296,34 @@ The location where the instance launched, if applicable.
 
 =head2 Platform => Str
 
-The value is C<Windows> for Windows instances; otherwise blank.
+The platform. This value is C<windows> for Windows instances;
+otherwise, it is empty.
+
+
+=head2 PlatformDetails => Str
+
+The platform details value for the instance. For more information, see
+AMI billing information fields
+(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/billing-info-fields.html)
+in the I<Amazon EC2 User Guide>.
 
 
 =head2 PrivateDnsName => Str
 
-(IPv4 only) The private DNS hostname name assigned to the instance.
+[IPv4 only] The private DNS hostname name assigned to the instance.
 This DNS hostname can only be used inside the Amazon EC2 network. This
 name is not available until the instance enters the C<running> state.
 
-[EC2-VPC] The Amazon-provided DNS server resolves Amazon-provided
-private DNS hostnames if you've enabled DNS resolution and DNS
-hostnames in your VPC. If you are not using the Amazon-provided DNS
-server in your VPC, your custom domain name servers must resolve the
-hostname as appropriate.
+The Amazon-provided DNS server resolves Amazon-provided private DNS
+hostnames if you've enabled DNS resolution and DNS hostnames in your
+VPC. If you are not using the Amazon-provided DNS server in your VPC,
+your custom domain name servers must resolve the hostname as
+appropriate.
+
+
+=head2 PrivateDnsNameOptions => L<Paws::EC2::PrivateDnsNameOptionsResponse>
+
+The options for the instance hostname.
 
 
 =head2 PrivateIpAddress => Str
@@ -270,10 +338,9 @@ The product codes attached to this instance, if applicable.
 
 =head2 PublicDnsName => Str
 
-(IPv4 only) The public DNS name assigned to the instance. This name is
-not available until the instance enters the C<running> state. For
-EC2-VPC, this name is only available if you've enabled DNS hostnames
-for your VPC.
+[IPv4 only] The public DNS name assigned to the instance. This name is
+not available until the instance enters the C<running> state. This name
+is only available if you've enabled DNS hostnames for your VPC.
 
 
 =head2 PublicIpAddress => Str
@@ -340,12 +407,33 @@ string.
 
 =head2 SubnetId => Str
 
-[EC2-VPC] The ID of the subnet in which the instance is running.
+The ID of the subnet in which the instance is running.
 
 
 =head2 Tags => ArrayRef[L<Paws::EC2::Tag>]
 
 Any tags assigned to the instance.
+
+
+=head2 TpmSupport => Str
+
+If the instance is configured for NitroTPM support, the value is
+C<v2.0>. For more information, see NitroTPM
+(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/nitrotpm.html) in
+the I<Amazon EC2 User Guide>.
+
+
+=head2 UsageOperation => Str
+
+The usage operation value for the instance. For more information, see
+AMI billing information fields
+(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/billing-info-fields.html)
+in the I<Amazon EC2 User Guide>.
+
+
+=head2 UsageOperationUpdateTime => Str
+
+The time that the usage operation was last updated.
 
 
 =head2 VirtualizationType => Str
@@ -355,7 +443,7 @@ The virtualization type of the instance.
 
 =head2 VpcId => Str
 
-[EC2-VPC] The ID of the VPC in which the instance is running.
+The ID of the VPC in which the instance is running.
 
 
 

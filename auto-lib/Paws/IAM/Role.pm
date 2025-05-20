@@ -2,7 +2,7 @@
 package Paws::IAM::Role;
   use Moose;
   has Arn => (is => 'ro', isa => 'Str', required => 1);
-  has AssumeRolePolicyDocument => (is => 'ro', isa => 'Str', decode_as => 'URLJSON', method => 'Policy', traits => ['JSONAttribute']);
+  has AssumeRolePolicyDocument => (is => 'ro', isa => 'Str');
   has CreateDate => (is => 'ro', isa => 'Str', required => 1);
   has Description => (is => 'ro', isa => 'Str');
   has MaxSessionDuration => (is => 'ro', isa => 'Int');
@@ -77,7 +77,7 @@ A description of the role that you provide.
 =head2 MaxSessionDuration => Int
 
 The maximum session duration (in seconds) for the specified role.
-Anyone who uses the AWS CLI, or API to assume the role can specify the
+Anyone who uses the CLI, or API to assume the role can specify the
 duration using the optional C<DurationSeconds> API parameter or
 C<duration-seconds> CLI parameter.
 
@@ -118,7 +118,7 @@ period can be shorter if your Region began supporting these features
 within the last year. The role might have been used more than 400 days
 ago. For more information, see Regions where data is tracked
 (https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#access-advisor_tracking-period)
-in the I<IAM User Guide>.
+in the I<IAM user Guide>.
 
 
 =head2 B<REQUIRED> RoleName => Str

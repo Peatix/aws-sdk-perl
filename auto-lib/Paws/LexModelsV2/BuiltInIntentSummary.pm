@@ -35,7 +35,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::LexModelsV2
 =head1 DESCRIPTION
 
 Provides summary information about a built-in intent for the
-ListBuiltInIntents operation.
+ListBuiltInIntents
+(https://docs.aws.amazon.com/lexv2/latest/APIReference/API_ListBuiltInIntents.html)
+operation.
 
 =head1 ATTRIBUTES
 

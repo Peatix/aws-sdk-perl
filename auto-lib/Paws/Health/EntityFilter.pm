@@ -38,8 +38,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Health::Ent
 
 =head1 DESCRIPTION
 
-The values to use to filter results from the EntityFilter
-(https://docs.aws.amazon.com/health/latest/APIReference/API_EntityFilter.html)
+The values to use to filter results from the DescribeAffectedEntities
+(https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeAffectedEntities.html)
 operation.
 
 =head1 ATTRIBUTES

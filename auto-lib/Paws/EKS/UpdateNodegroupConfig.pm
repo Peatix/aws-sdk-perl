@@ -5,6 +5,7 @@ package Paws::EKS::UpdateNodegroupConfig;
   has ClusterName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'name', required => 1);
   has Labels => (is => 'ro', isa => 'Paws::EKS::UpdateLabelsPayload', traits => ['NameInRequest'], request_name => 'labels');
   has NodegroupName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'nodegroupName', required => 1);
+  has NodeRepairConfig => (is => 'ro', isa => 'Paws::EKS::NodeRepairConfig', traits => ['NameInRequest'], request_name => 'nodeRepairConfig');
   has ScalingConfig => (is => 'ro', isa => 'Paws::EKS::NodegroupScalingConfig', traits => ['NameInRequest'], request_name => 'scalingConfig');
   has Taints => (is => 'ro', isa => 'Paws::EKS::UpdateTaintsPayload', traits => ['NameInRequest'], request_name => 'taints');
   has UpdateConfig => (is => 'ro', isa => 'Paws::EKS::NodegroupUpdateConfig', traits => ['NameInRequest'], request_name => 'updateConfig');
@@ -45,6 +46,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },    # OPTIONAL
         RemoveLabels => [ 'MyString', ... ],    # OPTIONAL
       },    # OPTIONAL
+      NodeRepairConfig => {
+        Enabled => 1,    # OPTIONAL
+      },    # OPTIONAL
       ScalingConfig => {
         DesiredSize => 1,    # OPTIONAL
         MaxSize     => 1,    # min: 1; OPTIONAL
@@ -73,6 +77,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       UpdateConfig => {
         MaxUnavailable           => 1,    # min: 1; OPTIONAL
         MaxUnavailablePercentage => 1,    # min: 1, max: 100; OPTIONAL
+        UpdateStrategy => 'DEFAULT',      # values: DEFAULT, MINIMAL; OPTIONAL
       },    # OPTIONAL
     );
 
@@ -89,28 +94,33 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/eks
 
 =head2 ClientRequestToken => Str
 
-Unique, case-sensitive identifier that you provide to ensure the
+A unique, case-sensitive identifier that you provide to ensure the
 idempotency of the request.
 
 
 
 =head2 B<REQUIRED> ClusterName => Str
 
-The name of the Amazon EKS cluster that the managed node group resides
-in.
+The name of your cluster.
 
 
 
 =head2 Labels => L<Paws::EKS::UpdateLabelsPayload>
 
-The Kubernetes labels to be applied to the nodes in the node group
-after the update.
+The Kubernetes C<labels> to apply to the nodes in the node group after
+the update.
 
 
 
 =head2 B<REQUIRED> NodegroupName => Str
 
 The name of the managed node group to update.
+
+
+
+=head2 NodeRepairConfig => L<Paws::EKS::NodeRepairConfig>
+
+The node auto repair configuration for the node group.
 
 
 
@@ -124,13 +134,15 @@ update.
 =head2 Taints => L<Paws::EKS::UpdateTaintsPayload>
 
 The Kubernetes taints to be applied to the nodes in the node group
-after the update.
+after the update. For more information, see Node taints on managed node
+groups
+(https://docs.aws.amazon.com/eks/latest/userguide/node-taints-managed-node-groups.html).
 
 
 
 =head2 UpdateConfig => L<Paws::EKS::NodegroupUpdateConfig>
 
-
+The node group update configuration.
 
 
 

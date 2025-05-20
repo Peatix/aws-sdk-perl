@@ -31,8 +31,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $gamelift = Paws->service('GameLift');
     my $CreatePlayerSessionOutput = $gamelift->CreatePlayerSession(
       GameSessionId => 'MyArnStringModel',
-      PlayerId      => 'MyNonZeroAndMaxString',
-      PlayerData    => 'MyPlayerData',            # OPTIONAL
+      PlayerId      => 'MyPlayerId',
+      PlayerData    => 'MyPlayerData',       # OPTIONAL
     );
 
     # Results:
@@ -54,8 +54,9 @@ A unique identifier for the game session to add a player to.
 
 =head2 PlayerData => Str
 
-Developer-defined information related to a player. GameLift does not
-use this data, so it can be formatted as needed for use in the game.
+Developer-defined information related to a player. Amazon GameLift does
+not use this data, so it can be formatted as needed for use in the
+game.
 
 
 

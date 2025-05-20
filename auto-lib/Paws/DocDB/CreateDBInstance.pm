@@ -3,10 +3,14 @@ package Paws::DocDB::CreateDBInstance;
   use Moose;
   has AutoMinorVersionUpgrade => (is => 'ro', isa => 'Bool');
   has AvailabilityZone => (is => 'ro', isa => 'Str');
+  has CACertificateIdentifier => (is => 'ro', isa => 'Str');
+  has CopyTagsToSnapshot => (is => 'ro', isa => 'Bool');
   has DBClusterIdentifier => (is => 'ro', isa => 'Str', required => 1);
   has DBInstanceClass => (is => 'ro', isa => 'Str', required => 1);
   has DBInstanceIdentifier => (is => 'ro', isa => 'Str', required => 1);
+  has EnablePerformanceInsights => (is => 'ro', isa => 'Bool');
   has Engine => (is => 'ro', isa => 'Str', required => 1);
+  has PerformanceInsightsKMSKeyId => (is => 'ro', isa => 'Str');
   has PreferredMaintenanceWindow => (is => 'ro', isa => 'Str');
   has PromotionTier => (is => 'ro', isa => 'Int');
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::DocDB::Tag]');
@@ -36,21 +40,25 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $rds = Paws->service('DocDB');
     my $CreateDBInstanceResult = $rds->CreateDBInstance(
-      DBClusterIdentifier        => 'MyString',
-      DBInstanceClass            => 'MyString',
-      DBInstanceIdentifier       => 'MyString',
-      Engine                     => 'MyString',
-      AutoMinorVersionUpgrade    => 1,             # OPTIONAL
-      AvailabilityZone           => 'MyString',    # OPTIONAL
-      PreferredMaintenanceWindow => 'MyString',    # OPTIONAL
-      PromotionTier              => 1,             # OPTIONAL
-      Tags                       => [
+      DBClusterIdentifier         => 'MyString',
+      DBInstanceClass             => 'MyString',
+      DBInstanceIdentifier        => 'MyString',
+      Engine                      => 'MyString',
+      AutoMinorVersionUpgrade     => 1,             # OPTIONAL
+      AvailabilityZone            => 'MyString',    # OPTIONAL
+      CACertificateIdentifier     => 'MyString',    # OPTIONAL
+      CopyTagsToSnapshot          => 1,             # OPTIONAL
+      EnablePerformanceInsights   => 1,             # OPTIONAL
+      PerformanceInsightsKMSKeyId => 'MyString',    # OPTIONAL
+      PreferredMaintenanceWindow  => 'MyString',    # OPTIONAL
+      PromotionTier               => 1,             # OPTIONAL
+      Tags                        => [
         {
           Key   => 'MyString',
           Value => 'MyString',
         },
         ...
-      ],                                           # OPTIONAL
+      ],                                            # OPTIONAL
     );
 
     # Results:
@@ -78,9 +86,30 @@ Default: C<false>
 The Amazon EC2 Availability Zone that the instance is created in.
 
 Default: A random, system-chosen Availability Zone in the endpoint's
-Region.
+Amazon Web Services Region.
 
 Example: C<us-east-1d>
+
+
+
+=head2 CACertificateIdentifier => Str
+
+The CA certificate identifier to use for the DB instance's server
+certificate.
+
+For more information, see Updating Your Amazon DocumentDB TLS
+Certificates
+(https://docs.aws.amazon.com/documentdb/latest/developerguide/ca_cert_rotation.html)
+and Encrypting Data in Transit
+(https://docs.aws.amazon.com/documentdb/latest/developerguide/security.encryption.ssl.html)
+in the I<Amazon DocumentDB Developer Guide>.
+
+
+
+=head2 CopyTagsToSnapshot => Bool
+
+A value that indicates whether to copy tags from the DB instance to
+snapshots of the DB instance. By default, tags are not copied.
 
 
 
@@ -124,11 +153,34 @@ Example: C<mydbinstance>
 
 
 
+=head2 EnablePerformanceInsights => Bool
+
+A value that indicates whether to enable Performance Insights for the
+DB Instance. For more information, see Using Amazon Performance
+Insights
+(https://docs.aws.amazon.com/documentdb/latest/developerguide/performance-insights.html).
+
+
+
 =head2 B<REQUIRED> Engine => Str
 
 The name of the database engine to be used for this instance.
 
 Valid value: C<docdb>
+
+
+
+=head2 PerformanceInsightsKMSKeyId => Str
+
+The KMS key identifier for encryption of Performance Insights data.
+
+The KMS key identifier is the key ARN, key ID, alias ARN, or alias name
+for the KMS key.
+
+If you do not specify a value for PerformanceInsightsKMSKeyId, then
+Amazon DocumentDB uses your default KMS key. There is a default KMS key
+for your Amazon Web Services account. Your Amazon Web Services account
+has a different default KMS key for each Amazon Web Services region.
 
 
 
@@ -140,7 +192,8 @@ Universal Coordinated Time (UTC).
 Format: C<ddd:hh24:mi-ddd:hh24:mi>
 
 The default is a 30-minute window selected at random from an 8-hour
-block of time for each Region, occurring on a random day of the week.
+block of time for each Amazon Web Services Region, occurring on a
+random day of the week.
 
 Valid days: Mon, Tue, Wed, Thu, Fri, Sat, Sun
 

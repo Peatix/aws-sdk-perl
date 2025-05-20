@@ -29,7 +29,7 @@ see CreateOpenIDConnectProvider.
 =head2 CreateDate => Str
 
 The date and time when the IAM OIDC provider resource object was
-created in the AWS account.
+created in the Amazon Web Services account.
 
 
 =head2 Tags => ArrayRef[L<Paws::IAM::Tag>]

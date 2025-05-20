@@ -47,8 +47,7 @@ script.
 
 =head2 B<REQUIRED> Path => Str
 
-Location of the script to run during a bootstrap action. Can be either
-a location in Amazon S3 or on a local file system.
+Location in Amazon S3 of the script to run during a bootstrap action.
 
 
 

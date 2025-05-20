@@ -34,15 +34,16 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SSM::Mainte
 
 =head1 DESCRIPTION
 
-The parameters for a STEP_FUNCTIONS task.
+The parameters for a C<STEP_FUNCTIONS> task.
 
 For information about specifying and updating task parameters, see
 RegisterTaskWithMaintenanceWindow and UpdateMaintenanceWindowTask.
 
-C<LoggingInfo> has been deprecated. To specify an S3 bucket to contain
-logs, instead use the C<OutputS3BucketName> and C<OutputS3KeyPrefix>
-options in the C<TaskInvocationParameters> structure. For information
-about how Systems Manager handles these options for the supported
+C<LoggingInfo> has been deprecated. To specify an Amazon Simple Storage
+Service (Amazon S3) bucket to contain logs, instead use the
+C<OutputS3BucketName> and C<OutputS3KeyPrefix> options in the
+C<TaskInvocationParameters> structure. For information about how Amazon
+Web Services Systems Manager handles these options for the supported
 maintenance window task types, see
 MaintenanceWindowTaskInvocationParameters.
 
@@ -60,12 +61,12 @@ for C<TaskParameters> and C<LoggingInfo>.
 
 =head2 Input => Str
 
-The inputs for the STEP_FUNCTIONS task.
+The inputs for the C<STEP_FUNCTIONS> task.
 
 
 =head2 Name => Str
 
-The name of the STEP_FUNCTIONS task.
+The name of the C<STEP_FUNCTIONS> task.
 
 
 

@@ -31,7 +31,7 @@ A list of key policy names. The only valid value is C<default>.
 
 A flag that indicates whether there are more items in the list. When
 this value is true, the list in this response is truncated. To get more
-items, pass the value of the C<NextMarker> element in thisresponse to
+items, pass the value of the C<NextMarker> element in this response to
 the C<Marker> parameter in a subsequent request.
 
 

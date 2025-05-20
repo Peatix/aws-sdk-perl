@@ -123,7 +123,8 @@ Cannot end with a hyphen or contain two consecutive hyphens.
 
 =item *
 
-Must be unique for the AWS account that is making the request.
+Must be unique for the Amazon Web Services account that is making the
+request.
 
 =back
 

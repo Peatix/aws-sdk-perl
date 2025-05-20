@@ -154,7 +154,7 @@ destination.
 =back
 
 
-Valid values are: C<"ActivatingGameSessions">, C<"ActiveGameSessions">, C<"ActiveInstances">, C<"AvailableGameSessions">, C<"AvailablePlayerSessions">, C<"CurrentPlayerSessions">, C<"IdleInstances">, C<"PercentAvailableGameSessions">, C<"PercentIdleInstances">, C<"QueueDepth">, C<"WaitTime">
+Valid values are: C<"ActivatingGameSessions">, C<"ActiveGameSessions">, C<"ActiveInstances">, C<"AvailableGameSessions">, C<"AvailablePlayerSessions">, C<"CurrentPlayerSessions">, C<"IdleInstances">, C<"PercentAvailableGameSessions">, C<"PercentIdleInstances">, C<"QueueDepth">, C<"WaitTime">, C<"ConcurrentActivatableGameSessions">
 
 =head2 B<REQUIRED> Name => Str
 
@@ -183,8 +183,7 @@ Amount of adjustment to make, based on the scaling adjustment type.
 
 =head2 ScalingAdjustmentType => Str
 
-The type of adjustment to make to a fleet's instance count (see
-FleetCapacity):
+The type of adjustment to make to a fleet's instance count:
 
 =over
 

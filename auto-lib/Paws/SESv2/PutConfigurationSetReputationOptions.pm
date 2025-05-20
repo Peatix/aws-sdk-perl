@@ -43,8 +43,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ema
 
 =head2 B<REQUIRED> ConfigurationSetName => Str
 
-The name of the configuration set that you want to enable or disable
-reputation metric tracking for.
+The name of the configuration set.
 
 
 

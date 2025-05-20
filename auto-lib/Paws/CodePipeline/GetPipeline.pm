@@ -48,7 +48,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/cod
 =head2 B<REQUIRED> Name => Str
 
 The name of the pipeline for which you want to get information.
-Pipeline names must be unique under an AWS user account.
+Pipeline names must be unique in an Amazon Web Services account.
 
 
 

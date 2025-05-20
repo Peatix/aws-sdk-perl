@@ -42,6 +42,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ssm
 
 The name of the parameter to delete.
 
+You can't enter the Amazon Resource Name (ARN) for a parameter, only
+the parameter name itself.
+
 
 
 

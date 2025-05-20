@@ -49,7 +49,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ela
 
 The name of the node group (called shard in the console) in this
 replication group on which automatic failover is to be tested. You may
-test automatic failover on up to 5 node groups in any rolling 24-hour
+test automatic failover on up to 15 node groups in any rolling 24-hour
 period.
 
 

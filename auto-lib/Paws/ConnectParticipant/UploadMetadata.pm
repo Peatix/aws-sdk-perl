@@ -47,8 +47,9 @@ The headers to be provided while uploading the file to the URL.
 
 =head2 Url => Str
 
-The pre-signed URL using which file would be downloaded from Amazon S3
-by the API caller.
+This is the pre-signed URL that can be used for uploading the file to
+Amazon S3 when used in response to StartAttachmentUpload
+(https://docs.aws.amazon.com/connect-participant/latest/APIReference/API_StartAttachmentUpload.html).
 
 
 =head2 UrlExpiry => Str

@@ -26,7 +26,7 @@ The unique identifier of the bot that Amazon Lex is deleting.
 The current status of the bot. The status is C<Deleting> while the bot
 and its associated resources are being deleted.
 
-Valid values are: C<"Creating">, C<"Available">, C<"Inactive">, C<"Deleting">, C<"Failed">, C<"Versioning">, C<"Importing">
+Valid values are: C<"Creating">, C<"Available">, C<"Inactive">, C<"Deleting">, C<"Failed">, C<"Versioning">, C<"Importing">, C<"Updating">
 =head2 _request_id => Str
 
 

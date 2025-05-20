@@ -2,9 +2,11 @@
 package Paws::SESv2::ImportJobSummary;
   use Moose;
   has CreatedTimestamp => (is => 'ro', isa => 'Str');
+  has FailedRecordsCount => (is => 'ro', isa => 'Int');
   has ImportDestination => (is => 'ro', isa => 'Paws::SESv2::ImportDestination');
   has JobId => (is => 'ro', isa => 'Str');
   has JobStatus => (is => 'ro', isa => 'Str');
+  has ProcessedRecordsCount => (is => 'ro', isa => 'Int');
 
 1;
 
@@ -25,7 +27,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::SESv2::ImportJobSummary object:
 
-  $service_obj->Method(Att1 => { CreatedTimestamp => $value, ..., JobStatus => $value  });
+  $service_obj->Method(Att1 => { CreatedTimestamp => $value, ..., ProcessedRecordsCount => $value  });
 
 =head3 Results returned from an API call
 
@@ -46,6 +48,12 @@ A summary of the import job.
 The date and time when the import job was created.
 
 
+=head2 FailedRecordsCount => Int
+
+The number of records that failed processing because of invalid input
+or other reasons.
+
+
 =head2 ImportDestination => L<Paws::SESv2::ImportDestination>
 
 
@@ -59,6 +67,11 @@ The date and time when the import job was created.
 =head2 JobStatus => Str
 
 
+
+
+=head2 ProcessedRecordsCount => Int
+
+The current number of records processed.
 
 
 

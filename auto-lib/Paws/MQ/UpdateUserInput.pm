@@ -4,6 +4,7 @@ package Paws::MQ::UpdateUserInput;
   has ConsoleAccess => (is => 'ro', isa => 'Bool', request_name => 'consoleAccess', traits => ['NameInRequest']);
   has Groups => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'groups', traits => ['NameInRequest']);
   has Password => (is => 'ro', isa => 'Str', request_name => 'password', traits => ['NameInRequest']);
+  has ReplicationUser => (is => 'ro', isa => 'Bool', request_name => 'replicationUser', traits => ['NameInRequest']);
 
 1;
 
@@ -24,7 +25,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::MQ::UpdateUserInput object:
 
-  $service_obj->Method(Att1 => { ConsoleAccess => $value, ..., Password => $value  });
+  $service_obj->Method(Att1 => { ConsoleAccess => $value, ..., ReplicationUser => $value  });
 
 =head3 Results returned from an API call
 
@@ -57,7 +58,12 @@ long.
 
 The password of the user. This value must be at least 12 characters
 long, must contain at least 4 unique characters, and must not contain
-commas.
+commas, colons, or equal signs (,:=).
+
+
+=head2 ReplicationUser => Bool
+
+Defines whether the user is intended for data replication.
 
 
 

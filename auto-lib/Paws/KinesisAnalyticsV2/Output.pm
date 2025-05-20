@@ -63,7 +63,7 @@ Identifies a Kinesis data stream as the destination.
 
 =head2 LambdaOutput => L<Paws::KinesisAnalyticsV2::LambdaOutput>
 
-Identifies an AWS Lambda function as the destination.
+Identifies an Amazon Lambda function as the destination.
 
 
 =head2 B<REQUIRED> Name => Str

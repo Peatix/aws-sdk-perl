@@ -42,18 +42,18 @@ A summary of information about a fleet provision template version.
 
 =head2 CreationDate => Str
 
-The date when the fleet provisioning template version was created
+The date when the provisioning template version was created
 
 
 =head2 IsDefaultVersion => Bool
 
-True if the fleet provisioning template version is the default version,
+True if the provisioning template version is the default version,
 otherwise false.
 
 
 =head2 VersionId => Int
 
-The ID of the fleet privisioning template version.
+The ID of the fleet provisioning template version.
 
 
 

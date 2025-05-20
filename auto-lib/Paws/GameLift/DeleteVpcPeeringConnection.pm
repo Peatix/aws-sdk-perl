@@ -51,9 +51,7 @@ either the fleet ID or ARN value.
 
 =head2 B<REQUIRED> VpcPeeringConnectionId => Str
 
-A unique identifier for a VPC peering connection. This value is
-included in the VpcPeeringConnection object, which can be retrieved by
-calling DescribeVpcPeeringConnections.
+A unique identifier for a VPC peering connection.
 
 
 

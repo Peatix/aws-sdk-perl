@@ -56,9 +56,10 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ecs
 =head2 B<REQUIRED> Attributes => ArrayRef[L<Paws::ECS::Attribute>]
 
 The attributes to delete from your resource. You can specify up to 10
-attributes per request. For custom attributes, specify the attribute
-name and target ID, but do not specify the value. If you specify the
-target ID using the short form, you must also specify the target type.
+attributes for each request. For custom attributes, specify the
+attribute name and target ID, but don't specify the value. If you
+specify the target ID using the short form, you must also specify the
+target type.
 
 
 

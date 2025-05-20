@@ -37,8 +37,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AppSync::Sy
 
 Describes a Sync configuration for a resolver.
 
-Contains information on which Conflict Detection as well as Resolution
-strategy should be performed when the resolver is invoked.
+Specifies which Conflict Detection strategy and Resolution strategy to
+use when the resolver is invoked.
 
 =head1 ATTRIBUTES
 
@@ -56,7 +56,7 @@ resolver.
 
 =item *
 
-B<NONE>: Do not detect conflicts when executing this resolver.
+B<NONE>: Do not detect conflicts when invoking this resolver.
 
 =back
 
@@ -71,7 +71,7 @@ The Conflict Resolution strategy to perform in the event of a conflict.
 =item *
 
 B<OPTIMISTIC_CONCURRENCY>: Resolve conflicts by rejecting mutations
-when versions do not match the latest version at the server.
+when versions don't match the latest version at the server.
 
 =item *
 
@@ -80,8 +80,8 @@ strategy.
 
 =item *
 
-B<LAMBDA>: Resolve conflicts with a Lambda function supplied in the
-LambdaConflictHandlerConfig.
+B<LAMBDA>: Resolve conflicts with an Lambda function supplied in the
+C<LambdaConflictHandlerConfig>.
 
 =back
 
@@ -89,7 +89,7 @@ LambdaConflictHandlerConfig.
 
 =head2 LambdaConflictHandlerConfig => L<Paws::AppSync::LambdaConflictHandlerConfig>
 
-The C<LambdaConflictHandlerConfig> when configuring LAMBDA as the
+The C<LambdaConflictHandlerConfig> when configuring C<LAMBDA> as the
 Conflict Handler.
 
 

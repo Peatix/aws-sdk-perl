@@ -45,41 +45,77 @@ This class has no description
 
 =head2 AllocationStrategy => Str
 
-Indicates how to allocate the target Spot Instance capacity across the
-Spot Instance pools specified by the EC2 Fleet.
+The strategy that determines how to allocate the target Spot Instance
+capacity across the Spot Instance pools specified by the EC2 Fleet
+launch configuration. For more information, see Allocation strategies
+for Spot Instances
+(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet-allocation-strategy.html)
+in the I<Amazon EC2 User Guide>.
 
-If the allocation strategy is C<lowest-price>, EC2 Fleet launches
-instances from the Spot Instance pools with the lowest price. This is
-the default allocation strategy.
+=over
 
-If the allocation strategy is C<diversified>, EC2 Fleet launches
-instances from all of the Spot Instance pools that you specify.
+=item price-capacity-optimized (recommended)
 
-If the allocation strategy is C<capacity-optimized> (recommended), EC2
-Fleet launches instances from Spot Instance pools with optimal capacity
-for the number of instances that are launching. To give certain
-instance types a higher chance of launching first, use
+EC2 Fleet identifies the pools with the highest capacity availability
+for the number of instances that are launching. This means that we will
+request Spot Instances from the pools that we believe have the lowest
+chance of interruption in the near term. EC2 Fleet then requests Spot
+Instances from the lowest priced of these pools.
+
+=item capacity-optimized
+
+EC2 Fleet identifies the pools with the highest capacity availability
+for the number of instances that are launching. This means that we will
+request Spot Instances from the pools that we believe have the lowest
+chance of interruption in the near term. To give certain instance types
+a higher chance of launching first, use
 C<capacity-optimized-prioritized>. Set a priority for each instance
 type by using the C<Priority> parameter for C<LaunchTemplateOverrides>.
 You can assign the same priority to different
 C<LaunchTemplateOverrides>. EC2 implements the priorities on a
 best-effort basis, but optimizes for capacity first.
-C<capacity-optimized-prioritized> is supported only if your fleet uses
-a launch template. Note that if the On-Demand C<AllocationStrategy> is
-set to C<prioritized>, the same priority is applied when fulfilling
-On-Demand capacity.
+C<capacity-optimized-prioritized> is supported only if your EC2 Fleet
+uses a launch template. Note that if the On-Demand
+C<AllocationStrategy> is set to C<prioritized>, the same priority is
+applied when fulfilling On-Demand capacity.
+
+=item diversified
+
+EC2 Fleet requests instances from all of the Spot Instance pools that
+you specify.
+
+=item lowest-price (not recommended)
+
+We don't recommend the C<lowest-price> allocation strategy because it
+has the highest risk of interruption for your Spot Instances.
+
+EC2 Fleet requests instances from the lowest priced Spot Instance pool
+that has available capacity. If the lowest priced pool doesn't have
+available capacity, the Spot Instances come from the next lowest priced
+pool that has available capacity. If a pool runs out of capacity before
+fulfilling your desired capacity, EC2 Fleet will continue to fulfill
+your request by drawing from the next lowest priced pool. To ensure
+that your desired capacity is met, you might receive Spot Instances
+from several pools. Because this strategy only considers instance price
+and not capacity availability, it might lead to high interruption
+rates.
+
+=back
+
+Default: C<lowest-price>
 
 
 =head2 InstanceInterruptionBehavior => Str
 
-The behavior when a Spot Instance is interrupted. The default is
-C<terminate>.
+The behavior when a Spot Instance is interrupted.
+
+Default: C<terminate>
 
 
 =head2 InstancePoolsToUseCount => Int
 
 The number of Spot pools across which to allocate your target Spot
-capacity. Valid only when B<AllocationStrategy> is set to
+capacity. Supported only when C<AllocationStrategy> is set to
 C<lowest-price>. EC2 Fleet selects the cheapest Spot pools and evenly
 allocates your target Spot capacity across the number of Spot pools
 that you specify.
@@ -105,26 +141,50 @@ available.
 =head2 MaxTotalPrice => Str
 
 The maximum amount per hour for Spot Instances that you're willing to
-pay.
+pay. We do not recommend using this parameter because it can lead to
+increased interruptions. If you do not specify this parameter, you will
+pay the current Spot price.
+
+If you specify a maximum price, your Spot Instances will be interrupted
+more frequently than if you do not specify this parameter.
+
+If your fleet includes T instances that are configured as C<unlimited>,
+and if their average CPU usage exceeds the baseline utilization, you
+will incur a charge for surplus credits. The C<maxTotalPrice> does not
+account for surplus credits, and, if you use surplus credits, your
+final cost might be higher than what you specified for
+C<maxTotalPrice>. For more information, see Surplus credits can incur
+charges
+(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-performance-instances-unlimited-mode-concepts.html#unlimited-mode-surplus-credits)
+in the I<Amazon EC2 User Guide>.
 
 
 =head2 MinTargetCapacity => Int
 
-The minimum target capacity for Spot Instances in the fleet. If the
-minimum target capacity is not reached, the fleet launches no
-instances.
+The minimum target capacity for Spot Instances in the fleet. If this
+minimum capacity isn't reached, no instances are launched.
+
+Constraints: Maximum value of C<1000>. Supported only for fleets of
+type C<instant>.
+
+At least one of the following must be specified:
+C<SingleAvailabilityZone> | C<SingleInstanceType>
 
 
 =head2 SingleAvailabilityZone => Bool
 
 Indicates that the fleet launches all Spot Instances into a single
-Availability Zone. Supported only for fleets of type C<instant>.
+Availability Zone.
+
+Supported only for fleets of type C<instant>.
 
 
 =head2 SingleInstanceType => Bool
 
 Indicates that the fleet uses a single instance type to launch all Spot
-Instances in the fleet. Supported only for fleets of type C<instant>.
+Instances in the fleet.
+
+Supported only for fleets of type C<instant>.
 
 
 

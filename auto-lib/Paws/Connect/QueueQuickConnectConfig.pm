@@ -34,15 +34,15 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Connect::Qu
 
 =head1 DESCRIPTION
 
-Contains information about a queue for a quick connect. The contact
-flow must be of type Transfer to Queue.
+Contains information about a queue for a quick connect. The flow must
+be of type Transfer to Queue.
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> ContactFlowId => Str
 
-The identifier of the contact flow.
+The identifier of the flow.
 
 
 =head2 B<REQUIRED> QueueId => Str

@@ -34,7 +34,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::IoTAnalytic
 
 =head1 DESCRIPTION
 
-A partition defined by a timestamp.
+A partition dimension defined by a timestamp attribute.
 
 =head1 ATTRIBUTES
 
@@ -46,7 +46,8 @@ The attribute name of the partition defined by a timestamp.
 
 =head2 TimestampFormat => Str
 
-The timestamp format of a partition defined by a timestamp.
+The timestamp format of a partition defined by a timestamp. The default
+format is seconds since epoch (January 1, 1970 at midnight UTC time).
 
 
 

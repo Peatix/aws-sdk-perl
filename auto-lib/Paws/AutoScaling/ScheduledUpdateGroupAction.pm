@@ -102,7 +102,7 @@ C<"2019-06-01T00:00:00Z">.
 
 =head2 Time => Str
 
-This parameter is no longer used.
+This property is no longer used.
 
 
 =head2 TimeZone => Str

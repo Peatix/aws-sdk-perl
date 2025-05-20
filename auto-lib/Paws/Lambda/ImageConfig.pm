@@ -36,7 +36,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Lambda::Ima
 =head1 DESCRIPTION
 
 Configuration values that override the container image Dockerfile
-settings. See Container settings
+settings. For more information, see Container image settings
 (https://docs.aws.amazon.com/lambda/latest/dg/images-create.html#images-parms).
 
 =head1 ATTRIBUTES

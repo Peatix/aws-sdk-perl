@@ -34,7 +34,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::OpsWorks::C
 
 =head1 DESCRIPTION
 
-Describes the Amazon CloudWatch logs configuration for a layer.
+Describes the Amazon CloudWatch Logs configuration for a layer.
 
 =head1 ATTRIBUTES
 

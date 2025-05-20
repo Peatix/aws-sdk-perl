@@ -62,7 +62,7 @@ Web Services account, the details of that account.
 =head2 AwsService => L<Paws::Macie2::AwsService>
 
 If the action was performed by an Amazon Web Services account that
-belongs to an Amazon Web Service, the name of the service.
+belongs to an Amazon Web Services service, the name of the service.
 
 
 =head2 FederatedUser => L<Paws::Macie2::FederatedUser>

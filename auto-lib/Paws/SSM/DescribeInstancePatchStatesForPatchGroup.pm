@@ -63,11 +63,22 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ssm
 
 Each entry in the array is a structure containing:
 
+=over
+
+=item *
+
 Key (string between 1 and 200 characters)
+
+=item *
 
 Values (array containing a single string)
 
+=item *
+
 Type (string "Equal", "NotEqual", "LessThan", "GreaterThan")
+
+=back
+
 
 
 

@@ -15,6 +15,8 @@ package Paws::IoT::Action;
   has Kafka => (is => 'ro', isa => 'Paws::IoT::KafkaAction', request_name => 'kafka', traits => ['NameInRequest']);
   has Kinesis => (is => 'ro', isa => 'Paws::IoT::KinesisAction', request_name => 'kinesis', traits => ['NameInRequest']);
   has Lambda => (is => 'ro', isa => 'Paws::IoT::LambdaAction', request_name => 'lambda', traits => ['NameInRequest']);
+  has Location => (is => 'ro', isa => 'Paws::IoT::LocationAction', request_name => 'location', traits => ['NameInRequest']);
+  has OpenSearch => (is => 'ro', isa => 'Paws::IoT::OpenSearchAction', request_name => 'openSearch', traits => ['NameInRequest']);
   has Republish => (is => 'ro', isa => 'Paws::IoT::RepublishAction', request_name => 'republish', traits => ['NameInRequest']);
   has S3 => (is => 'ro', isa => 'Paws::IoT::S3Action', request_name => 's3', traits => ['NameInRequest']);
   has Salesforce => (is => 'ro', isa => 'Paws::IoT::SalesforceAction', request_name => 'salesforce', traits => ['NameInRequest']);
@@ -87,7 +89,13 @@ payload into a separate DynamoDB column.
 
 =head2 Elasticsearch => L<Paws::IoT::ElasticsearchAction>
 
-Write data to an Amazon Elasticsearch Service domain.
+Write data to an Amazon OpenSearch Service domain.
+
+The C<Elasticsearch> action can only be used by existing rule actions.
+To create a new rule action or to update an existing rule action, use
+the C<OpenSearch> rule action instead. For more information, see
+OpenSearchAction
+(https://docs.aws.amazon.com/iot/latest/apireference/API_OpenSearchAction.html).
 
 
 =head2 Firehose => L<Paws::IoT::FirehoseAction>
@@ -102,17 +110,17 @@ Send data to an HTTPS endpoint.
 
 =head2 IotAnalytics => L<Paws::IoT::IotAnalyticsAction>
 
-Sends message data to an AWS IoT Analytics channel.
+Sends message data to an IoT Analytics channel.
 
 
 =head2 IotEvents => L<Paws::IoT::IotEventsAction>
 
-Sends an input to an AWS IoT Events detector.
+Sends an input to an IoT Events detector.
 
 
 =head2 IotSiteWise => L<Paws::IoT::IotSiteWiseAction>
 
-Sends data from the MQTT message that triggered the rule to AWS IoT
+Sends data from the MQTT message that triggered the rule to IoT
 SiteWise asset properties.
 
 
@@ -130,6 +138,17 @@ Write data to an Amazon Kinesis stream.
 =head2 Lambda => L<Paws::IoT::LambdaAction>
 
 Invoke a Lambda function.
+
+
+=head2 Location => L<Paws::IoT::LocationAction>
+
+The Amazon Location Service rule action sends device location updates
+from an MQTT message to an Amazon Location tracker resource.
+
+
+=head2 OpenSearch => L<Paws::IoT::OpenSearchAction>
+
+Write data to an Amazon OpenSearch Service domain.
 
 
 =head2 Republish => L<Paws::IoT::RepublishAction>

@@ -50,29 +50,32 @@ Context about the current instance.
 
 =head2 CurrencyCode => Str
 
-The currency code that AWS used to calculate the costs for this
-instance.
+The currency code that Amazon Web Services used to calculate the costs
+for this instance.
 
 
 =head2 InstanceName => Str
 
-The name you've given an instance. This field will show as blank if you
+The name that you given an instance. This field shows as blank if you
 haven't given the instance a name.
 
 
 =head2 MonthlyCost => Str
 
-Current On-Demand cost of operating this instance on a monthly basis.
+The current On-Demand cost of operating this instance on a monthly
+basis.
 
 
 =head2 OnDemandHoursInLookbackPeriod => Str
 
-Number of hours during the lookback period billed at On-Demand rates.
+The number of hours during the lookback period that's billed at
+On-Demand rates.
 
 
 =head2 ReservationCoveredHoursInLookbackPeriod => Str
 
-Number of hours during the lookback period covered by reservations.
+The number of hours during the lookback period that's covered by
+reservations.
 
 
 =head2 ResourceDetails => L<Paws::CostExplorer::ResourceDetails>
@@ -93,17 +96,19 @@ period.
 
 =head2 SavingsPlansCoveredHoursInLookbackPeriod => Str
 
-Number of hours during the lookback period covered by Savings Plans.
+The number of hours during the lookback period that's covered by
+Savings Plans.
 
 
 =head2 Tags => ArrayRef[L<Paws::CostExplorer::TagValues>]
 
-Cost allocation resource tags applied to the instance.
+Cost allocation resource tags that are applied to the instance.
 
 
 =head2 TotalRunningHoursInLookbackPeriod => Str
 
-The total number of hours the instance ran during the lookback period.
+The total number of hours that the instance ran during the lookback
+period.
 
 
 

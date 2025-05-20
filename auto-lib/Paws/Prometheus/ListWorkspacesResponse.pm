@@ -18,13 +18,15 @@ Paws::Prometheus::ListWorkspacesResponse
 
 =head2 NextToken => Str
 
-Pagination token to use when requesting the next page in this list.
+A token indicating that there are more results to retrieve. You can use
+this token as part of your next C<ListWorkspaces> request to retrieve
+those results.
 
 
 =head2 B<REQUIRED> Workspaces => ArrayRef[L<Paws::Prometheus::WorkspaceSummary>]
 
-The list of existing workspaces, including those undergoing creation or
-deletion.
+An array of C<WorkspaceSummary> structures containing information about
+the workspaces requested.
 
 
 =head2 _request_id => Str

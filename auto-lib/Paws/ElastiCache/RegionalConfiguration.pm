@@ -47,7 +47,7 @@ The name of the secondary cluster
 
 =head2 B<REQUIRED> ReplicationGroupRegion => Str
 
-The AWS region where the cluster is stored
+The Amazon region where the cluster is stored
 
 
 =head2 B<REQUIRED> ReshardingConfiguration => ArrayRef[L<Paws::ElastiCache::ReshardingConfiguration>]

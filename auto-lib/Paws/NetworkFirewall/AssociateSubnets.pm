@@ -33,8 +33,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $AssociateSubnetsResponse = $network -firewall->AssociateSubnets(
       SubnetMappings => [
         {
-          SubnetId => 'MyCollectionMember_String',
-
+          SubnetId      => 'MyCollectionMember_String',
+          IPAddressType =>
+            'DUALSTACK',    # values: DUALSTACK, IPV4, IPV6; OPTIONAL
         },
         ...
       ],

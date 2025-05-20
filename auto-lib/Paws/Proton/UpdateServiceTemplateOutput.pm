@@ -16,7 +16,7 @@ Paws::Proton::UpdateServiceTemplateOutput
 
 =head2 B<REQUIRED> ServiceTemplate => L<Paws::Proton::ServiceTemplate>
 
-The service template detail data that's returned by AWS Proton.
+The service template detail data that's returned by Proton.
 
 
 =head2 _request_id => Str

@@ -39,7 +39,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       Id                        => 'Mystring',
       OriginRequestPolicyConfig => {
         CookiesConfig => {
-          CookieBehavior => 'none',    # values: none, whitelist, all
+          CookieBehavior => 'none',    # values: none, whitelist, all, allExcept
           Cookies        => {
             Quantity => 1,
             Items    => [ 'Mystring', ... ],    # OPTIONAL
@@ -47,7 +47,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },
         HeadersConfig => {
           HeaderBehavior => 'none'
-          , # values: none, whitelist, allViewer, allViewerAndWhitelistCloudFront
+          , # values: none, whitelist, allViewer, allViewerAndWhitelistCloudFront, allExcept
           Headers => {
             Quantity => 1,
             Items    => [ 'Mystring', ... ],    # OPTIONAL
@@ -55,8 +55,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },
         Name               => 'Mystring',
         QueryStringsConfig => {
-          QueryStringBehavior => 'none',    # values: none, whitelist, all
-          QueryStrings        => {
+          QueryStringBehavior =>
+            'none',    # values: none, whitelist, all, allExcept
+          QueryStrings => {
             Quantity => 1,
             Items    => [ 'Mystring', ... ],    # OPTIONAL
           },    # OPTIONAL
@@ -82,7 +83,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/clo
 =head2 B<REQUIRED> Id => Str
 
 The unique identifier for the origin request policy that you are
-updating. The identifier is returned in a cache behaviorE<rsquo>s
+updating. The identifier is returned in a cache behavior's
 C<OriginRequestPolicyId> field in the response to
 C<GetDistributionConfig>.
 
@@ -91,8 +92,8 @@ C<GetDistributionConfig>.
 =head2 IfMatch => Str
 
 The version of the origin request policy that you are updating. The
-version is returned in the origin request policyE<rsquo>s C<ETag> field
-in the response to C<GetOriginRequestPolicyConfig>.
+version is returned in the origin request policy's C<ETag> field in the
+response to C<GetOriginRequestPolicyConfig>.
 
 
 

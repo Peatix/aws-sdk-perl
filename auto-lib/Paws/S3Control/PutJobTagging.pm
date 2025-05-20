@@ -39,8 +39,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       JobId     => 'MyJobId',
       Tags      => [
         {
-          Key   => 'MyTagKeyString',      # min: 1, max: 1024
-          Value => 'MyTagValueString',    # max: 1024
+          Key   => 'MyTagKeyString',      # min: 1, max: 128
+          Value => 'MyTagValueString',    # max: 256
 
         },
         ...
@@ -56,7 +56,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/s3-
 
 =head2 B<REQUIRED> AccountId => Str
 
-The AWS account ID associated with the S3 Batch Operations job.
+The Amazon Web Services account ID associated with the S3 Batch
+Operations job.
 
 
 

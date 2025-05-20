@@ -2,6 +2,7 @@
 package Paws::ElastiCache::CreateUser;
   use Moose;
   has AccessString => (is => 'ro', isa => 'Str', required => 1);
+  has AuthenticationMode => (is => 'ro', isa => 'Paws::ElastiCache::AuthenticationMode');
   has Engine => (is => 'ro', isa => 'Str', required => 1);
   has NoPasswordRequired => (is => 'ro', isa => 'Bool');
   has Passwords => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
@@ -38,6 +39,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       Engine             => 'MyEngineType',
       UserId             => 'MyUserId',
       UserName           => 'MyUserName',
+      AuthenticationMode => {
+        Passwords => [ 'MyString', ... ],    # min: 1; OPTIONAL
+        Type      =>
+          'password',    # values: password, no-password-required, iam; OPTIONAL
+      },    # OPTIONAL
       NoPasswordRequired => 1,                      # OPTIONAL
       Passwords          => [ 'MyString', ... ],    # OPTIONAL
       Tags               => [
@@ -50,14 +56,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     );
 
     # Results:
-    my $ARN            = $User->ARN;
-    my $AccessString   = $User->AccessString;
-    my $Authentication = $User->Authentication;
-    my $Engine         = $User->Engine;
-    my $Status         = $User->Status;
-    my $UserGroupIds   = $User->UserGroupIds;
-    my $UserId         = $User->UserId;
-    my $UserName       = $User->UserName;
+    my $ARN                  = $User->ARN;
+    my $AccessString         = $User->AccessString;
+    my $Authentication       = $User->Authentication;
+    my $Engine               = $User->Engine;
+    my $MinimumEngineVersion = $User->MinimumEngineVersion;
+    my $Status               = $User->Status;
+    my $UserGroupIds         = $User->UserGroupIds;
+    my $UserId               = $User->UserId;
+    my $UserName             = $User->UserName;
 
     # Returns a L<Paws::ElastiCache::User> object.
 
@@ -73,9 +80,15 @@ Access permissions string used for this user.
 
 
 
+=head2 AuthenticationMode => L<Paws::ElastiCache::AuthenticationMode>
+
+Specifies how to authenticate the user.
+
+
+
 =head2 B<REQUIRED> Engine => Str
 
-The current supported value is Redis.
+The options are valkey or redis.
 
 
 

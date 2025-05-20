@@ -45,12 +45,12 @@ Connector directory is being created.
 =head2 B<REQUIRED> CustomerDnsIps => ArrayRef[Str|Undef]
 
 A list of one or more IP addresses of DNS servers or domain controllers
-in the on-premises directory.
+in your self-managed directory.
 
 
 =head2 B<REQUIRED> CustomerUserName => Str
 
-The user name of an account in the on-premises directory that is used
+The user name of an account in your self-managed directory that is used
 to connect to the directory. This account must have the following
 permissions:
 

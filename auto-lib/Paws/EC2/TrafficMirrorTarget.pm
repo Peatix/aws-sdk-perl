@@ -1,6 +1,7 @@
 package Paws::EC2::TrafficMirrorTarget;
   use Moose;
   has Description => (is => 'ro', isa => 'Str', request_name => 'description', traits => ['NameInRequest']);
+  has GatewayLoadBalancerEndpointId => (is => 'ro', isa => 'Str', request_name => 'gatewayLoadBalancerEndpointId', traits => ['NameInRequest']);
   has NetworkInterfaceId => (is => 'ro', isa => 'Str', request_name => 'networkInterfaceId', traits => ['NameInRequest']);
   has NetworkLoadBalancerArn => (is => 'ro', isa => 'Str', request_name => 'networkLoadBalancerArn', traits => ['NameInRequest']);
   has OwnerId => (is => 'ro', isa => 'Str', request_name => 'ownerId', traits => ['NameInRequest']);
@@ -45,6 +46,11 @@ This class has no description
 =head2 Description => Str
 
 Information about the Traffic Mirror target.
+
+
+=head2 GatewayLoadBalancerEndpointId => Str
+
+The ID of the Gateway Load Balancer endpoint.
 
 
 =head2 NetworkInterfaceId => Str

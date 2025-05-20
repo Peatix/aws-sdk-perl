@@ -3,6 +3,7 @@ package Paws::LexRuntimeV2::RecognizeTextResponse;
   use Moose;
   has Interpretations => (is => 'ro', isa => 'ArrayRef[Paws::LexRuntimeV2::Interpretation]', traits => ['NameInRequest'], request_name => 'interpretations');
   has Messages => (is => 'ro', isa => 'ArrayRef[Paws::LexRuntimeV2::Message]', traits => ['NameInRequest'], request_name => 'messages');
+  has RecognizedBotMember => (is => 'ro', isa => 'Paws::LexRuntimeV2::RecognizedBotMember', traits => ['NameInRequest'], request_name => 'recognizedBotMember');
   has RequestAttributes => (is => 'ro', isa => 'Paws::LexRuntimeV2::StringMap', traits => ['NameInRequest'], request_name => 'requestAttributes');
   has SessionId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'sessionId');
   has SessionState => (is => 'ro', isa => 'Paws::LexRuntimeV2::SessionState', traits => ['NameInRequest'], request_name => 'sessionState');
@@ -35,6 +36,11 @@ expressed in the utterance.
 A list of messages last sent to the user. The messages are ordered
 based on the order that you returned the messages from your Lambda
 function or the order that the messages are defined in the bot.
+
+
+=head2 RecognizedBotMember => L<Paws::LexRuntimeV2::RecognizedBotMember>
+
+The bot member that recognized the text.
 
 
 =head2 RequestAttributes => L<Paws::LexRuntimeV2::StringMap>

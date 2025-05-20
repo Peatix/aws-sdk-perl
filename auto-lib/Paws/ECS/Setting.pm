@@ -3,6 +3,7 @@ package Paws::ECS::Setting;
   use Moose;
   has Name => (is => 'ro', isa => 'Str', request_name => 'name', traits => ['NameInRequest']);
   has PrincipalArn => (is => 'ro', isa => 'Str', request_name => 'principalArn', traits => ['NameInRequest']);
+  has Type => (is => 'ro', isa => 'Str', request_name => 'type', traits => ['NameInRequest']);
   has Value => (is => 'ro', isa => 'Str', request_name => 'value', traits => ['NameInRequest']);
 
 1;
@@ -47,13 +48,24 @@ The Amazon ECS resource name.
 
 =head2 PrincipalArn => Str
 
-The ARN of the principal, which can be an IAM user, IAM role, or the
-root user. If this field is omitted, the authenticated user is assumed.
+The ARN of the principal. It can be a user, role, or the root user. If
+this field is omitted, the authenticated user is assumed.
+
+
+=head2 Type => Str
+
+Indicates whether Amazon Web Services manages the account setting, or
+if the user manages it.
+
+C<aws_managed> account settings are read-only, as Amazon Web Services
+manages such on the customer's behalf. Currently, the
+C<guardDutyActivate> account setting is the only one Amazon Web
+Services manages.
 
 
 =head2 Value => Str
 
-Whether the account setting is enabled or disabled for the specified
+Determines whether the account setting is on or off for the specified
 resource.
 
 

@@ -2,7 +2,16 @@
 package Paws::GuardDuty::Resource;
   use Moose;
   has AccessKeyDetails => (is => 'ro', isa => 'Paws::GuardDuty::AccessKeyDetails', request_name => 'accessKeyDetails', traits => ['NameInRequest']);
+  has ContainerDetails => (is => 'ro', isa => 'Paws::GuardDuty::Container', request_name => 'containerDetails', traits => ['NameInRequest']);
+  has EbsVolumeDetails => (is => 'ro', isa => 'Paws::GuardDuty::EbsVolumeDetails', request_name => 'ebsVolumeDetails', traits => ['NameInRequest']);
+  has EcsClusterDetails => (is => 'ro', isa => 'Paws::GuardDuty::EcsClusterDetails', request_name => 'ecsClusterDetails', traits => ['NameInRequest']);
+  has EksClusterDetails => (is => 'ro', isa => 'Paws::GuardDuty::EksClusterDetails', request_name => 'eksClusterDetails', traits => ['NameInRequest']);
   has InstanceDetails => (is => 'ro', isa => 'Paws::GuardDuty::InstanceDetails', request_name => 'instanceDetails', traits => ['NameInRequest']);
+  has KubernetesDetails => (is => 'ro', isa => 'Paws::GuardDuty::KubernetesDetails', request_name => 'kubernetesDetails', traits => ['NameInRequest']);
+  has LambdaDetails => (is => 'ro', isa => 'Paws::GuardDuty::LambdaDetails', request_name => 'lambdaDetails', traits => ['NameInRequest']);
+  has RdsDbInstanceDetails => (is => 'ro', isa => 'Paws::GuardDuty::RdsDbInstanceDetails', request_name => 'rdsDbInstanceDetails', traits => ['NameInRequest']);
+  has RdsDbUserDetails => (is => 'ro', isa => 'Paws::GuardDuty::RdsDbUserDetails', request_name => 'rdsDbUserDetails', traits => ['NameInRequest']);
+  has RdsLimitlessDbDetails => (is => 'ro', isa => 'Paws::GuardDuty::RdsLimitlessDbDetails', request_name => 'rdsLimitlessDbDetails', traits => ['NameInRequest']);
   has ResourceType => (is => 'ro', isa => 'Str', request_name => 'resourceType', traits => ['NameInRequest']);
   has S3BucketDetails => (is => 'ro', isa => 'ArrayRef[Paws::GuardDuty::S3BucketDetail]', request_name => 's3BucketDetails', traits => ['NameInRequest']);
 
@@ -36,16 +45,36 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::GuardDuty::
 
 =head1 DESCRIPTION
 
-Contains information about the AWS resource associated with the
-activity that prompted GuardDuty to generate a finding.
+Contains information about the Amazon Web Services resource associated
+with the activity that prompted GuardDuty to generate a finding.
 
 =head1 ATTRIBUTES
 
 
 =head2 AccessKeyDetails => L<Paws::GuardDuty::AccessKeyDetails>
 
-The IAM access key details (IAM user information) of a user that
-engaged in the activity that prompted GuardDuty to generate a finding.
+The IAM access key details (user information) of a user that engaged in
+the activity that prompted GuardDuty to generate a finding.
+
+
+=head2 ContainerDetails => L<Paws::GuardDuty::Container>
+
+
+
+
+=head2 EbsVolumeDetails => L<Paws::GuardDuty::EbsVolumeDetails>
+
+Contains list of scanned and skipped EBS volumes with details.
+
+
+=head2 EcsClusterDetails => L<Paws::GuardDuty::EcsClusterDetails>
+
+Contains information about the details of the ECS Cluster.
+
+
+=head2 EksClusterDetails => L<Paws::GuardDuty::EksClusterDetails>
+
+Details about the EKS cluster involved in a Kubernetes finding.
 
 
 =head2 InstanceDetails => L<Paws::GuardDuty::InstanceDetails>
@@ -54,9 +83,39 @@ The information about the EC2 instance associated with the activity
 that prompted GuardDuty to generate a finding.
 
 
+=head2 KubernetesDetails => L<Paws::GuardDuty::KubernetesDetails>
+
+Details about the Kubernetes user and workload involved in a Kubernetes
+finding.
+
+
+=head2 LambdaDetails => L<Paws::GuardDuty::LambdaDetails>
+
+Contains information about the Lambda function that was involved in a
+finding.
+
+
+=head2 RdsDbInstanceDetails => L<Paws::GuardDuty::RdsDbInstanceDetails>
+
+Contains information about the database instance to which an anomalous
+login attempt was made.
+
+
+=head2 RdsDbUserDetails => L<Paws::GuardDuty::RdsDbUserDetails>
+
+Contains information about the user details through which anomalous
+login attempt was made.
+
+
+=head2 RdsLimitlessDbDetails => L<Paws::GuardDuty::RdsLimitlessDbDetails>
+
+Contains information about the RDS Limitless database that was involved
+in a GuardDuty finding.
+
+
 =head2 ResourceType => Str
 
-The type of AWS resource.
+The type of Amazon Web Services resource.
 
 
 =head2 S3BucketDetails => ArrayRef[L<Paws::GuardDuty::S3BucketDetail>]

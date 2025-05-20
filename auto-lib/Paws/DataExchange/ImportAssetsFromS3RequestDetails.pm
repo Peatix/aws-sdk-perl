@@ -42,7 +42,7 @@ Details of the operation to be performed by the job.
 
 =head2 B<REQUIRED> AssetSources => ArrayRef[L<Paws::DataExchange::AssetSourceEntry>]
 
-Is a list of S3 bucket and object key pairs.
+Is a list of Amazon S3 bucket and object key pairs.
 
 
 =head2 B<REQUIRED> DataSetId => Str

@@ -6,6 +6,7 @@ package Paws::MediaConvert::OutputGroupSettings;
   has FileGroupSettings => (is => 'ro', isa => 'Paws::MediaConvert::FileGroupSettings', request_name => 'fileGroupSettings', traits => ['NameInRequest']);
   has HlsGroupSettings => (is => 'ro', isa => 'Paws::MediaConvert::HlsGroupSettings', request_name => 'hlsGroupSettings', traits => ['NameInRequest']);
   has MsSmoothGroupSettings => (is => 'ro', isa => 'Paws::MediaConvert::MsSmoothGroupSettings', request_name => 'msSmoothGroupSettings', traits => ['NameInRequest']);
+  has PerFrameMetrics => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'perFrameMetrics', traits => ['NameInRequest']);
   has Type => (is => 'ro', isa => 'Str', request_name => 'type', traits => ['NameInRequest']);
 
 1;
@@ -47,36 +48,25 @@ Output Group settings, including type
 
 Settings related to your CMAF output package. For more information, see
 https://docs.aws.amazon.com/mediaconvert/latest/ug/outputs-file-ABR.html.
-When you work directly in your JSON job specification, include this
-object and any required children when you set Type, under
-OutputGroupSettings, to CMAF_GROUP_SETTINGS.
 
 
 =head2 DashIsoGroupSettings => L<Paws::MediaConvert::DashIsoGroupSettings>
 
 Settings related to your DASH output package. For more information, see
 https://docs.aws.amazon.com/mediaconvert/latest/ug/outputs-file-ABR.html.
-When you work directly in your JSON job specification, include this
-object and any required children when you set Type, under
-OutputGroupSettings, to DASH_ISO_GROUP_SETTINGS.
 
 
 =head2 FileGroupSettings => L<Paws::MediaConvert::FileGroupSettings>
 
 Settings related to your File output group. MediaConvert uses this
 group of settings to generate a single standalone file, rather than a
-streaming package. When you work directly in your JSON job
-specification, include this object and any required children when you
-set Type, under OutputGroupSettings, to FILE_GROUP_SETTINGS.
+streaming package.
 
 
 =head2 HlsGroupSettings => L<Paws::MediaConvert::HlsGroupSettings>
 
 Settings related to your HLS output package. For more information, see
 https://docs.aws.amazon.com/mediaconvert/latest/ug/outputs-file-ABR.html.
-When you work directly in your JSON job specification, include this
-object and any required children when you set Type, under
-OutputGroupSettings, to HLS_GROUP_SETTINGS.
 
 
 =head2 MsSmoothGroupSettings => L<Paws::MediaConvert::MsSmoothGroupSettings>
@@ -84,9 +74,29 @@ OutputGroupSettings, to HLS_GROUP_SETTINGS.
 Settings related to your Microsoft Smooth Streaming output package. For
 more information, see
 https://docs.aws.amazon.com/mediaconvert/latest/ug/outputs-file-ABR.html.
-When you work directly in your JSON job specification, include this
-object and any required children when you set Type, under
-OutputGroupSettings, to MS_SMOOTH_GROUP_SETTINGS.
+
+
+=head2 PerFrameMetrics => ArrayRef[Str|Undef]
+
+Optionally choose one or more per frame metric reports to generate
+along with your output. You can use these metrics to analyze your video
+output according to one or more commonly used image quality metrics.
+You can specify per frame metrics for output groups or for individual
+outputs. When you do, MediaConvert writes a CSV (Comma-Separated
+Values) file to your S3 output destination, named after the output name
+and metric type. For example: videofile_PSNR.csv Jobs that generate per
+frame metrics will take longer to complete, depending on the resolution
+and complexity of your output. For example, some 4K jobs might take up
+to twice as long to complete. Note that when analyzing the video
+quality of your output, or when comparing the video quality of multiple
+different outputs, we generally also recommend a detailed visual review
+in a controlled environment. You can choose from the following per
+frame metrics: * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural
+Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index
+Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System *
+VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined
+Variable Bitrate. This option is only available when your output uses
+the QVBR rate control mode.
 
 
 =head2 Type => Str

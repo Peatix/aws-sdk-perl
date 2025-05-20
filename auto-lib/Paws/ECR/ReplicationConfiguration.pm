@@ -40,10 +40,8 @@ The replication configuration for a registry.
 
 =head2 B<REQUIRED> Rules => ArrayRef[L<Paws::ECR::ReplicationRule>]
 
-An array of objects representing the replication rules for a
-replication configuration. A replication configuration may contain only
-one replication rule but the rule may contain one or more replication
-destinations.
+An array of objects representing the replication destinations and
+repository filters for a replication configuration.
 
 
 

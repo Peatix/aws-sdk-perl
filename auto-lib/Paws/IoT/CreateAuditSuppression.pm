@@ -41,8 +41,16 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         CaCertificateId       => 'MyCertificateId', # min: 64, max: 64; OPTIONAL
         ClientId              => 'MyClientId',      # OPTIONAL
         CognitoIdentityPoolId => 'MyCognitoIdentityPoolId',    # OPTIONAL
+        DeviceCertificateArn  => 'MyCertificateArn',           # OPTIONAL
         DeviceCertificateId => 'MyCertificateId', # min: 64, max: 64; OPTIONAL
         IamRoleArn          => 'MyRoleArn',       # min: 20, max: 2048; OPTIONAL
+        IssuerCertificateIdentifier => {
+          IssuerCertificateSerialNumber =>
+            'MyIssuerCertificateSerialNumber',    # max: 20; OPTIONAL
+          IssuerCertificateSubject =>
+            'MyIssuerCertificateSubject',         # max: 1000; OPTIONAL
+          IssuerId => 'MyIssuerId',               # max: 64; OPTIONAL
+        },    # OPTIONAL
         PolicyVersionIdentifier => {
           PolicyName      => 'MyPolicyName',        # min: 1, max: 128; OPTIONAL
           PolicyVersionId => 'MyPolicyVersionId',   # OPTIONAL
@@ -68,7 +76,10 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/iot
 
 =head2 B<REQUIRED> ClientRequestToken => Str
 
-The epoch timestamp in seconds at which this suppression expires.
+Each audit supression must have a unique client request token. If you
+try to create a new audit suppression with the same token as one that
+already exists, an exception occurs. If you omit this value, Amazon Web
+Services SDKs will automatically generate a unique client request.
 
 
 

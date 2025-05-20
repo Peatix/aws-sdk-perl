@@ -7,6 +7,8 @@ package Paws::Amplify::App;
   has AutoBranchCreationPatterns => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'autoBranchCreationPatterns', traits => ['NameInRequest']);
   has BasicAuthCredentials => (is => 'ro', isa => 'Str', request_name => 'basicAuthCredentials', traits => ['NameInRequest']);
   has BuildSpec => (is => 'ro', isa => 'Str', request_name => 'buildSpec', traits => ['NameInRequest']);
+  has CacheConfig => (is => 'ro', isa => 'Paws::Amplify::CacheConfig', request_name => 'cacheConfig', traits => ['NameInRequest']);
+  has ComputeRoleArn => (is => 'ro', isa => 'Str', request_name => 'computeRoleArn', traits => ['NameInRequest']);
   has CreateTime => (is => 'ro', isa => 'Str', request_name => 'createTime', traits => ['NameInRequest'], required => 1);
   has CustomHeaders => (is => 'ro', isa => 'Str', request_name => 'customHeaders', traits => ['NameInRequest']);
   has CustomRules => (is => 'ro', isa => 'ArrayRef[Paws::Amplify::CustomRule]', request_name => 'customRules', traits => ['NameInRequest']);
@@ -22,8 +24,11 @@ package Paws::Amplify::App;
   has Platform => (is => 'ro', isa => 'Str', request_name => 'platform', traits => ['NameInRequest'], required => 1);
   has ProductionBranch => (is => 'ro', isa => 'Paws::Amplify::ProductionBranch', request_name => 'productionBranch', traits => ['NameInRequest']);
   has Repository => (is => 'ro', isa => 'Str', request_name => 'repository', traits => ['NameInRequest'], required => 1);
+  has RepositoryCloneMethod => (is => 'ro', isa => 'Str', request_name => 'repositoryCloneMethod', traits => ['NameInRequest']);
   has Tags => (is => 'ro', isa => 'Paws::Amplify::TagMap', request_name => 'tags', traits => ['NameInRequest']);
   has UpdateTime => (is => 'ro', isa => 'Str', request_name => 'updateTime', traits => ['NameInRequest'], required => 1);
+  has WafConfiguration => (is => 'ro', isa => 'Paws::Amplify::WafConfiguration', request_name => 'wafConfiguration', traits => ['NameInRequest']);
+  has WebhookCreateTime => (is => 'ro', isa => 'Str', request_name => 'webhookCreateTime', traits => ['NameInRequest']);
 
 1;
 
@@ -44,7 +49,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::Amplify::App object:
 
-  $service_obj->Method(Att1 => { AppArn => $value, ..., UpdateTime => $value  });
+  $service_obj->Method(Att1 => { AppArn => $value, ..., WebhookCreateTime => $value  });
 
 =head3 Results returned from an API call
 
@@ -86,6 +91,8 @@ app.
 =head2 BasicAuthCredentials => Str
 
 The basic authorization credentials for branches for the Amplify app.
+You must base64-encode the authorization credentials and provide them
+in the format C<user:password>.
 
 
 =head2 BuildSpec => Str
@@ -94,9 +101,27 @@ Describes the content of the build specification (build spec) for the
 Amplify app.
 
 
+=head2 CacheConfig => L<Paws::Amplify::CacheConfig>
+
+The cache configuration for the Amplify app. If you don't specify the
+cache configuration C<type>, Amplify uses the default
+C<AMPLIFY_MANAGED> setting.
+
+
+=head2 ComputeRoleArn => Str
+
+The Amazon Resource Name (ARN) of the IAM role for an SSR app. The
+Compute role allows the Amplify Hosting compute service to securely
+access specific Amazon Web Services resources based on the role's
+permissions. For more information about the SSR Compute role, see
+Adding an SSR Compute role
+(https://docs.aws.amazon.com/amplify/latest/userguide/amplify-SSR-compute-role.html)
+in the I<Amplify User Guide>.
+
+
 =head2 B<REQUIRED> CreateTime => Str
 
-Creates a date and time for the Amplify app.
+A timestamp of when Amplify created the application.
 
 
 =head2 CustomHeaders => Str
@@ -136,7 +161,7 @@ Enables the auto-building of branches for the Amplify app.
 
 =head2 EnableBranchAutoDeletion => Bool
 
-Automatically disconnect a branch in the Amplify Console when you
+Automatically disconnect a branch in the Amplify console when you
 delete a branch from your Git repository.
 
 
@@ -144,11 +169,16 @@ delete a branch from your Git repository.
 
 The environment variables for the Amplify app.
 
+For a list of the environment variables that are accessible to Amplify
+by default, see Amplify Environment variables
+(https://docs.aws.amazon.com/amplify/latest/userguide/amplify-console-environment-variables.html)
+in the I<Amplify Hosting User Guide>.
+
 
 =head2 IamServiceRoleArn => Str
 
-The AWS Identity and Access Management (IAM) service role for the
-Amazon Resource Name (ARN) of the Amplify app.
+The Amazon Resource Name (ARN) of the IAM service role for the Amplify
+app.
 
 
 =head2 B<REQUIRED> Name => Str
@@ -158,7 +188,13 @@ The name for the Amplify app.
 
 =head2 B<REQUIRED> Platform => Str
 
-The platform for the Amplify app.
+The platform for the Amplify app. For a static app, set the platform
+type to C<WEB>. For a dynamic server-side rendered (SSR) app, set the
+platform type to C<WEB_COMPUTE>. For an app requiring Amplify Hosting's
+original SSR support only, set the platform type to C<WEB_DYNAMIC>.
+
+If you are deploying an SSG only app with Next.js 14 or later, you must
+use the platform type C<WEB_COMPUTE>.
 
 
 =head2 ProductionBranch => L<Paws::Amplify::ProductionBranch>
@@ -168,7 +204,18 @@ Describes the information about a production branch of the Amplify app.
 
 =head2 B<REQUIRED> Repository => Str
 
-The repository for the Amplify app.
+The Git repository for the Amplify app.
+
+
+=head2 RepositoryCloneMethod => Str
+
+This is for internal use.
+
+The Amplify service uses this parameter to specify the authentication
+protocol to use to access the Git repository for an Amplify app.
+Amplify specifies C<TOKEN> for a GitHub repository, C<SIGV4> for an
+Amazon Web Services CodeCommit repository, and C<SSH> for GitLab and
+Bitbucket repositories.
 
 
 =head2 Tags => L<Paws::Amplify::TagMap>
@@ -178,7 +225,19 @@ The tag for the Amplify app.
 
 =head2 B<REQUIRED> UpdateTime => Str
 
-Updates the date and time for the Amplify app.
+A timestamp of when Amplify updated the application.
+
+
+=head2 WafConfiguration => L<Paws::Amplify::WafConfiguration>
+
+Describes the Firewall configuration for the Amplify app. Firewall
+support enables you to protect your hosted applications with a direct
+integration with WAF.
+
+
+=head2 WebhookCreateTime => Str
+
+A timestamp of when Amplify created the webhook in your Git repository.
 
 
 

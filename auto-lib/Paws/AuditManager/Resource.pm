@@ -2,6 +2,7 @@
 package Paws::AuditManager::Resource;
   use Moose;
   has Arn => (is => 'ro', isa => 'Str', request_name => 'arn', traits => ['NameInRequest']);
+  has ComplianceCheck => (is => 'ro', isa => 'Str', request_name => 'complianceCheck', traits => ['NameInRequest']);
   has Value => (is => 'ro', isa => 'Str', request_name => 'value', traits => ['NameInRequest']);
 
 1;
@@ -34,19 +35,51 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AuditManage
 
 =head1 DESCRIPTION
 
-A system asset that is evaluated in an AWS Audit Manager assessment.
+A system asset that's evaluated in an Audit Manager assessment.
 
 =head1 ATTRIBUTES
 
 
 =head2 Arn => Str
 
-The Amazon Resource Name (ARN) for the specified resource.
+The Amazon Resource Name (ARN) for the resource.
+
+
+=head2 ComplianceCheck => Str
+
+The evaluation status for a resource that was assessed when collecting
+compliance check evidence.
+
+=over
+
+=item *
+
+Audit Manager classes the resource as non-compliant if Security Hub
+reports a I<Fail> result, or if Config reports a I<Non-compliant>
+result.
+
+=item *
+
+Audit Manager classes the resource as compliant if Security Hub reports
+a I<Pass> result, or if Config reports a I<Compliant> result.
+
+=item *
+
+If a compliance check isn't available or applicable, then no compliance
+evaluation can be made for that resource. This is the case if a
+resource assessment uses Config or Security Hub as the underlying data
+source type, but those services aren't enabled. This is also the case
+if the resource assessment uses an underlying data source type that
+doesn't support compliance checks (such as manual evidence, Amazon Web
+Services API calls, or CloudTrail).
+
+=back
+
 
 
 =head2 Value => Str
 
-The value of the specified resource.
+The value of the resource.
 
 
 

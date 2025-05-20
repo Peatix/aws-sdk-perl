@@ -34,21 +34,21 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AuditManage
 
 =head1 DESCRIPTION
 
-A C<controlSet> entity that represents a collection of controls in AWS
-Audit Manager. This does not contain the control set ID.
+A C<controlSet> entity that represents a collection of controls in
+Audit Manager. This doesn't contain the control set ID.
 
 =head1 ATTRIBUTES
 
 
 =head2 Controls => ArrayRef[L<Paws::AuditManager::CreateAssessmentFrameworkControl>]
 
-The list of controls within the control set. This does not contain the
+The list of controls within the control set. This doesn't contain the
 control set ID.
 
 
 =head2 B<REQUIRED> Name => Str
 
-The name of the specified control set.
+The name of the control set.
 
 
 

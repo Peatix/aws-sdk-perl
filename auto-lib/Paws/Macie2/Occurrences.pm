@@ -38,7 +38,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Macie2::Occ
 =head1 DESCRIPTION
 
 Specifies the location of 1-15 occurrences of sensitive data that was
-detected by managed data identifiers or a custom data identifier and
+detected by a managed data identifier or a custom data identifier and
 produced a sensitive data finding.
 
 =head1 ATTRIBUTES
@@ -56,11 +56,11 @@ data.
 
 =head2 LineRanges => ArrayRef[L<Paws::Macie2::Range>]
 
-An array of objects, one for each occurrence of sensitive data in a
-non-binary text file, such as an HTML, TXT, or XML file. Each Range
-object specifies a line or inclusive range of lines that contains the
-sensitive data, and the position of the data on the specified line or
-lines.
+An array of objects, one for each occurrence of sensitive data in an
+email message or a non-binary text file such as an HTML, TXT, or XML
+file. Each Range object specifies a line or inclusive range of lines
+that contains the sensitive data, and the position of the data on the
+specified line or lines.
 
 This value is often null for file types that are supported by Cell,
 Page, or Record objects. Exceptions are the location of sensitive data

@@ -17,7 +17,7 @@ Paws::ECR::DescribeRegistryResponse
 
 =head2 RegistryId => Str
 
-The ID of the registry.
+The registry ID associated with the request.
 
 
 =head2 ReplicationConfiguration => L<Paws::ECR::ReplicationConfiguration>

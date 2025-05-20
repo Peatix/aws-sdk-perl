@@ -46,7 +46,7 @@ specify an object prefix when you create the export job, you must
 include the object prefix in the policy that you add to the S3 bucket.
 For more information, see Amazon S3 Bucket Policy for Compute Optimizer
 (https://docs.aws.amazon.com/compute-optimizer/latest/ug/create-s3-bucket-policy-for-compute-optimizer.html)
-in the I<Compute Optimizer user guide>.
+in the I<Compute Optimizer User Guide>.
 
 =head1 ATTRIBUTES
 

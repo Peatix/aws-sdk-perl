@@ -5,14 +5,19 @@ package Paws::MediaConnect::UpdateFlowOutput;
   has Description => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'description');
   has Destination => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'destination');
   has Encryption => (is => 'ro', isa => 'Paws::MediaConnect::UpdateEncryption', traits => ['NameInRequest'], request_name => 'encryption');
-  has FlowArn => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'flowArn', required => 1);
+  has FlowArn => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'FlowArn', required => 1);
   has MaxLatency => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'maxLatency');
   has MediaStreamOutputConfigurations => (is => 'ro', isa => 'ArrayRef[Paws::MediaConnect::MediaStreamOutputConfigurationRequest]', traits => ['NameInRequest'], request_name => 'mediaStreamOutputConfigurations');
   has MinLatency => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'minLatency');
-  has OutputArn => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'outputArn', required => 1);
+  has NdiProgramName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'ndiProgramName');
+  has NdiSpeedHqQuality => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'ndiSpeedHqQuality');
+  has OutputArn => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'OutputArn', required => 1);
+  has OutputStatus => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'outputStatus');
   has Port => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'port');
   has Protocol => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'protocol');
   has RemoteId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'remoteId');
+  has SenderControlPort => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'senderControlPort');
+  has SenderIpAddress => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'senderIpAddress');
   has SmoothingLatency => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'smoothingLatency');
   has StreamId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'streamId');
   has VpcInterfaceAttachment => (is => 'ro', isa => 'Paws::MediaConnect::VpcInterfaceAttachment', traits => ['NameInRequest'], request_name => 'vpcInterfaceAttachment');
@@ -20,7 +25,7 @@ package Paws::MediaConnect::UpdateFlowOutput;
   use MooseX::ClassAttribute;
 
   class_has _api_call => (isa => 'Str', is => 'ro', default => 'UpdateFlowOutput');
-  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/v1/flows/{flowArn}/outputs/{outputArn}');
+  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/v1/flows/{FlowArn}/outputs/{OutputArn}');
   class_has _api_method  => (isa => 'Str', is => 'ro', default => 'PUT');
   class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::MediaConnect::UpdateFlowOutputResponse');
 1;
@@ -43,33 +48,33 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $mediaconnect = Paws->service('MediaConnect');
     my $UpdateFlowOutputResponse = $mediaconnect->UpdateFlowOutput(
-      FlowArn       => 'My__string',
-      OutputArn     => 'My__string',
-      CidrAllowList => [ 'My__string', ... ],    # OPTIONAL
-      Description   => 'My__string',             # OPTIONAL
-      Destination   => 'My__string',             # OPTIONAL
+      FlowArn       => 'MyUpdateFlowOutputRequestFlowArnString',
+      OutputArn     => 'MyUpdateFlowOutputRequestOutputArnString',
+      CidrAllowList => [ 'MyString', ... ],                          # OPTIONAL
+      Description   => 'MyString',                                   # OPTIONAL
+      Destination   => 'MyString',                                   # OPTIONAL
       Encryption    => {
         Algorithm => 'aes128',    # values: aes128, aes192, aes256; OPTIONAL
-        ConstantInitializationVector => 'My__string',
-        DeviceId                     => 'My__string',
+        ConstantInitializationVector => 'MyString',
+        DeviceId                     => 'MyString',
         KeyType => 'speke',  # values: speke, static-key, srt-password; OPTIONAL
-        Region     => 'My__string',
-        ResourceId => 'My__string',
-        RoleArn    => 'My__string',
-        SecretArn  => 'My__string',
-        Url        => 'My__string',
+        Region     => 'MyString',
+        ResourceId => 'MyString',
+        RoleArn    => 'MyString',
+        SecretArn  => 'MyString',
+        Url        => 'MyString',
       },    # OPTIONAL
       MaxLatency                      => 1,    # OPTIONAL
       MediaStreamOutputConfigurations => [
         {
-          EncodingName    => 'jxsv',         # values: jxsv, raw, smpte291, pcm
-          MediaStreamName => 'My__string',
+          EncodingName    => 'jxsv',       # values: jxsv, raw, smpte291, pcm
+          MediaStreamName => 'MyString',
           DestinationConfigurations => [
             {
-              DestinationIp   => 'My__string',
+              DestinationIp   => 'MyString',
               DestinationPort => 1,
               Interface       => {
-                Name => 'My__string',
+                Name => 'MyString',
 
               },
 
@@ -85,13 +90,17 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ...
       ],    # OPTIONAL
       MinLatency             => 1,                                    # OPTIONAL
+      NdiProgramName         => 'MyString',                           # OPTIONAL
+      NdiSpeedHqQuality      => 1,                                    # OPTIONAL
+      OutputStatus           => 'ENABLED',                            # OPTIONAL
       Port                   => 1,                                    # OPTIONAL
       Protocol               => 'zixi-push',                          # OPTIONAL
-      RemoteId               => 'My__string',                         # OPTIONAL
+      RemoteId               => 'MyString',                           # OPTIONAL
+      SenderControlPort      => 1,                                    # OPTIONAL
+      SenderIpAddress        => 'MyString',                           # OPTIONAL
       SmoothingLatency       => 1,                                    # OPTIONAL
-      StreamId               => 'My__string',                         # OPTIONAL
-      VpcInterfaceAttachment => { VpcInterfaceName => 'My__string', }
-      ,                                                               # OPTIONAL
+      StreamId               => 'MyString',                           # OPTIONAL
+      VpcInterfaceAttachment => { VpcInterfaceName => 'MyString', },  # OPTIONAL
     );
 
     # Results:
@@ -116,8 +125,8 @@ Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
 
 =head2 Description => Str
 
-A description of the output. This description appears only on the AWS
-Elemental MediaConnect console and will not be seen by the end user.
+A description of the output. This description appears only on the
+MediaConnect console and will not be seen by the end user.
 
 
 
@@ -129,20 +138,23 @@ The IP address where you want to send the output.
 
 =head2 Encryption => L<Paws::MediaConnect::UpdateEncryption>
 
-The type of key used for the encryption. If no keyType is provided, the
-service will use the default setting (static-key).
+The type of key used for the encryption. If no C<keyType> is provided,
+the service will use the default setting (static-key). Allowable
+encryption types: static-key.
 
 
 
 =head2 B<REQUIRED> FlowArn => Str
 
-The flow that is associated with the output that you want to update.
+The Amazon Resource Name (ARN) of the flow that is associated with the
+output that you want to update.
 
 
 
 =head2 MaxLatency => Int
 
-The maximum latency in milliseconds for Zixi-based streams.
+The maximum latency in milliseconds. This parameter applies only to
+RIST-based and Zixi-based streams.
 
 
 
@@ -164,11 +176,32 @@ minimum latency.
 
 
 
+=head2 NdiProgramName => Str
+
+A suffix for the names of the NDI sources that the flow creates. If a
+custom name isn't specified, MediaConnect uses the output name.
+
+
+
+=head2 NdiSpeedHqQuality => Int
+
+A quality setting for the NDI Speed HQ encoder.
+
+
+
 =head2 B<REQUIRED> OutputArn => Str
 
 The ARN of the output that you want to update.
 
 
+
+=head2 OutputStatus => Str
+
+An indication of whether the output should transmit data or not. If you
+don't specify the C<outputStatus> field in your request, MediaConnect
+leaves the value unchanged.
+
+Valid values are: C<"ENABLED">, C<"DISABLED">
 
 =head2 Port => Int
 
@@ -180,11 +213,28 @@ The port to use when content is distributed to this output.
 
 The protocol to use for the output.
 
-Valid values are: C<"zixi-push">, C<"rtp-fec">, C<"rtp">, C<"zixi-pull">, C<"rist">, C<"st2110-jpegxs">, C<"cdi">, C<"srt-listener">
+Elemental MediaConnect no longer supports the Fujitsu QoS protocol.
+This reference is maintained for legacy purposes only.
+
+Valid values are: C<"zixi-push">, C<"rtp-fec">, C<"rtp">, C<"zixi-pull">, C<"rist">, C<"st2110-jpegxs">, C<"cdi">, C<"srt-listener">, C<"srt-caller">, C<"fujitsu-qos">, C<"udp">, C<"ndi-speed-hq">
 
 =head2 RemoteId => Str
 
 The remote ID for the Zixi-pull stream.
+
+
+
+=head2 SenderControlPort => Int
+
+The port that the flow uses to send outbound requests to initiate
+connection with the sender.
+
+
+
+=head2 SenderIpAddress => Str
+
+The IP address that the flow communicates with to initiate connection
+with the sender.
 
 
 
@@ -198,7 +248,7 @@ streams.
 =head2 StreamId => Str
 
 The stream ID that you want to use for this transport. This parameter
-applies only to Zixi-based streams.
+applies only to Zixi and SRT caller-based streams.
 
 
 

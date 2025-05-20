@@ -1,6 +1,7 @@
 
 package Paws::ElastiCache::ModifyUserGroup;
   use Moose;
+  has Engine => (is => 'ro', isa => 'Str');
   has UserGroupId => (is => 'ro', isa => 'Str', required => 1);
   has UserIdsToAdd => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has UserIdsToRemove => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
@@ -31,8 +32,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $elasticache = Paws->service('ElastiCache');
     my $UserGroup = $elasticache->ModifyUserGroup(
       UserGroupId  => 'MyString',
+      Engine       => 'MyEngineType',    # OPTIONAL
       UserIdsToAdd => [
-        'MyUserId', ...    # min: 1
+        'MyUserId', ...                  # min: 1
       ],    # OPTIONAL
       UserIdsToRemove => [
         'MyUserId', ...    # min: 1
@@ -40,13 +42,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     );
 
     # Results:
-    my $ARN               = $UserGroup->ARN;
-    my $Engine            = $UserGroup->Engine;
-    my $PendingChanges    = $UserGroup->PendingChanges;
-    my $ReplicationGroups = $UserGroup->ReplicationGroups;
-    my $Status            = $UserGroup->Status;
-    my $UserGroupId       = $UserGroup->UserGroupId;
-    my $UserIds           = $UserGroup->UserIds;
+    my $ARN                  = $UserGroup->ARN;
+    my $Engine               = $UserGroup->Engine;
+    my $MinimumEngineVersion = $UserGroup->MinimumEngineVersion;
+    my $PendingChanges       = $UserGroup->PendingChanges;
+    my $ReplicationGroups    = $UserGroup->ReplicationGroups;
+    my $ServerlessCaches     = $UserGroup->ServerlessCaches;
+    my $Status               = $UserGroup->Status;
+    my $UserGroupId          = $UserGroup->UserGroupId;
+    my $UserIds              = $UserGroup->UserIds;
 
     # Returns a L<Paws::ElastiCache::UserGroup> object.
 
@@ -54,6 +58,13 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/elasticache/ModifyUserGroup>
 
 =head1 ATTRIBUTES
+
+
+=head2 Engine => Str
+
+Modifies the engine listed in a user group. The options are valkey or
+redis.
+
 
 
 =head2 B<REQUIRED> UserGroupId => Str

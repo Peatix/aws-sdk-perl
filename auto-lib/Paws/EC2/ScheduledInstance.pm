@@ -77,7 +77,7 @@ The instance type.
 
 =head2 NetworkPlatform => Str
 
-The network platform (C<EC2-Classic> or C<EC2-VPC>).
+The network platform.
 
 
 =head2 NextSlotStartTime => Str

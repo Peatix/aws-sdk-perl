@@ -142,25 +142,17 @@ C<volume-status.status> - The status of the volume (C<ok> | C<impaired>
 
 =head2 MaxResults => Int
 
-The maximum number of volume results returned by
-C<DescribeVolumeStatus> in paginated output. When this parameter is
-used, the request only returns C<MaxResults> results in a single page
-along with a C<NextToken> response element. The remaining results of
-the initial request can be seen by sending another request with the
-returned C<NextToken> value. This value can be between 5 and 1,000; if
-C<MaxResults> is given a value larger than 1,000, only 1,000 results
-are returned. If this parameter is not used, then
-C<DescribeVolumeStatus> returns all results. You cannot specify this
-parameter and the volume IDs parameter in the same request.
+The maximum number of items to return for this request. To get the next
+page of items, make another request with the token returned in the
+output. For more information, see Pagination
+(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Query-Requests.html#api-pagination).
 
 
 
 =head2 NextToken => Str
 
-The C<NextToken> value to include in a future C<DescribeVolumeStatus>
-request. When the results of the request exceed C<MaxResults>, this
-value can be used to retrieve the next page of results. This value is
-C<null> when there are no more results to return.
+The token returned from a previous paginated request. Pagination
+continues from the end of the items returned by the previous request.
 
 
 

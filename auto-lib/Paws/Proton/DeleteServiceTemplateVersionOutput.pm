@@ -16,7 +16,7 @@ Paws::Proton::DeleteServiceTemplateVersionOutput
 
 =head2 ServiceTemplateVersion => L<Paws::Proton::ServiceTemplateVersion>
 
-The service template version detail data that's returned by AWS Proton.
+The detailed data of the service template version being deleted.
 
 
 =head2 _request_id => Str

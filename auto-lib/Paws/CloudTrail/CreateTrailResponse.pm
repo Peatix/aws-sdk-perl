@@ -46,7 +46,7 @@ such as IAM to the log files.
 
 =head2 IsMultiRegionTrail => Bool
 
-Specifies whether the trail exists in one region or in all regions.
+Specifies whether the trail exists in one Region or in all Regions.
 
 
 =head2 IsOrganizationTrail => Bool
@@ -56,9 +56,9 @@ Specifies whether the trail is an organization trail.
 
 =head2 KmsKeyId => Str
 
-Specifies the KMS key ID that encrypts the logs delivered by
+Specifies the KMS key ID that encrypts the events delivered by
 CloudTrail. The value is a fully specified ARN to a KMS key in the
-format:
+following format.
 
 C<arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012>
 
@@ -84,7 +84,7 @@ log files.
 Specifies the Amazon S3 key prefix that comes after the name of the
 bucket you have designated for log file delivery. For more information,
 see Finding Your CloudTrail Log Files
-(https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-find-log-files.html).
+(https://docs.aws.amazon.com/awscloudtrail/latest/userguide/get-and-view-cloudtrail-log-files.html#cloudtrail-find-log-files).
 
 
 =head2 SnsTopicARN => Str
@@ -98,7 +98,7 @@ C<arn:aws:sns:us-east-2:123456789012:MyTopic>
 
 =head2 SnsTopicName => Str
 
-This field is no longer in use. Use SnsTopicARN.
+This field is no longer in use. Use C<SnsTopicARN>.
 
 
 =head2 TrailARN => Str

@@ -45,9 +45,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::GameLift::M
 
 Ticket generated to track the progress of a matchmaking request. Each
 ticket is uniquely identified by a ticket ID, supplied by the
-requester, when creating a matchmaking request with StartMatchmaking.
-Tickets can be retrieved by calling DescribeMatchmaking with the ticket
-ID.
+requester, when creating a matchmaking request.
 
 =head1 ATTRIBUTES
 
@@ -62,16 +60,16 @@ used with this ticket.
 
 =head2 ConfigurationName => Str
 
-Name of the MatchmakingConfiguration that is used with this ticket.
+Name of the matchmaking configuration that is used with this ticket.
 Matchmaking configurations determine how players are grouped into a
 match and how a new game session is created for the match.
 
 
 =head2 EndTime => Str
 
-Time stamp indicating when this matchmaking request stopped being
-processed due to success, failure, or cancellation. Format is a number
-expressed in Unix time as milliseconds (for example
+Time stamp indicating when the matchmaking request stopped being
+processed due to successful completion, timeout, or cancellation.
+Format is a number expressed in Unix time as milliseconds (for example
 C<"1469498468.057">).
 
 
@@ -84,10 +82,12 @@ empty.
 
 =head2 GameSessionConnectionInfo => L<Paws::GameLift::GameSessionConnectionInfo>
 
-Identifier and connection information of the game session created for
-the match. This information is added to the ticket only after the
-matchmaking request has been successfully completed. This parameter is
-not set when FlexMatch is being used without GameLift hosting.
+Connection information for a new game session. Once a match is made,
+the FlexMatch engine creates a new game session for it. This
+information is added to the matchmaking ticket, which you can be
+retrieve by calling DescribeMatchmaking
+(https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeMatchmaking.html)
+.
 
 
 =head2 Players => ArrayRef[L<Paws::GameLift::Player>]
@@ -124,9 +124,8 @@ B<SEARCHING> -- The matchmaking request is currently being processed.
 =item *
 
 B<REQUIRES_ACCEPTANCE> -- A match has been proposed and the players
-must accept the match (see AcceptMatch). This status is used only with
-requests that use a matchmaking configuration with a player acceptance
-requirement.
+must accept the match. This status is used only with requests that use
+a matchmaking configuration with a player acceptance requirement.
 
 =item *
 
@@ -146,8 +145,8 @@ B<FAILED> -- The matchmaking request was not completed.
 =item *
 
 B<CANCELLED> -- The matchmaking request was canceled. This may be the
-result of a call to StopMatchmaking or a proposed match that one or
-more players failed to accept.
+result of a C<StopMatchmaking> operation or a proposed match that one
+or more players failed to accept.
 
 =item *
 

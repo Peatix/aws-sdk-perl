@@ -18,7 +18,8 @@ Paws::SSMIncidents::ListRelatedItemsOutput
 
 =head2 NextToken => Str
 
-The pagination token to continue to the next page of results.
+The pagination token to use when requesting the next set of items. If
+there are no additional items to return, the string is null.
 
 
 =head2 B<REQUIRED> RelatedItems => ArrayRef[L<Paws::SSMIncidents::RelatedItem>]

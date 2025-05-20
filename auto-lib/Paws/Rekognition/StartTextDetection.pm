@@ -49,6 +49,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
               Top    => 1.0,    # OPTIONAL
               Width  => 1.0,    # OPTIONAL
             },    # OPTIONAL
+            Polygon => [
+              {
+                X => 1.0,    # OPTIONAL
+                Y => 1.0,    # OPTIONAL
+              },
+              ...
+            ],    # OPTIONAL
           },
           ...
         ],    # max: 10; OPTIONAL

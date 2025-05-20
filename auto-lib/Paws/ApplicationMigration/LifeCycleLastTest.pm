@@ -42,7 +42,7 @@ Lifecycle last Test.
 
 =head2 Finalized => L<Paws::ApplicationMigration::LifeCycleLastTestFinalized>
 
-Lifecycle last Test finlized.
+Lifecycle last Test finalized.
 
 
 =head2 Initiated => L<Paws::ApplicationMigration::LifeCycleLastTestInitiated>

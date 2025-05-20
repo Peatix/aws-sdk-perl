@@ -1,6 +1,7 @@
 
 package Paws::CloudWatchLogs::PutLogEvents;
   use Moose;
+  has Entity => (is => 'ro', isa => 'Paws::CloudWatchLogs::Entity', traits => ['NameInRequest'], request_name => 'entity' );
   has LogEvents => (is => 'ro', isa => 'ArrayRef[Paws::CloudWatchLogs::InputLogEvent]', traits => ['NameInRequest'], request_name => 'logEvents' , required => 1);
   has LogGroupName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'logGroupName' , required => 1);
   has LogStreamName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'logStreamName' , required => 1);
@@ -41,11 +42,22 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       ],
       LogGroupName  => 'MyLogGroupName',
       LogStreamName => 'MyLogStreamName',
+      Entity        => {
+        Attributes => {
+          'MyEntityAttributesKey' => 'MyEntityAttributesValue'
+          ,    # key: min: 1, max: 256, value: min: 1, max: 512
+        },    # max: 10; OPTIONAL
+        KeyAttributes => {
+          'MyEntityKeyAttributesKey' => 'MyEntityKeyAttributesValue'
+          ,    # key: min: 1, max: 32, value: min: 1, max: 512
+        },    # min: 2, max: 4; OPTIONAL
+      },    # OPTIONAL
       SequenceToken => 'MySequenceToken',    # OPTIONAL
     );
 
     # Results:
     my $NextSequenceToken     = $PutLogEventsResponse->NextSequenceToken;
+    my $RejectedEntityInfo    = $PutLogEventsResponse->RejectedEntityInfo;
     my $RejectedLogEventsInfo = $PutLogEventsResponse->RejectedLogEventsInfo;
 
     # Returns a L<Paws::CloudWatchLogs::PutLogEventsResponse> object.
@@ -54,6 +66,12 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/logs/PutLogEvents>
 
 =head1 ATTRIBUTES
+
+
+=head2 Entity => L<Paws::CloudWatchLogs::Entity>
+
+The entity associated with the log events.
+
 
 
 =head2 B<REQUIRED> LogEvents => ArrayRef[L<Paws::CloudWatchLogs::InputLogEvent>]
@@ -77,13 +95,12 @@ The name of the log stream.
 =head2 SequenceToken => Str
 
 The sequence token obtained from the response of the previous
-C<PutLogEvents> call. An upload in a newly created log stream does not
-require a sequence token. You can also get the sequence token using
-DescribeLogStreams
-(https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DescribeLogStreams.html).
-If you call C<PutLogEvents> twice within a narrow time period using the
-same value for C<sequenceToken>, both calls might be successful or one
-might be rejected.
+C<PutLogEvents> call.
+
+The C<sequenceToken> parameter is now ignored in C<PutLogEvents>
+actions. C<PutLogEvents> actions are now accepted and never return
+C<InvalidSequenceTokenException> or C<DataAlreadyAcceptedException>
+even if the sequence token is not valid.
 
 
 

@@ -2,6 +2,7 @@
 package Paws::EC2::CreateSecurityGroupResult;
   use Moose;
   has GroupId => (is => 'ro', isa => 'Str', request_name => 'groupId', traits => ['NameInRequest',]);
+  has SecurityGroupArn => (is => 'ro', isa => 'Str', request_name => 'securityGroupArn', traits => ['NameInRequest',]);
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::EC2::Tag]', request_name => 'tagSet', traits => ['NameInRequest',]);
 
   has _request_id => (is => 'ro', isa => 'Str');
@@ -19,6 +20,11 @@ Paws::EC2::CreateSecurityGroupResult
 =head2 GroupId => Str
 
 The ID of the security group.
+
+
+=head2 SecurityGroupArn => Str
+
+The security group ARN.
 
 
 =head2 Tags => ArrayRef[L<Paws::EC2::Tag>]

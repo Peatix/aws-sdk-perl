@@ -4,6 +4,7 @@ package Paws::SageMaker::CreateNotebookInstanceLifecycleConfig;
   has NotebookInstanceLifecycleConfigName => (is => 'ro', isa => 'Str', required => 1);
   has OnCreate => (is => 'ro', isa => 'ArrayRef[Paws::SageMaker::NotebookInstanceLifecycleHook]');
   has OnStart => (is => 'ro', isa => 'ArrayRef[Paws::SageMaker::NotebookInstanceLifecycleHook]');
+  has Tags => (is => 'ro', isa => 'ArrayRef[Paws::SageMaker::Tag]');
 
   use MooseX::ClassAttribute;
 
@@ -47,6 +48,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },
         ...
       ],    # OPTIONAL
+      Tags => [
+        {
+          Key   => 'MyTagKey',      # min: 1, max: 128
+          Value => 'MyTagValue',    # max: 256
+
+        },
+        ...
+      ],    # OPTIONAL
       );
 
     # Results:
@@ -80,6 +89,16 @@ instance. The shell script must be a base64-encoded string.
 A shell script that runs every time you start a notebook instance,
 including when you create the notebook instance. The shell script must
 be a base64-encoded string.
+
+
+
+=head2 Tags => ArrayRef[L<Paws::SageMaker::Tag>]
+
+An array of key-value pairs. You can use tags to categorize your Amazon
+Web Services resources in different ways, for example, by purpose,
+owner, or environment. For more information, see Tagging Amazon Web
+Services Resources
+(https://docs.aws.amazon.com/tag-editor/latest/userguide/tagging.html).
 
 
 

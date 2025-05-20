@@ -36,10 +36,11 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CodeGuruRev
 
 =head1 DESCRIPTION
 
-Information about an associated AWS CodeCommit repository or an
-associated repository that is managed by AWS CodeStar Connections (for
-example, Bitbucket). This C<Repository> object is not used if your
-source code is in an associated GitHub repository.
+Information about an associated Amazon Web Services CodeCommit
+repository or an associated repository that is managed by Amazon Web
+Services CodeStar Connections (for example, Bitbucket). This
+C<Repository> object is not used if your source code is in an
+associated GitHub repository.
 
 =head1 ATTRIBUTES
 
@@ -51,7 +52,7 @@ Information about a Bitbucket repository.
 
 =head2 CodeCommit => L<Paws::CodeGuruReviewer::CodeCommitRepository>
 
-Information about an AWS CodeCommit repository.
+Information about an Amazon Web Services CodeCommit repository.
 
 
 =head2 GitHubEnterpriseServer => L<Paws::CodeGuruReviewer::ThirdPartySourceRepository>

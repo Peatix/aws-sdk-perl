@@ -33,8 +33,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::MediaConver
 
 =head1 DESCRIPTION
 
-If you are using DRM, set DRM System (MsSmoothEncryptionSettings) to
-specify the value SpekeKeyProvider.
+If you are using DRM, set DRM System to specify the value
+SpekeKeyProvider.
 
 =head1 ATTRIBUTES
 

@@ -5,6 +5,7 @@ package Paws::Lambda::FunctionCodeLocation;
   has Location => (is => 'ro', isa => 'Str');
   has RepositoryType => (is => 'ro', isa => 'Str');
   has ResolvedImageUri => (is => 'ro', isa => 'Str');
+  has SourceKMSKeyArn => (is => 'ro', isa => 'Str');
 
 1;
 
@@ -25,7 +26,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::Lambda::FunctionCodeLocation object:
 
-  $service_obj->Method(Att1 => { ImageUri => $value, ..., ResolvedImageUri => $value  });
+  $service_obj->Method(Att1 => { ImageUri => $value, ..., SourceKMSKeyArn => $value  });
 
 =head3 Results returned from an API call
 
@@ -59,6 +60,15 @@ The service that's hosting the file.
 =head2 ResolvedImageUri => Str
 
 The resolved URI for the image.
+
+
+=head2 SourceKMSKeyArn => Str
+
+The ARN of the Key Management Service (KMS) customer managed key that's
+used to encrypt your function's .zip deployment package. If you don't
+provide a customer managed key, Lambda uses an Amazon Web Services
+owned key
+(https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-owned-cmk).
 
 
 

@@ -49,6 +49,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $TemplateArn  = $DescribeProvisioningTemplateResponse->TemplateArn;
     my $TemplateBody = $DescribeProvisioningTemplateResponse->TemplateBody;
     my $TemplateName = $DescribeProvisioningTemplateResponse->TemplateName;
+    my $Type         = $DescribeProvisioningTemplateResponse->Type;
 
     # Returns a L<Paws::IoT::DescribeProvisioningTemplateResponse> object.
 
@@ -60,7 +61,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/iot
 
 =head2 B<REQUIRED> TemplateName => Str
 
-The name of the fleet provisioning template.
+The name of the provisioning template.
 
 
 

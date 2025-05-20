@@ -39,14 +39,14 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AuditManage
 
 =head1 DESCRIPTION
 
-The metadata associated with the specified delegation.
+The metadata that's associated with the delegation.
 
 =head1 ATTRIBUTES
 
 
 =head2 AssessmentId => Str
 
-The unique identifier for the specified assessment.
+The unique identifier for the assessment.
 
 
 =head2 AssessmentName => Str
@@ -56,7 +56,7 @@ The name of the associated assessment.
 
 =head2 ControlSetName => Str
 
-Specifies the name of the control set delegated for review.
+Specifies the name of the control set that was delegated for review.
 
 
 =head2 CreationTime => Str
@@ -76,7 +76,7 @@ The Amazon Resource Name (ARN) of the IAM role.
 
 =head2 Status => Str
 
-The current status of the delgation.
+The current status of the delegation.
 
 
 

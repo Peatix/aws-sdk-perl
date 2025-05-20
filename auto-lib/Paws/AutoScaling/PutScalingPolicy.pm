@@ -89,22 +89,24 @@ The name of the Auto Scaling group.
 
 =head2 Cooldown => Int
 
-The duration of the policy's cooldown period, in seconds. When a
-cooldown period is specified here, it overrides the default cooldown
-period defined for the Auto Scaling group.
+A cooldown period, in seconds, that applies to a specific simple
+scaling policy. When a cooldown period is specified here, it overrides
+the default cooldown.
 
 Valid only if the policy type is C<SimpleScaling>. For more
 information, see Scaling cooldowns for Amazon EC2 Auto Scaling
-(https://docs.aws.amazon.com/autoscaling/ec2/userguide/Cooldown.html)
+(https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-scaling-cooldowns.html)
 in the I<Amazon EC2 Auto Scaling User Guide>.
+
+Default: None
 
 
 
 =head2 Enabled => Bool
 
 Indicates whether the scaling policy is enabled or disabled. The
-default is enabled. For more information, see Disabling a scaling
-policy for an Auto Scaling group
+default is enabled. For more information, see Disable a scaling policy
+for an Auto Scaling group
 (https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-enable-disable-scaling-policy.html)
 in the I<Amazon EC2 Auto Scaling User Guide>.
 
@@ -112,13 +114,20 @@ in the I<Amazon EC2 Auto Scaling User Guide>.
 
 =head2 EstimatedInstanceWarmup => Int
 
+I<Not needed if the default instance warmup is defined for the group.>
+
 The estimated time, in seconds, until a newly launched instance can
-contribute to the CloudWatch metrics. If not provided, the default is
-to use the value from the default cooldown period for the Auto Scaling
-group.
+contribute to the CloudWatch metrics. This warm-up period applies to
+instances launched due to a specific target tracking or step scaling
+policy. When a warm-up period is specified here, it overrides the
+default instance warmup.
 
 Valid only if the policy type is C<TargetTrackingScaling> or
 C<StepScaling>.
+
+The default is to use the value for the default instance warmup defined
+for the group. If default instance warmup is null, then
+C<EstimatedInstanceWarmup> falls back to the value of default cooldown.
 
 
 
@@ -195,10 +204,10 @@ C<PredictiveScaling>
 
 =head2 PredictiveScalingConfiguration => L<Paws::AutoScaling::PredictiveScalingConfiguration>
 
-A predictive scaling policy. Provides support for only predefined
+A predictive scaling policy. Provides support for predefined and custom
 metrics.
 
-Predictive scaling works with CPU utilization, network in/out, and the
+Predefined metrics include CPU utilization, network in/out, and the
 Application Load Balancer request count.
 
 For more information, see PredictiveScalingConfiguration
@@ -214,7 +223,7 @@ Required if the policy type is C<PredictiveScaling>.
 The amount by which to scale, based on the specified adjustment type. A
 positive value adds to the current capacity while a negative number
 removes from the current capacity. For exact capacity, you must specify
-a positive value.
+a non-negative value.
 
 Required if the policy type is C<SimpleScaling>. (Not used with any
 other policy type.)
@@ -234,7 +243,7 @@ policy type.)
 =head2 TargetTrackingConfiguration => L<Paws::AutoScaling::TargetTrackingConfiguration>
 
 A target tracking scaling policy. Provides support for predefined or
-customized metrics.
+custom metrics.
 
 The following predefined metrics are available:
 
@@ -259,7 +268,7 @@ C<ALBRequestCountPerTarget>
 =back
 
 If you specify C<ALBRequestCountPerTarget> for the metric, you must
-specify the C<ResourceLabel> parameter with the
+specify the C<ResourceLabel> property with the
 C<PredefinedMetricSpecification>.
 
 For more information, see TargetTrackingConfiguration

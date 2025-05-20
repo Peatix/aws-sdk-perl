@@ -34,14 +34,14 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Kendra::See
 
 =head1 DESCRIPTION
 
-Provides the configuration information of the seed or starting point
+Provides the configuration information for the seed or starting point
 URLs to crawl.
 
 I<When selecting websites to index, you must adhere to the Amazon
 Acceptable Use Policy (https://aws.amazon.com/aup/) and all other
-Amazon terms. Remember that you must only use the Amazon Kendra web
-crawler to index your own webpages, or webpages that you have
-authorization to index.>
+Amazon terms. Remember that you must only use Amazon Kendra Web Crawler
+to index your own web pages, or web pages that you have authorization
+to index.>
 
 =head1 ATTRIBUTES
 
@@ -62,20 +62,20 @@ You can choose one of the following modes:
 
 =item *
 
-C<HOST_ONLY> E<ndash> crawl only the website host names. For example,
-if the seed URL is "abc.example.com", then only URLs with host name
+C<HOST_ONLY>E<mdash>crawl only the website host names. For example, if
+the seed URL is "abc.example.com", then only URLs with host name
 "abc.example.com" are crawled.
 
 =item *
 
-C<SUBDOMAINS> E<ndash> crawl the website host names with subdomains.
-For example, if the seed URL is "abc.example.com", then
-"a.abc.example.com" and "b.abc.example.com" are also crawled.
+C<SUBDOMAINS>E<mdash>crawl the website host names with subdomains. For
+example, if the seed URL is "abc.example.com", then "a.abc.example.com"
+and "b.abc.example.com" are also crawled.
 
 =item *
 
-C<EVERYTHING> E<ndash> crawl the website host names with subdomains and
-other domains that the webpages link to.
+C<EVERYTHING>E<mdash>crawl the website host names with subdomains and
+other domains that the web pages link to.
 
 =back
 

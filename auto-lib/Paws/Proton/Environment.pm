@@ -2,17 +2,22 @@
 package Paws::Proton::Environment;
   use Moose;
   has Arn => (is => 'ro', isa => 'Str', request_name => 'arn', traits => ['NameInRequest'], required => 1);
+  has CodebuildRoleArn => (is => 'ro', isa => 'Str', request_name => 'codebuildRoleArn', traits => ['NameInRequest']);
+  has ComponentRoleArn => (is => 'ro', isa => 'Str', request_name => 'componentRoleArn', traits => ['NameInRequest']);
   has CreatedAt => (is => 'ro', isa => 'Str', request_name => 'createdAt', traits => ['NameInRequest'], required => 1);
   has DeploymentStatus => (is => 'ro', isa => 'Str', request_name => 'deploymentStatus', traits => ['NameInRequest'], required => 1);
   has DeploymentStatusMessage => (is => 'ro', isa => 'Str', request_name => 'deploymentStatusMessage', traits => ['NameInRequest']);
   has Description => (is => 'ro', isa => 'Str', request_name => 'description', traits => ['NameInRequest']);
   has EnvironmentAccountConnectionId => (is => 'ro', isa => 'Str', request_name => 'environmentAccountConnectionId', traits => ['NameInRequest']);
   has EnvironmentAccountId => (is => 'ro', isa => 'Str', request_name => 'environmentAccountId', traits => ['NameInRequest']);
+  has LastAttemptedDeploymentId => (is => 'ro', isa => 'Str', request_name => 'lastAttemptedDeploymentId', traits => ['NameInRequest']);
   has LastDeploymentAttemptedAt => (is => 'ro', isa => 'Str', request_name => 'lastDeploymentAttemptedAt', traits => ['NameInRequest'], required => 1);
   has LastDeploymentSucceededAt => (is => 'ro', isa => 'Str', request_name => 'lastDeploymentSucceededAt', traits => ['NameInRequest'], required => 1);
+  has LastSucceededDeploymentId => (is => 'ro', isa => 'Str', request_name => 'lastSucceededDeploymentId', traits => ['NameInRequest']);
   has Name => (is => 'ro', isa => 'Str', request_name => 'name', traits => ['NameInRequest'], required => 1);
   has ProtonServiceRoleArn => (is => 'ro', isa => 'Str', request_name => 'protonServiceRoleArn', traits => ['NameInRequest']);
   has Provisioning => (is => 'ro', isa => 'Str', request_name => 'provisioning', traits => ['NameInRequest']);
+  has ProvisioningRepository => (is => 'ro', isa => 'Paws::Proton::RepositoryBranch', request_name => 'provisioningRepository', traits => ['NameInRequest']);
   has Spec => (is => 'ro', isa => 'Str', request_name => 'spec', traits => ['NameInRequest']);
   has TemplateMajorVersion => (is => 'ro', isa => 'Str', request_name => 'templateMajorVersion', traits => ['NameInRequest'], required => 1);
   has TemplateMinorVersion => (is => 'ro', isa => 'Str', request_name => 'templateMinorVersion', traits => ['NameInRequest'], required => 1);
@@ -48,8 +53,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Proton::Env
 
 =head1 DESCRIPTION
 
-The environment detail data. An AWS Proton environment is a set
-resources shared across an AWS Proton service.
+Detailed data of an Proton environment resource. An Proton environment
+is a set of resources shared across Proton services.
 
 =head1 ATTRIBUTES
 
@@ -57,6 +62,27 @@ resources shared across an AWS Proton service.
 =head2 B<REQUIRED> Arn => Str
 
 The Amazon Resource Name (ARN) of the environment.
+
+
+=head2 CodebuildRoleArn => Str
+
+The Amazon Resource Name (ARN) of the IAM service role that allows
+Proton to provision infrastructure using CodeBuild-based provisioning
+on your behalf.
+
+
+=head2 ComponentRoleArn => Str
+
+The Amazon Resource Name (ARN) of the IAM service role that Proton uses
+when provisioning directly defined components in this environment. It
+determines the scope of infrastructure that a component can provision.
+
+The environment must have a C<componentRoleArn> to allow directly
+defined components to be associated with the environment.
+
+For more information about components, see Proton components
+(https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html)
+in the I<Proton User Guide>.
 
 
 =head2 B<REQUIRED> CreatedAt => Str
@@ -91,6 +117,11 @@ The ID of the environment account that the environment infrastructure
 resources are provisioned in.
 
 
+=head2 LastAttemptedDeploymentId => Str
+
+The ID of the last attempted deployment of this environment.
+
+
 =head2 B<REQUIRED> LastDeploymentAttemptedAt => Str
 
 The time when a deployment of the environment was last attempted.
@@ -101,6 +132,11 @@ The time when a deployment of the environment was last attempted.
 The time when the environment was last deployed successfully.
 
 
+=head2 LastSucceededDeploymentId => Str
+
+The ID of the last successful deployment of this environment.
+
+
 =head2 B<REQUIRED> Name => Str
 
 The name of the environment.
@@ -108,14 +144,23 @@ The name of the environment.
 
 =head2 ProtonServiceRoleArn => Str
 
-The ARN of the AWS Proton service role that allows AWS Proton to make
-calls to other services on your behalf.
+The Amazon Resource Name (ARN) of the Proton service role that allows
+Proton to make calls to other services on your behalf.
 
 
 =head2 Provisioning => Str
 
 When included, indicates that the environment template is for customer
 provisioned and managed infrastructure.
+
+
+=head2 ProvisioningRepository => L<Paws::Proton::RepositoryBranch>
+
+The linked repository that you use to host your rendered infrastructure
+templates for self-managed provisioning. A linked repository is a
+repository that has been registered with Proton. For more information,
+see CreateRepository
+(https://docs.aws.amazon.com/proton/latest/APIReference/API_CreateRepository.html).
 
 
 =head2 Spec => Str
@@ -125,17 +170,17 @@ The environment spec.
 
 =head2 B<REQUIRED> TemplateMajorVersion => Str
 
-The ID of the major version of the environment template.
+The major version of the environment template.
 
 
 =head2 B<REQUIRED> TemplateMinorVersion => Str
 
-The ID of the minor version of the environment template.
+The minor version of the environment template.
 
 
 =head2 B<REQUIRED> TemplateName => Str
 
-The ARN of the environment template.
+The Amazon Resource Name (ARN) of the environment template.
 
 
 

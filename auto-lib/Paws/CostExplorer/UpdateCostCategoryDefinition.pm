@@ -3,8 +3,10 @@ package Paws::CostExplorer::UpdateCostCategoryDefinition;
   use Moose;
   has CostCategoryArn => (is => 'ro', isa => 'Str', required => 1);
   has DefaultValue => (is => 'ro', isa => 'Str');
+  has EffectiveStart => (is => 'ro', isa => 'Str');
   has Rules => (is => 'ro', isa => 'ArrayRef[Paws::CostExplorer::CostCategoryRule]', required => 1);
   has RuleVersion => (is => 'ro', isa => 'Str', required => 1);
+  has SplitChargeRules => (is => 'ro', isa => 'ArrayRef[Paws::CostExplorer::CostCategorySplitChargeRule]');
 
   use MooseX::ClassAttribute;
 
@@ -47,7 +49,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
               Key          => 'MyCostCategoryName',  # min: 1, max: 50; OPTIONAL
               MatchOptions => [
                 'EQUALS',
-                ... # values: EQUALS, ABSENT, STARTS_WITH, ENDS_WITH, CONTAINS, CASE_SENSITIVE, CASE_INSENSITIVE
+                ... # values: EQUALS, ABSENT, STARTS_WITH, ENDS_WITH, CONTAINS, CASE_SENSITIVE, CASE_INSENSITIVE, GREATER_THAN_OR_EQUAL
               ],    # OPTIONAL
               Values => [
                 'MyValue', ...    # max: 1024
@@ -55,10 +57,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             },    # OPTIONAL
             Dimensions => {
               Key => 'AZ'
-              , # values: AZ, INSTANCE_TYPE, LINKED_ACCOUNT, LINKED_ACCOUNT_NAME, OPERATION, PURCHASE_TYPE, REGION, SERVICE, SERVICE_CODE, USAGE_TYPE, USAGE_TYPE_GROUP, RECORD_TYPE, OPERATING_SYSTEM, TENANCY, SCOPE, PLATFORM, SUBSCRIPTION_ID, LEGAL_ENTITY_NAME, DEPLOYMENT_OPTION, DATABASE_ENGINE, CACHE_ENGINE, INSTANCE_TYPE_FAMILY, BILLING_ENTITY, RESERVATION_ID, RESOURCE_ID, RIGHTSIZING_TYPE, SAVINGS_PLANS_TYPE, SAVINGS_PLAN_ARN, PAYMENT_OPTION, AGREEMENT_END_DATE_TIME_AFTER, AGREEMENT_END_DATE_TIME_BEFORE; OPTIONAL
+              , # values: AZ, INSTANCE_TYPE, LINKED_ACCOUNT, LINKED_ACCOUNT_NAME, OPERATION, PURCHASE_TYPE, REGION, SERVICE, SERVICE_CODE, USAGE_TYPE, USAGE_TYPE_GROUP, RECORD_TYPE, OPERATING_SYSTEM, TENANCY, SCOPE, PLATFORM, SUBSCRIPTION_ID, LEGAL_ENTITY_NAME, DEPLOYMENT_OPTION, DATABASE_ENGINE, CACHE_ENGINE, INSTANCE_TYPE_FAMILY, BILLING_ENTITY, RESERVATION_ID, RESOURCE_ID, RIGHTSIZING_TYPE, SAVINGS_PLANS_TYPE, SAVINGS_PLAN_ARN, PAYMENT_OPTION, AGREEMENT_END_DATE_TIME_AFTER, AGREEMENT_END_DATE_TIME_BEFORE, INVOICING_ENTITY, ANOMALY_TOTAL_IMPACT_ABSOLUTE, ANOMALY_TOTAL_IMPACT_PERCENTAGE; OPTIONAL
               MatchOptions => [
                 'EQUALS',
-                ... # values: EQUALS, ABSENT, STARTS_WITH, ENDS_WITH, CONTAINS, CASE_SENSITIVE, CASE_INSENSITIVE
+                ... # values: EQUALS, ABSENT, STARTS_WITH, ENDS_WITH, CONTAINS, CASE_SENSITIVE, CASE_INSENSITIVE, GREATER_THAN_OR_EQUAL
               ],    # OPTIONAL
               Values => [
                 'MyValue', ...    # max: 1024
@@ -70,7 +72,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
               Key          => 'MyTagKey',     # max: 1024; OPTIONAL
               MatchOptions => [
                 'EQUALS',
-                ... # values: EQUALS, ABSENT, STARTS_WITH, ENDS_WITH, CONTAINS, CASE_SENSITIVE, CASE_INSENSITIVE
+                ... # values: EQUALS, ABSENT, STARTS_WITH, ENDS_WITH, CONTAINS, CASE_SENSITIVE, CASE_INSENSITIVE, GREATER_THAN_OR_EQUAL
               ],    # OPTIONAL
               Values => [
                 'MyValue', ...    # max: 1024
@@ -82,7 +84,28 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },
         ...
       ],
-      DefaultValue => 'MyCostCategoryValue',    # OPTIONAL
+      DefaultValue     => 'MyCostCategoryValue',    # OPTIONAL
+      EffectiveStart   => 'MyZonedDateTime',        # OPTIONAL
+      SplitChargeRules => [
+        {
+          Method  => 'FIXED',              # values: FIXED, PROPORTIONAL, EVEN
+          Source  => 'MyGenericString',    # max: 1024; OPTIONAL
+          Targets => [
+            'MyGenericString', ...         # max: 1024; OPTIONAL
+          ],    # min: 1, max: 500
+          Parameters => [
+            {
+              Type => 'ALLOCATION_PERCENTAGES', # values: ALLOCATION_PERCENTAGES
+              Values => [
+                'MyGenericString', ...          # max: 1024; OPTIONAL
+              ],    # min: 1, max: 500
+
+            },
+            ...
+          ],    # min: 1, max: 10; OPTIONAL
+        },
+        ...
+      ],    # OPTIONAL
       );
 
     # Results:
@@ -110,6 +133,15 @@ The unique identifier for your Cost Category.
 
 
 
+=head2 EffectiveStart => Str
+
+The Cost Category's effective start date. It can only be a billing
+start date (first day of the month). If the date isn't provided, it's
+the first day of the current month. Dates can't be before the previous
+twelve months, or in the future.
+
+
+
 =head2 B<REQUIRED> Rules => ArrayRef[L<Paws::CostExplorer::CostCategoryRule>]
 
 The C<Expression> object used to categorize costs. For more
@@ -123,6 +155,13 @@ information, see CostCategoryRule
 
 
 Valid values are: C<"CostCategoryExpression.v1">
+
+=head2 SplitChargeRules => ArrayRef[L<Paws::CostExplorer::CostCategorySplitChargeRule>]
+
+The split charge rules used to allocate your charges between your Cost
+Category values.
+
+
 
 
 =head1 SEE ALSO

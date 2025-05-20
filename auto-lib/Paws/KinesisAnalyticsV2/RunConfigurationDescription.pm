@@ -34,8 +34,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::KinesisAnal
 
 =head1 DESCRIPTION
 
-Describes the starting properties for a Kinesis Data Analytics
-application.
+Describes the starting properties for a Managed Service for Apache
+Flink application.
 
 =head1 ATTRIBUTES
 

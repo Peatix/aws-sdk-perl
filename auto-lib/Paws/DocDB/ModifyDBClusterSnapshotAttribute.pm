@@ -55,8 +55,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/rds
 
 The name of the cluster snapshot attribute to modify.
 
-To manage authorization for other accounts to copy or restore a manual
-cluster snapshot, set this value to C<restore>.
+To manage authorization for other Amazon Web Services accounts to copy
+or restore a manual cluster snapshot, set this value to C<restore>.
 
 
 
@@ -71,12 +71,13 @@ The identifier for the cluster snapshot to modify the attributes for.
 A list of cluster snapshot attributes to add to the attribute specified
 by C<AttributeName>.
 
-To authorize other accounts to copy or restore a manual cluster
-snapshot, set this list to include one or more account IDs. To make the
-manual cluster snapshot restorable by any account, set it to C<all>. Do
-not add the C<all> value for any manual cluster snapshots that contain
-private information that you don't want to be available to all
-accounts.
+To authorize other Amazon Web Services accounts to copy or restore a
+manual cluster snapshot, set this list to include one or more Amazon
+Web Services account IDs. To make the manual cluster snapshot
+restorable by any Amazon Web Services account, set it to C<all>. Do not
+add the C<all> value for any manual cluster snapshots that contain
+private information that you don't want to be available to all Amazon
+Web Services accounts.
 
 
 
@@ -85,11 +86,12 @@ accounts.
 A list of cluster snapshot attributes to remove from the attribute
 specified by C<AttributeName>.
 
-To remove authorization for other accounts to copy or restore a manual
-cluster snapshot, set this list to include one or more account
-identifiers. To remove authorization for any account to copy or restore
-the cluster snapshot, set it to C<all> . If you specify C<all>, an
-account whose account ID is explicitly added to the C<restore>
+To remove authorization for other Amazon Web Services accounts to copy
+or restore a manual cluster snapshot, set this list to include one or
+more Amazon Web Services account identifiers. To remove authorization
+for any Amazon Web Services account to copy or restore the cluster
+snapshot, set it to C<all> . If you specify C<all>, an Amazon Web
+Services account whose account ID is explicitly added to the C<restore>
 attribute can still copy or restore a manual cluster snapshot.
 
 

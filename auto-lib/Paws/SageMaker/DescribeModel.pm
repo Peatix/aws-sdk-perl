@@ -33,8 +33,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     );
 
     # Results:
-    my $Containers             = $DescribeModelOutput->Containers;
-    my $CreationTime           = $DescribeModelOutput->CreationTime;
+    my $Containers   = $DescribeModelOutput->Containers;
+    my $CreationTime = $DescribeModelOutput->CreationTime;
+    my $DeploymentRecommendation =
+      $DescribeModelOutput->DeploymentRecommendation;
     my $EnableNetworkIsolation = $DescribeModelOutput->EnableNetworkIsolation;
     my $ExecutionRoleArn       = $DescribeModelOutput->ExecutionRoleArn;
     my $InferenceExecutionConfig =

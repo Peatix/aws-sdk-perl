@@ -4,6 +4,7 @@ package Paws::IoT::ListCACertificates;
   has AscendingOrder => (is => 'ro', isa => 'Bool', traits => ['ParamInQuery'], query_name => 'isAscendingOrder');
   has Marker => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'marker');
   has PageSize => (is => 'ro', isa => 'Int', traits => ['ParamInQuery'], query_name => 'pageSize');
+  has TemplateName => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'templateName');
 
   use MooseX::ClassAttribute;
 
@@ -31,9 +32,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $iot = Paws->service('IoT');
     my $ListCACertificatesResponse = $iot->ListCACertificates(
-      AscendingOrder => 1,             # OPTIONAL
-      Marker         => 'MyMarker',    # OPTIONAL
-      PageSize       => 1,             # OPTIONAL
+      AscendingOrder => 1,                   # OPTIONAL
+      Marker         => 'MyMarker',          # OPTIONAL
+      PageSize       => 1,                   # OPTIONAL
+      TemplateName   => 'MyTemplateName',    # OPTIONAL
     );
 
     # Results:
@@ -63,6 +65,12 @@ The marker for the next set of results.
 =head2 PageSize => Int
 
 The result page size.
+
+
+
+=head2 TemplateName => Str
+
+The name of the provisioning template.
 
 
 

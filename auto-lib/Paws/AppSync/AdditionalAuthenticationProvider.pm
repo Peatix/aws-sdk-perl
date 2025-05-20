@@ -2,6 +2,7 @@
 package Paws::AppSync::AdditionalAuthenticationProvider;
   use Moose;
   has AuthenticationType => (is => 'ro', isa => 'Str', request_name => 'authenticationType', traits => ['NameInRequest']);
+  has LambdaAuthorizerConfig => (is => 'ro', isa => 'Paws::AppSync::LambdaAuthorizerConfig', request_name => 'lambdaAuthorizerConfig', traits => ['NameInRequest']);
   has OpenIDConnectConfig => (is => 'ro', isa => 'Paws::AppSync::OpenIDConnectConfig', request_name => 'openIDConnectConfig', traits => ['NameInRequest']);
   has UserPoolConfig => (is => 'ro', isa => 'Paws::AppSync::CognitoUserPoolConfig', request_name => 'userPoolConfig', traits => ['NameInRequest']);
 
@@ -42,13 +43,18 @@ Describes an additional authentication provider.
 
 =head2 AuthenticationType => Str
 
-The authentication type: API key, AWS IAM, OIDC, or Amazon Cognito user
-pools.
+The authentication type: API key, Identity and Access Management (IAM),
+OpenID Connect (OIDC), Amazon Cognito user pools, or Lambda.
+
+
+=head2 LambdaAuthorizerConfig => L<Paws::AppSync::LambdaAuthorizerConfig>
+
+Configuration for Lambda function authorization.
 
 
 =head2 OpenIDConnectConfig => L<Paws::AppSync::OpenIDConnectConfig>
 
-The OpenID Connect configuration.
+The OIDC configuration.
 
 
 =head2 UserPoolConfig => L<Paws::AppSync::CognitoUserPoolConfig>

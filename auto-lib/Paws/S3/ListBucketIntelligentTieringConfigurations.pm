@@ -67,7 +67,7 @@ or retrieve.
 
 =head2 ContinuationToken => Str
 
-The ContinuationToken that represents a placeholder from where this
+The C<ContinuationToken> that represents a placeholder from where this
 request should begin.
 
 

@@ -5,6 +5,7 @@ package Paws::SecurityHub::Standard;
   has EnabledByDefault => (is => 'ro', isa => 'Bool');
   has Name => (is => 'ro', isa => 'Str');
   has StandardsArn => (is => 'ro', isa => 'Str');
+  has StandardsManagedBy => (is => 'ro', isa => 'Paws::SecurityHub::StandardsManagedBy');
 
 1;
 
@@ -25,7 +26,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::SecurityHub::Standard object:
 
-  $service_obj->Method(Att1 => { Description => $value, ..., StandardsArn => $value  });
+  $service_obj->Method(Att1 => { Description => $value, ..., StandardsManagedBy => $value  });
 
 =head3 Results returned from an API call
 
@@ -36,7 +37,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SecurityHub
 
 =head1 DESCRIPTION
 
-Provides information about a specific standard.
+Provides information about a specific security standard.
 
 =head1 ATTRIBUTES
 
@@ -64,7 +65,12 @@ The name of the standard.
 
 =head2 StandardsArn => Str
 
-The ARN of a standard.
+The ARN of the standard.
+
+
+=head2 StandardsManagedBy => L<Paws::SecurityHub::StandardsManagedBy>
+
+Provides details about the management of a standard.
 
 
 

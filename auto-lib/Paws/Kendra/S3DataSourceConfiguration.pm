@@ -38,8 +38,24 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Kendra::S3D
 
 =head1 DESCRIPTION
 
-Provides configuration information for a data source to index documents
-in an Amazon S3 bucket.
+Provides the configuration information to connect to an Amazon S3
+bucket.
+
+Amazon Kendra now supports an upgraded Amazon S3 connector.
+
+You must now use the TemplateConfiguration
+(https://docs.aws.amazon.com/kendra/latest/APIReference/API_TemplateConfiguration.html)
+object instead of the C<S3DataSourceConfiguration> object to configure
+your connector.
+
+Connectors configured using the older console and API architecture will
+continue to function as configured. However, you won't be able to edit
+or update them. If you want to edit or update your connector
+configuration, you must create a new connector.
+
+We recommended migrating your connector workflow to the upgraded
+version. Support for connectors configured using the older architecture
+is scheduled to end by June 2024.
 
 =head1 ATTRIBUTES
 
@@ -64,65 +80,114 @@ The name of the bucket that contains the documents.
 
 =head2 ExclusionPatterns => ArrayRef[Str|Undef]
 
-A list of glob patterns for documents that should not be indexed. If a
-document that matches an inclusion prefix or inclusion pattern also
-matches an exclusion pattern, the document is not indexed.
-
-Some examples
-(https://docs.aws.amazon.com/cli/latest/reference/s3/#use-of-exclude-and-include-filters)
-are:
+A list of glob patterns (patterns that can expand a wildcard pattern
+into a list of path names that match the given pattern) for certain
+file names and file types to exclude from your index. If a document
+matches both an inclusion and exclusion prefix or pattern, the
+exclusion prefix takes precendence and the document is not indexed.
+Examples of glob patterns include:
 
 =over
 
 =item *
 
-I<*.png , *.jpg> will exclude all PNG and JPEG image files in a
-directory (files with the extensions .png and .jpg).
+I</myapp/config/*>E<mdash>All files inside config directory.
 
 =item *
 
-I<*internal*> will exclude all files in a directory that contain
-'internal' in the file name, such as 'internal', 'internal_only',
+I<**/*.png>E<mdash>All .png files in all directories.
+
+=item *
+
+I<**/*.{png, ico, md}>E<mdash>All .png, .ico or .md files in all
+directories.
+
+=item *
+
+I</myapp/src/**/*.ts>E<mdash>All .ts files inside src directory (and
+all its subdirectories).
+
+=item *
+
+I<**/!(*.module).ts>E<mdash>All .ts files but not .module.ts
+
+=item *
+
+I<*.png , *.jpg>E<mdash>All PNG and JPEG image files in a directory
+(files with the extensions .png and .jpg).
+
+=item *
+
+I<*internal*>E<mdash>All files in a directory that contain 'internal'
+in the file name, such as 'internal', 'internal_only',
 'company_internal'.
 
 =item *
 
-I<**/*internal*> will exclude all internal-related files in a directory
-and its subdirectories.
+I<**/*internal*>E<mdash>All internal-related files in a directory and
+its subdirectories.
 
 =back
 
+For more examples, see Use of Exclude and Include Filters
+(https://docs.aws.amazon.com/cli/latest/reference/s3/#use-of-exclude-and-include-filters)
+in the Amazon Web Services CLI Command Reference.
 
 
 =head2 InclusionPatterns => ArrayRef[Str|Undef]
 
-A list of glob patterns for documents that should be indexed. If a
-document that matches an inclusion pattern also matches an exclusion
-pattern, the document is not indexed.
-
-Some examples
-(https://docs.aws.amazon.com/cli/latest/reference/s3/#use-of-exclude-and-include-filters)
-are:
+A list of glob patterns (patterns that can expand a wildcard pattern
+into a list of path names that match the given pattern) for certain
+file names and file types to include in your index. If a document
+matches both an inclusion and exclusion prefix or pattern, the
+exclusion prefix takes precendence and the document is not indexed.
+Examples of glob patterns include:
 
 =over
 
 =item *
 
-I<*.txt> will include all text files in a directory (files with the
-extension .txt).
+I</myapp/config/*>E<mdash>All files inside config directory.
 
 =item *
 
-I<**/*.txt> will include all text files in a directory and its
-subdirectories.
+I<**/*.png>E<mdash>All .png files in all directories.
 
 =item *
 
-I<*tax*> will include all files in a directory that contain 'tax' in
-the file name, such as 'tax', 'taxes', 'income_tax'.
+I<**/*.{png, ico, md}>E<mdash>All .png, .ico or .md files in all
+directories.
+
+=item *
+
+I</myapp/src/**/*.ts>E<mdash>All .ts files inside src directory (and
+all its subdirectories).
+
+=item *
+
+I<**/!(*.module).ts>E<mdash>All .ts files but not .module.ts
+
+=item *
+
+I<*.png , *.jpg>E<mdash>All PNG and JPEG image files in a directory
+(files with the extensions .png and .jpg).
+
+=item *
+
+I<*internal*>E<mdash>All files in a directory that contain 'internal'
+in the file name, such as 'internal', 'internal_only',
+'company_internal'.
+
+=item *
+
+I<**/*internal*>E<mdash>All internal-related files in a directory and
+its subdirectories.
 
 =back
 
+For more examples, see Use of Exclude and Include Filters
+(https://docs.aws.amazon.com/cli/latest/reference/s3/#use-of-exclude-and-include-filters)
+in the Amazon Web Services CLI Command Reference.
 
 
 =head2 InclusionPrefixes => ArrayRef[Str|Undef]

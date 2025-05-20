@@ -5,6 +5,7 @@ package Paws::LakeFormation::ListResourcesResponse;
   has ResourceInfoList => (is => 'ro', isa => 'ArrayRef[Paws::LakeFormation::ResourceInfo]');
 
   has _request_id => (is => 'ro', isa => 'Str');
+1;
 
 ### main pod documentation begin ###
 
@@ -31,4 +32,3 @@ A summary of the data lake resources.
 
 =cut
 
-1;

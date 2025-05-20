@@ -85,8 +85,8 @@ C<REMOVE> - the item was deleted from the table
 
 =head2 EventSource => Str
 
-The AWS service from which the stream record originated. For DynamoDB
-Streams, this is C<aws:dynamodb>.
+The Amazon Web Services service from which the stream record
+originated. For DynamoDB Streams, this is C<aws:dynamodb>.
 
 
 =head2 EventVersion => Str

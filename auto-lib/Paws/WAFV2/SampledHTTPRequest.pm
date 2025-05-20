@@ -2,7 +2,10 @@
 package Paws::WAFV2::SampledHTTPRequest;
   use Moose;
   has Action => (is => 'ro', isa => 'Str');
+  has CaptchaResponse => (is => 'ro', isa => 'Paws::WAFV2::CaptchaResponse');
+  has ChallengeResponse => (is => 'ro', isa => 'Paws::WAFV2::ChallengeResponse');
   has Labels => (is => 'ro', isa => 'ArrayRef[Paws::WAFV2::Label]');
+  has OverriddenAction => (is => 'ro', isa => 'Str');
   has Request => (is => 'ro', isa => 'Paws::WAFV2::HTTPRequest', required => 1);
   has RequestHeadersInserted => (is => 'ro', isa => 'ArrayRef[Paws::WAFV2::HTTPHeader]');
   has ResponseCodeSent => (is => 'ro', isa => 'Int');
@@ -51,8 +54,17 @@ objects.
 
 =head2 Action => Str
 
-The action for the C<Rule> that the request matched: C<ALLOW>,
-C<BLOCK>, or C<COUNT>.
+The action that WAF applied to the request.
+
+
+=head2 CaptchaResponse => L<Paws::WAFV2::CaptchaResponse>
+
+The C<CAPTCHA> response for the request.
+
+
+=head2 ChallengeResponse => L<Paws::WAFV2::ChallengeResponse>
+
+The C<Challenge> response for the request.
 
 
 =head2 Labels => ArrayRef[L<Paws::WAFV2::Label>]
@@ -65,6 +77,14 @@ rule group or web ACL defines the label namespace.
 For example,
 C<awswaf:111122223333:myRuleGroup:testRules:testNS1:testNS2:labelNameA>
 or C<awswaf:managed:aws:managed-rule-set:header:encoding:utf8>.
+
+
+=head2 OverriddenAction => Str
+
+Used only for rule group rules that have a rule action override in
+place in the web ACL. This is the action that the rule group rule is
+configured for, and not the action that was applied to the request. The
+action that WAF applied is the C<Action> value.
 
 
 =head2 B<REQUIRED> Request => L<Paws::WAFV2::HTTPRequest>

@@ -1,6 +1,7 @@
 
 package Paws::Backup::ListRecoveryPointsByResource;
   use Moose;
+  has ManagedByAWSBackupOnly => (is => 'ro', isa => 'Bool', traits => ['ParamInQuery'], query_name => 'managedByAWSBackupOnly');
   has MaxResults => (is => 'ro', isa => 'Int', traits => ['ParamInQuery'], query_name => 'maxResults');
   has NextToken => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'nextToken');
   has ResourceArn => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'resourceArn', required => 1);
@@ -32,9 +33,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $backup = Paws->service('Backup');
     my $ListRecoveryPointsByResourceOutput =
       $backup->ListRecoveryPointsByResource(
-      ResourceArn => 'MyARN',
-      MaxResults  => 1,             # OPTIONAL
-      NextToken   => 'Mystring',    # OPTIONAL
+      ResourceArn            => 'MyARN',
+      ManagedByAWSBackupOnly => 1,             # OPTIONAL
+      MaxResults             => 1,             # OPTIONAL
+      NextToken              => 'Mystring',    # OPTIONAL
       );
 
     # Results:
@@ -49,16 +51,32 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/bac
 =head1 ATTRIBUTES
 
 
+=head2 ManagedByAWSBackupOnly => Bool
+
+This attribute filters recovery points based on ownership.
+
+If this is set to C<TRUE>, the response will contain recovery points
+associated with the selected resources that are managed by Backup.
+
+If this is set to C<FALSE>, the response will contain all recovery
+points associated with the selected resource.
+
+Type: Boolean
+
+
+
 =head2 MaxResults => Int
 
 The maximum number of items to be returned.
+
+Amazon RDS requires a value of at least 20.
 
 
 
 =head2 NextToken => Str
 
 The next item following a partial list of returned items. For example,
-if a request is made to return C<maxResults> number of items,
+if a request is made to return C<MaxResults> number of items,
 C<NextToken> allows you to return more items in your list starting at
 the location pointed to by the next token.
 

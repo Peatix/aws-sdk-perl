@@ -35,11 +35,11 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::KMS::MultiR
 
 =head1 DESCRIPTION
 
-Describes the configuration of this multi-Region CMK. This field
-appears only when the CMK is a primary or replica of a multi-Region
-CMK.
+Describes the configuration of this multi-Region key. This field
+appears only when the KMS key is a primary or replica of a multi-Region
+key.
 
-For more information about any listed CMK, use the DescribeKey
+For more information about any listed KMS key, use the DescribeKey
 operation.
 
 =head1 ATTRIBUTES
@@ -47,19 +47,19 @@ operation.
 
 =head2 MultiRegionKeyType => Str
 
-Indicates whether the CMK is a C<PRIMARY> or C<REPLICA> key.
+Indicates whether the KMS key is a C<PRIMARY> or C<REPLICA> key.
 
 
 =head2 PrimaryKey => L<Paws::KMS::MultiRegionKey>
 
 Displays the key ARN and Region of the primary key. This field includes
-the current CMK if it is the primary key.
+the current KMS key if it is the primary key.
 
 
 =head2 ReplicaKeys => ArrayRef[L<Paws::KMS::MultiRegionKey>]
 
 displays the key ARNs and Regions of all replica keys. This field
-includes the current CMK if it is a replica key.
+includes the current KMS key if it is a replica key.
 
 
 

@@ -8,6 +8,7 @@ package Paws::EFS::FileSystemDescription;
   has Encrypted => (is => 'ro', isa => 'Bool');
   has FileSystemArn => (is => 'ro', isa => 'Str');
   has FileSystemId => (is => 'ro', isa => 'Str', required => 1);
+  has FileSystemProtection => (is => 'ro', isa => 'Paws::EFS::FileSystemProtectionDescription');
   has KmsKeyId => (is => 'ro', isa => 'Str');
   has LifeCycleState => (is => 'ro', isa => 'Str', required => 1);
   has Name => (is => 'ro', isa => 'Str');
@@ -34,16 +35,17 @@ Paws::EFS::FileSystemDescription
 =head2 AvailabilityZoneId => Str
 
 The unique and consistent identifier of the Availability Zone in which
-the file system's One Zone storage classes exist. For example,
-C<use1-az1> is an Availability Zone ID for the us-east-1 AWS Region,
-and it has the same location in every AWS account.
+the file system is located, and is valid only for One Zone file
+systems. For example, C<use1-az1> is an Availability Zone ID for the
+us-east-1 Amazon Web Services Region, and it has the same location in
+every Amazon Web Services account.
 
 
 =head2 AvailabilityZoneName => Str
 
-Describes the AWS Availability Zone in which the file system is
-located, and is valid only for file systems using One Zone storage
-classes. For more information, see Using EFS storage classes
+Describes the Amazon Web Services Availability Zone in which the file
+system is located, and is valid only for One Zone file systems. For
+more information, see Using EFS storage classes
 (https://docs.aws.amazon.com/efs/latest/ug/storage-classes.html) in the
 I<Amazon EFS User Guide>.
 
@@ -78,10 +80,14 @@ C<arn:aws:elasticfilesystem:us-west-2:1111333322228888:file-system/fs-01234567>
 The ID of the file system, assigned by Amazon EFS.
 
 
+=head2 FileSystemProtection => L<Paws::EFS::FileSystemProtectionDescription>
+
+Describes the protection on the file system.
+
+
 =head2 KmsKeyId => Str
 
-The ID of an AWS Key Management Service (AWS KMS) customer master key
-(CMK) that was used to protect the encrypted file system.
+The ID of an KMS key used to protect the encrypted file system.
 
 
 =head2 B<REQUIRED> LifeCycleState => Str
@@ -104,9 +110,7 @@ information, see CreateMountTarget.
 
 =head2 B<REQUIRED> OwnerId => Str
 
-The AWS account that created the file system. If the file system was
-created by an IAM user, the parent account to which the user belongs is
-the owner.
+The Amazon Web Services account that created the file system.
 
 
 =head2 B<REQUIRED> PerformanceMode => Str
@@ -116,7 +120,7 @@ The performance mode of the file system.
 Valid values are: C<"generalPurpose">, C<"maxIO">
 =head2 ProvisionedThroughputInMibps => Num
 
-The amount of provisioned throughput, measured in MiB/s, for the file
+The amount of provisioned throughput, measured in MiBps, for the file
 system. Valid for file systems using C<ThroughputMode> set to
 C<provisioned>.
 
@@ -148,7 +152,7 @@ Throughput modes
 (https://docs.aws.amazon.com/efs/latest/ug/performance.html#throughput-modes)
 in the I<Amazon EFS User Guide>.
 
-Valid values are: C<"bursting">, C<"provisioned">
+Valid values are: C<"bursting">, C<"provisioned">, C<"elastic">
 =head2 _request_id => Str
 
 

@@ -5,6 +5,7 @@ package Paws::Config::OrganizationConfigRule;
   has LastUpdateTime => (is => 'ro', isa => 'Str');
   has OrganizationConfigRuleArn => (is => 'ro', isa => 'Str', required => 1);
   has OrganizationConfigRuleName => (is => 'ro', isa => 'Str', required => 1);
+  has OrganizationCustomPolicyRuleMetadata => (is => 'ro', isa => 'Paws::Config::OrganizationCustomPolicyRuleMetadataNoPolicy');
   has OrganizationCustomRuleMetadata => (is => 'ro', isa => 'Paws::Config::OrganizationCustomRuleMetadata');
   has OrganizationManagedRuleMetadata => (is => 'ro', isa => 'Paws::Config::OrganizationManagedRuleMetadata');
 
@@ -38,15 +39,15 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Config::Org
 
 =head1 DESCRIPTION
 
-An organization config rule that has information about config rules
-that AWS Config creates in member accounts.
+An organization Config rule that has information about Config rules
+that Config creates in member accounts.
 
 =head1 ATTRIBUTES
 
 
 =head2 ExcludedAccounts => ArrayRef[Str|Undef]
 
-A comma-separated list of accounts excluded from organization config
+A comma-separated list of accounts excluded from organization Config
 rule.
 
 
@@ -57,12 +58,22 @@ The timestamp of the last update.
 
 =head2 B<REQUIRED> OrganizationConfigRuleArn => Str
 
-Amazon Resource Name (ARN) of organization config rule.
+Amazon Resource Name (ARN) of organization Config rule.
 
 
 =head2 B<REQUIRED> OrganizationConfigRuleName => Str
 
-The name that you assign to organization config rule.
+The name that you assign to organization Config rule.
+
+
+=head2 OrganizationCustomPolicyRuleMetadata => L<Paws::Config::OrganizationCustomPolicyRuleMetadataNoPolicy>
+
+An object that specifies metadata for your organization's Config Custom
+Policy rule. The metadata includes the runtime system in use, which
+accounts have debug logging enabled, and other custom rule metadata,
+such as resource type, resource ID of Amazon Web Services resource, and
+organization trigger types that initiate Config to evaluate Amazon Web
+Services resources against a rule.
 
 
 =head2 OrganizationCustomRuleMetadata => L<Paws::Config::OrganizationCustomRuleMetadata>

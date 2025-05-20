@@ -5,6 +5,7 @@ package Paws::IoTSiteWise::GetInterpolatedAssetPropertyValues;
   has EndTimeInSeconds => (is => 'ro', isa => 'Int', traits => ['ParamInQuery'], query_name => 'endTimeInSeconds', required => 1);
   has EndTimeOffsetInNanos => (is => 'ro', isa => 'Int', traits => ['ParamInQuery'], query_name => 'endTimeOffsetInNanos');
   has IntervalInSeconds => (is => 'ro', isa => 'Int', traits => ['ParamInQuery'], query_name => 'intervalInSeconds', required => 1);
+  has IntervalWindowInSeconds => (is => 'ro', isa => 'Int', traits => ['ParamInQuery'], query_name => 'intervalWindowInSeconds');
   has MaxResults => (is => 'ro', isa => 'Int', traits => ['ParamInQuery'], query_name => 'maxResults');
   has NextToken => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'nextToken');
   has PropertyAlias => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'propertyAlias');
@@ -41,18 +42,19 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $iotsitewise = Paws->service('IoTSiteWise');
     my $GetInterpolatedAssetPropertyValuesResponse =
       $iotsitewise->GetInterpolatedAssetPropertyValues(
-      EndTimeInSeconds       => 1,
-      IntervalInSeconds      => 1,
-      Quality                => 'GOOD',
-      StartTimeInSeconds     => 1,
-      Type                   => 'MyInterpolationType',
-      AssetId                => 'MyID',                    # OPTIONAL
-      EndTimeOffsetInNanos   => 1,                         # OPTIONAL
-      MaxResults             => 1,                         # OPTIONAL
-      NextToken              => 'MyNextToken',             # OPTIONAL
-      PropertyAlias          => 'MyAssetPropertyAlias',    # OPTIONAL
-      PropertyId             => 'MyID',                    # OPTIONAL
-      StartTimeOffsetInNanos => 1,                         # OPTIONAL
+      EndTimeInSeconds        => 1,
+      IntervalInSeconds       => 1,
+      Quality                 => 'GOOD',
+      StartTimeInSeconds      => 1,
+      Type                    => 'MyInterpolationType',
+      AssetId                 => 'MyID',                    # OPTIONAL
+      EndTimeOffsetInNanos    => 1,                         # OPTIONAL
+      IntervalWindowInSeconds => 1,                         # OPTIONAL
+      MaxResults              => 1,                         # OPTIONAL
+      NextToken               => 'MyNextToken',             # OPTIONAL
+      PropertyAlias           => 'MyAssetPropertyAlias',    # OPTIONAL
+      PropertyId              => 'MyID',                    # OPTIONAL
+      StartTimeOffsetInNanos  => 1,                         # OPTIONAL
       );
 
     # Results:
@@ -71,7 +73,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/iot
 
 =head2 AssetId => Str
 
-The ID of the asset.
+The ID of the asset, in UUID format.
 
 
 
@@ -95,9 +97,43 @@ interval starts when the previous one ends.
 
 
 
+=head2 IntervalWindowInSeconds => Int
+
+The query interval for the window, in seconds. IoT SiteWise computes
+each interpolated value by using data points from the timestamp of each
+interval, minus the window to the timestamp of each interval plus the
+window. If not specified, the window ranges between the start time
+minus the interval and the end time plus the interval.
+
+=over
+
+=item *
+
+If you specify a value for the C<intervalWindowInSeconds> parameter,
+the value for the C<type> parameter must be C<LINEAR_INTERPOLATION>.
+
+=item *
+
+If a data point isn't found during the specified query window, IoT
+SiteWise won't return an interpolated value for the interval. This
+indicates that there's a gap in the ingested data points.
+
+=back
+
+For example, you can get the interpolated temperature values for a wind
+turbine every 24 hours over a duration of 7 days. If the interpolation
+starts on July 1, 2021, at 9 AM with a window of 2 hours, IoT SiteWise
+uses the data points from 7 AM (9 AM minus 2 hours) to 11 AM (9 AM plus
+2 hours) on July 2, 2021 to compute the first interpolated value. Next,
+IoT SiteWise uses the data points from 7 AM (9 AM minus 2 hours) to 11
+AM (9 AM plus 2 hours) on July 3, 2021 to compute the second
+interpolated value, and so on.
+
+
+
 =head2 MaxResults => Int
 
-The maximum number of results to be returned per paginated request. If
+The maximum number of results to return for each paginated request. If
 not specified, the default value is 10.
 
 
@@ -110,18 +146,18 @@ The token to be used for the next set of paginated results.
 
 =head2 PropertyAlias => Str
 
-The property alias that identifies the property, such as an OPC-UA
-server data stream path (for example,
+The alias that identifies the property, such as an OPC-UA server data
+stream path (for example,
 C</company/windfarm/3/turbine/7/temperature>). For more information,
 see Mapping industrial data streams to asset properties
 (https://docs.aws.amazon.com/iot-sitewise/latest/userguide/connect-data-streams.html)
-in the I<AWS IoT SiteWise User Guide>.
+in the I<IoT SiteWise User Guide>.
 
 
 
 =head2 PropertyId => Str
 
-The ID of the asset property.
+The ID of the asset property, in UUID format.
 
 
 
@@ -150,7 +186,39 @@ The nanosecond offset converted from C<startTimeInSeconds>.
 
 The interpolation type.
 
-Valid values: C<LINEAR_INTERPOLATION>
+Valid values: C<LINEAR_INTERPOLATION | LOCF_INTERPOLATION>
+
+=over
+
+=item *
+
+C<LINEAR_INTERPOLATION> E<ndash> Estimates missing data using linear
+interpolation (https://en.wikipedia.org/wiki/Linear_interpolation).
+
+For example, you can use this operation to return the interpolated
+temperature values for a wind turbine every 24 hours over a duration of
+7 days. If the interpolation starts July 1, 2021, at 9 AM, IoT SiteWise
+returns the first interpolated value on July 2, 2021, at 9 AM, the
+second interpolated value on July 3, 2021, at 9 AM, and so on.
+
+=item *
+
+C<LOCF_INTERPOLATION> E<ndash> Estimates missing data using last
+observation carried forward interpolation
+
+If no data point is found for an interval, IoT SiteWise returns the
+last observed data point for the previous interval and carries forward
+this interpolated value until a new data point is found.
+
+For example, you can get the state of an on-off valve every 24 hours
+over a duration of 7 days. If the interpolation starts July 1, 2021, at
+9 AM, IoT SiteWise returns the last observed data point between July 1,
+2021, at 9 AM and July 2, 2021, at 9 AM as the first interpolated
+value. If a data point isn't found after 9 AM on July 2, 2021, IoT
+SiteWise uses the same interpolated value for the rest of the days.
+
+=back
+
 
 
 

@@ -1,6 +1,7 @@
 
 package Paws::SSM::StartAutomationExecution;
   use Moose;
+  has AlarmConfiguration => (is => 'ro', isa => 'Paws::SSM::AlarmConfiguration');
   has ClientToken => (is => 'ro', isa => 'Str');
   has DocumentName => (is => 'ro', isa => 'Str', required => 1);
   has DocumentVersion => (is => 'ro', isa => 'Str');
@@ -10,6 +11,7 @@ package Paws::SSM::StartAutomationExecution;
   has Parameters => (is => 'ro', isa => 'Paws::SSM::AutomationParameterMap');
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::SSM::Tag]');
   has TargetLocations => (is => 'ro', isa => 'ArrayRef[Paws::SSM::TargetLocation]');
+  has TargetLocationsURL => (is => 'ro', isa => 'Str');
   has TargetMaps => (is => 'ro', isa => 'ArrayRef[Paws::SSM::TargetMap]');
   has TargetParameterName => (is => 'ro', isa => 'Str');
   has Targets => (is => 'ro', isa => 'ArrayRef[Paws::SSM::Target]');
@@ -39,7 +41,17 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $ssm = Paws->service('SSM');
     my $StartAutomationExecutionResult = $ssm->StartAutomationExecution(
-      DocumentName    => 'MyDocumentARN',
+      DocumentName       => 'MyDocumentARN',
+      AlarmConfiguration => {
+        Alarms => [
+          {
+            Name => 'MyAlarmName',    # min: 1, max: 255
+
+          },
+          ...
+        ],    # min: 1, max: 1
+        IgnorePollAlarmFailure => 1,    # OPTIONAL
+      },    # OPTIONAL
       ClientToken     => 'MyIdempotencyToken',    # OPTIONAL
       DocumentVersion => 'MyDocumentVersion',     # OPTIONAL
       MaxConcurrency  => 'MyMaxConcurrency',      # OPTIONAL
@@ -53,23 +65,47 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       Tags => [
         {
           Key   => 'MyTagKey',      # min: 1, max: 128
-          Value => 'MyTagValue',    # min: 1, max: 256
+          Value => 'MyTagValue',    # max: 256
 
         },
         ...
       ],    # OPTIONAL
       TargetLocations => [
         {
-          Accounts          => [ 'MyAccount', ... ], # min: 1, max: 50; OPTIONAL
+          Accounts        => [ 'MyAccount', ... ],   # min: 1, max: 50; OPTIONAL
+          ExcludeAccounts => [
+            'MyExcludeAccount', ...                  # min: 6, max: 68
+          ],    # min: 1, max: 5000; OPTIONAL
           ExecutionRoleName =>
-            'MyExecutionRoleName',                   # min: 1, max: 64; OPTIONAL
-          Regions => [ 'MyRegion', ... ],            # min: 1, max: 50; OPTIONAL
+            'MyExecutionRoleName',    # min: 1, max: 64; OPTIONAL
+          IncludeChildOrganizationUnits => 1,    # OPTIONAL
+          Regions => [ 'MyRegion', ... ],        # min: 1, max: 50; OPTIONAL
+          TargetLocationAlarmConfiguration => {
+            Alarms => [
+              {
+                Name => 'MyAlarmName',    # min: 1, max: 255
+
+              },
+              ...
+            ],    # min: 1, max: 1
+            IgnorePollAlarmFailure => 1,    # OPTIONAL
+          },
           TargetLocationMaxConcurrency => 'MyMaxConcurrency',   # min: 1, max: 7
           TargetLocationMaxErrors      => 'MyMaxErrors',        # min: 1, max: 7
+          Targets                      => [
+            {
+              Key    => 'MyTargetKey',              # min: 1, max: 163; OPTIONAL
+              Values => [ 'MyTargetValue', ... ],   # max: 50; OPTIONAL
+            },
+            ...
+          ],    # max: 5; OPTIONAL
+          TargetsMaxConcurrency => 'MyMaxConcurrency',    # min: 1, max: 7
+          TargetsMaxErrors      => 'MyMaxErrors',         # min: 1, max: 7
         },
         ...
       ],    # OPTIONAL
-      TargetMaps => [
+      TargetLocationsURL => 'MyTargetLocationsURL',    # OPTIONAL
+      TargetMaps         => [
         {
           'MyTargetMapKey' => [
             'MyTargetMapValue', ...    # min: 1, max: 50
@@ -99,6 +135,12 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ssm
 =head1 ATTRIBUTES
 
 
+=head2 AlarmConfiguration => L<Paws::SSM::AlarmConfiguration>
+
+The CloudWatch alarm you want to apply to your automation.
+
+
+
 =head2 ClientToken => Str
 
 User-provided idempotency token. The token must be unique, is case
@@ -108,18 +150,18 @@ insensitive, enforces the UUID format, and can't be reused.
 
 =head2 B<REQUIRED> DocumentName => Str
 
-The name of the Systems Manager document to run. This can be a public
-document or a custom document. To run a shared document belonging to
-another account, specify the document ARN. For more information about
-how to use shared documents, see Using shared SSM documents
-(https://docs.aws.amazon.com/systems-manager/latest/userguide/ssm-using-shared.html)
-in the I<AWS Systems Manager User Guide>.
+The name of the SSM document to run. This can be a public document or a
+custom document. To run a shared document belonging to another account,
+specify the document ARN. For more information about how to use shared
+documents, see Sharing SSM documents
+(https://docs.aws.amazon.com/systems-manager/latest/userguide/documents-ssm-sharing.html)
+in the I<Amazon Web Services Systems Manager User Guide>.
 
 
 
 =head2 DocumentVersion => Str
 
-The version of the Automation document to use for this execution.
+The version of the Automation runbook to use for this execution.
 
 
 
@@ -127,7 +169,10 @@ The version of the Automation document to use for this execution.
 
 The maximum number of targets allowed to run this task in parallel. You
 can specify a number, such as 10, or a percentage, such as 10%. The
-default value is 10.
+default value is C<10>.
+
+If both this parameter and the C<TargetLocation:TargetsMaxConcurrency>
+are supplied, C<TargetLocation:TargetsMaxConcurrency> takes precedence.
 
 
 
@@ -150,6 +195,9 @@ as well. If you need to ensure that there won't be more than max-errors
 failed executions, set max-concurrency to 1 so the executions proceed
 one at a time.
 
+If this parameter and the C<TargetLocation:TargetsMaxErrors> parameter
+are both supplied, C<TargetLocation:TargetsMaxErrors> takes precedence.
+
 
 
 =head2 Mode => Str
@@ -162,7 +210,7 @@ Valid values are: C<"Auto">, C<"Interactive">
 =head2 Parameters => L<Paws::SSM::AutomationParameterMap>
 
 A key-value map of execution parameters, which match the declared
-parameters in the Automation document.
+parameters in the Automation runbook.
 
 
 
@@ -173,7 +221,7 @@ maximum of five tags for an automation. Tags enable you to categorize a
 resource in different ways, such as by purpose, owner, or environment.
 For example, you might want to tag an automation to identify an
 environment or operating system. In this case, you could specify the
-following key name/value pairs:
+following key-value pairs:
 
 =over
 
@@ -187,26 +235,39 @@ C<Key=OS,Value=Windows>
 
 =back
 
-To add tags to an existing patch baseline, use the AddTagsToResource
-action.
+The C<Array Members> maximum value is reported as 1000. This number
+includes capacity reserved for internal operations. When calling the
+C<StartAutomationExecution> action, you can specify a maximum of 5
+tags. You can, however, use the AddTagsToResource action to add up to a
+total of 50 tags to an existing automation configuration.
 
 
 
 =head2 TargetLocations => ArrayRef[L<Paws::SSM::TargetLocation>]
 
-A location is a combination of AWS Regions and/or AWS accounts where
-you want to run the Automation. Use this action to start an Automation
-in multiple Regions and multiple accounts. For more information, see
-Running Automation workflows in multiple AWS Regions and accounts
+A location is a combination of Amazon Web Services Regions and/or
+Amazon Web Services accounts where you want to run the automation. Use
+this operation to start an automation in multiple Amazon Web Services
+Regions and multiple Amazon Web Services accounts. For more
+information, see Running automations in multiple Amazon Web Services
+Regions and accounts
 (https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-automation-multiple-accounts-and-regions.html)
-in the I<AWS Systems Manager User Guide>.
+in the I<Amazon Web Services Systems Manager User Guide>.
+
+
+
+=head2 TargetLocationsURL => Str
+
+Specify a publicly accessible URL for a file that contains the
+C<TargetLocations> body. Currently, only files in presigned Amazon S3
+buckets are supported.
 
 
 
 =head2 TargetMaps => ArrayRef[L<Paws::SSM::TargetMap>]
 
 A key-value mapping of document parameters to target resources. Both
-Targets and TargetMaps cannot be specified together.
+Targets and TargetMaps can't be specified together.
 
 
 
@@ -221,6 +282,9 @@ rate-controlled execution. Required if you specify targets.
 
 A key-value mapping to target resources. Required if you specify
 TargetParameterName.
+
+If both this parameter and the C<TargetLocation:Targets> parameter are
+supplied, C<TargetLocation:Targets> takes precedence.
 
 
 

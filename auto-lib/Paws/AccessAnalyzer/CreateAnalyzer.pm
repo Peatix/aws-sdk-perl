@@ -4,6 +4,7 @@ package Paws::AccessAnalyzer::CreateAnalyzer;
   has AnalyzerName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'analyzerName', required => 1);
   has ArchiveRules => (is => 'ro', isa => 'ArrayRef[Paws::AccessAnalyzer::InlineArchiveRule]', traits => ['NameInRequest'], request_name => 'archiveRules');
   has ClientToken => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'clientToken');
+  has Configuration => (is => 'ro', isa => 'Paws::AccessAnalyzer::AnalyzerConfiguration', traits => ['NameInRequest'], request_name => 'configuration');
   has Tags => (is => 'ro', isa => 'Paws::AccessAnalyzer::TagsMap', traits => ['NameInRequest'], request_name => 'tags');
   has Type => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'type', required => 1);
 
@@ -50,8 +51,23 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },
         ...
       ],    # OPTIONAL
-      ClientToken => 'MyString',                       # OPTIONAL
-      Tags        => { 'MyString' => 'MyString', },    # OPTIONAL
+      ClientToken   => 'MyString',    # OPTIONAL
+      Configuration => {
+        UnusedAccess => {
+          AnalysisRule => {
+            Exclusions => [
+              {
+                AccountIds   => [ 'MyString', ... ],    # OPTIONAL
+                ResourceTags => [ { 'MyString' => 'MyString', }, ... ]
+                ,                                       # OPTIONAL
+              },
+              ...
+            ],    # OPTIONAL
+          },    # OPTIONAL
+          UnusedAccessAge => 1,    # OPTIONAL
+        },    # OPTIONAL
+      },    # OPTIONAL
+      Tags => { 'MyString' => 'MyString', },    # OPTIONAL
     );
 
     # Results:
@@ -85,19 +101,36 @@ A client token.
 
 
 
+=head2 Configuration => L<Paws::AccessAnalyzer::AnalyzerConfiguration>
+
+Specifies the configuration of the analyzer. If the analyzer is an
+unused access analyzer, the specified scope of unused access is used
+for the configuration.
+
+
+
 =head2 Tags => L<Paws::AccessAnalyzer::TagsMap>
 
-The tags to apply to the analyzer.
+An array of key-value pairs to apply to the analyzer. You can use the
+set of Unicode letters, digits, whitespace, C<_>, C<.>, C</>, C<=>,
+C<+>, and C<->.
+
+For the tag key, you can specify a value that is 1 to 128 characters in
+length and cannot be prefixed with C<aws:>.
+
+For the tag value, you can specify a value that is 0 to 256 characters
+in length.
 
 
 
 =head2 B<REQUIRED> Type => Str
 
-The type of analyzer to create. Only ACCOUNT and ORGANIZATION analyzers
+The type of analyzer to create. Only C<ACCOUNT>, C<ORGANIZATION>,
+C<ACCOUNT_UNUSED_ACCESS>, and C<ORGANIZATION_UNUSED_ACCESS> analyzers
 are supported. You can create only one analyzer per account per Region.
 You can create up to 5 analyzers per organization per Region.
 
-Valid values are: C<"ACCOUNT">, C<"ORGANIZATION">
+Valid values are: C<"ACCOUNT">, C<"ORGANIZATION">, C<"ACCOUNT_UNUSED_ACCESS">, C<"ORGANIZATION_UNUSED_ACCESS">
 
 
 =head1 SEE ALSO

@@ -2,6 +2,7 @@
 package Paws::EC2::RevokeSecurityGroupEgressResult;
   use Moose;
   has Return => (is => 'ro', isa => 'Bool', request_name => 'return', traits => ['NameInRequest',]);
+  has RevokedSecurityGroupRules => (is => 'ro', isa => 'ArrayRef[Paws::EC2::RevokedSecurityGroupRule]', request_name => 'revokedSecurityGroupRuleSet', traits => ['NameInRequest',]);
   has UnknownIpPermissions => (is => 'ro', isa => 'ArrayRef[Paws::EC2::IpPermission]', request_name => 'unknownIpPermissionSet', traits => ['NameInRequest',]);
 
   has _request_id => (is => 'ro', isa => 'Str');
@@ -19,6 +20,11 @@ Paws::EC2::RevokeSecurityGroupEgressResult
 =head2 Return => Bool
 
 Returns C<true> if the request succeeds; otherwise, returns an error.
+
+
+=head2 RevokedSecurityGroupRules => ArrayRef[L<Paws::EC2::RevokedSecurityGroupRule>]
+
+Details about the revoked security group rules.
 
 
 =head2 UnknownIpPermissions => ArrayRef[L<Paws::EC2::IpPermission>]

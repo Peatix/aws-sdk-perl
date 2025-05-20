@@ -38,7 +38,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ECRPublic::
 
 =head1 DESCRIPTION
 
-An object containing the catalog data for a repository. This data is
+An object that contains the catalog data for a repository. This data is
 publicly visible in the Amazon ECR Public Gallery.
 
 =head1 ATTRIBUTES
@@ -46,56 +46,21 @@ publicly visible in the Amazon ECR Public Gallery.
 
 =head2 AboutText => Str
 
-A detailed description of the contents of the repository. It is
-publicly visible in the Amazon ECR Public Gallery. The text must be in
-markdown format.
+A detailed description of the contents of the repository. It's publicly
+visible in the Amazon ECR Public Gallery. The text must be in markdown
+format.
 
 
 =head2 Architectures => ArrayRef[Str|Undef]
 
 The system architecture that the images in the repository are
 compatible with. On the Amazon ECR Public Gallery, the following
-supported architectures will appear as badges on the repository and are
-used as search filters.
-
-=over
-
-=item *
-
-C<Linux>
-
-=item *
-
-C<Windows>
-
-=back
-
-If an unsupported tag is added to your repository catalog data, it will
-be associated with the repository and can be retrieved using the API
-but will not be discoverable in the Amazon ECR Public Gallery.
-
-
-=head2 Description => Str
-
-A short description of the contents of the repository. This text
-appears in both the image details and also when searching for
-repositories on the Amazon ECR Public Gallery.
-
-
-=head2 LogoImageBlob => Str
-
-The base64-encoded repository logo payload.
-
-The repository logo is only publicly visible in the Amazon ECR Public
-Gallery for verified accounts.
-
-
-=head2 OperatingSystems => ArrayRef[Str|Undef]
-
-The operating systems that the images in the repository are compatible
-with. On the Amazon ECR Public Gallery, the following supported
-operating systems will appear as badges on the repository and are used
+supported architectures appear as badges on the repository and are used
 as search filters.
+
+If an unsupported tag is added to your repository catalog data, it's
+associated with the repository and can be retrieved using the API but
+isn't discoverable in the Amazon ECR Public Gallery.
 
 =over
 
@@ -117,15 +82,52 @@ C<x86-64>
 
 =back
 
-If an unsupported tag is added to your repository catalog data, it will
-be associated with the repository and can be retrieved using the API
-but will not be discoverable in the Amazon ECR Public Gallery.
+
+
+=head2 Description => Str
+
+A short description of the contents of the repository. This text
+appears in both the image details and also when searching for
+repositories on the Amazon ECR Public Gallery.
+
+
+=head2 LogoImageBlob => Str
+
+The base64-encoded repository logo payload.
+
+The repository logo is only publicly visible in the Amazon ECR Public
+Gallery for verified accounts.
+
+
+=head2 OperatingSystems => ArrayRef[Str|Undef]
+
+The operating systems that the images in the repository are compatible
+with. On the Amazon ECR Public Gallery, the following supported
+operating systems appear as badges on the repository and are used as
+search filters.
+
+If an unsupported tag is added to your repository catalog data, it's
+associated with the repository and can be retrieved using the API but
+isn't discoverable in the Amazon ECR Public Gallery.
+
+=over
+
+=item *
+
+C<Linux>
+
+=item *
+
+C<Windows>
+
+=back
+
 
 
 =head2 UsageText => Str
 
-Detailed information on how to use the contents of the repository. It
-is publicly visible in the Amazon ECR Public Gallery. The usage text
+Detailed information about how to use the contents of the repository.
+It's publicly visible in the Amazon ECR Public Gallery. The usage text
 provides context, support information, and additional usage details for
 users of the repository. The text must be in markdown format.
 

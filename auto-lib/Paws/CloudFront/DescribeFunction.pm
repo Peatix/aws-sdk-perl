@@ -58,7 +58,7 @@ The name of the function that you are getting information about.
 
 =head2 Stage => Str
 
-The functionE<rsquo>s stage, either C<DEVELOPMENT> or C<LIVE>.
+The function's stage, either C<DEVELOPMENT> or C<LIVE>.
 
 Valid values are: C<"DEVELOPMENT">, C<"LIVE">
 

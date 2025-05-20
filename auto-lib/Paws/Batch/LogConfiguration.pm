@@ -43,69 +43,77 @@ container.
 
 =head2 B<REQUIRED> LogDriver => Str
 
-The log driver to use for the container. The valid values listed for
-this parameter are log drivers that the Amazon ECS container agent can
-communicate with by default.
+The log driver to use for the container. The valid values that are
+listed for this parameter are log drivers that the Amazon ECS container
+agent can communicate with by default.
 
 The supported log drivers are C<awslogs>, C<fluentd>, C<gelf>,
 C<json-file>, C<journald>, C<logentries>, C<syslog>, and C<splunk>.
 
-Jobs running on Fargate resources are restricted to the C<awslogs> and
-C<splunk> log drivers.
+Jobs that are running on Fargate resources are restricted to the
+C<awslogs> and C<splunk> log drivers.
 
 =over
+
+=item awsfirelens
+
+Specifies the firelens logging driver. For more information on
+configuring Firelens, see Send Amazon ECS logs to an Amazon Web
+Services service or Amazon Web Services Partner
+(https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_firelens.html)
+in the I<Amazon Elastic Container Service Developer Guide>.
 
 =item awslogs
 
 Specifies the Amazon CloudWatch Logs logging driver. For more
-information, see Using the awslogs Log Driver
+information, see Using the awslogs log driver
 (https://docs.aws.amazon.com/batch/latest/userguide/using_awslogs.html)
-in the I<AWS Batch User Guide> and Amazon CloudWatch Logs logging
-driver (https://docs.docker.com/config/containers/logging/awslogs/) in
-the Docker documentation.
+in the I<Batch User Guide> and Amazon CloudWatch Logs logging driver
+(https://docs.docker.com/config/containers/logging/awslogs/) in the
+Docker documentation.
 
 =item fluentd
 
-Specifies the Fluentd logging driver. For more information, including
+Specifies the Fluentd logging driver. For more information including
 usage and options, see Fluentd logging driver
 (https://docs.docker.com/config/containers/logging/fluentd/) in the
-Docker documentation.
+I<Docker documentation>.
 
 =item gelf
 
 Specifies the Graylog Extended Format (GELF) logging driver. For more
-information, including usage and options, see Graylog Extended Format
+information including usage and options, see Graylog Extended Format
 logging driver
-(https://docs.docker.com/config/containers/logging/gelf/) in the Docker
-documentation.
+(https://docs.docker.com/config/containers/logging/gelf/) in the
+I<Docker documentation>.
 
 =item journald
 
-Specifies the journald logging driver. For more information, including
+Specifies the journald logging driver. For more information including
 usage and options, see Journald logging driver
 (https://docs.docker.com/config/containers/logging/journald/) in the
-Docker documentation.
+I<Docker documentation>.
 
 =item json-file
 
-Specifies the JSON file logging driver. For more information, including
+Specifies the JSON file logging driver. For more information including
 usage and options, see JSON File logging driver
 (https://docs.docker.com/config/containers/logging/json-file/) in the
-Docker documentation.
+I<Docker documentation>.
 
 =item splunk
 
-Specifies the Splunk logging driver. For more information, including
+Specifies the Splunk logging driver. For more information including
 usage and options, see Splunk logging driver
 (https://docs.docker.com/config/containers/logging/splunk/) in the
-Docker documentation.
+I<Docker documentation>.
 
 =item syslog
 
-Specifies the syslog logging driver. For more information, including
+Specifies the syslog logging driver. For more information including
 usage and options, see Syslog logging driver
 (https://docs.docker.com/config/containers/logging/syslog/) in the
-Docker documentation.
+I<Docker documentation>.
 
 =back
 
@@ -119,7 +127,7 @@ currently support running modified copies of this software.
 
 This parameter requires version 1.18 of the Docker Remote API or
 greater on your container instance. To check the Docker Remote API
-version on your container instance, log into your container instance
+version on your container instance, log in to your container instance
 and run the following command: C<sudo docker version | grep "Server API
 version">
 
@@ -129,16 +137,16 @@ version">
 The configuration options to send to the log driver. This parameter
 requires version 1.19 of the Docker Remote API or greater on your
 container instance. To check the Docker Remote API version on your
-container instance, log into your container instance and run the
+container instance, log in to your container instance and run the
 following command: C<sudo docker version | grep "Server API version">
 
 
 =head2 SecretOptions => ArrayRef[L<Paws::Batch::Secret>]
 
 The secrets to pass to the log configuration. For more information, see
-Specifying Sensitive Data
+Specifying sensitive data
 (https://docs.aws.amazon.com/batch/latest/userguide/specifying-sensitive-data.html)
-in the I<AWS Batch User Guide>.
+in the I<Batch User Guide>.
 
 
 

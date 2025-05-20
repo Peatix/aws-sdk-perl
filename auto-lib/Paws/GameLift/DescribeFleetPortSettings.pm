@@ -59,7 +59,7 @@ can use either the fleet ID or ARN value.
 =head2 Location => Str
 
 A remote location to check for status of port setting updates. Use the
-AWS Region code format, such as C<us-west-2>.
+Amazon Web Services Region code format, such as C<us-west-2>.
 
 
 

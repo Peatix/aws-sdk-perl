@@ -56,7 +56,7 @@ by C<ListAddons>
 
 =head2 B<REQUIRED> ClusterName => Str
 
-The name of the cluster.
+The name of your cluster.
 
 
 

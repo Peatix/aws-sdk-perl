@@ -2,9 +2,9 @@
 package Paws::SageMaker::InferenceSpecification;
   use Moose;
   has Containers => (is => 'ro', isa => 'ArrayRef[Paws::SageMaker::ModelPackageContainerDefinition]', required => 1);
-  has SupportedContentTypes => (is => 'ro', isa => 'ArrayRef[Str|Undef]', required => 1);
+  has SupportedContentTypes => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has SupportedRealtimeInferenceInstanceTypes => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
-  has SupportedResponseMIMETypes => (is => 'ro', isa => 'ArrayRef[Str|Undef]', required => 1);
+  has SupportedResponseMIMETypes => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has SupportedTransformInstanceTypes => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
 
 1;
@@ -49,7 +49,7 @@ The Amazon ECR registry path of the Docker image that contains the
 inference code.
 
 
-=head2 B<REQUIRED> SupportedContentTypes => ArrayRef[Str|Undef]
+=head2 SupportedContentTypes => ArrayRef[Str|Undef]
 
 The supported MIME types for the input data.
 
@@ -63,7 +63,7 @@ This parameter is required for unversioned models, and optional for
 versioned models.
 
 
-=head2 B<REQUIRED> SupportedResponseMIMETypes => ArrayRef[Str|Undef]
+=head2 SupportedResponseMIMETypes => ArrayRef[Str|Undef]
 
 The supported MIME types for the output data.
 

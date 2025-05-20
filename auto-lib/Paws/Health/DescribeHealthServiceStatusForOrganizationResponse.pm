@@ -16,8 +16,8 @@ Paws::Health::DescribeHealthServiceStatusForOrganizationResponse
 
 =head2 HealthServiceAccessStatusForOrganization => Str
 
-Information about the status of enabling or disabling AWS Health
-Organizational View in your organization.
+Information about the status of enabling or disabling the Health
+organizational view feature in your organization.
 
 Valid values are C<ENABLED | DISABLED | PENDING>.
 

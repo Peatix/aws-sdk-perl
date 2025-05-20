@@ -63,8 +63,11 @@ The unique identifier of the bot associated with the alias to delete.
 
 =head2 SkipResourceInUseCheck => Bool
 
-When this parameter is true, Amazon Lex doesn't check to see if any
-other resource is using the alias before it is deleted.
+By default, Amazon Lex checks if any other resource, such as a bot
+network, is using the bot alias before it is deleted and throws a
+C<ResourceInUseException> exception if the alias is being used by
+another resource. Set this parameter to C<true> to skip this check and
+remove the alias even if it is being used by another resource.
 
 
 

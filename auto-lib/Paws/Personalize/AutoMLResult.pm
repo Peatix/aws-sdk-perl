@@ -34,8 +34,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Personalize
 =head1 DESCRIPTION
 
 When the solution performs AutoML (C<performAutoML> is true in
-CreateSolution), specifies the recipe that best optimized the specified
-metric.
+CreateSolution
+(https://docs.aws.amazon.com/personalize/latest/dg/API_CreateSolution.html)),
+specifies the recipe that best optimized the specified metric.
 
 =head1 ATTRIBUTES
 

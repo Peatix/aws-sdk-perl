@@ -1,7 +1,7 @@
 package Paws::EC2::InstanceCreditSpecificationRequest;
   use Moose;
   has CpuCredits => (is => 'ro', isa => 'Str');
-  has InstanceId => (is => 'ro', isa => 'Str');
+  has InstanceId => (is => 'ro', isa => 'Str', required => 1);
 1;
 
 ### main pod documentation begin ###
@@ -39,11 +39,15 @@ This class has no description
 
 =head2 CpuCredits => Str
 
-The credit option for CPU usage of the instance. Valid values are
-C<standard> and C<unlimited>.
+The credit option for CPU usage of the instance.
+
+Valid values: C<standard> | C<unlimited>
+
+T3 instances with C<host> tenancy do not support the C<unlimited> CPU
+credit option.
 
 
-=head2 InstanceId => Str
+=head2 B<REQUIRED> InstanceId => Str
 
 The ID of the instance.
 

@@ -60,7 +60,7 @@ associated with a hosted zone, specify the ID in C<HostedZoneId>.
 
 If you don't specify a hosted zone ID, C<ListQueryLoggingConfigs>
 returns all of the configurations that are associated with the current
-AWS account.
+Amazon Web Services account.
 
 
 
@@ -68,8 +68,8 @@ AWS account.
 
 (Optional) The maximum number of query logging configurations that you
 want Amazon Route 53 to return in response to the current request. If
-the current AWS account has more than C<MaxResults> configurations, use
-the value of NextToken
+the current Amazon Web Services account has more than C<MaxResults>
+configurations, use the value of NextToken
 (https://docs.aws.amazon.com/Route53/latest/APIReference/API_ListQueryLoggingConfigs.html#API_ListQueryLoggingConfigs_RequestSyntax)
 in the response to get the next page of results.
 
@@ -80,9 +80,9 @@ If you don't specify a value for C<MaxResults>, Route 53 returns up to
 
 =head2 NextToken => Str
 
-(Optional) If the current AWS account has more than C<MaxResults> query
-logging configurations, use C<NextToken> to get the second and
-subsequent pages of results.
+(Optional) If the current Amazon Web Services account has more than
+C<MaxResults> query logging configurations, use C<NextToken> to get the
+second and subsequent pages of results.
 
 For the first C<ListQueryLoggingConfigs> request, omit this value.
 

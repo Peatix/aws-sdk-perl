@@ -28,17 +28,19 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $ecs = Paws->service('ECS');
+    # To tag a cluster.
+    # This example tags the 'dev' cluster with key 'team' and value 'dev'.
     my $TagResourceResponse = $ecs->TagResource(
-      ResourceArn => 'MyString',
-      Tags        => [
-        {
-          Key   => 'MyTagKey',      # min: 1, max: 128; OPTIONAL
-          Value => 'MyTagValue',    # max: 256; OPTIONAL
-        },
-        ...
-      ],
+      'ResourceArn' => 'arn:aws:ecs:region:aws_account_id:cluster/dev',
+      'Tags'        => [
 
+        {
+          'Key'   => 'team',
+          'Value' => 'dev'
+        }
+      ]
     );
+
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ecs/TagResource>
@@ -48,9 +50,25 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ecs
 
 =head2 B<REQUIRED> ResourceArn => Str
 
-The Amazon Resource Name (ARN) of the resource to which to add tags.
+The Amazon Resource Name (ARN) of the resource to add tags to.
 Currently, the supported resources are Amazon ECS capacity providers,
 tasks, services, task definitions, clusters, and container instances.
+
+In order to tag a service that has the following ARN format, you need
+to migrate the service to the long ARN. For more information, see
+Migrate an Amazon ECS short service ARN to a long ARN
+(https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-arn-migration.html)
+in the I<Amazon Elastic Container Service Developer Guide>.
+
+C<arn:aws:ecs:region:aws_account_id:service/service-name>
+
+After the migration is complete, the service has the long ARN format,
+as shown below. Use this ARN to tag the service.
+
+C<arn:aws:ecs:region:aws_account_id:service/cluster-name/service-name>
+
+If you try to tag a service with a short ARN, you receive an
+C<InvalidParameterException> error.
 
 
 
@@ -94,10 +112,10 @@ Tag keys and values are case-sensitive.
 =item *
 
 Do not use C<aws:>, C<AWS:>, or any upper or lowercase combination of
-such as a prefix for either keys or values as it is reserved for AWS
-use. You cannot edit or delete tag keys or values with this prefix.
-Tags with this prefix do not count against your tags per resource
-limit.
+such as a prefix for either keys or values as it is reserved for Amazon
+Web Services use. You cannot edit or delete tag keys or values with
+this prefix. Tags with this prefix do not count against your tags per
+resource limit.
 
 =back
 

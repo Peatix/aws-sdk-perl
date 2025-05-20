@@ -66,7 +66,7 @@ The name of the Amazon EC2 AMI.
 
 =head2 Region => Str
 
-The Region of the Amazon EC2 AMI.
+The Amazon Web Services Region of the Amazon EC2 AMI.
 
 
 =head2 State => L<Paws::ImageBuilder::ImageState>

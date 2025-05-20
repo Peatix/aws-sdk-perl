@@ -49,7 +49,8 @@ Details about text detected in a video.
 =head2 Timestamp => Int
 
 The time, in milliseconds from the start of the video, that the text
-was detected.
+was detected. Note that C<Timestamp> is not guaranteed to be accurate
+to the individual frame where the text first appears.
 
 
 

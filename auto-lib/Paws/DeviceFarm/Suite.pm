@@ -191,13 +191,6 @@ BUILTIN_FUZZ
 
 =item *
 
-BUILTIN_EXPLORER
-
-Only available for Android; an app explorer that traverses an Android
-app, interacting with it and capturing screenshots at the same time.
-
-=item *
-
 APPIUM_JAVA_JUNIT
 
 =item *
@@ -238,19 +231,7 @@ APPIUM_WEB_RUBY
 
 =item *
 
-CALABASH
-
-=item *
-
 INSTRUMENTATION
-
-=item *
-
-UIAUTOMATION
-
-=item *
-
-UIAUTOMATOR
 
 =item *
 

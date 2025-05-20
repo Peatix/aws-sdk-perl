@@ -127,7 +127,7 @@ Valid values are: C<"Ascending">, C<"Descending">
 
 A filter that returns only endpoints with the specified status.
 
-Valid values are: C<"OutOfService">, C<"Creating">, C<"Updating">, C<"SystemUpdating">, C<"RollingBack">, C<"InService">, C<"Deleting">, C<"Failed">
+Valid values are: C<"OutOfService">, C<"Creating">, C<"Updating">, C<"SystemUpdating">, C<"RollingBack">, C<"InService">, C<"Deleting">, C<"Failed">, C<"UpdateRollbackFailed">
 
 
 =head1 SEE ALSO

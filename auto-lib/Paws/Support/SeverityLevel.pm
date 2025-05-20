@@ -38,7 +38,7 @@ A code and name pair that represents the severity level of a support
 case. The available values depend on the support plan for the account.
 For more information, see Choosing a severity
 (https://docs.aws.amazon.com/awssupport/latest/user/case-management.html#choosing-severity)
-in the I<AWS Support User Guide>.
+in the I<Amazon Web Services Support User Guide>.
 
 =head1 ATTRIBUTES
 
@@ -56,8 +56,9 @@ The name of the severity level that corresponds to the severity level
 code.
 
 The values returned by the API are different from the values that
-appear in the AWS Support Center. For example, the API uses the code
-C<low>, but the name appears as General guidance in Support Center.
+appear in the Amazon Web Services Support Center. For example, the API
+uses the code C<low>, but the name appears as General guidance in
+Support Center.
 
 The following are the API code names and how they appear in the
 console:
@@ -88,7 +89,7 @@ C<critical> - Business-critical system down
 
 For more information, see Choosing a severity
 (https://docs.aws.amazon.com/awssupport/latest/user/case-management.html#choosing-severity)
-in the I<AWS Support User Guide>.
+in the I<Amazon Web Services Support User Guide>.
 
 
 

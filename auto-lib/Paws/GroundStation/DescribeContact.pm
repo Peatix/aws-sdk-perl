@@ -29,25 +29,27 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $groundstation = Paws->service('GroundStation');
     my $DescribeContactResponse = $groundstation->DescribeContact(
-      ContactId => 'MyString',
+      ContactId => 'MyUuid',
 
     );
 
     # Results:
-    my $ContactId         = $DescribeContactResponse->ContactId;
-    my $ContactStatus     = $DescribeContactResponse->ContactStatus;
-    my $DataflowList      = $DescribeContactResponse->DataflowList;
-    my $EndTime           = $DescribeContactResponse->EndTime;
-    my $ErrorMessage      = $DescribeContactResponse->ErrorMessage;
-    my $GroundStation     = $DescribeContactResponse->GroundStation;
-    my $MaximumElevation  = $DescribeContactResponse->MaximumElevation;
-    my $MissionProfileArn = $DescribeContactResponse->MissionProfileArn;
-    my $PostPassEndTime   = $DescribeContactResponse->PostPassEndTime;
-    my $PrePassStartTime  = $DescribeContactResponse->PrePassStartTime;
-    my $Region            = $DescribeContactResponse->Region;
-    my $SatelliteArn      = $DescribeContactResponse->SatelliteArn;
-    my $StartTime         = $DescribeContactResponse->StartTime;
-    my $Tags              = $DescribeContactResponse->Tags;
+    my $ContactId           = $DescribeContactResponse->ContactId;
+    my $ContactStatus       = $DescribeContactResponse->ContactStatus;
+    my $DataflowList        = $DescribeContactResponse->DataflowList;
+    my $EndTime             = $DescribeContactResponse->EndTime;
+    my $ErrorMessage        = $DescribeContactResponse->ErrorMessage;
+    my $GroundStation       = $DescribeContactResponse->GroundStation;
+    my $MaximumElevation    = $DescribeContactResponse->MaximumElevation;
+    my $MissionProfileArn   = $DescribeContactResponse->MissionProfileArn;
+    my $PostPassEndTime     = $DescribeContactResponse->PostPassEndTime;
+    my $PrePassStartTime    = $DescribeContactResponse->PrePassStartTime;
+    my $Region              = $DescribeContactResponse->Region;
+    my $SatelliteArn        = $DescribeContactResponse->SatelliteArn;
+    my $StartTime           = $DescribeContactResponse->StartTime;
+    my $Tags                = $DescribeContactResponse->Tags;
+    my $VisibilityEndTime   = $DescribeContactResponse->VisibilityEndTime;
+    my $VisibilityStartTime = $DescribeContactResponse->VisibilityStartTime;
 
     # Returns a L<Paws::GroundStation::DescribeContactResponse> object.
 

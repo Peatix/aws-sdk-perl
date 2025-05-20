@@ -1,6 +1,7 @@
 
 package Paws::DevOpsGuru::DescribeAccountHealthResponse;
   use Moose;
+  has AnalyzedResourceCount => (is => 'ro', isa => 'Int');
   has MetricsAnalyzed => (is => 'ro', isa => 'Int', required => 1);
   has OpenProactiveInsights => (is => 'ro', isa => 'Int', required => 1);
   has OpenReactiveInsights => (is => 'ro', isa => 'Int', required => 1);
@@ -18,28 +19,34 @@ Paws::DevOpsGuru::DescribeAccountHealthResponse
 =head1 ATTRIBUTES
 
 
+=head2 AnalyzedResourceCount => Int
+
+Number of resources that DevOps Guru is monitoring in your Amazon Web
+Services account.
+
+
 =head2 B<REQUIRED> MetricsAnalyzed => Int
 
 An integer that specifies the number of metrics that have been analyzed
-in your AWS account.
+in your Amazon Web Services account.
 
 
 =head2 B<REQUIRED> OpenProactiveInsights => Int
 
 An integer that specifies the number of open proactive insights in your
-AWS account.
+Amazon Web Services account.
 
 
 =head2 B<REQUIRED> OpenReactiveInsights => Int
 
 An integer that specifies the number of open reactive insights in your
-AWS account.
+Amazon Web Services account.
 
 
 =head2 B<REQUIRED> ResourceHours => Int
 
 The number of Amazon DevOps Guru resource analysis hours billed to the
-current AWS account in the last hour.
+current Amazon Web Services account in the last hour.
 
 
 =head2 _request_id => Str

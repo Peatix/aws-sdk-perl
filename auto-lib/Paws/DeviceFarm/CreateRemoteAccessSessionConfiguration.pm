@@ -2,6 +2,7 @@
 package Paws::DeviceFarm::CreateRemoteAccessSessionConfiguration;
   use Moose;
   has BillingMethod => (is => 'ro', isa => 'Str', request_name => 'billingMethod', traits => ['NameInRequest']);
+  has DeviceProxy => (is => 'ro', isa => 'Paws::DeviceFarm::DeviceProxy', request_name => 'deviceProxy', traits => ['NameInRequest']);
   has VpceConfigurationArns => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'vpceConfigurationArns', traits => ['NameInRequest']);
 
 1;
@@ -43,6 +44,12 @@ method.
 =head2 BillingMethod => Str
 
 The billing method for the remote access session.
+
+
+=head2 DeviceProxy => L<Paws::DeviceFarm::DeviceProxy>
+
+The device proxy to be configured on the device for the remote access
+session.
 
 
 =head2 VpceConfigurationArns => ArrayRef[Str|Undef]

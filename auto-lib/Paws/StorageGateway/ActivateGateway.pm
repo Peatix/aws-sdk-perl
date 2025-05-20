@@ -70,7 +70,7 @@ configuration of your gateway.
 
 For more information, see Getting activation key
 (https://docs.aws.amazon.com/storagegateway/latest/userguide/get-activation-key.html)
-in the I<AWS Storage Gateway User Guide>.
+in the I<Storage Gateway User Guide>.
 
 
 
@@ -82,27 +82,29 @@ The name you configured for your gateway.
 
 =head2 B<REQUIRED> GatewayRegion => Str
 
-A value that indicates the AWS Region where you want to store your
-data. The gateway AWS Region specified must be the same AWS Region as
-the AWS Region in your C<Host> header in the request. For more
-information about available AWS Regions and endpoints for AWS Storage
-Gateway, see AWS Storage Gateway endpoints and quotas
-(https://docs.aws.amazon.com/general/latest/gr/sg.html) in the I<AWS
-General Reference>.
+A value that indicates the Amazon Web Services Region where you want to
+store your data. The gateway Amazon Web Services Region specified must
+be the same Amazon Web Services Region as the Amazon Web Services
+Region in your C<Host> header in the request. For more information
+about available Amazon Web Services Regions and endpoints for Storage
+Gateway, see Storage Gateway endpoints and quotas
+(https://docs.aws.amazon.com/general/latest/gr/sg.html) in the I<Amazon
+Web Services General Reference>.
 
-Valid Values: See AWS Storage Gateway endpoints and quotas
-(https://docs.aws.amazon.com/general/latest/gr/sg.html) in the I<AWS
-General Reference>.
+Valid Values: See Storage Gateway endpoints and quotas
+(https://docs.aws.amazon.com/general/latest/gr/sg.html) in the I<Amazon
+Web Services General Reference>.
 
 
 
 =head2 B<REQUIRED> GatewayTimezone => Str
 
 A value that indicates the time zone you want to set for the gateway.
-The time zone is of the format "GMT-hr:mm" or "GMT+hr:mm". For example,
-GMT-4:00 indicates the time is 4 hours behind GMT. GMT+2:00 indicates
-the time is 2 hours ahead of GMT. The time zone is used, for example,
-for scheduling snapshots and your gateway's maintenance schedule.
+The time zone is of the format "GMT", "GMT-hr:mm", or "GMT+hr:mm". For
+example, GMT indicates Greenwich Mean Time without any offset. GMT-4:00
+indicates the time is 4 hours behind GMT. GMT+2:00 indicates the time
+is 2 hours ahead of GMT. The time zone is used, for example, for
+scheduling snapshots and your gateway's maintenance schedule.
 
 
 
@@ -112,7 +114,14 @@ A value that defines the type of gateway to activate. The type
 specified is critical to all later functions of the gateway and cannot
 be changed after activation. The default value is C<CACHED>.
 
-Valid Values: C<STORED> | C<CACHED> | C<VTL> | C<FILE_S3>
+Amazon FSx File Gateway is no longer available to new customers.
+Existing customers of FSx File Gateway can continue to use the service
+normally. For capabilities similar to FSx File Gateway, visit this blog
+post
+(https://aws.amazon.com/blogs/storage/switch-your-file-share-access-from-amazon-fsx-file-gateway-to-amazon-fsx-for-windows-file-server/).
+
+Valid Values: C<STORED> | C<CACHED> | C<VTL> | C<FILE_S3> |
+C<FILE_FSX_SMB>
 
 
 

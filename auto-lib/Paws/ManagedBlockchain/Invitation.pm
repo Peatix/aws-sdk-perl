@@ -38,8 +38,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ManagedBloc
 
 =head1 DESCRIPTION
 
-An invitation to an AWS account to create a member and join the
-network.
+An invitation to an Amazon Web Services account to create a member and
+join the network.
 
 Applies only to Hyperledger Fabric.
 
@@ -51,7 +51,7 @@ Applies only to Hyperledger Fabric.
 The Amazon Resource Name (ARN) of the invitation. For more information
 about ARNs and their format, see Amazon Resource Names (ARNs)
 (https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
-in the I<AWS General Reference>.
+in the I<Amazon Web Services General Reference>.
 
 
 =head2 CreationDate => Str
@@ -86,13 +86,13 @@ The status of the invitation:
 
 =item *
 
-C<PENDING> - The invitee has not created a member to join the network,
-and the invitation has not yet expired.
+C<PENDING> - The invitee hasn't created a member to join the network,
+and the invitation hasn't yet expired.
 
 =item *
 
 C<ACCEPTING> - The invitee has begun creating a member, and creation
-has not yet completed.
+hasn't yet completed.
 
 =item *
 

@@ -35,28 +35,28 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AmplifyBack
 
 =head1 DESCRIPTION
 
-Describes the forgot password policy for authenticating into the
-Amplify app.
+B<(DEPRECATED)> Describes the forgot password policy for authenticating
+into the Amplify app.
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> DeliveryMethod => Str
 
-Describes which mode to use (either SMS or email) to deliver messages
-to app users that want to recover their password.
+B<(DEPRECATED)> Describes which mode to use (either SMS or email) to
+deliver messages to app users who want to recover their password.
 
 
 =head2 EmailSettings => L<Paws::AmplifyBackend::EmailSettings>
 
-The configuration for the email sent when an app user forgets their
-password.
+B<(DEPRECATED)> The configuration for the email sent when an app user
+forgets their password.
 
 
 =head2 SmsSettings => L<Paws::AmplifyBackend::SmsSettings>
 
-The configuration for the SMS message sent when an app user forgets
-their password.
+B<(DEPRECATED)> The configuration for the SMS message sent when an app
+user forgets their password.
 
 
 

@@ -45,13 +45,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ema
 =head2 B<REQUIRED> ConfigurationSetName => Str
 
 The name of the configuration set that contains the event destination
-that you want to delete.
+to delete.
 
 
 
 =head2 B<REQUIRED> EventDestinationName => Str
 
-The name of the event destination that you want to delete.
+The name of the event destination to delete.
 
 
 

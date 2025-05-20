@@ -37,6 +37,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $CreationTime =
       $DescribePredictorBacktestExportJobResponse->CreationTime;
     my $Destination = $DescribePredictorBacktestExportJobResponse->Destination;
+    my $Format      = $DescribePredictorBacktestExportJobResponse->Format;
     my $LastModificationTime =
       $DescribePredictorBacktestExportJobResponse->LastModificationTime;
     my $Message = $DescribePredictorBacktestExportJobResponse->Message;

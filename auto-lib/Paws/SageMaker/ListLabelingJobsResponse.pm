@@ -23,9 +23,8 @@ job.
 
 =head2 NextToken => Str
 
-If the response is truncated, Amazon SageMaker returns this token. To
-retrieve the next set of labeling jobs, use it in the subsequent
-request.
+If the response is truncated, SageMaker returns this token. To retrieve
+the next set of labeling jobs, use it in the subsequent request.
 
 
 =head2 _request_id => Str

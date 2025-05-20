@@ -33,7 +33,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SSOAdmin::O
 
 =head1 DESCRIPTION
 
-Filters he operation status list based on the passed attribute value.
+Filters the operation status list based on the passed attribute value.
 
 =head1 ATTRIBUTES
 

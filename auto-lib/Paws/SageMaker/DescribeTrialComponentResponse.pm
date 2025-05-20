@@ -8,11 +8,13 @@ package Paws::SageMaker::DescribeTrialComponentResponse;
   has InputArtifacts => (is => 'ro', isa => 'Paws::SageMaker::TrialComponentArtifacts');
   has LastModifiedBy => (is => 'ro', isa => 'Paws::SageMaker::UserContext');
   has LastModifiedTime => (is => 'ro', isa => 'Str');
+  has LineageGroupArn => (is => 'ro', isa => 'Str');
   has MetadataProperties => (is => 'ro', isa => 'Paws::SageMaker::MetadataProperties');
   has Metrics => (is => 'ro', isa => 'ArrayRef[Paws::SageMaker::TrialComponentMetricSummary]');
   has OutputArtifacts => (is => 'ro', isa => 'Paws::SageMaker::TrialComponentArtifacts');
   has Parameters => (is => 'ro', isa => 'Paws::SageMaker::TrialComponentParameters');
   has Source => (is => 'ro', isa => 'Paws::SageMaker::TrialComponentSource');
+  has Sources => (is => 'ro', isa => 'ArrayRef[Paws::SageMaker::TrialComponentSource]');
   has StartTime => (is => 'ro', isa => 'Str');
   has Status => (is => 'ro', isa => 'Paws::SageMaker::TrialComponentStatus');
   has TrialComponentArn => (is => 'ro', isa => 'Str');
@@ -31,7 +33,7 @@ Paws::SageMaker::DescribeTrialComponentResponse
 
 =head2 CreatedBy => L<Paws::SageMaker::UserContext>
 
-Who created the component.
+Who created the trial component.
 
 
 =head2 CreationTime => Str
@@ -65,6 +67,11 @@ Who last modified the component.
 When the component was last modified.
 
 
+=head2 LineageGroupArn => Str
+
+The Amazon Resource Name (ARN) of the lineage group.
+
+
 =head2 MetadataProperties => L<Paws::SageMaker::MetadataProperties>
 
 
@@ -89,6 +96,12 @@ The hyperparameters of the component.
 
 The Amazon Resource Name (ARN) of the source and, optionally, the job
 type.
+
+
+=head2 Sources => ArrayRef[L<Paws::SageMaker::TrialComponentSource>]
+
+A list of ARNs and, if applicable, job types for multiple sources of an
+experiment run.
 
 
 =head2 StartTime => Str

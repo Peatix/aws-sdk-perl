@@ -48,7 +48,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/fir
 
 =head2 B<REQUIRED> DeliveryStreamName => Str
 
-The name of the delivery stream to which you want to add the tags.
+The name of the Firehose stream to which you want to add the tags.
 
 
 

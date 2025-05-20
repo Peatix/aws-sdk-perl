@@ -2,6 +2,7 @@
 package Paws::SecurityHub::AwsElbLoadBalancerAttributes;
   use Moose;
   has AccessLog => (is => 'ro', isa => 'Paws::SecurityHub::AwsElbLoadBalancerAccessLog');
+  has AdditionalAttributes => (is => 'ro', isa => 'ArrayRef[Paws::SecurityHub::AwsElbLoadBalancerAdditionalAttribute]');
   has ConnectionDraining => (is => 'ro', isa => 'Paws::SecurityHub::AwsElbLoadBalancerConnectionDraining');
   has ConnectionSettings => (is => 'ro', isa => 'Paws::SecurityHub::AwsElbLoadBalancerConnectionSettings');
   has CrossZoneLoadBalancing => (is => 'ro', isa => 'Paws::SecurityHub::AwsElbLoadBalancerCrossZoneLoadBalancing');
@@ -48,6 +49,11 @@ Information about the access log configuration for the load balancer.
 If the access log is enabled, the load balancer captures detailed
 information about all requests. It delivers the information to a
 specified S3 bucket.
+
+
+=head2 AdditionalAttributes => ArrayRef[L<Paws::SecurityHub::AwsElbLoadBalancerAdditionalAttribute>]
+
+Any additional attributes for a load balancer.
 
 
 =head2 ConnectionDraining => L<Paws::SecurityHub::AwsElbLoadBalancerConnectionDraining>

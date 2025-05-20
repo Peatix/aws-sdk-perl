@@ -1,7 +1,9 @@
 
 package Paws::SageMaker::UpdatePipeline;
   use Moose;
+  has ParallelismConfiguration => (is => 'ro', isa => 'Paws::SageMaker::ParallelismConfiguration');
   has PipelineDefinition => (is => 'ro', isa => 'Str');
+  has PipelineDefinitionS3Location => (is => 'ro', isa => 'Paws::SageMaker::PipelineDefinitionS3Location');
   has PipelineDescription => (is => 'ro', isa => 'Str');
   has PipelineDisplayName => (is => 'ro', isa => 'Str');
   has PipelineName => (is => 'ro', isa => 'Str', required => 1);
@@ -32,8 +34,17 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $api.sagemaker = Paws->service('SageMaker');
     my $UpdatePipelineResponse = $api . sagemaker->UpdatePipeline(
-      PipelineName        => 'MyPipelineName',
-      PipelineDefinition  => 'MyPipelineDefinition',     # OPTIONAL
+      PipelineName             => 'MyPipelineName',
+      ParallelismConfiguration => {
+        MaxParallelExecutionSteps => 1,    # min: 1
+
+      },    # OPTIONAL
+      PipelineDefinition           => 'MyPipelineDefinition',    # OPTIONAL
+      PipelineDefinitionS3Location => {
+        Bucket    => 'MyBucketName',    # min: 3, max: 63
+        ObjectKey => 'MyKey',           # min: 1, max: 1024
+        VersionId => 'MyVersionId',     # min: 1, max: 1024; OPTIONAL
+      },    # OPTIONAL
       PipelineDescription => 'MyPipelineDescription',    # OPTIONAL
       PipelineDisplayName => 'MyPipelineName',           # OPTIONAL
       RoleArn             => 'MyRoleArn',                # OPTIONAL
@@ -50,9 +61,23 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 =head1 ATTRIBUTES
 
 
+=head2 ParallelismConfiguration => L<Paws::SageMaker::ParallelismConfiguration>
+
+If specified, it applies to all executions of this pipeline by default.
+
+
+
 =head2 PipelineDefinition => Str
 
 The JSON pipeline definition.
+
+
+
+=head2 PipelineDefinitionS3Location => L<Paws::SageMaker::PipelineDefinitionS3Location>
+
+The location of the pipeline definition stored in Amazon S3. If
+specified, SageMaker will retrieve the pipeline definition from this
+location.
 
 
 

@@ -129,9 +129,8 @@ The ID of the NAT gateway.
 
 Reserved. If you need to sustain traffic greater than the documented
 limits
-(https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html),
-contact us through the Support Center
-(https://console.aws.amazon.com/support/home?).
+(https://docs.aws.amazon.com/vpc/latest/userguide/amazon-vpc-limits.html#vpc-limits-gateways),
+contact Amazon Web Services Support.
 
 
 =head2 State => Str

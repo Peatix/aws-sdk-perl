@@ -33,8 +33,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::IoTSiteWise
 
 =head1 DESCRIPTION
 
-Contains information about an AWS Identity and Access Management (IAM)
-user.
+Contains information about an Identity and Access Management user.
 
 =head1 ATTRIBUTES
 

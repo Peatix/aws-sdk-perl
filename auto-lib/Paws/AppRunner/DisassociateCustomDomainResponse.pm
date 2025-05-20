@@ -4,6 +4,7 @@ package Paws::AppRunner::DisassociateCustomDomainResponse;
   has CustomDomain => (is => 'ro', isa => 'Paws::AppRunner::CustomDomain', required => 1);
   has DNSTarget => (is => 'ro', isa => 'Str', required => 1);
   has ServiceArn => (is => 'ro', isa => 'Str', required => 1);
+  has VpcDNSTargets => (is => 'ro', isa => 'ArrayRef[Paws::AppRunner::VpcDNSTarget]', required => 1);
 
   has _request_id => (is => 'ro', isa => 'Str');
 
@@ -31,6 +32,11 @@ custom domain name was mapped to this target name.
 
 The Amazon Resource Name (ARN) of the App Runner service that a custom
 domain name is disassociated from.
+
+
+=head2 B<REQUIRED> VpcDNSTargets => ArrayRef[L<Paws::AppRunner::VpcDNSTarget>]
+
+DNS Target records for the custom domains of this Amazon VPC.
 
 
 =head2 _request_id => Str

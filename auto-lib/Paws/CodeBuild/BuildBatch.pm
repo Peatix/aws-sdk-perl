@@ -22,6 +22,7 @@ package Paws::CodeBuild::BuildBatch;
   has Phases => (is => 'ro', isa => 'ArrayRef[Paws::CodeBuild::BuildBatchPhase]', request_name => 'phases', traits => ['NameInRequest']);
   has ProjectName => (is => 'ro', isa => 'Str', request_name => 'projectName', traits => ['NameInRequest']);
   has QueuedTimeoutInMinutes => (is => 'ro', isa => 'Int', request_name => 'queuedTimeoutInMinutes', traits => ['NameInRequest']);
+  has ReportArns => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'reportArns', traits => ['NameInRequest']);
   has ResolvedSourceVersion => (is => 'ro', isa => 'Str', request_name => 'resolvedSourceVersion', traits => ['NameInRequest']);
   has SecondaryArtifacts => (is => 'ro', isa => 'ArrayRef[Paws::CodeBuild::BuildArtifacts]', request_name => 'secondaryArtifacts', traits => ['NameInRequest']);
   has SecondarySources => (is => 'ro', isa => 'ArrayRef[Paws::CodeBuild::ProjectSource]', request_name => 'secondarySources', traits => ['NameInRequest']);
@@ -181,8 +182,7 @@ C<codepipeline/my-demo-pipeline>).
 
 =item *
 
-If an Identity and Access Management user started the build, the user's
-name.
+If a user started the build, the user's name.
 
 =item *
 
@@ -213,6 +213,12 @@ The name of the batch build project.
 
 Specifies the amount of time, in minutes, that the batch build is
 allowed to be queued before it times out.
+
+
+=head2 ReportArns => ArrayRef[Str|Undef]
+
+An array that contains the ARNs of reports created by merging reports
+from builds associated with this batch build.
 
 
 =head2 ResolvedSourceVersion => Str

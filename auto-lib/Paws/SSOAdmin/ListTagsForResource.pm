@@ -1,7 +1,7 @@
 
 package Paws::SSOAdmin::ListTagsForResource;
   use Moose;
-  has InstanceArn => (is => 'ro', isa => 'Str', required => 1);
+  has InstanceArn => (is => 'ro', isa => 'Str');
   has NextToken => (is => 'ro', isa => 'Str');
   has ResourceArn => (is => 'ro', isa => 'Str', required => 1);
 
@@ -30,9 +30,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $sso = Paws->service('SSOAdmin');
     my $ListTagsForResourceResponse = $sso->ListTagsForResource(
-      InstanceArn => 'MyInstanceArn',
-      ResourceArn => 'MyGeneralArn',
-      NextToken   => 'MyToken',         # OPTIONAL
+      ResourceArn => 'MyTaggableResourceArn',
+      InstanceArn => 'MyInstanceArn',           # OPTIONAL
+      NextToken   => 'MyToken',                 # OPTIONAL
     );
 
     # Results:
@@ -47,11 +47,12 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/sso
 =head1 ATTRIBUTES
 
 
-=head2 B<REQUIRED> InstanceArn => Str
+=head2 InstanceArn => Str
 
-The ARN of the SSO instance under which the operation will be executed.
-For more information about ARNs, see Amazon Resource Names (ARNs) and
-AWS Service Namespaces in the I<AWS General Reference>.
+The ARN of the IAM Identity Center instance under which the operation
+will be executed. For more information about ARNs, see Amazon Resource
+Names (ARNs) and Amazon Web Services Service Namespaces in the I<Amazon
+Web Services General Reference>.
 
 
 

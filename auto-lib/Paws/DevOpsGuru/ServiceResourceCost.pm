@@ -38,8 +38,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::DevOpsGuru:
 =head1 DESCRIPTION
 
 An object that contains information about the estimated monthly cost to
-analyze an AWS resource. For more information, see Estimate your Amazon
-DevOps Guru costs
+analyze an Amazon Web Services resource. For more information, see
+Estimate your Amazon DevOps Guru costs
 (https://docs.aws.amazon.com/devops-guru/latest/userguide/cost-estimate.html)
 and Amazon DevOps Guru pricing
 (http://aws.amazon.com/devops-guru/pricing/).
@@ -63,13 +63,13 @@ monthly cost estimate.
 
 The state of the resource. The resource is C<ACTIVE> if it produces
 metrics, events, or logs within an hour, otherwise it is C<INACTIVE>.
-You pay for the number of active AWS resource hours analyzed for each
-resource. Inactive resources are not charged.
+You pay for the number of active Amazon Web Services resource hours
+analyzed for each resource. Inactive resources are not charged.
 
 
 =head2 Type => Str
 
-The type of the AWS resource.
+The type of the Amazon Web Services resource.
 
 
 =head2 UnitCost => Num

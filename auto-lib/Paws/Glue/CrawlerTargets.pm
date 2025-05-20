@@ -2,7 +2,10 @@
 package Paws::Glue::CrawlerTargets;
   use Moose;
   has CatalogTargets => (is => 'ro', isa => 'ArrayRef[Paws::Glue::CatalogTarget]');
+  has DeltaTargets => (is => 'ro', isa => 'ArrayRef[Paws::Glue::DeltaTarget]');
   has DynamoDBTargets => (is => 'ro', isa => 'ArrayRef[Paws::Glue::DynamoDBTarget]');
+  has HudiTargets => (is => 'ro', isa => 'ArrayRef[Paws::Glue::HudiTarget]');
+  has IcebergTargets => (is => 'ro', isa => 'ArrayRef[Paws::Glue::IcebergTarget]');
   has JdbcTargets => (is => 'ro', isa => 'ArrayRef[Paws::Glue::JdbcTarget]');
   has MongoDBTargets => (is => 'ro', isa => 'ArrayRef[Paws::Glue::MongoDBTarget]');
   has S3Targets => (is => 'ro', isa => 'ArrayRef[Paws::Glue::S3Target]');
@@ -47,9 +50,24 @@ Specifies data stores to crawl.
 Specifies Glue Data Catalog targets.
 
 
+=head2 DeltaTargets => ArrayRef[L<Paws::Glue::DeltaTarget>]
+
+Specifies Delta data store targets.
+
+
 =head2 DynamoDBTargets => ArrayRef[L<Paws::Glue::DynamoDBTarget>]
 
 Specifies Amazon DynamoDB targets.
+
+
+=head2 HudiTargets => ArrayRef[L<Paws::Glue::HudiTarget>]
+
+Specifies Apache Hudi data store targets.
+
+
+=head2 IcebergTargets => ArrayRef[L<Paws::Glue::IcebergTarget>]
+
+Specifies Apache Iceberg data store targets.
 
 
 =head2 JdbcTargets => ArrayRef[L<Paws::Glue::JdbcTarget>]

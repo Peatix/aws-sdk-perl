@@ -3,6 +3,7 @@ package Paws::GameLift::CreateBuild;
   use Moose;
   has Name => (is => 'ro', isa => 'Str');
   has OperatingSystem => (is => 'ro', isa => 'Str');
+  has ServerSdkVersion => (is => 'ro', isa => 'Str');
   has StorageLocation => (is => 'ro', isa => 'Paws::GameLift::S3Location');
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::GameLift::Tag]');
   has Version => (is => 'ro', isa => 'Str');
@@ -32,13 +33,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $gamelift = Paws->service('GameLift');
     my $CreateBuildOutput = $gamelift->CreateBuild(
-      Name            => 'MyNonZeroAndMaxString',    # OPTIONAL
-      OperatingSystem => 'WINDOWS_2012',             # OPTIONAL
-      StorageLocation => {
-        Bucket        => 'MyNonEmptyString',         # min: 1; OPTIONAL
-        Key           => 'MyNonEmptyString',         # min: 1; OPTIONAL
-        ObjectVersion => 'MyNonEmptyString',         # min: 1; OPTIONAL
-        RoleArn       => 'MyNonEmptyString',         # min: 1; OPTIONAL
+      Name             => 'MyNonZeroAndMaxString',    # OPTIONAL
+      OperatingSystem  => 'WINDOWS_2012',             # OPTIONAL
+      ServerSdkVersion => 'MyServerSdkVersion',       # OPTIONAL
+      StorageLocation  => {
+        Bucket        => 'MyNonEmptyString',          # min: 1; OPTIONAL
+        Key           => 'MyNonEmptyString',          # min: 1; OPTIONAL
+        ObjectVersion => 'MyNonEmptyString',          # min: 1; OPTIONAL
+        RoleArn       => 'MyNonEmptyString',          # min: 1; OPTIONAL
       },    # OPTIONAL
       Tags => [
         {
@@ -67,20 +69,38 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/gam
 =head2 Name => Str
 
 A descriptive label that is associated with a build. Build names do not
-need to be unique. You can use UpdateBuild to change this value later.
+need to be unique. You can change this value later.
 
 
 
 =head2 OperatingSystem => Str
 
-The operating system that the game server binaries are built to run on.
-This value determines the type of fleet resources that you can use for
-this build. If your game build contains multiple executables, they all
-must run on the same operating system. If an operating system is not
-specified when creating a build, Amazon GameLift uses the default value
-(WINDOWS_2012). This value cannot be changed later.
+The operating system that your game server binaries run on. This value
+determines the type of fleet resources that you use for this build. If
+your game build contains multiple executables, they all must run on the
+same operating system. You must specify a valid operating system in
+this request. There is no default value. You can't change a build's
+operating system later.
 
-Valid values are: C<"WINDOWS_2012">, C<"AMAZON_LINUX">, C<"AMAZON_LINUX_2">
+Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more
+details in the Amazon Linux 2 FAQs
+(https://aws.amazon.com/amazon-linux-2/faqs/). For game servers that
+are hosted on AL2 and use server SDK version 4.x for Amazon GameLift,
+first update the game server build to server SDK 5.x, and then deploy
+to AL2023 instances. See Migrate to server SDK version 5.
+(https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-serversdk5-migration.html)
+
+Valid values are: C<"WINDOWS_2012">, C<"AMAZON_LINUX">, C<"AMAZON_LINUX_2">, C<"WINDOWS_2016">, C<"AMAZON_LINUX_2023">
+
+=head2 ServerSdkVersion => Str
+
+A server SDK version you used when integrating your game server build
+with Amazon GameLift. For more information see Integrate games with
+custom game servers
+(https://docs.aws.amazon.com/gamelift/latest/developerguide/integration-custom-intro.html).
+By default Amazon GameLift sets this value to C<4.0.2>.
+
+
 
 =head2 StorageLocation => L<Paws::GameLift::S3Location>
 
@@ -91,27 +111,37 @@ bucket name and key. The location must also specify a role ARN that you
 set up to allow Amazon GameLift to access your Amazon S3 bucket. The S3
 bucket and your new build must be in the same Region.
 
+If a C<StorageLocation> is specified, the size of your file can be
+found in your Amazon S3 bucket. Amazon GameLift will report a
+C<SizeOnDisk> of 0.
+
 
 
 =head2 Tags => ArrayRef[L<Paws::GameLift::Tag>]
 
 A list of labels to assign to the new build resource. Tags are
-developer-defined key-value pairs. Tagging AWS resources are useful for
-resource management, access management and cost allocation. For more
-information, see Tagging AWS Resources
+developer defined key-value pairs. Tagging Amazon Web Services
+resources are useful for resource management, access management and
+cost allocation. For more information, see Tagging Amazon Web Services
+Resources
 (https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the
-I<AWS General Reference>. Once the resource is created, you can use
-TagResource, UntagResource, and ListTagsForResource to add, remove, and
-view tags. The maximum tag limit may be lower than stated. See the AWS
-General Reference for actual tagging limits.
+I<Amazon Web Services General Reference>. Once the resource is created,
+you can use TagResource
+(https://docs.aws.amazon.com/gamelift/latest/apireference/API_TagResource.html),
+UntagResource
+(https://docs.aws.amazon.com/gamelift/latest/apireference/API_UntagResource.html),
+and ListTagsForResource
+(https://docs.aws.amazon.com/gamelift/latest/apireference/API_ListTagsForResource.html)
+to add, remove, and view tags. The maximum tag limit may be lower than
+stated. See the Amazon Web Services General Reference for actual
+tagging limits.
 
 
 
 =head2 Version => Str
 
 Version information that is associated with a build or script. Version
-strings do not need to be unique. You can use UpdateBuild to change
-this value later.
+strings do not need to be unique. You can change this value later.
 
 
 

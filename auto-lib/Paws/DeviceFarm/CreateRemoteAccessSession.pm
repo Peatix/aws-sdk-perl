@@ -169,7 +169,7 @@ again.
 
 For more information on how Device Farm modifies your uploads during
 tests, see Do you modify my app?
-(https://aws.amazon.com/device-farm/faq/)
+(http://aws.amazon.com/device-farm/faqs/)
 
 
 

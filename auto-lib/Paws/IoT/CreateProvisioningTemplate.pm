@@ -8,6 +8,7 @@ package Paws::IoT::CreateProvisioningTemplate;
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::IoT::Tag]', traits => ['NameInRequest'], request_name => 'tags');
   has TemplateBody => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'templateBody', required => 1);
   has TemplateName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'templateName', required => 1);
+  has Type => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'type');
 
   use MooseX::ClassAttribute;
 
@@ -47,10 +48,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       Tags => [
         {
           Key   => 'MyTagKey',      # min: 1, max: 128
-          Value => 'MyTagValue',    # min: 1, max: 256; OPTIONAL
+          Value => 'MyTagValue',    # max: 256; OPTIONAL
         },
         ...
       ],    # OPTIONAL
+      Type => 'FLEET_PROVISIONING',    # OPTIONAL
     );
 
     # Results:
@@ -69,32 +71,35 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/iot
 
 =head2 Description => Str
 
-The description of the fleet provisioning template.
+The description of the provisioning template.
 
 
 
 =head2 Enabled => Bool
 
-True to enable the fleet provisioning template, otherwise false.
+True to enable the provisioning template, otherwise false.
 
 
 
 =head2 PreProvisioningHook => L<Paws::IoT::ProvisioningHook>
 
-Creates a pre-provisioning hook template.
+Creates a pre-provisioning hook template. Only supports template of
+type C<FLEET_PROVISIONING>. For more information about provisioning
+template types, see type
+(https://docs.aws.amazon.com/iot/latest/apireference/API_CreateProvisioningTemplate.html#iot-CreateProvisioningTemplate-request-type).
 
 
 
 =head2 B<REQUIRED> ProvisioningRoleArn => Str
 
-The role ARN for the role associated with the fleet provisioning
-template. This IoT role grants permission to provision a device.
+The role ARN for the role associated with the provisioning template.
+This IoT role grants permission to provision a device.
 
 
 
 =head2 Tags => ArrayRef[L<Paws::IoT::Tag>]
 
-Metadata which can be used to manage the fleet provisioning template.
+Metadata which can be used to manage the provisioning template.
 
 For URI Request parameters use format: ...key1=value1&key2=value2...
 
@@ -108,15 +113,25 @@ For the cli-input-json file use format: "tags":
 
 =head2 B<REQUIRED> TemplateBody => Str
 
-The JSON formatted contents of the fleet provisioning template.
+The JSON formatted contents of the provisioning template.
 
 
 
 =head2 B<REQUIRED> TemplateName => Str
 
-The name of the fleet provisioning template.
+The name of the provisioning template.
 
 
+
+=head2 Type => Str
+
+The type you define in a provisioning template. You can create a
+template with only one type. You can't change the template type after
+its creation. The default value is C<FLEET_PROVISIONING>. For more
+information about provisioning template, see: Provisioning template
+(https://docs.aws.amazon.com/iot/latest/developerguide/provision-template.html).
+
+Valid values are: C<"FLEET_PROVISIONING">, C<"JITP">
 
 
 =head1 SEE ALSO

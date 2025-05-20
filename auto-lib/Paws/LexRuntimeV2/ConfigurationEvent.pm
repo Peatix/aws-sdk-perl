@@ -55,8 +55,13 @@ sent to Amazon Lex V2.
 =head2 DisablePlayback => Bool
 
 Determines whether Amazon Lex V2 should send audio responses to the
-client application. When this parameter if C<false>, the client
-application needs to create responses for the user.
+client application.
+
+Set this field to false when the client is operating in a playback mode
+where audio responses are played to the user. If the client isn't
+operating in playback mode, such as a text chat application, set this
+to true so that Amazon Lex V2 doesn't wait for the prompt to finish
+playing on the client.
 
 
 =head2 EventId => Str
@@ -139,6 +144,13 @@ text/plain; charset=utf-8
 =head2 WelcomeMessages => ArrayRef[L<Paws::LexRuntimeV2::Message>]
 
 A list of messages to send to the user.
+
+If you set the C<welcomeMessage> field, you must also set the
+C<DialogAction>
+(https://docs.aws.amazon.com/lexv2/latest/dg/API_runtime_DialogAction.html)
+structure's C<type>
+(https://docs.aws.amazon.com/lexv2/latest/dg/API_runtime_DialogAction.html#lexv2-Type-runtime_DialogAction-type)
+field.
 
 
 

@@ -2,13 +2,16 @@
 package Paws::Appflow::SourceConnectorProperties;
   use Moose;
   has Amplitude => (is => 'ro', isa => 'Paws::Appflow::AmplitudeSourceProperties');
+  has CustomConnector => (is => 'ro', isa => 'Paws::Appflow::CustomConnectorSourceProperties');
   has Datadog => (is => 'ro', isa => 'Paws::Appflow::DatadogSourceProperties');
   has Dynatrace => (is => 'ro', isa => 'Paws::Appflow::DynatraceSourceProperties');
   has GoogleAnalytics => (is => 'ro', isa => 'Paws::Appflow::GoogleAnalyticsSourceProperties');
   has InforNexus => (is => 'ro', isa => 'Paws::Appflow::InforNexusSourceProperties');
   has Marketo => (is => 'ro', isa => 'Paws::Appflow::MarketoSourceProperties');
+  has Pardot => (is => 'ro', isa => 'Paws::Appflow::PardotSourceProperties');
   has S3 => (is => 'ro', isa => 'Paws::Appflow::S3SourceProperties');
   has Salesforce => (is => 'ro', isa => 'Paws::Appflow::SalesforceSourceProperties');
+  has SAPOData => (is => 'ro', isa => 'Paws::Appflow::SAPODataSourceProperties');
   has ServiceNow => (is => 'ro', isa => 'Paws::Appflow::ServiceNowSourceProperties');
   has Singular => (is => 'ro', isa => 'Paws::Appflow::SingularSourceProperties');
   has Slack => (is => 'ro', isa => 'Paws::Appflow::SlackSourceProperties');
@@ -57,6 +60,11 @@ connector.
 Specifies the information that is required for querying Amplitude.
 
 
+=head2 CustomConnector => L<Paws::Appflow::CustomConnectorSourceProperties>
+
+
+
+
 =head2 Datadog => L<Paws::Appflow::DatadogSourceProperties>
 
 Specifies the information that is required for querying Datadog.
@@ -83,6 +91,12 @@ Specifies the information that is required for querying Infor Nexus.
 Specifies the information that is required for querying Marketo.
 
 
+=head2 Pardot => L<Paws::Appflow::PardotSourceProperties>
+
+Specifies the information that is required for querying Salesforce
+Pardot.
+
+
 =head2 S3 => L<Paws::Appflow::S3SourceProperties>
 
 Specifies the information that is required for querying Amazon S3.
@@ -91,6 +105,11 @@ Specifies the information that is required for querying Amazon S3.
 =head2 Salesforce => L<Paws::Appflow::SalesforceSourceProperties>
 
 Specifies the information that is required for querying Salesforce.
+
+
+=head2 SAPOData => L<Paws::Appflow::SAPODataSourceProperties>
+
+
 
 
 =head2 ServiceNow => L<Paws::Appflow::ServiceNowSourceProperties>

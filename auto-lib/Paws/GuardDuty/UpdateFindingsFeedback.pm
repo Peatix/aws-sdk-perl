@@ -54,8 +54,13 @@ Additional feedback about the GuardDuty findings.
 
 =head2 B<REQUIRED> DetectorId => Str
 
-The ID of the detector associated with the findings to update feedback
-for.
+The ID of the detector that is associated with the findings for which
+you want to update the feedback.
+
+To find the C<detectorId> in the current Region, see the Settings page
+in the GuardDuty console, or run the ListDetectors
+(https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+API.
 
 
 

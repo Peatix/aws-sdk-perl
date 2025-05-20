@@ -1,6 +1,7 @@
 
 package Paws::GlueDataBrew::CreateRecipeJob;
   use Moose;
+  has DatabaseOutputs => (is => 'ro', isa => 'ArrayRef[Paws::GlueDataBrew::DatabaseOutput]');
   has DataCatalogOutputs => (is => 'ro', isa => 'ArrayRef[Paws::GlueDataBrew::DataCatalogOutput]');
   has DatasetName => (is => 'ro', isa => 'Str');
   has EncryptionKeyArn => (is => 'ro', isa => 'Str');
@@ -52,18 +53,35 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           DatabaseOptions => {
             TableName     => 'MyDatabaseTableName',    # min: 1, max: 255
             TempDirectory => {
-              Bucket => 'MyBucket',    # min: 3, max: 63
-              Key    => 'MyKey',       # min: 1, max: 1280; OPTIONAL
+              Bucket      => 'MyBucket',         # min: 3, max: 63
+              BucketOwner => 'MyBucketOwner',    # min: 12, max: 12; OPTIONAL
+              Key         => 'MyKey',            # min: 1, max: 1280; OPTIONAL
             },    # OPTIONAL
           },    # OPTIONAL
           Overwrite => 1,    # OPTIONAL
           S3Options => {
             Location => {
-              Bucket => 'MyBucket',    # min: 3, max: 63
-              Key    => 'MyKey',       # min: 1, max: 1280; OPTIONAL
+              Bucket      => 'MyBucket',         # min: 3, max: 63
+              BucketOwner => 'MyBucketOwner',    # min: 12, max: 12; OPTIONAL
+              Key         => 'MyKey',            # min: 1, max: 1280; OPTIONAL
             },    # OPTIONAL
 
           },    # OPTIONAL
+        },
+        ...
+      ],    # OPTIONAL
+      DatabaseOutputs => [
+        {
+          DatabaseOptions => {
+            TableName     => 'MyDatabaseTableName',    # min: 1, max: 255
+            TempDirectory => {
+              Bucket      => 'MyBucket',         # min: 3, max: 63
+              BucketOwner => 'MyBucketOwner',    # min: 12, max: 12; OPTIONAL
+              Key         => 'MyKey',            # min: 1, max: 1280; OPTIONAL
+            },    # OPTIONAL
+          },    # OPTIONAL
+          GlueConnectionName => 'MyGlueConnectionName',    # min: 1, max: 255
+          DatabaseOutputMode => 'NEW_TABLE',    # values: NEW_TABLE; OPTIONAL
         },
         ...
       ],    # OPTIONAL
@@ -76,18 +94,20 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       Outputs          => [
         {
           Location => {
-            Bucket => 'MyBucket',    # min: 3, max: 63
-            Key    => 'MyKey',       # min: 1, max: 1280; OPTIONAL
+            Bucket      => 'MyBucket',         # min: 3, max: 63
+            BucketOwner => 'MyBucketOwner',    # min: 12, max: 12; OPTIONAL
+            Key         => 'MyKey',            # min: 1, max: 1280; OPTIONAL
           },    # OPTIONAL
           CompressionFormat => 'GZIP'
           , # values: GZIP, LZ4, SNAPPY, BZIP2, DEFLATE, LZO, BROTLI, ZSTD, ZLIB; OPTIONAL
           Format => 'CSV'
-          ,  # values: CSV, JSON, PARQUET, GLUEPARQUET, AVRO, ORC, XML; OPTIONAL
+          , # values: CSV, JSON, PARQUET, GLUEPARQUET, AVRO, ORC, XML, TABLEAUHYPER; OPTIONAL
           FormatOptions => {
             Csv => {
               Delimiter => 'MyDelimiter',    # min: 1, max: 1; OPTIONAL
             },    # OPTIONAL
           },    # OPTIONAL
+          MaxOutputFiles   => 1,    # min: 1, max: 999; OPTIONAL
           Overwrite        => 1,    # OPTIONAL
           PartitionColumns => [
             'MyColumnName', ...     # min: 1, max: 255
@@ -117,10 +137,17 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/dat
 =head1 ATTRIBUTES
 
 
+=head2 DatabaseOutputs => ArrayRef[L<Paws::GlueDataBrew::DatabaseOutput>]
+
+Represents a list of JDBC database output objects which defines the
+output destination for a DataBrew recipe job to write to.
+
+
+
 =head2 DataCatalogOutputs => ArrayRef[L<Paws::GlueDataBrew::DataCatalogOutput>]
 
-One or more artifacts that represent the AWS Glue Data Catalog output
-from running the job.
+One or more artifacts that represent the Glue Data Catalog output from
+running the job.
 
 
 

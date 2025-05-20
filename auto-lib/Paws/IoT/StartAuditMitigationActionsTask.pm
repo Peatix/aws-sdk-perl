@@ -67,7 +67,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/iot
 =head2 B<REQUIRED> AuditCheckToActionsMapping => L<Paws::IoT::AuditCheckToActionsMapping>
 
 For an audit check, specifies which mitigation actions to apply. Those
-actions must be defined in your AWS account.
+actions must be defined in your Amazon Web Services accounts.
 
 
 

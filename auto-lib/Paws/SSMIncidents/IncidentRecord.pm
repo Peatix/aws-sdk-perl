@@ -69,18 +69,45 @@ The chat channel used for collaboration during an incident.
 
 =head2 B<REQUIRED> CreationTime => Str
 
-The time that Incident Manager created the incident record.
+The timestamp for when Incident Manager created the incident record.
 
 
 =head2 B<REQUIRED> DedupeString => Str
 
 The string Incident Manager uses to prevent duplicate incidents from
-being created by the same incident.
+being created by the same incident in the same account.
 
 
 =head2 B<REQUIRED> Impact => Int
 
 The impact of the incident on customers and applications.
+
+B<Supported impact codes>
+
+=over
+
+=item *
+
+C<1> - Critical
+
+=item *
+
+C<2> - High
+
+=item *
+
+C<3> - Medium
+
+=item *
+
+C<4> - Low
+
+=item *
+
+C<5> - No Impact
+
+=back
+
 
 
 =head2 B<REQUIRED> IncidentRecordSource => L<Paws::SSMIncidents::IncidentRecordSource>
@@ -95,19 +122,19 @@ Who modified the incident most recently.
 
 =head2 B<REQUIRED> LastModifiedTime => Str
 
-The time at which the incident was most recently modified.
+The timestamp for when the incident was most recently modified.
 
 
 =head2 NotificationTargets => ArrayRef[L<Paws::SSMIncidents::NotificationTargetItem>]
 
-The SNS targets that AWS Chatbot uses to notify the chat channels and
-perform actions on the incident record.
+The Amazon SNS targets that are notified when updates are made to an
+incident.
 
 
 =head2 ResolvedTime => Str
 
-The time at which the incident was resolved. This appears as a timeline
-event.
+The timestamp for when the incident was resolved. This appears as a
+timeline event.
 
 
 =head2 B<REQUIRED> Status => Str
@@ -118,7 +145,7 @@ The current status of the incident.
 =head2 Summary => Str
 
 The summary of the incident. The summary is a brief synopsis of what
-occurred, what is currently happening, and context.
+occurred, what's currently happening, and context of the incident.
 
 
 =head2 B<REQUIRED> Title => Str

@@ -58,13 +58,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ken
 
 =head2 B<REQUIRED> Id => Str
 
-The identifier of the data source.
+The identifier of the data source connector.
 
 
 
 =head2 B<REQUIRED> IndexId => Str
 
-The identifier of the index that contains the data source.
+The identifier of the index used with the data source connector.
 
 
 
@@ -78,8 +78,9 @@ actual results.
 
 =head2 NextToken => Str
 
-If the result of the previous request to C<GetDataSourceSyncJobHistory>
-was truncated, include the C<NextToken> to fetch the next set of jobs.
+If the previous response was incomplete (because there is more data to
+retrieve), Amazon Kendra returns a pagination token in the response.
+You can use this pagination token to retrieve the next set of jobs.
 
 
 
@@ -92,8 +93,8 @@ limited to jobs between the specified dates.
 
 =head2 StatusFilter => Str
 
-When specified, only returns synchronization jobs with the C<Status>
-field equal to the specified status.
+Only returns synchronization jobs with the C<Status> field equal to the
+specified status.
 
 Valid values are: C<"FAILED">, C<"SUCCEEDED">, C<"SYNCING">, C<"INCOMPLETE">, C<"STOPPING">, C<"ABORTED">, C<"SYNCING_INDEXING">
 

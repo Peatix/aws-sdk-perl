@@ -53,8 +53,12 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/glo
 
 The public IPv4 address range, in CIDR notation. The most specific IP
 prefix that you can specify is /24. The address range cannot overlap
-with another address range that you've brought to this or another
-Region.
+with another address range that you've brought to this Amazon Web
+Services Region or another Region.
+
+For more information, see Bring your own IP addresses (BYOIP)
+(https://docs.aws.amazon.com/global-accelerator/latest/dg/using-byoip.html)
+in the Global Accelerator Developer Guide.
 
 
 

@@ -2,7 +2,9 @@
 package Paws::TimestreamWrite::CreateTable;
   use Moose;
   has DatabaseName => (is => 'ro', isa => 'Str', required => 1);
+  has MagneticStoreWriteProperties => (is => 'ro', isa => 'Paws::TimestreamWrite::MagneticStoreWriteProperties');
   has RetentionProperties => (is => 'ro', isa => 'Paws::TimestreamWrite::RetentionProperties');
+  has Schema => (is => 'ro', isa => 'Paws::TimestreamWrite::Schema');
   has TableName => (is => 'ro', isa => 'Str', required => 1);
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::TimestreamWrite::Tag]');
 
@@ -31,12 +33,35 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $ingest.timestream = Paws->service('TimestreamWrite');
     my $CreateTableResponse = $ingest . timestream->CreateTable(
-      DatabaseName        => 'MyResourceName',
-      TableName           => 'MyResourceName',
+      DatabaseName                 => 'MyResourceCreateAPIName',
+      TableName                    => 'MyResourceCreateAPIName',
+      MagneticStoreWriteProperties => {
+        EnableMagneticStoreWrites         => 1,
+        MagneticStoreRejectedDataLocation => {
+          S3Configuration => {
+            BucketName       => 'MyS3BucketName',    # min: 3, max: 63; OPTIONAL
+            EncryptionOption => 'SSE_S3',    # values: SSE_S3, SSE_KMS; OPTIONAL
+            KmsKeyId => 'MyStringValue2048',    # min: 1, max: 2048; OPTIONAL
+            ObjectKeyPrefix =>
+              'MyS3ObjectKeyPrefix',            # min: 1, max: 928; OPTIONAL
+          },    # OPTIONAL
+        },    # OPTIONAL
+      },    # OPTIONAL
       RetentionProperties => {
         MagneticStoreRetentionPeriodInDays => 1,    # min: 1, max: 73000
         MemoryStoreRetentionPeriodInHours  => 1,    # min: 1, max: 8766
 
+      },    # OPTIONAL
+      Schema => {
+        CompositePartitionKey => [
+          {
+            Type                => 'DIMENSION',    # values: DIMENSION, MEASURE
+            EnforcementInRecord =>
+              'REQUIRED',    # values: REQUIRED, OPTIONAL; OPTIONAL
+            Name => 'MySchemaName',    # min: 1; OPTIONAL
+          },
+          ...
+        ],    # min: 1; OPTIONAL
       },    # OPTIONAL
       Tags => [
         {
@@ -65,10 +90,23 @@ The name of the Timestream database.
 
 
 
+=head2 MagneticStoreWriteProperties => L<Paws::TimestreamWrite::MagneticStoreWriteProperties>
+
+Contains properties to set on the table when enabling magnetic store
+writes.
+
+
+
 =head2 RetentionProperties => L<Paws::TimestreamWrite::RetentionProperties>
 
-The duration for which your time series data must be stored in the
+The duration for which your time-series data must be stored in the
 memory store and the magnetic store.
+
+
+
+=head2 Schema => L<Paws::TimestreamWrite::Schema>
+
+The schema of the table.
 
 
 

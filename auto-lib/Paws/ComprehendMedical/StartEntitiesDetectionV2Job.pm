@@ -64,7 +64,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/com
 =head2 ClientRequestToken => Str
 
 A unique identifier for the request. If you don't set the client
-request token, Amazon Comprehend Medical generates one.
+request token, Amazon Comprehend Medical generates one for you.
 
 
 
@@ -80,7 +80,8 @@ Required for Asynchronous Operations
 
 =head2 B<REQUIRED> InputDataConfig => L<Paws::ComprehendMedical::InputDataConfig>
 
-Specifies the format and location of the input data for the job.
+The input configuration that specifies the format and location of the
+input data for the job.
 
 
 
@@ -100,13 +101,13 @@ do not specify a key, the files are written in plain text.
 =head2 B<REQUIRED> LanguageCode => Str
 
 The language of the input documents. All documents must be in the same
-language.
+language. Amazon Comprehend Medical processes files in US English (en).
 
 Valid values are: C<"en">
 
 =head2 B<REQUIRED> OutputDataConfig => L<Paws::ComprehendMedical::OutputDataConfig>
 
-Specifies where to send the output files.
+The output configuration that specifies where to send the output files.
 
 
 

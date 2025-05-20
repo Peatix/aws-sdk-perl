@@ -3,6 +3,7 @@ package Paws::Appflow::SalesforceConnectorProfileProperties;
   use Moose;
   has InstanceUrl => (is => 'ro', isa => 'Str', request_name => 'instanceUrl', traits => ['NameInRequest']);
   has IsSandboxEnvironment => (is => 'ro', isa => 'Bool', request_name => 'isSandboxEnvironment', traits => ['NameInRequest']);
+  has UsePrivateLinkForMetadataAndAuthorization => (is => 'ro', isa => 'Bool', request_name => 'usePrivateLinkForMetadataAndAuthorization', traits => ['NameInRequest']);
 
 1;
 
@@ -23,7 +24,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::Appflow::SalesforceConnectorProfileProperties object:
 
-  $service_obj->Method(Att1 => { InstanceUrl => $value, ..., IsSandboxEnvironment => $value  });
+  $service_obj->Method(Att1 => { InstanceUrl => $value, ..., UsePrivateLinkForMetadataAndAuthorization => $value  });
 
 =head3 Results returned from an API call
 
@@ -49,6 +50,76 @@ The location of the Salesforce resource.
 
 Indicates whether the connector profile applies to a sandbox or
 production environment.
+
+
+=head2 UsePrivateLinkForMetadataAndAuthorization => Bool
+
+If the connection mode for the connector profile is private, this
+parameter sets whether Amazon AppFlow uses the private network to send
+metadata and authorization calls to Salesforce. Amazon AppFlow sends
+private calls through Amazon Web Services PrivateLink. These calls
+travel through Amazon Web Services infrastructure without being exposed
+to the public internet.
+
+Set either of the following values:
+
+=over
+
+=item true
+
+Amazon AppFlow sends all calls to Salesforce over the private network.
+
+These private calls are:
+
+=over
+
+=item *
+
+Calls to get metadata about your Salesforce records. This metadata
+describes your Salesforce objects and their fields.
+
+=item *
+
+Calls to get or refresh access tokens that allow Amazon AppFlow to
+access your Salesforce records.
+
+=item *
+
+Calls to transfer your Salesforce records as part of a flow run.
+
+=back
+
+=item false
+
+The default value. Amazon AppFlow sends some calls to Salesforce
+privately and other calls over the public internet.
+
+The public calls are:
+
+=over
+
+=item *
+
+Calls to get metadata about your Salesforce records.
+
+=item *
+
+Calls to get or refresh access tokens.
+
+=back
+
+The private calls are:
+
+=over
+
+=item *
+
+Calls to transfer your Salesforce records as part of a flow run.
+
+=back
+
+=back
+
 
 
 

@@ -52,13 +52,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/sec
 
 =head2 B<REQUIRED> RemoveReplicaRegions => ArrayRef[Str|Undef]
 
-Remove replication from specific Regions.
+The Regions of the replicas to remove.
 
 
 
 =head2 B<REQUIRED> SecretId => Str
 
-Remove a secret by C<SecretId> from replica Regions.
+The ARN or name of the secret.
 
 
 

@@ -18,13 +18,17 @@ Paws::RAM::DeleteResourceShareResponse
 
 =head2 ClientToken => Str
 
-A unique, case-sensitive identifier that you provide to ensure the
-idempotency of the request.
+The idempotency identifier associated with this request. If you want to
+repeat the same operation in an idempotent manner then you must include
+this value in the C<clientToken> request parameter of that later call.
+All other parameters must also have the same values that you used in
+the first call.
 
 
 =head2 ReturnValue => Bool
 
-Indicates whether the request succeeded.
+A return value of C<true> indicates that the request succeeded. A value
+of C<false> indicates that the request failed.
 
 
 =head2 _request_id => Str

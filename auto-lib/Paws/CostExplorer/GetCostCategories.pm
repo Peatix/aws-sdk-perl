@@ -1,6 +1,7 @@
 
 package Paws::CostExplorer::GetCostCategories;
   use Moose;
+  has BillingViewArn => (is => 'ro', isa => 'Str');
   has CostCategoryName => (is => 'ro', isa => 'Str');
   has Filter => (is => 'ro', isa => 'Paws::CostExplorer::Expression');
   has MaxResults => (is => 'ro', isa => 'Int');
@@ -39,6 +40,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         Start => 'MyYearMonthDay',    # max: 40
 
       },
+      BillingViewArn   => 'MyBillingViewArn',      # OPTIONAL
       CostCategoryName => 'MyCostCategoryName',    # OPTIONAL
       Filter           => {
         And            => [ <Expression>, ... ],    # OPTIONAL
@@ -46,7 +48,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           Key          => 'MyCostCategoryName',     # min: 1, max: 50
           MatchOptions => [
             'EQUALS',
-            ... # values: EQUALS, ABSENT, STARTS_WITH, ENDS_WITH, CONTAINS, CASE_SENSITIVE, CASE_INSENSITIVE
+            ... # values: EQUALS, ABSENT, STARTS_WITH, ENDS_WITH, CONTAINS, CASE_SENSITIVE, CASE_INSENSITIVE, GREATER_THAN_OR_EQUAL
           ],    # OPTIONAL
           Values => [
             'MyValue', ...    # max: 1024
@@ -54,10 +56,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },    # OPTIONAL
         Dimensions => {
           Key => 'AZ'
-          , # values: AZ, INSTANCE_TYPE, LINKED_ACCOUNT, LINKED_ACCOUNT_NAME, OPERATION, PURCHASE_TYPE, REGION, SERVICE, SERVICE_CODE, USAGE_TYPE, USAGE_TYPE_GROUP, RECORD_TYPE, OPERATING_SYSTEM, TENANCY, SCOPE, PLATFORM, SUBSCRIPTION_ID, LEGAL_ENTITY_NAME, DEPLOYMENT_OPTION, DATABASE_ENGINE, CACHE_ENGINE, INSTANCE_TYPE_FAMILY, BILLING_ENTITY, RESERVATION_ID, RESOURCE_ID, RIGHTSIZING_TYPE, SAVINGS_PLANS_TYPE, SAVINGS_PLAN_ARN, PAYMENT_OPTION, AGREEMENT_END_DATE_TIME_AFTER, AGREEMENT_END_DATE_TIME_BEFORE; OPTIONAL
+          , # values: AZ, INSTANCE_TYPE, LINKED_ACCOUNT, LINKED_ACCOUNT_NAME, OPERATION, PURCHASE_TYPE, REGION, SERVICE, SERVICE_CODE, USAGE_TYPE, USAGE_TYPE_GROUP, RECORD_TYPE, OPERATING_SYSTEM, TENANCY, SCOPE, PLATFORM, SUBSCRIPTION_ID, LEGAL_ENTITY_NAME, DEPLOYMENT_OPTION, DATABASE_ENGINE, CACHE_ENGINE, INSTANCE_TYPE_FAMILY, BILLING_ENTITY, RESERVATION_ID, RESOURCE_ID, RIGHTSIZING_TYPE, SAVINGS_PLANS_TYPE, SAVINGS_PLAN_ARN, PAYMENT_OPTION, AGREEMENT_END_DATE_TIME_AFTER, AGREEMENT_END_DATE_TIME_BEFORE, INVOICING_ENTITY, ANOMALY_TOTAL_IMPACT_ABSOLUTE, ANOMALY_TOTAL_IMPACT_PERCENTAGE; OPTIONAL
           MatchOptions => [
             'EQUALS',
-            ... # values: EQUALS, ABSENT, STARTS_WITH, ENDS_WITH, CONTAINS, CASE_SENSITIVE, CASE_INSENSITIVE
+            ... # values: EQUALS, ABSENT, STARTS_WITH, ENDS_WITH, CONTAINS, CASE_SENSITIVE, CASE_INSENSITIVE, GREATER_THAN_OR_EQUAL
           ],    # OPTIONAL
           Values => [
             'MyValue', ...    # max: 1024
@@ -69,7 +71,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           Key          => 'MyTagKey',     # max: 1024; OPTIONAL
           MatchOptions => [
             'EQUALS',
-            ... # values: EQUALS, ABSENT, STARTS_WITH, ENDS_WITH, CONTAINS, CASE_SENSITIVE, CASE_INSENSITIVE
+            ... # values: EQUALS, ABSENT, STARTS_WITH, ENDS_WITH, CONTAINS, CASE_SENSITIVE, CASE_INSENSITIVE, GREATER_THAN_OR_EQUAL
           ],    # OPTIONAL
           Values => [
             'MyValue', ...    # max: 1024
@@ -103,6 +105,17 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ce/
 =head1 ATTRIBUTES
 
 
+=head2 BillingViewArn => Str
+
+The Amazon Resource Name (ARN) that uniquely identifies a specific
+billing view. The ARN is used to specify which particular billing view
+you want to interact with or retrieve information from when making API
+calls related to Amazon Web Services Billing and Cost Management
+features. The BillingViewArn can be retrieved by calling the
+ListBillingViews API.
+
+
+
 =head2 CostCategoryName => Str
 
 
@@ -117,22 +130,23 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ce/
 
 =head2 MaxResults => Int
 
-This field is only used when C<SortBy> is provided in the request.
+This field is only used when the C<SortBy> value is provided in the
+request.
 
-The maximum number of objects that to be returned for this request. If
-C<MaxResults> is not specified with C<SortBy>, the request will return
-1000 results as the default value for this parameter.
+The maximum number of objects that are returned for this request. If
+C<MaxResults> isn't specified with the C<SortBy> value, the request
+returns 1000 results as the default value for this parameter.
 
-For C<GetCostCategories>, MaxResults has an upper limit of 1000.
+For C<GetCostCategories>, MaxResults has an upper quota of 1000.
 
 
 
 =head2 NextPageToken => Str
 
 If the number of objects that are still available for retrieval exceeds
-the limit, AWS returns a NextPageToken value in the response. To
-retrieve the next batch of objects, provide the NextPageToken from the
-prior call in your next request.
+the quota, Amazon Web Services returns a NextPageToken value in the
+response. To retrieve the next batch of objects, provide the
+NextPageToken from the previous call in your next request.
 
 
 
@@ -140,19 +154,18 @@ prior call in your next request.
 
 The value that you want to search the filter values for.
 
-If you do not specify a C<CostCategoryName>, C<SearchString> will be
-used to filter Cost Category names that match the C<SearchString>
-pattern. If you do specifiy a C<CostCategoryName>, C<SearchString> will
-be used to filter Cost Category values that match the C<SearchString>
-pattern.
+If you don't specify a C<CostCategoryName>, C<SearchString> is used to
+filter Cost Category names that match the C<SearchString> pattern. If
+you specify a C<CostCategoryName>, C<SearchString> is used to filter
+Cost Category values that match the C<SearchString> pattern.
 
 
 
 =head2 SortBy => ArrayRef[L<Paws::CostExplorer::SortDefinition>]
 
-The value by which you want to sort the data.
+The value that you sort the data by.
 
-The key represents cost and usage metrics. The following values are
+The key represents the cost and usage metrics. The following values are
 supported:
 
 =over
@@ -187,10 +200,11 @@ C<NormalizedUsageAmount>
 
 =back
 
-Supported values for C<SortOrder> are C<ASCENDING> or C<DESCENDING>.
+The supported key values for the C<SortOrder> value are C<ASCENDING>
+and C<DESCENDING>.
 
-When using C<SortBy>, C<NextPageToken> and C<SearchString> are not
-supported.
+When you use the C<SortBy> value, the C<NextPageToken> and
+C<SearchString> key values aren't supported.
 
 
 

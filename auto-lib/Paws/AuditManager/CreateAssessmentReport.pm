@@ -4,6 +4,7 @@ package Paws::AuditManager::CreateAssessmentReport;
   has AssessmentId => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'assessmentId', required => 1);
   has Description => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'description');
   has Name => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'name', required => 1);
+  has QueryStatement => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'queryStatement');
 
   use MooseX::ClassAttribute;
 
@@ -31,9 +32,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $auditmanager = Paws->service('AuditManager');
     my $CreateAssessmentReportResponse = $auditmanager->CreateAssessmentReport(
-      AssessmentId => 'MyUUID',
-      Name         => 'MyAssessmentReportName',
-      Description  => 'MyAssessmentReportDescription',    # OPTIONAL
+      AssessmentId   => 'MyUUID',
+      Name           => 'MyAssessmentReportName',
+      Description    => 'MyAssessmentReportDescription',    # OPTIONAL
+      QueryStatement => 'MyQueryStatement',                 # OPTIONAL
     );
 
     # Results:
@@ -49,7 +51,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/aud
 
 =head2 B<REQUIRED> AssessmentId => Str
 
-The identifier for the specified assessment.
+The identifier for the assessment.
 
 
 
@@ -62,6 +64,31 @@ The description of the assessment report.
 =head2 B<REQUIRED> Name => Str
 
 The name of the new assessment report.
+
+
+
+=head2 QueryStatement => Str
+
+A SQL statement that represents an evidence finder query.
+
+Provide this parameter when you want to generate an assessment report
+from the results of an evidence finder search query. When you use this
+parameter, Audit Manager generates a one-time report using only the
+evidence from the query output. This report does not include any
+assessment evidence that was manually added to a report using the
+console
+(https://docs.aws.amazon.com/audit-manager/latest/userguide/generate-assessment-report.html#generate-assessment-report-include-evidence),
+or associated with a report using the API
+(https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_BatchAssociateAssessmentReportEvidence.html).
+
+To use this parameter, the enablementStatus
+(https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_EvidenceFinderEnablement.html#auditmanager-Type-EvidenceFinderEnablement-enablementStatus)
+of evidence finder must be C<ENABLED>.
+
+For examples and help resolving C<queryStatement> validation
+exceptions, see Troubleshooting evidence finder issues
+(https://docs.aws.amazon.com/audit-manager/latest/userguide/evidence-finder-issues.html#querystatement-exceptions)
+in the I<Audit Manager User Guide.>
 
 
 

@@ -22,6 +22,11 @@ executions returned from the C<ListInferenceExecutions> operation,
 including model used, inference scheduler, data configuration, and so
 on.
 
+If you don't supply the C<InferenceSchedulerName> request parameter, or
+if you supply the name of an inference scheduler that doesn't exist,
+C<ListInferenceExecutions> returns an empty array in
+C<InferenceExecutionSummaries>.
+
 
 =head2 NextToken => Str
 

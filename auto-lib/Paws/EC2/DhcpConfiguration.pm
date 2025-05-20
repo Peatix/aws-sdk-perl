@@ -44,7 +44,7 @@ The name of a DHCP option.
 
 =head2 Values => ArrayRef[L<Paws::EC2::AttributeValue>]
 
-One or more values for the DHCP option.
+The values for the DHCP option.
 
 
 

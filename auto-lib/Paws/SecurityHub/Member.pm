@@ -46,13 +46,13 @@ The details about a member account.
 
 =head2 AccountId => Str
 
-The AWS account ID of the member account.
+The Amazon Web Services account ID of the member account.
 
 
 =head2 AdministratorId => Str
 
-The AWS account ID of the Security Hub administrator account associated
-with this member account.
+The Amazon Web Services account ID of the Security Hub administrator
+account associated with this member account.
 
 
 =head2 Email => Str
@@ -70,8 +70,8 @@ member account.
 
 This is replaced by C<AdministratorID>.
 
-The AWS account ID of the Security Hub administrator account associated
-with this member account.
+The Amazon Web Services account ID of the Security Hub administrator
+account associated with this member account.
 
 
 =head2 MemberStatus => Str
@@ -85,34 +85,41 @@ The status can have one of the following values:
 
 =item *
 
-C<CREATED> - Indicates that the administrator account added the member
+C<Created> - Indicates that the administrator account added the member
 account, but has not yet invited the member account.
 
 =item *
 
-C<INVITED> - Indicates that the administrator account invited the
+C<Invited> - Indicates that the administrator account invited the
 member account. The member account has not yet responded to the
 invitation.
 
 =item *
 
-C<ENABLED> - Indicates that the member account is currently active. For
+C<Enabled> - Indicates that the member account is currently active. For
 manually invited member accounts, indicates that the member account
 accepted the invitation.
 
 =item *
 
-C<REMOVED> - Indicates that the administrator account disassociated the
+C<Removed> - Indicates that the administrator account disassociated the
 member account.
 
 =item *
 
-C<RESIGNED> - Indicates that the member account disassociated
+C<Resigned> - Indicates that the member account disassociated
 themselves from the administrator account.
 
 =item *
 
-C<DELETED> - Indicates that the administrator account deleted the
+C<Deleted> - Indicates that the administrator account deleted the
+member account.
+
+=item *
+
+C<AccountSuspended> - Indicates that an organization account was
+suspended from Amazon Web Services at the same time that the
+administrator account tried to enable the organization account as a
 member account.
 
 =back

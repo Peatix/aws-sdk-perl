@@ -10,10 +10,12 @@ package Paws::Appflow::TaskPropertiesMap;
   has DATA_TYPE => (is => 'ro', isa => 'Str');
   has DESTINATION_DATA_TYPE => (is => 'ro', isa => 'Str');
   has EXCLUDE_SOURCE_FIELDS_LIST => (is => 'ro', isa => 'Str');
+  has INCLUDE_NEW_FIELDS => (is => 'ro', isa => 'Str');
   has LOWER_BOUND => (is => 'ro', isa => 'Str');
   has MASK_LENGTH => (is => 'ro', isa => 'Str');
   has MASK_VALUE => (is => 'ro', isa => 'Str');
   has MATH_OPERATION_FIELDS_ORDER => (is => 'ro', isa => 'Str');
+  has ORDERED_PARTITION_KEYS_LIST => (is => 'ro', isa => 'Str');
   has SOURCE_DATA_TYPE => (is => 'ro', isa => 'Str');
   has SUBFIELD_CATEGORY_MAP => (is => 'ro', isa => 'Str');
   has TRUNCATE_LENGTH => (is => 'ro', isa => 'Str');
@@ -68,6 +70,9 @@ This class has no description
 =head2 EXCLUDE_SOURCE_FIELDS_LIST => Str
 
 
+=head2 INCLUDE_NEW_FIELDS => Str
+
+
 =head2 LOWER_BOUND => Str
 
 
@@ -78,6 +83,9 @@ This class has no description
 
 
 =head2 MATH_OPERATION_FIELDS_ORDER => Str
+
+
+=head2 ORDERED_PARTITION_KEYS_LIST => Str
 
 
 =head2 SOURCE_DATA_TYPE => Str

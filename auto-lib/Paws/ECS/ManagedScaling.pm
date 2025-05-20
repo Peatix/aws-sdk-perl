@@ -40,16 +40,16 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ECS::Manage
 The managed scaling settings for the Auto Scaling group capacity
 provider.
 
-When managed scaling is enabled, Amazon ECS manages the scale-in and
+When managed scaling is turned on, Amazon ECS manages the scale-in and
 scale-out actions of the Auto Scaling group. Amazon ECS manages a
-target tracking scaling policy using an Amazon ECS-managed CloudWatch
+target tracking scaling policy using an Amazon ECS managed CloudWatch
 metric with the specified C<targetCapacity> value as the target value
-for the metric. For more information, see Using Managed Scaling
+for the metric. For more information, see Using managed scaling
 (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/asg-capacity-providers.html#asg-capacity-providers-managed-scaling)
 in the I<Amazon Elastic Container Service Developer Guide>.
 
-If managed scaling is disabled, the user must manage the scaling of the
-Auto Scaling group.
+If managed scaling is off, the user must manage the scaling of the Auto
+Scaling group.
 
 =head1 ATTRIBUTES
 
@@ -64,29 +64,42 @@ used.
 
 =head2 MaximumScalingStepSize => Int
 
-The maximum number of container instances that Amazon ECS will scale in
-or scale out at one time. If this parameter is omitted, the default
-value of C<10000> is used.
+The maximum number of Amazon EC2 instances that Amazon ECS will scale
+out at one time. If this parameter is omitted, the default value of
+C<10000> is used.
 
 
 =head2 MinimumScalingStepSize => Int
 
-The minimum number of container instances that Amazon ECS will scale in
-or scale out at one time. If this parameter is omitted, the default
-value of C<1> is used.
+The minimum number of Amazon EC2 instances that Amazon ECS will scale
+out at one time. The scale in process is not affected by this parameter
+If this parameter is omitted, the default value of C<1> is used.
+
+When additional capacity is required, Amazon ECS will scale up the
+minimum scaling step size even if the actual demand is less than the
+minimum scaling step size.
+
+If you use a capacity provider with an Auto Scaling group configured
+with more than one Amazon EC2 instance type or Availability Zone,
+Amazon ECS will scale up by the exact minimum scaling step size value
+and will ignore both the maximum scaling step size as well as the
+capacity demand.
 
 
 =head2 Status => Str
 
-Whether or not to enable managed scaling for the capacity provider.
+Determines whether to use managed scaling for the capacity provider.
 
 
 =head2 TargetCapacity => Int
 
-The target capacity value for the capacity provider. The specified
-value must be greater than C<0> and less than or equal to C<100>. A
-value of C<100> will result in the Amazon EC2 instances in your Auto
-Scaling group being completely utilized.
+The target capacity utilization as a percentage for the capacity
+provider. The specified value must be greater than C<0> and less than
+or equal to C<100>. For example, if you want the capacity provider to
+maintain 10% spare capacity, then that means the utilization is 90%, so
+use a C<targetCapacity> of C<90>. The default value of C<100> percent
+results in the Amazon EC2 instances in your Auto Scaling group being
+completely used.
 
 
 

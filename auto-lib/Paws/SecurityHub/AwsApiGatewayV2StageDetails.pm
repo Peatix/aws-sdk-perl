@@ -76,10 +76,9 @@ WebSocket API calls.
 
 Indicates when the stage was created.
 
-Uses the C<date-time> format specified in RFC 3339 section 5.6,
-Internet Date/Time Format
-(https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot
-contain spaces. For example, C<2020-03-22T13:22:13.933Z>.
+For more information about the validation and formatting of timestamp
+fields in Security Hub, see Timestamps
+(https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
 
 
 =head2 DefaultRouteSettings => L<Paws::SecurityHub::AwsApiGatewayV2RouteSettings>
@@ -107,10 +106,9 @@ stage has automatic deployment enabled.
 
 Indicates when the stage was most recently updated.
 
-Uses the C<date-time> format specified in RFC 3339 section 5.6,
-Internet Date/Time Format
-(https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot
-contain spaces. For example, C<2020-03-22T13:22:13.933Z>.
+For more information about the validation and formatting of timestamp
+fields in Security Hub, see Timestamps
+(https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
 
 
 =head2 RouteSettings => L<Paws::SecurityHub::AwsApiGatewayV2RouteSettings>

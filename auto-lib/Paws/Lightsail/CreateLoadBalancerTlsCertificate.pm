@@ -62,13 +62,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/lig
 An array of strings listing alternative domains and subdomains for your
 SSL/TLS certificate. Lightsail will de-dupe the names for you. You can
 have a maximum of 9 alternative names (in addition to the 1 primary
-domain). We do not support wildcards (e.g., C<*.example.com>).
+domain). We do not support wildcards (C<*.example.com>).
 
 
 
 =head2 B<REQUIRED> CertificateDomainName => Str
 
-The domain name (e.g., C<example.com>) for your SSL/TLS certificate.
+The domain name (C<example.com>) for your SSL/TLS certificate.
 
 
 

@@ -7,6 +7,7 @@ package Paws::LexRuntimeV2::RecognizeUtteranceResponse;
   has InputTranscript => (is => 'ro', isa => 'Str', traits => ['ParamInHeader'], header_name => 'x-amz-lex-input-transcript');
   has Interpretations => (is => 'ro', isa => 'Str', traits => ['ParamInHeader'], header_name => 'x-amz-lex-interpretations');
   has Messages => (is => 'ro', isa => 'Str', traits => ['ParamInHeader'], header_name => 'x-amz-lex-messages');
+  has RecognizedBotMember => (is => 'ro', isa => 'Str', traits => ['ParamInHeader'], header_name => 'x-amz-lex-recognized-bot-member');
   has RequestAttributes => (is => 'ro', isa => 'Str', traits => ['ParamInHeader'], header_name => 'x-amz-lex-request-attributes');
   has SessionId => (is => 'ro', isa => 'Str', traits => ['ParamInHeader'], header_name => 'x-amz-lex-session-id');
   has SessionState => (is => 'ro', isa => 'Str', traits => ['ParamInHeader'], header_name => 'x-amz-lex-session-state');
@@ -43,7 +44,8 @@ Content type as specified in the C<responseContentType> in the request.
 
 =head2 InputMode => Str
 
-Indicates whether the input mode to the operation was text or speech.
+Indicates whether the input mode to the operation was text, speech, or
+from a touch-tone keypad.
 
 
 =head2 InputTranscript => Str
@@ -88,6 +90,11 @@ The C<messages> field is compressed with gzip and then base64 encoded.
 Before you can use the contents of the field, you must decode and
 decompress the contents. See the example for a simple function to
 decode and decompress the contents.
+
+
+=head2 RecognizedBotMember => Str
+
+The bot member that recognized the utterance.
 
 
 =head2 RequestAttributes => Str

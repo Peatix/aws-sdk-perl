@@ -16,7 +16,7 @@ Paws::Discovery::CreateApplicationResponse
 
 =head2 ConfigurationId => Str
 
-Configuration ID of an application to be created.
+The configuration ID of an application to be created.
 
 
 =head2 _request_id => Str

@@ -2,6 +2,7 @@
 package Paws::Connect::StartChatContactResponse;
   use Moose;
   has ContactId => (is => 'ro', isa => 'Str');
+  has ContinuedFromContactId => (is => 'ro', isa => 'Str');
   has ParticipantId => (is => 'ro', isa => 'Str');
   has ParticipantToken => (is => 'ro', isa => 'Str');
 
@@ -20,6 +21,12 @@ Paws::Connect::StartChatContactResponse
 =head2 ContactId => Str
 
 The identifier of this contact within the Amazon Connect instance.
+
+
+=head2 ContinuedFromContactId => Str
+
+The contactId from which a persistent chat session is started. This
+field is populated only for persistent chats.
 
 
 =head2 ParticipantId => Str

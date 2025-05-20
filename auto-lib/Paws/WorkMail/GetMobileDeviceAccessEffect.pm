@@ -78,7 +78,7 @@ Device user agent the simulated user will report.
 
 =head2 B<REQUIRED> OrganizationId => Str
 
-The Amazon WorkMail organization to simulate the access effect for.
+The WorkMail organization to simulate the access effect for.
 
 
 

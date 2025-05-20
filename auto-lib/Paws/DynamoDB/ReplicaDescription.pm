@@ -3,12 +3,15 @@ package Paws::DynamoDB::ReplicaDescription;
   use Moose;
   has GlobalSecondaryIndexes => (is => 'ro', isa => 'ArrayRef[Paws::DynamoDB::ReplicaGlobalSecondaryIndexDescription]');
   has KMSMasterKeyId => (is => 'ro', isa => 'Str');
+  has OnDemandThroughputOverride => (is => 'ro', isa => 'Paws::DynamoDB::OnDemandThroughputOverride');
   has ProvisionedThroughputOverride => (is => 'ro', isa => 'Paws::DynamoDB::ProvisionedThroughputOverride');
   has RegionName => (is => 'ro', isa => 'Str');
   has ReplicaInaccessibleDateTime => (is => 'ro', isa => 'Str');
   has ReplicaStatus => (is => 'ro', isa => 'Str');
   has ReplicaStatusDescription => (is => 'ro', isa => 'Str');
   has ReplicaStatusPercentProgress => (is => 'ro', isa => 'Str');
+  has ReplicaTableClassSummary => (is => 'ro', isa => 'Paws::DynamoDB::TableClassSummary');
+  has WarmThroughput => (is => 'ro', isa => 'Paws::DynamoDB::TableWarmThroughputDescription');
 
 1;
 
@@ -29,7 +32,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::DynamoDB::ReplicaDescription object:
 
-  $service_obj->Method(Att1 => { GlobalSecondaryIndexes => $value, ..., ReplicaStatusPercentProgress => $value  });
+  $service_obj->Method(Att1 => { GlobalSecondaryIndexes => $value, ..., WarmThroughput => $value  });
 
 =head3 Results returned from an API call
 
@@ -52,8 +55,13 @@ Replica-specific global secondary index settings.
 
 =head2 KMSMasterKeyId => Str
 
-The AWS KMS customer master key (CMK) of the replica that will be used
-for AWS KMS encryption.
+The KMS key of the replica that will be used for KMS encryption.
+
+
+=head2 OnDemandThroughputOverride => L<Paws::DynamoDB::OnDemandThroughputOverride>
+
+Overrides the maximum on-demand throughput settings for the specified
+replica table.
 
 
 =head2 ProvisionedThroughputOverride => L<Paws::DynamoDB::ProvisionedThroughputOverride>
@@ -97,22 +105,22 @@ C<ACTIVE> - The replica is ready for use.
 
 =item *
 
-C<REGION_DISABLED> - The replica is inaccessible because the AWS Region
-has been disabled.
+C<REGION_DISABLED> - The replica is inaccessible because the Amazon Web
+Services Region has been disabled.
 
-If the AWS Region remains inaccessible for more than 20 hours, DynamoDB
-will remove this replica from the replication group. The replica will
-not be deleted and replication will stop from and to this region.
+If the Amazon Web Services Region remains inaccessible for more than 20
+hours, DynamoDB will remove this replica from the replication group.
+The replica will not be deleted and replication will stop from and to
+this region.
 
 =item *
 
-C<INACCESSIBLE_ENCRYPTION_CREDENTIALS > - The AWS KMS key used to
-encrypt the table is inaccessible.
+C<INACCESSIBLE_ENCRYPTION_CREDENTIALS > - The KMS key used to encrypt
+the table is inaccessible.
 
-If the AWS KMS key remains inaccessible for more than 20 hours,
-DynamoDB will remove this replica from the replication group. The
-replica will not be deleted and replication will stop from and to this
-region.
+If the KMS key remains inaccessible for more than 20 hours, DynamoDB
+will remove this replica from the replication group. The replica will
+not be deleted and replication will stop from and to this region.
 
 =back
 
@@ -127,6 +135,16 @@ Detailed information about the replica status.
 
 Specifies the progress of a Create, Update, or Delete action on the
 replica as a percentage.
+
+
+=head2 ReplicaTableClassSummary => L<Paws::DynamoDB::TableClassSummary>
+
+
+
+
+=head2 WarmThroughput => L<Paws::DynamoDB::TableWarmThroughputDescription>
+
+Represents the warm throughput value for this replica.
 
 
 

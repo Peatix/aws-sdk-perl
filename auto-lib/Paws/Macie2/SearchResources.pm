@@ -39,7 +39,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
               SimpleCriterion => {
                 Comparator => 'EQ',                 # values: EQ, NE; OPTIONAL
                 Key        => 'ACCOUNT_ID'
-                , # values: ACCOUNT_ID, S3_BUCKET_NAME, S3_BUCKET_EFFECTIVE_PERMISSION, S3_BUCKET_SHARED_ACCESS; OPTIONAL
+                , # values: ACCOUNT_ID, S3_BUCKET_NAME, S3_BUCKET_EFFECTIVE_PERMISSION, S3_BUCKET_SHARED_ACCESS, AUTOMATED_DISCOVERY_MONITORING_STATUS; OPTIONAL
                 Values => [ 'My__string', ... ],    # OPTIONAL
               },    # OPTIONAL
               TagCriterion => {
@@ -62,7 +62,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
               SimpleCriterion => {
                 Comparator => 'EQ',                 # values: EQ, NE; OPTIONAL
                 Key        => 'ACCOUNT_ID'
-                , # values: ACCOUNT_ID, S3_BUCKET_NAME, S3_BUCKET_EFFECTIVE_PERMISSION, S3_BUCKET_SHARED_ACCESS; OPTIONAL
+                , # values: ACCOUNT_ID, S3_BUCKET_NAME, S3_BUCKET_EFFECTIVE_PERMISSION, S3_BUCKET_SHARED_ACCESS, AUTOMATED_DISCOVERY_MONITORING_STATUS; OPTIONAL
                 Values => [ 'My__string', ... ],    # OPTIONAL
               },    # OPTIONAL
               TagCriterion => {

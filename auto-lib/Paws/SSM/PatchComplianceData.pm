@@ -39,16 +39,16 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SSM::PatchC
 
 =head1 DESCRIPTION
 
-Information about the state of a patch on a particular instance as it
-relates to the patch baseline used to patch the instance.
+Information about the state of a patch on a particular managed node as
+it relates to the patch baseline used to patch the node.
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> Classification => Str
 
-The classification of the patch (for example, SecurityUpdates, Updates,
-CriticalUpdates).
+The classification of the patch, such as C<SecurityUpdates>,
+C<Updates>, and C<CriticalUpdates>.
 
 
 =head2 CVEIds => Str
@@ -56,11 +56,14 @@ CriticalUpdates).
 The IDs of one or more Common Vulnerabilities and Exposure (CVE) issues
 that are resolved by the patch.
 
+Currently, CVE ID values are reported only for patches with a status of
+C<Missing> or C<Failed>.
+
 
 =head2 B<REQUIRED> InstalledTime => Str
 
-The date/time the patch was installed on the instance. Note that not
-all operating systems provide this level of information.
+The date/time the patch was installed on the managed node. Not all
+operating systems provide this level of information.
 
 
 =head2 B<REQUIRED> KBId => Str
@@ -70,16 +73,18 @@ The operating system-specific ID of the patch.
 
 =head2 B<REQUIRED> Severity => Str
 
-The severity of the patch (for example, Critical, Important, Moderate).
+The severity of the patch such as C<Critical>, C<Important>, and
+C<Moderate>.
 
 
 =head2 B<REQUIRED> State => Str
 
-The state of the patch on the instance, such as INSTALLED or FAILED.
+The state of the patch on the managed node, such as INSTALLED or
+FAILED.
 
 For descriptions of each patch state, see About patch compliance
-(https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-compliance-about.html#sysman-compliance-monitor-patch)
-in the I<AWS Systems Manager User Guide>.
+(https://docs.aws.amazon.com/systems-manager/latest/userguide/compliance-about.html#compliance-monitor-patch)
+in the I<Amazon Web Services Systems Manager User Guide>.
 
 
 =head2 B<REQUIRED> Title => Str

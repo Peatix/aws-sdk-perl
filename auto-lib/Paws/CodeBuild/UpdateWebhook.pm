@@ -40,7 +40,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           {
             Pattern => 'MyString',
             Type    => 'EVENT'
-            , # values: EVENT, BASE_REF, HEAD_REF, ACTOR_ACCOUNT_ID, FILE_PATH, COMMIT_MESSAGE
+            , # values: EVENT, BASE_REF, HEAD_REF, ACTOR_ACCOUNT_ID, FILE_PATH, COMMIT_MESSAGE, WORKFLOW_NAME, TAG_NAME, RELEASE_NAME, REPOSITORY_NAME, ORGANIZATION_NAME
             ExcludeMatchedPattern => 1,    # OPTIONAL
           },
           ...
@@ -77,7 +77,14 @@ C<branchFilter>.
 
 Specifies the type of build this webhook will trigger.
 
-Valid values are: C<"BUILD">, C<"BUILD_BATCH">
+C<RUNNER_BUILDKITE_BUILD> is only available for C<NO_SOURCE> source
+type projects configured for Buildkite runner builds. For more
+information about CodeBuild-hosted Buildkite runner builds, see
+Tutorial: Configure a CodeBuild-hosted Buildkite runner
+(https://docs.aws.amazon.com/codebuild/latest/userguide/sample-runner-buildkite.html)
+in the I<CodeBuild user guide>.
+
+Valid values are: C<"BUILD">, C<"BUILD_BATCH">, C<"RUNNER_BUILDKITE_BUILD">
 
 =head2 FilterGroups => ArrayRef[L<ArrayRef[Paws::CodeBuild::WebhookFilter]>]
 

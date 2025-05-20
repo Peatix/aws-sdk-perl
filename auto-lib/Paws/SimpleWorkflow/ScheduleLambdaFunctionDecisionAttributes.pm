@@ -70,8 +70,9 @@ The name, or ARN, of the Lambda function to schedule.
 
 The timeout value, in seconds, after which the Lambda function is
 considered to be failed once it has started. This can be any integer
-from 1-300 (1s-5m). If no value is supplied, than a default value of
-300s is assumed.
+from 1-900 (1s-15m).
+
+If no value is supplied, then a default value of 900s is assumed.
 
 
 

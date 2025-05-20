@@ -7,8 +7,11 @@ package Paws::Transcribe::TranscriptionJob;
   has FailureReason => (is => 'ro', isa => 'Str');
   has IdentifiedLanguageScore => (is => 'ro', isa => 'Num');
   has IdentifyLanguage => (is => 'ro', isa => 'Bool');
+  has IdentifyMultipleLanguages => (is => 'ro', isa => 'Bool');
   has JobExecutionSettings => (is => 'ro', isa => 'Paws::Transcribe::JobExecutionSettings');
   has LanguageCode => (is => 'ro', isa => 'Str');
+  has LanguageCodes => (is => 'ro', isa => 'ArrayRef[Paws::Transcribe::LanguageCodeItem]');
+  has LanguageIdSettings => (is => 'ro', isa => 'Paws::Transcribe::LanguageIdSettingsMap');
   has LanguageOptions => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has Media => (is => 'ro', isa => 'Paws::Transcribe::Media');
   has MediaFormat => (is => 'ro', isa => 'Str');
@@ -16,6 +19,9 @@ package Paws::Transcribe::TranscriptionJob;
   has ModelSettings => (is => 'ro', isa => 'Paws::Transcribe::ModelSettings');
   has Settings => (is => 'ro', isa => 'Paws::Transcribe::Settings');
   has StartTime => (is => 'ro', isa => 'Str');
+  has Subtitles => (is => 'ro', isa => 'Paws::Transcribe::SubtitlesOutput');
+  has Tags => (is => 'ro', isa => 'ArrayRef[Paws::Transcribe::Tag]');
+  has ToxicityDetection => (is => 'ro', isa => 'ArrayRef[Paws::Transcribe::ToxicityDetectionSettings]');
   has Transcript => (is => 'ro', isa => 'Paws::Transcribe::Transcript');
   has TranscriptionJobName => (is => 'ro', isa => 'Str');
   has TranscriptionJobStatus => (is => 'ro', isa => 'Str');
@@ -50,79 +56,97 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Transcribe:
 
 =head1 DESCRIPTION
 
-Describes an asynchronous transcription job that was created with the
-C<StartTranscriptionJob> operation.
+Provides detailed information about a transcription job.
+
+To view the status of the specified transcription job, check the
+C<TranscriptionJobStatus> field. If the status is C<COMPLETED>, the job
+is finished and you can find the results at the location specified in
+C<TranscriptFileUri>. If the status is C<FAILED>, C<FailureReason>
+provides details on why your transcription job failed.
+
+If you enabled content redaction, the redacted transcript can be found
+at the location specified in C<RedactedTranscriptFileUri>.
 
 =head1 ATTRIBUTES
 
 
 =head2 CompletionTime => Str
 
-A timestamp that shows when the job was completed.
+The date and time the specified transcription job finished processing.
+
+Timestamps are in the format C<YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC>. For
+example, C<2022-05-04T12:33:13.922000-07:00> represents a transcription
+job that started processing at 12:33 PM UTC-7 on May 4, 2022.
 
 
 =head2 ContentRedaction => L<Paws::Transcribe::ContentRedaction>
 
-An object that describes content redaction settings for the
-transcription job.
+Indicates whether redaction was enabled in your transcript.
 
 
 =head2 CreationTime => Str
 
-A timestamp that shows when the job was created.
+The date and time the specified transcription job request was made.
+
+Timestamps are in the format C<YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC>. For
+example, C<2022-05-04T12:32:58.761000-07:00> represents a transcription
+job that started processing at 12:32 PM UTC-7 on May 4, 2022.
 
 
 =head2 FailureReason => Str
 
-If the C<TranscriptionJobStatus> field is C<FAILED>, this field
-contains information about why the job failed.
+If C<TranscriptionJobStatus> is C<FAILED>, C<FailureReason> contains
+information about why the transcription job request failed.
 
-The C<FailureReason> field can contain one of the following values:
+The C<FailureReason> field contains one of the following values:
 
 =over
 
 =item *
 
-C<Unsupported media format> - The media format specified in the
-C<MediaFormat> field of the request isn't valid. See the description of
-the C<MediaFormat> field for a list of valid values.
+C<Unsupported media format>.
+
+The media format specified in C<MediaFormat> isn't valid. Refer to
+refer to the C<MediaFormat> parameter for a list of supported formats.
 
 =item *
 
-C<The media format provided does not match the detected media format> -
-The media format of the audio file doesn't match the format specified
-in the C<MediaFormat> field in the request. Check the media format of
-your media file and make sure that the two values match.
+C<The media format provided does not match the detected media format>.
+
+The media format specified in C<MediaFormat> doesn't match the format
+of the input file. Check the media format of your media file and
+correct the specified value.
 
 =item *
 
-C<Invalid sample rate for audio file> - The sample rate specified in
-the C<MediaSampleRateHertz> of the request isn't valid. The sample rate
-must be between 8000 and 48000 Hertz.
+C<Invalid sample rate for audio file>.
+
+The sample rate specified in C<MediaSampleRateHertz> isn't valid. The
+sample rate must be between 8,000 and 48,000 hertz.
 
 =item *
 
-C<The sample rate provided does not match the detected sample rate> -
-The sample rate in the audio file doesn't match the sample rate
-specified in the C<MediaSampleRateHertz> field in the request. Check
-the sample rate of your media file and make sure that the two values
-match.
+C<The sample rate provided does not match the detected sample rate>.
+
+The sample rate specified in C<MediaSampleRateHertz> doesn't match the
+sample rate detected in your input media file. Check the sample rate of
+your media file and correct the specified value.
 
 =item *
 
-C<Invalid file size: file size too large> - The size of your audio file
-is larger than Amazon Transcribe can process. For more information, see
-Limits
-(https://docs.aws.amazon.com/transcribe/latest/dg/limits-guidelines.html#limits)
-in the I<Amazon Transcribe Developer Guide>.
+C<Invalid file size: file size too large>.
+
+The size of your media file is larger than what Amazon Transcribe can
+process. For more information, refer to Service quotas
+(https://docs.aws.amazon.com/general/latest/gr/transcribe.html#limits-amazon-transcribe).
 
 =item *
 
-C<Invalid number of channels: number of channels too large> - Your
-audio contains more channels than Amazon Transcribe is configured to
-process. To request additional channels, see Amazon Transcribe Limits
-(https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html#limits-amazon-transcribe)
-in the I<Amazon Web Services General Reference>.
+C<Invalid number of channels: number of channels too large>.
+
+Your audio contains more channels than Amazon Transcribe is able to
+process. For more information, refer to Service quotas
+(https://docs.aws.amazon.com/general/latest/gr/transcribe.html#limits-amazon-transcribe).
 
 =back
 
@@ -130,37 +154,65 @@ in the I<Amazon Web Services General Reference>.
 
 =head2 IdentifiedLanguageScore => Num
 
-A value between zero and one that Amazon Transcribe assigned to the
-language that it identified in the source audio. Larger values indicate
-that Amazon Transcribe has higher confidence in the language it
-identified.
+The confidence score associated with the language identified in your
+media file.
+
+Confidence scores are values between 0 and 1; a larger value indicates
+a higher probability that the identified language correctly matches the
+language spoken in your media.
 
 
 =head2 IdentifyLanguage => Bool
 
-A value that shows if automatic language identification was enabled for
-a transcription job.
+Indicates whether automatic language identification was enabled
+(C<TRUE>) for the specified transcription job.
+
+
+=head2 IdentifyMultipleLanguages => Bool
+
+Indicates whether automatic multi-language identification was enabled
+(C<TRUE>) for the specified transcription job.
 
 
 =head2 JobExecutionSettings => L<Paws::Transcribe::JobExecutionSettings>
 
-Provides information about how a transcription job is executed.
+Provides information about how your transcription job was processed.
+This parameter shows if your request was queued and what data access
+role was used.
 
 
 =head2 LanguageCode => Str
 
-The language code for the input speech.
+The language code used to create your transcription job. This parameter
+is used with single-language identification. For multi-language
+identification requests, refer to the plural version of this parameter,
+C<LanguageCodes>.
+
+
+=head2 LanguageCodes => ArrayRef[L<Paws::Transcribe::LanguageCodeItem>]
+
+The language codes used to create your transcription job. This
+parameter is used with multi-language identification. For
+single-language identification requests, refer to the singular version
+of this parameter, C<LanguageCode>.
+
+
+=head2 LanguageIdSettings => L<Paws::Transcribe::LanguageIdSettingsMap>
+
+Provides the name and language of all custom language models, custom
+vocabularies, and custom vocabulary filters that you included in your
+request.
 
 
 =head2 LanguageOptions => ArrayRef[Str|Undef]
 
-An object that shows the optional array of languages inputted for
-transcription jobs with automatic language identification enabled.
+Provides the language codes you specified in your request.
 
 
 =head2 Media => L<Paws::Transcribe::Media>
 
-An object that describes the input media for the transcription job.
+Provides the Amazon S3 location of the media file you used in your
+request.
 
 
 =head2 MediaFormat => Str
@@ -170,40 +222,70 @@ The format of the input media file.
 
 =head2 MediaSampleRateHertz => Int
 
-The sample rate, in Hertz, of the audio track in the input media file.
+The sample rate, in hertz, of the audio track in your input media file.
 
 
 =head2 ModelSettings => L<Paws::Transcribe::ModelSettings>
 
-An object containing the details of your custom language model.
+Provides information on the custom language model you included in your
+request.
 
 
 =head2 Settings => L<Paws::Transcribe::Settings>
 
-Optional settings for the transcription job. Use these settings to turn
-on speaker recognition, to set the maximum number of speakers that
-should be identified and to specify a custom vocabulary to use when
-processing the transcription job.
+Provides information on any additional settings that were included in
+your request. Additional settings include channel identification,
+alternative transcriptions, speaker partitioning, custom vocabularies,
+and custom vocabulary filters.
 
 
 =head2 StartTime => Str
 
-A timestamp that shows with the job was started processing.
+The date and time the specified transcription job began processing.
+
+Timestamps are in the format C<YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC>. For
+example, C<2022-05-04T12:32:58.789000-07:00> represents a transcription
+job that started processing at 12:32 PM UTC-7 on May 4, 2022.
+
+
+=head2 Subtitles => L<Paws::Transcribe::SubtitlesOutput>
+
+Indicates whether subtitles were generated with your transcription.
+
+
+=head2 Tags => ArrayRef[L<Paws::Transcribe::Tag>]
+
+The tags, each in the form of a key:value pair, assigned to the
+specified transcription job.
+
+
+=head2 ToxicityDetection => ArrayRef[L<Paws::Transcribe::ToxicityDetectionSettings>]
+
+Provides information about the toxicity detection settings applied to
+your transcription.
 
 
 =head2 Transcript => L<Paws::Transcribe::Transcript>
 
-An object that describes the output of the transcription job.
+Provides you with the Amazon S3 URI you can use to access your
+transcript.
 
 
 =head2 TranscriptionJobName => Str
 
-The name of the transcription job.
+The name of the transcription job. Job names are case sensitive and
+must be unique within an Amazon Web Services account.
 
 
 =head2 TranscriptionJobStatus => Str
 
-The status of the transcription job.
+Provides the status of the specified transcription job.
+
+If the status is C<COMPLETED>, the job is finished and you can find the
+results at the location specified in C<TranscriptFileUri> (or
+C<RedactedTranscriptFileUri>, if you requested transcript redaction).
+If the status is C<FAILED>, C<FailureReason> provides details on why
+your transcription job failed.
 
 
 

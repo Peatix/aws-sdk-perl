@@ -79,7 +79,8 @@ ALL_OLD.
 
 =head2 B<REQUIRED> TableName => Str
 
-Name of the table in which to write the item.
+Name of the table in which to write the item. You can also provide the
+Amazon Resource Name (ARN) of the table in this parameter.
 
 
 

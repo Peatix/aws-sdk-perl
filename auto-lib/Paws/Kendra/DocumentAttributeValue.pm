@@ -36,8 +36,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Kendra::Doc
 
 =head1 DESCRIPTION
 
-The value of a custom document attribute. You can only provide one
-value for a custom attribute.
+The value of a document attribute. You can only provide one value for a
+document attribute.
 
 =head1 ATTRIBUTES
 
@@ -47,9 +47,9 @@ value for a custom attribute.
 A date expressed as an ISO 8601 string.
 
 It is important for the time zone to be included in the ISO 8601
-date-time format. For example, 20120325T123010+01:00 is the ISO 8601
-date-time format for March 25th 2012 at 12:30PM (plus 10 seconds) in
-Central European Time.
+date-time format. For example, 2012-03-25T12:30:10+01:00 is the ISO
+8601 date-time format for March 25th 2012 at 12:30PM (plus 10 seconds)
+in Central European Time.
 
 
 =head2 LongValue => Int
@@ -59,7 +59,8 @@ A long integer value.
 
 =head2 StringListValue => ArrayRef[Str|Undef]
 
-A list of strings.
+A list of strings. The default maximum length or number of strings is
+10.
 
 
 =head2 StringValue => Str

@@ -44,21 +44,22 @@ vice versa.
 
 =head2 OwningAccount => Str
 
-If the hosted zone was created by an AWS account, or was created by an
-AWS service that creates hosted zones using the current account,
-C<OwningAccount> contains the account ID of that account. For example,
-when you use AWS Cloud Map to create a hosted zone, Cloud Map creates
-the hosted zone using the current AWS account.
+If the hosted zone was created by an Amazon Web Services account, or
+was created by an Amazon Web Services service that creates hosted zones
+using the current account, C<OwningAccount> contains the account ID of
+that account. For example, when you use Cloud Map to create a hosted
+zone, Cloud Map creates the hosted zone using the current Amazon Web
+Services account.
 
 
 =head2 OwningService => Str
 
-If an AWS service uses its own account to create a hosted zone and
-associate the specified VPC with that hosted zone, C<OwningService>
-contains an abbreviation that identifies the service. For example, if
-Amazon Elastic File System (Amazon EFS) created a hosted zone and
-associated a VPC with the hosted zone, the value of C<OwningService> is
-C<efs.amazonaws.com>.
+If an Amazon Web Services service uses its own account to create a
+hosted zone and associate the specified VPC with that hosted zone,
+C<OwningService> contains an abbreviation that identifies the service.
+For example, if Amazon Elastic File System (Amazon EFS) created a
+hosted zone and associated a VPC with the hosted zone, the value of
+C<OwningService> is C<efs.amazonaws.com>.
 
 
 

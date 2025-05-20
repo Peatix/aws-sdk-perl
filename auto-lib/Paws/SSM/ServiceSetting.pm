@@ -40,21 +40,23 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SSM::Servic
 
 The service setting data structure.
 
-C<ServiceSetting> is an account-level setting for an AWS service. This
-setting defines how a user interacts with or uses a service or a
-feature of a service. For example, if an AWS service charges money to
-the account based on feature or service usage, then the AWS service
-team might create a default setting of "false". This means the user
-can't use this feature unless they change the setting to "true" and
-intentionally opt in for a paid feature.
+C<ServiceSetting> is an account-level setting for an Amazon Web
+Services service. This setting defines how a user interacts with or
+uses a service or a feature of a service. For example, if an Amazon Web
+Services service charges money to the account based on feature or
+service usage, then the Amazon Web Services service team might create a
+default setting of "false". This means the user can't use this feature
+unless they change the setting to "true" and intentionally opt in for a
+paid feature.
 
-Services map a C<SettingId> object to a setting value. AWS services
-teams define the default value for a C<SettingId>. You can't create a
-new C<SettingId>, but you can overwrite the default value if you have
-the C<ssm:UpdateServiceSetting> permission for the setting. Use the
-UpdateServiceSetting API action to change the default setting. Or, use
-the ResetServiceSetting to change the value back to the original value
-defined by the AWS service team.
+Services map a C<SettingId> object to a setting value. Amazon Web
+Services services teams define the default value for a C<SettingId>.
+You can't create a new C<SettingId>, but you can overwrite the default
+value if you have the C<ssm:UpdateServiceSetting> permission for the
+setting. Use the UpdateServiceSetting API operation to change the
+default setting. Or, use the ResetServiceSetting to change the value
+back to the original value defined by the Amazon Web Services service
+team.
 
 =head1 ATTRIBUTES
 
@@ -95,7 +97,7 @@ or PendingUpdate.
 =item *
 
 Default: The current setting uses a default value provisioned by the
-AWS service team.
+Amazon Web Services service team.
 
 =item *
 

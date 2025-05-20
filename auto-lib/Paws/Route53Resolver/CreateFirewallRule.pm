@@ -6,11 +6,15 @@ package Paws::Route53Resolver::CreateFirewallRule;
   has BlockOverrideDomain => (is => 'ro', isa => 'Str');
   has BlockOverrideTtl => (is => 'ro', isa => 'Int');
   has BlockResponse => (is => 'ro', isa => 'Str');
+  has ConfidenceThreshold => (is => 'ro', isa => 'Str');
   has CreatorRequestId => (is => 'ro', isa => 'Str', required => 1);
-  has FirewallDomainListId => (is => 'ro', isa => 'Str', required => 1);
+  has DnsThreatProtection => (is => 'ro', isa => 'Str');
+  has FirewallDomainListId => (is => 'ro', isa => 'Str');
+  has FirewallDomainRedirectionAction => (is => 'ro', isa => 'Str');
   has FirewallRuleGroupId => (is => 'ro', isa => 'Str', required => 1);
   has Name => (is => 'ro', isa => 'Str', required => 1);
   has Priority => (is => 'ro', isa => 'Int', required => 1);
+  has Qtype => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -37,16 +41,21 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $route53resolver = Paws->service('Route53Resolver');
     my $CreateFirewallRuleResponse = $route53resolver->CreateFirewallRule(
-      Action               => 'ALLOW',
-      CreatorRequestId     => 'MyCreatorRequestId',
-      FirewallDomainListId => 'MyResourceId',
-      FirewallRuleGroupId  => 'MyResourceId',
-      Name                 => 'MyName',
-      Priority             => 1,
-      BlockOverrideDnsType => 'CNAME',                    # OPTIONAL
-      BlockOverrideDomain  => 'MyBlockOverrideDomain',    # OPTIONAL
-      BlockOverrideTtl     => 1,                          # OPTIONAL
-      BlockResponse        => 'NODATA',                   # OPTIONAL
+      Action                          => 'ALLOW',
+      CreatorRequestId                => 'MyCreatorRequestId',
+      FirewallRuleGroupId             => 'MyResourceId',
+      Name                            => 'MyName',
+      Priority                        => 1,
+      BlockOverrideDnsType            => 'CNAME',                    # OPTIONAL
+      BlockOverrideDomain             => 'MyBlockOverrideDomain',    # OPTIONAL
+      BlockOverrideTtl                => 1,                          # OPTIONAL
+      BlockResponse                   => 'NODATA',                   # OPTIONAL
+      ConfidenceThreshold             => 'LOW',                      # OPTIONAL
+      DnsThreatProtection             => 'DGA',                      # OPTIONAL
+      FirewallDomainListId            => 'MyResourceId',             # OPTIONAL
+      FirewallDomainRedirectionAction =>
+        'INSPECT_REDIRECTION_DOMAIN',                                # OPTIONAL
+      Qtype => 'MyQtype',                                            # OPTIONAL
     );
 
     # Results:
@@ -63,13 +72,15 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/rou
 =head2 B<REQUIRED> Action => Str
 
 The action that DNS Firewall should take on a DNS query when it matches
-one of the domains in the rule's domain list:
+one of the domains in the rule's domain list, or a threat in a DNS
+Firewall Advanced rule:
 
 =over
 
 =item *
 
-C<ALLOW> - Permit the request to go through.
+C<ALLOW> - Permit the request to go through. Not available for DNS
+Firewall Advanced rules.
 
 =item *
 
@@ -147,6 +158,34 @@ This setting is required if the rule action setting is C<BLOCK>.
 
 Valid values are: C<"NODATA">, C<"NXDOMAIN">, C<"OVERRIDE">
 
+=head2 ConfidenceThreshold => Str
+
+The confidence threshold for DNS Firewall Advanced. You must provide
+this value when you create a DNS Firewall Advanced rule. The confidence
+level values mean:
+
+=over
+
+=item *
+
+C<LOW>: Provides the highest detection rate for threats, but also
+increases false positives.
+
+=item *
+
+C<MEDIUM>: Provides a balance between detecting threats and false
+positives.
+
+=item *
+
+C<HIGH>: Detects only the most well corroborated threats with a low
+rate of false positives.
+
+=back
+
+
+Valid values are: C<"LOW">, C<"MEDIUM">, C<"HIGH">
+
 =head2 B<REQUIRED> CreatorRequestId => Str
 
 A unique string that identifies the request and that allows you to
@@ -156,11 +195,33 @@ stamp.
 
 
 
-=head2 B<REQUIRED> FirewallDomainListId => Str
+=head2 DnsThreatProtection => Str
 
-The ID of the domain list that you want to use in the rule.
+Use to create a DNS Firewall Advanced rule.
+
+Valid values are: C<"DGA">, C<"DNS_TUNNELING">
+
+=head2 FirewallDomainListId => Str
+
+The ID of the domain list that you want to use in the rule. Can't be
+used together with C<DnsThreatProtecton>.
 
 
+
+=head2 FirewallDomainRedirectionAction => Str
+
+How you want the the rule to evaluate DNS redirection in the DNS
+redirection chain, such as CNAME or DNAME.
+
+C<INSPECT_REDIRECTION_DOMAIN>: (Default) inspects all domains in the
+redirection chain. The individual domains in the redirection chain must
+be added to the domain list.
+
+C<TRUST_REDIRECTION_DOMAIN>: Inspects only the first domain in the
+redirection chain. You don't need to add the subsequent domains in the
+domain in the redirection list to the domain list.
+
+Valid values are: C<"INSPECT_REDIRECTION_DOMAIN">, C<"TRUST_REDIRECTION_DOMAIN">
 
 =head2 B<REQUIRED> FirewallRuleGroupId => Str
 
@@ -185,6 +246,77 @@ You must specify a unique priority for each rule in a rule group. To
 make it easier to insert rules later, leave space between the numbers,
 for example, use 100, 200, and so on. You can change the priority
 setting for the rules in a rule group at any time.
+
+
+
+=head2 Qtype => Str
+
+The DNS query type you want the rule to evaluate. Allowed values are;
+
+=over
+
+=item *
+
+A: Returns an IPv4 address.
+
+=item *
+
+AAAA: Returns an Ipv6 address.
+
+=item *
+
+CAA: Restricts CAs that can create SSL/TLS certifications for the
+domain.
+
+=item *
+
+CNAME: Returns another domain name.
+
+=item *
+
+DS: Record that identifies the DNSSEC signing key of a delegated zone.
+
+=item *
+
+MX: Specifies mail servers.
+
+=item *
+
+NAPTR: Regular-expression-based rewriting of domain names.
+
+=item *
+
+NS: Authoritative name servers.
+
+=item *
+
+PTR: Maps an IP address to a domain name.
+
+=item *
+
+SOA: Start of authority record for the zone.
+
+=item *
+
+SPF: Lists the servers authorized to send emails from a domain.
+
+=item *
+
+SRV: Application specific values that identify servers.
+
+=item *
+
+TXT: Verifies email senders and application-specific values.
+
+=item *
+
+A query type you define by using the DNS type ID, for example 28 for
+AAAA. The values must be defined as TYPENUMBER, where the NUMBER can be
+1-65334, for example, TYPE28. For more information, see List of DNS
+record types (https://en.wikipedia.org/wiki/List_of_DNS_record_types).
+
+=back
+
 
 
 

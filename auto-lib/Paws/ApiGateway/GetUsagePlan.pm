@@ -53,7 +53,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 B<REQUIRED> UsagePlanId => Str
 
-[Required] The identifier of the UsagePlan resource to be retrieved.
+The identifier of the UsagePlan resource to be retrieved.
 
 
 

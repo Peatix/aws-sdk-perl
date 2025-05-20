@@ -34,9 +34,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CodeDeploy:
 
 =head1 DESCRIPTION
 
-A revision for an AWS Lambda deployment that is a YAML-formatted or
-JSON-formatted string. For AWS Lambda deployments, the revision is the
-same as the AppSpec file.
+A revision for an Lambda deployment that is a YAML-formatted or
+JSON-formatted string. For Lambda deployments, the revision is the same
+as the AppSpec file.
 
 =head1 ATTRIBUTES
 

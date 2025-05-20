@@ -1,8 +1,6 @@
 
 package Paws::IVS::ListTagsForResource;
   use Moose;
-  has MaxResults => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'maxResults');
-  has NextToken => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'nextToken');
   has ResourceArn => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'resourceArn', required => 1);
 
   use MooseX::ClassAttribute;
@@ -32,13 +30,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $ivs = Paws->service('IVS');
     my $ListTagsForResourceResponse = $ivs->ListTagsForResource(
       ResourceArn => 'MyResourceArn',
-      MaxResults  => 1,                 # OPTIONAL
-      NextToken   => 'MyString',        # OPTIONAL
+
     );
 
     # Results:
-    my $NextToken = $ListTagsForResourceResponse->NextToken;
-    my $Tags      = $ListTagsForResourceResponse->Tags;
+    my $Tags = $ListTagsForResourceResponse->Tags;
 
     # Returns a L<Paws::IVS::ListTagsForResourceResponse> object.
 
@@ -48,22 +44,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ivs
 =head1 ATTRIBUTES
 
 
-=head2 MaxResults => Int
-
-Maximum number of tags to return. Default: 50.
-
-
-
-=head2 NextToken => Str
-
-The first tag to retrieve. This is used for pagination; see the
-C<nextToken> response field.
-
-
-
 =head2 B<REQUIRED> ResourceArn => Str
 
-The ARN of the resource to be retrieved.
+The ARN of the resource to be retrieved. The ARN must be URL-encoded.
 
 
 

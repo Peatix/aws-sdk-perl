@@ -3,6 +3,7 @@ package Paws::EKS::DeleteAddon;
   use Moose;
   has AddonName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'addonName', required => 1);
   has ClusterName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'name', required => 1);
+  has Preserve => (is => 'ro', isa => 'Bool', traits => ['ParamInQuery'], query_name => 'preserve');
 
   use MooseX::ClassAttribute;
 
@@ -32,7 +33,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $DeleteAddonResponse = $eks->DeleteAddon(
       AddonName   => 'MyString',
       ClusterName => 'MyClusterName',
-
+      Preserve    => 1,                 # OPTIONAL
     );
 
     # Results:
@@ -56,7 +57,15 @@ by C<ListAddons>
 
 =head2 B<REQUIRED> ClusterName => Str
 
-The name of the cluster to delete the add-on from.
+The name of your cluster.
+
+
+
+=head2 Preserve => Bool
+
+Specifying this option preserves the add-on software on your cluster
+but Amazon EKS stops managing any settings for the add-on. If an IAM
+account is associated with the add-on, it isn't removed.
 
 
 

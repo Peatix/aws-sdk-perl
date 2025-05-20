@@ -36,8 +36,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::MediaConver
 
 =head1 DESCRIPTION
 
-Required when you set (Codec) under
-(VideoDescription)E<gt>(CodecSettings) to the value FRAME_CAPTURE.
+Required when you set Codec to the value FRAME_CAPTURE.
 
 =head1 ATTRIBUTES
 

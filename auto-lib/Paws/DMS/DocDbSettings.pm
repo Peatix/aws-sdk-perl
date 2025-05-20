@@ -8,10 +8,12 @@ package Paws::DMS::DocDbSettings;
   has NestingLevel => (is => 'ro', isa => 'Str');
   has Password => (is => 'ro', isa => 'Str');
   has Port => (is => 'ro', isa => 'Int');
+  has ReplicateShardCollections => (is => 'ro', isa => 'Bool');
   has SecretsManagerAccessRoleArn => (is => 'ro', isa => 'Str');
   has SecretsManagerSecretId => (is => 'ro', isa => 'Str');
   has ServerName => (is => 'ro', isa => 'Str');
   has Username => (is => 'ro', isa => 'Str');
+  has UseUpdateLookUp => (is => 'ro', isa => 'Bool');
 
 1;
 
@@ -32,7 +34,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::DMS::DocDbSettings object:
 
-  $service_obj->Method(Att1 => { DatabaseName => $value, ..., Username => $value  });
+  $service_obj->Method(Att1 => { DatabaseName => $value, ..., UseUpdateLookUp => $value  });
 
 =head3 Results returned from an API call
 
@@ -71,11 +73,12 @@ Default value is C<"false">.
 
 =head2 KmsKeyId => Str
 
-The AWS KMS key identifier that is used to encrypt the content on the
+The KMS key identifier that is used to encrypt the content on the
 replication instance. If you don't specify a value for the C<KmsKeyId>
-parameter, then AWS DMS uses your default encryption key. AWS KMS
-creates the default encryption key for your AWS account. Your AWS
-account has a different default encryption key for each AWS Region.
+parameter, then DMS uses your default encryption key. KMS creates the
+default encryption key for your Amazon Web Services account. Your
+Amazon Web Services account has a different default encryption key for
+each Amazon Web Services Region.
 
 
 =head2 NestingLevel => Str
@@ -97,12 +100,34 @@ source endpoint.
 The port value for the DocumentDB source endpoint.
 
 
+=head2 ReplicateShardCollections => Bool
+
+If C<true>, DMS replicates data to shard collections. DMS only uses
+this setting if the target endpoint is a DocumentDB elastic cluster.
+
+When this setting is C<true>, note the following:
+
+=over
+
+=item *
+
+You must set C<TargetTablePrepMode> to C<nothing>.
+
+=item *
+
+DMS automatically sets C<useUpdateLookup> to C<false>.
+
+=back
+
+
+
 =head2 SecretsManagerAccessRoleArn => Str
 
-The full Amazon Resource Name (ARN) of the IAM role that specifies AWS
-DMS as the trusted entity and grants the required permissions to access
-the value in C<SecretsManagerSecret>. C<SecretsManagerSecret> has the
-value of the AWS Secrets Manager secret that allows access to the
+The full Amazon Resource Name (ARN) of the IAM role that specifies DMS
+as the trusted entity and grants the required permissions to access the
+value in C<SecretsManagerSecret>. The role must allow the
+C<iam:PassRole> action. C<SecretsManagerSecret> has the value of the
+Amazon Web Services Secrets Manager secret that allows access to the
 DocumentDB endpoint.
 
 You can specify one of two sets of values for these permissions. You
@@ -111,10 +136,10 @@ Or you can specify clear-text values for C<UserName>, C<Password>,
 C<ServerName>, and C<Port>. You can't specify both. For more
 information on creating this C<SecretsManagerSecret> and the
 C<SecretsManagerAccessRoleArn> and C<SecretsManagerSecretId> required
-to access it, see Using secrets to access AWS Database Migration
-Service resources
-(https://docs.aws.amazon.com/https:/docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#security-iam-secretsmanager)
-in the I<AWS Database Migration Service User Guide>.
+to access it, see Using secrets to access Database Migration Service
+resources
+(https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#security-iam-secretsmanager)
+in the I<Database Migration Service User Guide>.
 
 
 =head2 SecretsManagerSecretId => Str
@@ -132,6 +157,14 @@ The name of the server on the DocumentDB source endpoint.
 =head2 Username => Str
 
 The user name you use to access the DocumentDB source endpoint.
+
+
+=head2 UseUpdateLookUp => Bool
+
+If C<true>, DMS retrieves the entire document from the DocumentDB
+source during migration. This may cause a migration failure if the
+server response exceeds bandwidth limits. To fetch only updates and
+deletes during migration, set this parameter to C<false>.
 
 
 

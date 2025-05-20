@@ -17,8 +17,8 @@ Paws::EC2::ResetEbsDefaultKmsKeyIdResult
 
 =head2 KmsKeyId => Str
 
-The Amazon Resource Name (ARN) of the default CMK for EBS encryption by
-default.
+The Amazon Resource Name (ARN) of the default KMS key for EBS
+encryption by default.
 
 
 =head2 _request_id => Str

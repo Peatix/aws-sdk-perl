@@ -1,6 +1,7 @@
 
 package Paws::Connect::GetCurrentMetricDataResponse;
   use Moose;
+  has ApproximateTotalCount => (is => 'ro', isa => 'Int');
   has DataSnapshotTime => (is => 'ro', isa => 'Str');
   has MetricResults => (is => 'ro', isa => 'ArrayRef[Paws::Connect::CurrentMetricResult]');
   has NextToken => (is => 'ro', isa => 'Str');
@@ -15,6 +16,11 @@ package Paws::Connect::GetCurrentMetricDataResponse;
 Paws::Connect::GetCurrentMetricDataResponse
 
 =head1 ATTRIBUTES
+
+
+=head2 ApproximateTotalCount => Int
+
+The total count of the result, regardless of the current page size.
 
 
 =head2 DataSnapshotTime => Str

@@ -42,7 +42,7 @@ the data to be labeled.
 =head2 ContentClassifiers => ArrayRef[Str|Undef]
 
 Declares that your content is free of personally identifiable
-information or adult content. Amazon SageMaker may restrict the Amazon
+information or adult content. SageMaker may restrict the Amazon
 Mechanical Turk workers that can view your task based on this
 information.
 

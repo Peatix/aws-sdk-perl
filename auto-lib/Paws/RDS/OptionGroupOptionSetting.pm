@@ -64,14 +64,14 @@ The default value for the option group option.
 
 =head2 IsModifiable => Bool
 
-Boolean value where true indicates that this option group option can be
-changed from the default value.
+Indicates whether this option group option can be changed from the
+default value.
 
 
 =head2 IsRequired => Bool
 
-Boolean value where true indicates that a value must be specified for
-this option setting of the option group option.
+Indicates whether a value must be specified for this option setting of
+the option group option.
 
 
 =head2 MinimumEngineVersionPerAllowedValue => ArrayRef[L<Paws::RDS::MinimumEngineVersionPerAllowedValue>]

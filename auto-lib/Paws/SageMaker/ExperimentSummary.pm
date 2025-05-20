@@ -39,8 +39,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SageMaker::
 =head1 DESCRIPTION
 
 A summary of the properties of an experiment. To get the complete set
-of properties, call the DescribeExperiment API and provide the
-C<ExperimentName>.
+of properties, call the DescribeExperiment
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeExperiment.html)
+API and provide the C<ExperimentName>.
 
 =head1 ATTRIBUTES
 

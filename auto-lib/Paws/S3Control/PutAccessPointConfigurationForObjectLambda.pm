@@ -42,7 +42,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         TransformationConfigurations => [
           {
             Actions => [
-              'GetObject', ...    # values: GetObject
+              'GetObject',
+              ...    # values: GetObject, HeadObject, ListObjects, ListObjectsV2
             ],
             ContentTransformation => {
               AwsLambda => {
@@ -57,7 +58,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ],
         AllowedFeatures => [
           'GetObject-Range',
-          ...    # values: GetObject-Range, GetObject-PartNumber
+          ... # values: GetObject-Range, GetObject-PartNumber, HeadObject-Range, HeadObject-PartNumber
         ],    # OPTIONAL
         CloudWatchMetricsEnabled => 1,    # OPTIONAL
       },

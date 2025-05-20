@@ -52,14 +52,15 @@ subscriber.
 =head2 Description => Str
 
 A description of the entitlement. This description appears only on the
-AWS Elemental MediaConnect console and will not be seen by the
-subscriber or end user.
+MediaConnect console and will not be seen by the subscriber or end
+user.
 
 
 =head2 Encryption => L<Paws::MediaConnect::Encryption>
 
 The type of encryption that will be used on the output that is
-associated with this entitlement.
+associated with this entitlement. Allowable encryption types:
+static-key, speke.
 
 
 =head2 EntitlementStatus => Str
@@ -78,9 +79,9 @@ current flow.
 
 =head2 B<REQUIRED> Subscribers => ArrayRef[Str|Undef]
 
-The AWS account IDs that you want to share your content with. The
-receiving accounts (subscribers) will be allowed to create their own
-flows using your content as the source.
+The Amazon Web Services account IDs that you want to share your content
+with. The receiving accounts (subscribers) will be allowed to create
+their own flows using your content as the source.
 
 
 

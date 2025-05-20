@@ -2,6 +2,10 @@
 package Paws::IoTWireless::LoRaWANServiceProfile;
   use Moose;
   has AddGwMetadata => (is => 'ro', isa => 'Bool');
+  has DrMax => (is => 'ro', isa => 'Int');
+  has DrMin => (is => 'ro', isa => 'Int');
+  has PrAllowed => (is => 'ro', isa => 'Bool');
+  has RaAllowed => (is => 'ro', isa => 'Bool');
 
 1;
 
@@ -22,7 +26,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::IoTWireless::LoRaWANServiceProfile object:
 
-  $service_obj->Method(Att1 => { AddGwMetadata => $value, ..., AddGwMetadata => $value  });
+  $service_obj->Method(Att1 => { AddGwMetadata => $value, ..., RaAllowed => $value  });
 
 =head3 Results returned from an API call
 
@@ -41,6 +45,27 @@ LoRaWANServiceProfile object.
 =head2 AddGwMetadata => Bool
 
 The AddGWMetaData value.
+
+
+=head2 DrMax => Int
+
+The DrMax value.
+
+
+=head2 DrMin => Int
+
+The DrMin value.
+
+
+=head2 PrAllowed => Bool
+
+The PRAllowed value that describes whether passive roaming is allowed.
+
+
+=head2 RaAllowed => Bool
+
+The RAAllowed value that describes whether roaming activation is
+allowed.
 
 
 

@@ -36,22 +36,26 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     );
 
     # Results:
-    my $Attempt            = $DescribeJobRunResponse->Attempt;
-    my $CompletedOn        = $DescribeJobRunResponse->CompletedOn;
-    my $DataCatalogOutputs = $DescribeJobRunResponse->DataCatalogOutputs;
-    my $DatasetName        = $DescribeJobRunResponse->DatasetName;
-    my $ErrorMessage       = $DescribeJobRunResponse->ErrorMessage;
-    my $ExecutionTime      = $DescribeJobRunResponse->ExecutionTime;
-    my $JobName            = $DescribeJobRunResponse->JobName;
-    my $JobSample          = $DescribeJobRunResponse->JobSample;
-    my $LogGroupName       = $DescribeJobRunResponse->LogGroupName;
-    my $LogSubscription    = $DescribeJobRunResponse->LogSubscription;
-    my $Outputs            = $DescribeJobRunResponse->Outputs;
-    my $RecipeReference    = $DescribeJobRunResponse->RecipeReference;
-    my $RunId              = $DescribeJobRunResponse->RunId;
-    my $StartedBy          = $DescribeJobRunResponse->StartedBy;
-    my $StartedOn          = $DescribeJobRunResponse->StartedOn;
-    my $State              = $DescribeJobRunResponse->State;
+    my $Attempt              = $DescribeJobRunResponse->Attempt;
+    my $CompletedOn          = $DescribeJobRunResponse->CompletedOn;
+    my $DataCatalogOutputs   = $DescribeJobRunResponse->DataCatalogOutputs;
+    my $DatabaseOutputs      = $DescribeJobRunResponse->DatabaseOutputs;
+    my $DatasetName          = $DescribeJobRunResponse->DatasetName;
+    my $ErrorMessage         = $DescribeJobRunResponse->ErrorMessage;
+    my $ExecutionTime        = $DescribeJobRunResponse->ExecutionTime;
+    my $JobName              = $DescribeJobRunResponse->JobName;
+    my $JobSample            = $DescribeJobRunResponse->JobSample;
+    my $LogGroupName         = $DescribeJobRunResponse->LogGroupName;
+    my $LogSubscription      = $DescribeJobRunResponse->LogSubscription;
+    my $Outputs              = $DescribeJobRunResponse->Outputs;
+    my $ProfileConfiguration = $DescribeJobRunResponse->ProfileConfiguration;
+    my $RecipeReference      = $DescribeJobRunResponse->RecipeReference;
+    my $RunId                = $DescribeJobRunResponse->RunId;
+    my $StartedBy            = $DescribeJobRunResponse->StartedBy;
+    my $StartedOn            = $DescribeJobRunResponse->StartedOn;
+    my $State                = $DescribeJobRunResponse->State;
+    my $ValidationConfigurations =
+      $DescribeJobRunResponse->ValidationConfigurations;
 
     # Returns a L<Paws::GlueDataBrew::DescribeJobRunResponse> object.
 

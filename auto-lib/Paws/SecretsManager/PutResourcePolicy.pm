@@ -60,48 +60,51 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/sec
 
 =head2 BlockPublicPolicy => Bool
 
-(Optional) If you set the parameter, C<BlockPublicPolicy> to true, then
-you block resource-based policies that allow broad access to the
-secret.
+Specifies whether to block resource-based policies that allow broad
+access to the secret, for example those that use a wildcard for the
+principal. By default, public policies aren't blocked.
+
+Resource policy validation and the BlockPublicPolicy parameter help
+protect your resources by preventing public access from being granted
+through the resource policies that are directly attached to your
+secrets. In addition to using these features, carefully inspect the
+following policies to confirm that they do not grant public access:
+
+=over
+
+=item *
+
+Identity-based policies attached to associated Amazon Web Services
+principals (for example, IAM roles)
+
+=item *
+
+Resource-based policies attached to associated Amazon Web Services
+resources (for example, Key Management Service (KMS) keys)
+
+=back
+
+To review permissions to your secrets, see Determine who has
+permissions to your secrets
+(https://docs.aws.amazon.com/secretsmanager/latest/userguide/determine-acccess_examine-iam-policies.html).
 
 
 
 =head2 B<REQUIRED> ResourcePolicy => Str
 
-A JSON-formatted string constructed according to the grammar and syntax
-for an AWS resource-based policy. The policy in the string identifies
-who can access or manage this secret and its versions. For information
-on how to format a JSON parameter for the various command line tool
-environments, see Using JSON for Parameters
-(http://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#cli-using-param-json)
-in the I<AWS CLI User Guide>.
+A JSON-formatted string for an Amazon Web Services resource-based
+policy. For example policies, see Permissions policy examples
+(https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access_examples.html).
 
 
 
 =head2 B<REQUIRED> SecretId => Str
 
-Specifies the secret that you want to attach the resource-based policy.
-You can specify either the ARN or the friendly name of the secret.
+The ARN or name of the secret to attach the resource-based policy.
 
-If you specify an ARN, we generally recommend that you specify a
-complete ARN. You can specify a partial ARN tooE<mdash>for example, if
-you donE<rsquo>t include the final hyphen and six random characters
-that Secrets Manager adds at the end of the ARN when you created the
-secret. A partial ARN match can work as long as it uniquely matches
-only one secret. However, if your secret has a name that ends in a
-hyphen followed by six characters (before Secrets Manager adds the
-hyphen and six characters to the ARN) and you try to use that as a
-partial ARN, then those characters cause Secrets Manager to assume that
-youE<rsquo>re specifying a complete ARN. This confusion can cause
-unexpected results. To avoid this situation, we recommend that you
-donE<rsquo>t create secret names ending with a hyphen followed by six
-characters.
-
-If you specify an incomplete ARN without the random suffix, and instead
-provide the 'friendly name', you I<must> not include the random suffix.
-If you do include the random suffix added by Secrets Manager, you
-receive either a I<ResourceNotFoundException> or an
-I<AccessDeniedException> error, depending on your permissions.
+For an ARN, we recommend that you specify a complete ARN rather than a
+partial ARN. See Finding a secret from a partial ARN
+(https://docs.aws.amazon.com/secretsmanager/latest/userguide/troubleshoot.html#ARN_secretnamehyphen).
 
 
 

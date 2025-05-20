@@ -41,10 +41,10 @@ The destination configuration.
 
 =head2 B<REQUIRED> Services => ArrayRef[Str|Undef]
 
-A list of service names that identity the target application. The AWS
-IoT client running on the destination device reads this value and uses
-it to look up a port or an IP address and a port. The AWS IoT client
-instantiates the local proxy which uses this information to connect to
+A list of service names that identify the target application. The IoT
+client running on the destination device reads this value and uses it
+to look up a port or an IP address and a port. The IoT client
+instantiates the local proxy, which uses this information to connect to
 the destination application.
 
 

@@ -34,7 +34,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::DynamoDB::A
 
 =head1 DESCRIPTION
 
-Represents an attribute for describing the key schema for the table and
+Represents an attribute for describing the schema for the table and
 indexes.
 
 =head1 ATTRIBUTES

@@ -49,7 +49,7 @@ The Amazon Resource Name (ARN) of the policy target.
 For more information about ARNs in Organizations, see ARN Formats
 Supported by Organizations
 (https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsorganizations.html#awsorganizations-resources-for-iam-policies)
-in the I<AWS Service Authorization Reference>.
+in the I<Amazon Web Services Service Authorization Reference>.
 
 
 =head2 Name => Str

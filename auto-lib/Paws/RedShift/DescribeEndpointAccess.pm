@@ -85,7 +85,7 @@ remaining results can be retrieved.
 
 =head2 ResourceOwner => Str
 
-The AWS account ID of the owner of the cluster.
+The Amazon Web Services account ID of the owner of the cluster.
 
 
 

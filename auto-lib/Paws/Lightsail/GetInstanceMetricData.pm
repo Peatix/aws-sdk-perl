@@ -88,7 +88,7 @@ continuously accrues and consumes burst capacity. Burst capacity stops
 accruing when your instance's C<BurstCapacityPercentage> reaches 100%.
 For more information, see Viewing instance burst capacity in Amazon
 Lightsail
-(https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-viewing-instance-burst-capacity).
+(https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-viewing-instance-burst-capacity).
 
 C<Statistics>: The most useful statistics are C<Maximum> and
 C<Average>.
@@ -109,7 +109,7 @@ instance operates at 50% CPU utilization in the burstable zone for a
 rate in that period. Your instance consumed 2 minutes and 30 seconds of
 CPU burst capacity minutes in the 5-minute period. For more
 information, see Viewing instance burst capacity in Amazon Lightsail
-(https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-viewing-instance-burst-capacity).
+(https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-viewing-instance-burst-capacity).
 
 C<Statistics>: The most useful statistics are C<Maximum> and
 C<Average>.
@@ -188,10 +188,23 @@ C<Statistics>: The most useful statistic is C<Sum>.
 
 C<Unit>: The published unit is C<Count>.
 
+=item *
+
+B<C<MetadataNoToken> > - Reports the number of times that the instance
+metadata service was successfully accessed without a token. This metric
+determines if there are any processes accessing instance metadata by
+using Instance Metadata Service Version 1, which doesn't use a token.
+If all requests use token-backed sessions, such as Instance Metadata
+Service Version 2, then the value is 0.
+
+C<Statistics>: The most useful statistic is C<Sum>.
+
+C<Unit>: The published unit is C<Count>.
+
 =back
 
 
-Valid values are: C<"CPUUtilization">, C<"NetworkIn">, C<"NetworkOut">, C<"StatusCheckFailed">, C<"StatusCheckFailed_Instance">, C<"StatusCheckFailed_System">, C<"BurstCapacityTime">, C<"BurstCapacityPercentage">
+Valid values are: C<"CPUUtilization">, C<"NetworkIn">, C<"NetworkOut">, C<"StatusCheckFailed">, C<"StatusCheckFailed_Instance">, C<"StatusCheckFailed_System">, C<"BurstCapacityTime">, C<"BurstCapacityPercentage">, C<"MetadataNoToken">
 
 =head2 B<REQUIRED> Period => Int
 

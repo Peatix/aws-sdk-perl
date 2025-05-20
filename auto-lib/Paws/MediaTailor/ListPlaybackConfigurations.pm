@@ -49,14 +49,17 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 MaxResults => Int
 
-Maximum number of records to return.
+The maximum number of playback configurations that you want MediaTailor
+to return in response to the current request. If there are more than
+C<MaxResults> playback configurations, use the value of C<NextToken> in
+the response to get the next page of results.
 
 
 
 =head2 NextToken => Str
 
-Pagination token returned by the GET list request when results exceed
-the maximum allowed. Use the token to fetch the next page of results.
+Pagination token returned by the list request when results exceed the
+maximum allowed. Use the token to fetch the next page of results.
 
 
 

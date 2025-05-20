@@ -1,6 +1,7 @@
 
 package Paws::Synthetics::GetCanary;
   use Moose;
+  has DryRunId => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'dryRunId');
   has Name => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'name', required => 1);
 
   use MooseX::ClassAttribute;
@@ -29,8 +30,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $synthetics = Paws->service('Synthetics');
     my $GetCanaryResponse = $synthetics->GetCanary(
-      Name => 'MyCanaryName',
-
+      Name     => 'MyCanaryName',
+      DryRunId => 'MyUUID',         # OPTIONAL
     );
 
     # Results:
@@ -42,6 +43,13 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/synthetics/GetCanary>
 
 =head1 ATTRIBUTES
+
+
+=head2 DryRunId => Str
+
+The DryRunId associated with an existing canaryE<rsquo>s dry run. You
+can use this DryRunId to retrieve information about the dry run.
+
 
 
 =head2 B<REQUIRED> Name => Str

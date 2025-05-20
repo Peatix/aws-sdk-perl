@@ -50,7 +50,7 @@ The number of Amazon S3 files to select.
 
 A criteria to use for Amazon S3 files sorting before their selection.
 By default uses DESCENDING order, i.e. most recent files are selected
-first. Anotherpossible value is ASCENDING.
+first. Another possible value is ASCENDING.
 
 
 =head2 OrderedBy => Str

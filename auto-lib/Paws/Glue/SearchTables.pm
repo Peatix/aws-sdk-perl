@@ -3,6 +3,7 @@ package Paws::Glue::SearchTables;
   use Moose;
   has CatalogId => (is => 'ro', isa => 'Str');
   has Filters => (is => 'ro', isa => 'ArrayRef[Paws::Glue::PropertyPredicate]');
+  has IncludeStatusDetails => (is => 'ro', isa => 'Bool');
   has MaxResults => (is => 'ro', isa => 'Int');
   has NextToken => (is => 'ro', isa => 'Str');
   has ResourceShareType => (is => 'ro', isa => 'Str');
@@ -39,18 +40,19 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         {
           Comparator => 'EQUALS'
           , # values: EQUALS, GREATER_THAN, LESS_THAN, GREATER_THAN_EQUALS, LESS_THAN_EQUALS; OPTIONAL
-          Key   => 'MyValueString',    # max: 1024; OPTIONAL
-          Value => 'MyValueString',    # max: 1024; OPTIONAL
+          Key   => 'MyValueString',    # min: 1, max: 1024; OPTIONAL
+          Value => 'MyValueString',    # min: 1, max: 1024; OPTIONAL
         },
         ...
       ],    # OPTIONAL
-      MaxResults        => 1,                  # OPTIONAL
-      NextToken         => 'MyToken',          # OPTIONAL
-      ResourceShareType => 'FOREIGN',          # OPTIONAL
-      SearchText        => 'MyValueString',    # OPTIONAL
-      SortCriteria      => [
+      IncludeStatusDetails => 1,                  # OPTIONAL
+      MaxResults           => 1,                  # OPTIONAL
+      NextToken            => 'MyToken',          # OPTIONAL
+      ResourceShareType    => 'FOREIGN',          # OPTIONAL
+      SearchText           => 'MyValueString',    # OPTIONAL
+      SortCriteria         => [
         {
-          FieldName => 'MyValueString',    # max: 1024; OPTIONAL
+          FieldName => 'MyValueString',    # min: 1, max: 1024; OPTIONAL
           Sort      => 'ASC',              # values: ASC, DESC; OPTIONAL
         },
         ...
@@ -92,6 +94,13 @@ C<xx-link-yy> are returned, but C<xxlinkyy> is not returned.
 
 
 
+=head2 IncludeStatusDetails => Bool
+
+Specifies whether to include status details related to a request to
+create or update an Glue Data Catalog view.
+
+
+
 =head2 MaxResults => Int
 
 The maximum number of tables to return in a single response.
@@ -123,7 +132,7 @@ well as the tables in yor local account.
 =back
 
 
-Valid values are: C<"FOREIGN">, C<"ALL">
+Valid values are: C<"FOREIGN">, C<"ALL">, C<"FEDERATED">
 
 =head2 SearchText => Str
 

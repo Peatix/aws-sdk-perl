@@ -1,8 +1,10 @@
 package Paws::EC2::LaunchTemplateInstanceMetadataOptions;
   use Moose;
   has HttpEndpoint => (is => 'ro', isa => 'Str', request_name => 'httpEndpoint', traits => ['NameInRequest']);
+  has HttpProtocolIpv6 => (is => 'ro', isa => 'Str', request_name => 'httpProtocolIpv6', traits => ['NameInRequest']);
   has HttpPutResponseHopLimit => (is => 'ro', isa => 'Int', request_name => 'httpPutResponseHopLimit', traits => ['NameInRequest']);
   has HttpTokens => (is => 'ro', isa => 'Str', request_name => 'httpTokens', traits => ['NameInRequest']);
+  has InstanceMetadataTags => (is => 'ro', isa => 'Str', request_name => 'instanceMetadataTags', traits => ['NameInRequest']);
   has State => (is => 'ro', isa => 'Str', request_name => 'state', traits => ['NameInRequest']);
 1;
 
@@ -41,12 +43,19 @@ This class has no description
 
 =head2 HttpEndpoint => Str
 
-This parameter enables or disables the HTTP metadata endpoint on your
-instances. If the parameter is not specified, the default state is
-C<enabled>.
+Enables or disables the HTTP metadata endpoint on your instances. If
+the parameter is not specified, the default state is C<enabled>.
 
 If you specify a value of C<disabled>, you will not be able to access
 your instance metadata.
+
+
+=head2 HttpProtocolIpv6 => Str
+
+Enables or disables the IPv6 endpoint for the instance metadata
+service.
+
+Default: C<disabled>
 
 
 =head2 HttpPutResponseHopLimit => Int
@@ -62,21 +71,38 @@ Possible values: Integers from 1 to 64
 
 =head2 HttpTokens => Str
 
-The state of token usage for your instance metadata requests. If the
-parameter is not specified in the request, the default state is
-C<optional>.
+Indicates whether IMDSv2 is required.
 
-If the state is C<optional>, you can choose to retrieve instance
-metadata with or without a signed token header on your request. If you
-retrieve the IAM role credentials without a token, the version 1.0 role
-credentials are returned. If you retrieve the IAM role credentials
-using a valid signed token, the version 2.0 role credentials are
-returned.
+=over
 
-If the state is C<required>, you must send a signed token header with
-any instance metadata retrieval requests. In this state, retrieving the
-IAM role credentials always returns the version 2.0 credentials; the
-version 1.0 credentials are not available.
+=item *
+
+C<optional> - IMDSv2 is optional. You can choose whether to send a
+session token in your instance metadata retrieval requests. If you
+retrieve IAM role credentials without a session token, you receive the
+IMDSv1 role credentials. If you retrieve IAM role credentials using a
+valid session token, you receive the IMDSv2 role credentials.
+
+=item *
+
+C<required> - IMDSv2 is required. You must send a session token in your
+instance metadata retrieval requests. With this option, retrieving the
+IAM role credentials always returns IMDSv2 credentials; IMDSv1
+credentials are not available.
+
+=back
+
+
+
+=head2 InstanceMetadataTags => Str
+
+Set to C<enabled> to allow access to instance tags from the instance
+metadata. Set to C<disabled> to turn off access to instance tags from
+the instance metadata. For more information, see View tags for your EC2
+instances using instance metadata
+(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/work-with-tags-in-IMDS.html).
+
+Default: C<disabled>
 
 
 =head2 State => Str

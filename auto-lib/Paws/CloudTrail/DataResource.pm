@@ -34,30 +34,51 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CloudTrail:
 
 =head1 DESCRIPTION
 
-The Amazon S3 buckets, AWS Lambda functions, or Amazon DynamoDB tables
-that you specify in your event selectors for your trail to log data
-events. Data events provide information about the resource operations
-performed on or within a resource itself. These are also known as data
-plane operations. You can specify up to 250 data resources for a trail.
+You can configure the C<DataResource> in an C<EventSelector> to log
+data events for the following three resource types:
+
+=over
+
+=item *
+
+C<AWS::DynamoDB::Table>
+
+=item *
+
+C<AWS::Lambda::Function>
+
+=item *
+
+C<AWS::S3::Object>
+
+=back
+
+To log data events for all other resource types including objects
+stored in directory buckets
+(https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-overview.html),
+you must use AdvancedEventSelectors
+(https://docs.aws.amazon.com/awscloudtrail/latest/APIReference/API_AdvancedEventSelector.html).
+You must also use C<AdvancedEventSelectors> if you want to filter on
+the C<eventName> field.
+
+Configure the C<DataResource> to specify the resource type and resource
+ARNs for which you want to log data events.
 
 The total number of allowed data resources is 250. This number can be
 distributed between 1 and 5 event selectors, but the total cannot
-exceed 250 across all selectors.
-
-If you are using advanced event selectors, the maximum total number of
-values for all conditions, across all advanced event selectors for the
-trail, is 500.
+exceed 250 across all selectors for the trail.
 
 The following example demonstrates how logging works when you configure
-logging of all data events for an S3 bucket named C<bucket-1>. In this
-example, the CloudTrail user specified an empty prefix, and the option
-to log both C<Read> and C<Write> data events.
+logging of all data events for a general purpose bucket named
+C<amzn-s3-demo-bucket1>. In this example, the CloudTrail user specified
+an empty prefix, and the option to log both C<Read> and C<Write> data
+events.
 
 =over
 
 =item 1.
 
-A user uploads an image file to C<bucket-1>.
+A user uploads an image file to C<amzn-s3-demo-bucket1>.
 
 =item 2.
 
@@ -70,7 +91,7 @@ event.
 =item 3.
 
 A user uploads an object to an Amazon S3 bucket named
-C<arn:aws:s3:::bucket-2>.
+C<arn:aws:s3:::amzn-s3-demo-bucket1>.
 
 =item 4.
 
@@ -81,8 +102,8 @@ doesnE<rsquo>t log the event.
 =back
 
 The following example demonstrates how logging works when you configure
-logging of AWS Lambda data events for a Lambda function named
-I<MyLambdaFunction>, but not for all AWS Lambda functions.
+logging of Lambda data events for a Lambda function named
+I<MyLambdaFunction>, but not for all Lambda functions.
 
 =over
 
@@ -93,17 +114,16 @@ function and the I<MyOtherLambdaFunction> function.
 
 =item 2.
 
-The C<Invoke> API operation on I<MyLambdaFunction> is an AWS Lambda
-API. It is recorded as a data event in CloudTrail. Because the
-CloudTrail user specified logging data events for I<MyLambdaFunction>,
-any invocations of that function are logged. The trail processes and
-logs the event.
+The C<Invoke> API operation on I<MyLambdaFunction> is an Lambda API. It
+is recorded as a data event in CloudTrail. Because the CloudTrail user
+specified logging data events for I<MyLambdaFunction>, any invocations
+of that function are logged. The trail processes and logs the event.
 
 =item 3.
 
-The C<Invoke> API operation on I<MyOtherLambdaFunction> is an AWS
-Lambda API. Because the CloudTrail user did not specify logging data
-events for all Lambda functions, the C<Invoke> operation for
+The C<Invoke> API operation on I<MyOtherLambdaFunction> is an Lambda
+API. Because the CloudTrail user did not specify logging data events
+for all Lambda functions, the C<Invoke> operation for
 I<MyOtherLambdaFunction> does not match the function specified for the
 trail. The trail doesnE<rsquo>t log the event.
 
@@ -116,52 +136,69 @@ trail. The trail doesnE<rsquo>t log the event.
 =head2 Type => Str
 
 The resource type in which you want to log data events. You can specify
-C<AWS::S3::Object>, C<AWS::Lambda::Function>, or
-C<AWS::DynamoDB::Table> resources.
-
-The C<AWS::S3Outposts::Object>, C<AWS::ManagedBlockchain::Node>, and
-C<AWS::S3ObjectLambda::AccessPoint> resource types are not valid in
-basic event selectors. To log data events on these resource types, use
-advanced event selectors.
-
-
-=head2 Values => ArrayRef[Str|Undef]
-
-An array of Amazon Resource Name (ARN) strings or partial ARN strings
-for the specified objects.
+the following I<basic> event selector resource types:
 
 =over
 
 =item *
 
-To log data events for all objects in all S3 buckets in your AWS
-account, specify the prefix as C<arn:aws:s3:::>.
+C<AWS::DynamoDB::Table>
 
-This will also enable logging of data event activity performed by any
-user or role in your AWS account, even if that activity is performed on
-a bucket that belongs to another AWS account.
+=item *
+
+C<AWS::Lambda::Function>
+
+=item *
+
+C<AWS::S3::Object>
+
+=back
+
+Additional resource types are available through I<advanced> event
+selectors. For more information, see AdvancedEventSelector
+(https://docs.aws.amazon.com/awscloudtrail/latest/APIReference/API_AdvancedEventSelector.html).
+
+
+=head2 Values => ArrayRef[Str|Undef]
+
+An array of Amazon Resource Name (ARN) strings or partial ARN strings
+for the specified resource type.
+
+=over
+
+=item *
+
+To log data events for all objects in all S3 buckets in your Amazon Web
+Services account, specify the prefix as C<arn:aws:s3>.
+
+This also enables logging of data event activity performed by any user
+or role in your Amazon Web Services account, even if that activity is
+performed on a bucket that belongs to another Amazon Web Services
+account.
 
 =item *
 
 To log data events for all objects in an S3 bucket, specify the bucket
-and an empty object prefix such as C<arn:aws:s3:::bucket-1/>. The trail
-logs data events for all objects in this S3 bucket.
+and an empty object prefix such as
+C<arn:aws:s3:::amzn-s3-demo-bucket1/>. The trail logs data events for
+all objects in this S3 bucket.
 
 =item *
 
 To log data events for specific objects, specify the S3 bucket and
-object prefix such as C<arn:aws:s3:::bucket-1/example-images>. The
-trail logs data events for objects in this S3 bucket that match the
-prefix.
+object prefix such as
+C<arn:aws:s3:::amzn-s3-demo-bucket1/example-images>. The trail logs
+data events for objects in this S3 bucket that match the prefix.
 
 =item *
 
-To log data events for all Lambda functions in your AWS account,
-specify the prefix as C<arn:aws:lambda>.
+To log data events for all Lambda functions in your Amazon Web Services
+account, specify the prefix as C<arn:aws:lambda>.
 
-This will also enable logging of C<Invoke> activity performed by any
-user or role in your AWS account, even if that activity is performed on
-a function that belongs to another AWS account.
+This also enables logging of C<Invoke> activity performed by any user
+or role in your Amazon Web Services account, even if that activity is
+performed on a function that belongs to another Amazon Web Services
+account.
 
 =item *
 
@@ -177,8 +214,8 @@ I<arn:aws:lambda:us-west-2:111111111111:function:helloworld2>.
 
 =item *
 
-To log data events for all DynamoDB tables in your AWS account, specify
-the prefix as C<arn:aws:dynamodb>.
+To log data events for all DynamoDB tables in your Amazon Web Services
+account, specify the prefix as C<arn:aws:dynamodb>.
 
 =back
 

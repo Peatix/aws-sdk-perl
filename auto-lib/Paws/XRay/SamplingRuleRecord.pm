@@ -35,7 +35,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::XRay::Sampl
 
 =head1 DESCRIPTION
 
-A SamplingRule and its metadata.
+A SamplingRule
+(https://docs.aws.amazon.com/xray/latest/api/API_SamplingRule.html) and
+its metadata.
 
 =head1 ATTRIBUTES
 

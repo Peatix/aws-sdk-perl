@@ -74,8 +74,8 @@ The ID of the firewall configuration.
 
 =head2 OwnerId => Str
 
-The AWS account ID of the owner of the VPC that this firewall
-configuration applies to.
+The Amazon Web Services account ID of the owner of the VPC that this
+firewall configuration applies to.
 
 
 =head2 ResourceId => Str

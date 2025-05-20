@@ -42,12 +42,14 @@ transform job invocation.
 
 =head2 InvocationsMaxRetries => Int
 
-The maximum number of retries when invocation requests are failing.
+The maximum number of retries when invocation requests are failing. The
+default value is 3.
 
 
 =head2 InvocationsTimeoutInSeconds => Int
 
-The timeout value in seconds for an invocation request.
+The timeout value in seconds for an invocation request. The default
+value is 600.
 
 
 

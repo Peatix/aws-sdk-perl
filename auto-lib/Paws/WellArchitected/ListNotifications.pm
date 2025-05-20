@@ -3,6 +3,7 @@ package Paws::WellArchitected::ListNotifications;
   use Moose;
   has MaxResults => (is => 'ro', isa => 'Int');
   has NextToken => (is => 'ro', isa => 'Str');
+  has ResourceArn => (is => 'ro', isa => 'Str');
   has WorkloadId => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
@@ -31,9 +32,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $wellarchitected = Paws->service('WellArchitected');
     my $ListNotificationsOutput = $wellarchitected->ListNotifications(
-      MaxResults => 1,                 # OPTIONAL
-      NextToken  => 'MyNextToken',     # OPTIONAL
-      WorkloadId => 'MyWorkloadId',    # OPTIONAL
+      MaxResults  => 1,                  # OPTIONAL
+      NextToken   => 'MyNextToken',      # OPTIONAL
+      ResourceArn => 'MyResourceArn',    # OPTIONAL
+      WorkloadId  => 'MyWorkloadId',     # OPTIONAL
     );
 
     # Results:
@@ -57,6 +59,14 @@ The maximum number of results to return for this request.
 =head2 NextToken => Str
 
 
+
+
+
+=head2 ResourceArn => Str
+
+The ARN for the related resource for the notification.
+
+Only one of C<WorkloadID> or C<ResourceARN> should be specified.
 
 
 

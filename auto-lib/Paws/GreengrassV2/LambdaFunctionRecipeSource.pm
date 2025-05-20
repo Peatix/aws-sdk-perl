@@ -38,7 +38,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::GreengrassV
 
 =head1 DESCRIPTION
 
-Contains information about an AWS Lambda function to import to create a
+Contains information about an Lambda function to import to create a
 component.
 
 =head1 ATTRIBUTES
@@ -52,7 +52,7 @@ The component versions on which this Lambda function component depends.
 =head2 ComponentLambdaParameters => L<Paws::GreengrassV2::LambdaExecutionParameters>
 
 The system and runtime parameters for the Lambda function as it runs on
-the AWS IoT Greengrass core device.
+the Greengrass core device.
 
 
 =head2 ComponentName => Str

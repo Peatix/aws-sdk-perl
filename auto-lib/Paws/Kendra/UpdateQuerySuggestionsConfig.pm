@@ -1,6 +1,7 @@
 
 package Paws::Kendra::UpdateQuerySuggestionsConfig;
   use Moose;
+  has AttributeSuggestionsConfig => (is => 'ro', isa => 'Paws::Kendra::AttributeSuggestionsUpdateConfig');
   has IncludeQueriesWithoutUserInformation => (is => 'ro', isa => 'Bool');
   has IndexId => (is => 'ro', isa => 'Str', required => 1);
   has MinimumNumberOfQueryingUsers => (is => 'ro', isa => 'Int');
@@ -33,18 +34,37 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $kendra = Paws->service('Kendra');
     $kendra->UpdateQuerySuggestionsConfig(
-      IndexId                              => 'MyIndexId',
-      IncludeQueriesWithoutUserInformation => 1,             # OPTIONAL
-      MinimumNumberOfQueryingUsers         => 1,             # OPTIONAL
-      MinimumQueryCount                    => 1,             # OPTIONAL
-      Mode                                 => 'ENABLED',     # OPTIONAL
-      QueryLogLookBackWindowInDays         => 1,             # OPTIONAL
+      IndexId                    => 'MyIndexId',
+      AttributeSuggestionsConfig => {
+        AttributeSuggestionsMode =>
+          'ACTIVE',    # values: ACTIVE, INACTIVE; OPTIONAL
+        SuggestableConfigList => [
+          {
+            AttributeName =>
+              'MyDocumentAttributeKey',    # min: 1, max: 200; OPTIONAL
+            Suggestable => 1,              # OPTIONAL
+          },
+          ...
+        ],    # OPTIONAL
+      },    # OPTIONAL
+      IncludeQueriesWithoutUserInformation => 1,            # OPTIONAL
+      MinimumNumberOfQueryingUsers         => 1,            # OPTIONAL
+      MinimumQueryCount                    => 1,            # OPTIONAL
+      Mode                                 => 'ENABLED',    # OPTIONAL
+      QueryLogLookBackWindowInDays         => 1,            # OPTIONAL
     );
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/kendra/UpdateQuerySuggestionsConfig>
 
 =head1 ATTRIBUTES
+
+
+=head2 AttributeSuggestionsConfig => L<Paws::Kendra::AttributeSuggestionsUpdateConfig>
+
+Configuration information for the document fields/attributes that you
+want to base query suggestions on.
+
 
 
 =head2 IncludeQueriesWithoutUserInformation => Bool
@@ -68,8 +88,7 @@ learns from all queries.
 
 =head2 B<REQUIRED> IndexId => Str
 
-The identifier of the index you want to update query suggestions
-settings for.
+The identifier of the index with query suggestions you want to update.
 
 
 

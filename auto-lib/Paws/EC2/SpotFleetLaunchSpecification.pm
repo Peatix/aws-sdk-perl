@@ -5,6 +5,7 @@ package Paws::EC2::SpotFleetLaunchSpecification;
   has EbsOptimized => (is => 'ro', isa => 'Bool', request_name => 'ebsOptimized', traits => ['NameInRequest']);
   has IamInstanceProfile => (is => 'ro', isa => 'Paws::EC2::IamInstanceProfileSpecification', request_name => 'iamInstanceProfile', traits => ['NameInRequest']);
   has ImageId => (is => 'ro', isa => 'Str', request_name => 'imageId', traits => ['NameInRequest']);
+  has InstanceRequirements => (is => 'ro', isa => 'Paws::EC2::InstanceRequirements', request_name => 'instanceRequirements', traits => ['NameInRequest']);
   has InstanceType => (is => 'ro', isa => 'Str', request_name => 'instanceType', traits => ['NameInRequest']);
   has KernelId => (is => 'ro', isa => 'Str', request_name => 'kernelId', traits => ['NameInRequest']);
   has KeyName => (is => 'ro', isa => 'Str', request_name => 'keyName', traits => ['NameInRequest']);
@@ -88,6 +89,16 @@ The IAM instance profile.
 The ID of the AMI.
 
 
+=head2 InstanceRequirements => L<Paws::EC2::InstanceRequirements>
+
+The attributes for the instance types. When you specify instance
+attributes, Amazon EC2 will identify instance types with those
+attributes.
+
+If you specify C<InstanceRequirements>, you can't specify
+C<InstanceType>.
+
+
 =head2 InstanceType => Str
 
 The instance type.
@@ -110,14 +121,12 @@ Enable or disable monitoring for the instances.
 
 =head2 NetworkInterfaces => ArrayRef[L<Paws::EC2::InstanceNetworkInterfaceSpecification>]
 
-One or more network interfaces. If you specify a network interface, you
-must specify subnet IDs and security group IDs using the network
-interface.
+The network interfaces.
 
-C<SpotFleetLaunchSpecification> currently does not support Elastic
-Fabric Adapter (EFA). To specify an EFA, you must use
-LaunchTemplateConfig
-(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_LaunchTemplateConfig.html).
+C<SpotFleetLaunchSpecification> does not support Elastic Fabric Adapter
+(EFA). You must use LaunchTemplateConfig
+(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_LaunchTemplateConfig.html)
+instead.
 
 
 =head2 Placement => L<Paws::EC2::SpotPlacement>
@@ -135,18 +144,22 @@ Amazon Web Services Resource Center and search for the kernel ID.
 
 =head2 SecurityGroups => ArrayRef[L<Paws::EC2::GroupIdentifier>]
 
-One or more security groups. When requesting instances in a VPC, you
-must specify the IDs of the security groups. When requesting instances
-in EC2-Classic, you can specify the names or the IDs of the security
-groups.
+The security groups.
+
+If you specify a network interface, you must specify any security
+groups as part of the network interface instead of using this
+parameter.
 
 
 =head2 SpotPrice => Str
 
 The maximum price per unit hour that you are willing to pay for a Spot
-Instance. If this value is not specified, the default is the Spot price
-specified for the fleet. To determine the Spot price per unit hour,
-divide the Spot price by the value of C<WeightedCapacity>.
+Instance. We do not recommend using this parameter because it can lead
+to increased interruptions. If you do not specify this parameter, you
+will pay the current Spot price.
+
+If you specify a maximum price, your instances will be interrupted more
+frequently than if you do not specify this parameter.
 
 
 =head2 SubnetId => Str
@@ -154,6 +167,9 @@ divide the Spot price by the value of C<WeightedCapacity>.
 The IDs of the subnets in which to launch the instances. To specify
 multiple subnets, separate them using commas; for example,
 "subnet-1234abcdeexample1, subnet-0987cdef6example2".
+
+If you specify a network interface, you must specify any subnets as
+part of the network interface instead of using this parameter.
 
 
 =head2 TagSpecifications => ArrayRef[L<Paws::EC2::SpotFleetTagSpecification>]
@@ -163,7 +179,8 @@ The tags to apply during creation.
 
 =head2 UserData => Str
 
-The Base64-encoded user data that instances use when starting up.
+The base64-encoded user data that instances use when starting up. User
+data is limited to 16 KB.
 
 
 =head2 WeightedCapacity => Num
@@ -176,6 +193,13 @@ I/O.
 If the target capacity divided by this value is not a whole number,
 Amazon EC2 rounds the number of instances to the next whole number. If
 this value is not specified, the default is 1.
+
+When specifying weights, the price used in the C<lowestPrice> and
+C<priceCapacityOptimized> allocation strategies is per I<unit> hour
+(where the instance price is divided by the specified weight). However,
+if all the specified weights are above the requested C<TargetCapacity>,
+resulting in only 1 instance being launched, the price used is per
+I<instance> hour.
 
 
 

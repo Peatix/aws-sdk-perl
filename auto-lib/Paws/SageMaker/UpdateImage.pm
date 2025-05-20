@@ -79,8 +79,8 @@ The name of the image to update.
 
 =head2 RoleArn => Str
 
-The new Amazon Resource Name (ARN) for the IAM role that enables Amazon
-SageMaker to perform tasks on your behalf.
+The new ARN for the IAM role that enables Amazon SageMaker AI to
+perform tasks on your behalf.
 
 
 

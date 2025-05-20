@@ -37,7 +37,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::DS::EventTo
 
 =head1 DESCRIPTION
 
-Information about SNS topic and AWS Directory Service directory
+Information about Amazon SNS topic and Directory Service directory
 associations.
 
 =head1 ATTRIBUTES
@@ -45,14 +45,14 @@ associations.
 
 =head2 CreatedDateTime => Str
 
-The date and time of when you associated your directory with the SNS
-topic.
+The date and time of when you associated your directory with the Amazon
+SNS topic.
 
 
 =head2 DirectoryId => Str
 
-The Directory ID of an AWS Directory Service directory that will
-publish status messages to an SNS topic.
+The Directory ID of an Directory Service directory that will publish
+status messages to an Amazon SNS topic.
 
 
 =head2 Status => Str
@@ -62,12 +62,12 @@ The topic registration status.
 
 =head2 TopicArn => Str
 
-The SNS topic ARN (Amazon Resource Name).
+The Amazon SNS topic ARN (Amazon Resource Name).
 
 
 =head2 TopicName => Str
 
-The name of an AWS SNS topic the receives status messages from the
+The name of an Amazon SNS topic the receives status messages from the
 directory.
 
 

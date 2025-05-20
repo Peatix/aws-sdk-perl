@@ -38,9 +38,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::DMS::Pendin
 
 =head1 DESCRIPTION
 
-Describes a maintenance action pending for an AWS DMS resource,
-including when and how it will be applied. This data type is a response
-element to the C<DescribePendingMaintenanceActions> operation.
+Describes a maintenance action pending for an DMS resource, including
+when and how it will be applied. This data type is a response element
+to the C<DescribePendingMaintenanceActions> operation.
 
 =head1 ATTRIBUTES
 

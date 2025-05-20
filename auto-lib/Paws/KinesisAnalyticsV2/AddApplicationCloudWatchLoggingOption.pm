@@ -49,6 +49,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $CloudWatchLoggingOptionDescriptions =
       $AddApplicationCloudWatchLoggingOptionResponse
       ->CloudWatchLoggingOptionDescriptions;
+    my $OperationId =
+      $AddApplicationCloudWatchLoggingOptionResponse->OperationId;
 
 # Returns a L<Paws::KinesisAnalyticsV2::AddApplicationCloudWatchLoggingOptionResponse> object.
 
@@ -83,8 +85,8 @@ C<CurrentApplicationVersionId>.
 
 =head2 CurrentApplicationVersionId => Int
 
-The version ID of the Kinesis Data Analytics application. You must
-provide the C<CurrentApplicationVersionId> or the
+The version ID of the SQL-based Kinesis Data Analytics application. You
+must provide the C<CurrentApplicationVersionId> or the
 C<ConditionalToken>.You can retrieve the application version ID using
 DescribeApplication. For better concurrency support, use the
 C<ConditionalToken> parameter instead of

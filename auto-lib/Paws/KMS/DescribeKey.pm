@@ -28,10 +28,44 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $kms = Paws->service('KMS');
- # To obtain information about a customer master key (CMK)
- # The following example returns information (metadata) about the specified CMK.
+    # To get details about a KMS key
+    # The following example gets metadata for a symmetric encryption KMS key.
     my $DescribeKeyResponse =
       $kms->DescribeKey( 'KeyId' => '1234abcd-12ab-34cd-56ef-1234567890ab' );
+
+    # Results:
+    my $KeyMetadata = $DescribeKeyResponse->KeyMetadata;
+
+    # Returns a L<Paws::KMS::DescribeKeyResponse> object.
+    # To get details about an RSA asymmetric KMS key
+    # The following example gets metadata for an asymmetric RSA KMS key used for
+    # signing and verification.
+    my $DescribeKeyResponse =
+      $kms->DescribeKey( 'KeyId' => '1234abcd-12ab-34cd-56ef-1234567890ab' );
+
+    # Results:
+    my $KeyMetadata = $DescribeKeyResponse->KeyMetadata;
+
+    # Returns a L<Paws::KMS::DescribeKeyResponse> object.
+    # To get details about a multi-Region key
+    # The following example gets metadata for a multi-Region replica key. This
+    # multi-Region key is a symmetric encryption key. DescribeKey returns
+    # information about the primary key and all of its replicas.
+    my $DescribeKeyResponse =
+      $kms->DescribeKey( 'KeyId' =>
+'arn:aws:kms:ap-northeast-1:111122223333:key/mrk-1234abcd12ab34cd56ef1234567890ab'
+      );
+
+    # Results:
+    my $KeyMetadata = $DescribeKeyResponse->KeyMetadata;
+
+    # Returns a L<Paws::KMS::DescribeKeyResponse> object.
+    # To get details about an HMAC KMS key
+    # The following example gets the metadata of an HMAC KMS key.
+    my $DescribeKeyResponse =
+      $kms->DescribeKey( 'KeyId' =>
+'arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab'
+      );
 
     # Results:
     my $KeyMetadata = $DescribeKeyResponse->KeyMetadata;
@@ -51,23 +85,27 @@ A list of grant tokens.
 Use a grant token when your permission to call this operation comes
 from a new grant that has not yet achieved I<eventual consistency>. For
 more information, see Grant token
-(https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#grant_token)
-in the I<AWS Key Management Service Developer Guide>.
+(https://docs.aws.amazon.com/kms/latest/developerguide/grants.html#grant_token)
+and Using a grant token
+(https://docs.aws.amazon.com/kms/latest/developerguide/grant-manage.html#using-grant-token)
+in the I<Key Management Service Developer Guide>.
 
 
 
 =head2 B<REQUIRED> KeyId => Str
 
-Describes the specified customer master key (CMK).
+Describes the specified KMS key.
 
-If you specify a predefined AWS alias (an AWS alias with no key ID),
-KMS associates the alias with an AWS managed CMK
-(https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#master_keys)
+If you specify a predefined Amazon Web Services alias (an Amazon Web
+Services alias with no key ID), KMS associates the alias with an Amazon
+Web Services managed key
+(https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html##aws-managed-cmk)
 and returns its C<KeyId> and C<Arn> in the response.
 
-To specify a CMK, use its key ID, key ARN, alias name, or alias ARN.
-When using an alias name, prefix it with C<"alias/">. To specify a CMK
-in a different AWS account, you must use the key ARN or alias ARN.
+To specify a KMS key, use its key ID, key ARN, alias name, or alias
+ARN. When using an alias name, prefix it with C<"alias/">. To specify a
+KMS key in a different Amazon Web Services account, you must use the
+key ARN or alias ARN.
 
 For example:
 
@@ -92,8 +130,8 @@ Alias ARN: C<arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias>
 
 =back
 
-To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
-To get the alias name and alias ARN, use ListAliases.
+To get the key ID and key ARN for a KMS key, use ListKeys or
+DescribeKey. To get the alias name and alias ARN, use ListAliases.
 
 
 

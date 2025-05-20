@@ -2,7 +2,8 @@
 package Paws::EC2::DisableTransitGatewayRouteTablePropagation;
   use Moose;
   has DryRun => (is => 'ro', isa => 'Bool');
-  has TransitGatewayAttachmentId => (is => 'ro', isa => 'Str', required => 1);
+  has TransitGatewayAttachmentId => (is => 'ro', isa => 'Str');
+  has TransitGatewayRouteTableAnnouncementId => (is => 'ro', isa => 'Str');
   has TransitGatewayRouteTableId => (is => 'ro', isa => 'Str', required => 1);
 
   use MooseX::ClassAttribute;
@@ -31,9 +32,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $ec2 = Paws->service('EC2');
     my $DisableTransitGatewayRouteTablePropagationResult =
       $ec2->DisableTransitGatewayRouteTablePropagation(
-      TransitGatewayAttachmentId => 'MyTransitGatewayAttachmentId',
       TransitGatewayRouteTableId => 'MyTransitGatewayRouteTableId',
       DryRun                     => 1,                                # OPTIONAL
+      TransitGatewayAttachmentId => 'MyTransitGatewayAttachmentId',   # OPTIONAL
+      TransitGatewayRouteTableAnnouncementId =>
+        'MyTransitGatewayRouteTableAnnouncementId',                   # OPTIONAL
       );
 
     # Results:
@@ -57,9 +60,15 @@ C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
 
 
 
-=head2 B<REQUIRED> TransitGatewayAttachmentId => Str
+=head2 TransitGatewayAttachmentId => Str
 
 The ID of the attachment.
+
+
+
+=head2 TransitGatewayRouteTableAnnouncementId => Str
+
+The ID of the route table announcement.
 
 
 

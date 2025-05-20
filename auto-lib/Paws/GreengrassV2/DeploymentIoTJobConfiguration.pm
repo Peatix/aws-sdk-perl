@@ -35,7 +35,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::GreengrassV
 
 =head1 DESCRIPTION
 
-Contains information about an AWS IoT job configuration.
+Contains information about an IoT job configuration.
 
 =head1 ATTRIBUTES
 

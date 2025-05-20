@@ -36,15 +36,18 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     );
 
     # Results:
-    my $Arn       = $GetRevisionResponse->Arn;
-    my $Comment   = $GetRevisionResponse->Comment;
-    my $CreatedAt = $GetRevisionResponse->CreatedAt;
-    my $DataSetId = $GetRevisionResponse->DataSetId;
-    my $Finalized = $GetRevisionResponse->Finalized;
-    my $Id        = $GetRevisionResponse->Id;
-    my $SourceId  = $GetRevisionResponse->SourceId;
-    my $Tags      = $GetRevisionResponse->Tags;
-    my $UpdatedAt = $GetRevisionResponse->UpdatedAt;
+    my $Arn               = $GetRevisionResponse->Arn;
+    my $Comment           = $GetRevisionResponse->Comment;
+    my $CreatedAt         = $GetRevisionResponse->CreatedAt;
+    my $DataSetId         = $GetRevisionResponse->DataSetId;
+    my $Finalized         = $GetRevisionResponse->Finalized;
+    my $Id                = $GetRevisionResponse->Id;
+    my $RevocationComment = $GetRevisionResponse->RevocationComment;
+    my $Revoked           = $GetRevisionResponse->Revoked;
+    my $RevokedAt         = $GetRevisionResponse->RevokedAt;
+    my $SourceId          = $GetRevisionResponse->SourceId;
+    my $Tags              = $GetRevisionResponse->Tags;
+    my $UpdatedAt         = $GetRevisionResponse->UpdatedAt;
 
     # Returns a L<Paws::DataExchange::GetRevisionResponse> object.
 

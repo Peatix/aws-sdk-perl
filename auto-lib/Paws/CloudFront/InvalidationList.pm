@@ -58,7 +58,8 @@ more invalidation batches in the list.
 =head2 Items => ArrayRef[L<Paws::CloudFront::InvalidationSummary>]
 
 A complex type that contains one C<InvalidationSummary> element for
-each invalidation batch created by the current AWS account.
+each invalidation batch created by the current Amazon Web Services
+account.
 
 
 =head2 B<REQUIRED> Marker => Str
@@ -80,8 +81,8 @@ listing your invalidation batches where they left off.
 
 =head2 B<REQUIRED> Quantity => Int
 
-The number of invalidation batches that were created by the current AWS
-account.
+The number of invalidation batches that were created by the current
+Amazon Web Services account.
 
 
 

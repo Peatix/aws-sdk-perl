@@ -46,7 +46,8 @@ The name of the identity provider configuration.
 
 =head2 B<REQUIRED> Type => Str
 
-The type of the identity provider configuration.
+The type of the identity provider configuration. The only type
+available is C<oidc>.
 
 
 

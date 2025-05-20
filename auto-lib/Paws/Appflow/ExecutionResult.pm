@@ -4,6 +4,8 @@ package Paws::Appflow::ExecutionResult;
   has BytesProcessed => (is => 'ro', isa => 'Int', request_name => 'bytesProcessed', traits => ['NameInRequest']);
   has BytesWritten => (is => 'ro', isa => 'Int', request_name => 'bytesWritten', traits => ['NameInRequest']);
   has ErrorInfo => (is => 'ro', isa => 'Paws::Appflow::ErrorInfo', request_name => 'errorInfo', traits => ['NameInRequest']);
+  has MaxPageSize => (is => 'ro', isa => 'Int', request_name => 'maxPageSize', traits => ['NameInRequest']);
+  has NumParallelProcesses => (is => 'ro', isa => 'Int', request_name => 'numParallelProcesses', traits => ['NameInRequest']);
   has RecordsProcessed => (is => 'ro', isa => 'Int', request_name => 'recordsProcessed', traits => ['NameInRequest']);
 
 1;
@@ -54,6 +56,18 @@ The total number of bytes written as a result of the flow run.
 =head2 ErrorInfo => L<Paws::Appflow::ErrorInfo>
 
 Provides any error message information related to the flow run.
+
+
+=head2 MaxPageSize => Int
+
+The maximum number of records that Amazon AppFlow receives in each page
+of the response from your SAP application.
+
+
+=head2 NumParallelProcesses => Int
+
+The number of processes that Amazon AppFlow ran at the same time when
+it retrieved your data.
 
 
 =head2 RecordsProcessed => Int

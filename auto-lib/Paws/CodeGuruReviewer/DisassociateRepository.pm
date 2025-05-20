@@ -49,10 +49,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/cod
 
 =head2 B<REQUIRED> AssociationArn => Str
 
-The Amazon Resource Name (ARN) of the C<RepositoryAssociation>
+The Amazon Resource Name (ARN) of the RepositoryAssociation
 (https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_RepositoryAssociation.html)
-object. You can retrieve this ARN by calling
-C<ListRepositoryAssociations>
+object. You can retrieve this ARN by calling ListRepositoryAssociations
 (https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_ListRepositoryAssociations.html).
 
 

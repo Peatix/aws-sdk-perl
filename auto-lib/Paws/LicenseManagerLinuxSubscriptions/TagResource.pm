@@ -1,0 +1,71 @@
+
+package Paws::LicenseManagerLinuxSubscriptions::TagResource;
+  use Moose;
+  has ResourceArn => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'resourceArn', required => 1);
+  has Tags => (is => 'ro', isa => 'Paws::LicenseManagerLinuxSubscriptions::Tags', traits => ['NameInRequest'], request_name => 'tags', required => 1);
+
+  use MooseX::ClassAttribute;
+
+  class_has _api_call => (isa => 'Str', is => 'ro', default => 'TagResource');
+  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/tags/{resourceArn}');
+  class_has _api_method  => (isa => 'Str', is => 'ro', default => 'PUT');
+  class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::LicenseManagerLinuxSubscriptions::TagResourceResponse');
+1;
+
+### main pod documentation begin ###
+
+=head1 NAME
+
+Paws::LicenseManagerLinuxSubscriptions::TagResource - Arguments for method TagResource on L<Paws::LicenseManagerLinuxSubscriptions>
+
+=head1 DESCRIPTION
+
+This class represents the parameters used for calling the method TagResource on the
+L<AWS License Manager Linux Subscriptions|Paws::LicenseManagerLinuxSubscriptions> service. Use the attributes of this class
+as arguments to method TagResource.
+
+You shouldn't make instances of this class. Each attribute should be used as a named argument in the call to TagResource.
+
+=head1 SYNOPSIS
+
+    my $license-manager-linux-subscriptions = Paws->service('LicenseManagerLinuxSubscriptions');
+    my $TagResourceResponse =
+      $license -manager-linux-subscriptions->TagResource(
+      ResourceArn => 'MySubscriptionProviderArn',
+      Tags        => { 'MyString' => 'MyString', },
+
+      );
+
+Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
+For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/license-manager-linux-subscriptions/TagResource>
+
+=head1 ATTRIBUTES
+
+
+=head2 B<REQUIRED> ResourceArn => Str
+
+The Amazon Resource Name (ARN) of the Amazon Web Services resource to
+which to add the specified metadata tags.
+
+
+
+=head2 B<REQUIRED> Tags => L<Paws::LicenseManagerLinuxSubscriptions::Tags>
+
+The metadata tags to assign to the Amazon Web Services resource. Tags
+are formatted as key value pairs.
+
+
+
+
+=head1 SEE ALSO
+
+This class forms part of L<Paws>, documenting arguments for method TagResource in L<Paws::LicenseManagerLinuxSubscriptions>
+
+=head1 BUGS and CONTRIBUTIONS
+
+The source code is located here: L<https://github.com/pplu/aws-sdk-perl>
+
+Please report bugs to: L<https://github.com/pplu/aws-sdk-perl/issues>
+
+=cut
+

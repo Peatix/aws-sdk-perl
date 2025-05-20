@@ -45,7 +45,7 @@ Indicates whether client connect options are enabled.
 
 =head2 LambdaFunctionArn => Str
 
-The Amazon Resource Name (ARN) of the AWS Lambda function used for
+The Amazon Resource Name (ARN) of the Lambda function used for
 connection authorization.
 
 

@@ -49,16 +49,16 @@ The category of extensions to return.
 =item *
 
 C<REGISTERED>: Private extensions that have been registered for this
-account and region.
+account and Region.
 
 =item *
 
 C<ACTIVATED>: Public extensions that have been activated for this
-account and region.
+account and Region.
 
 =item *
 
-C<THIRD-PARTY>: Extensions available for use from publishers other than
+C<THIRD_PARTY>: Extensions available for use from publishers other than
 Amazon. This includes:
 
 =over
@@ -76,7 +76,7 @@ or not.
 
 =item *
 
-C<AWS-TYPES>: Extensions available for use from Amazon.
+C<AWS_TYPES>: Extensions available for use from Amazon.
 
 =back
 
@@ -86,8 +86,8 @@ C<AWS-TYPES>: Extensions available for use from Amazon.
 
 The id of the publisher of the extension.
 
-Extensions published by Amazon are not assigned a publisher ID. Use the
-C<AWS-TYPES> category to specify a list of types published by Amazon.
+Extensions published by Amazon aren't assigned a publisher ID. Use the
+C<AWS_TYPES> category to specify a list of types published by Amazon.
 
 
 =head2 TypeNamePrefix => Str

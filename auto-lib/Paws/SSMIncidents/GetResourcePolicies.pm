@@ -50,13 +50,15 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ssm
 
 =head2 MaxResults => Int
 
-The maximum number of resource policies to display per page of results.
+The maximum number of resource policies to display for each page of
+results.
 
 
 
 =head2 NextToken => Str
 
-The pagination token to continue to the next page of results.
+The pagination token for the next set of items to return. (You received
+this token from a previous call.)
 
 
 

@@ -7,6 +7,7 @@ package Paws::SSMIncidents::CreateResponsePlan;
   has DisplayName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'displayName');
   has Engagements => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'engagements');
   has IncidentTemplate => (is => 'ro', isa => 'Paws::SSMIncidents::IncidentTemplate', traits => ['NameInRequest'], request_name => 'incidentTemplate', required => 1);
+  has Integrations => (is => 'ro', isa => 'ArrayRef[Paws::SSMIncidents::Integration]', traits => ['NameInRequest'], request_name => 'integrations');
   has Name => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'name', required => 1);
   has Tags => (is => 'ro', isa => 'Paws::SSMIncidents::TagMap', traits => ['NameInRequest'], request_name => 'tags');
 
@@ -37,16 +38,19 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $ssm-incidents = Paws->service('SSMIncidents');
     my $CreateResponsePlanOutput = $ssm -incidents->CreateResponsePlan(
       IncidentTemplate => {
-        Impact              => 1,                    # min: 1, max: 5
-        Title               => 'MyIncidentTitle',    # max: 200
-        DedupeString        => 'MyDedupeString',     # max: 1000; OPTIONAL
+        Impact       => 1,                    # min: 1, max: 5
+        Title        => 'MyIncidentTitle',    # max: 200
+        DedupeString => 'MyDedupeString',     # max: 1000; OPTIONAL
+        IncidentTags => {
+          'MyTagKey' => 'MyTagValue',   # key: min: 1, max: 128, value: max: 256
+        },    # min: 1, max: 50; OPTIONAL
         NotificationTargets => [
           {
-            SnsTopicArn => 'MyArn',                  # max: 1000; OPTIONAL
+            SnsTopicArn => 'MyArn',    # max: 1000; OPTIONAL
           },
           ...
         ],    # max: 10; OPTIONAL
-        Summary => 'MyIncidentSummary',    # max: 4000; OPTIONAL
+        Summary => 'MyIncidentSummary',    # max: 8000; OPTIONAL
       },
       Name    => 'MyResponsePlanName',
       Actions => [
@@ -56,6 +60,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             RoleArn         => 'MyRoleArn',                          # max: 1000
             DocumentVersion =>
               'MySsmAutomationDocumentVersionString',    # max: 128; OPTIONAL
+            DynamicParameters => {
+              'MyDynamicSsmParametersKeyString' => {
+                Variable => 'INCIDENT_RECORD_ARN'
+                ,    # values: INCIDENT_RECORD_ARN, INVOLVED_RESOURCES; OPTIONAL
+              },    # key: min: 1, max: 50
+            },    # min: 1, max: 200; OPTIONAL
             Parameters => {
               'MySsmParametersKeyString' => [
                 'MySsmParameterValuesMemberString', ...    # max: 512
@@ -79,6 +89,22 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       DisplayName => 'MyResponsePlanDisplayName',    # OPTIONAL
       Engagements => [
         'MySsmContactsArn', ...                      # max: 2048
+      ],    # OPTIONAL
+      Integrations => [
+        {
+          PagerDutyConfiguration => {
+            Name => 'MyPagerDutyConfigurationNameString',    # min: 1, max: 200
+            PagerDutyIncidentConfiguration => {
+              ServiceId => 'MyPagerDutyIncidentConfigurationServiceIdString'
+              ,                                              # min: 1, max: 200
+
+            },
+            SecretId =>
+              'MyPagerDutyConfigurationSecretIdString',      # min: 1, max: 512
+
+          },    # OPTIONAL
+        },
+        ...
       ],    # OPTIONAL
       Tags => {
         'MyTagKey' => 'MyTagValue',    # key: min: 1, max: 128, value: max: 256
@@ -105,14 +131,14 @@ incident.
 
 =head2 ChatChannel => L<Paws::SSMIncidents::ChatChannel>
 
-The AWS Chatbot chat channel used for collaboration during an incident.
+The Chatbot chat channel used for collaboration during an incident.
 
 
 
 =head2 ClientToken => Str
 
-A token ensuring that the action is called only once with the specified
-details.
+A token ensuring that the operation is called only once with the
+specified details.
 
 
 
@@ -125,14 +151,21 @@ spaces.
 
 =head2 Engagements => ArrayRef[Str|Undef]
 
-The contacts and escalation plans that the response plan engages during
-an incident.
+The Amazon Resource Name (ARN) for the contacts and escalation plans
+that the response plan engages during an incident.
 
 
 
 =head2 B<REQUIRED> IncidentTemplate => L<Paws::SSMIncidents::IncidentTemplate>
 
 Details used to create an incident when using this response plan.
+
+
+
+=head2 Integrations => ArrayRef[L<Paws::SSMIncidents::Integration>]
+
+Information about third-party services integrated into the response
+plan.
 
 
 

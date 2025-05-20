@@ -32,7 +32,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $iotsitewise = Paws->service('IoTSiteWise');
     my $ListAssetsResponse = $iotsitewise->ListAssets(
-      AssetModelId => 'MyID',           # OPTIONAL
+      AssetModelId => 'MyCustomID',     # OPTIONAL
       Filter       => 'ALL',            # OPTIONAL
       MaxResults   => 1,                # OPTIONAL
       NextToken    => 'MyNextToken',    # OPTIONAL
@@ -53,7 +53,12 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/iot
 =head2 AssetModelId => Str
 
 The ID of the asset model by which to filter the list of assets. This
-parameter is required if you choose C<ALL> for C<filter>.
+parameter is required if you choose C<ALL> for C<filter>. This can be
+either the actual ID in UUID format, or else C<externalId:> followed by
+the external ID, if it has one. For more information, see Referencing
+objects with external IDs
+(https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references)
+in the I<IoT SiteWise User Guide>.
 
 
 
@@ -82,7 +87,7 @@ Valid values are: C<"ALL">, C<"TOP_LEVEL">
 
 =head2 MaxResults => Int
 
-The maximum number of results to be returned per paginated request.
+The maximum number of results to return for each paginated request.
 
 Default: 50
 

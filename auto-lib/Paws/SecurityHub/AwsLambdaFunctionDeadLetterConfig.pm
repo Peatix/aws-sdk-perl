@@ -40,7 +40,7 @@ The dead-letter queue for failed asynchronous invocations.
 
 =head2 TargetArn => Str
 
-The ARN of an Amazon SQS queue or Amazon SNS topic.
+The ARN of an SQS queue or SNS topic.
 
 
 

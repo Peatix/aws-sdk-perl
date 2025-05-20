@@ -91,18 +91,18 @@ C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
 
 =head2 Filters => ArrayRef[L<Paws::EC2::Filter>]
 
-The filters. The following are possible values:
+The filters. The following are the possible values:
 
 =over
 
 =item *
 
-PathFound - A Boolean value that indicates whether a feasible path is
+path-found - A Boolean value that indicates whether a feasible path is
 found.
 
 =item *
 
-Status - The status of the analysis (running | succeeded | failed).
+status - The status of the analysis (running | succeeded | failed).
 
 =back
 

@@ -42,8 +42,6 @@ The data source for the Autopilot job.
 
 The Amazon S3 location of the input data.
 
-The input data must be in CSV format and contain at least 500 rows.
-
 
 
 =head1 SEE ALSO

@@ -16,7 +16,7 @@ Paws::SageMaker::UpdateAppImageConfigResponse
 
 =head2 AppImageConfigArn => Str
 
-The Amazon Resource Name (ARN) for the AppImageConfig.
+The ARN for the AppImageConfig.
 
 
 =head2 _request_id => Str

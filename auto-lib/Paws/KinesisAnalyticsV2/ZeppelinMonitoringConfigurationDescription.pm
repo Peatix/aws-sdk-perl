@@ -33,8 +33,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::KinesisAnal
 
 =head1 DESCRIPTION
 
-The monitoring configuration for Apache Zeppelin within a Kinesis Data
-Analytics Studio notebook.
+The monitoring configuration for Apache Zeppelin within a Managed
+Service for Apache Flink Studio notebook.
 
 =head1 ATTRIBUTES
 

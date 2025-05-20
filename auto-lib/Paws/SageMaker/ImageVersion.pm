@@ -39,7 +39,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SageMaker::
 
 =head1 DESCRIPTION
 
-A version of a SageMaker C<Image>. A version represents an existing
+A version of a SageMaker AI C<Image>. A version represents an existing
 container image.
 
 =head1 ATTRIBUTES
@@ -57,7 +57,7 @@ When a create or delete operation fails, the reason for the failure.
 
 =head2 B<REQUIRED> ImageArn => Str
 
-The Amazon Resource Name (ARN) of the image the version is based on.
+The ARN of the image the version is based on.
 
 
 =head2 B<REQUIRED> ImageVersionArn => Str

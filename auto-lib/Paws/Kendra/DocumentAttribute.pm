@@ -34,7 +34,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Kendra::Doc
 
 =head1 DESCRIPTION
 
-A custom attribute value assigned to a document.
+A document attribute or metadata field. To create custom document
+attributes, see Custom attributes
+(https://docs.aws.amazon.com/kendra/latest/dg/custom-attributes.html).
 
 =head1 ATTRIBUTES
 

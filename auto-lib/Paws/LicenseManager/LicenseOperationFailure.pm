@@ -77,7 +77,7 @@ Amazon Resource Name (ARN) of the resource.
 
 =head2 ResourceOwnerId => Str
 
-ID of the AWS account that owns the resource.
+ID of the Amazon Web Services account that owns the resource.
 
 
 =head2 ResourceType => Str

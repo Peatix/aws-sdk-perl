@@ -1,7 +1,8 @@
 
 package Paws::ApplicationMigration::DescribeJobs;
   use Moose;
-  has Filters => (is => 'ro', isa => 'Paws::ApplicationMigration::DescribeJobsRequestFilters', traits => ['NameInRequest'], request_name => 'filters', required => 1);
+  has AccountID => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'accountID');
+  has Filters => (is => 'ro', isa => 'Paws::ApplicationMigration::DescribeJobsRequestFilters', traits => ['NameInRequest'], request_name => 'filters');
   has MaxResults => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'maxResults');
   has NextToken => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'nextToken');
 
@@ -31,15 +32,16 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $mgn = Paws->service('ApplicationMigration');
     my $DescribeJobsResponse = $mgn->DescribeJobs(
-      Filters => {
+      AccountID => 'MyAccountID',    # OPTIONAL
+      Filters   => {
         FromDate => 'MyISO8601DatetimeString',    # min: 19, max: 32; OPTIONAL
         JobIDs   => [
           'MyJobID', ...                          # min: 24, max: 24
         ],    # max: 1000; OPTIONAL
         ToDate => 'MyISO8601DatetimeString',    # min: 19, max: 32; OPTIONAL
-      },
-      MaxResults => 1,                          # OPTIONAL
-      NextToken  => 'MyPaginationToken',        # OPTIONAL
+      },    # OPTIONAL
+      MaxResults => 1,                      # OPTIONAL
+      NextToken  => 'MyPaginationToken',    # OPTIONAL
     );
 
     # Results:
@@ -54,7 +56,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/mgn
 =head1 ATTRIBUTES
 
 
-=head2 B<REQUIRED> Filters => L<Paws::ApplicationMigration::DescribeJobsRequestFilters>
+=head2 AccountID => Str
+
+Request to describe job log items by Account ID.
+
+
+
+=head2 Filters => L<Paws::ApplicationMigration::DescribeJobsRequestFilters>
 
 Request to describe Job log filters.
 
@@ -62,13 +70,13 @@ Request to describe Job log filters.
 
 =head2 MaxResults => Int
 
-Request to describe Job log by max results.
+Request to describe job log items by max results.
 
 
 
 =head2 NextToken => Str
 
-Request to describe Job logby next token.
+Request to describe job log items by next token.
 
 
 

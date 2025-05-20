@@ -16,8 +16,8 @@ Paws::DMS::ApplyPendingMaintenanceActionResponse
 
 =head2 ResourcePendingMaintenanceActions => L<Paws::DMS::ResourcePendingMaintenanceActions>
 
-The AWS DMS resource that the pending maintenance action will be
-applied to.
+The DMS resource that the pending maintenance action will be applied
+to.
 
 
 =head2 _request_id => Str

@@ -38,12 +38,15 @@ Settings for logging access in this stage.
 
 =head2 CacheClusterEnabled => Bool
 
-Specifies whether a cache cluster is enabled for the stage.
+Specifies whether a cache cluster is enabled for the stage. To activate
+a method-level cache, set C<CachingEnabled> to C<true> for a method.
 
 
 =head2 CacheClusterSize => Str
 
-The size of the cache cluster for the stage, if enabled.
+The stage's cache capacity in GB. For more information about choosing a
+cache size, see Enabling API caching to enhance responsiveness
+(https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-caching.html).
 
 Valid values are: C<"0.5">, C<"1.6">, C<"6.1">, C<"13.5">, C<"28.4">, C<"58.2">, C<"118">, C<"237">
 =head2 CacheClusterStatus => Str
@@ -117,7 +120,7 @@ Specifies whether active tracing with X-ray is enabled for the Stage.
 
 A map that defines the stage variables for a Stage resource. Variable
 names can have alphanumeric and underscore characters, and the values
-must match C<[A-Za-z0-9-._~:/?&num;&=,]+>.
+must match C<[A-Za-z0-9-._~:/?#&=,]+>.
 
 
 =head2 WebAclArn => Str

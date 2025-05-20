@@ -18,7 +18,7 @@ Paws::IoTAnalytics::ListDatasetContentsResponse
 
 =head2 DatasetContentSummaries => ArrayRef[L<Paws::IoTAnalytics::DatasetContentSummary>]
 
-Summary information about data set contents that have been created.
+Summary information about dataset contents that have been created.
 
 
 =head2 NextToken => Str

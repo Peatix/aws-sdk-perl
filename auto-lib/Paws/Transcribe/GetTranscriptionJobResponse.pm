@@ -16,7 +16,8 @@ Paws::Transcribe::GetTranscriptionJobResponse
 
 =head2 TranscriptionJob => L<Paws::Transcribe::TranscriptionJob>
 
-An object that contains the results of the transcription job.
+Provides detailed information about the specified transcription job,
+including job status and, if applicable, failure reason.
 
 
 =head2 _request_id => Str

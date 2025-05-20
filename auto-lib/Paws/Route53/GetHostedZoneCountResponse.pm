@@ -19,7 +19,7 @@ Paws::Route53::GetHostedZoneCountResponse
 =head2 B<REQUIRED> HostedZoneCount => Int
 
 The total number of public and private hosted zones that are associated
-with the current AWS account.
+with the current Amazon Web Services account.
 
 
 

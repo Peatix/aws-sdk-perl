@@ -54,12 +54,12 @@ An array of Boolean values.
 
 =head2 DoubleValues => ArrayRef[Num]
 
-An array of integers.
+An array of floating-point numbers.
 
 
 =head2 LongValues => ArrayRef[Int]
 
-An array of floating point numbers.
+An array of integers.
 
 
 =head2 StringValues => ArrayRef[Str|Undef]

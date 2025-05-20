@@ -11,6 +11,7 @@ package Paws::SecurityHub::AwsCloudFrontDistributionDetails;
   has OriginGroups => (is => 'ro', isa => 'Paws::SecurityHub::AwsCloudFrontDistributionOriginGroups');
   has Origins => (is => 'ro', isa => 'Paws::SecurityHub::AwsCloudFrontDistributionOrigins');
   has Status => (is => 'ro', isa => 'Str');
+  has ViewerCertificate => (is => 'ro', isa => 'Paws::SecurityHub::AwsCloudFrontDistributionViewerCertificate');
   has WebAclId => (is => 'ro', isa => 'Str');
 
 1;
@@ -43,7 +44,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SecurityHub
 
 =head1 DESCRIPTION
 
-A distribution configuration.
+A CloudFront distribution configuration.
 
 =head1 ATTRIBUTES
 
@@ -81,10 +82,9 @@ The entity tag is a hash of the object.
 
 Indicates when that the distribution was last modified.
 
-Uses the C<date-time> format specified in RFC 3339 section 5.6,
-Internet Date/Time Format
-(https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot
-contain spaces. For example, C<2020-03-22T13:22:13.933Z>.
+For more information about the validation and formatting of timestamp
+fields in Security Hub, see Timestamps
+(https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
 
 
 =head2 Logging => L<Paws::SecurityHub::AwsCloudFrontDistributionLogging>
@@ -109,9 +109,15 @@ distribution.
 Indicates the current status of the distribution.
 
 
+=head2 ViewerCertificate => L<Paws::SecurityHub::AwsCloudFrontDistributionViewerCertificate>
+
+Provides information about the TLS/SSL configuration that the
+distribution uses to communicate with viewers.
+
+
 =head2 WebAclId => Str
 
-A unique identifier that specifies the AWS WAF web ACL, if any, to
+A unique identifier that specifies the WAF web ACL, if any, to
 associate with this distribution.
 
 

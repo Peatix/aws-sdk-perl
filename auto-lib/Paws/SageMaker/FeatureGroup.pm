@@ -9,6 +9,8 @@ package Paws::SageMaker::FeatureGroup;
   has FeatureGroupArn => (is => 'ro', isa => 'Str');
   has FeatureGroupName => (is => 'ro', isa => 'Str');
   has FeatureGroupStatus => (is => 'ro', isa => 'Str');
+  has LastModifiedTime => (is => 'ro', isa => 'Str');
+  has LastUpdateStatus => (is => 'ro', isa => 'Paws::SageMaker::LastUpdateStatus');
   has OfflineStoreConfig => (is => 'ro', isa => 'Paws::SageMaker::OfflineStoreConfig');
   has OfflineStoreStatus => (is => 'ro', isa => 'Paws::SageMaker::OfflineStoreStatus');
   has OnlineStoreConfig => (is => 'ro', isa => 'Paws::SageMaker::OnlineStoreConfig');
@@ -110,6 +112,17 @@ The name of the C<FeatureGroup>.
 =head2 FeatureGroupStatus => Str
 
 A C<FeatureGroup> status.
+
+
+=head2 LastModifiedTime => Str
+
+A timestamp indicating the last time you updated the feature group.
+
+
+=head2 LastUpdateStatus => L<Paws::SageMaker::LastUpdateStatus>
+
+A value that indicates whether the feature group was updated
+successfully.
 
 
 =head2 OfflineStoreConfig => L<Paws::SageMaker::OfflineStoreConfig>

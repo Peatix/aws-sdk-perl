@@ -9,6 +9,7 @@ package Paws::CloudFormation::CreateStack;
   has OnFailure => (is => 'ro', isa => 'Str');
   has Parameters => (is => 'ro', isa => 'ArrayRef[Paws::CloudFormation::Parameter]');
   has ResourceTypes => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has RetainExceptOnCreate => (is => 'ro', isa => 'Bool');
   has RoleARN => (is => 'ro', isa => 'Str');
   has RollbackConfiguration => (is => 'ro', isa => 'Paws::CloudFormation::RollbackConfiguration');
   has StackName => (is => 'ro', isa => 'Str', required => 1);
@@ -66,6 +67,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       ResourceTypes => [
         'MyResourceType', ...    # min: 1, max: 256
       ],    # OPTIONAL
+      RetainExceptOnCreate  => 1,              # OPTIONAL
       RoleARN               => 'MyRoleARN',    # OPTIONAL
       RollbackConfiguration => {
         MonitoringTimeInMinutes => 1,          # max: 180; OPTIONAL
@@ -107,8 +109,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/clo
 =head2 Capabilities => ArrayRef[Str|Undef]
 
 In some cases, you must explicitly acknowledge that your stack template
-contains certain capabilities in order for AWS CloudFormation to create
-the stack.
+contains certain capabilities in order for CloudFormation to create the
+stack.
 
 =over
 
@@ -117,9 +119,9 @@ the stack.
 C<CAPABILITY_IAM> and C<CAPABILITY_NAMED_IAM>
 
 Some stack templates might include resources that can affect
-permissions in your AWS account; for example, by creating new AWS
-Identity and Access Management (IAM) users. For those stacks, you must
-explicitly acknowledge this by specifying one of these capabilities.
+permissions in your Amazon Web Services account; for example, by
+creating new IAM users. For those stacks, you must explicitly
+acknowledge this by specifying one of these capabilities.
 
 The following IAM resources require you to specify either the
 C<CAPABILITY_IAM> or C<CAPABILITY_NAMED_IAM> capability.
@@ -137,7 +139,7 @@ C<CAPABILITY_NAMED_IAM>.
 
 =item *
 
-If you don't specify either of these capabilities, AWS CloudFormation
+If you don't specify either of these capabilities, CloudFormation
 returns an C<InsufficientCapabilities> error.
 
 =back
@@ -151,12 +153,12 @@ if necessary.
 =item *
 
 AWS::IAM::AccessKey
-(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-accesskey.html)
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-accesskey.html)
 
 =item *
 
 AWS::IAM::Group
-(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-group.html)
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-group.html)
 
 =item *
 
@@ -165,8 +167,13 @@ AWS::IAM::InstanceProfile
 
 =item *
 
+AWS::IAM::ManagedPolicy
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-managedpolicy.html)
+
+=item *
+
 AWS::IAM::Policy
-(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-policy.html)
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)
 
 =item *
 
@@ -176,18 +183,18 @@ AWS::IAM::Role
 =item *
 
 AWS::IAM::User
-(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-user.html)
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-user.html)
 
 =item *
 
 AWS::IAM::UserToGroupAddition
-(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-addusertogroup.html)
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-usertogroupaddition.html)
 
 =back
 
-For more information, see Acknowledging IAM Resources in AWS
-CloudFormation Templates
-(http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html#capabilities).
+For more information, see Acknowledging IAM resources in CloudFormation
+templates
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/control-access-with-iam.html#using-iam-capabilities).
 
 =item *
 
@@ -203,10 +210,10 @@ template contains one or more macros, and you choose to create a stack
 directly from the processed template, without first reviewing the
 resulting changes in a change set, you must acknowledge this
 capability. This includes the AWS::Include
-(http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/create-reusable-transform-function-snippets-and-add-to-your-template-with-aws-include-transform.html)
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-aws-include.html)
 and AWS::Serverless
-(http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-aws-serverless.html)
-transforms, which are macros hosted by AWS CloudFormation.
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-aws-serverless.html)
+transforms, which are macros hosted by CloudFormation.
 
 If you want to create a stack from a stack template that contains
 macros I<and> nested stacks, you must create the stack directly from
@@ -217,27 +224,28 @@ contains macros if you know what processing the macro performs.
 
 Each macro relies on an underlying Lambda service function for
 processing stack templates. Be aware that the Lambda function owner can
-update the function operation without AWS CloudFormation being
-notified.
+update the function operation without CloudFormation being notified.
 
-For more information, see Using AWS CloudFormation Macros to Perform
-Custom Processing on Templates
-(http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-macros.html).
+For more information, see Perform custom processing on CloudFormation
+templates with template macros
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-macros.html).
 
 =back
 
+Only one of the C<Capabilities> and C<ResourceType> parameters can be
+specified.
 
 
 
 =head2 ClientRequestToken => Str
 
 A unique identifier for this C<CreateStack> request. Specify this token
-if you plan to retry requests so that AWS CloudFormation knows that
-you're not attempting to create a stack with the same name. You might
-retry C<CreateStack> requests to ensure that AWS CloudFormation
-successfully received them.
+if you plan to retry requests so that CloudFormation knows that you're
+not attempting to create a stack with the same name. You might retry
+C<CreateStack> requests to ensure that CloudFormation successfully
+received them.
 
-All events triggered by a given stack operation are assigned the same
+All events initiated by a given stack operation are assigned the same
 client request token, which you can use to track operations. For
 example, if you execute a C<CreateStack> operation with the token
 C<token1>, then all the C<StackEvents> generated by that operation will
@@ -268,31 +276,31 @@ Default: C<false>
 Whether to enable termination protection on the specified stack. If a
 user attempts to delete a stack with termination protection enabled,
 the operation fails and the stack remains unchanged. For more
-information, see Protecting a Stack From Being Deleted
-(http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-protect-stacks.html)
-in the I<AWS CloudFormation User Guide>. Termination protection is
-disabled on stacks by default.
+information, see Protect CloudFormation stacks from being deleted
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-protect-stacks.html)
+in the I<CloudFormation User Guide>. Termination protection is
+deactivated on stacks by default.
 
 For nested stacks
-(http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html),
-termination protection is set on the root stack and cannot be changed
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html),
+termination protection is set on the root stack and can't be changed
 directly on the nested stack.
 
 
 
 =head2 NotificationARNs => ArrayRef[Str|Undef]
 
-The Simple Notification Service (SNS) topic ARNs to publish stack
-related events. You can find your SNS topic ARNs using the SNS console
-or your Command Line Interface (CLI).
+The Amazon SNS topic ARNs to publish stack related events. You can find
+your Amazon SNS topic ARNs using the Amazon SNS console or your Command
+Line Interface (CLI).
 
 
 
 =head2 OnFailure => Str
 
 Determines what action will be taken if stack creation fails. This must
-be one of: DO_NOTHING, ROLLBACK, or DELETE. You can specify either
-C<OnFailure> or C<DisableRollback>, but not both.
+be one of: C<DO_NOTHING>, C<ROLLBACK>, or C<DELETE>. You can specify
+either C<OnFailure> or C<DisableRollback>, but not both.
 
 Default: C<ROLLBACK>
 
@@ -312,44 +320,56 @@ data type.
 The template resource types that you have permissions to work with for
 this create stack action, such as C<AWS::EC2::Instance>,
 C<AWS::EC2::*>, or C<Custom::MyCustomInstance>. Use the following
-syntax to describe template resource types: C<AWS::*> (for all AWS
-resource), C<Custom::*> (for all custom resources),
+syntax to describe template resource types: C<AWS::*> (for all Amazon
+Web Services resources), C<Custom::*> (for all custom resources),
 C<Custom::I<logical_ID> > (for a specific custom resource),
-C<AWS::I<service_name>::*> (for all resources of a particular AWS
-service), and C<AWS::I<service_name>::I<resource_logical_ID> > (for a
-specific AWS resource).
+C<AWS::I<service_name>::*> (for all resources of a particular Amazon
+Web Services service), and
+C<AWS::I<service_name>::I<resource_logical_ID> > (for a specific Amazon
+Web Services resource).
 
 If the list of resource types doesn't include a resource that you're
-creating, the stack creation fails. By default, AWS CloudFormation
-grants permissions to all resource types. AWS Identity and Access
-Management (IAM) uses this parameter for AWS CloudFormation-specific
-condition keys in IAM policies. For more information, see Controlling
-Access with AWS Identity and Access Management
-(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html).
+creating, the stack creation fails. By default, CloudFormation grants
+permissions to all resource types. IAM uses this parameter for
+CloudFormation-specific condition keys in IAM policies. For more
+information, see Control access with Identity and Access Management
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/control-access-with-iam.html).
+
+Only one of the C<Capabilities> and C<ResourceType> parameters can be
+specified.
+
+
+
+=head2 RetainExceptOnCreate => Bool
+
+When set to C<true>, newly created resources are deleted when the
+operation rolls back. This includes newly created resources marked with
+a deletion policy of C<Retain>.
+
+Default: C<false>
 
 
 
 =head2 RoleARN => Str
 
-The Amazon Resource Name (ARN) of an AWS Identity and Access Management
-(IAM) role that AWS CloudFormation assumes to create the stack. AWS
-CloudFormation uses the role's credentials to make calls on your
-behalf. AWS CloudFormation always uses this role for all future
-operations on the stack. As long as users have permission to operate on
-the stack, AWS CloudFormation uses this role even if the users don't
-have permission to pass it. Ensure that the role grants least
-privilege.
+The Amazon Resource Name (ARN) of an IAM role that CloudFormation
+assumes to create the stack. CloudFormation uses the role's credentials
+to make calls on your behalf. CloudFormation always uses this role for
+all future operations on the stack. Provided that users have permission
+to operate on the stack, CloudFormation uses this role even if the
+users don't have permission to pass it. Ensure that the role grants
+least privilege.
 
-If you don't specify a value, AWS CloudFormation uses the role that was
-previously associated with the stack. If no role is available, AWS
-CloudFormation uses a temporary session that is generated from your
-user credentials.
+If you don't specify a value, CloudFormation uses the role that was
+previously associated with the stack. If no role is available,
+CloudFormation uses a temporary session that's generated from your user
+credentials.
 
 
 
 =head2 RollbackConfiguration => L<Paws::CloudFormation::RollbackConfiguration>
 
-The rollback triggers for AWS CloudFormation to monitor during stack
+The rollback triggers for CloudFormation to monitor during stack
 creation and updating operations, and for the specified monitoring
 period afterwards.
 
@@ -357,21 +377,21 @@ period afterwards.
 
 =head2 B<REQUIRED> StackName => Str
 
-The name that is associated with the stack. The name must be unique in
+The name that's associated with the stack. The name must be unique in
 the Region in which you are creating the stack.
 
 A stack name can contain only alphanumeric characters (case sensitive)
-and hyphens. It must start with an alphabetic character and cannot be
+and hyphens. It must start with an alphabetical character and can't be
 longer than 128 characters.
 
 
 
 =head2 StackPolicyBody => Str
 
-Structure containing the stack policy body. For more information, go to
-Prevent Updates to Stack Resources
+Structure containing the stack policy body. For more information, see
+Prevent updates to stack resources
 (https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/protect-stack-resources.html)
-in the I<AWS CloudFormation User Guide>. You can specify either the
+in the I<CloudFormation User Guide>. You can specify either the
 C<StackPolicyBody> or the C<StackPolicyURL> parameter, but not both.
 
 
@@ -380,14 +400,15 @@ C<StackPolicyBody> or the C<StackPolicyURL> parameter, but not both.
 
 Location of a file containing the stack policy. The URL must point to a
 policy (maximum size: 16 KB) located in an S3 bucket in the same Region
-as the stack. You can specify either the C<StackPolicyBody> or the
+as the stack. The location for an Amazon S3 bucket must start with
+C<https://>. You can specify either the C<StackPolicyBody> or the
 C<StackPolicyURL> parameter, but not both.
 
 
 
 =head2 Tags => ArrayRef[L<Paws::CloudFormation::Tag>]
 
-Key-value pairs to associate with this stack. AWS CloudFormation also
+Key-value pairs to associate with this stack. CloudFormation also
 propagates these tags to the resources created in the stack. A maximum
 number of 50 tags can be specified.
 
@@ -396,10 +417,7 @@ number of 50 tags can be specified.
 =head2 TemplateBody => Str
 
 Structure containing the template body with a minimum length of 1 byte
-and a maximum length of 51,200 bytes. For more information, go to
-Template Anatomy
-(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html)
-in the AWS CloudFormation User Guide.
+and a maximum length of 51,200 bytes.
 
 Conditional: You must specify either the C<TemplateBody> or the
 C<TemplateURL> parameter, but not both.
@@ -408,12 +426,10 @@ C<TemplateURL> parameter, but not both.
 
 =head2 TemplateURL => Str
 
-Location of file containing the template body. The URL must point to a
-template (max size: 460,800 bytes) that is located in an Amazon S3
-bucket or a Systems Manager document. For more information, go to the
-Template Anatomy
-(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html)
-in the AWS CloudFormation User Guide.
+The URL of a file containing the template body. The URL must point to a
+template (max size: 1 MB) that's located in an Amazon S3 bucket or a
+Systems Manager document. The location for an Amazon S3 bucket must
+start with C<https://>.
 
 Conditional: You must specify either the C<TemplateBody> or the
 C<TemplateURL> parameter, but not both.
@@ -423,8 +439,8 @@ C<TemplateURL> parameter, but not both.
 =head2 TimeoutInMinutes => Int
 
 The amount of time that can pass before the stack status becomes
-CREATE_FAILED; if C<DisableRollback> is not set or is set to C<false>,
-the stack will be rolled back.
+C<CREATE_FAILED>; if C<DisableRollback> is not set or is set to
+C<false>, the stack will be rolled back.
 
 
 

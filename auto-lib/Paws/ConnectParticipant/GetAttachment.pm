@@ -3,6 +3,7 @@ package Paws::ConnectParticipant::GetAttachment;
   use Moose;
   has AttachmentId => (is => 'ro', isa => 'Str', required => 1);
   has ConnectionToken => (is => 'ro', isa => 'Str', traits => ['ParamInHeader'], header_name => 'X-Amz-Bearer', required => 1);
+  has UrlExpiryInSeconds => (is => 'ro', isa => 'Int');
 
   use MooseX::ClassAttribute;
 
@@ -30,14 +31,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $participant.connect = Paws->service('ConnectParticipant');
     my $GetAttachmentResponse = $participant . connect->GetAttachment(
-      AttachmentId    => 'MyArtifactId',
-      ConnectionToken => 'MyParticipantToken',
-
+      AttachmentId       => 'MyArtifactId',
+      ConnectionToken    => 'MyParticipantToken',
+      UrlExpiryInSeconds => 1,                      # OPTIONAL
     );
 
     # Results:
-    my $Url       = $GetAttachmentResponse->Url;
-    my $UrlExpiry = $GetAttachmentResponse->UrlExpiry;
+    my $AttachmentSizeInBytes = $GetAttachmentResponse->AttachmentSizeInBytes;
+    my $Url                   = $GetAttachmentResponse->Url;
+    my $UrlExpiry             = $GetAttachmentResponse->UrlExpiry;
 
     # Returns a L<Paws::ConnectParticipant::GetAttachmentResponse> object.
 
@@ -56,6 +58,14 @@ A unique identifier for the attachment.
 =head2 B<REQUIRED> ConnectionToken => Str
 
 The authentication token associated with the participant's connection.
+
+
+
+=head2 UrlExpiryInSeconds => Int
+
+The expiration time of the URL in ISO timestamp. It's specified in ISO
+8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example,
+2019-11-08T02:41:28.172Z.
 
 
 

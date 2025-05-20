@@ -95,6 +95,10 @@ C<"pending">
 
 =item *
 
+C<"skipped">
+
+=item *
+
 C<"running">
 
 =back

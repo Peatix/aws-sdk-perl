@@ -65,10 +65,9 @@ The name of the pipeline that contains the failed stage.
 
 =head2 B<REQUIRED> RetryMode => Str
 
-The scope of the retry attempt. Currently, the only supported value is
-FAILED_ACTIONS.
+The scope of the retry attempt.
 
-Valid values are: C<"FAILED_ACTIONS">
+Valid values are: C<"FAILED_ACTIONS">, C<"ALL_ACTIONS">
 
 =head2 B<REQUIRED> StageName => Str
 

@@ -1,5 +1,6 @@
 package Paws::EC2::AvailabilityZone;
   use Moose;
+  has GroupLongName => (is => 'ro', isa => 'Str', request_name => 'groupLongName', traits => ['NameInRequest']);
   has GroupName => (is => 'ro', isa => 'Str', request_name => 'groupName', traits => ['NameInRequest']);
   has Messages => (is => 'ro', isa => 'ArrayRef[Paws::EC2::AvailabilityZoneMessage]', request_name => 'messageSet', traits => ['NameInRequest']);
   has NetworkBorderGroup => (is => 'ro', isa => 'Str', request_name => 'networkBorderGroup', traits => ['NameInRequest']);
@@ -30,14 +31,14 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::EC2::AvailabilityZone object:
 
-  $service_obj->Method(Att1 => { GroupName => $value, ..., ZoneType => $value  });
+  $service_obj->Method(Att1 => { GroupLongName => $value, ..., ZoneType => $value  });
 
 =head3 Results returned from an API call
 
 Use accessors for each attribute. If Att1 is expected to be an Paws::EC2::AvailabilityZone object:
 
   $result = $service_obj->Method(...);
-  $result->Att1->GroupName
+  $result->Att1->GroupLongName
 
 =head1 DESCRIPTION
 
@@ -46,16 +47,32 @@ This class has no description
 =head1 ATTRIBUTES
 
 
+=head2 GroupLongName => Str
+
+The long name of the Availability Zone group, Local Zone group, or
+Wavelength Zone group.
+
+
 =head2 GroupName => Str
 
-For Availability Zones, this parameter has the same value as the Region
-name.
+The name of the zone group. For example:
 
-For Local Zones, the name of the associated group, for example
-C<us-west-2-lax-1>.
+=over
 
-For Wavelength Zones, the name of the associated group, for example
-C<us-east-1-wl1-bos-wlz-1>.
+=item *
+
+Availability Zones - C<us-east-1-zg-1>
+
+=item *
+
+Local Zones - C<us-west-2-lax-1>
+
+=item *
+
+Wavelength Zones - C<us-east-1-wl1-bos-wlz-1>
+
+=back
+
 
 
 =head2 Messages => ArrayRef[L<Paws::EC2::AvailabilityZoneMessage>]
@@ -75,7 +92,7 @@ For Availability Zones, this parameter always has the value of
 C<opt-in-not-required>.
 
 For Local Zones and Wavelength Zones, this parameter is the opt-in
-status. The possible values are C<opted-in>, and C<not-opted-in>.
+status. The possible values are C<opted-in> and C<not-opted-in>.
 
 
 =head2 ParentZoneId => Str
@@ -97,7 +114,8 @@ The name of the Region.
 
 =head2 State => Str
 
-The state of the Availability Zone, Local Zone, or Wavelength Zone.
+The state of the Availability Zone, Local Zone, or Wavelength Zone. The
+possible values are C<available>, C<unavailable>, and C<constrained>.
 
 
 =head2 ZoneId => Str
@@ -112,8 +130,9 @@ The name of the Availability Zone, Local Zone, or Wavelength Zone.
 
 =head2 ZoneType => Str
 
-The type of zone. The valid values are C<availability-zone>,
-C<local-zone>, and C<wavelength-zone>.
+The type of zone.
+
+Valid values: C<availability-zone> | C<local-zone> | C<wavelength-zone>
 
 
 

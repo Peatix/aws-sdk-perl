@@ -7,8 +7,9 @@ package Paws::LakeFormation::DeleteLFTag;
   use MooseX::ClassAttribute;
 
   class_has _api_call => (isa => 'Str', is => 'ro', default => 'DeleteLFTag');
+  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/DeleteLFTag');
+  class_has _api_method  => (isa => 'Str', is => 'ro', default => 'POST');
   class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::LakeFormation::DeleteLFTagResponse');
-  class_has _result_key => (isa => 'Str', is => 'ro');
 1;
 
 ### main pod documentation begin ###
@@ -44,13 +45,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/lak
 The identifier for the Data Catalog. By default, the account ID. The
 Data Catalog is the persistent metadata store. It contains database
 definitions, table definitions, and other control information to manage
-your AWS Lake Formation environment.
+your Lake Formation environment.
 
 
 
 =head2 B<REQUIRED> TagKey => Str
 
-The key-name for the tag to delete.
+The key-name for the LF-tag to delete.
 
 
 

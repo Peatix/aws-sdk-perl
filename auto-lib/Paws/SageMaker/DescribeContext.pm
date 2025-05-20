@@ -28,7 +28,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $api.sagemaker = Paws->service('SageMaker');
     my $DescribeContextResponse = $api . sagemaker->DescribeContext(
-      ContextName => 'MyExperimentEntityName',
+      ContextName => 'MyContextNameOrArn',
 
     );
 
@@ -41,6 +41,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $Description      = $DescribeContextResponse->Description;
     my $LastModifiedBy   = $DescribeContextResponse->LastModifiedBy;
     my $LastModifiedTime = $DescribeContextResponse->LastModifiedTime;
+    my $LineageGroupArn  = $DescribeContextResponse->LineageGroupArn;
     my $Properties       = $DescribeContextResponse->Properties;
     my $Source           = $DescribeContextResponse->Source;
 

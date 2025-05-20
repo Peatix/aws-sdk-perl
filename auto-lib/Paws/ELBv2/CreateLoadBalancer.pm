@@ -2,7 +2,9 @@
 package Paws::ELBv2::CreateLoadBalancer;
   use Moose;
   has CustomerOwnedIpv4Pool => (is => 'ro', isa => 'Str');
+  has EnablePrefixForIpv6SourceNat => (is => 'ro', isa => 'Str');
   has IpAddressType => (is => 'ro', isa => 'Str');
+  has IpamPools => (is => 'ro', isa => 'Paws::ELBv2::IpamPools');
   has Name => (is => 'ro', isa => 'Str', required => 1);
   has Scheme => (is => 'ro', isa => 'Str');
   has SecurityGroups => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
@@ -77,14 +79,35 @@ address pool (CoIP pool).
 
 
 
+=head2 EnablePrefixForIpv6SourceNat => Str
+
+[Network Load Balancers with UDP listeners] Indicates whether to use an
+IPv6 prefix from each subnet for source NAT. The IP address type must
+be C<dualstack>. The default value is C<off>.
+
+Valid values are: C<"on">, C<"off">
+
 =head2 IpAddressType => Str
 
-The type of IP addresses used by the subnets for your load balancer.
-The possible values are C<ipv4> (for IPv4 addresses) and C<dualstack>
-(for IPv4 and IPv6 addresses). Internal load balancers must use
-C<ipv4>.
+The IP address type. Internal load balancers must use C<ipv4>.
 
-Valid values are: C<"ipv4">, C<"dualstack">
+[Application Load Balancers] The possible values are C<ipv4> (IPv4
+addresses), C<dualstack> (IPv4 and IPv6 addresses), and
+C<dualstack-without-public-ipv4> (public IPv6 addresses and private
+IPv4 and IPv6 addresses).
+
+[Network Load Balancers and Gateway Load Balancers] The possible values
+are C<ipv4> (IPv4 addresses) and C<dualstack> (IPv4 and IPv6
+addresses).
+
+Valid values are: C<"ipv4">, C<"dualstack">, C<"dualstack-without-public-ipv4">
+
+=head2 IpamPools => L<Paws::ELBv2::IpamPools>
+
+[Application Load Balancers] The IPAM pools to use with the load
+balancer.
+
+
 
 =head2 B<REQUIRED> Name => Str
 
@@ -112,24 +135,25 @@ load balancer.
 
 The default is an Internet-facing load balancer.
 
-You cannot specify a scheme for a Gateway Load Balancer.
+You can't specify a scheme for a Gateway Load Balancer.
 
 Valid values are: C<"internet-facing">, C<"internal">
 
 =head2 SecurityGroups => ArrayRef[Str|Undef]
 
-[Application Load Balancers] The IDs of the security groups for the
-load balancer.
+[Application Load Balancers and Network Load Balancers] The IDs of the
+security groups for the load balancer.
 
 
 
 =head2 SubnetMappings => ArrayRef[L<Paws::ELBv2::SubnetMapping>]
 
-The IDs of the public subnets. You can specify only one subnet per
-Availability Zone. You must specify either subnets or subnet mappings.
+The IDs of the subnets. You can specify only one subnet per
+Availability Zone. You must specify either subnets or subnet mappings,
+but not both.
 
 [Application Load Balancers] You must specify subnets from at least two
-Availability Zones. You cannot specify Elastic IP addresses for your
+Availability Zones. You can't specify Elastic IP addresses for your
 subnets.
 
 [Application Load Balancers on Outposts] You must specify one Outpost
@@ -146,15 +170,17 @@ subnet from the IPv4 range of the subnet. For internet-facing load
 balancer, you can specify one IPv6 address per subnet.
 
 [Gateway Load Balancers] You can specify subnets from one or more
-Availability Zones. You cannot specify Elastic IP addresses for your
+Availability Zones. You can't specify Elastic IP addresses for your
 subnets.
 
 
 
 =head2 Subnets => ArrayRef[Str|Undef]
 
-The IDs of the public subnets. You can specify only one subnet per
-Availability Zone. You must specify either subnets or subnet mappings.
+The IDs of the subnets. You can specify only one subnet per
+Availability Zone. You must specify either subnets or subnet mappings,
+but not both. To specify an Elastic IP address, specify subnet mappings
+instead of subnets.
 
 [Application Load Balancers] You must specify subnets from at least two
 Availability Zones.
@@ -165,11 +191,8 @@ subnet.
 [Application Load Balancers on Local Zones] You can specify subnets
 from one or more Local Zones.
 
-[Network Load Balancers] You can specify subnets from one or more
-Availability Zones.
-
-[Gateway Load Balancers] You can specify subnets from one or more
-Availability Zones.
+[Network Load Balancers and Gateway Load Balancers] You can specify
+subnets from one or more Availability Zones.
 
 
 

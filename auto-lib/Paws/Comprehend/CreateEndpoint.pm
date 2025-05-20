@@ -5,7 +5,8 @@ package Paws::Comprehend::CreateEndpoint;
   has DataAccessRoleArn => (is => 'ro', isa => 'Str');
   has DesiredInferenceUnits => (is => 'ro', isa => 'Int', required => 1);
   has EndpointName => (is => 'ro', isa => 'Str', required => 1);
-  has ModelArn => (is => 'ro', isa => 'Str', required => 1);
+  has FlywheelArn => (is => 'ro', isa => 'Str');
+  has ModelArn => (is => 'ro', isa => 'Str');
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::Comprehend::Tag]');
 
   use MooseX::ClassAttribute;
@@ -35,9 +36,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $CreateEndpointResponse = $comprehend->CreateEndpoint(
       DesiredInferenceUnits => 1,
       EndpointName          => 'MyComprehendEndpointName',
-      ModelArn              => 'MyComprehendModelArn',
       ClientRequestToken    => 'MyClientRequestTokenString',    # OPTIONAL
       DataAccessRoleArn     => 'MyIamRoleArn',                  # OPTIONAL
+      FlywheelArn           => 'MyComprehendFlywheelArn',       # OPTIONAL
+      ModelArn              => 'MyComprehendModelArn',          # OPTIONAL
       Tags                  => [
         {
           Key   => 'MyTagKey',      # min: 1, max: 128
@@ -49,6 +51,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     # Results:
     my $EndpointArn = $CreateEndpointResponse->EndpointArn;
+    my $ModelArn    = $CreateEndpointResponse->ModelArn;
 
     # Returns a L<Paws::Comprehend::CreateEndpointResponse> object.
 
@@ -68,10 +71,9 @@ C<ResourceInUseException>.
 
 =head2 DataAccessRoleArn => Str
 
-The Amazon Resource Name (ARN) of the AWS identity and Access
-Management (IAM) role that grants Amazon Comprehend read access to
-trained custom models encrypted with a customer managed key
-(ModelKmsKeyId).
+The Amazon Resource Name (ARN) of the IAM role that grants Amazon
+Comprehend read access to trained custom models encrypted with a
+customer managed key (ModelKmsKeyId).
 
 
 
@@ -90,7 +92,14 @@ used for all subsequent requests to this resource.
 
 
 
-=head2 B<REQUIRED> ModelArn => Str
+=head2 FlywheelArn => Str
+
+The Amazon Resource Number (ARN) of the flywheel to which the endpoint
+will be attached.
+
+
+
+=head2 ModelArn => Str
 
 The Amazon Resource Number (ARN) of the model to which the endpoint
 will be attached.
@@ -99,10 +108,10 @@ will be attached.
 
 =head2 Tags => ArrayRef[L<Paws::Comprehend::Tag>]
 
-Tags associated with the endpoint being created. A tag is a key-value
-pair that adds metadata to the endpoint. For example, a tag with
-"Sales" as the key might be added to an endpoint to indicate its use by
-the sales department.
+Tags to associate with the endpoint. A tag is a key-value pair that
+adds metadata to the endpoint. For example, a tag with "Sales" as the
+key might be added to an endpoint to indicate its use by the sales
+department.
 
 
 

@@ -75,8 +75,8 @@ be a string type.
 
 =head2 Type => Str
 
-The type of the resource, such as C<INTEGER>, C<DOUBLE>, C<LONG>, or
-C<STRINGSET>.
+The type of the resource. Valid values: C<INTEGER>, C<DOUBLE>, C<LONG>,
+or C<STRINGSET>.
 
 
 

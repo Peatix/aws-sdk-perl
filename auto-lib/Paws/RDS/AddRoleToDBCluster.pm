@@ -50,7 +50,7 @@ The name of the DB cluster to associate the IAM role with.
 =head2 FeatureName => Str
 
 The name of the feature for the DB cluster that the IAM role is to be
-associated with. For the list of supported feature names, see
+associated with. For information about supported feature names, see
 DBEngineVersion.
 
 
@@ -58,7 +58,7 @@ DBEngineVersion.
 =head2 B<REQUIRED> RoleArn => Str
 
 The Amazon Resource Name (ARN) of the IAM role to associate with the
-Aurora DB cluster, for example,
+Aurora DB cluster, for example
 C<arn:aws:iam::123456789012:role/AuroraAccessRole>.
 
 

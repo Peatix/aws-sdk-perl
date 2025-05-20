@@ -35,7 +35,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Personalize
 =head1 DESCRIPTION
 
 Represents user metadata added to a Users dataset using the C<PutUsers>
-API. For more information see Importing Users Incrementally
+API. For more information see Importing users individually
 (https://docs.aws.amazon.com/personalize/latest/dg/importing-users.html).
 
 =head1 ATTRIBUTES

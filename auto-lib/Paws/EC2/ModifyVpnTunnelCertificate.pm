@@ -57,7 +57,7 @@ C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
 
 =head2 B<REQUIRED> VpnConnectionId => Str
 
-The ID of the AWS Site-to-Site VPN connection.
+The ID of the Amazon Web Services Site-to-Site VPN connection.
 
 
 

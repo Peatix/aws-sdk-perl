@@ -61,7 +61,7 @@ The name of the to-be-created RequestValidator.
 
 =head2 B<REQUIRED> RestApiId => Str
 
-[Required] The string identifier of the associated RestApi.
+The string identifier of the associated RestApi.
 
 
 

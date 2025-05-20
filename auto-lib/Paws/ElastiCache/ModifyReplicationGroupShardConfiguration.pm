@@ -87,7 +87,7 @@ node groups (shards), then either C<NodeGroupsToRemove> or
 C<NodeGroupsToRetain> is required. C<NodeGroupsToRemove> is a list of
 C<NodeGroupId>s to remove from the cluster.
 
-ElastiCache for Redis will attempt to remove all node groups listed by
+ElastiCache will attempt to remove all node groups listed by
 C<NodeGroupsToRemove> from the cluster.
 
 
@@ -99,15 +99,15 @@ node groups (shards), then either C<NodeGroupsToRemove> or
 C<NodeGroupsToRetain> is required. C<NodeGroupsToRetain> is a list of
 C<NodeGroupId>s to retain in the cluster.
 
-ElastiCache for Redis will attempt to remove all node groups except
-those listed by C<NodeGroupsToRetain> from the cluster.
+ElastiCache will attempt to remove all node groups except those listed
+by C<NodeGroupsToRetain> from the cluster.
 
 
 
 =head2 B<REQUIRED> ReplicationGroupId => Str
 
-The name of the Redis (cluster mode enabled) cluster (replication
-group) on which the shards are to be configured.
+The name of the Valkey or Redis OSS (cluster mode enabled) cluster
+(replication group) on which the shards are to be configured.
 
 
 

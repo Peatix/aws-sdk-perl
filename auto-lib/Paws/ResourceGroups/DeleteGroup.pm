@@ -30,8 +30,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $resource-groups = Paws->service('ResourceGroups');
     my $DeleteGroupOutput = $resource -groups->DeleteGroup(
-      Group     => 'MyGroupString',    # OPTIONAL
-      GroupName => 'MyGroupName',      # OPTIONAL
+      Group     => 'MyGroupStringV2',    # OPTIONAL
+      GroupName => 'MyGroupName',        # OPTIONAL
     );
 
     # Results:
@@ -47,7 +47,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/res
 
 =head2 Group => Str
 
-The name or the ARN of the resource group to delete.
+The name or the Amazon resource name (ARN) of the resource group to
+delete.
 
 
 

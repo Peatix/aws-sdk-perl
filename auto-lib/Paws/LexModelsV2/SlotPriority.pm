@@ -42,7 +42,7 @@ from a user.
 
 =head2 B<REQUIRED> Priority => Int
 
-The priority that a slot should be elicited.
+The priority that Amazon Lex should apply to the slot.
 
 
 =head2 B<REQUIRED> SlotId => Str

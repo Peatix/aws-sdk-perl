@@ -37,17 +37,26 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $AccountId          = $DescribeRestoreJobOutput->AccountId;
     my $BackupSizeInBytes  = $DescribeRestoreJobOutput->BackupSizeInBytes;
     my $CompletionDate     = $DescribeRestoreJobOutput->CompletionDate;
+    my $CreatedBy          = $DescribeRestoreJobOutput->CreatedBy;
     my $CreatedResourceArn = $DescribeRestoreJobOutput->CreatedResourceArn;
     my $CreationDate       = $DescribeRestoreJobOutput->CreationDate;
+    my $DeletionStatus     = $DescribeRestoreJobOutput->DeletionStatus;
+    my $DeletionStatusMessage =
+      $DescribeRestoreJobOutput->DeletionStatusMessage;
     my $ExpectedCompletionTimeMinutes =
       $DescribeRestoreJobOutput->ExpectedCompletionTimeMinutes;
     my $IamRoleArn       = $DescribeRestoreJobOutput->IamRoleArn;
     my $PercentDone      = $DescribeRestoreJobOutput->PercentDone;
     my $RecoveryPointArn = $DescribeRestoreJobOutput->RecoveryPointArn;
+    my $RecoveryPointCreationDate =
+      $DescribeRestoreJobOutput->RecoveryPointCreationDate;
     my $ResourceType     = $DescribeRestoreJobOutput->ResourceType;
     my $RestoreJobId     = $DescribeRestoreJobOutput->RestoreJobId;
     my $Status           = $DescribeRestoreJobOutput->Status;
     my $StatusMessage    = $DescribeRestoreJobOutput->StatusMessage;
+    my $ValidationStatus = $DescribeRestoreJobOutput->ValidationStatus;
+    my $ValidationStatusMessage =
+      $DescribeRestoreJobOutput->ValidationStatusMessage;
 
     # Returns a L<Paws::Backup::DescribeRestoreJobOutput> object.
 

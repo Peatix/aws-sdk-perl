@@ -36,6 +36,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Discovery::
 
 Metadata that help you categorize IT assets.
 
+Do not store sensitive information (like personal data) in tags.
+
 =head1 ATTRIBUTES
 
 

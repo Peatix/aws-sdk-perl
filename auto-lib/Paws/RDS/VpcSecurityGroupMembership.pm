@@ -42,7 +42,9 @@ security group membership.
 
 =head2 Status => Str
 
-The status of the VPC security group.
+The membership status of the VPC security group.
+
+Currently, the only valid status is C<active>.
 
 
 =head2 VpcSecurityGroupId => Str

@@ -4,8 +4,11 @@ package Paws::IVS::RecordingConfiguration;
   has Arn => (is => 'ro', isa => 'Str', request_name => 'arn', traits => ['NameInRequest'], required => 1);
   has DestinationConfiguration => (is => 'ro', isa => 'Paws::IVS::DestinationConfiguration', request_name => 'destinationConfiguration', traits => ['NameInRequest'], required => 1);
   has Name => (is => 'ro', isa => 'Str', request_name => 'name', traits => ['NameInRequest']);
+  has RecordingReconnectWindowSeconds => (is => 'ro', isa => 'Int', request_name => 'recordingReconnectWindowSeconds', traits => ['NameInRequest']);
+  has RenditionConfiguration => (is => 'ro', isa => 'Paws::IVS::RenditionConfiguration', request_name => 'renditionConfiguration', traits => ['NameInRequest']);
   has State => (is => 'ro', isa => 'Str', request_name => 'state', traits => ['NameInRequest'], required => 1);
   has Tags => (is => 'ro', isa => 'Paws::IVS::Tags', request_name => 'tags', traits => ['NameInRequest']);
+  has ThumbnailConfiguration => (is => 'ro', isa => 'Paws::IVS::ThumbnailConfiguration', request_name => 'thumbnailConfiguration', traits => ['NameInRequest']);
 
 1;
 
@@ -26,7 +29,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::IVS::RecordingConfiguration object:
 
-  $service_obj->Method(Att1 => { Arn => $value, ..., Tags => $value  });
+  $service_obj->Method(Att1 => { Arn => $value, ..., ThumbnailConfiguration => $value  });
 
 =head3 Results returned from an API call
 
@@ -55,9 +58,19 @@ will be stored.
 
 =head2 Name => Str
 
-An arbitrary string (a nickname) assigned to a recording configuration
-that helps the customer identify that resource. The value does not need
-to be unique.
+Recording-configuration name. The value does not need to be unique.
+
+
+=head2 RecordingReconnectWindowSeconds => Int
+
+If a broadcast disconnects and then reconnects within the specified
+interval, the multiple streams will be considered a single broadcast
+and merged together. Default: 0.
+
+
+=head2 RenditionConfiguration => L<Paws::IVS::RenditionConfiguration>
+
+Object that describes which renditions should be recorded for a stream.
 
 
 =head2 B<REQUIRED> State => Str
@@ -69,7 +82,20 @@ stream.
 
 =head2 Tags => L<Paws::IVS::Tags>
 
-Array of 1-50 maps, each of the form C<string:string (key:value)>.
+Tags attached to the resource. Array of 1-50 maps, each of the form
+C<string:string (key:value)>. See Best practices and strategies
+(https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html)
+in I<Tagging Amazon Web Services Resources and Tag Editor> for details,
+including restrictions that apply to tags and "Tag naming limits and
+requirements"; Amazon IVS has no service-specific constraints beyond
+what is documented there.
+
+
+=head2 ThumbnailConfiguration => L<Paws::IVS::ThumbnailConfiguration>
+
+A complex type that allows you to enable/disable the recording of
+thumbnails for a live session and modify the interval at which
+thumbnails are generated for the live session.
 
 
 

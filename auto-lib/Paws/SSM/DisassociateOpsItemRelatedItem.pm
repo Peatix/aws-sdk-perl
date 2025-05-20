@@ -44,14 +44,14 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ssm
 =head2 B<REQUIRED> AssociationId => Str
 
 The ID of the association for which you want to delete an association
-between the OpsItem and a related resource.
+between the OpsItem and a related item.
 
 
 
 =head2 B<REQUIRED> OpsItemId => Str
 
 The ID of the OpsItem for which you want to delete an association
-between the OpsItem and a related resource.
+between the OpsItem and a related item.
 
 
 

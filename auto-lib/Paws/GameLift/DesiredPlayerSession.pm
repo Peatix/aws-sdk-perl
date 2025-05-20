@@ -35,15 +35,16 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::GameLift::D
 =head1 DESCRIPTION
 
 Player information for use when creating player sessions using a game
-session placement request with StartGameSessionPlacement.
+session placement request.
 
 =head1 ATTRIBUTES
 
 
 =head2 PlayerData => Str
 
-Developer-defined information related to a player. GameLift does not
-use this data, so it can be formatted as needed for use in the game.
+Developer-defined information related to a player. Amazon GameLift does
+not use this data, so it can be formatted as needed for use in the
+game.
 
 
 =head2 PlayerId => Str

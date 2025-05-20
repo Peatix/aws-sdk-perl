@@ -4,6 +4,7 @@ package Paws::SESv2::IdentityInfo;
   has IdentityName => (is => 'ro', isa => 'Str');
   has IdentityType => (is => 'ro', isa => 'Str');
   has SendingEnabled => (is => 'ro', isa => 'Bool');
+  has VerificationStatus => (is => 'ro', isa => 'Str');
 
 1;
 
@@ -24,7 +25,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::SESv2::IdentityInfo object:
 
-  $service_obj->Method(Att1 => { IdentityName => $value, ..., SendingEnabled => $value  });
+  $service_obj->Method(Att1 => { IdentityName => $value, ..., VerificationStatus => $value  });
 
 =head3 Results returned from an API call
 
@@ -47,25 +48,8 @@ The address or domain of the identity.
 
 =head2 IdentityType => Str
 
-The email identity type. The identity type can be one of the following:
-
-=over
-
-=item *
-
-C<EMAIL_ADDRESS> E<ndash> The identity is an email address.
-
-=item *
-
-C<DOMAIN> E<ndash> The identity is a domain.
-
-=item *
-
-C<MANAGED_DOMAIN> E<ndash> The identity is a domain that is managed by
-AWS.
-
-=back
-
+The email identity type. Note: the C<MANAGED_DOMAIN> type is not
+supported for email identity types.
 
 
 =head2 SendingEnabled => Bool
@@ -76,6 +60,40 @@ An I<identity> is an email address or domain that you send email from.
 Before you can send email from an identity, you have to demostrate that
 you own the identity, and that you authorize Amazon SES to send email
 from that identity.
+
+
+=head2 VerificationStatus => Str
+
+The verification status of the identity. The status can be one of the
+following:
+
+=over
+
+=item *
+
+C<PENDING> E<ndash> The verification process was initiated, but Amazon
+SES hasn't yet been able to verify the identity.
+
+=item *
+
+C<SUCCESS> E<ndash> The verification process completed successfully.
+
+=item *
+
+C<FAILED> E<ndash> The verification process failed.
+
+=item *
+
+C<TEMPORARY_FAILURE> E<ndash> A temporary issue is preventing Amazon
+SES from determining the verification status of the identity.
+
+=item *
+
+C<NOT_STARTED> E<ndash> The verification process hasn't been initiated
+for the identity.
+
+=back
+
 
 
 

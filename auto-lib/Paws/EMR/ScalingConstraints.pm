@@ -34,7 +34,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::EMR::Scalin
 
 =head1 DESCRIPTION
 
-The upper and lower EC2 instance limits for an automatic scaling
+The upper and lower Amazon EC2 instance limits for an automatic scaling
 policy. Automatic scaling activities triggered by automatic scaling
 rules will not cause an instance group to grow above or below these
 limits.
@@ -44,16 +44,16 @@ limits.
 
 =head2 B<REQUIRED> MaxCapacity => Int
 
-The upper boundary of EC2 instances in an instance group beyond which
-scaling activities are not allowed to grow. Scale-out activities will
-not add instances beyond this boundary.
+The upper boundary of Amazon EC2 instances in an instance group beyond
+which scaling activities are not allowed to grow. Scale-out activities
+will not add instances beyond this boundary.
 
 
 =head2 B<REQUIRED> MinCapacity => Int
 
-The lower boundary of EC2 instances in an instance group below which
-scaling activities are not allowed to shrink. Scale-in activities will
-not terminate instances below this boundary.
+The lower boundary of Amazon EC2 instances in an instance group below
+which scaling activities are not allowed to shrink. Scale-in activities
+will not terminate instances below this boundary.
 
 
 

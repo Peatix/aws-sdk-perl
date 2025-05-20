@@ -17,8 +17,8 @@ Paws::AuditManager::UpdateControlResponse
 
 =head2 Control => L<Paws::AuditManager::Control>
 
-The name of the updated control set returned by the C<UpdateControl>
-API.
+The name of the updated control set that the C<UpdateControl> API
+returned.
 
 
 =head2 _request_id => Str

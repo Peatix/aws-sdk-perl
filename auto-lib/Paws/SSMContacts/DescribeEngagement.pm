@@ -27,21 +27,24 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $ssm-contacts = Paws->service('SSMContacts');
-    my $DescribeEngagementResult = $ssm -contacts->DescribeEngagement(
-      EngagementId => 'MySsmContactsArn',
-
-    );
+  # To describe the details of an engagement
+  # The following describe-engagement example lists the details of an engagement
+  # to a contact or escalation plan. The subject and content are sent to the
+  # contact channels.
+    my $DescribeEngagementResult =
+      $ssm -
+      contacts->DescribeEngagement( 'EngagementId' =>
+'arn:aws:ssm-contacts:us-east-2:111122223333:engagement/example_escalation/69e40ce1-8dbb-4d57-8962-5fbe7fc53356'
+      );
 
     # Results:
     my $ContactArn    = $DescribeEngagementResult->ContactArn;
     my $Content       = $DescribeEngagementResult->Content;
     my $EngagementArn = $DescribeEngagementResult->EngagementArn;
-    my $IncidentId    = $DescribeEngagementResult->IncidentId;
     my $PublicContent = $DescribeEngagementResult->PublicContent;
     my $PublicSubject = $DescribeEngagementResult->PublicSubject;
     my $Sender        = $DescribeEngagementResult->Sender;
     my $StartTime     = $DescribeEngagementResult->StartTime;
-    my $StopTime      = $DescribeEngagementResult->StopTime;
     my $Subject       = $DescribeEngagementResult->Subject;
 
     # Returns a L<Paws::SSMContacts::DescribeEngagementResult> object.

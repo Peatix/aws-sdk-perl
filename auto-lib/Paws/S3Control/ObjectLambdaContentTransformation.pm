@@ -40,7 +40,7 @@ A container for AwsLambdaTransformation.
 
 =head2 AwsLambda => L<Paws::S3Control::AwsLambdaTransformation>
 
-A container for an AWS Lambda function.
+A container for an Lambda function.
 
 
 

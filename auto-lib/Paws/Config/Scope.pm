@@ -36,42 +36,41 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Config::Sco
 
 =head1 DESCRIPTION
 
-Defines which resources trigger an evaluation for an AWS Config rule.
-The scope can include one or more resource types, a combination of a
-tag key and value, or a combination of one resource type and one
-resource ID. Specify a scope to constrain which resources trigger an
-evaluation for a rule. Otherwise, evaluations for the rule are
-triggered when any resource in your recording group changes in
-configuration.
+Defines which resources trigger an evaluation for an Config rule. The
+scope can include one or more resource types, a combination of a tag
+key and value, or a combination of one resource type and one resource
+ID. Specify a scope to constrain which resources trigger an evaluation
+for a rule. Otherwise, evaluations for the rule are triggered when any
+resource in your recording group changes in configuration.
 
 =head1 ATTRIBUTES
 
 
 =head2 ComplianceResourceId => Str
 
-The ID of the only AWS resource that you want to trigger an evaluation
-for the rule. If you specify a resource ID, you must specify one
-resource type for C<ComplianceResourceTypes>.
+The ID of the only Amazon Web Services resource that you want to
+trigger an evaluation for the rule. If you specify a resource ID, you
+must specify one resource type for C<ComplianceResourceTypes>.
 
 
 =head2 ComplianceResourceTypes => ArrayRef[Str|Undef]
 
-The resource types of only those AWS resources that you want to trigger
-an evaluation for the rule. You can only specify one type if you also
-specify a resource ID for C<ComplianceResourceId>.
+The resource types of only those Amazon Web Services resources that you
+want to trigger an evaluation for the rule. You can only specify one
+type if you also specify a resource ID for C<ComplianceResourceId>.
 
 
 =head2 TagKey => Str
 
-The tag key that is applied to only those AWS resources that you want
-to trigger an evaluation for the rule.
+The tag key that is applied to only those Amazon Web Services resources
+that you want to trigger an evaluation for the rule.
 
 
 =head2 TagValue => Str
 
-The tag value applied to only those AWS resources that you want to
-trigger an evaluation for the rule. If you specify a value for
-C<TagValue>, you must also specify a value for C<TagKey>.
+The tag value applied to only those Amazon Web Services resources that
+you want to trigger an evaluation for the rule. If you specify a value
+for C<TagValue>, you must also specify a value for C<TagKey>.
 
 
 

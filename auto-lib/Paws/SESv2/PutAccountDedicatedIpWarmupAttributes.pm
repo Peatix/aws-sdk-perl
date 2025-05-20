@@ -43,8 +43,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ema
 
 Enables or disables the automatic warm-up feature for dedicated IP
 addresses that are associated with your Amazon SES account in the
-current AWS Region. Set to C<true> to enable the automatic warm-up
-feature, or set to C<false> to disable it.
+current Amazon Web Services Region. Set to C<true> to enable the
+automatic warm-up feature, or set to C<false> to disable it.
 
 
 

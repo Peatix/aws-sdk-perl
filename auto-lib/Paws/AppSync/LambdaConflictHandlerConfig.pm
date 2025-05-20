@@ -33,7 +33,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AppSync::La
 
 =head1 DESCRIPTION
 
-The C<LambdaConflictHandlerConfig> object when configuring LAMBDA as
+The C<LambdaConflictHandlerConfig> object when configuring C<LAMBDA> as
 the Conflict Handler.
 
 =head1 ATTRIBUTES
@@ -41,7 +41,8 @@ the Conflict Handler.
 
 =head2 LambdaConflictHandlerArn => Str
 
-The Arn for the Lambda function to use as the Conflict Handler.
+The Amazon Resource Name (ARN) for the Lambda function to use as the
+Conflict Handler.
 
 
 

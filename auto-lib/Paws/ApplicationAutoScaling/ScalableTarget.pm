@@ -4,9 +4,11 @@ package Paws::ApplicationAutoScaling::ScalableTarget;
   has CreationTime => (is => 'ro', isa => 'Str', required => 1);
   has MaxCapacity => (is => 'ro', isa => 'Int', required => 1);
   has MinCapacity => (is => 'ro', isa => 'Int', required => 1);
+  has PredictedCapacity => (is => 'ro', isa => 'Int');
   has ResourceId => (is => 'ro', isa => 'Str', required => 1);
   has RoleARN => (is => 'ro', isa => 'Str', required => 1);
   has ScalableDimension => (is => 'ro', isa => 'Str', required => 1);
+  has ScalableTargetARN => (is => 'ro', isa => 'Str');
   has ServiceNamespace => (is => 'ro', isa => 'Str', required => 1);
   has SuspendedState => (is => 'ro', isa => 'Paws::ApplicationAutoScaling::SuspendedState');
 
@@ -60,6 +62,11 @@ The maximum value to scale to in response to a scale-out activity.
 The minimum value to scale to in response to a scale-in activity.
 
 
+=head2 PredictedCapacity => Int
+
+The predicted capacity of the scalable target.
+
+
 =head2 B<REQUIRED> ResourceId => Str
 
 The identifier of the resource associated with the scalable target.
@@ -71,12 +78,12 @@ This string consists of the resource type and unique identifier.
 
 ECS service - The resource type is C<service> and the unique identifier
 is the cluster name and service name. Example:
-C<service/default/sample-webapp>.
+C<service/my-cluster/my-service>.
 
 =item *
 
-Spot Fleet request - The resource type is C<spot-fleet-request> and the
-unique identifier is the Spot Fleet request ID. Example:
+Spot Fleet - The resource type is C<spot-fleet-request> and the unique
+identifier is the Spot Fleet request ID. Example:
 C<spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE>.
 
 =item *
@@ -108,8 +115,8 @@ identifier is the cluster name. Example: C<cluster:my-db-cluster>.
 
 =item *
 
-Amazon SageMaker endpoint variant - The resource type is C<variant> and
-the unique identifier is the resource ID. Example:
+SageMaker endpoint variant - The resource type is C<variant> and the
+unique identifier is the resource ID. Example:
 C<endpoint/my-end-point/variant/KMeansClustering>.
 
 =item *
@@ -151,6 +158,41 @@ Amazon MSK cluster - The resource type and unique identifier are
 specified using the cluster ARN. Example:
 C<arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-1/6357e0b2-0e6a-4b86-a0b4-70df934c2e31-5>.
 
+=item *
+
+Amazon ElastiCache replication group - The resource type is
+C<replication-group> and the unique identifier is the replication group
+name. Example: C<replication-group/mycluster>.
+
+=item *
+
+Amazon ElastiCache cache cluster - The resource type is
+C<cache-cluster> and the unique identifier is the cache cluster name.
+Example: C<cache-cluster/mycluster>.
+
+=item *
+
+Neptune cluster - The resource type is C<cluster> and the unique
+identifier is the cluster name. Example: C<cluster:mycluster>.
+
+=item *
+
+SageMaker serverless endpoint - The resource type is C<variant> and the
+unique identifier is the resource ID. Example:
+C<endpoint/my-end-point/variant/KMeansClustering>.
+
+=item *
+
+SageMaker inference component - The resource type is
+C<inference-component> and the unique identifier is the resource ID.
+Example: C<inference-component/my-inference-component>.
+
+=item *
+
+Pool of WorkSpaces - The resource type is C<workspacespool> and the
+unique identifier is the pool ID. Example:
+C<workspacespool/wspool-123456>.
+
 =back
 
 
@@ -170,12 +212,7 @@ consists of the service namespace, resource type, and scaling property.
 
 =item *
 
-C<ecs:service:DesiredCount> - The desired task count of an ECS service.
-
-=item *
-
-C<ec2:spot-fleet-request:TargetCapacity> - The target capacity of a
-Spot Fleet request.
+C<ecs:service:DesiredCount> - The task count of an ECS service.
 
 =item *
 
@@ -184,8 +221,13 @@ an EMR Instance Group.
 
 =item *
 
-C<appstream:fleet:DesiredCapacity> - The desired capacity of an
-AppStream 2.0 fleet.
+C<ec2:spot-fleet-request:TargetCapacity> - The target capacity of a
+Spot Fleet.
+
+=item *
+
+C<appstream:fleet:DesiredCapacity> - The capacity of an AppStream 2.0
+fleet.
 
 =item *
 
@@ -216,7 +258,7 @@ Aurora PostgreSQL-compatible edition.
 =item *
 
 C<sagemaker:variant:DesiredInstanceCount> - The number of EC2 instances
-for an Amazon SageMaker model endpoint variant.
+for a SageMaker model endpoint variant.
 
 =item *
 
@@ -255,19 +297,60 @@ for an Amazon Keyspaces table.
 C<kafka:broker-storage:VolumeSize> - The provisioned volume size (in
 GiB) for brokers in an Amazon MSK cluster.
 
+=item *
+
+C<elasticache:cache-cluster:Nodes> - The number of nodes for an Amazon
+ElastiCache cache cluster.
+
+=item *
+
+C<elasticache:replication-group:NodeGroups> - The number of node groups
+for an Amazon ElastiCache replication group.
+
+=item *
+
+C<elasticache:replication-group:Replicas> - The number of replicas per
+node group for an Amazon ElastiCache replication group.
+
+=item *
+
+C<neptune:cluster:ReadReplicaCount> - The count of read replicas in an
+Amazon Neptune DB cluster.
+
+=item *
+
+C<sagemaker:variant:DesiredProvisionedConcurrency> - The provisioned
+concurrency for a SageMaker serverless endpoint.
+
+=item *
+
+C<sagemaker:inference-component:DesiredCopyCount> - The number of
+copies across an endpoint for a SageMaker inference component.
+
+=item *
+
+C<workspaces:workspacespool:DesiredUserSessions> - The number of user
+sessions for the WorkSpaces in the pool.
+
 =back
 
 
 
+=head2 ScalableTargetARN => Str
+
+The ARN of the scalable target.
+
+
 =head2 B<REQUIRED> ServiceNamespace => Str
 
-The namespace of the AWS service that provides the resource, or a
-C<custom-resource>.
+The namespace of the Amazon Web Services service that provides the
+resource, or a C<custom-resource>.
 
 
 =head2 SuspendedState => L<Paws::ApplicationAutoScaling::SuspendedState>
 
-
+Specifies whether the scaling activities for a scalable target are in a
+suspended state.
 
 
 

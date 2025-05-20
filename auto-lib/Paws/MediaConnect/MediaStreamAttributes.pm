@@ -41,7 +41,7 @@ Attributes that are related to the media stream.
 
 =head2 B<REQUIRED> Fmtp => L<Paws::MediaConnect::Fmtp>
 
-A set of parameters that define the media stream.
+The settings that you want to use to define the media stream.
 
 
 =head2 Lang => Str

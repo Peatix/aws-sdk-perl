@@ -7,6 +7,8 @@ package Paws::HealthLake::ImportJobProperties;
   has InputDataConfig => (is => 'ro', isa => 'Paws::HealthLake::InputDataConfig', required => 1);
   has JobId => (is => 'ro', isa => 'Str', required => 1);
   has JobName => (is => 'ro', isa => 'Str');
+  has JobOutputDataConfig => (is => 'ro', isa => 'Paws::HealthLake::OutputDataConfig');
+  has JobProgressReport => (is => 'ro', isa => 'Paws::HealthLake::JobProgressReport');
   has JobStatus => (is => 'ro', isa => 'Str', required => 1);
   has Message => (is => 'ro', isa => 'Str');
   has SubmitTime => (is => 'ro', isa => 'Str', required => 1);
@@ -42,15 +44,15 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::HealthLake:
 =head1 DESCRIPTION
 
 Displays the properties of the import job, including the ID, Arn, Name,
-and the status of the Data Store.
+the status of the job, and the progress report of the job.
 
 =head1 ATTRIBUTES
 
 
 =head2 DataAccessRoleArn => Str
 
-The Amazon Resource Name (ARN) that gives Amazon HealthLake access to
-your input data.
+The Amazon Resource Name (ARN) that gives AWS HealthLake access to your
+input data.
 
 
 =head2 B<REQUIRED> DatastoreId => Str
@@ -79,10 +81,21 @@ The AWS-generated id number for the Import job.
 The user-generated name for an Import job.
 
 
+=head2 JobOutputDataConfig => L<Paws::HealthLake::OutputDataConfig>
+
+
+
+
+=head2 JobProgressReport => L<Paws::HealthLake::JobProgressReport>
+
+Displays the progress of the import job, including total resources
+scanned, total resources ingested, and total size of data ingested.
+
+
 =head2 B<REQUIRED> JobStatus => Str
 
 The job status for an Import job. Possible statuses are SUBMITTED,
-IN_PROGRESS, COMPLETED, FAILED.
+IN_PROGRESS, COMPLETED_WITH_ERRORS, COMPLETED, FAILED.
 
 
 =head2 Message => Str

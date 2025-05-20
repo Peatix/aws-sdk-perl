@@ -33,14 +33,14 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::IoTAnalytic
 
 =head1 DESCRIPTION
 
-Contains information about partitions in a data store.
+Contains information about the partition dimensions in a data store.
 
 =head1 ATTRIBUTES
 
 
 =head2 Partitions => ArrayRef[L<Paws::IoTAnalytics::DatastorePartition>]
 
-A list of partitions in a data store.
+A list of partition dimensions in a data store.
 
 
 

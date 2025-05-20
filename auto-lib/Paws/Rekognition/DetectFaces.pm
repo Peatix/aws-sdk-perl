@@ -53,17 +53,21 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/rek
 
 =head2 Attributes => ArrayRef[Str|Undef]
 
-An array of facial attributes you want to be returned. This can be the
-default list of attributes or all attributes. If you don't specify a
-value for C<Attributes> or if you specify C<["DEFAULT"]>, the API
-returns the following subset of facial attributes: C<BoundingBox>,
-C<Confidence>, C<Pose>, C<Quality>, and C<Landmarks>. If you provide
-C<["ALL"]>, all facial attributes are returned, but the operation takes
-longer to complete.
+An array of facial attributes you want to be returned. A C<DEFAULT>
+subset of facial attributes - C<BoundingBox>, C<Confidence>, C<Pose>,
+C<Quality>, and C<Landmarks> - will always be returned. You can request
+for specific facial attributes (in addition to the default list) - by
+using [C<"DEFAULT", "FACE_OCCLUDED">] or just [C<"FACE_OCCLUDED">]. You
+can request for all facial attributes by using [C<"ALL"]>. Requesting
+more attributes may increase response time.
 
 If you provide both, C<["ALL", "DEFAULT"]>, the service uses a logical
-AND operator to determine which attributes to return (in this case, all
-attributes).
+"AND" operator to determine which attributes to return (in this case,
+all attributes).
+
+Note that while the FaceOccluded and EyeDirection attributes are
+supported when using C<DetectFaces>, they aren't supported when
+analyzing videos with C<StartFaceDetection> and C<GetFaceDetection>.
 
 
 

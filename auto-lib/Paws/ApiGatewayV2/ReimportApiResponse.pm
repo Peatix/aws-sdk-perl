@@ -11,6 +11,7 @@ package Paws::ApiGatewayV2::ReimportApiResponse;
   has DisableExecuteApiEndpoint => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'disableExecuteApiEndpoint');
   has DisableSchemaValidation => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'disableSchemaValidation');
   has ImportInfo => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'importInfo');
+  has IpAddressType => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'ipAddressType');
   has Name => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'name');
   has ProtocolType => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'protocolType');
   has RouteSelectionExpression => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'routeSelectionExpression');
@@ -94,6 +95,11 @@ particular properties of your OpenAPI definition which are ignored
 during import. Supported only for HTTP APIs.
 
 
+=head2 IpAddressType => Str
+
+The IP address types that can invoke the API.
+
+Valid values are: C<"ipv4">, C<"dualstack">
 =head2 Name => Str
 
 The name of the API.

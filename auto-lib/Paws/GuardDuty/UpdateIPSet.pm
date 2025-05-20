@@ -58,6 +58,11 @@ not.
 The detectorID that specifies the GuardDuty service whose IPSet you
 want to update.
 
+To find the C<detectorId> in the current Region, see the Settings page
+in the GuardDuty console, or run the ListDetectors
+(https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+API.
+
 
 
 =head2 B<REQUIRED> IpSetId => Str
@@ -68,8 +73,7 @@ The unique ID that specifies the IPSet that you want to update.
 
 =head2 Location => Str
 
-The updated URI of the file that contains the IPSet. For example:
-https://s3.us-west-2.amazonaws.com/my-bucket/my-object-key.
+The updated URI of the file that contains the IPSet.
 
 
 

@@ -49,7 +49,8 @@ The identifier of the user that invited the room member.
 
 =head2 Member => L<Paws::Chime::Member>
 
-
+The member details, such as email address, name, member ID, and member
+type.
 
 
 =head2 Role => Str

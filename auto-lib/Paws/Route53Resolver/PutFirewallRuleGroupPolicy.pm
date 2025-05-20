@@ -55,8 +55,8 @@ share.
 
 =head2 B<REQUIRED> FirewallRuleGroupPolicy => Str
 
-The AWS Identity and Access Management (AWS IAM) policy to attach to
-the rule group.
+The Identity and Access Management (Amazon Web Services IAM) policy to
+attach to the rule group.
 
 
 

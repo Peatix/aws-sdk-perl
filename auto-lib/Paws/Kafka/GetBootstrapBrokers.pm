@@ -36,12 +36,25 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     # Results:
     my $BootstrapBrokerString =
       $GetBootstrapBrokersResponse->BootstrapBrokerString;
+    my $BootstrapBrokerStringPublicSaslIam =
+      $GetBootstrapBrokersResponse->BootstrapBrokerStringPublicSaslIam;
+    my $BootstrapBrokerStringPublicSaslScram =
+      $GetBootstrapBrokersResponse->BootstrapBrokerStringPublicSaslScram;
+    my $BootstrapBrokerStringPublicTls =
+      $GetBootstrapBrokersResponse->BootstrapBrokerStringPublicTls;
     my $BootstrapBrokerStringSaslIam =
       $GetBootstrapBrokersResponse->BootstrapBrokerStringSaslIam;
     my $BootstrapBrokerStringSaslScram =
       $GetBootstrapBrokersResponse->BootstrapBrokerStringSaslScram;
     my $BootstrapBrokerStringTls =
       $GetBootstrapBrokersResponse->BootstrapBrokerStringTls;
+    my $BootstrapBrokerStringVpcConnectivitySaslIam =
+      $GetBootstrapBrokersResponse->BootstrapBrokerStringVpcConnectivitySaslIam;
+    my $BootstrapBrokerStringVpcConnectivitySaslScram =
+      $GetBootstrapBrokersResponse
+      ->BootstrapBrokerStringVpcConnectivitySaslScram;
+    my $BootstrapBrokerStringVpcConnectivityTls =
+      $GetBootstrapBrokersResponse->BootstrapBrokerStringVpcConnectivityTls;
 
     # Returns a L<Paws::Kafka::GetBootstrapBrokersResponse> object.
 

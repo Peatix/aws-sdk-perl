@@ -37,7 +37,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::IoTSiteWise
 Contains current status information for an asset model. For more
 information, see Asset and model states
 (https://docs.aws.amazon.com/iot-sitewise/latest/userguide/asset-and-model-states.html)
-in the I<AWS IoT SiteWise User Guide>.
+in the I<IoT SiteWise User Guide>.
 
 =head1 ATTRIBUTES
 

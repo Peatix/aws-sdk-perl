@@ -30,7 +30,7 @@ invoke the DescribeApplicationVersion operation.
 The pagination token for the next set of results, or C<null> if there
 are no additional results. To retrieve the next set of items, pass this
 token into a subsequent invocation of this operation. For more
-information about pagination, see Using the AWS Command Line
+information about pagination, see Using the Amazon Command Line
 Interface's Pagination Options
 (https://docs.aws.amazon.com/cli/latest/userguide/pagination.html).
 

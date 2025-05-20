@@ -28,7 +28,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $athena = Paws->service('Athena');
     my $BatchGetNamedQueryOutput = $athena->BatchGetNamedQuery(
-      NamedQueryIds => [ 'MyNamedQueryId', ... ],
+      NamedQueryIds => [
+        'MyNamedQueryId', ...    # min: 1, max: 128
+      ],
 
     );
 

@@ -1,9 +1,13 @@
 
 package Paws::Rekognition::CreateStreamProcessor;
   use Moose;
+  has DataSharingPreference => (is => 'ro', isa => 'Paws::Rekognition::StreamProcessorDataSharingPreference');
   has Input => (is => 'ro', isa => 'Paws::Rekognition::StreamProcessorInput', required => 1);
+  has KmsKeyId => (is => 'ro', isa => 'Str');
   has Name => (is => 'ro', isa => 'Str', required => 1);
+  has NotificationChannel => (is => 'ro', isa => 'Paws::Rekognition::StreamProcessorNotificationChannel');
   has Output => (is => 'ro', isa => 'Paws::Rekognition::StreamProcessorOutput', required => 1);
+  has RegionsOfInterest => (is => 'ro', isa => 'ArrayRef[Paws::Rekognition::RegionOfInterest]');
   has RoleArn => (is => 'ro', isa => 'Str', required => 1);
   has Settings => (is => 'ro', isa => 'Paws::Rekognition::StreamProcessorSettings', required => 1);
   has Tags => (is => 'ro', isa => 'Paws::Rekognition::TagMap');
@@ -43,14 +47,49 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         KinesisDataStream => {
           Arn => 'MyKinesisDataArn',    # OPTIONAL
         },    # OPTIONAL
+        S3Destination => {
+          Bucket    => 'MyS3Bucket',       # min: 3, max: 255; OPTIONAL
+          KeyPrefix => 'MyS3KeyPrefix',    # max: 1024; OPTIONAL
+        },    # OPTIONAL
       },
       RoleArn  => 'MyRoleArn',
       Settings => {
+        ConnectedHome => {
+          Labels        => [ 'MyConnectedHomeLabel', ... ], # min: 1, max: 128
+          MinConfidence => 1.0,                             # max: 100; OPTIONAL
+        },    # OPTIONAL
         FaceSearch => {
           CollectionId       => 'MyCollectionId',   # min: 1, max: 255; OPTIONAL
           FaceMatchThreshold => 1.0,                # max: 100; OPTIONAL
         },    # OPTIONAL
       },
+      DataSharingPreference => {
+        OptIn => 1,
+
+      },    # OPTIONAL
+      KmsKeyId            => 'MyKmsKeyId',    # OPTIONAL
+      NotificationChannel => {
+        SNSTopicArn => 'MySNSTopicArn',
+
+      },                                      # OPTIONAL
+      RegionsOfInterest => [
+        {
+          BoundingBox => {
+            Height => 1.0,    # OPTIONAL
+            Left   => 1.0,    # OPTIONAL
+            Top    => 1.0,    # OPTIONAL
+            Width  => 1.0,    # OPTIONAL
+          },    # OPTIONAL
+          Polygon => [
+            {
+              X => 1.0,    # OPTIONAL
+              Y => 1.0,    # OPTIONAL
+            },
+            ...
+          ],    # OPTIONAL
+        },
+        ...
+      ],    # OPTIONAL
       Tags => {
         'MyTagKey' => 'MyTagValue',    # key: min: 1, max: 128, value: max: 256
       },    # OPTIONAL
@@ -67,11 +106,34 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/rek
 =head1 ATTRIBUTES
 
 
+=head2 DataSharingPreference => L<Paws::Rekognition::StreamProcessorDataSharingPreference>
+
+Shows whether you are sharing data with Rekognition to improve model
+performance. You can choose this option at the account level or on a
+per-stream basis. Note that if you opt out at the account level this
+setting is ignored on individual streams.
+
+
+
 =head2 B<REQUIRED> Input => L<Paws::Rekognition::StreamProcessorInput>
 
 Kinesis video stream stream that provides the source streaming video.
 If you are using the AWS CLI, the parameter name is
-C<StreamProcessorInput>.
+C<StreamProcessorInput>. This is required for both face search and
+label detection stream processors.
+
+
+
+=head2 KmsKeyId => Str
+
+The identifier for your AWS Key Management Service key (AWS KMS key).
+This is an optional parameter for label detection stream processors and
+should not be used to create a face search stream processor. You can
+supply the Amazon Resource Name (ARN) of your KMS key, the ID of your
+KMS key, an alias for your KMS key, or an alias ARN. The key is used to
+encrypt results and data published to your Amazon S3 bucket, which
+includes image frames and hero images. Your source images are
+unaffected.
 
 
 
@@ -80,29 +142,54 @@ C<StreamProcessorInput>.
 An identifier you assign to the stream processor. You can use C<Name>
 to manage the stream processor. For example, you can get the current
 status of the stream processor by calling DescribeStreamProcessor.
-C<Name> is idempotent.
+C<Name> is idempotent. This is required for both face search and label
+detection stream processors.
+
+
+
+=head2 NotificationChannel => L<Paws::Rekognition::StreamProcessorNotificationChannel>
+
+
 
 
 
 =head2 B<REQUIRED> Output => L<Paws::Rekognition::StreamProcessorOutput>
 
-Kinesis data stream stream to which Amazon Rekognition Video puts the
-analysis results. If you are using the AWS CLI, the parameter name is
-C<StreamProcessorOutput>.
+Kinesis data stream stream or Amazon S3 bucket location to which Amazon
+Rekognition Video puts the analysis results. If you are using the AWS
+CLI, the parameter name is C<StreamProcessorOutput>. This must be a
+S3Destination of an Amazon S3 bucket that you own for a label detection
+stream processor or a Kinesis data stream ARN for a face search stream
+processor.
+
+
+
+=head2 RegionsOfInterest => ArrayRef[L<Paws::Rekognition::RegionOfInterest>]
+
+Specifies locations in the frames where Amazon Rekognition checks for
+objects or people. You can specify up to 10 regions of interest, and
+each region has either a polygon or a bounding box. This is an optional
+parameter for label detection stream processors and should not be used
+to create a face search stream processor.
 
 
 
 =head2 B<REQUIRED> RoleArn => Str
 
-ARN of the IAM role that allows access to the stream processor.
+The Amazon Resource Number (ARN) of the IAM role that allows access to
+the stream processor. The IAM role provides Rekognition read
+permissions for a Kinesis stream. It also provides write permissions to
+an Amazon S3 bucket and Amazon Simple Notification Service topic for a
+label detection stream processor. This is required for both face search
+and label detection stream processors.
 
 
 
 =head2 B<REQUIRED> Settings => L<Paws::Rekognition::StreamProcessorSettings>
 
-Face recognition input parameters to be used by the stream processor.
-Includes the collection to use for face recognition and the face
-attributes to detect.
+Input parameters used in a streaming video analyzed by a stream
+processor. You can use C<FaceSearch> to recognize faces in a streaming
+video, or you can use C<ConnectedHome> to detect labels.
 
 
 

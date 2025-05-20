@@ -31,8 +31,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $networkmanager = Paws->service('NetworkManager');
     my $RegisterTransitGatewayResponse =
       $networkmanager->RegisterTransitGateway(
-      GlobalNetworkId   => 'MyString',
-      TransitGatewayArn => 'MyString',
+      GlobalNetworkId   => 'MyGlobalNetworkId',
+      TransitGatewayArn => 'MyTransitGatewayArn',
 
       );
 
@@ -56,9 +56,7 @@ The ID of the global network.
 
 =head2 B<REQUIRED> TransitGatewayArn => Str
 
-The Amazon Resource Name (ARN) of the transit gateway. For more
-information, see Resources Defined by Amazon EC2
-(https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazonec2.html#amazonec2-resources-for-iam-policies).
+The Amazon Resource Name (ARN) of the transit gateway.
 
 
 

@@ -46,7 +46,11 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/con
 
 =head2 B<REQUIRED> ResourceArn => Str
 
-The Amazon Resource Name (ARN) of the resource.
+The Amazon Resource Name (ARN) of the resource. All Amazon Connect
+resources (instances, queues, flows, routing profiles, etc) have an
+ARN. To locate the ARN for an instance, for example, see Find your
+Amazon Connect instance ID/ARN
+(https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html).
 
 
 

@@ -53,9 +53,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/con
 
 =head2 ConfigRuleNames => ArrayRef[Str|Undef]
 
-The name of the AWS managed Config rules for which you want status
-information. If you do not specify any names, AWS Config returns status
-information for all AWS managed Config rules that you use.
+The name of the Config managed rules for which you want status
+information. If you do not specify any names, Config returns status
+information for all Config managed rules that you use.
 
 
 
@@ -64,12 +64,12 @@ information for all AWS managed Config rules that you use.
 The number of rule evaluation results that you want returned.
 
 This parameter is required if the rule limit for your account is more
-than the default of 150 rules.
+than the default of 1000 rules.
 
-For information about requesting a rule limit increase, see AWS Config
+For information about requesting a rule limit increase, see Config
 Limits
 (http://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html#limits_config)
-in the I<AWS General Reference Guide>.
+in the I<Amazon Web Services General Reference Guide>.
 
 
 

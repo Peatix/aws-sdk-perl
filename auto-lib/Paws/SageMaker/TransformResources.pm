@@ -3,6 +3,7 @@ package Paws::SageMaker::TransformResources;
   use Moose;
   has InstanceCount => (is => 'ro', isa => 'Int', required => 1);
   has InstanceType => (is => 'ro', isa => 'Str', required => 1);
+  has TransformAmiVersion => (is => 'ro', isa => 'Str');
   has VolumeKmsKeyId => (is => 'ro', isa => 'Str');
 
 1;
@@ -43,9 +44,9 @@ count, to use for transform job.
 
 =head2 B<REQUIRED> InstanceCount => Int
 
-The number of ML compute instances to use in the transform job. For
-distributed transform jobs, specify a value greater than 1. The default
-value is C<1>.
+The number of ML compute instances to use in the transform job. The
+default value is C<1>, and the maximum is C<100>. For distributed
+transform jobs, specify a value greater than C<1>.
 
 
 =head2 B<REQUIRED> InstanceType => Str
@@ -53,6 +54,46 @@ value is C<1>.
 The ML compute instance type for the transform job. If you are using
 built-in algorithms to transform moderately sized datasets, we
 recommend using ml.m4.xlarge or C<ml.m5.large>instance types.
+
+
+=head2 TransformAmiVersion => Str
+
+Specifies an option from a collection of preconfigured Amazon Machine
+Image (AMI) images. Each image is configured by Amazon Web Services
+with a set of software and driver versions.
+
+=over
+
+=item al2-ami-sagemaker-batch-gpu-470
+
+=over
+
+=item *
+
+Accelerator: GPU
+
+=item *
+
+NVIDIA driver version: 470
+
+=back
+
+=item al2-ami-sagemaker-batch-gpu-535
+
+=over
+
+=item *
+
+Accelerator: GPU
+
+=item *
+
+NVIDIA driver version: 535
+
+=back
+
+=back
+
 
 
 =head2 VolumeKmsKeyId => Str

@@ -45,7 +45,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/geo
 
 The Amazon Resource Name (ARN) for the geofence collection to be
 associated to tracker resource. Used when you need to specify a
-resource across all AWS.
+resource across all Amazon Web Services.
 
 =over
 

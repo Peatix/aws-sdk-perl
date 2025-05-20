@@ -43,7 +43,7 @@ SendConfigurationValidityReport
 (https://docs.aws.amazon.com/greengrass/v2/developerguide/interprocess-communication.html#ipc-operation-sendconfigurationvalidityreport)
 IPC operation. For more information, see Create deployments
 (https://docs.aws.amazon.com/greengrass/v2/developerguide/create-deployments.html)
-in the I<AWS IoT Greengrass V2 Developer Guide>.
+in the I<IoT Greengrass V2 Developer Guide>.
 
 =head1 ATTRIBUTES
 

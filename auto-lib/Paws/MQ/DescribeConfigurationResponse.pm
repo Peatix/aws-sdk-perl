@@ -31,7 +31,8 @@ Required. The ARN of the configuration.
 
 =head2 AuthenticationStrategy => Str
 
-The authentication strategy associated with the configuration.
+Optional. The authentication strategy associated with the
+configuration. The default is SIMPLE.
 
 Valid values are: C<"SIMPLE">, C<"LDAP">
 =head2 Created => Str
@@ -46,15 +47,19 @@ Required. The description of the configuration.
 
 =head2 EngineType => Str
 
-Required. The type of broker engine. Note: Currently, Amazon MQ
-supports ACTIVEMQ and RABBITMQ.
+Required. The type of broker engine. Currently, Amazon MQ supports
+ACTIVEMQ and RABBITMQ.
 
 Valid values are: C<"ACTIVEMQ">, C<"RABBITMQ">
 =head2 EngineVersion => Str
 
-Required. The version of the broker engine. For a list of supported
-engine versions, see
-https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/broker-engine.html
+The broker engine version. Defaults to the latest available version for
+the specified broker engine type. For a list of supported engine
+versions, see the ActiveMQ version management
+(https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/activemq-version-management.html)
+and the RabbitMQ version management
+(https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/rabbitmq-version-management.html)
+sections in the Amazon MQ Developer Guide.
 
 
 =head2 Id => Str

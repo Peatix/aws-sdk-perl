@@ -59,6 +59,8 @@ The detector version ID.
 
 The new status.
 
+The only supported values are C<ACTIVE> and C<INACTIVE>
+
 Valid values are: C<"DRAFT">, C<"ACTIVE">, C<"INACTIVE">
 
 

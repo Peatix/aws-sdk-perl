@@ -6,6 +6,7 @@ package Paws::SageMaker::Pipeline;
   has LastModifiedBy => (is => 'ro', isa => 'Paws::SageMaker::UserContext');
   has LastModifiedTime => (is => 'ro', isa => 'Str');
   has LastRunTime => (is => 'ro', isa => 'Str');
+  has ParallelismConfiguration => (is => 'ro', isa => 'Paws::SageMaker::ParallelismConfiguration');
   has PipelineArn => (is => 'ro', isa => 'Str');
   has PipelineDescription => (is => 'ro', isa => 'Str');
   has PipelineDisplayName => (is => 'ro', isa => 'Str');
@@ -72,6 +73,11 @@ The time that the pipeline was last modified.
 =head2 LastRunTime => Str
 
 The time when the pipeline was last run.
+
+
+=head2 ParallelismConfiguration => L<Paws::SageMaker::ParallelismConfiguration>
+
+The parallelism configuration applied to the pipeline.
 
 
 =head2 PipelineArn => Str

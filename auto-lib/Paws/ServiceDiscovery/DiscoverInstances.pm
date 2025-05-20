@@ -32,17 +32,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $servicediscovery = Paws->service('ServiceDiscovery');
+    # Example: Discover registered instances
+    # Example: Discover registered instances
     my $DiscoverInstancesResponse = $servicediscovery->DiscoverInstances(
-      NamespaceName      => 'MyNamespaceName',
-      ServiceName        => 'MyServiceName',
-      HealthStatus       => 'HEALTHY',           # OPTIONAL
-      MaxResults         => 1,                   # OPTIONAL
-      OptionalParameters => {
-        'MyAttrKey' => 'MyAttrValue',    # key: max: 255, value: max: 1024
-      },    # OPTIONAL
-      QueryParameters => {
-        'MyAttrKey' => 'MyAttrValue',    # key: max: 255, value: max: 1024
-      },    # OPTIONAL
+      'HealthStatus'  => 'ALL',
+      'MaxResults'    => 10,
+      'NamespaceName' => 'example.com',
+      'ServiceName'   => 'myservice'
     );
 
     # Results:
@@ -98,6 +94,9 @@ value for C<MaxResults>, Cloud Map returns up to 100 instances.
 
 The C<HttpName> name of the namespace. It's found in the
 C<HttpProperties> member of the C<Properties> member of the namespace.
+In most cases, C<Name> and C<HttpName> match. However, if you reuse
+C<Name> for namespace creation, a generated hash is added to
+C<HttpName> to distinguish the two.
 
 
 

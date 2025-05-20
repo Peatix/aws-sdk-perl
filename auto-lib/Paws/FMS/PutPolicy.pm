@@ -36,11 +36,69 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ResourceType              => 'MyResourceType',    # min: 1, max: 128
         SecurityServicePolicyData => {
           Type => 'WAF'
-          , # values: WAF, WAFV2, SHIELD_ADVANCED, SECURITY_GROUPS_COMMON, SECURITY_GROUPS_CONTENT_AUDIT, SECURITY_GROUPS_USAGE_AUDIT, NETWORK_FIREWALL, DNS_FIREWALL
+          , # values: WAF, WAFV2, SHIELD_ADVANCED, SECURITY_GROUPS_COMMON, SECURITY_GROUPS_CONTENT_AUDIT, SECURITY_GROUPS_USAGE_AUDIT, NETWORK_FIREWALL, DNS_FIREWALL, THIRD_PARTY_FIREWALL, IMPORT_NETWORK_FIREWALL, NETWORK_ACL_COMMON
           ManagedServiceData =>
-            'MyManagedServiceData',    # min: 1, max: 4096; OPTIONAL
+            'MyManagedServiceData',    # min: 1, max: 30000; OPTIONAL
+          PolicyOption => {
+            NetworkAclCommonPolicy => {
+              NetworkAclEntrySet => {
+                ForceRemediateForFirstEntries => 1,
+                ForceRemediateForLastEntries  => 1,
+                FirstEntries                  => [
+                  {
+                    Egress     => 1,
+                    Protocol   => 'MyLengthBoundedString', # max: 1024
+                    RuleAction => 'allow',                 # values: allow, deny
+                    CidrBlock  => 'MyLengthBoundedNonEmptyString'
+                    ,    # min: 1, max: 1024; OPTIONAL
+                    IcmpTypeCode => {
+                      Code => 1,   # min: -2147483648, max: 2147483647; OPTIONAL
+                      Type => 1,   # min: -2147483648, max: 2147483647; OPTIONAL
+                    },    # OPTIONAL
+                    Ipv6CidrBlock => 'MyLengthBoundedNonEmptyString'
+                    ,     # min: 1, max: 1024; OPTIONAL
+                    PortRange => {
+                      From => 1,    # max: 65535; OPTIONAL
+                      To   => 1,    # max: 65535; OPTIONAL
+                    },    # OPTIONAL
+                  },
+                  ...
+                ],    # OPTIONAL
+                LastEntries => [
+                  {
+                    Egress     => 1,
+                    Protocol   => 'MyLengthBoundedString', # max: 1024
+                    RuleAction => 'allow',                 # values: allow, deny
+                    CidrBlock  => 'MyLengthBoundedNonEmptyString'
+                    ,    # min: 1, max: 1024; OPTIONAL
+                    IcmpTypeCode => {
+                      Code => 1,   # min: -2147483648, max: 2147483647; OPTIONAL
+                      Type => 1,   # min: -2147483648, max: 2147483647; OPTIONAL
+                    },    # OPTIONAL
+                    Ipv6CidrBlock => 'MyLengthBoundedNonEmptyString'
+                    ,     # min: 1, max: 1024; OPTIONAL
+                    PortRange => {
+                      From => 1,    # max: 65535; OPTIONAL
+                      To   => 1,    # max: 65535; OPTIONAL
+                    },    # OPTIONAL
+                  },
+                  ...
+                ],    # OPTIONAL
+              },
+
+            },    # OPTIONAL
+            NetworkFirewallPolicy => {
+              FirewallDeploymentModel =>
+                'CENTRALIZED',    # values: CENTRALIZED, DISTRIBUTED; OPTIONAL
+            },    # OPTIONAL
+            ThirdPartyFirewallPolicy => {
+              FirewallDeploymentModel =>
+                'CENTRALIZED',    # values: CENTRALIZED, DISTRIBUTED; OPTIONAL
+            },    # OPTIONAL
+          },    # OPTIONAL
         },
-        ExcludeMap => {
+        DeleteUnusedFMManagedResources => 1,
+        ExcludeMap                     => {
           'ACCOUNT' => [
             'MyCustomerPolicyScopeId', ...    # min: 1, max: 1024
           ],    # key: values: ACCOUNT, ORG_UNIT
@@ -50,16 +108,22 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             'MyCustomerPolicyScopeId', ...    # min: 1, max: 1024
           ],    # key: values: ACCOUNT, ORG_UNIT
         },    # OPTIONAL
+        PolicyDescription => 'MyResourceDescription',    # max: 256; OPTIONAL
         PolicyId          => 'MyPolicyId',    # min: 36, max: 36; OPTIONAL
+        PolicyStatus => 'ACTIVE', # values: ACTIVE, OUT_OF_ADMIN_SCOPE; OPTIONAL
         PolicyUpdateToken =>
-          'MyPolicyUpdateToken',              # min: 1, max: 1024; OPTIONAL
-        ResourceTags => [
+          'MyPolicyUpdateToken',  # min: 1, max: 1024; OPTIONAL
+        ResourceSetIds => [
+          'MyBase62Id', ...       # min: 22, max: 22
+        ],    # OPTIONAL
+        ResourceTagLogicalOperator => 'AND',    # values: AND, OR; OPTIONAL
+        ResourceTags               => [
           {
             Key   => 'MyResourceTagKey',      # min: 1, max: 128
             Value => 'MyResourceTagValue',    # max: 256; OPTIONAL
           },
           ...
-        ],    # max: 8; OPTIONAL
+        ],    # max: 50; OPTIONAL
         ResourceTypeList => [
           'MyResourceType', ...    # min: 1, max: 128
         ],    # OPTIONAL
@@ -88,13 +152,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/fms
 
 =head2 B<REQUIRED> Policy => L<Paws::FMS::Policy>
 
-The details of the AWS Firewall Manager policy to be created.
+The details of the Firewall Manager policy to be created.
 
 
 
 =head2 TagList => ArrayRef[L<Paws::FMS::Tag>]
 
-The tags to add to the AWS resource.
+The tags to add to the Amazon Web Services resource.
 
 
 

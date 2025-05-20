@@ -43,13 +43,13 @@ algorithm of a signing job.
 =head2 EncryptionAlgorithm => Str
 
 A specified override of the default encryption algorithm that is used
-in a code signing job.
+in a code-signing job.
 
 
 =head2 HashAlgorithm => Str
 
 A specified override of the default hash algorithm that is used in a
-code signing job.
+code-signing job.
 
 
 

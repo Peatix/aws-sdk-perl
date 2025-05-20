@@ -51,15 +51,16 @@ The name of the Auto Scaling group.
 
 =head2 B<REQUIRED> Granularity => Str
 
-The granularity to associate with the metrics to collect. The only
-valid value is C<1Minute>.
+The frequency at which Amazon EC2 Auto Scaling sends aggregated data to
+CloudWatch. The only valid value is C<1Minute>.
 
 
 
 =head2 Metrics => ArrayRef[Str|Undef]
 
-Specifies which group-level metrics to start collecting. You can
-specify one or more of the following metrics:
+Identifies the metrics to enable.
+
+You can specify one or more of the following metrics:
 
 =over
 
@@ -95,13 +96,6 @@ C<GroupTerminatingInstances>
 
 C<GroupTotalInstances>
 
-=back
-
-The instance weighting feature supports the following additional
-metrics:
-
-=over
-
 =item *
 
 C<GroupInServiceCapacity>
@@ -121,12 +115,6 @@ C<GroupTerminatingCapacity>
 =item *
 
 C<GroupTotalCapacity>
-
-=back
-
-The warm pools feature supports the following additional metrics:
-
-=over
 
 =item *
 
@@ -158,7 +146,13 @@ C<GroupAndWarmPoolTotalCapacity>
 
 =back
 
-If you omit this parameter, all metrics are enabled.
+If you specify C<Granularity> and don't specify any metrics, all
+metrics are enabled.
+
+For more information, see Amazon CloudWatch metrics for Amazon EC2 Auto
+Scaling
+(https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-metrics.html)
+in the I<Amazon EC2 Auto Scaling User Guide>.
 
 
 

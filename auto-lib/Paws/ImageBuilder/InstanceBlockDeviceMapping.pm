@@ -54,7 +54,7 @@ Use to manage Amazon EBS-specific configuration for this mapping.
 
 =head2 NoDevice => Str
 
-Use to remove a mapping from the parent image.
+Use to remove a mapping from the base image.
 
 
 =head2 VirtualName => Str

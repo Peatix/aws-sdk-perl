@@ -58,8 +58,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/cod
 
 =head2 B<REQUIRED> ConnectionName => Str
 
-The name of the connection to be created. The name must be unique in
-the calling AWS account.
+The name of the connection to be created.
 
 
 
@@ -75,7 +74,7 @@ connection to be created.
 The name of the external provider where your third-party code
 repository is configured.
 
-Valid values are: C<"Bitbucket">, C<"GitHub">, C<"GitHubEnterpriseServer">
+Valid values are: C<"Bitbucket">, C<"GitHub">, C<"GitHubEnterpriseServer">, C<"GitLab">, C<"GitLabSelfManaged">
 
 =head2 Tags => ArrayRef[L<Paws::CodeStarConnections::Tag>]
 

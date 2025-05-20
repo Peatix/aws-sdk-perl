@@ -2,6 +2,7 @@
 package Paws::Appflow::DescribeConnectorsResponse;
   use Moose;
   has ConnectorConfigurations => (is => 'ro', isa => 'Paws::Appflow::ConnectorConfigurationsMap', traits => ['NameInRequest'], request_name => 'connectorConfigurations');
+  has Connectors => (is => 'ro', isa => 'ArrayRef[Paws::Appflow::ConnectorDetail]', traits => ['NameInRequest'], request_name => 'connectors');
   has NextToken => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'nextToken');
 
   has _request_id => (is => 'ro', isa => 'Str');
@@ -19,6 +20,11 @@ Paws::Appflow::DescribeConnectorsResponse
 =head2 ConnectorConfigurations => L<Paws::Appflow::ConnectorConfigurationsMap>
 
 The configuration that is applied to the connectors used in the flow.
+
+
+=head2 Connectors => ArrayRef[L<Paws::Appflow::ConnectorDetail>]
+
+Information about the connectors supported in Amazon AppFlow.
 
 
 =head2 NextToken => Str

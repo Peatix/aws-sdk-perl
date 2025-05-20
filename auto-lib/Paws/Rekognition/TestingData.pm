@@ -35,8 +35,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Rekognition
 =head1 DESCRIPTION
 
 The dataset used for testing. Optionally, if C<AutoCreate> is set,
-Amazon Rekognition Custom Labels creates a testing dataset using an
-80/20 split of the training dataset.
+Amazon Rekognition uses the training dataset to create a test dataset
+with a temporary split of the training dataset.
 
 =head1 ATTRIBUTES
 
@@ -48,8 +48,8 @@ The assets used for testing.
 
 =head2 AutoCreate => Bool
 
-If specified, Amazon Rekognition Custom Labels creates a testing
-dataset with an 80/20 split of the training dataset.
+If specified, Rekognition splits training dataset to create a test
+dataset for the training job.
 
 
 

@@ -75,8 +75,11 @@ specified time.
 
 =head2 MaxResults => Int
 
-The maximum number of AppImageConfigs to return in the response. The
-default value is 10.
+The total number of items to return in the response. If the total
+number of items available is more than the value specified, a
+C<NextToken> is provided in the response. To resume pagination, provide
+the C<NextToken> value in the as part of a subsequent call. The default
+value is 10.
 
 
 

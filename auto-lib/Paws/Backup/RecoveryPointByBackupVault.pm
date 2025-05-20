@@ -6,18 +6,26 @@ package Paws::Backup::RecoveryPointByBackupVault;
   has BackupVaultName => (is => 'ro', isa => 'Str');
   has CalculatedLifecycle => (is => 'ro', isa => 'Paws::Backup::CalculatedLifecycle');
   has CompletionDate => (is => 'ro', isa => 'Str');
+  has CompositeMemberIdentifier => (is => 'ro', isa => 'Str');
   has CreatedBy => (is => 'ro', isa => 'Paws::Backup::RecoveryPointCreator');
   has CreationDate => (is => 'ro', isa => 'Str');
   has EncryptionKeyArn => (is => 'ro', isa => 'Str');
   has IamRoleArn => (is => 'ro', isa => 'Str');
+  has IndexStatus => (is => 'ro', isa => 'Str');
+  has IndexStatusMessage => (is => 'ro', isa => 'Str');
   has IsEncrypted => (is => 'ro', isa => 'Bool');
+  has IsParent => (is => 'ro', isa => 'Bool');
   has LastRestoreTime => (is => 'ro', isa => 'Str');
   has Lifecycle => (is => 'ro', isa => 'Paws::Backup::Lifecycle');
+  has ParentRecoveryPointArn => (is => 'ro', isa => 'Str');
   has RecoveryPointArn => (is => 'ro', isa => 'Str');
   has ResourceArn => (is => 'ro', isa => 'Str');
+  has ResourceName => (is => 'ro', isa => 'Str');
   has ResourceType => (is => 'ro', isa => 'Str');
   has SourceBackupVaultArn => (is => 'ro', isa => 'Str');
   has Status => (is => 'ro', isa => 'Str');
+  has StatusMessage => (is => 'ro', isa => 'Str');
+  has VaultType => (is => 'ro', isa => 'Str');
 
 1;
 
@@ -38,7 +46,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::Backup::RecoveryPointByBackupVault object:
 
-  $service_obj->Method(Att1 => { BackupSizeInBytes => $value, ..., Status => $value  });
+  $service_obj->Method(Att1 => { BackupSizeInBytes => $value, ..., VaultType => $value  });
 
 =head3 Results returned from an API call
 
@@ -63,15 +71,14 @@ The size, in bytes, of a backup.
 =head2 BackupVaultArn => Str
 
 An ARN that uniquely identifies a backup vault; for example,
-C<arn:aws:backup:us-east-1:123456789012:vault:aBackupVault>.
+C<arn:aws:backup:us-east-1:123456789012:backup-vault:aBackupVault>.
 
 
 =head2 BackupVaultName => Str
 
 The name of a logical container where backups are stored. Backup vaults
 are identified by names that are unique to the account used to create
-them and the AWS Region where they are created. They consist of
-lowercase letters, numbers, and hyphens.
+them and the Amazon Web Services Region where they are created.
 
 
 =head2 CalculatedLifecycle => L<Paws::Backup::CalculatedLifecycle>
@@ -86,6 +93,15 @@ The date and time a job to restore a recovery point is completed, in
 Unix format and Coordinated Universal Time (UTC). The value of
 C<CompletionDate> is accurate to milliseconds. For example, the value
 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+
+
+=head2 CompositeMemberIdentifier => Str
+
+The identifier of a resource within a composite group, such as nested
+(child) recovery point belonging to a composite (parent) stack. The ID
+is transferred from the logical ID
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html#resources-section-structure-syntax)
+within a stack.
 
 
 =head2 CreatedBy => L<Paws::Backup::RecoveryPointCreator>
@@ -117,10 +133,33 @@ Specifies the IAM role ARN used to create the target recovery point;
 for example, C<arn:aws:iam::123456789012:role/S3Access>.
 
 
+=head2 IndexStatus => Str
+
+This is the current status for the backup index associated with the
+specified recovery point.
+
+Statuses are: C<PENDING> | C<ACTIVE> | C<FAILED> | C<DELETING>
+
+A recovery point with an index that has the status of C<ACTIVE> can be
+included in a search.
+
+
+=head2 IndexStatusMessage => Str
+
+A string in the form of a detailed message explaining the status of a
+backup index associated with the recovery point.
+
+
 =head2 IsEncrypted => Bool
 
 A Boolean value that is returned as C<TRUE> if the specified recovery
 point is encrypted, or C<FALSE> if the recovery point is not encrypted.
+
+
+=head2 IsParent => Bool
+
+This is a boolean value indicating this is a parent (composite)
+recovery point.
 
 
 =head2 LastRestoreTime => Str
@@ -134,18 +173,25 @@ represents Friday, January 26, 2018 12:11:30.087 AM.
 =head2 Lifecycle => L<Paws::Backup::Lifecycle>
 
 The lifecycle defines when a protected resource is transitioned to cold
-storage and when it expires. AWS Backup transitions and expires backups
+storage and when it expires. Backup transitions and expires backups
 automatically according to the lifecycle that you define.
 
 Backups transitioned to cold storage must be stored in cold storage for
-a minimum of 90 days. Therefore, the E<ldquo>expire after daysE<rdquo>
-setting must be 90 days greater than the E<ldquo>transition to cold
-after daysE<rdquo> setting. The E<ldquo>transition to cold after
-daysE<rdquo> setting cannot be changed after a backup has been
-transitioned to cold.
+a minimum of 90 days. Therefore, the E<ldquo>retentionE<rdquo> setting
+must be 90 days greater than the E<ldquo>transition to cold after
+daysE<rdquo> setting. The E<ldquo>transition to cold after daysE<rdquo>
+setting cannot be changed after a backup has been transitioned to cold.
 
-Only Amazon EFS file system backups can be transitioned to cold
-storage.
+Resource types that can transition to cold storage are listed in the
+Feature availability by resource
+(https://docs.aws.amazon.com/aws-backup/latest/devguide/backup-feature-availability.html#features-by-resource)
+table. Backup ignores this expression for other resource types.
+
+
+=head2 ParentRecoveryPointArn => Str
+
+The Amazon Resource Name (ARN) of the parent (composite) recovery
+point.
 
 
 =head2 RecoveryPointArn => Str
@@ -161,12 +207,19 @@ An ARN that uniquely identifies a resource. The format of the ARN
 depends on the resource type.
 
 
+=head2 ResourceName => Str
+
+The non-unique name of the resource that belongs to the specified
+backup.
+
+
 =head2 ResourceType => Str
 
-The type of AWS resource saved as a recovery point; for example, an
-Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational
-Database Service (Amazon RDS) database. For VSS Windows backups, the
-only supported resource type is Amazon EC2.
+The type of Amazon Web Services resource saved as a recovery point; for
+example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon
+Relational Database Service (Amazon RDS) database. For Windows Volume
+Shadow Copy Service (VSS) backups, the only supported resource type is
+Amazon EC2.
 
 
 =head2 SourceBackupVaultArn => Str
@@ -179,6 +232,16 @@ be C<null>.
 =head2 Status => Str
 
 A status code specifying the state of the recovery point.
+
+
+=head2 StatusMessage => Str
+
+A message explaining the current status of the recovery point.
+
+
+=head2 VaultType => Str
+
+The type of vault in which the described recovery point is stored.
 
 
 

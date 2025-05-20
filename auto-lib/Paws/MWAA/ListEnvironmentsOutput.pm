@@ -18,7 +18,7 @@ Paws::MWAA::ListEnvironmentsOutput
 
 =head2 B<REQUIRED> Environments => ArrayRef[Str|Undef]
 
-Returns the list of Amazon MWAA environments.
+Returns a list of Amazon MWAA environments.
 
 
 =head2 NextToken => Str

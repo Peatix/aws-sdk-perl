@@ -10,6 +10,7 @@ package Paws::DeviceFarm::Run;
   has CustomerArtifactPaths => (is => 'ro', isa => 'Paws::DeviceFarm::CustomerArtifactPaths', request_name => 'customerArtifactPaths', traits => ['NameInRequest']);
   has DeviceMinutes => (is => 'ro', isa => 'Paws::DeviceFarm::DeviceMinutes', request_name => 'deviceMinutes', traits => ['NameInRequest']);
   has DevicePoolArn => (is => 'ro', isa => 'Str', request_name => 'devicePoolArn', traits => ['NameInRequest']);
+  has DeviceProxy => (is => 'ro', isa => 'Paws::DeviceFarm::DeviceProxy', request_name => 'deviceProxy', traits => ['NameInRequest']);
   has DeviceSelectionResult => (is => 'ro', isa => 'Paws::DeviceFarm::DeviceSelectionResult', request_name => 'deviceSelectionResult', traits => ['NameInRequest']);
   has EventCount => (is => 'ro', isa => 'Int', request_name => 'eventCount', traits => ['NameInRequest']);
   has JobTimeoutMinutes => (is => 'ro', isa => 'Int', request_name => 'jobTimeoutMinutes', traits => ['NameInRequest']);
@@ -31,6 +32,7 @@ package Paws::DeviceFarm::Run;
   has TestSpecArn => (is => 'ro', isa => 'Str', request_name => 'testSpecArn', traits => ['NameInRequest']);
   has TotalJobs => (is => 'ro', isa => 'Int', request_name => 'totalJobs', traits => ['NameInRequest']);
   has Type => (is => 'ro', isa => 'Str', request_name => 'type', traits => ['NameInRequest']);
+  has VpcConfig => (is => 'ro', isa => 'Paws::DeviceFarm::VpcConfig', request_name => 'vpcConfig', traits => ['NameInRequest']);
   has WebUrl => (is => 'ro', isa => 'Str', request_name => 'webUrl', traits => ['NameInRequest']);
 
 1;
@@ -119,6 +121,11 @@ run.
 =head2 DevicePoolArn => Str
 
 The ARN of the device pool for the run.
+
+
+=head2 DeviceProxy => L<Paws::DeviceFarm::DeviceProxy>
+
+The device proxy configured for the devices in the run.
 
 
 =head2 DeviceSelectionResult => L<Paws::DeviceFarm::DeviceSelectionResult>
@@ -257,7 +264,7 @@ your app again. For public devices, Device Farm always signs your apps
 again.
 
 For more information about how Device Farm re-signs your apps, see Do
-you modify my app? (https://aws.amazon.com/device-farm/faq/) in the
+you modify my app? (http://aws.amazon.com/device-farm/faqs/) in the
 I<AWS Device Farm FAQs>.
 
 
@@ -343,13 +350,6 @@ BUILTIN_FUZZ
 
 =item *
 
-BUILTIN_EXPLORER
-
-For Android, an app explorer that traverses an Android app, interacting
-with it and capturing screenshots at the same time.
-
-=item *
-
 APPIUM_JAVA_JUNIT
 
 =item *
@@ -390,19 +390,7 @@ APPIUM_WEB_RUBY
 
 =item *
 
-CALABASH
-
-=item *
-
 INSTRUMENTATION
-
-=item *
-
-UIAUTOMATION
-
-=item *
-
-UIAUTOMATOR
 
 =item *
 
@@ -414,6 +402,11 @@ XCTEST_UI
 
 =back
 
+
+
+=head2 VpcConfig => L<Paws::DeviceFarm::VpcConfig>
+
+The VPC security groups and subnets that are attached to a project.
 
 
 =head2 WebUrl => Str

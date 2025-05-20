@@ -42,10 +42,16 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::DataExchang
 
 =head1 DESCRIPTION
 
-An asset in AWS Data Exchange is a piece of data that can be stored as
-an S3 object. The asset can be a structured data file, an image file,
-or some other data file. When you create an import job for your files,
-you create an asset in AWS Data Exchange for each of those files.
+An asset in AWS Data Exchange is a piece of data (Amazon S3 object) or
+a means of fulfilling data (Amazon Redshift datashare or Amazon API
+Gateway API, AWS Lake Formation data permission, or Amazon S3 data
+access). The asset can be a structured data file, an image file, or
+some other data file that can be stored as an Amazon S3 object, an
+Amazon API Gateway API, or an Amazon Redshift datashare, an AWS Lake
+Formation data permission, or an Amazon S3 data access. When you create
+an import job for your files, API Gateway APIs, Amazon Redshift
+datashares, AWS Lake Formation data permission, or Amazon S3 data
+access, you create an asset in AWS Data Exchange.
 
 =head1 ATTRIBUTES
 
@@ -57,13 +63,12 @@ The ARN for the asset.
 
 =head2 B<REQUIRED> AssetDetails => L<Paws::DataExchange::AssetDetails>
 
-Information about the asset, including its size.
+Details about the asset.
 
 
 =head2 B<REQUIRED> AssetType => Str
 
-The type of file your data is stored in. Currently, the supported asset
-type is S3_SNAPSHOT.
+The type of asset that is added to a data set.
 
 
 =head2 B<REQUIRED> CreatedAt => Str
@@ -83,9 +88,14 @@ The unique identifier for the asset.
 
 =head2 B<REQUIRED> Name => Str
 
-The name of the asset. When importing from Amazon S3, the S3 object key
-is used as the asset name. When exporting to Amazon S3, the asset name
-is used as default target S3 object key.
+The name of the asset. When importing from Amazon S3, the Amazon S3
+object key is used as the asset name. When exporting to Amazon S3, the
+asset name is used as default target Amazon S3 object key. When
+importing from Amazon API Gateway API, the API name is used as the
+asset name. When importing from Amazon Redshift, the datashare name is
+used as the asset name. When importing from AWS Lake Formation, the
+static values of "Database(s) included in LF-tag policy" or "Table(s)
+included in LF-tag policy" are used as the asset name.
 
 
 =head2 B<REQUIRED> RevisionId => Str

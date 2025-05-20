@@ -51,7 +51,7 @@ The Amazon Resource Name (ARN) of the incident.
 
 =head2 B<REQUIRED> CreationTime => Str
 
-The time the incident was created.
+The timestamp for when the incident was created.
 
 
 =head2 B<REQUIRED> Impact => Int
@@ -66,7 +66,7 @@ What caused Incident Manager to create the incident.
 
 =head2 ResolvedTime => Str
 
-The time the incident was resolved.
+The timestamp for when the incident was resolved.
 
 
 =head2 B<REQUIRED> Status => Str

@@ -19,14 +19,14 @@ Paws::CostExplorer::GetTagsResponse
 
 =head2 NextPageToken => Str
 
-The token for the next set of retrievable results. AWS provides the
-token when the response from a previous call has more results than the
-maximum page size.
+The token for the next set of retrievable results. Amazon Web Services
+provides the token when the response from a previous call has more
+results than the maximum page size.
 
 
 =head2 B<REQUIRED> ReturnSize => Int
 
-The number of query results that AWS returns at a time.
+The number of query results that Amazon Web Services returns at a time.
 
 
 =head2 B<REQUIRED> Tags => ArrayRef[Str|Undef]

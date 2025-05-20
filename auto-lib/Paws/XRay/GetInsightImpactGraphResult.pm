@@ -48,7 +48,7 @@ The time, in Unix seconds, at which the service graph started.
 
 =head2 Services => ArrayRef[L<Paws::XRay::InsightImpactGraphService>]
 
-The AWS instrumented services related to the insight.
+The Amazon Web Services instrumented services related to the insight.
 
 
 =head2 StartTime => Str

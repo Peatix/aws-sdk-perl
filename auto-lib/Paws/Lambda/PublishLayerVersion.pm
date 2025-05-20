@@ -1,6 +1,7 @@
 
 package Paws::Lambda::PublishLayerVersion;
   use Moose;
+  has CompatibleArchitectures => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has CompatibleRuntimes => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has Content => (is => 'ro', isa => 'Paws::Lambda::LayerVersionContentInput', required => 1);
   has Description => (is => 'ro', isa => 'Str');
@@ -64,11 +65,22 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/lam
 =head1 ATTRIBUTES
 
 
+=head2 CompatibleArchitectures => ArrayRef[Str|Undef]
+
+A list of compatible instruction set architectures
+(https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html).
+
+
+
 =head2 CompatibleRuntimes => ArrayRef[Str|Undef]
 
 A list of compatible function runtimes
 (https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html).
 Used for filtering with ListLayers and ListLayerVersions.
+
+The following list includes deprecated runtimes. For more information,
+see Runtime deprecation policy
+(https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy).
 
 
 

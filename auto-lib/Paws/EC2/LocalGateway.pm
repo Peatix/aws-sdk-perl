@@ -52,7 +52,7 @@ The Amazon Resource Name (ARN) of the Outpost.
 
 =head2 OwnerId => Str
 
-The AWS account ID that owns the local gateway.
+The ID of the Amazon Web Services account that owns the local gateway.
 
 
 =head2 State => Str

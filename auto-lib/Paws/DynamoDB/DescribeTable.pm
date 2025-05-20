@@ -45,7 +45,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/dyn
 
 =head2 B<REQUIRED> TableName => Str
 
-The name of the table to describe.
+The name of the table to describe. You can also provide the Amazon
+Resource Name (ARN) of the table in this parameter.
 
 
 

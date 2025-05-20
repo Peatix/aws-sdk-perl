@@ -1,12 +1,17 @@
 
 package Paws::IoT::CreateDomainConfiguration;
   use Moose;
+  has ApplicationProtocol => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'applicationProtocol');
+  has AuthenticationType => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'authenticationType');
   has AuthorizerConfig => (is => 'ro', isa => 'Paws::IoT::AuthorizerConfig', traits => ['NameInRequest'], request_name => 'authorizerConfig');
+  has ClientCertificateConfig => (is => 'ro', isa => 'Paws::IoT::ClientCertificateConfig', traits => ['NameInRequest'], request_name => 'clientCertificateConfig');
   has DomainConfigurationName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'domainConfigurationName', required => 1);
   has DomainName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'domainName');
   has ServerCertificateArns => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'serverCertificateArns');
+  has ServerCertificateConfig => (is => 'ro', isa => 'Paws::IoT::ServerCertificateConfig', traits => ['NameInRequest'], request_name => 'serverCertificateConfig');
   has ServiceType => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'serviceType');
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::IoT::Tag]', traits => ['NameInRequest'], request_name => 'tags');
+  has TlsConfig => (is => 'ro', isa => 'Paws::IoT::TlsConfig', traits => ['NameInRequest'], request_name => 'tlsConfig');
   has ValidationCertificateArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'validationCertificateArn');
 
   use MooseX::ClassAttribute;
@@ -36,23 +41,37 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $iot = Paws->service('IoT');
     my $CreateDomainConfigurationResponse = $iot->CreateDomainConfiguration(
       DomainConfigurationName => 'MyDomainConfigurationName',
+      ApplicationProtocol     => 'SECURE_MQTT',                 # OPTIONAL
+      AuthenticationType      => 'CUSTOM_AUTH_X509',            # OPTIONAL
       AuthorizerConfig        => {
-        AllowAuthorizerOverride => 1,    # OPTIONAL
+        AllowAuthorizerOverride => 1,                           # OPTIONAL
         DefaultAuthorizerName   =>
-          'MyAuthorizerName',            # min: 1, max: 128; OPTIONAL
+          'MyAuthorizerName',    # min: 1, max: 128; OPTIONAL
+      },    # OPTIONAL
+      ClientCertificateConfig => {
+        ClientCertificateCallbackArn =>
+          'MyClientCertificateCallbackArn',    # max: 2048; OPTIONAL
       },    # OPTIONAL
       DomainName            => 'MyDomainName',    # OPTIONAL
       ServerCertificateArns => [
         'MyAcmCertificateArn', ...                # min: 1, max: 2048
       ],    # OPTIONAL
+      ServerCertificateConfig => {
+        EnableOCSPCheck            => 1,                     # OPTIONAL
+        OcspAuthorizedResponderArn => 'MyAcmCertificateArn', # min: 1, max: 2048
+        OcspLambdaArn              => 'MyOCSPLambdaArn',    # max: 140; OPTIONAL
+      },    # OPTIONAL
       ServiceType => 'DATA',    # OPTIONAL
       Tags        => [
         {
           Key   => 'MyTagKey',      # min: 1, max: 128
-          Value => 'MyTagValue',    # min: 1, max: 256; OPTIONAL
+          Value => 'MyTagValue',    # max: 256; OPTIONAL
         },
         ...
       ],    # OPTIONAL
+      TlsConfig => {
+        SecurityPolicy => 'MySecurityPolicy',    # max: 128; OPTIONAL
+      },    # OPTIONAL
       ValidationCertificateArn => 'MyAcmCertificateArn',    # OPTIONAL
     );
 
@@ -70,9 +89,115 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/iot
 =head1 ATTRIBUTES
 
 
+=head2 ApplicationProtocol => Str
+
+An enumerated string that species the application-layer protocol.
+
+=over
+
+=item *
+
+C<SECURE_MQTT> - MQTT over TLS.
+
+=back
+
+=over
+
+=item *
+
+C<MQTT_WSS> - MQTT over WebSocket.
+
+=back
+
+=over
+
+=item *
+
+C<HTTPS> - HTTP over TLS.
+
+=back
+
+=over
+
+=item *
+
+C<DEFAULT> - Use a combination of port and Application Layer Protocol
+Negotiation (ALPN) to specify application_layer protocol. For more
+information, see Device communication protocols
+(https://docs.aws.amazon.com/iot/latest/developerguide/protocols.html).
+
+=back
+
+
+Valid values are: C<"SECURE_MQTT">, C<"MQTT_WSS">, C<"HTTPS">, C<"DEFAULT">
+
+=head2 AuthenticationType => Str
+
+An enumerated string that species the authentication type.
+
+=over
+
+=item *
+
+C<CUSTOM_AUTH_X509> - Use custom authentication and authorization with
+additional details from the X.509 client certificate.
+
+=back
+
+=over
+
+=item *
+
+C<CUSTOM_AUTH> - Use custom authentication and authorization. For more
+information, see Custom authentication and authorization
+(https://docs.aws.amazon.com/iot/latest/developerguide/custom-authentication.html).
+
+=back
+
+=over
+
+=item *
+
+C<AWS_X509> - Use X.509 client certificates without custom
+authentication and authorization. For more information, see X.509
+client certificates
+(https://docs.aws.amazon.com/iot/latest/developerguide/x509-client-certs.html).
+
+=back
+
+=over
+
+=item *
+
+C<AWS_SIGV4> - Use Amazon Web Services Signature Version 4. For more
+information, see IAM users, groups, and roles
+(https://docs.aws.amazon.com/iot/latest/developerguide/custom-authentication.html).
+
+=back
+
+=over
+
+=item *
+
+C<DEFAULT> - Use a combination of port and Application Layer Protocol
+Negotiation (ALPN) to specify authentication type. For more
+information, see Device communication protocols
+(https://docs.aws.amazon.com/iot/latest/developerguide/protocols.html).
+
+=back
+
+
+Valid values are: C<"CUSTOM_AUTH_X509">, C<"CUSTOM_AUTH">, C<"AWS_X509">, C<"AWS_SIGV4">, C<"DEFAULT">
+
 =head2 AuthorizerConfig => L<Paws::IoT::AuthorizerConfig>
 
 An object that specifies the authorization service for a domain.
+
+
+
+=head2 ClientCertificateConfig => L<Paws::IoT::ClientCertificateConfig>
+
+An object that species the client certificate conguration for a domain.
 
 
 
@@ -91,9 +216,15 @@ The name of the domain.
 
 =head2 ServerCertificateArns => ArrayRef[Str|Undef]
 
-The ARNs of the certificates that AWS IoT passes to the device during
-the TLS handshake. Currently you can specify only one certificate ARN.
-This value is not required for AWS-managed domains.
+The ARNs of the certificates that IoT passes to the device during the
+TLS handshake. Currently you can specify only one certificate ARN. This
+value is not required for Amazon Web Services-managed domains.
+
+
+
+=head2 ServerCertificateConfig => L<Paws::IoT::ServerCertificateConfig>
+
+The server certificate configuration.
 
 
 
@@ -101,7 +232,8 @@ This value is not required for AWS-managed domains.
 
 The type of service delivered by the endpoint.
 
-AWS IoT Core currently supports only the C<DATA> service type.
+Amazon Web Services IoT Core currently supports only the C<DATA>
+service type.
 
 Valid values are: C<"DATA">, C<"CREDENTIAL_PROVIDER">, C<"JOBS">
 
@@ -119,12 +251,18 @@ For the cli-input-json file use format: "tags":
 
 
 
+=head2 TlsConfig => L<Paws::IoT::TlsConfig>
+
+An object that specifies the TLS configuration for a domain.
+
+
+
 =head2 ValidationCertificateArn => Str
 
 The certificate used to validate the server certificate and prove
 domain name ownership. This certificate must be signed by a public
-certificate authority. This value is not required for AWS-managed
-domains.
+certificate authority. This value is not required for Amazon Web
+Services-managed domains.
 
 
 

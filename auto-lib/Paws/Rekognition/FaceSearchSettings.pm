@@ -35,8 +35,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Rekognition
 =head1 DESCRIPTION
 
 Input face recognition parameters for an Amazon Rekognition stream
-processor. C<FaceRecognitionSettings> is a request parameter for
-CreateStreamProcessor.
+processor. Includes the collection to use for face recognition and the
+face attributes to detect. Defining the settings is required in the
+request parameter for CreateStreamProcessor.
 
 =head1 ATTRIBUTES
 
@@ -49,8 +50,9 @@ The ID of a collection that contains faces that you want to search for.
 =head2 FaceMatchThreshold => Num
 
 Minimum face match confidence score that must be met to return a result
-for a recognized face. Default is 80. 0 is the lowest confidence. 100
-is the highest confidence.
+for a recognized face. The default is 80. 0 is the lowest confidence.
+100 is the highest confidence. Values between 0 and 100 are accepted,
+and values lower than 80 are set to 80.
 
 
 

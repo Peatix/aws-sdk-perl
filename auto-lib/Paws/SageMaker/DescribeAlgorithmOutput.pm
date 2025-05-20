@@ -77,7 +77,7 @@ Details about training jobs run by this algorithm.
 
 =head2 ValidationSpecification => L<Paws::SageMaker::AlgorithmValidationSpecification>
 
-Details about configurations for one or more training jobs that Amazon
+Details about configurations for one or more training jobs that
 SageMaker runs to test the algorithm.
 
 

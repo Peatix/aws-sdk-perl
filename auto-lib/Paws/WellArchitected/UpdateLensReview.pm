@@ -1,6 +1,7 @@
 
 package Paws::WellArchitected::UpdateLensReview;
   use Moose;
+  has JiraConfiguration => (is => 'ro', isa => 'Paws::WellArchitected::JiraSelectedQuestionConfiguration');
   has LensAlias => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'LensAlias', required => 1);
   has LensNotes => (is => 'ro', isa => 'Str');
   has PillarNotes => (is => 'ro', isa => 'Paws::WellArchitected::PillarNotes');
@@ -32,11 +33,21 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $wellarchitected = Paws->service('WellArchitected');
     my $UpdateLensReviewOutput = $wellarchitected->UpdateLensReview(
-      LensAlias   => 'MyLensAlias',
-      WorkloadId  => 'MyWorkloadId',
-      LensNotes   => 'MyNotes',        # OPTIONAL
+      LensAlias         => 'MyLensAlias',
+      WorkloadId        => 'MyWorkloadId',
+      JiraConfiguration => {
+        SelectedPillars => [
+          {
+            PillarId            => 'MyPillarId',    # min: 1, max: 64; OPTIONAL
+            SelectedQuestionIds => [ 'MySelectedQuestionId', ... ],   # OPTIONAL
+          },
+          ...
+        ],    # OPTIONAL
+      },    # OPTIONAL
+      LensNotes   => 'MyNotes',    # OPTIONAL
       PillarNotes => {
-        'MyPillarId' => 'MyNotes',     # key: min: 1, max: 64, value: max: 2084
+        'MyPillarId' =>
+          'MyNotes',    # key: min: 1, max: 64; OPTIONAL, value: max: 2084
       },    # OPTIONAL
     );
 
@@ -50,6 +61,12 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/wellarchitected/UpdateLensReview>
 
 =head1 ATTRIBUTES
+
+
+=head2 JiraConfiguration => L<Paws::WellArchitected::JiraSelectedQuestionConfiguration>
+
+Configuration of the Jira integration.
+
 
 
 =head2 B<REQUIRED> LensAlias => Str

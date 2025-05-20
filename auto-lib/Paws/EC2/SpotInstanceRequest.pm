@@ -121,17 +121,22 @@ The ID of the Spot Instance request.
 
 =head2 SpotPrice => Str
 
-The maximum price per hour that you are willing to pay for a Spot
-Instance.
+The maximum price per unit hour that you are willing to pay for a Spot
+Instance. We do not recommend using this parameter because it can lead
+to increased interruptions. If you do not specify this parameter, you
+will pay the current Spot price.
+
+If you specify a maximum price, your instances will be interrupted more
+frequently than if you do not specify this parameter.
 
 
 =head2 State => Str
 
-The state of the Spot Instance request. Spot status information helps
-track your Spot Instance requests. For more information, see Spot
-status
-(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-bid-status.html)
-in the I<Amazon EC2 User Guide for Linux Instances>.
+The state of the Spot Instance request. Spot request status information
+helps track your Spot Instance requests. For more information, see Spot
+request status
+(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-request-status.html)
+in the I<Amazon EC2 User Guide>.
 
 
 =head2 Status => L<Paws::EC2::SpotInstanceStatus>

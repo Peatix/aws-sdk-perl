@@ -3,6 +3,7 @@ package Paws::Cloud9::UpdateEnvironment;
   use Moose;
   has Description => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'description' );
   has EnvironmentId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'environmentId' , required => 1);
+  has ManagedCredentialsAction => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'managedCredentialsAction' );
   has Name => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'name' );
 
   use MooseX::ClassAttribute;
@@ -54,6 +55,31 @@ Any new or replacement description for the environment.
 The ID of the environment to change settings.
 
 
+
+=head2 ManagedCredentialsAction => Str
+
+Allows the environment owner to turn on or turn off the Amazon Web
+Services managed temporary credentials for an Cloud9 environment by
+using one of the following values:
+
+=over
+
+=item *
+
+C<ENABLE>
+
+=item *
+
+C<DISABLE>
+
+=back
+
+Only the environment owner can change the status of managed temporary
+credentials. An C<AccessDeniedException> is thrown if an attempt to
+turn on or turn off managed temporary credentials is made by an account
+that's not the environment owner.
+
+Valid values are: C<"ENABLE">, C<"DISABLE">
 
 =head2 Name => Str
 

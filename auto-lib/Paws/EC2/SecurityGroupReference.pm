@@ -2,6 +2,7 @@ package Paws::EC2::SecurityGroupReference;
   use Moose;
   has GroupId => (is => 'ro', isa => 'Str', request_name => 'groupId', traits => ['NameInRequest']);
   has ReferencingVpcId => (is => 'ro', isa => 'Str', request_name => 'referencingVpcId', traits => ['NameInRequest']);
+  has TransitGatewayId => (is => 'ro', isa => 'Str', request_name => 'transitGatewayId', traits => ['NameInRequest']);
   has VpcPeeringConnectionId => (is => 'ro', isa => 'Str', request_name => 'vpcPeeringConnectionId', traits => ['NameInRequest']);
 1;
 
@@ -48,9 +49,18 @@ The ID of your security group.
 The ID of the VPC with the referencing security group.
 
 
+=head2 TransitGatewayId => Str
+
+The ID of the transit gateway (if applicable).
+
+
 =head2 VpcPeeringConnectionId => Str
 
-The ID of the VPC peering connection.
+The ID of the VPC peering connection (if applicable). For more
+information about security group referencing for peering connections,
+see Update your security groups to reference peer security groups
+(https://docs.aws.amazon.com/vpc/latest/peering/vpc-peering-security-groups.html)
+in the I<VPC Peering Guide>.
 
 
 

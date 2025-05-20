@@ -28,7 +28,7 @@ Paws::Kendra::DescribeThesaurusResponse
 
 =head2 CreatedAt => Str
 
-The Unix datetime that the thesaurus was created.
+The Unix timestamp when the thesaurus was created.
 
 
 =head2 Description => Str
@@ -54,7 +54,7 @@ The identifier of the thesaurus.
 
 =head2 IndexId => Str
 
-The identifier of the index associated with the thesaurus to describe.
+The identifier of the index for the thesaurus.
 
 
 =head2 Name => Str
@@ -64,9 +64,8 @@ The thesaurus name.
 
 =head2 RoleArn => Str
 
-An AWS Identity and Access Management (IAM) role that gives Amazon
-Kendra permissions to access thesaurus file specified in
-C<SourceS3Path>.
+An IAM role that gives Amazon Kendra permissions to access thesaurus
+file specified in C<SourceS3Path>.
 
 
 =head2 SourceS3Path => L<Paws::Kendra::S3Path>
@@ -98,7 +97,7 @@ synonyms C<a,b,c> and C<a=E<gt>d>, the term count would be 4.
 
 =head2 UpdatedAt => Str
 
-The Unix datetime that the thesaurus was last updated.
+The Unix timestamp when the thesaurus was last updated.
 
 
 =head2 _request_id => Str

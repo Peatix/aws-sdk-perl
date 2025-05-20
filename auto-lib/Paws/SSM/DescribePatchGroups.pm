@@ -57,37 +57,23 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ssm
 
 =head2 Filters => ArrayRef[L<Paws::SSM::PatchOrchestratorFilter>]
 
-One or more filters. Use a filter to return a more specific list of
-results.
+Each element in the array is a structure containing a key-value pair.
 
-For C<DescribePatchGroups>,valid filter keys include the following:
-
-=over
-
-=item *
-
-C<NAME_PREFIX>: The name of the patch group. Wildcards (*) are
-accepted.
-
-=item *
-
-C<OPERATING_SYSTEM>: The supported operating system type to return
-results for. For valid operating system values, see
-GetDefaultPatchBaselineRequest$OperatingSystem in CreatePatchBaseline.
-
-Examples:
+Supported keys for C<DescribePatchGroups> include the following:
 
 =over
 
 =item *
 
-C<--filters Key=NAME_PREFIX,Values=MyPatchGroup*>
+B<C<NAME_PREFIX>>
+
+Sample values: C<AWS-> | C<My->.
 
 =item *
 
-C<--filters Key=OPERATING_SYSTEM,Values=AMAZON_LINUX_2>
+B<C<OPERATING_SYSTEM>>
 
-=back
+Sample values: C<AMAZON_LINUX> | C<SUSE> | C<WINDOWS>
 
 =back
 

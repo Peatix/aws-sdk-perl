@@ -2,6 +2,7 @@
 package Paws::Appflow::DescribeConnectors;
   use Moose;
   has ConnectorTypes => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'connectorTypes');
+  has MaxResults => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'maxResults');
   has NextToken => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'nextToken');
 
   use MooseX::ClassAttribute;
@@ -32,15 +33,17 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $DescribeConnectorsResponse = $appflow->DescribeConnectors(
       ConnectorTypes => [
         'Salesforce',
-        ... # values: Salesforce, Singular, Slack, Redshift, S3, Marketo, Googleanalytics, Zendesk, Servicenow, Datadog, Trendmicro, Snowflake, Dynatrace, Infornexus, Amplitude, Veeva, EventBridge, LookoutMetrics, Upsolver, Honeycode, CustomerProfiles
+        ... # values: Salesforce, Singular, Slack, Redshift, S3, Marketo, Googleanalytics, Zendesk, Servicenow, Datadog, Trendmicro, Snowflake, Dynatrace, Infornexus, Amplitude, Veeva, EventBridge, LookoutMetrics, Upsolver, Honeycode, CustomerProfiles, SAPOData, CustomConnector, Pardot
       ],    # OPTIONAL
-      NextToken => 'MyNextToken',    # OPTIONAL
+      MaxResults => 1,                # OPTIONAL
+      NextToken  => 'MyNextToken',    # OPTIONAL
     );
 
     # Results:
     my $ConnectorConfigurations =
       $DescribeConnectorsResponse->ConnectorConfigurations;
-    my $NextToken = $DescribeConnectorsResponse->NextToken;
+    my $Connectors = $DescribeConnectorsResponse->Connectors;
+    my $NextToken  = $DescribeConnectorsResponse->NextToken;
 
     # Returns a L<Paws::Appflow::DescribeConnectorsResponse> object.
 
@@ -53,6 +56,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/app
 =head2 ConnectorTypes => ArrayRef[Str|Undef]
 
 The type of connector, such as Salesforce, Amplitude, and so on.
+
+
+
+=head2 MaxResults => Int
+
+The maximum number of items that should be returned in the result set.
+The default is 20.
 
 
 

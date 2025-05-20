@@ -40,6 +40,11 @@ CloudWatch Logs for a specific DB instance or DB cluster.
 The C<EnableLogTypes> and C<DisableLogTypes> arrays determine which
 logs will be exported (or not exported) to CloudWatch Logs.
 
+Valid log types are: C<audit> (to publish audit logs) and C<slowquery>
+(to publish slow-query logs). See Publishing Neptune logs to Amazon
+CloudWatch logs
+(https://docs.aws.amazon.com/neptune/latest/userguide/cloudwatch-logs.html).
+
 =head1 ATTRIBUTES
 
 

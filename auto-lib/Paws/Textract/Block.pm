@@ -9,6 +9,7 @@ package Paws::Textract::Block;
   has Geometry => (is => 'ro', isa => 'Paws::Textract::Geometry');
   has Id => (is => 'ro', isa => 'Str');
   has Page => (is => 'ro', isa => 'Int');
+  has Query => (is => 'ro', isa => 'Paws::Textract::Query');
   has Relationships => (is => 'ro', isa => 'ArrayRef[Paws::Textract::Relationship]');
   has RowIndex => (is => 'ro', isa => 'Int');
   has RowSpan => (is => 'ro', isa => 'Int');
@@ -124,8 +125,25 @@ span of one row and one column each.
 
 =item *
 
+I<TABLE_TITLE> - The title of a table. A title is typically a line of
+text above or below a table, or embedded as the first row of a table.
+
+=item *
+
+I<TABLE_FOOTER> - The footer associated with a table. A footer is
+typically a line or lines of text below a table or embedded as the last
+row of a table.
+
+=item *
+
 I<CELL> - A cell within a detected table. The cell is the parent of the
 block that contains the text in the cell.
+
+=item *
+
+I<MERGED_CELL> - A cell in a table whose content spans more than one
+row or column. The C<Relationships> array for this cell contain data
+from individual cells.
 
 =item *
 
@@ -133,6 +151,71 @@ I<SELECTION_ELEMENT> - A selection element such as an option button
 (radio button) or a check box that's detected on a document page. Use
 the value of C<SelectionStatus> to determine the status of the
 selection element.
+
+=item *
+
+I<SIGNATURE> - The location and confidence score of a signature
+detected on a document page. Can be returned as part of a Key-Value
+pair or a detected cell.
+
+=item *
+
+I<QUERY> - A question asked during the call of AnalyzeDocument.
+Contains an alias and an ID that attaches it to its answer.
+
+=item *
+
+I<QUERY_RESULT> - A response to a question asked during the call of
+analyze document. Comes with an alias and ID for ease of locating in a
+response. Also contains location and confidence score.
+
+=back
+
+The following BlockTypes are only returned for Amazon Textract Layout.
+
+=over
+
+=item *
+
+C<LAYOUT_TITLE> - The main title of the document.
+
+=item *
+
+C<LAYOUT_HEADER> - Text located in the top margin of the document.
+
+=item *
+
+C<LAYOUT_FOOTER> - Text located in the bottom margin of the document.
+
+=item *
+
+C<LAYOUT_SECTION_HEADER> - The titles of sections within a document.
+
+=item *
+
+C<LAYOUT_PAGE_NUMBER> - The page number of the documents.
+
+=item *
+
+C<LAYOUT_LIST> - Any information grouped together in list form.
+
+=item *
+
+C<LAYOUT_FIGURE> - Indicates the location of an image in a document.
+
+=item *
+
+C<LAYOUT_TABLE> - Indicates the location of a table in the document.
+
+=item *
+
+C<LAYOUT_KEY_VALUE> - Indicates the location of form key-values in a
+document.
+
+=item *
+
+C<LAYOUT_TEXT> - Text that is present typically as a part of paragraphs
+in documents.
 
 =back
 
@@ -147,10 +230,8 @@ C<GetDocumentTextDetection>.
 
 =head2 ColumnSpan => Int
 
-The number of columns that a table cell spans. Currently this value is
-always 1, even if the number of columns spanned is greater than 1.
-C<ColumnSpan> isn't returned by C<DetectDocumentText> and
-C<GetDocumentTextDetection>.
+The number of columns that a table cell spans. C<ColumnSpan> isn't
+returned by C<DetectDocumentText> and C<GetDocumentTextDetection>.
 
 
 =head2 Confidence => Num
@@ -162,7 +243,9 @@ recognized text.
 
 =head2 EntityTypes => ArrayRef[Str|Undef]
 
-The type of entity. The following can be returned:
+The type of entity.
+
+The following entity types can be returned by FORMS analysis:
 
 =over
 
@@ -173,6 +256,45 @@ I<KEY> - An identifier for a field on the document.
 =item *
 
 I<VALUE> - The field text.
+
+=back
+
+The following entity types can be returned by TABLES analysis:
+
+=over
+
+=item *
+
+I<COLUMN_HEADER> - Identifies a cell that is a header of a column.
+
+=item *
+
+I<TABLE_TITLE> - Identifies a cell that is a title within the table.
+
+=item *
+
+I<TABLE_SECTION_TITLE> - Identifies a cell that is a title of a section
+within a table. A section title is a cell that typically spans an
+entire row above a section.
+
+=item *
+
+I<TABLE_FOOTER> - Identifies a cell that is a footer of a table.
+
+=item *
+
+I<TABLE_SUMMARY> - Identifies a summary cell of a table. A summary cell
+can be a row of a table or an additional, smaller table that contains
+summary information for another table.
+
+=item *
+
+I<STRUCTURED_TABLE > - Identifies a table with column headers where the
+content of each row corresponds to the headers.
+
+=item *
+
+I<SEMI_STRUCTURED_TABLE> - Identifies a non-structured table.
 
 =back
 
@@ -196,34 +318,26 @@ for a single operation.
 =head2 Page => Int
 
 The page on which a block was detected. C<Page> is returned by
-asynchronous operations. Page values greater than 1 are only returned
-for multipage documents that are in PDF format. A scanned image
-(JPEG/PNG), even if it contains multiple document pages, is considered
-to be a single-page document. The value of C<Page> is always 1.
-Synchronous operations don't return C<Page> because every input
-document is considered to be a single-page document.
+synchronous and asynchronous operations. Page values greater than 1 are
+only returned for multipage documents that are in PDF or TIFF format. A
+scanned image (JPEG/PNG) provided to an asynchronous operation, even if
+it contains multiple document pages, is considered a single-page
+document. This means that for scanned images the value of C<Page> is
+always 1.
+
+
+=head2 Query => L<Paws::Textract::Query>
+
+
 
 
 =head2 Relationships => ArrayRef[L<Paws::Textract::Relationship>]
 
-A list of child blocks of the current block. For example, a LINE object
-has child blocks for each WORD block that's part of the line of text.
+A list of relationship objects that describe how blocks are related to
+each other. For example, a LINE block object contains a CHILD
+relationship type with the WORD blocks that make up the line of text.
 There aren't Relationship objects in the list for relationships that
-don't exist, such as when the current block has no child blocks. The
-list size can be the following:
-
-=over
-
-=item *
-
-0 - The block has no child blocks.
-
-=item *
-
-1 - The block has child blocks.
-
-=back
-
+don't exist, such as when the current block has no child blocks.
 
 
 =head2 RowIndex => Int
@@ -235,10 +349,8 @@ C<GetDocumentTextDetection>.
 
 =head2 RowSpan => Int
 
-The number of rows that a table cell spans. Currently this value is
-always 1, even if the number of rows spanned is greater than 1.
-C<RowSpan> isn't returned by C<DetectDocumentText> and
-C<GetDocumentTextDetection>.
+The number of rows that a table cell spans. C<RowSpan> isn't returned
+by C<DetectDocumentText> and C<GetDocumentTextDetection>.
 
 
 =head2 SelectionStatus => Str

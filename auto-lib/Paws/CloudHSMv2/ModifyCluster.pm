@@ -1,8 +1,9 @@
 
 package Paws::CloudHSMv2::ModifyCluster;
   use Moose;
-  has BackupRetentionPolicy => (is => 'ro', isa => 'Paws::CloudHSMv2::BackupRetentionPolicy', required => 1);
+  has BackupRetentionPolicy => (is => 'ro', isa => 'Paws::CloudHSMv2::BackupRetentionPolicy');
   has ClusterId => (is => 'ro', isa => 'Str', required => 1);
+  has HsmType => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -29,12 +30,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $cloudhsmv2 = Paws->service('CloudHSMv2');
     my $ModifyClusterResponse = $cloudhsmv2->ModifyCluster(
+      ClusterId             => 'MyClusterId',
       BackupRetentionPolicy => {
         Type  => 'DAYS',                      # values: DAYS; OPTIONAL
         Value => 'MyBackupRetentionValue',    # min: 1, max: 3; OPTIONAL
-      },
-      ClusterId => 'MyClusterId',
-
+      },    # OPTIONAL
+      HsmType => 'MyHsmType',    # OPTIONAL
     );
 
     # Results:
@@ -48,7 +49,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/clo
 =head1 ATTRIBUTES
 
 
-=head2 B<REQUIRED> BackupRetentionPolicy => L<Paws::CloudHSMv2::BackupRetentionPolicy>
+=head2 BackupRetentionPolicy => L<Paws::CloudHSMv2::BackupRetentionPolicy>
 
 A policy that defines how the service retains backups.
 
@@ -58,6 +59,12 @@ A policy that defines how the service retains backups.
 
 The identifier (ID) of the cluster that you want to modify. To find the
 cluster ID, use DescribeClusters.
+
+
+
+=head2 HsmType => Str
+
+The desired HSM type of the cluster.
 
 
 

@@ -24,7 +24,9 @@ contains additional information about the Places returned.
 
 =head2 B<REQUIRED> Summary => L<Paws::LocationService::SearchPlaceIndexForPositionSummary>
 
-Contains a summary of the request.
+Contains a summary of the request. Echoes the input values for
+C<Position>, C<Language>, C<MaxResults>, and the C<DataSource> of the
+place index.
 
 
 =head2 _request_id => Str

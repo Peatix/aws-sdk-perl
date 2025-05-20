@@ -33,18 +33,56 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Datasync::S
 
 =head1 DESCRIPTION
 
-Represents the mount options that are available for DataSync to access
-an SMB location.
+Specifies the version of the Server Message Block (SMB) protocol that
+DataSync uses to access an SMB file server.
 
 =head1 ATTRIBUTES
 
 
 =head2 Version => Str
 
-The specific SMB version that you want DataSync to use to mount your
-SMB share. If you don't specify a version, DataSync defaults to
-C<AUTOMATIC>. That is, DataSync automatically selects a version based
-on negotiation with the SMB server.
+By default, DataSync automatically chooses an SMB protocol version
+based on negotiation with your SMB file server. You also can configure
+DataSync to use a specific SMB version, but we recommend doing this
+only if DataSync has trouble negotiating with the SMB file server
+automatically.
+
+These are the following options for configuring the SMB version:
+
+=over
+
+=item *
+
+C<AUTOMATIC> (default): DataSync and the SMB file server negotiate the
+highest version of SMB that they mutually support between 2.1 and
+3.1.1.
+
+This is the recommended option. If you instead choose a specific
+version that your file server doesn't support, you may get an
+C<Operation Not Supported> error.
+
+=item *
+
+C<SMB3>: Restricts the protocol negotiation to only SMB version 3.0.2.
+
+=item *
+
+C<SMB2>: Restricts the protocol negotiation to only SMB version 2.1.
+
+=item *
+
+C<SMB2_0>: Restricts the protocol negotiation to only SMB version 2.0.
+
+=item *
+
+C<SMB1>: Restricts the protocol negotiation to only SMB version 1.0.
+
+The C<SMB1> option isn't available when creating an Amazon FSx for
+NetApp ONTAP location
+(https://docs.aws.amazon.com/datasync/latest/userguide/API_CreateLocationFsxOntap.html).
+
+=back
+
 
 
 

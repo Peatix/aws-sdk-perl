@@ -18,8 +18,8 @@ Paws::SSOAdmin::DescribeInstanceAccessControlAttributeConfigurationResponse
 
 =head2 InstanceAccessControlAttributeConfiguration => L<Paws::SSOAdmin::InstanceAccessControlAttributeConfiguration>
 
-Gets the list of AWS SSO identity store attributes added to your ABAC
-configuration.
+Gets the list of IAM Identity Center identity store attributes that
+have been added to your ABAC configuration.
 
 
 =head2 Status => Str

@@ -1,7 +1,8 @@
 
 package Paws::Route53Domains::CheckDomainTransferabilityResponse;
   use Moose;
-  has Transferability => (is => 'ro', isa => 'Paws::Route53Domains::DomainTransferability', required => 1);
+  has Message => (is => 'ro', isa => 'Str');
+  has Transferability => (is => 'ro', isa => 'Paws::Route53Domains::DomainTransferability');
 
   has _request_id => (is => 'ro', isa => 'Str');
 
@@ -14,7 +15,12 @@ Paws::Route53Domains::CheckDomainTransferabilityResponse
 =head1 ATTRIBUTES
 
 
-=head2 B<REQUIRED> Transferability => L<Paws::Route53Domains::DomainTransferability>
+=head2 Message => Str
+
+Provides an explanation for when a domain can't be transferred.
+
+
+=head2 Transferability => L<Paws::Route53Domains::DomainTransferability>
 
 A complex type that contains information about whether the specified
 domain can be transferred to Route 53.

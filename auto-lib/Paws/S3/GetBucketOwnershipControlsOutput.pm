@@ -18,8 +18,8 @@ Paws::S3::GetBucketOwnershipControlsOutput
 
 =head2 OwnershipControls => L<Paws::S3::OwnershipControls>
 
-The C<OwnershipControls> (BucketOwnerPreferred or ObjectWriter)
-currently in effect for this Amazon S3 bucket.
+The C<OwnershipControls> (BucketOwnerEnforced, BucketOwnerPreferred, or
+ObjectWriter) currently in effect for this Amazon S3 bucket.
 
 
 

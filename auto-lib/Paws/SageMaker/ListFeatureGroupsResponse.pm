@@ -2,7 +2,7 @@
 package Paws::SageMaker::ListFeatureGroupsResponse;
   use Moose;
   has FeatureGroupSummaries => (is => 'ro', isa => 'ArrayRef[Paws::SageMaker::FeatureGroupSummary]', required => 1);
-  has NextToken => (is => 'ro', isa => 'Str', required => 1);
+  has NextToken => (is => 'ro', isa => 'Str');
 
   has _request_id => (is => 'ro', isa => 'Str');
 
@@ -20,7 +20,7 @@ Paws::SageMaker::ListFeatureGroupsResponse
 A summary of feature groups.
 
 
-=head2 B<REQUIRED> NextToken => Str
+=head2 NextToken => Str
 
 A token to resume pagination of C<ListFeatureGroups> results.
 

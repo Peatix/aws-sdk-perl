@@ -51,7 +51,7 @@ The code for the job error.
 
 =head2 Details => L<Paws::DataExchange::Details>
 
-
+The details about the job error.
 
 
 =head2 LimitName => Str

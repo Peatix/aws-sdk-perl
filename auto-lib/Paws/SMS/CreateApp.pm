@@ -109,7 +109,7 @@ The name of the new application.
 =head2 RoleName => Str
 
 The name of the service role in the customer's account to be used by
-AWS SMS.
+Server Migration Service.
 
 
 

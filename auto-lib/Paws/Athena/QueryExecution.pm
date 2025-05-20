@@ -2,13 +2,17 @@
 package Paws::Athena::QueryExecution;
   use Moose;
   has EngineVersion => (is => 'ro', isa => 'Paws::Athena::EngineVersion');
+  has ExecutionParameters => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has Query => (is => 'ro', isa => 'Str');
   has QueryExecutionContext => (is => 'ro', isa => 'Paws::Athena::QueryExecutionContext');
   has QueryExecutionId => (is => 'ro', isa => 'Str');
+  has QueryResultsS3AccessGrantsConfiguration => (is => 'ro', isa => 'Paws::Athena::QueryResultsS3AccessGrantsConfiguration');
   has ResultConfiguration => (is => 'ro', isa => 'Paws::Athena::ResultConfiguration');
+  has ResultReuseConfiguration => (is => 'ro', isa => 'Paws::Athena::ResultReuseConfiguration');
   has StatementType => (is => 'ro', isa => 'Str');
   has Statistics => (is => 'ro', isa => 'Paws::Athena::QueryExecutionStatistics');
   has Status => (is => 'ro', isa => 'Paws::Athena::QueryExecutionStatus');
+  has SubstatementType => (is => 'ro', isa => 'Str');
   has WorkGroup => (is => 'ro', isa => 'Str');
 
 1;
@@ -51,6 +55,14 @@ Information about a single instance of a query execution.
 The engine version that executed the query.
 
 
+=head2 ExecutionParameters => ArrayRef[Str|Undef]
+
+A list of values for the parameters in a query. The values are applied
+sequentially to the parameters in the query in the order in which the
+parameters occur. The list of parameters is not returned in the
+response.
+
+
 =head2 Query => Str
 
 The SQL query statements which the query execution ran.
@@ -66,13 +78,25 @@ The database in which the query execution occurred.
 The unique identifier for each query execution.
 
 
+=head2 QueryResultsS3AccessGrantsConfiguration => L<Paws::Athena::QueryResultsS3AccessGrantsConfiguration>
+
+Specifies whether Amazon S3 access grants are enabled for query
+results.
+
+
 =head2 ResultConfiguration => L<Paws::Athena::ResultConfiguration>
 
-The location in Amazon S3 where query results were stored and the
-encryption option, if any, used for query results. These are known as
-"client-side settings". If workgroup settings override client-side
-settings, then the query uses the location for the query results and
-the encryption configuration that are specified for the workgroup.
+The location in Amazon S3 where query and calculation results are
+stored and the encryption option, if any, used for query results. These
+are known as "client-side settings". If workgroup settings override
+client-side settings, then the query uses the location for the query
+results and the encryption configuration that are specified for the
+workgroup.
+
+
+=head2 ResultReuseConfiguration => L<Paws::Athena::ResultReuseConfiguration>
+
+Specifies the query result reuse behavior that was used for the query.
 
 
 =head2 StatementType => Str
@@ -81,7 +105,7 @@ The type of query statement that was run. C<DDL> indicates DDL query
 statements. C<DML> indicates DML (Data Manipulation Language) query
 statements, such as C<CREATE TABLE AS SELECT>. C<UTILITY> indicates
 query statements other than DDL and DML, such as C<SHOW CREATE TABLE>,
-or C<DESCRIBE E<lt>tableE<gt>>.
+C<EXPLAIN>, C<DESCRIBE>, or C<SHOW TABLES>.
 
 
 =head2 Statistics => L<Paws::Athena::QueryExecutionStatistics>
@@ -95,6 +119,11 @@ statement that was run.
 
 The completion date, current state, submission time, and state change
 reason (if applicable) for the query execution.
+
+
+=head2 SubstatementType => Str
+
+The kind of query statement that was run.
 
 
 =head2 WorkGroup => Str

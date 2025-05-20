@@ -33,14 +33,14 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Snowball::S
 
 =head1 DESCRIPTION
 
-Specifies the device configuration for an AWS Snowcone job.
+Specifies the device configuration for an Snowcone job.
 
 =head1 ATTRIBUTES
 
 
 =head2 WirelessConnection => L<Paws::Snowball::WirelessConnection>
 
-Configures the wireless connection for the AWS Snowcone device.
+Configures the wireless connection for the Snowcone device.
 
 
 

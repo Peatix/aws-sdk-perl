@@ -24,8 +24,10 @@ The instances that are currently in the warm pool.
 
 =head2 NextToken => Str
 
-The token for the next set of items to return. (You received this token
-from a previous call.)
+This string indicates that the response contains more items than can be
+returned in a single response. To receive additional items, specify
+this string for the C<NextToken> value when requesting the next set of
+items. This value is null when there are no more items to return.
 
 
 =head2 WarmPoolConfiguration => L<Paws::AutoScaling::WarmPoolConfiguration>

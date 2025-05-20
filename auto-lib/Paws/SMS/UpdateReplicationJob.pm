@@ -130,7 +130,7 @@ The ID of the replication job.
 
 =head2 RoleName => Str
 
-The name of the IAM role to be used by AWS SMS.
+The name of the IAM role to be used by Server Migration Service.
 
 
 

@@ -8,7 +8,9 @@ package Paws::CodeArtifact::ListPackages;
   has Namespace => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'namespace');
   has NextToken => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'next-token');
   has PackagePrefix => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'package-prefix');
+  has Publish => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'publish');
   has Repository => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'repository', required => 1);
+  has Upstream => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'upstream');
 
   use MooseX::ClassAttribute;
 
@@ -44,6 +46,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       Namespace     => 'MyPackageNamespace',    # OPTIONAL
       NextToken     => 'MyPaginationToken',     # OPTIONAL
       PackagePrefix => 'MyPackageName',         # OPTIONAL
+      Publish       => 'ALLOW',                 # OPTIONAL
+      Upstream      => 'ALLOW',                 # OPTIONAL
     );
 
     # Results:
@@ -61,40 +65,23 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/cod
 =head2 B<REQUIRED> Domain => Str
 
 The name of the domain that contains the repository that contains the
-requested list of packages.
+requested packages.
 
 
 
 =head2 DomainOwner => Str
 
-The 12-digit account number of the AWS account that owns the domain. It
-does not include dashes or spaces.
+The 12-digit account number of the Amazon Web Services account that
+owns the domain. It does not include dashes or spaces.
 
 
 
 =head2 Format => Str
 
-The format of the packages. The valid package types are:
+The format used to filter requested packages. Only packages from the
+provided format will be returned.
 
-=over
-
-=item *
-
-C<npm>: A Node Package Manager (npm) package.
-
-=item *
-
-C<pypi>: A Python Package Index (PyPI) package.
-
-=item *
-
-C<maven>: A Maven package that contains compiled code in a
-distributable format, such as a JAR file.
-
-=back
-
-
-Valid values are: C<"npm">, C<"pypi">, C<"maven">, C<"nuget">
+Valid values are: C<"npm">, C<"pypi">, C<"maven">, C<"nuget">, C<"generic">, C<"ruby">, C<"swift">, C<"cargo">
 
 =head2 MaxResults => Int
 
@@ -104,23 +91,32 @@ The maximum number of results to return per page.
 
 =head2 Namespace => Str
 
-The namespace of the package. The package component that specifies its
-namespace depends on its type. For example:
+The namespace prefix used to filter requested packages. Only packages
+with a namespace that starts with the provided string value are
+returned. Note that although this option is called C<--namespace> and
+not C<--namespace-prefix>, it has prefix-matching behavior.
+
+Each package format uses namespace as follows:
 
 =over
 
 =item *
 
-The namespace of a Maven package is its C<groupId>.
+The namespace of a Maven package version is its C<groupId>.
 
 =item *
 
-The namespace of an npm package is its C<scope>.
+The namespace of an npm or Swift package version is its C<scope>.
 
 =item *
 
-A Python package does not contain a corresponding component, so Python
-packages do not have a namespace.
+The namespace of a generic package is its C<namespace>.
+
+=item *
+
+Python, NuGet, Ruby, and Cargo package versions do not contain a
+corresponding component, package versions of those formats do not have
+a namespace.
 
 =back
 
@@ -137,16 +133,34 @@ results.
 
 =head2 PackagePrefix => Str
 
-A prefix used to filter returned packages. Only packages with names
+A prefix used to filter requested packages. Only packages with names
 that start with C<packagePrefix> are returned.
 
 
 
+=head2 Publish => Str
+
+The value of the C<Publish> package origin control restriction used to
+filter requested packages. Only packages with the provided restriction
+are returned. For more information, see PackageOriginRestrictions
+(https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageOriginRestrictions.html).
+
+Valid values are: C<"ALLOW">, C<"BLOCK">
+
 =head2 B<REQUIRED> Repository => Str
 
-The name of the repository from which packages are to be listed.
+The name of the repository that contains the requested packages.
 
 
+
+=head2 Upstream => Str
+
+The value of the C<Upstream> package origin control restriction used to
+filter requested packages. Only packages with the provided restriction
+are returned. For more information, see PackageOriginRestrictions
+(https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageOriginRestrictions.html).
+
+Valid values are: C<"ALLOW">, C<"BLOCK">
 
 
 =head1 SEE ALSO

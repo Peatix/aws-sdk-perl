@@ -43,19 +43,19 @@ The HTTP package configuration properties for the requested VOD source.
 =head2 B<REQUIRED> Path => Str
 
 The relative path to the URL for this VOD source. This is combined with
-SourceLocation::HttpConfiguration::BaseUrl to form a valid URL.
+C<SourceLocation::HttpConfiguration::BaseUrl> to form a valid URL.
 
 
 =head2 B<REQUIRED> SourceGroup => Str
 
 The name of the source group. This has to match one of the
-Channel::Outputs::SourceGroup.
+C<Channel::Outputs::SourceGroup>.
 
 
 =head2 B<REQUIRED> Type => Str
 
 The streaming protocol for this package configuration. Supported values
-are HLS and DASH.
+are C<HLS> and C<DASH>.
 
 
 

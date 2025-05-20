@@ -34,19 +34,19 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::DataExchang
 
 =head1 DESCRIPTION
 
-This class has no description
+Information about the job error.
 
 =head1 ATTRIBUTES
 
 
 =head2 ImportAssetFromSignedUrlJobErrorDetails => L<Paws::DataExchange::ImportAssetFromSignedUrlJobErrorDetails>
 
-
+Information about the job error.
 
 
 =head2 ImportAssetsFromS3JobErrorDetails => ArrayRef[L<Paws::DataExchange::AssetSourceEntry>]
 
-
+Details about the job error.
 
 
 

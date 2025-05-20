@@ -5,6 +5,7 @@ package Paws::AppStream::Session;
   has ConnectionState => (is => 'ro', isa => 'Str');
   has FleetName => (is => 'ro', isa => 'Str', required => 1);
   has Id => (is => 'ro', isa => 'Str', required => 1);
+  has InstanceId => (is => 'ro', isa => 'Str');
   has MaxExpirationTime => (is => 'ro', isa => 'Str');
   has NetworkAccessConfiguration => (is => 'ro', isa => 'Paws::AppStream::NetworkAccessConfiguration');
   has StackName => (is => 'ro', isa => 'Str', required => 1);
@@ -66,6 +67,11 @@ The name of the fleet for the streaming session.
 =head2 B<REQUIRED> Id => Str
 
 The identifier of the streaming session.
+
+
+=head2 InstanceId => Str
+
+The identifier for the instance hosting the session.
 
 
 =head2 MaxExpirationTime => Str

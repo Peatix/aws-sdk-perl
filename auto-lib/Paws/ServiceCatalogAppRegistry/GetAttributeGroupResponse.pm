@@ -3,6 +3,7 @@ package Paws::ServiceCatalogAppRegistry::GetAttributeGroupResponse;
   use Moose;
   has Arn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'arn');
   has Attributes => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'attributes');
+  has CreatedBy => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'createdBy');
   has CreationTime => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'creationTime');
   has Description => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'description');
   has Id => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'id');
@@ -33,6 +34,11 @@ across services.
 A JSON string in the form of nested key-value pairs that represent the
 attributes in the group and describes an application and its
 components.
+
+
+=head2 CreatedBy => Str
+
+The service principal that created the attribute group.
 
 
 =head2 CreationTime => Str

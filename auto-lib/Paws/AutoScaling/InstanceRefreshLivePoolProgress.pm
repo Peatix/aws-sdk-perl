@@ -34,8 +34,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AutoScaling
 
 =head1 DESCRIPTION
 
-Reports the progress of an instance refresh on instances that are in
-the Auto Scaling group.
+Reports progress on replacing instances that are in the Auto Scaling
+group.
 
 =head1 ATTRIBUTES
 

@@ -24,7 +24,7 @@ C<null> when there are no more results to return.
 
 =head2 VpcEndpointConnections => ArrayRef[L<Paws::EC2::VpcEndpointConnection>]
 
-Information about one or more VPC endpoint connections.
+Information about the VPC endpoint connections.
 
 
 =head2 _request_id => Str

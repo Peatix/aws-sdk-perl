@@ -33,14 +33,14 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::DataExchang
 
 =head1 DESCRIPTION
 
-The S3 object that is the asset.
+The Amazon S3 object that is the asset.
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> Size => Num
 
-The size of the S3 object that is the object.
+The size of the Amazon S3 object that is the object.
 
 
 

@@ -46,12 +46,12 @@ The allocation ID of the address.
 
 =head2 AwsAccountId => Str
 
-The AWS account ID.
+The Amazon Web Services account ID.
 
 
 =head2 AwsService => Str
 
-The AWS service.
+The Amazon Web Services service.
 
 
 =head2 CoIp => Str

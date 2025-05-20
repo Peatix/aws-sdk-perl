@@ -53,7 +53,7 @@ The ARN of the AutoML job.
 
 =head2 B<REQUIRED> AutoMLJobName => Str
 
-The name of the AutoML you are requesting.
+The name of the AutoML job you are requesting.
 
 
 =head2 B<REQUIRED> AutoMLJobSecondaryStatus => Str

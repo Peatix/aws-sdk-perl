@@ -36,6 +36,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       InitialContactId            => 'MyContactId',
       InstanceId                  => 'MyInstanceId',
       VoiceRecordingConfiguration => {
+        IvrRecordingTrack   => 'ALL',    # values: ALL; OPTIONAL
         VoiceRecordingTrack =>
           'FROM_AGENT',    # values: FROM_AGENT, TO_AGENT, ALL; OPTIONAL
       },
@@ -64,7 +65,9 @@ associated with the first interaction with the contact center.
 =head2 B<REQUIRED> InstanceId => Str
 
 The identifier of the Amazon Connect instance. You can find the
-instanceId in the ARN of the instance.
+instance ID
+(https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html)
+in the Amazon Resource Name (ARN) of the instance.
 
 
 

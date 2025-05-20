@@ -35,7 +35,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::DS::IpRoute
 =head1 DESCRIPTION
 
 IP address block. This is often the address block of the DNS server
-used for your on-premises domain.
+used for your self-managed domain.
 
 =head1 ATTRIBUTES
 
@@ -43,7 +43,7 @@ used for your on-premises domain.
 =head2 CidrIp => Str
 
 IP address block using CIDR format, for example 10.0.0.0/24. This is
-often the address block of the DNS server used for your on-premises
+often the address block of the DNS server used for your self-managed
 domain. For a single IP address use a CIDR address block with /32. For
 example 10.0.0.0/32.
 

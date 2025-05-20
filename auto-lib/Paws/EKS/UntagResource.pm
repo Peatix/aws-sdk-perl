@@ -45,15 +45,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/eks
 
 =head2 B<REQUIRED> ResourceArn => Str
 
-The Amazon Resource Name (ARN) of the resource from which to delete
-tags. Currently, the supported resources are Amazon EKS clusters and
-managed node groups.
+The Amazon Resource Name (ARN) of the resource to delete tags from.
 
 
 
 =head2 B<REQUIRED> TagKeys => ArrayRef[Str|Undef]
 
-The keys of the tags to be removed.
+The keys of the tags to remove.
 
 
 

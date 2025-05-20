@@ -3,7 +3,7 @@ package Paws::MQ::SanitizationWarning;
   use Moose;
   has AttributeName => (is => 'ro', isa => 'Str', request_name => 'attributeName', traits => ['NameInRequest']);
   has ElementName => (is => 'ro', isa => 'Str', request_name => 'elementName', traits => ['NameInRequest']);
-  has Reason => (is => 'ro', isa => 'Str', request_name => 'reason', traits => ['NameInRequest']);
+  has Reason => (is => 'ro', isa => 'Str', request_name => 'reason', traits => ['NameInRequest'], required => 1);
 
 1;
 
@@ -35,25 +35,25 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::MQ::Sanitiz
 
 =head1 DESCRIPTION
 
-Returns information about the XML element or attribute that was
-sanitized in the configuration.
+Returns information about the configuration element or attribute that
+was sanitized in the configuration.
 
 =head1 ATTRIBUTES
 
 
 =head2 AttributeName => Str
 
-The name of the XML attribute that has been sanitized.
+The name of the configuration attribute that has been sanitized.
 
 
 =head2 ElementName => Str
 
-The name of the XML element that has been sanitized.
+The name of the configuration element that has been sanitized.
 
 
-=head2 Reason => Str
+=head2 B<REQUIRED> Reason => Str
 
-Required. The reason for which the XML elements or attributes were
+The reason for which the configuration elements or attributes were
 sanitized.
 
 

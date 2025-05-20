@@ -55,8 +55,11 @@ The type of environment variable. Valid values include:
 =item *
 
 C<PARAMETER_STORE>: An environment variable stored in Systems Manager
-Parameter Store. To learn how to specify a parameter store environment
-variable, see env/parameter-store
+Parameter Store. For environment variables of this type, specify the
+name of the parameter as the C<value> of the EnvironmentVariable. The
+parameter value will be substituted for the name at runtime. You can
+also define Parameter Store environment variables in the buildspec. To
+learn how to do so, see env/parameter-store
 (https://docs.aws.amazon.com/codebuild/latest/userguide/build-spec-ref.html#build-spec.env.parameter-store)
 in the I<CodeBuild User Guide>.
 
@@ -68,8 +71,11 @@ default value.
 =item *
 
 C<SECRETS_MANAGER>: An environment variable stored in Secrets Manager.
-To learn how to specify a secrets manager environment variable, see
-env/secrets-manager
+For environment variables of this type, specify the name of the secret
+as the C<value> of the EnvironmentVariable. The secret value will be
+substituted for the name at runtime. You can also define Secrets
+Manager environment variables in the buildspec. To learn how to do so,
+see env/secrets-manager
 (https://docs.aws.amazon.com/codebuild/latest/userguide/build-spec-ref.html#build-spec.env.secrets-manager)
 in the I<CodeBuild User Guide>.
 
@@ -82,11 +88,11 @@ in the I<CodeBuild User Guide>.
 The value of the environment variable.
 
 We strongly discourage the use of C<PLAINTEXT> environment variables to
-store sensitive values, especially Amazon Web Services secret key IDs
-and secret access keys. C<PLAINTEXT> environment variables can be
-displayed in plain text using the CodeBuild console and the AWS Command
-Line Interface (AWS CLI). For sensitive values, we recommend you use an
-environment variable of type C<PARAMETER_STORE> or C<SECRETS_MANAGER>.
+store sensitive values, especially Amazon Web Services secret key IDs.
+C<PLAINTEXT> environment variables can be displayed in plain text using
+the CodeBuild console and the CLI. For sensitive values, we recommend
+you use an environment variable of type C<PARAMETER_STORE> or
+C<SECRETS_MANAGER>.
 
 
 

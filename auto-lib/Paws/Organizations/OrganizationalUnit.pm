@@ -36,9 +36,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Organizatio
 =head1 DESCRIPTION
 
 Contains details about an organizational unit (OU). An OU is a
-container of AWS accounts within a root of an organization. Policies
-that are attached to an OU apply to all accounts contained in that OU
-and in any child OUs.
+container of Amazon Web Services accounts within a root of an
+organization. Policies that are attached to an OU apply to all accounts
+contained in that OU and in any child OUs.
 
 =head1 ATTRIBUTES
 
@@ -50,12 +50,13 @@ The Amazon Resource Name (ARN) of this OU.
 For more information about ARNs in Organizations, see ARN Formats
 Supported by Organizations
 (https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsorganizations.html#awsorganizations-resources-for-iam-policies)
-in the I<AWS Service Authorization Reference>.
+in the I<Amazon Web Services Service Authorization Reference>.
 
 
 =head2 Id => Str
 
-The unique identifier (ID) associated with this OU.
+The unique identifier (ID) associated with this OU. The ID is unique to
+the organization only.
 
 The regex pattern (http://wikipedia.org/wiki/regex) for an
 organizational unit ID string requires "ou-" followed by from 4 to 32

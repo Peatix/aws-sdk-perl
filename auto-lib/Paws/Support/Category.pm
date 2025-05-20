@@ -36,7 +36,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Support::Ca
 
 A JSON-formatted name/value pair that represents the category name and
 category code of the problem, selected from the DescribeServices
-response for each AWS service.
+response for each Amazon Web Services service.
 
 =head1 ATTRIBUTES
 

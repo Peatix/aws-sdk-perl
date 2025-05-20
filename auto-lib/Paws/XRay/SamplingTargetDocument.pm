@@ -40,7 +40,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::XRay::Sampl
 Temporary changes to a sampling rule configuration. To meet the global
 sampling target for a rule, X-Ray calculates a new reservoir for each
 service based on the recent sampling results of all services that
-called GetSamplingTargets.
+called GetSamplingTargets
+(https://docs.aws.amazon.com/xray/latest/api/API_GetSamplingTargets.html).
 
 =head1 ATTRIBUTES
 

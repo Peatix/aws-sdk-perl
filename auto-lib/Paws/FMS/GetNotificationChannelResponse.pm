@@ -17,13 +17,13 @@ Paws::FMS::GetNotificationChannelResponse
 
 =head2 SnsRoleName => Str
 
-The IAM role that is used by AWS Firewall Manager to record activity to
+The IAM role that is used by Firewall Manager to record activity to
 SNS.
 
 
 =head2 SnsTopicArn => Str
 
-The SNS topic that records AWS Firewall Manager activity.
+The SNS topic that records Firewall Manager activity.
 
 
 =head2 _request_id => Str

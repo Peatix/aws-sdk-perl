@@ -6,6 +6,7 @@ package Paws::EC2::SecurityGroup;
   has IpPermissions => (is => 'ro', isa => 'ArrayRef[Paws::EC2::IpPermission]', request_name => 'ipPermissions', traits => ['NameInRequest']);
   has IpPermissionsEgress => (is => 'ro', isa => 'ArrayRef[Paws::EC2::IpPermission]', request_name => 'ipPermissionsEgress', traits => ['NameInRequest']);
   has OwnerId => (is => 'ro', isa => 'Str', request_name => 'ownerId', traits => ['NameInRequest']);
+  has SecurityGroupArn => (is => 'ro', isa => 'Str', request_name => 'securityGroupArn', traits => ['NameInRequest']);
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::EC2::Tag]', request_name => 'tagSet', traits => ['NameInRequest']);
   has VpcId => (is => 'ro', isa => 'Str', request_name => 'vpcId', traits => ['NameInRequest']);
 1;
@@ -65,12 +66,17 @@ The inbound rules associated with the security group.
 
 =head2 IpPermissionsEgress => ArrayRef[L<Paws::EC2::IpPermission>]
 
-[VPC only] The outbound rules associated with the security group.
+The outbound rules associated with the security group.
 
 
 =head2 OwnerId => Str
 
-The AWS account ID of the owner of the security group.
+The Amazon Web Services account ID of the owner of the security group.
+
+
+=head2 SecurityGroupArn => Str
+
+The ARN of the security group.
 
 
 =head2 Tags => ArrayRef[L<Paws::EC2::Tag>]
@@ -80,7 +86,7 @@ Any tags assigned to the security group.
 
 =head2 VpcId => Str
 
-[VPC only] The ID of the VPC for the security group.
+The ID of the VPC for the security group.
 
 
 

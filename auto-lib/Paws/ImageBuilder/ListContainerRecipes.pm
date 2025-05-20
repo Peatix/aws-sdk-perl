@@ -60,22 +60,41 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ima
 
 =head2 Filters => ArrayRef[L<Paws::ImageBuilder::Filter>]
 
-Request filters that are used to narrow the list of container images
-that are returned.
+Use the following filters to streamline results:
+
+=over
+
+=item *
+
+C<containerType>
+
+=item *
+
+C<name>
+
+=item *
+
+C<parentImage>
+
+=item *
+
+C<platform>
+
+=back
+
 
 
 
 =head2 MaxResults => Int
 
-The maximum number of results to return in the list.
+The maximum items to return in a request.
 
 
 
 =head2 NextToken => Str
 
-Provides a token for pagination, which determines where to begin the
-next set of results when the current set reaches the maximum for one
-request.
+A token to specify where to start paginating. This is the nextToken
+from a previously truncated response.
 
 
 
@@ -85,7 +104,7 @@ Returns container recipes belonging to the specified owner, that have
 been shared with you. You can omit this field to return container
 recipes belonging to your account.
 
-Valid values are: C<"Self">, C<"Shared">, C<"Amazon">
+Valid values are: C<"Self">, C<"Shared">, C<"Amazon">, C<"ThirdParty">, C<"AWSMarketplace">
 
 
 =head1 SEE ALSO

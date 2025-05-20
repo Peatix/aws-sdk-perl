@@ -16,7 +16,7 @@ Paws::SSMContacts::CreateContactChannelResult
 
 =head2 B<REQUIRED> ContactChannelArn => Str
 
-The ARN of the contact channel.
+The Amazon Resource Name (ARN) of the contact channel.
 
 
 =head2 _request_id => Str

@@ -34,7 +34,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ComprehendM
 
 =head1 DESCRIPTION
 
-An attribute that we extracted, but were unable to relate to an entity.
+An attribute that was extracted, but Amazon Comprehend Medical was
+unable to relate to an entity.
 
 =head1 ATTRIBUTES
 
@@ -47,8 +48,8 @@ entity.
 
 =head2 Type => Str
 
-The type of the attribute, could be one of the following values:
-"MEDICATION", "MEDICAL_CONDITION", "ANATOMY",
+The type of the unmapped attribute, could be one of the following
+values: "MEDICATION", "MEDICAL_CONDITION", "ANATOMY",
 "TEST_AND_TREATMENT_PROCEDURE" or "PROTECTED_HEALTH_INFORMATION".
 
 

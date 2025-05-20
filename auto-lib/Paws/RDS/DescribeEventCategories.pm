@@ -48,10 +48,12 @@ This parameter isn't currently supported.
 
 =head2 SourceType => Str
 
-The type of source that is generating the events.
+The type of source that is generating the events. For RDS Proxy events,
+specify C<db-proxy>.
 
-Valid values: C<db-instance> | C<db-cluster> | C<db-parameter-group> |
-C<db-security-group> | C<db-snapshot> | C<db-cluster-snapshot>
+Valid Values: C<db-instance> | C<db-cluster> | C<db-parameter-group> |
+C<db-security-group> | C<db-snapshot> | C<db-cluster-snapshot> |
+C<db-proxy>
 
 
 

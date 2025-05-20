@@ -24,8 +24,11 @@ The unique identifier of the deleted import.
 =head2 ImportStatus => Str
 
 The current status of the deletion. When the deletion is complete, the
-import will no longer be returned by the operation and calls to the
-with the import identifier will fail.
+import will no longer be returned by the ListImports
+(https://docs.aws.amazon.com/lexv2/latest/APIReference/API_ListImports.html)
+operation and calls to the DescribeImport
+(https://docs.aws.amazon.com/lexv2/latest/APIReference/API_DescribeImport.html)
+operation with the import identifier will fail.
 
 Valid values are: C<"InProgress">, C<"Completed">, C<"Failed">, C<"Deleting">
 =head2 _request_id => Str

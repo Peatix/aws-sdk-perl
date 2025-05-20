@@ -110,9 +110,9 @@ values for Layer appear on top of images with lower values for Layer.
 
 =head2 Opacity => Int
 
-Use Opacity (Opacity) to specify how much of the underlying video shows
-through the inserted image. 0 is transparent and 100 is fully opaque.
-Default is 50.
+Use Opacity to specify how much of the underlying video shows through
+the inserted image. 0 is transparent and 100 is fully opaque. Default
+is 50.
 
 
 =head2 StartTime => Str

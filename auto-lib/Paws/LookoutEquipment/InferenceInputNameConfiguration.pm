@@ -34,8 +34,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::LookoutEqui
 
 =head1 DESCRIPTION
 
-E<gt>E<gt> Specifies configuration information for the input data for
-the inference, including timestamp format and delimiter.
+Specifies configuration information for the input data for the
+inference, including timestamp format and delimiter.
 
 =head1 ATTRIBUTES
 

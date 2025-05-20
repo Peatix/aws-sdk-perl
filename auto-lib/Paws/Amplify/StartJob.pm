@@ -65,7 +65,7 @@ The unique ID for an Amplify app.
 
 =head2 B<REQUIRED> BranchName => Str
 
-The branch name for the job.
+The name of the branch to use for the job.
 
 
 
@@ -96,7 +96,7 @@ C<jobType> is C<RETRY>.
 
 =head2 JobReason => Str
 
-A descriptive reason for starting this job.
+A descriptive reason for starting the job.
 
 
 
@@ -104,8 +104,9 @@ A descriptive reason for starting this job.
 
 Describes the type for the job. The job type C<RELEASE> starts a new
 job with the latest change from the specified branch. This value is
-available only for apps that are connected to a repository. The job
-type C<RETRY> retries an existing job. If the job type value is
+available only for apps that are connected to a repository.
+
+The job type C<RETRY> retries an existing job. If the job type value is
 C<RETRY>, the C<jobId> is also required.
 
 Valid values are: C<"RELEASE">, C<"RETRY">, C<"MANUAL">, C<"WEB_HOOK">

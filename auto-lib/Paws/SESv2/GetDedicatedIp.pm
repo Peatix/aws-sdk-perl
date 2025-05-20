@@ -48,7 +48,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ema
 
 The IP address that you want to obtain more information about. The
 value you specify has to be a dedicated IP address that's assocaited
-with your AWS account.
+with your Amazon Web Services account.
 
 
 

@@ -54,9 +54,7 @@ The list of attacks for a specified time period.
 
 =head2 EndTime => Str
 
-The end time of the attack, in Unix time in seconds. For more
-information see timestamp
-(http://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#parameter-types).
+The end time of the attack, in Unix time in seconds.
 
 
 =head2 ResourceArn => Str
@@ -66,9 +64,7 @@ The ARN (Amazon Resource Name) of the resource that was attacked.
 
 =head2 StartTime => Str
 
-The start time of the attack, in Unix time in seconds. For more
-information see timestamp
-(http://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#parameter-types).
+The start time of the attack, in Unix time in seconds.
 
 
 

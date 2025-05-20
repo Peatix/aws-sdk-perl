@@ -40,7 +40,7 @@ Contains information for a group identity in an access policy.
 
 =head2 B<REQUIRED> Id => Str
 
-The AWS SSO ID of the group.
+The IAM Identity Center ID of the group.
 
 
 

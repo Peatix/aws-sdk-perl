@@ -47,7 +47,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/aut
 
 =head2 LaunchConfigurationNames => ArrayRef[Str|Undef]
 
-The launch configuration names. If you omit this parameter, all launch
+The launch configuration names. If you omit this property, all launch
 configurations are described.
 
 Array Members: Maximum number of 50 items.

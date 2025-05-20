@@ -2,6 +2,7 @@
 package Paws::ServiceCatalog::DisassociateServiceActionFromProvisioningArtifact;
   use Moose;
   has AcceptLanguage => (is => 'ro', isa => 'Str');
+  has IdempotencyToken => (is => 'ro', isa => 'Str');
   has ProductId => (is => 'ro', isa => 'Str', required => 1);
   has ProvisioningArtifactId => (is => 'ro', isa => 'Str', required => 1);
   has ServiceActionId => (is => 'ro', isa => 'Str', required => 1);
@@ -35,7 +36,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       ProductId              => 'MyId',
       ProvisioningArtifactId => 'MyId',
       ServiceActionId        => 'MyId',
-      AcceptLanguage         => 'MyAcceptLanguage',    # OPTIONAL
+      AcceptLanguage         => 'MyAcceptLanguage',      # OPTIONAL
+      IdempotencyToken       => 'MyIdempotencyToken',    # OPTIONAL
       );
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
@@ -52,10 +54,6 @@ The language code.
 
 =item *
 
-C<en> - English (default)
-
-=item *
-
 C<jp> - Japanese
 
 =item *
@@ -64,6 +62,15 @@ C<zh> - Chinese
 
 =back
 
+
+
+
+=head2 IdempotencyToken => Str
+
+A unique identifier that you provide to ensure idempotency. If multiple
+requests from the same Amazon Web Services account use the same
+idempotency token, the same response is returned for each repeated
+request.
 
 
 

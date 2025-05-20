@@ -85,12 +85,12 @@ container instance.
 The task desired status to use when filtering the C<ListTasks> results.
 Specifying a C<desiredStatus> of C<STOPPED> limits the results to tasks
 that Amazon ECS has set the desired status to C<STOPPED>. This can be
-useful for debugging tasks that are not starting properly or have died
+useful for debugging tasks that aren't starting properly or have died
 or finished. The default status filter is C<RUNNING>, which shows tasks
 that Amazon ECS has set the desired status to C<RUNNING>.
 
 Although you can filter results based on a desired status of
-C<PENDING>, this does not return any results. Amazon ECS never sets the
+C<PENDING>, this doesn't return any results. Amazon ECS never sets the
 desired status of a task to that value (only a task's C<lastStatus> may
 have a value of C<PENDING>).
 
@@ -112,13 +112,13 @@ Valid values are: C<"EC2">, C<"FARGATE">, C<"EXTERNAL">
 
 =head2 MaxResults => Int
 
-The maximum number of task results returned by C<ListTasks> in
+The maximum number of task results that C<ListTasks> returned in
 paginated output. When this parameter is used, C<ListTasks> only
 returns C<maxResults> results in a single page along with a
 C<nextToken> response element. The remaining results of the initial
 request can be seen by sending another C<ListTasks> request with the
 returned C<nextToken> value. This value can be between 1 and 100. If
-this parameter is not used, then C<ListTasks> returns up to 100 results
+this parameter isn't used, then C<ListTasks> returns up to 100 results
 and a C<nextToken> value if applicable.
 
 
@@ -127,7 +127,7 @@ and a C<nextToken> value if applicable.
 
 The C<nextToken> value returned from a C<ListTasks> request indicating
 that more results are available to fulfill the request and further
-calls will be needed. If C<maxResults> was provided, it is possible the
+calls will be needed. If C<maxResults> was provided, it's possible the
 number of results to be fewer than C<maxResults>.
 
 This token should be treated as an opaque identifier that is only used
@@ -146,9 +146,12 @@ that service.
 
 =head2 StartedBy => Str
 
-The C<startedBy> value with which to filter the task results.
-Specifying a C<startedBy> value limits the results to tasks that were
-started with that value.
+The C<startedBy> value to filter the task results with. Specifying a
+C<startedBy> value limits the results to tasks that were started with
+that value.
+
+When you specify C<startedBy> as the filter, it must be the only filter
+that you use.
 
 
 

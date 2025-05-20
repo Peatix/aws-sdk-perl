@@ -33,9 +33,11 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::S3::Existin
 
 =head1 DESCRIPTION
 
-Optional configuration to replicate existing source bucket objects. For
-more information, see Replicating Existing Objects
-(https://docs.aws.amazon.com/AmazonS3/latest/dev/replication-what-is-isnot-replicated.html#existing-object-replication)
+Optional configuration to replicate existing source bucket objects.
+
+This parameter is no longer supported. To replicate existing objects,
+see Replicating existing objects with S3 Batch Replication
+(https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-batch-replication-batch.html)
 in the I<Amazon S3 User Guide>.
 
 =head1 ATTRIBUTES
@@ -43,7 +45,7 @@ in the I<Amazon S3 User Guide>.
 
 =head2 B<REQUIRED> Status => Str
 
-
+Specifies whether Amazon S3 replicates existing source bucket objects.
 
 
 

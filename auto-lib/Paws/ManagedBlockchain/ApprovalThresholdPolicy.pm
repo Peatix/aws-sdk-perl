@@ -52,14 +52,14 @@ The duration from the time that a proposal is created until it expires.
 If members cast neither the required number of C<YES> votes to approve
 the proposal nor the number of C<NO> votes required to reject it before
 the duration expires, the proposal is C<EXPIRED> and C<ProposalActions>
-are not carried out.
+aren't carried out.
 
 
 =head2 ThresholdComparator => Str
 
 Determines whether the vote percentage must be greater than the
 C<ThresholdPercentage> or must be greater than or equal to the
-C<ThreholdPercentage> to be approved.
+C<ThresholdPercentage> to be approved.
 
 
 =head2 ThresholdPercentage => Int

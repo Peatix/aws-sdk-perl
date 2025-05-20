@@ -2,6 +2,7 @@
 package Paws::Forecast::CreatePredictorBacktestExportJob;
   use Moose;
   has Destination => (is => 'ro', isa => 'Paws::Forecast::DataDestination', required => 1);
+  has Format => (is => 'ro', isa => 'Str');
   has PredictorArn => (is => 'ro', isa => 'Str', required => 1);
   has PredictorBacktestExportJobName => (is => 'ro', isa => 'Str', required => 1);
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::Forecast::Tag]');
@@ -34,7 +35,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       $forecast->CreatePredictorBacktestExportJob(
       Destination => {
         S3Config => {
-          Path      => 'MyS3Path',
+          Path      => 'MyS3Path',       # min: 7, max: 4096
           RoleArn   => 'MyArn',          # max: 256
           KMSKeyArn => 'MyKMSKeyArn',    # max: 256; OPTIONAL
         },
@@ -42,10 +43,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       },
       PredictorArn                   => 'MyArn',
       PredictorBacktestExportJobName => 'MyName',
+      Format                         => 'MyFormat',    # OPTIONAL
       Tags                           => [
         {
-          Key   => 'MyTagKey',           # min: 1, max: 128
-          Value => 'MyTagValue',         # max: 256
+          Key   => 'MyTagKey',      # min: 1, max: 128
+          Value => 'MyTagValue',    # max: 256
 
         },
         ...
@@ -67,6 +69,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/for
 =head2 B<REQUIRED> Destination => L<Paws::Forecast::DataDestination>
 
 
+
+
+
+=head2 Format => Str
+
+The format of the exported data, CSV or PARQUET. The default value is
+CSV.
 
 
 

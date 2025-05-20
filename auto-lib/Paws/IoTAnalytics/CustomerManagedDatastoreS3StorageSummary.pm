@@ -35,28 +35,28 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::IoTAnalytic
 
 =head1 DESCRIPTION
 
-Used to store data store data in an S3 bucket that you manage.
+Contains information about the data store that you manage.
 
 =head1 ATTRIBUTES
 
 
 =head2 Bucket => Str
 
-The name of the S3 bucket in which data store data is stored.
+The name of the Amazon S3 bucket where your data is stored.
 
 
 =head2 KeyPrefix => Str
 
-Optional. The prefix used to create the keys of the data store data
-objects. Each object in an S3 bucket has a key that is its unique
-identifier in the bucket. Each object in a bucket has exactly one key.
-The prefix must end with a forward slash (/).
+(Optional) The prefix used to create the keys of the data store data
+objects. Each object in an Amazon S3 bucket has a key that is its
+unique identifier in the bucket. Each object in a bucket has exactly
+one key. The prefix must end with a forward slash (/).
 
 
 =head2 RoleArn => Str
 
-The ARN of the role that grants AWS IoT Analytics permission to
-interact with your Amazon S3 resources.
+The ARN of the role that grants IoT Analytics permission to interact
+with your Amazon S3 resources.
 
 
 

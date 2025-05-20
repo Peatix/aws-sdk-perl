@@ -60,7 +60,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ela
 
 =head2 Engine => Str
 
-The Redis engine.
+The engine.
 
 
 

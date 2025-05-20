@@ -20,6 +20,10 @@ Paws::StorageGateway::JoinDomainOutput
 Indicates the status of the gateway as a member of the Active Directory
 domain.
 
+This field is only used as part of a C<JoinDomain> request. It is not
+affected by Active Directory connectivity changes that occur after the
+C<JoinDomain> request succeeds.
+
 =over
 
 =item *
@@ -41,6 +45,12 @@ C<JOINING>: Indicates that a C<JoinDomain> operation is in progress.
 
 =item *
 
+C<INSUFFICIENT_PERMISSIONS>: Indicates that the C<JoinDomain> operation
+failed because the specified user lacks the necessary permissions to
+join the domain.
+
+=item *
+
 C<NETWORK_ERROR>: Indicates that C<JoinDomain> operation failed due to
 a network or connectivity error.
 
@@ -57,7 +67,7 @@ to another type of error.
 =back
 
 
-Valid values are: C<"ACCESS_DENIED">, C<"DETACHED">, C<"JOINED">, C<"JOINING">, C<"NETWORK_ERROR">, C<"TIMEOUT">, C<"UNKNOWN_ERROR">
+Valid values are: C<"ACCESS_DENIED">, C<"DETACHED">, C<"JOINED">, C<"JOINING">, C<"NETWORK_ERROR">, C<"TIMEOUT">, C<"UNKNOWN_ERROR">, C<"INSUFFICIENT_PERMISSIONS">
 =head2 GatewayARN => Str
 
 The unique Amazon Resource Name (ARN) of the gateway that joined the

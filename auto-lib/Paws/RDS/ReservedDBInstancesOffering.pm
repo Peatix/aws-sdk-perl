@@ -70,7 +70,7 @@ The fixed price charged for this offering.
 
 =head2 MultiAZ => Bool
 
-Indicates if the offering applies to Multi-AZ deployments.
+Indicates whether the offering applies to Multi-AZ deployments.
 
 
 =head2 OfferingType => Str

@@ -43,12 +43,12 @@ Reviewer.
 
 =head2 B<REQUIRED> ConnectionArn => Str
 
-The Amazon Resource Name (ARN) of an AWS CodeStar Connections
-connection. Its format is
+The Amazon Resource Name (ARN) of an Amazon Web Services CodeStar
+Connections connection. Its format is
 C<arn:aws:codestar-connections:region-id:aws-account_id:connection/connection-id>.
-For more information, see C<Connection>
+For more information, see Connection
 (https://docs.aws.amazon.com/codestar-connections/latest/APIReference/API_Connection.html)
-in the I<AWS CodeStar Connections API Reference>.
+in the I<Amazon Web Services CodeStar Connections API Reference>.
 
 
 =head2 B<REQUIRED> Name => Str
@@ -60,8 +60,8 @@ The name of the third party source repository.
 
 The owner of the repository. For a GitHub, GitHub Enterprise, or
 Bitbucket repository, this is the username for the account that owns
-the repository. For an S3 repository, this can be the username or AWS
-account ID.
+the repository. For an S3 repository, this can be the username or
+Amazon Web Services account ID
 
 
 

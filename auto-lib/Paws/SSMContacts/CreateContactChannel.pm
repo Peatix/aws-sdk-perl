@@ -32,15 +32,17 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $ssm-contacts = Paws->service('SSMContacts');
+    # To create a contact channel
+    # Creates a contact channel of type SMS for the contact Akua Mansa. Contact
+    # channels can be created of type SMS, EMAIL, or VOICE.
     my $CreateContactChannelResult = $ssm -contacts->CreateContactChannel(
-      ContactId       => 'MySsmContactsArn',
-      DeliveryAddress => {
-        SimpleAddress => 'MySimpleAddress',    # min: 1, max: 320; OPTIONAL
+      'ContactId' =>
+        'arn:aws:ssm-contacts:us-east-1:111122223333:contact/akuam',
+      'DeliveryAddress' => {
+        'SimpleAddress' => +15005550199
       },
-      Name             => 'MyChannelName',
-      Type             => 'SMS',
-      DeferActivation  => 1,                       # OPTIONAL
-      IdempotencyToken => 'MyIdempotencyToken',    # OPTIONAL
+      'Name' => 'akuas sms-test',
+      'Type' => 'SMS'
     );
 
     # Results:
@@ -56,7 +58,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ssm
 
 =head2 B<REQUIRED> ContactId => Str
 
-The Amazon Resource Name (ARN) of the contact channel.
+The Amazon Resource Name (ARN) of the contact you are adding the
+contact channel to.
 
 
 
@@ -95,8 +98,8 @@ EMAIL - any standard email format
 
 =head2 IdempotencyToken => Str
 
-A token ensuring that the action is called only once with the specified
-details.
+A token ensuring that the operation is called only once with the
+specified details.
 
 
 

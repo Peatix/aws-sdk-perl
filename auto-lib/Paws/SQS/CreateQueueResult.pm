@@ -4,7 +4,6 @@ package Paws::SQS::CreateQueueResult;
   has QueueUrl => (is => 'ro', isa => 'Str');
 
   has _request_id => (is => 'ro', isa => 'Str');
-1;
 
 ### main pod documentation begin ###
 
@@ -25,3 +24,4 @@ The URL of the created Amazon SQS queue.
 
 =cut
 
+1;

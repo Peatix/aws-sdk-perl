@@ -41,7 +41,8 @@ A processor feature.
 
 =head2 Name => Str
 
-The name of the processor feature.
+The name of the processor feature. Valid values are C<coreCount> or
+C<threadsPerCore>.
 
 
 =head2 Value => Str

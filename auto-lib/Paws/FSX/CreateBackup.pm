@@ -2,8 +2,9 @@
 package Paws::FSX::CreateBackup;
   use Moose;
   has ClientRequestToken => (is => 'ro', isa => 'Str');
-  has FileSystemId => (is => 'ro', isa => 'Str', required => 1);
+  has FileSystemId => (is => 'ro', isa => 'Str');
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::FSX::Tag]');
+  has VolumeId => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -29,17 +30,17 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $fsx = Paws->service('FSX');
+    # To create a new backup
+    # This operation creates a new backup.
     my $CreateBackupResponse = $fsx->CreateBackup(
-      FileSystemId       => 'MyFileSystemId',
-      ClientRequestToken => 'MyClientRequestToken',    # OPTIONAL
-      Tags               => [
-        {
-          Key   => 'MyTagKey',      # min: 1, max: 128
-          Value => 'MyTagValue',    # max: 256
+      'FileSystemId' => 'fs-0498eed5fe91001ec',
+      'Tags'         => [
 
-        },
-        ...
-      ],    # OPTIONAL
+        {
+          'Key'   => 'Name',
+          'Value' => 'MyBackup'
+        }
+      ]
     );
 
     # Results:
@@ -55,14 +56,14 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/fsx
 
 =head2 ClientRequestToken => Str
 
-(Optional) A string of up to 64 ASCII characters that Amazon FSx uses
+(Optional) A string of up to 63 ASCII characters that Amazon FSx uses
 to ensure idempotent creation. This string is automatically filled on
-your behalf when you use the AWS Command Line Interface (AWS CLI) or an
-AWS SDK.
+your behalf when you use the Command Line Interface (CLI) or an Amazon
+Web Services SDK.
 
 
 
-=head2 B<REQUIRED> FileSystemId => Str
+=head2 FileSystemId => Str
 
 The ID of the file system to back up.
 
@@ -72,9 +73,15 @@ The ID of the file system to back up.
 
 (Optional) The tags to apply to the backup at backup creation. The key
 value of the C<Name> tag appears in the console as the backup name. If
-you have set C<CopyTagsToBackups> to true, and you specify one or more
-tags using the C<CreateBackup> action, no existing file system tags are
-copied from the file system to the backup.
+you have set C<CopyTagsToBackups> to C<true>, and you specify one or
+more tags using the C<CreateBackup> operation, no existing file system
+tags are copied from the file system to the backup.
+
+
+
+=head2 VolumeId => Str
+
+(Optional) The ID of the FSx for ONTAP volume to back up.
 
 
 

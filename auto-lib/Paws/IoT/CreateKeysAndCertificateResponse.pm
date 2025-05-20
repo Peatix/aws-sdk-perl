@@ -25,8 +25,8 @@ The ARN of the certificate.
 
 =head2 CertificateId => Str
 
-The ID of the certificate. AWS IoT issues a default subject name for
-the certificate (for example, AWS IoT Certificate).
+The ID of the certificate. IoT issues a default subject name for the
+certificate (for example, IoT Certificate).
 
 
 =head2 CertificatePem => Str

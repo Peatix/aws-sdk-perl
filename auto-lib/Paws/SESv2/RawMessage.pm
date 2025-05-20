@@ -63,7 +63,10 @@ Attachments must be in a file format that the Amazon SES supports.
 
 =item *
 
-The entire message must be Base64 encoded.
+The raw data of the message needs to base64-encoded if you are
+accessing Amazon SES directly through the HTTPS interface. If you are
+accessing Amazon SES using an Amazon Web Services SDK, the SDK takes
+care of the base 64-encoding for you.
 
 =item *
 

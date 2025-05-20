@@ -32,7 +32,7 @@ status response element to C<Creating>. After Amazon Lex builds the
 bot, it sets status to C<Available>. If Amazon Lex can't build the bot,
 it sets status to C<Failed>.
 
-Valid values are: C<"Creating">, C<"Available">, C<"Inactive">, C<"Deleting">, C<"Failed">, C<"Versioning">, C<"Importing">
+Valid values are: C<"Creating">, C<"Available">, C<"Inactive">, C<"Deleting">, C<"Failed">, C<"Versioning">, C<"Importing">, C<"Updating">
 =head2 BotVersion => Str
 
 The version number assigned to the version.

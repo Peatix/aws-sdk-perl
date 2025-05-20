@@ -97,8 +97,8 @@ The elastic network interface information of the EC2 instance.
 
 =head2 OutpostArn => Str
 
-The Amazon Resource Name (ARN) of the AWS Outpost. Only applicable to
-AWS Outposts instances.
+The Amazon Resource Name (ARN) of the Amazon Web Services Outpost. Only
+applicable to Amazon Web Services Outposts instances.
 
 
 =head2 Platform => Str

@@ -77,7 +77,7 @@ The identifier of the FinSpace environment.
 
 =head2 EnvironmentUrl => Str
 
-The sign-in url for the web application of your FinSpace environment.
+The sign-in URL for the web application of your FinSpace environment.
 
 
 =head2 FederationMode => Str
@@ -102,7 +102,7 @@ The name of the FinSpace environment.
 
 =head2 SageMakerStudioDomainUrl => Str
 
-The url of the integrated FinSpace notebook environment in your web
+The URL of the integrated FinSpace notebook environment in your web
 application.
 
 

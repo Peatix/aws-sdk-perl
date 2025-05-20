@@ -35,20 +35,22 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::DLM::ShareR
 
 =head1 DESCRIPTION
 
-Specifies a rule for sharing snapshots across AWS accounts.
+B<[Custom snapshot policies only]> Specifies a rule for sharing
+snapshots across Amazon Web Services accounts.
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> TargetAccounts => ArrayRef[Str|Undef]
 
-The IDs of the AWS accounts with which to share the snapshots.
+The IDs of the Amazon Web Services accounts with which to share the
+snapshots.
 
 
 =head2 UnshareInterval => Int
 
-The period after which snapshots that are shared with other AWS
-accounts are automatically unshared.
+The period after which snapshots that are shared with other Amazon Web
+Services accounts are automatically unshared.
 
 
 =head2 UnshareIntervalUnit => Str

@@ -32,18 +32,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $sts = Paws->service('STS');
+    # To assume a role using a SAML assertion
     my $AssumeRoleWithSAMLResponse = $sts->AssumeRoleWithSAML(
-      PrincipalArn    => 'MyarnType',
-      RoleArn         => 'MyarnType',
-      SAMLAssertion   => 'MySAMLAssertionType',
-      DurationSeconds => 1,                                # OPTIONAL
-      Policy          => 'MysessionPolicyDocumentType',    # OPTIONAL
-      PolicyArns      => [
-        {
-          Arn => 'MyarnType',                              # min: 20, max: 2048
-        },
-        ...
-      ],    # OPTIONAL
+      'DurationSeconds' => 3600,
+      'PrincipalArn'    => 'arn:aws:iam::123456789012:saml-provider/SAML-test',
+      'RoleArn'         => 'arn:aws:iam::123456789012:role/TestSaml',
+      'SAMLAssertion'   =>
+'VERYLONGENCODEDASSERTIONEXAMPLExzYW1sOkF1ZGllbmNlPmJsYW5rPC9zYW1sOkF1ZGllbmNlPjwvc2FtbDpBdWRpZW5jZVJlc3RyaWN0aW9uPjwvc2FtbDpDb25kaXRpb25zPjxzYW1sOlN1YmplY3Q+PHNhbWw6TmFtZUlEIEZvcm1hdD0idXJuOm9hc2lzOm5hbWVzOnRjOlNBTUw6Mi4wOm5hbWVpZC1mb3JtYXQ6dHJhbnNpZW50Ij5TYW1sRXhhbXBsZTwvc2FtbDpOYW1lSUQ+PHNhbWw6U3ViamVjdENvbmZpcm1hdGlvbiBNZXRob2Q9InVybjpvYXNpczpuYW1lczp0YzpTQU1MOjIuMDpjbTpiZWFyZXIiPjxzYW1sOlN1YmplY3RDb25maXJtYXRpb25EYXRhIE5vdE9uT3JBZnRlcj0iMjAxOS0xMS0wMVQyMDoyNTowNS4xNDVaIiBSZWNpcGllbnQ9Imh0dHBzOi8vc2lnbmluLmF3cy5hbWF6b24uY29tL3NhbWwiLz48L3NhbWw6U3ViamVjdENvbmZpcm1hdGlvbj48L3NhbWw6U3ViamVjdD48c2FtbDpBdXRoblN0YXRlbWVudCBBdXRoPD94bWwgdmpSZXNwb25zZT4='
     );
 
     # Results:
@@ -53,7 +48,6 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $Issuer           = $AssumeRoleWithSAMLResponse->Issuer;
     my $NameQualifier    = $AssumeRoleWithSAMLResponse->NameQualifier;
     my $PackedPolicySize = $AssumeRoleWithSAMLResponse->PackedPolicySize;
-    my $SourceIdentity   = $AssumeRoleWithSAMLResponse->SourceIdentity;
     my $Subject          = $AssumeRoleWithSAMLResponse->Subject;
     my $SubjectType      = $AssumeRoleWithSAMLResponse->SubjectType;
 
@@ -89,7 +83,8 @@ console session that you might request using the returned credentials.
 The request to the federation endpoint for a console sign-in token
 takes a C<SessionDuration> parameter that specifies the maximum length
 of the console session. For more information, see Creating a URL that
-Enables Federated Users to Access the AWS Management Console
+Enables Federated Users to Access the Amazon Web Services Management
+Console
 (https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_enable-console-custom-url.html)
 in the I<IAM User Guide>.
 
@@ -104,10 +99,10 @@ This parameter is optional. Passing policies to this operation returns
 new temporary credentials. The resulting session's permissions are the
 intersection of the role's identity-based policy and the session
 policies. You can use the role's temporary credentials in subsequent
-AWS API calls to access resources in the account that owns the role.
-You cannot use session policies to grant more permissions than those
-allowed by the identity-based policy of the role that is being assumed.
-For more information, see Session Policies
+Amazon Web Services API calls to access resources in the account that
+owns the role. You cannot use session policies to grant more
+permissions than those allowed by the identity-based policy of the role
+that is being assumed. For more information, see Session Policies
 (https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session)
 in the I<IAM User Guide>.
 
@@ -117,12 +112,16 @@ ASCII character from the space character to the end of the valid
 character list (\u0020 through \u00FF). It can also include the tab
 (\u0009), linefeed (\u000A), and carriage return (\u000D) characters.
 
-An AWS conversion compresses the passed session policies and session
-tags into a packed binary format that has a separate limit. Your
-request can fail for this limit even if your plaintext meets the other
-requirements. The C<PackedPolicySize> response element indicates by
-percentage how close the policies and tags for your request are to the
-upper size limit.
+For more information about role session permissions, see Session
+policies
+(https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session).
+
+An Amazon Web Services conversion compresses the passed inline session
+policy, managed policy ARNs, and session tags into a packed binary
+format that has a separate limit. Your request can fail for this limit
+even if your plaintext meets the other requirements. The
+C<PackedPolicySize> response element indicates by percentage how close
+the policies and tags for your request are to the upper size limit.
 
 
 
@@ -135,25 +134,26 @@ same account as the role.
 This parameter is optional. You can provide up to 10 managed policy
 ARNs. However, the plaintext that you use for both inline and managed
 session policies can't exceed 2,048 characters. For more information
-about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces
+about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services
+Service Namespaces
 (https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
-in the AWS General Reference.
+in the Amazon Web Services General Reference.
 
-An AWS conversion compresses the passed session policies and session
-tags into a packed binary format that has a separate limit. Your
-request can fail for this limit even if your plaintext meets the other
-requirements. The C<PackedPolicySize> response element indicates by
-percentage how close the policies and tags for your request are to the
-upper size limit.
+An Amazon Web Services conversion compresses the passed inline session
+policy, managed policy ARNs, and session tags into a packed binary
+format that has a separate limit. Your request can fail for this limit
+even if your plaintext meets the other requirements. The
+C<PackedPolicySize> response element indicates by percentage how close
+the policies and tags for your request are to the upper size limit.
 
 Passing policies to this operation returns new temporary credentials.
 The resulting session's permissions are the intersection of the role's
 identity-based policy and the session policies. You can use the role's
-temporary credentials in subsequent AWS API calls to access resources
-in the account that owns the role. You cannot use session policies to
-grant more permissions than those allowed by the identity-based policy
-of the role that is being assumed. For more information, see Session
-Policies
+temporary credentials in subsequent Amazon Web Services API calls to
+access resources in the account that owns the role. You cannot use
+session policies to grant more permissions than those allowed by the
+identity-based policy of the role that is being assumed. For more
+information, see Session Policies
 (https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session)
 in the I<IAM User Guide>.
 

@@ -63,12 +63,12 @@ The remediation is triggered automatically.
 
 =head2 B<REQUIRED> ConfigRuleName => Str
 
-The name of the AWS Config rule.
+The name of the Config rule.
 
 
 =head2 CreatedByService => Str
 
-Name of the service that owns the service linked rule, if applicable.
+Name of the service that owns the service-linked rule, if applicable.
 
 
 =head2 ExecutionControls => L<Paws::Config::ExecutionControls>
@@ -82,7 +82,7 @@ The maximum number of failed attempts for auto-remediation. If you do
 not select a number, the default is 5.
 
 For example, if you specify MaximumAutomaticAttempts as 5 with
-RetryAttemptSeconds as 50 seconds, AWS Config will put a
+RetryAttemptSeconds as 50 seconds, Config will put a
 RemediationException on your behalf for the failing resource after the
 5th failed attempt within 50 seconds.
 
@@ -99,17 +99,21 @@ The type of a resource.
 
 =head2 RetryAttemptSeconds => Int
 
-Maximum time in seconds that AWS Config runs auto-remediation. If you
-do not select a number, the default is 60 seconds.
+Time window to determine whether or not to add a remediation exception
+to prevent infinite remediation attempts. If
+C<MaximumAutomaticAttempts> remediation attempts have been made under
+C<RetryAttemptSeconds>, a remediation exception will be added to the
+resource. If you do not select a number, the default is 60 seconds.
 
-For example, if you specify RetryAttemptSeconds as 50 seconds and
-MaximumAutomaticAttempts as 5, AWS Config will run auto-remediations 5
-times within 50 seconds before throwing an exception.
+For example, if you specify C<RetryAttemptSeconds> as 50 seconds and
+C<MaximumAutomaticAttempts> as 5, Config will run auto-remediations 5
+times within 50 seconds before adding a remediation exception to the
+resource.
 
 
 =head2 B<REQUIRED> TargetId => Str
 
-Target ID is the name of the public document.
+Target ID is the name of the SSM document.
 
 
 =head2 B<REQUIRED> TargetType => Str

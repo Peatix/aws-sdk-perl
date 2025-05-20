@@ -43,7 +43,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Personalize
 =head1 DESCRIPTION
 
 Describes a job that exports a dataset to an Amazon S3 bucket. For more
-information, see CreateDatasetExportJob.
+information, see CreateDatasetExportJob
+(https://docs.aws.amazon.com/personalize/latest/dg/API_CreateDatasetExportJob.html).
 
 A dataset export job can be in one of the following states:
 
@@ -109,9 +110,8 @@ was last updated.
 
 =head2 RoleArn => Str
 
-The Amazon Resource Name (ARN) of the AWS Identity and Access
-Management service role that has permissions to add data to your output
-Amazon S3 bucket.
+The Amazon Resource Name (ARN) of the IAM service role that has
+permissions to add data to your output Amazon S3 bucket.
 
 
 =head2 Status => Str

@@ -49,6 +49,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $Status            = $DescribeIndexResponse->Status;
     my $UpdatedAt         = $DescribeIndexResponse->UpdatedAt;
     my $UserContextPolicy = $DescribeIndexResponse->UserContextPolicy;
+    my $UserGroupResolutionConfiguration =
+      $DescribeIndexResponse->UserGroupResolutionConfiguration;
     my $UserTokenConfigurations =
       $DescribeIndexResponse->UserTokenConfigurations;
 
@@ -62,7 +64,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ken
 
 =head2 B<REQUIRED> Id => Str
 
-The name of the index to describe.
+The identifier of the index you want to get information on.
 
 
 

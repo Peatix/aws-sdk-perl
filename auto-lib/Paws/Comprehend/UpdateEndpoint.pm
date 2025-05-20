@@ -1,8 +1,11 @@
 
 package Paws::Comprehend::UpdateEndpoint;
   use Moose;
-  has DesiredInferenceUnits => (is => 'ro', isa => 'Int', required => 1);
+  has DesiredDataAccessRoleArn => (is => 'ro', isa => 'Str');
+  has DesiredInferenceUnits => (is => 'ro', isa => 'Int');
+  has DesiredModelArn => (is => 'ro', isa => 'Str');
   has EndpointArn => (is => 'ro', isa => 'Str', required => 1);
+  has FlywheelArn => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -29,10 +32,17 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $comprehend = Paws->service('Comprehend');
     my $UpdateEndpointResponse = $comprehend->UpdateEndpoint(
-      DesiredInferenceUnits => 1,
-      EndpointArn           => 'MyComprehendEndpointArn',
-
+      EndpointArn              => 'MyComprehendEndpointArn',
+      DesiredDataAccessRoleArn => 'MyIamRoleArn',               # OPTIONAL
+      DesiredInferenceUnits    => 1,                            # OPTIONAL
+      DesiredModelArn          => 'MyComprehendModelArn',       # OPTIONAL
+      FlywheelArn              => 'MyComprehendFlywheelArn',    # OPTIONAL
     );
+
+    # Results:
+    my $DesiredModelArn = $UpdateEndpointResponse->DesiredModelArn;
+
+    # Returns a L<Paws::Comprehend::UpdateEndpointResponse> object.
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/comprehend/UpdateEndpoint>
@@ -40,7 +50,14 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/com
 =head1 ATTRIBUTES
 
 
-=head2 B<REQUIRED> DesiredInferenceUnits => Int
+=head2 DesiredDataAccessRoleArn => Str
+
+Data access role ARN to use in case the new model is encrypted with a
+customer CMK.
+
+
+
+=head2 DesiredInferenceUnits => Int
 
 The desired number of inference units to be used by the model using
 this endpoint. Each inference unit represents of a throughput of 100
@@ -48,9 +65,21 @@ characters per second.
 
 
 
+=head2 DesiredModelArn => Str
+
+The ARN of the new model to use when updating an existing endpoint.
+
+
+
 =head2 B<REQUIRED> EndpointArn => Str
 
 The Amazon Resource Number (ARN) of the endpoint being updated.
+
+
+
+=head2 FlywheelArn => Str
+
+The Amazon Resource Number (ARN) of the flywheel
 
 
 

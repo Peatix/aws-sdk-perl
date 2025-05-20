@@ -57,12 +57,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/res
 =head2 Configuration => ArrayRef[L<Paws::ResourceGroups::GroupConfigurationItem>]
 
 The new configuration to associate with the specified group. A
-configuration associates the resource group with an AWS service and
-specifies how the service can interact with the resources in the group.
-A configuration is an array of GroupConfigurationItem elements.
+configuration associates the resource group with an Amazon Web Services
+service and specifies how the service can interact with the resources
+in the group. A configuration is an array of GroupConfigurationItem
+elements.
 
 For information about the syntax of a service configuration, see
-Service configurations for resource groups
+Service configurations for Resource Groups
 (https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html).
 
 A resource group can contain either a C<Configuration> or a
@@ -72,8 +73,8 @@ C<ResourceQuery>, but not both.
 
 =head2 Group => Str
 
-The name or ARN of the resource group with the configuration that you
-want to update.
+The name or Amazon resource name (ARN) of the resource group with the
+configuration that you want to update.
 
 
 

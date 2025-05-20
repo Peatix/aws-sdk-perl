@@ -78,15 +78,9 @@ C<resource-id> - The ID of the resource.
 
 =item *
 
-C<resource-type> - The resource type (C<customer-gateway> |
-C<dedicated-host> | C<dhcp-options> | C<elastic-ip> | C<fleet> |
-C<fpga-image> | C<host-reservation> | C<image> | C<instance> |
-C<internet-gateway> | C<key-pair> | C<launch-template> | C<natgateway>
-| C<network-acl> | C<network-interface> | C<placement-group> |
-C<reserved-instances> | C<route-table> | C<security-group> |
-C<snapshot> | C<spot-instances-request> | C<subnet> | C<volume> |
-C<vpc> | C<vpc-endpoint> | C<vpc-endpoint-service> |
-C<vpc-peering-connection> | C<vpn-connection> | C<vpn-gateway>).
+C<resource-type> - The resource type. For a list of possible values,
+see TagSpecification
+(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_TagSpecification.html).
 
 =item *
 
@@ -105,15 +99,18 @@ C<value> - The tag value.
 
 =head2 MaxResults => Int
 
-The maximum number of results to return in a single call. This value
-can be between 5 and 1000. To retrieve the remaining results, make
-another call with the returned C<NextToken> value.
+The maximum number of items to return for this request. This value can
+be between 5 and 1000. To get the next page of items, make another
+request with the token returned in the output. For more information,
+see Pagination
+(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Query-Requests.html#api-pagination).
 
 
 
 =head2 NextToken => Str
 
-The token to retrieve the next page of results.
+The token returned from a previous paginated request. Pagination
+continues from the end of the items returned by the previous request.
 
 
 

@@ -3,6 +3,7 @@ package Paws::Batch::LaunchTemplateSpecification;
   use Moose;
   has LaunchTemplateId => (is => 'ro', isa => 'Str', request_name => 'launchTemplateId', traits => ['NameInRequest']);
   has LaunchTemplateName => (is => 'ro', isa => 'Str', request_name => 'launchTemplateName', traits => ['NameInRequest']);
+  has Overrides => (is => 'ro', isa => 'ArrayRef[Paws::Batch::LaunchTemplateSpecificationOverride]', request_name => 'overrides', traits => ['NameInRequest']);
   has Version => (is => 'ro', isa => 'Str', request_name => 'version', traits => ['NameInRequest']);
 
 1;
@@ -35,16 +36,17 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Batch::Laun
 
 =head1 DESCRIPTION
 
-An object representing a launch template associated with a compute
-resource. You must specify either the launch template ID or launch
-template name in the request, but not both.
+An object that represents a launch template that's associated with a
+compute resource. You must specify either the launch template ID or
+launch template name in the request, but not both.
 
 If security groups are specified using both the C<securityGroupIds>
 parameter of C<CreateComputeEnvironment> and the launch template, the
 values in the C<securityGroupIds> parameter of
 C<CreateComputeEnvironment> will be used.
 
-This object isn't applicable to jobs running on Fargate resources.
+This object isn't applicable to jobs that are running on Fargate
+resources.
 
 =head1 ATTRIBUTES
 
@@ -59,22 +61,48 @@ The ID of the launch template.
 The name of the launch template.
 
 
+=head2 Overrides => ArrayRef[L<Paws::Batch::LaunchTemplateSpecificationOverride>]
+
+A launch template to use in place of the default launch template. You
+must specify either the launch template ID or launch template name in
+the request, but not both.
+
+You can specify up to ten (10) launch template overrides that are
+associated to unique instance types or families for each compute
+environment.
+
+To unset all override templates for a compute environment, you can pass
+an empty array to the UpdateComputeEnvironment.overrides
+(https://docs.aws.amazon.com/batch/latest/APIReference/API_UpdateComputeEnvironment.html)
+parameter, or not include the C<overrides> parameter when submitting
+the C<UpdateComputeEnvironment> API operation.
+
+
 =head2 Version => Str
 
-The version number of the launch template, C<$Latest>, or C<$Default>.
+The version number of the launch template, C<$Default>, or C<$Latest>.
 
-If the value is C<$Latest>, the latest version of the launch template
-is used. If the value is C<$Default>, the default version of the launch
+If the value is C<$Default>, the default version of the launch template
+is used. If the value is C<$Latest>, the latest version of the launch
 template is used.
 
-After the compute environment is created, the launch template version
-used will not be changed, even if the C<$Default> or C<$Latest> version
-for the launch template is updated. To use a new launch template
-version, create a new compute environment, add the new compute
-environment to the existing job queue, remove the old compute
-environment from the job queue, and delete the old compute environment.
+If the AMI ID that's used in a compute environment is from the launch
+template, the AMI isn't changed when the compute environment is
+updated. It's only changed if the C<updateToLatestImageVersion>
+parameter for the compute environment is set to C<true>. During an
+infrastructure update, if either C<$Default> or C<$Latest> is
+specified, Batch re-evaluates the launch template version, and it might
+use a different version of the launch template. This is the case even
+if the launch template isn't specified in the update. When updating a
+compute environment, changing the launch template requires an
+infrastructure update of the compute environment. For more information,
+see Updating compute environments
+(https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html)
+in the I<Batch User Guide>.
 
-Default: C<$Default>.
+Default: C<$Default>
+
+Latest: C<$Latest>
 
 
 

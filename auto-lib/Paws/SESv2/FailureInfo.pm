@@ -34,19 +34,19 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SESv2::Fail
 
 =head1 DESCRIPTION
 
-An object that contains the failure details about an import job.
+An object that contains the failure details about a job.
 
 =head1 ATTRIBUTES
 
 
 =head2 ErrorMessage => Str
 
-A message about why the import job failed.
+A message about why the job failed.
 
 
 =head2 FailedRecordsS3Url => Str
 
-An Amazon S3 presigned URL that contains all the failed records and
+An Amazon S3 pre-signed URL that contains all the failed records and
 related information.
 
 

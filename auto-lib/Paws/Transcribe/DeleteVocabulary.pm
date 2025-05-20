@@ -40,7 +40,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/tra
 
 =head2 B<REQUIRED> VocabularyName => Str
 
-The name of the vocabulary to delete.
+The name of the custom vocabulary you want to delete. Custom vocabulary
+names are case sensitive.
 
 
 

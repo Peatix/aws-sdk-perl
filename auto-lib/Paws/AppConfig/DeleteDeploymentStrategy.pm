@@ -28,10 +28,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $appconfig = Paws->service('AppConfig');
-    $appconfig->DeleteDeploymentStrategy(
-      DeploymentStrategyId => 'MyDeploymentStrategyId',
+    # To delete a deployment strategy
+    # The following delete-deployment-strategy example deletes the specified
+    # deployment strategy.
+    $appconfig->DeleteDeploymentStrategy( 'DeploymentStrategyId' => '1225qzk' );
 
-    );
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/appconfig/DeleteDeploymentStrategy>

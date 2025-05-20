@@ -2,9 +2,11 @@
 package Paws::Rekognition::StartLabelDetection;
   use Moose;
   has ClientRequestToken => (is => 'ro', isa => 'Str');
+  has Features => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has JobTag => (is => 'ro', isa => 'Str');
   has MinConfidence => (is => 'ro', isa => 'Num');
   has NotificationChannel => (is => 'ro', isa => 'Paws::Rekognition::NotificationChannel');
+  has Settings => (is => 'ro', isa => 'Paws::Rekognition::LabelDetectionSettings');
   has Video => (is => 'ro', isa => 'Paws::Rekognition::Video', required => 1);
 
   use MooseX::ClassAttribute;
@@ -39,14 +41,33 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           Version => 'MyS3ObjectVersion',    # min: 1, max: 1024; OPTIONAL
         },    # OPTIONAL
       },
-      ClientRequestToken  => 'MyClientRequestToken',    # OPTIONAL
-      JobTag              => 'MyJobTag',                # OPTIONAL
-      MinConfidence       => 1.0,                       # OPTIONAL
+      ClientRequestToken => 'MyClientRequestToken',    # OPTIONAL
+      Features           => [
+        'GENERAL_LABELS', ...                          # values: GENERAL_LABELS
+      ],    # OPTIONAL
+      JobTag              => 'MyJobTag',    # OPTIONAL
+      MinConfidence       => 1.0,           # OPTIONAL
       NotificationChannel => {
         RoleArn     => 'MyRoleArn',
         SNSTopicArn => 'MySNSTopicArn',
 
-      },                                                # OPTIONAL
+      },                                    # OPTIONAL
+      Settings => {
+        GeneralLabels => {
+          LabelCategoryExclusionFilters => [
+            'MyGeneralLabelsFilterValue', ...    # max: 50
+          ],    # max: 100; OPTIONAL
+          LabelCategoryInclusionFilters => [
+            'MyGeneralLabelsFilterValue', ...    # max: 50
+          ],    # max: 100; OPTIONAL
+          LabelExclusionFilters => [
+            'MyGeneralLabelsFilterValue', ...    # max: 50
+          ],    # max: 100; OPTIONAL
+          LabelInclusionFilters => [
+            'MyGeneralLabelsFilterValue', ...    # max: 50
+          ],    # max: 100; OPTIONAL
+        },    # OPTIONAL
+      },    # OPTIONAL
     );
 
     # Results:
@@ -69,6 +90,13 @@ from being accidently started more than once.
 
 
 
+=head2 Features => ArrayRef[Str|Undef]
+
+The features to return after video analysis. You can specify that
+GENERAL_LABELS are returned.
+
+
+
 =head2 JobTag => Str
 
 An identifier you specify that's returned in the completion
@@ -87,15 +115,26 @@ the lowest confidence. 100 is the highest confidence. Amazon
 Rekognition Video doesn't return any labels with a confidence level
 lower than this specified value.
 
-If you don't specify C<MinConfidence>, the operation returns labels
-with confidence values greater than or equal to 50 percent.
+If you don't specify C<MinConfidence>, the operation returns labels and
+bounding boxes (if detected) with confidence values greater than or
+equal to 50 percent.
 
 
 
 =head2 NotificationChannel => L<Paws::Rekognition::NotificationChannel>
 
 The Amazon SNS topic ARN you want Amazon Rekognition Video to publish
-the completion status of the label detection operation to.
+the completion status of the label detection operation to. The Amazon
+SNS topic must have a topic name that begins with I<AmazonRekognition>
+if you are using the AmazonRekognitionServiceRole permissions policy.
+
+
+
+=head2 Settings => L<Paws::Rekognition::LabelDetectionSettings>
+
+The settings for a StartLabelDetection request.Contains the specified
+parameters for the label detection request of an asynchronous label
+analysis operation. Settings can include filters for GENERAL_LABELS.
 
 
 

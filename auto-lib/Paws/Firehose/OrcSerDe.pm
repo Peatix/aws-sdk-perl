@@ -53,14 +53,14 @@ storing it in Amazon S3. For more information, see Apache ORC
 
 The Hadoop Distributed File System (HDFS) block size. This is useful if
 you intend to copy the data from Amazon S3 to HDFS before querying. The
-default is 256 MiB and the minimum is 64 MiB. Kinesis Data Firehose
-uses this value for padding calculations.
+default is 256 MiB and the minimum is 64 MiB. Firehose uses this value
+for padding calculations.
 
 
 =head2 BloomFilterColumns => ArrayRef[Str|Undef]
 
-The column names for which you want Kinesis Data Firehose to create
-bloom filters. The default is C<null>.
+The column names for which you want Firehose to create bloom filters.
+The default is C<null>.
 
 
 =head2 BloomFilterFalsePositiveProbability => Num
@@ -110,8 +110,8 @@ stripe is inserted to fit within that space. This ensures that no
 stripe crosses block boundaries and causes remote reads within a
 node-local task.
 
-Kinesis Data Firehose ignores this parameter when
-OrcSerDe$EnablePadding is C<false>.
+Firehose ignores this parameter when OrcSerDe$EnablePadding is
+C<false>.
 
 
 =head2 RowIndexStride => Int

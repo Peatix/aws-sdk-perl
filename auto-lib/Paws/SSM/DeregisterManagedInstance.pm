@@ -40,8 +40,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ssm
 
 =head2 B<REQUIRED> InstanceId => Str
 
-The ID assigned to the managed instance when you registered it using
-the activation process.
+The ID assigned to the managed node when you registered it using the
+activation process.
 
 
 

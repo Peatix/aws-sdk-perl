@@ -19,7 +19,7 @@ Paws::CloudHSMv2::InitializeClusterResponse
 
 The cluster's state.
 
-Valid values are: C<"CREATE_IN_PROGRESS">, C<"UNINITIALIZED">, C<"INITIALIZE_IN_PROGRESS">, C<"INITIALIZED">, C<"ACTIVE">, C<"UPDATE_IN_PROGRESS">, C<"DELETE_IN_PROGRESS">, C<"DELETED">, C<"DEGRADED">
+Valid values are: C<"CREATE_IN_PROGRESS">, C<"UNINITIALIZED">, C<"INITIALIZE_IN_PROGRESS">, C<"INITIALIZED">, C<"ACTIVE">, C<"UPDATE_IN_PROGRESS">, C<"MODIFY_IN_PROGRESS">, C<"ROLLBACK_IN_PROGRESS">, C<"DELETE_IN_PROGRESS">, C<"DELETED">, C<"DEGRADED">
 =head2 StateMessage => Str
 
 A description of the cluster's state.

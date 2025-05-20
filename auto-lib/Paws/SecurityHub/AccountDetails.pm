@@ -34,19 +34,19 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SecurityHub
 
 =head1 DESCRIPTION
 
-The details of an AWS account.
+The details of an Amazon Web Services account.
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> AccountId => Str
 
-The ID of an AWS account.
+The ID of an Amazon Web Services account.
 
 
 =head2 Email => Str
 
-The email of an AWS account.
+The email of an Amazon Web Services account.
 
 
 

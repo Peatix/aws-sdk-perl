@@ -65,8 +65,8 @@ The name of the provisioning artifact.
 
 =head2 ProvisioningArtifactMetadata => L<Paws::ServiceCatalog::ProvisioningArtifactInfo>
 
-The metadata for the provisioning artifact. This is used with AWS
-Marketplace products.
+The metadata for the provisioning artifact. This is used with Amazon
+Web Services Marketplace products.
 
 
 

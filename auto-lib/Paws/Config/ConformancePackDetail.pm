@@ -9,6 +9,7 @@ package Paws::Config::ConformancePackDetail;
   has DeliveryS3Bucket => (is => 'ro', isa => 'Str');
   has DeliveryS3KeyPrefix => (is => 'ro', isa => 'Str');
   has LastUpdateRequestedTime => (is => 'ro', isa => 'Str');
+  has TemplateSSMDocumentDetails => (is => 'ro', isa => 'Paws::Config::TemplateSSMDocumentDetails');
 
 1;
 
@@ -29,7 +30,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::Config::ConformancePackDetail object:
 
-  $service_obj->Method(Att1 => { ConformancePackArn => $value, ..., LastUpdateRequestedTime => $value  });
+  $service_obj->Method(Att1 => { ConformancePackArn => $value, ..., TemplateSSMDocumentDetails => $value  });
 
 =head3 Results returned from an API call
 
@@ -41,8 +42,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Config::Con
 =head1 DESCRIPTION
 
 Returns details of a conformance pack. A conformance pack is a
-collection of AWS Config rules and remediation actions that can be
-easily deployed in an account and a region.
+collection of Config rules and remediation actions that can be easily
+deployed in an account and a region.
 
 =head1 ATTRIBUTES
 
@@ -69,12 +70,13 @@ Name of the conformance pack.
 
 =head2 CreatedBy => Str
 
-AWS service that created the conformance pack.
+The Amazon Web Services service that created the conformance pack.
 
 
 =head2 DeliveryS3Bucket => Str
 
-Amazon S3 bucket where AWS Config stores conformance pack templates.
+The name of the Amazon S3 bucket where Config stores conformance pack
+templates.
 
 This field is optional.
 
@@ -88,7 +90,14 @@ This field is optional.
 
 =head2 LastUpdateRequestedTime => Str
 
-Last time when conformation pack update was requested.
+The last time a conformation pack update was requested.
+
+
+=head2 TemplateSSMDocumentDetails => L<Paws::Config::TemplateSSMDocumentDetails>
+
+An object that contains the name or Amazon Resource Name (ARN) of the
+Amazon Web Services Systems Manager document (SSM document) and the
+version of the SSM document that is used to create a conformance pack.
 
 
 

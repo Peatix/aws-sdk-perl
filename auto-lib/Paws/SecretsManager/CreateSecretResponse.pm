@@ -19,32 +19,44 @@ Paws::SecretsManager::CreateSecretResponse
 
 =head2 ARN => Str
 
-The Amazon Resource Name (ARN) of the secret that you just created.
-
-Secrets Manager automatically adds several random characters to the
-name at the end of the ARN when you initially create a secret. This
-affects only the ARN and not the actual friendly name. This ensures
-that if you create a new secret with the same name as an old secret
-that you previously deleted, then users with access to the old secret
-I<don't> automatically get access to the new secret because the ARNs
-are different.
+The ARN of the new secret. The ARN includes the name of the secret
+followed by six random characters. This ensures that if you create a
+new secret with the same name as a deleted secret, then users with
+access to the old secret don't get access to the new secret because the
+ARNs are different.
 
 
 =head2 Name => Str
 
-The friendly name of the secret that you just created.
+The name of the new secret.
 
 
 =head2 ReplicationStatus => ArrayRef[L<Paws::SecretsManager::ReplicationStatusType>]
 
-Describes a list of replication status objects as C<InProgress>,
-C<Failed> or C<InSync>.
+A list of the replicas of this secret and their status:
+
+=over
+
+=item *
+
+C<Failed>, which indicates that the replica was not created.
+
+=item *
+
+C<InProgress>, which indicates that Secrets Manager is in the process
+of creating the replica.
+
+=item *
+
+C<InSync>, which indicates that the replica was created.
+
+=back
+
 
 
 =head2 VersionId => Str
 
-The unique identifier associated with the version of the secret you
-just created.
+The unique identifier associated with the version of the new secret.
 
 
 =head2 _request_id => Str

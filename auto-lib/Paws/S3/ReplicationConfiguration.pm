@@ -42,9 +42,9 @@ maximum size of a replication configuration is 2 MB.
 
 =head2 B<REQUIRED> Role => Str
 
-The Amazon Resource Name (ARN) of the AWS Identity and Access
-Management (IAM) role that Amazon S3 assumes when replicating objects.
-For more information, see How to Set Up Replication
+The Amazon Resource Name (ARN) of the Identity and Access Management
+(IAM) role that Amazon S3 assumes when replicating objects. For more
+information, see How to Set Up Replication
 (https://docs.aws.amazon.com/AmazonS3/latest/dev/replication-how-setup.html)
 in the I<Amazon S3 User Guide>.
 

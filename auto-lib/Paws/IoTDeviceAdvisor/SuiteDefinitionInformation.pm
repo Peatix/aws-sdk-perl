@@ -4,6 +4,8 @@ package Paws::IoTDeviceAdvisor::SuiteDefinitionInformation;
   has CreatedAt => (is => 'ro', isa => 'Str', request_name => 'createdAt', traits => ['NameInRequest']);
   has DefaultDevices => (is => 'ro', isa => 'ArrayRef[Paws::IoTDeviceAdvisor::DeviceUnderTest]', request_name => 'defaultDevices', traits => ['NameInRequest']);
   has IntendedForQualification => (is => 'ro', isa => 'Bool', request_name => 'intendedForQualification', traits => ['NameInRequest']);
+  has IsLongDurationTest => (is => 'ro', isa => 'Bool', request_name => 'isLongDurationTest', traits => ['NameInRequest']);
+  has Protocol => (is => 'ro', isa => 'Str', request_name => 'protocol', traits => ['NameInRequest']);
   has SuiteDefinitionId => (is => 'ro', isa => 'Str', request_name => 'suiteDefinitionId', traits => ['NameInRequest']);
   has SuiteDefinitionName => (is => 'ro', isa => 'Str', request_name => 'suiteDefinitionName', traits => ['NameInRequest']);
 
@@ -49,7 +51,7 @@ Date (in Unix epoch time) when the test suite was created.
 
 =head2 DefaultDevices => ArrayRef[L<Paws::IoTDeviceAdvisor::DeviceUnderTest>]
 
-Specifies the devices under test for the test suite.
+Specifies the devices that are under test for the test suite.
 
 
 =head2 IntendedForQualification => Bool
@@ -57,9 +59,19 @@ Specifies the devices under test for the test suite.
 Specifies if the test suite is intended for qualification.
 
 
+=head2 IsLongDurationTest => Bool
+
+Verifies if the test suite is a long duration test.
+
+
+=head2 Protocol => Str
+
+Gets the MQTT protocol that is configured in the suite definition.
+
+
 =head2 SuiteDefinitionId => Str
 
-Suite definition Id of the test suite.
+Suite definition ID of the test suite.
 
 
 =head2 SuiteDefinitionName => Str

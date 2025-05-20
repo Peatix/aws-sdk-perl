@@ -34,15 +34,16 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::FMS::AwsEc2
 
 =head1 DESCRIPTION
 
-Violations for network interfaces associated with an EC2 instance.
+Violation detail for network interfaces associated with an EC2
+instance.
 
 =head1 ATTRIBUTES
 
 
 =head2 ViolatingSecurityGroups => ArrayRef[Str|Undef]
 
-List of security groups that violate the rules specified in the master
-security group of the AWS Firewall Manager policy.
+List of security groups that violate the rules specified in the primary
+security group of the Firewall Manager policy.
 
 
 =head2 ViolationTarget => Str

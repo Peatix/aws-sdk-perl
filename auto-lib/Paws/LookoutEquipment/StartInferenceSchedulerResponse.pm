@@ -31,13 +31,14 @@ The name of the inference scheduler being started.
 
 =head2 ModelArn => Str
 
-The Amazon Resource Name (ARN) of the ML model being used by the
-inference scheduler.
+The Amazon Resource Name (ARN) of the machine learning model being used
+by the inference scheduler.
 
 
 =head2 ModelName => Str
 
-The name of the ML model being used by the inference scheduler.
+The name of the machine learning model being used by the inference
+scheduler.
 
 
 =head2 Status => Str

@@ -39,12 +39,12 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CloudFront:
 
 =head1 DESCRIPTION
 
-A complex type that determines the distributionE<rsquo>s SSL/TLS
-configuration for communicating with viewers.
+A complex type that determines the distribution's SSL/TLS configuration
+for communicating with viewers.
 
-If the distribution doesnE<rsquo>t use C<Aliases> (also known as
-alternate domain names or CNAMEs)E<mdash>that is, if the distribution
-uses the CloudFront domain name such as
+If the distribution doesn't use C<Aliases> (also known as alternate
+domain names or CNAMEs)E<mdash>that is, if the distribution uses the
+CloudFront domain name such as
 C<d111111abcdef8.cloudfront.net>E<mdash>set
 C<CloudFrontDefaultCertificate> to C<true> and leave all other fields
 empty.
@@ -59,7 +59,7 @@ use the fields in this type to specify the following settings:
 Which viewers the distribution accepts HTTPS connections from: only
 viewers that support server name indication (SNI)
 (https://en.wikipedia.org/wiki/Server_Name_Indication) (recommended),
-or all viewers including those that donE<rsquo>t support SNI.
+or all viewers including those that don't support SNI.
 
 =over
 
@@ -72,9 +72,8 @@ and clients support SNI.
 =item *
 
 To accept HTTPS connections from all viewers, including those that
-donE<rsquo>t support SNI, set C<SSLSupportMethod> to C<vip>. This is
-not recommended, and results in additional monthly charges from
-CloudFront.
+don't support SNI, set C<SSLSupportMethod> to C<vip>. This is not
+recommended, and results in additional monthly charges from CloudFront.
 
 =back
 
@@ -89,9 +88,9 @@ in the I<Amazon CloudFront Developer Guide>.
 
 =item *
 
-The location of the SSL/TLS certificate, AWS Certificate Manager (ACM)
+The location of the SSL/TLS certificate, Certificate Manager (ACM)
 (https://docs.aws.amazon.com/acm/latest/userguide/acm-overview.html)
-(recommended) or AWS Identity and Access Management (AWS IAM)
+(recommended) or Identity and Access Management (IAM)
 (https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html).
 You specify the location by setting a value in one of the following
 fields (not both):
@@ -128,7 +127,7 @@ in the I<Amazon CloudFront Developer Guide>.
 =head2 ACMCertificateArn => Str
 
 If the distribution uses C<Aliases> (alternate domain names or CNAMEs)
-and the SSL/TLS certificate is stored in AWS Certificate Manager (ACM)
+and the SSL/TLS certificate is stored in Certificate Manager (ACM)
 (https://docs.aws.amazon.com/acm/latest/userguide/acm-overview.html),
 provide the Amazon Resource Name (ARN) of the ACM certificate.
 CloudFront only supports ACM certificates in the US East (N. Virginia)
@@ -212,8 +211,8 @@ C<SSLSupportMethod>
 =head2 IAMCertificateId => Str
 
 If the distribution uses C<Aliases> (alternate domain names or CNAMEs)
-and the SSL/TLS certificate is stored in AWS Identity and Access
-Management (AWS IAM)
+and the SSL/TLS certificate is stored in Identity and Access Management
+(IAM)
 (https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html),
 provide the ID of the IAM certificate.
 
@@ -249,7 +248,7 @@ in the I<Amazon CloudFront Developer Guide>.
 
 On the CloudFront console, this setting is called B<Security Policy>.
 
-When youE<rsquo>re using SNI only (you set C<SSLSupportMethod> to
+When you're using SNI only (you set C<SSLSupportMethod> to
 C<sni-only>), you must specify C<TLSv1> or higher.
 
 If the distribution uses the CloudFront domain name such as
@@ -276,7 +275,7 @@ recommended. Most browsers and clients support SNI.
 =item *
 
 C<vip> E<ndash> The distribution accepts HTTPS connections from all
-viewers including those that donE<rsquo>t support SNI. This is not
+viewers including those that don't support SNI. This is not
 recommended, and results in additional monthly charges from CloudFront.
 
 =item *
@@ -284,14 +283,13 @@ recommended, and results in additional monthly charges from CloudFront.
 C<static-ip> - Do not specify this value unless your distribution has
 been enabled for this feature by the CloudFront team. If you have a use
 case that requires static IP addresses for a distribution, contact
-CloudFront through the AWS Support Center
+CloudFront through the Amazon Web ServicesSupport Center
 (https://console.aws.amazon.com/support/home).
 
 =back
 
 If the distribution uses the CloudFront domain name such as
-C<d111111abcdef8.cloudfront.net>, donE<rsquo>t set a value for this
-field.
+C<d111111abcdef8.cloudfront.net>, don't set a value for this field.
 
 
 

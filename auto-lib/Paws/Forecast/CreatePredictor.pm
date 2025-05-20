@@ -10,6 +10,7 @@ package Paws::Forecast::CreatePredictor;
   has ForecastTypes => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has HPOConfig => (is => 'ro', isa => 'Paws::Forecast::HyperParameterTuningJobConfig');
   has InputDataConfig => (is => 'ro', isa => 'Paws::Forecast::InputDataConfig', required => 1);
+  has OptimizationMetric => (is => 'ro', isa => 'Str');
   has PerformAutoML => (is => 'ro', isa => 'Bool');
   has PerformHPO => (is => 'ro', isa => 'Bool');
   has PredictorName => (is => 'ro', isa => 'Str', required => 1);
@@ -42,7 +43,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $forecast = Paws->service('Forecast');
     my $CreatePredictorResponse = $forecast->CreatePredictor(
       FeaturizationConfig => {
-        ForecastFrequency => 'MyFrequency',
+        ForecastFrequency => 'MyFrequency',    # min: 1, max: 5
         Featurizations    => [
           {
             AttributeName         => 'MyName',    # min: 1, max: 63
@@ -61,7 +62,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ],    # min: 1, max: 50; OPTIONAL
         ForecastDimensions => [
           'MyName', ...    # min: 1, max: 63
-        ],    # min: 1, max: 5; OPTIONAL
+        ],    # min: 1, max: 10; OPTIONAL
       },
       ForecastHorizon => 1,
       InputDataConfig => {
@@ -87,8 +88,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         BackTestWindowOffset    => 1,
         NumberOfBacktestWindows => 1,
       },    # OPTIONAL
-      ForecastTypes => [ 'MyForecastType', ... ],    # OPTIONAL
-      HPOConfig     => {
+      ForecastTypes => [
+        'MyForecastType', ...    # min: 2, max: 4
+      ],    # OPTIONAL
+      HPOConfig => {
         ParameterRanges => {
           CategoricalParameterRanges => [
             {
@@ -122,9 +125,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           ],    # min: 1, max: 20; OPTIONAL
         },    # OPTIONAL
       },    # OPTIONAL
-      PerformAutoML => 1,    # OPTIONAL
-      PerformHPO    => 1,    # OPTIONAL
-      Tags          => [
+      OptimizationMetric => 'WAPE',    # OPTIONAL
+      PerformAutoML      => 1,         # OPTIONAL
+      PerformHPO         => 1,         # OPTIONAL
+      Tags               => [
         {
           Key   => 'MyTagKey',      # min: 1, max: 128
           Value => 'MyTagValue',    # max: 256
@@ -188,17 +192,21 @@ C<arn:aws:forecast:::algorithm/Prophet>
 
 =head2 AutoMLOverrideStrategy => Str
 
+The C<LatencyOptimized> AutoML override strategy is only available in
+private beta. Contact Amazon Web Services Support or your account
+manager to learn more about access privileges.
+
 Used to overide the default AutoML strategy, which is to optimize
 predictor accuracy. To apply an AutoML strategy that minimizes training
 time, use C<LatencyOptimized>.
 
 This parameter is only valid for predictors trained using AutoML.
 
-Valid values are: C<"LatencyOptimized">
+Valid values are: C<"LatencyOptimized">, C<"AccuracyOptimized">
 
 =head2 EncryptionConfig => L<Paws::Forecast::EncryptionConfig>
 
-An AWS Key Management Service (KMS) key and the AWS Identity and Access
+An Key Management Service (KMS) key and the Identity and Access
 Management (IAM) role that Amazon Forecast can assume to access the
 key.
 
@@ -264,6 +272,12 @@ Describes the dataset group that contains the data to use to train the
 predictor.
 
 
+
+=head2 OptimizationMetric => Str
+
+The accuracy metric used to optimize the predictor.
+
+Valid values are: C<"WAPE">, C<"RMSE">, C<"AverageWeightedQuantileLoss">, C<"MASE">, C<"MAPE">
 
 =head2 PerformAutoML => Bool
 
@@ -361,12 +375,12 @@ Tag keys and values are case sensitive.
 =item *
 
 Do not use C<aws:>, C<AWS:>, or any upper or lowercase combination of
-such as a prefix for keys as it is reserved for AWS use. You cannot
-edit or delete tag keys with this prefix. Values can have this prefix.
-If a tag value has C<aws> as its prefix but the key does not, then
-Forecast considers it to be a user tag and will count against the limit
-of 50 tags. Tags with only the key prefix of C<aws> do not count
-against your tags per resource limit.
+such as a prefix for keys as it is reserved for Amazon Web Services
+use. You cannot edit or delete tag keys with this prefix. Values can
+have this prefix. If a tag value has C<aws> as its prefix but the key
+does not, then Forecast considers it to be a user tag and will count
+against the limit of 50 tags. Tags with only the key prefix of C<aws>
+do not count against your tags per resource limit.
 
 =back
 

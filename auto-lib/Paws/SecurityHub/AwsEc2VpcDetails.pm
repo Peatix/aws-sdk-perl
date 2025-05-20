@@ -60,7 +60,8 @@ Information about the IPv6 CIDR blocks associated with the VPC.
 
 =head2 State => Str
 
-The current state of the VPC.
+The current state of the VPC. Valid values are C<available> or
+C<pending>.
 
 
 

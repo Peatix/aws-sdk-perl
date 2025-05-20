@@ -2,6 +2,7 @@
 package Paws::DirectConnect::DirectConnectGatewayAssociation;
   use Moose;
   has AllowedPrefixesToDirectConnectGateway => (is => 'ro', isa => 'ArrayRef[Paws::DirectConnect::RouteFilterPrefix]', request_name => 'allowedPrefixesToDirectConnectGateway', traits => ['NameInRequest']);
+  has AssociatedCoreNetwork => (is => 'ro', isa => 'Paws::DirectConnect::AssociatedCoreNetwork', request_name => 'associatedCoreNetwork', traits => ['NameInRequest']);
   has AssociatedGateway => (is => 'ro', isa => 'Paws::DirectConnect::AssociatedGateway', request_name => 'associatedGateway', traits => ['NameInRequest']);
   has AssociationId => (is => 'ro', isa => 'Str', request_name => 'associationId', traits => ['NameInRequest']);
   has AssociationState => (is => 'ro', isa => 'Str', request_name => 'associationState', traits => ['NameInRequest']);
@@ -53,6 +54,12 @@ virtual private gateway or transit gateway.
 The Amazon VPC prefixes to advertise to the Direct Connect gateway.
 
 
+=head2 AssociatedCoreNetwork => L<Paws::DirectConnect::AssociatedCoreNetwork>
+
+The ID of the Cloud WAN core network associated with the Direct Connect
+gateway attachment.
+
+
 =head2 AssociatedGateway => L<Paws::DirectConnect::AssociatedGateway>
 
 Information about the associated gateway.
@@ -92,6 +99,12 @@ disassociated from the Direct Connect gateway. Traffic flow between the
 Direct Connect gateway and virtual private gateway or transit gateway
 is stopped.
 
+=item *
+
+C<updating>: The CIDR blocks for the virtual private gateway or transit
+gateway are currently being updated. This could be new CIDR blocks
+added or current CIDR blocks removed.
+
 =back
 
 
@@ -103,7 +116,8 @@ The ID of the Direct Connect gateway.
 
 =head2 DirectConnectGatewayOwnerAccount => Str
 
-The ID of the AWS account that owns the associated gateway.
+The ID of the Amazon Web Services account that owns the associated
+gateway.
 
 
 =head2 StateChangeError => Str
@@ -119,12 +133,14 @@ interfaces.
 
 =head2 VirtualGatewayOwnerAccount => Str
 
-The ID of the AWS account that owns the virtual private gateway.
+The ID of the Amazon Web Services account that owns the virtual private
+gateway.
 
 
 =head2 VirtualGatewayRegion => Str
 
-The AWS Region where the virtual private gateway is located.
+The Amazon Web Services Region where the virtual private gateway is
+located.
 
 
 

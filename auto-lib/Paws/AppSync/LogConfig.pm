@@ -35,15 +35,15 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AppSync::Lo
 
 =head1 DESCRIPTION
 
-The CloudWatch Logs configuration.
+The Amazon CloudWatch Logs configuration.
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> CloudWatchLogsRoleArn => Str
 
-The service role that AWS AppSync will assume to publish to Amazon
-CloudWatch logs in your account.
+The service role that AppSync assumes to publish to CloudWatch logs in
+your account.
 
 
 =head2 ExcludeVerboseContent => Bool

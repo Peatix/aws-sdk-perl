@@ -2,6 +2,7 @@
 package Paws::AppRunner::DeleteAutoScalingConfiguration;
   use Moose;
   has AutoScalingConfigurationArn => (is => 'ro', isa => 'Str', required => 1);
+  has DeleteAllRevisions => (is => 'ro', isa => 'Bool');
 
   use MooseX::ClassAttribute;
 
@@ -30,7 +31,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $DeleteAutoScalingConfigurationResponse =
       $apprunner->DeleteAutoScalingConfiguration(
       AutoScalingConfigurationArn => 'MyAppRunnerResourceArn',
-
+      DeleteAllRevisions          => 1,                          # OPTIONAL
       );
 
     # Results:
@@ -53,6 +54,17 @@ configuration that you want to delete.
 The ARN can be a full auto scaling configuration ARN, or a partial ARN
 ending with either C<.../I<name> > or C<.../I<name>/I<revision> >. If a
 revision isn't specified, the latest active revision is deleted.
+
+
+
+=head2 DeleteAllRevisions => Bool
+
+Set to C<true> to delete all of the revisions associated with the
+C<AutoScalingConfigurationArn> parameter value.
+
+When C<DeleteAllRevisions> is set to C<true>, the only valid value for
+the Amazon Resource Name (ARN) is a partial ARN ending with:
+C<.../name>.
 
 
 

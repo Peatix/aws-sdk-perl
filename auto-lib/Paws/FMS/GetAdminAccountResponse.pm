@@ -17,12 +17,12 @@ Paws::FMS::GetAdminAccountResponse
 
 =head2 AdminAccount => Str
 
-The AWS account that is set as the AWS Firewall Manager administrator.
+The account that is set as the Firewall Manager default administrator.
 
 
 =head2 RoleStatus => Str
 
-The status of the AWS account that you set as the AWS Firewall Manager
+The status of the account that you set as the Firewall Manager default
 administrator.
 
 Valid values are: C<"READY">, C<"CREATING">, C<"PENDING_DELETION">, C<"DELETING">, C<"DELETED">

@@ -60,8 +60,13 @@ GuardDuty as members.
 
 =head2 B<REQUIRED> DetectorId => Str
 
-The unique ID of the detector of the GuardDuty account that you want to
-invite members with.
+The unique ID of the detector of the GuardDuty account with which you
+want to invite members.
+
+To find the C<detectorId> in the current Region, see the Settings page
+in the GuardDuty console, or run the ListDetectors
+(https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+API.
 
 
 

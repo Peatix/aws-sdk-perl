@@ -1,0 +1,27 @@
+
+package Paws::WellArchitected::GetReviewTemplateOutput;
+  use Moose;
+  has ReviewTemplate => (is => 'ro', isa => 'Paws::WellArchitected::ReviewTemplate');
+
+  has _request_id => (is => 'ro', isa => 'Str');
+1;
+
+### main pod documentation begin ###
+
+=head1 NAME
+
+Paws::WellArchitected::GetReviewTemplateOutput
+
+=head1 ATTRIBUTES
+
+
+=head2 ReviewTemplate => L<Paws::WellArchitected::ReviewTemplate>
+
+The review template.
+
+
+=head2 _request_id => Str
+
+
+=cut
+

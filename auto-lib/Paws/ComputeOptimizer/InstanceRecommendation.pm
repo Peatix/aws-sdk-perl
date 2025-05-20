@@ -2,15 +2,23 @@
 package Paws::ComputeOptimizer::InstanceRecommendation;
   use Moose;
   has AccountId => (is => 'ro', isa => 'Str', request_name => 'accountId', traits => ['NameInRequest']);
+  has CurrentInstanceGpuInfo => (is => 'ro', isa => 'Paws::ComputeOptimizer::GpuInfo', request_name => 'currentInstanceGpuInfo', traits => ['NameInRequest']);
   has CurrentInstanceType => (is => 'ro', isa => 'Str', request_name => 'currentInstanceType', traits => ['NameInRequest']);
+  has CurrentPerformanceRisk => (is => 'ro', isa => 'Str', request_name => 'currentPerformanceRisk', traits => ['NameInRequest']);
+  has EffectiveRecommendationPreferences => (is => 'ro', isa => 'Paws::ComputeOptimizer::EffectiveRecommendationPreferences', request_name => 'effectiveRecommendationPreferences', traits => ['NameInRequest']);
+  has ExternalMetricStatus => (is => 'ro', isa => 'Paws::ComputeOptimizer::ExternalMetricStatus', request_name => 'externalMetricStatus', traits => ['NameInRequest']);
   has Finding => (is => 'ro', isa => 'Str', request_name => 'finding', traits => ['NameInRequest']);
   has FindingReasonCodes => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'findingReasonCodes', traits => ['NameInRequest']);
+  has Idle => (is => 'ro', isa => 'Str', request_name => 'idle', traits => ['NameInRequest']);
+  has InferredWorkloadTypes => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'inferredWorkloadTypes', traits => ['NameInRequest']);
   has InstanceArn => (is => 'ro', isa => 'Str', request_name => 'instanceArn', traits => ['NameInRequest']);
   has InstanceName => (is => 'ro', isa => 'Str', request_name => 'instanceName', traits => ['NameInRequest']);
+  has InstanceState => (is => 'ro', isa => 'Str', request_name => 'instanceState', traits => ['NameInRequest']);
   has LastRefreshTimestamp => (is => 'ro', isa => 'Str', request_name => 'lastRefreshTimestamp', traits => ['NameInRequest']);
   has LookBackPeriodInDays => (is => 'ro', isa => 'Num', request_name => 'lookBackPeriodInDays', traits => ['NameInRequest']);
   has RecommendationOptions => (is => 'ro', isa => 'ArrayRef[Paws::ComputeOptimizer::InstanceRecommendationOption]', request_name => 'recommendationOptions', traits => ['NameInRequest']);
   has RecommendationSources => (is => 'ro', isa => 'ArrayRef[Paws::ComputeOptimizer::RecommendationSource]', request_name => 'recommendationSources', traits => ['NameInRequest']);
+  has Tags => (is => 'ro', isa => 'ArrayRef[Paws::ComputeOptimizer::Tag]', request_name => 'tags', traits => ['NameInRequest']);
   has UtilizationMetrics => (is => 'ro', isa => 'ArrayRef[Paws::ComputeOptimizer::UtilizationMetric]', request_name => 'utilizationMetrics', traits => ['NameInRequest']);
 
 1;
@@ -50,12 +58,36 @@ Describes an Amazon EC2 instance recommendation.
 
 =head2 AccountId => Str
 
-The AWS account ID of the instance.
+The Amazon Web Services account ID of the instance.
+
+
+=head2 CurrentInstanceGpuInfo => L<Paws::ComputeOptimizer::GpuInfo>
+
+Describes the GPU accelerator settings for the current instance type.
 
 
 =head2 CurrentInstanceType => Str
 
 The instance type of the current instance.
+
+
+=head2 CurrentPerformanceRisk => Str
+
+The risk of the current instance not meeting the performance needs of
+its workloads. The higher the risk, the more likely the current
+instance cannot meet the performance requirements of its workload.
+
+
+=head2 EffectiveRecommendationPreferences => L<Paws::ComputeOptimizer::EffectiveRecommendationPreferences>
+
+An object that describes the effective recommendation preferences for
+the instance.
+
+
+=head2 ExternalMetricStatus => L<Paws::ComputeOptimizer::ExternalMetricStatus>
+
+An object that describes Compute Optimizer's integration status with
+your external metrics provider.
 
 
 =head2 Finding => Str
@@ -88,11 +120,13 @@ infrastructure cost.
 B<C<Optimized> >E<mdash>An instance is considered optimized when all
 specifications of your instance, such as CPU, memory, and network, meet
 the performance requirements of your workload and is not over
-provisioned. For optimized resources, AWS Compute Optimizer might
-recommend a new generation instance type.
+provisioned. For optimized resources, Compute Optimizer might recommend
+a new generation instance type.
 
 =back
 
+The valid values in your API responses appear as OVER_PROVISIONED,
+UNDER_PROVISIONED, or OPTIMIZED.
 
 
 =head2 FindingReasonCodes => ArrayRef[Str|Undef]
@@ -139,7 +173,7 @@ Memory utilization is analyzed only for resources that have the unified
 CloudWatch agent installed on them. For more information, see Enabling
 memory utilization with the Amazon CloudWatch Agent
 (https://docs.aws.amazon.com/compute-optimizer/latest/ug/metrics.html#cw-agent)
-in the I<AWS Compute Optimizer User Guide>. On Linux instances, Compute
+in the I<Compute Optimizer User Guide>. On Linux instances, Compute
 Optimizer analyses the C<mem_used_percent> metric in the C<CWAgent>
 namespace, or the legacy C<MemoryUtilization> metric in the
 C<System/Linux> namespace. On Windows instances, Compute Optimizer
@@ -151,7 +185,7 @@ C<CWAgent> namespace.
 B<C<EBSThroughputOverprovisioned> > E<mdash> The instanceE<rsquo>s EBS
 throughput configuration can be sized down while still meeting the
 performance requirements of your workload. This is identified by
-analyzing the C<VolumeReadOps> and C<VolumeWriteOps> metrics of EBS
+analyzing the C<VolumeReadBytes> and C<VolumeWriteBytes> metrics of EBS
 volumes attached to the current instance during the look-back period.
 
 =item *
@@ -160,16 +194,16 @@ B<C<EBSThroughputUnderprovisioned> > E<mdash> The instanceE<rsquo>s EBS
 throughput configuration doesn't meet the performance requirements of
 your workload and there is an alternative instance type that provides
 better EBS throughput performance. This is identified by analyzing the
-C<VolumeReadOps> and C<VolumeWriteOps> metrics of EBS volumes attached
-to the current instance during the look-back period.
+C<VolumeReadBytes> and C<VolumeWriteBytes> metrics of EBS volumes
+attached to the current instance during the look-back period.
 
 =item *
 
 B<C<EBSIOPSOverprovisioned> > E<mdash> The instanceE<rsquo>s EBS IOPS
 configuration can be sized down while still meeting the performance
 requirements of your workload. This is identified by analyzing the
-C<VolumeReadBytes> and C<VolumeWriteBytes> metric of EBS volumes
-attached to the current instance during the look-back period.
+C<VolumeReadOps> and C<VolumeWriteOps> metric of EBS volumes attached
+to the current instance during the look-back period.
 
 =item *
 
@@ -177,8 +211,8 @@ B<C<EBSIOPSUnderprovisioned> > E<mdash> The instanceE<rsquo>s EBS IOPS
 configuration doesn't meet the performance requirements of your
 workload and there is an alternative instance type that provides better
 EBS IOPS performance. This is identified by analyzing the
-C<VolumeReadBytes> and C<VolumeWriteBytes> metric of EBS volumes
-attached to the current instance during the look-back period.
+C<VolumeReadOps> and C<VolumeWriteOps> metric of EBS volumes attached
+to the current instance during the look-back period.
 
 =item *
 
@@ -261,6 +295,64 @@ about EBS volume metrics, see Amazon CloudWatch metrics for Amazon EBS
 in the I<Amazon Elastic Compute Cloud User Guide>.
 
 
+=head2 Idle => Str
+
+Describes if an Amazon EC2 instance is idle.
+
+
+=head2 InferredWorkloadTypes => ArrayRef[Str|Undef]
+
+The applications that might be running on the instance as inferred by
+Compute Optimizer.
+
+Compute Optimizer can infer if one of the following applications might
+be running on the instance:
+
+=over
+
+=item *
+
+C<AmazonEmr> - Infers that Amazon EMR might be running on the instance.
+
+=item *
+
+C<ApacheCassandra> - Infers that Apache Cassandra might be running on
+the instance.
+
+=item *
+
+C<ApacheHadoop> - Infers that Apache Hadoop might be running on the
+instance.
+
+=item *
+
+C<Memcached> - Infers that Memcached might be running on the instance.
+
+=item *
+
+C<NGINX> - Infers that NGINX might be running on the instance.
+
+=item *
+
+C<PostgreSql> - Infers that PostgreSQL might be running on the
+instance.
+
+=item *
+
+C<Redis> - Infers that Redis might be running on the instance.
+
+=item *
+
+C<Kafka> - Infers that Kafka might be running on the instance.
+
+=item *
+
+C<SQLServer> - Infers that SQLServer might be running on the instance.
+
+=back
+
+
+
 =head2 InstanceArn => Str
 
 The Amazon Resource Name (ARN) of the current instance.
@@ -271,9 +363,14 @@ The Amazon Resource Name (ARN) of the current instance.
 The name of the current instance.
 
 
+=head2 InstanceState => Str
+
+The state of the instance when the recommendation was generated.
+
+
 =head2 LastRefreshTimestamp => Str
 
-The time stamp of when the instance recommendation was last refreshed.
+The timestamp of when the instance recommendation was last generated.
 
 
 =head2 LookBackPeriodInDays => Num
@@ -292,6 +389,11 @@ instance.
 
 An array of objects that describe the source resource of the
 recommendation.
+
+
+=head2 Tags => ArrayRef[L<Paws::ComputeOptimizer::Tag>]
+
+A list of tags assigned to your Amazon EC2 instance recommendations.
 
 
 =head2 UtilizationMetrics => ArrayRef[L<Paws::ComputeOptimizer::UtilizationMetric>]

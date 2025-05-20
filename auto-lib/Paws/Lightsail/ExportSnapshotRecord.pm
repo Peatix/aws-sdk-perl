@@ -74,7 +74,7 @@ The export snapshot record name.
 
 =head2 ResourceType => Str
 
-The Lightsail resource type (e.g., C<ExportSnapshotRecord>).
+The Lightsail resource type (C<ExportSnapshotRecord>).
 
 
 =head2 SourceInfo => L<Paws::Lightsail::ExportSnapshotRecordSourceInfo>

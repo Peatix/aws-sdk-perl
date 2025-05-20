@@ -46,13 +46,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     );
 
     # Results:
-    my $ARN               = $UserGroup->ARN;
-    my $Engine            = $UserGroup->Engine;
-    my $PendingChanges    = $UserGroup->PendingChanges;
-    my $ReplicationGroups = $UserGroup->ReplicationGroups;
-    my $Status            = $UserGroup->Status;
-    my $UserGroupId       = $UserGroup->UserGroupId;
-    my $UserIds           = $UserGroup->UserIds;
+    my $ARN                  = $UserGroup->ARN;
+    my $Engine               = $UserGroup->Engine;
+    my $MinimumEngineVersion = $UserGroup->MinimumEngineVersion;
+    my $PendingChanges       = $UserGroup->PendingChanges;
+    my $ReplicationGroups    = $UserGroup->ReplicationGroups;
+    my $ServerlessCaches     = $UserGroup->ServerlessCaches;
+    my $Status               = $UserGroup->Status;
+    my $UserGroupId          = $UserGroup->UserGroupId;
+    my $UserIds              = $UserGroup->UserIds;
 
     # Returns a L<Paws::ElastiCache::UserGroup> object.
 
@@ -64,7 +66,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ela
 
 =head2 B<REQUIRED> Engine => Str
 
-The current supported value is Redis.
+Sets the engine listed in a user group. The options are valkey or
+redis.
 
 
 
@@ -72,7 +75,7 @@ The current supported value is Redis.
 
 A list of tags to be added to this resource. A tag is a key-value pair.
 A tag key must be accompanied by a tag value, although null is
-accepted.
+accepted. Available for Valkey and Redis OSS only.
 
 
 

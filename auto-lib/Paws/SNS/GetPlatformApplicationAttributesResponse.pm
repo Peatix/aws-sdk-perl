@@ -23,6 +23,39 @@ Attributes include the following:
 
 =item *
 
+C<AppleCertificateExpiryDate> E<ndash> The expiry date of the SSL
+certificate used to configure certificate-based authentication.
+
+=item *
+
+C<ApplePlatformTeamID> E<ndash> The Apple developer account ID used to
+configure token-based authentication.
+
+=item *
+
+C<ApplePlatformBundleID> E<ndash> The app identifier used to configure
+token-based authentication.
+
+=item *
+
+C<AuthenticationMethod> E<ndash> Returns the credential type used when
+sending push notifications from application to APNS/APNS_Sandbox, or
+application to GCM.
+
+=over
+
+=item *
+
+APNS E<ndash> Returns the token or certificate.
+
+=item *
+
+GCM E<ndash> Returns the token or key.
+
+=back
+
+=item *
+
 C<EventEndpointCreated> E<ndash> Topic ARN to which EndpointCreated
 event notifications should be sent.
 

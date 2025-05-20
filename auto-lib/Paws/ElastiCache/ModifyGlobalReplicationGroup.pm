@@ -5,6 +5,7 @@ package Paws::ElastiCache::ModifyGlobalReplicationGroup;
   has AutomaticFailoverEnabled => (is => 'ro', isa => 'Bool');
   has CacheNodeType => (is => 'ro', isa => 'Str');
   has CacheParameterGroupName => (is => 'ro', isa => 'Str');
+  has Engine => (is => 'ro', isa => 'Str');
   has EngineVersion => (is => 'ro', isa => 'Str');
   has GlobalReplicationGroupDescription => (is => 'ro', isa => 'Str');
   has GlobalReplicationGroupId => (is => 'ro', isa => 'Str', required => 1);
@@ -40,6 +41,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       AutomaticFailoverEnabled          => 1,             # OPTIONAL
       CacheNodeType                     => 'MyString',    # OPTIONAL
       CacheParameterGroupName           => 'MyString',    # OPTIONAL
+      Engine                            => 'MyString',    # OPTIONAL
       EngineVersion                     => 'MyString',    # OPTIONAL
       GlobalReplicationGroupDescription => 'MyString',    # OPTIONAL
       );
@@ -84,6 +86,13 @@ to.
 The name of the cache parameter group to use with the Global datastore.
 It must be compatible with the major engine version used by the Global
 datastore.
+
+
+
+=head2 Engine => Str
+
+Modifies the engine listed in a global replication group message. The
+options are redis, memcached or valkey.
 
 
 

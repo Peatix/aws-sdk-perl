@@ -184,6 +184,13 @@ indicated when an instance could not be reached. When you specify
 C<icmp> as the C<protocol>, you must specify the ICMP type using the
 C<fromPort> parameter, and ICMP code using the C<toPort> parameter.
 
+=item *
+
+C<icmp6> - Internet Control Message Protocol (ICMP) for IPv6. When you
+specify C<icmp6> as the C<protocol>, you must specify the ICMP type
+using the C<fromPort> parameter, and ICMP code using the C<toPort>
+parameter.
+
 =back
 
 

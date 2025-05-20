@@ -1,13 +1,17 @@
 
 package Paws::EC2::AllocateHosts;
   use Moose;
+  has AssetIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'AssetId' );
   has AutoPlacement => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'autoPlacement' );
-  has AvailabilityZone => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'availabilityZone' , required => 1);
+  has AvailabilityZone => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'availabilityZone' );
+  has AvailabilityZoneId => (is => 'ro', isa => 'Str');
   has ClientToken => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'clientToken' );
+  has HostMaintenance => (is => 'ro', isa => 'Str');
   has HostRecovery => (is => 'ro', isa => 'Str');
   has InstanceFamily => (is => 'ro', isa => 'Str');
   has InstanceType => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'instanceType' );
-  has Quantity => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'quantity' , required => 1);
+  has OutpostArn => (is => 'ro', isa => 'Str');
+  has Quantity => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'quantity' );
   has TagSpecifications => (is => 'ro', isa => 'ArrayRef[Paws::EC2::TagSpecification]', traits => ['NameInRequest'], request_name => 'TagSpecification' );
 
   use MooseX::ClassAttribute;
@@ -35,17 +39,21 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $ec2 = Paws->service('EC2');
     my $AllocateHostsResult = $ec2->AllocateHosts(
-      AvailabilityZone  => 'MyString',
-      Quantity          => 1,
-      AutoPlacement     => 'on',          # OPTIONAL
-      ClientToken       => 'MyString',    # OPTIONAL
-      HostRecovery      => 'on',          # OPTIONAL
-      InstanceFamily    => 'MyString',    # OPTIONAL
-      InstanceType      => 'MyString',    # OPTIONAL
-      TagSpecifications => [
+      AssetIds           => [ 'MyAssetId', ... ],      # OPTIONAL
+      AutoPlacement      => 'on',                      # OPTIONAL
+      AvailabilityZone   => 'MyString',                # OPTIONAL
+      AvailabilityZoneId => 'MyAvailabilityZoneId',    # OPTIONAL
+      ClientToken        => 'MyString',                # OPTIONAL
+      HostMaintenance    => 'on',                      # OPTIONAL
+      HostRecovery       => 'on',                      # OPTIONAL
+      InstanceFamily     => 'MyString',                # OPTIONAL
+      InstanceType       => 'MyString',                # OPTIONAL
+      OutpostArn         => 'MyString',                # OPTIONAL
+      Quantity           => 1,                         # OPTIONAL
+      TagSpecifications  => [
         {
-          ResourceType => 'client-vpn-endpoint'
-          , # values: client-vpn-endpoint, customer-gateway, dedicated-host, dhcp-options, egress-only-internet-gateway, elastic-ip, elastic-gpu, export-image-task, export-instance-task, fleet, fpga-image, host-reservation, image, import-image-task, import-snapshot-task, instance, internet-gateway, key-pair, launch-template, local-gateway-route-table-vpc-association, natgateway, network-acl, network-interface, network-insights-analysis, network-insights-path, placement-group, reserved-instances, route-table, security-group, snapshot, spot-fleet-request, spot-instances-request, subnet, traffic-mirror-filter, traffic-mirror-session, traffic-mirror-target, transit-gateway, transit-gateway-attachment, transit-gateway-connect-peer, transit-gateway-multicast-domain, transit-gateway-route-table, volume, vpc, vpc-peering-connection, vpn-connection, vpn-gateway, vpc-flow-log; OPTIONAL
+          ResourceType => 'capacity-reservation'
+          , # values: capacity-reservation, client-vpn-endpoint, customer-gateway, carrier-gateway, coip-pool, declarative-policies-report, dedicated-host, dhcp-options, egress-only-internet-gateway, elastic-ip, elastic-gpu, export-image-task, export-instance-task, fleet, fpga-image, host-reservation, image, import-image-task, import-snapshot-task, instance, instance-event-window, internet-gateway, ipam, ipam-pool, ipam-scope, ipv4pool-ec2, ipv6pool-ec2, key-pair, launch-template, local-gateway, local-gateway-route-table, local-gateway-virtual-interface, local-gateway-virtual-interface-group, local-gateway-route-table-vpc-association, local-gateway-route-table-virtual-interface-group-association, natgateway, network-acl, network-interface, network-insights-analysis, network-insights-path, network-insights-access-scope, network-insights-access-scope-analysis, outpost-lag, placement-group, prefix-list, replace-root-volume-task, reserved-instances, route-table, security-group, security-group-rule, service-link-virtual-interface, snapshot, spot-fleet-request, spot-instances-request, subnet, subnet-cidr-reservation, traffic-mirror-filter, traffic-mirror-session, traffic-mirror-target, transit-gateway, transit-gateway-attachment, transit-gateway-connect-peer, transit-gateway-multicast-domain, transit-gateway-policy-table, transit-gateway-route-table, transit-gateway-route-table-announcement, volume, vpc, vpc-endpoint, vpc-endpoint-connection, vpc-endpoint-service, vpc-endpoint-service-permission, vpc-peering-connection, vpn-connection, vpn-gateway, vpc-flow-log, capacity-reservation-fleet, traffic-mirror-filter-rule, vpc-endpoint-connection-device-type, verified-access-instance, verified-access-group, verified-access-endpoint, verified-access-policy, verified-access-trust-provider, vpn-connection-device-type, vpc-block-public-access-exclusion, route-server, route-server-endpoint, route-server-peer, ipam-resource-discovery, ipam-resource-discovery-association, instance-connect-endpoint, verified-access-endpoint-target, ipam-external-resource-verification-token, mac-modification-task; OPTIONAL
           Tags => [
             {
               Key   => 'MyString',
@@ -69,6 +77,31 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ec2
 =head1 ATTRIBUTES
 
 
+=head2 AssetIds => ArrayRef[Str|Undef]
+
+The IDs of the Outpost hardware assets on which to allocate the
+Dedicated Hosts. Targeting specific hardware assets on an Outpost can
+help to minimize latency between your workloads. This parameter is
+supported only if you specify B<OutpostArn>. If you are allocating the
+Dedicated Hosts in a Region, omit this parameter.
+
+=over
+
+=item *
+
+If you specify this parameter, you can omit B<Quantity>. In this case,
+Amazon EC2 allocates a Dedicated Host on each specified hardware asset.
+
+=item *
+
+If you specify both B<AssetIds> and B<Quantity>, then the value for
+B<Quantity> must be equal to the number of asset IDs specified.
+
+=back
+
+
+
+
 =head2 AutoPlacement => Str
 
 Indicates whether the host accepts any untargeted instance launches
@@ -78,13 +111,19 @@ information, see Understanding auto-placement and affinity
 (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/how-dedicated-hosts-work.html#dedicated-hosts-understanding)
 in the I<Amazon EC2 User Guide>.
 
-Default: C<on>
+Default: C<off>
 
 Valid values are: C<"on">, C<"off">
 
-=head2 B<REQUIRED> AvailabilityZone => Str
+=head2 AvailabilityZone => Str
 
 The Availability Zone in which to allocate the Dedicated Host.
+
+
+
+=head2 AvailabilityZoneId => Str
+
+The ID of the Availability Zone.
 
 
 
@@ -96,6 +135,15 @@ Idempotency
 (https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 
 
+
+=head2 HostMaintenance => Str
+
+Indicates whether to enable or disable host maintenance for the
+Dedicated Host. For more information, see Host maintenance
+(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/dedicated-hosts-maintenance.html)
+in the I<Amazon EC2 User Guide>.
+
+Valid values are: C<"on">, C<"off">
 
 =head2 HostRecovery => Str
 
@@ -135,10 +183,26 @@ B<InstanceFamily> in the same request.
 
 
 
-=head2 B<REQUIRED> Quantity => Int
+=head2 OutpostArn => Str
+
+The Amazon Resource Name (ARN) of the Amazon Web Services Outpost on
+which to allocate the Dedicated Host. If you specify B<OutpostArn>, you
+can optionally specify B<AssetIds>.
+
+If you are allocating the Dedicated Host in a Region, omit this
+parameter.
+
+
+
+=head2 Quantity => Int
 
 The number of Dedicated Hosts to allocate to your account with these
-parameters.
+parameters. If you are allocating the Dedicated Hosts on an Outpost,
+and you specify B<AssetIds>, you can omit this parameter. In this case,
+Amazon EC2 allocates a Dedicated Host on each specified hardware asset.
+If you specify both B<AssetIds> and B<Quantity>, then the value that
+you specify for B<Quantity> must be equal to the number of asset IDs
+specified.
 
 
 

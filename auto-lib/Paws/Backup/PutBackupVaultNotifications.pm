@@ -33,7 +33,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     $backup->PutBackupVaultNotifications(
       BackupVaultEvents => [
         'BACKUP_JOB_STARTED',
-        ... # values: BACKUP_JOB_STARTED, BACKUP_JOB_COMPLETED, BACKUP_JOB_SUCCESSFUL, BACKUP_JOB_FAILED, BACKUP_JOB_EXPIRED, RESTORE_JOB_STARTED, RESTORE_JOB_COMPLETED, RESTORE_JOB_SUCCESSFUL, RESTORE_JOB_FAILED, COPY_JOB_STARTED, COPY_JOB_SUCCESSFUL, COPY_JOB_FAILED, RECOVERY_POINT_MODIFIED, BACKUP_PLAN_CREATED, BACKUP_PLAN_MODIFIED
+        ... # values: BACKUP_JOB_STARTED, BACKUP_JOB_COMPLETED, BACKUP_JOB_SUCCESSFUL, BACKUP_JOB_FAILED, BACKUP_JOB_EXPIRED, RESTORE_JOB_STARTED, RESTORE_JOB_COMPLETED, RESTORE_JOB_SUCCESSFUL, RESTORE_JOB_FAILED, COPY_JOB_STARTED, COPY_JOB_SUCCESSFUL, COPY_JOB_FAILED, RECOVERY_POINT_MODIFIED, BACKUP_PLAN_CREATED, BACKUP_PLAN_MODIFIED, S3_BACKUP_OBJECT_FAILED, S3_RESTORE_OBJECT_FAILED
       ],
       BackupVaultName => 'MyBackupVaultName',
       SNSTopicArn     => 'MyARN',
@@ -51,14 +51,45 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/bac
 An array of events that indicate the status of jobs to back up
 resources to the backup vault.
 
+For common use cases and code samples, see Using Amazon SNS to track
+Backup events
+(https://docs.aws.amazon.com/aws-backup/latest/devguide/sns-notifications.html).
+
+The following events are supported:
+
+=over
+
+=item *
+
+C<BACKUP_JOB_STARTED> | C<BACKUP_JOB_COMPLETED>
+
+=item *
+
+C<COPY_JOB_STARTED> | C<COPY_JOB_SUCCESSFUL> | C<COPY_JOB_FAILED>
+
+=item *
+
+C<RESTORE_JOB_STARTED> | C<RESTORE_JOB_COMPLETED> |
+C<RECOVERY_POINT_MODIFIED>
+
+=item *
+
+C<S3_BACKUP_OBJECT_FAILED> | C<S3_RESTORE_OBJECT_FAILED>
+
+=back
+
+The list below includes both supported events and deprecated events
+that are no longer in use (for reference). Deprecated events do not
+return statuses or notifications. Refer to the list above for the
+supported events.
+
 
 
 =head2 B<REQUIRED> BackupVaultName => Str
 
 The name of a logical container where backups are stored. Backup vaults
 are identified by names that are unique to the account used to create
-them and the AWS Region where they are created. They consist of
-lowercase letters, numbers, and hyphens.
+them and the Amazon Web Services Region where they are created.
 
 
 

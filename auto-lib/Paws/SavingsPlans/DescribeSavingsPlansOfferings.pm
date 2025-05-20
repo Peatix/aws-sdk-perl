@@ -101,7 +101,7 @@ The descriptions.
 
 =head2 Durations => ArrayRef[Int]
 
-The durations, in seconds.
+The duration, in seconds.
 
 
 
@@ -132,7 +132,8 @@ The IDs of the offerings.
 
 =head2 Operations => ArrayRef[Str|Undef]
 
-The specific AWS operation for the line item in the billing report.
+The specific Amazon Web Services operation for the line item in the
+billing report.
 
 
 
@@ -144,7 +145,7 @@ The payment options.
 
 =head2 PlanTypes => ArrayRef[Str|Undef]
 
-The plan type.
+The plan types.
 
 
 

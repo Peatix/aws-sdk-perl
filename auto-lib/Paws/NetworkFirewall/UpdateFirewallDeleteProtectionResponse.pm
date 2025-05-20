@@ -19,7 +19,11 @@ Paws::NetworkFirewall::UpdateFirewallDeleteProtectionResponse
 
 =head2 DeleteProtection => Bool
 
-
+A flag indicating whether it is possible to delete the firewall. A
+setting of C<TRUE> indicates that the firewall is protected against
+deletion. Use this setting to protect against accidentally deleting a
+firewall that is in use. When you create a firewall, the operation
+initializes this flag to C<TRUE>.
 
 
 =head2 FirewallArn => Str

@@ -1,12 +1,15 @@
 
 package Paws::NetworkFirewall::CreateRuleGroup;
   use Moose;
+  has AnalyzeRuleGroup => (is => 'ro', isa => 'Bool');
   has Capacity => (is => 'ro', isa => 'Int', required => 1);
   has Description => (is => 'ro', isa => 'Str');
   has DryRun => (is => 'ro', isa => 'Bool');
+  has EncryptionConfiguration => (is => 'ro', isa => 'Paws::NetworkFirewall::EncryptionConfiguration');
   has RuleGroup => (is => 'ro', isa => 'Paws::NetworkFirewall::RuleGroup');
   has RuleGroupName => (is => 'ro', isa => 'Str', required => 1);
   has Rules => (is => 'ro', isa => 'Str');
+  has SourceMetadata => (is => 'ro', isa => 'Paws::NetworkFirewall::SourceMetadata');
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::NetworkFirewall::Tag]');
   has Type => (is => 'ro', isa => 'Str', required => 1);
 
@@ -35,12 +38,17 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $network-firewall = Paws->service('NetworkFirewall');
     my $CreateRuleGroupResponse = $network -firewall->CreateRuleGroup(
-      Capacity      => 1,
-      RuleGroupName => 'MyResourceName',
-      Type          => 'STATELESS',
-      Description   => 'MyDescription',    # OPTIONAL
-      DryRun        => 1,                  # OPTIONAL
-      RuleGroup     => {
+      Capacity                => 1,
+      RuleGroupName           => 'MyResourceName',
+      Type                    => 'STATELESS',
+      AnalyzeRuleGroup        => 1,                  # OPTIONAL
+      Description             => 'MyDescription',    # OPTIONAL
+      DryRun                  => 1,                  # OPTIONAL
+      EncryptionConfiguration => {
+        Type  => 'CUSTOMER_KMS',    # values: CUSTOMER_KMS, AWS_OWNED_KMS_KEY
+        KeyId => 'MyKeyId',         # min: 1, max: 2048; OPTIONAL
+      },    # OPTIONAL
+      RuleGroup => {
         RulesSource => {
           RulesSourceList => {
             GeneratedRulesType => 'ALLOWLIST',    # values: ALLOWLIST, DENYLIST
@@ -50,10 +58,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             Targets => [ 'MyCollectionMember_String', ... ],
 
           },    # OPTIONAL
-          RulesString   => 'MyRulesString',    # max: 1000000; OPTIONAL
+          RulesString   => 'MyRulesString',    # max: 2000000; OPTIONAL
           StatefulRules => [
             {
-              Action => 'PASS',                # values: PASS, DROP, ALERT
+              Action => 'PASS',    # values: PASS, DROP, ALERT, REJECT
               Header => {
                 Destination     => 'MyDestination',    # min: 1, max: 1024
                 DestinationPort => 'MyPort',           # min: 1, max: 1024
@@ -160,6 +168,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             ],    # OPTIONAL
           },    # OPTIONAL
         },
+        ReferenceSets => {
+          IPSetReferences => {
+            'MyIPSetReferenceName' => {
+              ReferenceArn => 'MyResourceArn',    # min: 1, max: 256; OPTIONAL
+            },    # key: min: 1, max: 32
+          },    # OPTIONAL
+        },    # OPTIONAL
         RuleVariables => {
           IPSets => {
             'MyRuleVariableName' => {
@@ -177,9 +192,17 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             },    # key: min: 1, max: 32
           },    # OPTIONAL
         },    # OPTIONAL
+        StatefulRuleOptions => {
+          RuleOrder => 'DEFAULT_ACTION_ORDER'
+          ,    # values: DEFAULT_ACTION_ORDER, STRICT_ORDER; OPTIONAL
+        },    # OPTIONAL
       },    # OPTIONAL
-      Rules => 'MyRulesString',    # OPTIONAL
-      Tags  => [
+      Rules          => 'MyRulesString',    # OPTIONAL
+      SourceMetadata => {
+        SourceArn         => 'MyResourceArn',    # min: 1, max: 256; OPTIONAL
+        SourceUpdateToken => 'MyUpdateToken',    # min: 1, max: 1024; OPTIONAL
+      },    # OPTIONAL
+      Tags => [
         {
           Key   => 'MyTagKey',      # min: 1, max: 128
           Value => 'MyTagValue',    # max: 256
@@ -199,6 +222,16 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/network-firewall/CreateRuleGroup>
 
 =head1 ATTRIBUTES
+
+
+=head2 AnalyzeRuleGroup => Bool
+
+Indicates whether you want Network Firewall to analyze the stateless
+rules in the rule group for rule behavior such as asymmetric routing.
+If set to C<TRUE>, Network Firewall runs the analysis and then creates
+the rule group for you. To run the stateless rule group analyzer
+without creating the rule group, set C<DryRun> to C<TRUE>.
+
 
 
 =head2 B<REQUIRED> Capacity => Int
@@ -282,6 +315,13 @@ your resources.
 
 
 
+=head2 EncryptionConfiguration => L<Paws::NetworkFirewall::EncryptionConfiguration>
+
+A complex type that contains settings for encryption of your rule group
+resources.
+
+
+
 =head2 RuleGroup => L<Paws::NetworkFirewall::RuleGroup>
 
 An object that defines the rule group rules.
@@ -311,6 +351,14 @@ You can provide your rule group specification in Suricata flat format
 through this setting when you create or update your rule group. The
 call response returns a RuleGroup object that Network Firewall has
 populated from your string.
+
+
+
+=head2 SourceMetadata => L<Paws::NetworkFirewall::SourceMetadata>
+
+A complex type that contains metadata about the rule group that your
+own rule group is copied from. You can use the metadata to keep track
+of updates made to the originating rule group.
 
 
 

@@ -43,7 +43,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/acm
 The Amazon Resource Number (ARN) of the private CA that will have its
 policy deleted. You can find the CA's ARN by calling the
 ListCertificateAuthorities
-(https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_ListCertificateAuthorities.html)
+(https://docs.aws.amazon.com/privateca/latest/APIReference/API_ListCertificateAuthorities.html)
 action. The ARN value must have the form
 C<arn:aws:acm-pca:region:account:certificate-authority/01234567-89ab-cdef-0123-0123456789ab>.
 

@@ -39,8 +39,7 @@ The routing configuration for a fleet alias.
 
 B<Related actions>
 
-CreateAlias | ListAliases | DescribeAlias | UpdateAlias | DeleteAlias |
-ResolveAlias | All APIs by task
+All APIs by task
 (https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-awssdk.html#reference-awssdk-resources-fleets)
 
 =head1 ATTRIBUTES
@@ -74,8 +73,7 @@ when routing to active fleets.
 
 B<TERMINAL> - The alias does not resolve to a fleet but instead can be
 used to display a message to the user. A terminal alias throws a
-TerminalRoutingStrategyException with the RoutingStrategy message
-embedded.
+TerminalRoutingStrategyException with the message embedded.
 
 =back
 

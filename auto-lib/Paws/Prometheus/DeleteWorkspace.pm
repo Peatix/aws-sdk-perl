@@ -42,8 +42,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/aps
 
 =head2 ClientToken => Str
 
-Optional, unique, case-sensitive, user-provided identifier to ensure
-the idempotency of the request.
+A unique identifier that you can provide to ensure the idempotency of
+the request. Case-sensitive.
 
 
 

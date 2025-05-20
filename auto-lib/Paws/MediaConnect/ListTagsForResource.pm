@@ -1,12 +1,12 @@
 
 package Paws::MediaConnect::ListTagsForResource;
   use Moose;
-  has ResourceArn => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'resourceArn', required => 1);
+  has ResourceArn => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'ResourceArn', required => 1);
 
   use MooseX::ClassAttribute;
 
   class_has _api_call => (isa => 'Str', is => 'ro', default => 'ListTagsForResource');
-  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/tags/{resourceArn}');
+  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/tags/{ResourceArn}');
   class_has _api_method  => (isa => 'Str', is => 'ro', default => 'GET');
   class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::MediaConnect::ListTagsForResourceResponse');
 1;
@@ -29,7 +29,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $mediaconnect = Paws->service('MediaConnect');
     my $ListTagsForResourceResponse = $mediaconnect->ListTagsForResource(
-      ResourceArn => 'My__string',
+      ResourceArn => 'MyString',
 
     );
 
@@ -46,8 +46,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/med
 
 =head2 B<REQUIRED> ResourceArn => Str
 
-The Amazon Resource Name (ARN) that identifies the AWS Elemental
-MediaConnect resource for which to list the tags.
+The Amazon Resource Name (ARN) that identifies the MediaConnect
+resource for which to list the tags.
 
 
 

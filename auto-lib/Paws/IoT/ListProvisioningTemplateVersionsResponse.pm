@@ -23,7 +23,7 @@ A token to retrieve the next set of results.
 
 =head2 Versions => ArrayRef[L<Paws::IoT::ProvisioningTemplateVersionSummary>]
 
-The list of fleet provisioning template versions.
+The list of provisioning template versions.
 
 
 =head2 _request_id => Str

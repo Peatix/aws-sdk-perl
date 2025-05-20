@@ -9,8 +9,10 @@ package Paws::DynamoDB::ExportDescription;
   has ExportManifest => (is => 'ro', isa => 'Str');
   has ExportStatus => (is => 'ro', isa => 'Str');
   has ExportTime => (is => 'ro', isa => 'Str');
+  has ExportType => (is => 'ro', isa => 'Str');
   has FailureCode => (is => 'ro', isa => 'Str');
   has FailureMessage => (is => 'ro', isa => 'Str');
+  has IncrementalExportSpecification => (is => 'ro', isa => 'Paws::DynamoDB::IncrementalExportSpecification');
   has ItemCount => (is => 'ro', isa => 'Int');
   has S3Bucket => (is => 'ro', isa => 'Str');
   has S3BucketOwner => (is => 'ro', isa => 'Str');
@@ -100,6 +102,12 @@ or FAILED.
 Point in time from which table data was exported.
 
 
+=head2 ExportType => Str
+
+The type of export that was performed. Valid values are C<FULL_EXPORT>
+or C<INCREMENTAL_EXPORT>.
+
+
 =head2 FailureCode => Str
 
 Status code for the result of the failed export.
@@ -108,6 +116,12 @@ Status code for the result of the failed export.
 =head2 FailureMessage => Str
 
 Export failure reason description.
+
+
+=head2 IncrementalExportSpecification => L<Paws::DynamoDB::IncrementalExportSpecification>
+
+Optional object containing the parameters specific to an incremental
+export.
 
 
 =head2 ItemCount => Int
@@ -122,7 +136,8 @@ The name of the Amazon S3 bucket containing the export.
 
 =head2 S3BucketOwner => Str
 
-The ID of the AWS account that owns the bucket containing the export.
+The ID of the Amazon Web Services account that owns the bucket
+containing the export.
 
 
 =head2 S3Prefix => Str
@@ -144,7 +159,7 @@ C<AES256> - server-side encryption with Amazon S3 managed keys
 
 =item *
 
-C<KMS> - server-side encryption with AWS KMS managed keys
+C<KMS> - server-side encryption with KMS managed keys
 
 =back
 
@@ -152,7 +167,7 @@ C<KMS> - server-side encryption with AWS KMS managed keys
 
 =head2 S3SseKmsKeyId => Str
 
-The ID of the AWS KMS managed key used to encrypt the S3 bucket where
+The ID of the KMS managed key used to encrypt the S3 bucket where
 export data is stored (if applicable).
 
 

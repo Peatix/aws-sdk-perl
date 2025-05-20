@@ -20,7 +20,7 @@ Paws::EMR::AddInstanceGroups - Arguments for method AddInstanceGroups on L<Paws:
 =head1 DESCRIPTION
 
 This class represents the parameters used for calling the method AddInstanceGroups on the
-L<Amazon Elastic MapReduce|Paws::EMR> service. Use the attributes of this class
+L<Amazon EMR|Paws::EMR> service. Use the attributes of this class
 as arguments to method AddInstanceGroups.
 
 You shouldn't make instances of this class. Each attribute should be used as a named argument in the call to AddInstanceGroups.
@@ -90,6 +90,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             },
             ...
           ],    # OPTIONAL
+          CustomAmiId      => 'MyXmlStringMaxLen256',    # max: 256; OPTIONAL
           EbsConfiguration => {
             EbsBlockDeviceConfigs => [
               {
@@ -97,6 +98,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
                   SizeInGB   => 1,
                   VolumeType => 'MyString',
                   Iops       => 1,
+                  Throughput => 1,            # OPTIONAL
                 },
                 VolumesPerInstance => 1,
               },

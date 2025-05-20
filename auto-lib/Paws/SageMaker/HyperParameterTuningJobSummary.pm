@@ -79,28 +79,32 @@ The date and time that the tuning job was modified.
 
 =head2 B<REQUIRED> ObjectiveStatusCounters => L<Paws::SageMaker::ObjectiveStatusCounters>
 
-The ObjectiveStatusCounters object that specifies the numbers of
-training jobs, categorized by objective metric status, that this tuning
-job launched.
+The ObjectiveStatusCounters
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_ObjectiveStatusCounters.html)
+object that specifies the numbers of training jobs, categorized by
+objective metric status, that this tuning job launched.
 
 
 =head2 ResourceLimits => L<Paws::SageMaker::ResourceLimits>
 
-The ResourceLimits object that specifies the maximum number of training
-jobs and parallel training jobs allowed for this tuning job.
+The ResourceLimits
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_ResourceLimits.html)
+object that specifies the maximum number of training jobs and parallel
+training jobs allowed for this tuning job.
 
 
 =head2 B<REQUIRED> Strategy => Str
 
 Specifies the search strategy hyperparameter tuning uses to choose
-which hyperparameters to use for each iteration. Currently, the only
-valid value is Bayesian.
+which hyperparameters to evaluate at each iteration.
 
 
 =head2 B<REQUIRED> TrainingJobStatusCounters => L<Paws::SageMaker::TrainingJobStatusCounters>
 
-The TrainingJobStatusCounters object that specifies the numbers of
-training jobs, categorized by status, that this tuning job launched.
+The TrainingJobStatusCounters
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_TrainingJobStatusCounters.html)
+object that specifies the numbers of training jobs, categorized by
+status, that this tuning job launched.
 
 
 

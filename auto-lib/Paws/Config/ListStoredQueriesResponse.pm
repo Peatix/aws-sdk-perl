@@ -19,9 +19,9 @@ Paws::Config::ListStoredQueriesResponse
 
 If the previous paginated request didn't return all of the remaining
 results, the response object's C<NextToken> parameter value is set to a
-token. To retrieve the next set of results, call this action again and
-assign that token to the request object's C<NextToken> parameter. If
-there are no remaining results, the previous response object's
+token. To retrieve the next set of results, call this operation again
+and assign that token to the request object's C<NextToken> parameter.
+If there are no remaining results, the previous response object's
 C<NextToken> parameter is set to C<null>.
 
 

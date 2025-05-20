@@ -46,10 +46,11 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/clo
 
 =head2 AcceptTermsAndConditions => Bool
 
-Whether you accept the terms and conditions for publishing extensions
-in the CloudFormation registry. You must accept the terms and
-conditions in order to register to publish public extensions to the
-CloudFormation registry.
+Whether you accept the Terms and Conditions
+(https://cloudformation-registry-documents.s3.amazonaws.com/Terms_and_Conditions_for_AWS_CloudFormation_Registry_Publishers.pdf)
+for publishing extensions in the CloudFormation registry. You must
+accept the terms and conditions in order to register to publish public
+extensions to the CloudFormation registry.
 
 The default is C<false>.
 
@@ -61,10 +62,10 @@ If you are using a Bitbucket or GitHub account for identity
 verification, the Amazon Resource Name (ARN) for your connection to
 that account.
 
-For more information, see Registering your account to publish
-CloudFormation extensions
+For more information, see Prerequisite: Registering your account to
+publish CloudFormation extensions
 (https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/publish-extension.html#publish-extension-prereqs)
-in the I<CloudFormation CLI User Guide>.
+in the I<CloudFormation Command Line Interface (CLI) User Guide>.
 
 
 

@@ -35,7 +35,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CloudFormat
 =head1 DESCRIPTION
 
 [Service-managed permissions] Describes whether StackSets automatically
-deploys to AWS Organizations accounts that are added to a target
+deploys to Organizations accounts that are added to a target
 organization or organizational unit (OU).
 
 =head1 ATTRIBUTES
@@ -44,7 +44,7 @@ organization or organizational unit (OU).
 =head2 Enabled => Bool
 
 If set to C<true>, StackSets automatically deploys additional stack
-instances to AWS Organizations accounts that are added to a target
+instances to Organizations accounts that are added to a target
 organization or organizational unit (OU) in the specified Regions. If
 an account is removed from a target organization or OU, StackSets
 deletes stack instances from the account in the specified Regions.

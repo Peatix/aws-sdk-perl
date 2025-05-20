@@ -7,6 +7,7 @@ package Paws::IoT::ProvisioningTemplateSummary;
   has LastModifiedDate => (is => 'ro', isa => 'Str', request_name => 'lastModifiedDate', traits => ['NameInRequest']);
   has TemplateArn => (is => 'ro', isa => 'Str', request_name => 'templateArn', traits => ['NameInRequest']);
   has TemplateName => (is => 'ro', isa => 'Str', request_name => 'templateName', traits => ['NameInRequest']);
+  has Type => (is => 'ro', isa => 'Str', request_name => 'type', traits => ['NameInRequest']);
 
 1;
 
@@ -27,7 +28,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::IoT::ProvisioningTemplateSummary object:
 
-  $service_obj->Method(Att1 => { CreationDate => $value, ..., TemplateName => $value  });
+  $service_obj->Method(Att1 => { CreationDate => $value, ..., Type => $value  });
 
 =head3 Results returned from an API call
 
@@ -38,19 +39,19 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::IoT::Provis
 
 =head1 DESCRIPTION
 
-A summary of information about a fleet provisioning template.
+A summary of information about a provisioning template.
 
 =head1 ATTRIBUTES
 
 
 =head2 CreationDate => Str
 
-The date when the fleet provisioning template summary was created.
+The date when the provisioning template summary was created.
 
 
 =head2 Description => Str
 
-The description of the fleet provisioning template.
+The description of the provisioning template.
 
 
 =head2 Enabled => Bool
@@ -60,18 +61,26 @@ True if the fleet provision template is enabled, otherwise false.
 
 =head2 LastModifiedDate => Str
 
-The date when the fleet provisioning template summary was last
-modified.
+The date when the provisioning template summary was last modified.
 
 
 =head2 TemplateArn => Str
 
-The ARN of the fleet provisioning template.
+The ARN of the provisioning template.
 
 
 =head2 TemplateName => Str
 
-The name of the fleet provisioning template.
+The name of the provisioning template.
+
+
+=head2 Type => Str
+
+The type you define in a provisioning template. You can create a
+template with only one type. You can't change the template type after
+its creation. The default value is C<FLEET_PROVISIONING>. For more
+information about provisioning template, see: Provisioning template
+(https://docs.aws.amazon.com/iot/latest/developerguide/provision-template.html).
 
 
 

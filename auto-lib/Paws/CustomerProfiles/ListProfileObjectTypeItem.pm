@@ -4,6 +4,8 @@ package Paws::CustomerProfiles::ListProfileObjectTypeItem;
   has CreatedAt => (is => 'ro', isa => 'Str');
   has Description => (is => 'ro', isa => 'Str', required => 1);
   has LastUpdatedAt => (is => 'ro', isa => 'Str');
+  has MaxAvailableProfileObjectCount => (is => 'ro', isa => 'Int');
+  has MaxProfileObjectCount => (is => 'ro', isa => 'Int');
   has ObjectTypeName => (is => 'ro', isa => 'Str', required => 1);
   has Tags => (is => 'ro', isa => 'Paws::CustomerProfiles::TagMap');
 
@@ -55,6 +57,16 @@ Description of the profile object type.
 =head2 LastUpdatedAt => Str
 
 The timestamp of when the domain was most recently edited.
+
+
+=head2 MaxAvailableProfileObjectCount => Int
+
+The amount of provisioned profile object max count available.
+
+
+=head2 MaxProfileObjectCount => Int
+
+The amount of profile object max count assigned to the object type.
 
 
 =head2 B<REQUIRED> ObjectTypeName => Str

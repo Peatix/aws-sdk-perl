@@ -34,15 +34,20 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     );
 
     # Results:
-    my $AbortConfig    = $DescribeJobTemplateResponse->AbortConfig;
-    my $CreatedAt      = $DescribeJobTemplateResponse->CreatedAt;
-    my $Description    = $DescribeJobTemplateResponse->Description;
+    my $AbortConfig = $DescribeJobTemplateResponse->AbortConfig;
+    my $CreatedAt   = $DescribeJobTemplateResponse->CreatedAt;
+    my $Description = $DescribeJobTemplateResponse->Description;
+    my $DestinationPackageVersions =
+      $DescribeJobTemplateResponse->DestinationPackageVersions;
     my $Document       = $DescribeJobTemplateResponse->Document;
     my $DocumentSource = $DescribeJobTemplateResponse->DocumentSource;
+    my $JobExecutionsRetryConfig =
+      $DescribeJobTemplateResponse->JobExecutionsRetryConfig;
     my $JobExecutionsRolloutConfig =
       $DescribeJobTemplateResponse->JobExecutionsRolloutConfig;
     my $JobTemplateArn     = $DescribeJobTemplateResponse->JobTemplateArn;
     my $JobTemplateId      = $DescribeJobTemplateResponse->JobTemplateId;
+    my $MaintenanceWindows = $DescribeJobTemplateResponse->MaintenanceWindows;
     my $PresignedUrlConfig = $DescribeJobTemplateResponse->PresignedUrlConfig;
     my $TimeoutConfig      = $DescribeJobTemplateResponse->TimeoutConfig;
 

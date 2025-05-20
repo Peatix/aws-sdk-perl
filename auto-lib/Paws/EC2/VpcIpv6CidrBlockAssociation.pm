@@ -1,6 +1,8 @@
 package Paws::EC2::VpcIpv6CidrBlockAssociation;
   use Moose;
   has AssociationId => (is => 'ro', isa => 'Str', request_name => 'associationId', traits => ['NameInRequest']);
+  has IpSource => (is => 'ro', isa => 'Str', request_name => 'ipSource', traits => ['NameInRequest']);
+  has Ipv6AddressAttribute => (is => 'ro', isa => 'Str', request_name => 'ipv6AddressAttribute', traits => ['NameInRequest']);
   has Ipv6CidrBlock => (is => 'ro', isa => 'Str', request_name => 'ipv6CidrBlock', traits => ['NameInRequest']);
   has Ipv6CidrBlockState => (is => 'ro', isa => 'Paws::EC2::VpcCidrBlockState', request_name => 'ipv6CidrBlockState', traits => ['NameInRequest']);
   has Ipv6Pool => (is => 'ro', isa => 'Str', request_name => 'ipv6Pool', traits => ['NameInRequest']);
@@ -45,6 +47,21 @@ This class has no description
 The association ID for the IPv6 CIDR block.
 
 
+=head2 IpSource => Str
+
+The source that allocated the IP address space. C<byoip> or C<amazon>
+indicates public IP address space allocated by Amazon or space that you
+have allocated with Bring your own IP (BYOIP). C<none> indicates
+private space.
+
+
+=head2 Ipv6AddressAttribute => Str
+
+Public IPv6 addresses are those advertised on the internet from Amazon
+Web Services. Private IP addresses are not and cannot be advertised on
+the internet from Amazon Web Services.
+
+
 =head2 Ipv6CidrBlock => Str
 
 The IPv6 CIDR block.
@@ -64,8 +81,8 @@ allocated.
 =head2 NetworkBorderGroup => Str
 
 The name of the unique set of Availability Zones, Local Zones, or
-Wavelength Zones from which AWS advertises IP addresses, for example,
-C<us-east-1-wl1-bos-wlz-1>.
+Wavelength Zones from which Amazon Web Services advertises IP
+addresses, for example, C<us-east-1-wl1-bos-wlz-1>.
 
 
 

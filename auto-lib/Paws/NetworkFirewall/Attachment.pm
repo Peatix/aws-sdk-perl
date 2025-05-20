@@ -3,6 +3,7 @@ package Paws::NetworkFirewall::Attachment;
   use Moose;
   has EndpointId => (is => 'ro', isa => 'Str');
   has Status => (is => 'ro', isa => 'Str');
+  has StatusMessage => (is => 'ro', isa => 'Str');
   has SubnetId => (is => 'ro', isa => 'Str');
 
 1;
@@ -36,7 +37,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::NetworkFire
 =head1 DESCRIPTION
 
 The configuration and status for a single subnet that you've specified
-for use by the AWS Network Firewall firewall. This is part of the
+for use by the Network Firewall firewall. This is part of the
 FirewallStatus.
 
 =head1 ATTRIBUTES
@@ -57,8 +58,22 @@ reflects both the instantiation of the endpoint in the VPC subnet and
 the sync states that are reported in the C<Config> settings. When this
 value is C<READY>, the endpoint is available and configured properly to
 handle network traffic. When the endpoint isn't available for traffic,
-this value will reflect its state, for example C<CREATING>,
-C<DELETING>, or C<FAILED>.
+this value will reflect its state, for example C<CREATING> or
+C<DELETING>.
+
+
+=head2 StatusMessage => Str
+
+If Network Firewall fails to create or delete the firewall endpoint in
+the subnet, it populates this with the reason for the error or failure
+and how to resolve it. A C<FAILED> status indicates a non-recoverable
+state, and a C<ERROR> status indicates an issue that you can fix.
+Depending on the error, it can take as many as 15 minutes to populate
+this field. For more information about the causes for failiure or
+errors and solutions available for this field, see Troubleshooting
+firewall endpoint failures
+(https://docs.aws.amazon.com/network-firewall/latest/developerguide/firewall-troubleshooting-endpoint-failures.html)
+in the I<Network Firewall Developer Guide>.
 
 
 =head2 SubnetId => Str

@@ -50,8 +50,8 @@ The tags to apply to AMIs distributed to this Region.
 
 =head2 Description => Str
 
-The description of the distribution configuration. Minimum and maximum
-length are in characters.
+The description of the AMI distribution configuration. Minimum and
+maximum length are in characters.
 
 
 =head2 KmsKeyId => Str
@@ -61,13 +61,13 @@ The KMS key identifier used to encrypt the distributed image.
 
 =head2 LaunchPermission => L<Paws::ImageBuilder::LaunchPermissionConfiguration>
 
-Launch permissions can be used to configure which accounts can use the
-AMI to launch instances.
+Launch permissions can be used to configure which Amazon Web Services
+accounts can use the AMI to launch instances.
 
 
 =head2 Name => Str
 
-The name of the distribution configuration.
+The name of the output AMI.
 
 
 =head2 TargetAccountIds => ArrayRef[Str|Undef]

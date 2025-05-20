@@ -37,35 +37,53 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::RAM::Princi
 
 =head1 DESCRIPTION
 
-Describes a principal for use with AWS Resource Access Manager.
+Describes a principal for use with Resource Access Manager.
 
 =head1 ATTRIBUTES
 
 
 =head2 CreationTime => Str
 
-The time when the principal was associated with the resource share.
+The date and time when the principal was associated with the resource
+share.
 
 
 =head2 External => Bool
 
-Indicates whether the principal belongs to the same AWS organization as
-the AWS account that owns the resource share.
+Indicates the relationship between the Amazon Web Services account the
+principal belongs to and the account that owns the resource share:
+
+=over
+
+=item *
+
+C<True> E<ndash> The two accounts belong to same organization.
+
+=item *
+
+C<False> E<ndash> The two accounts do not belong to the same
+organization.
+
+=back
+
 
 
 =head2 Id => Str
 
-The ID of the principal.
+The ID of the principal that can be associated with a resource share.
 
 
 =head2 LastUpdatedTime => Str
 
-The time when the association was last updated.
+The date and time when the association between the resource share and
+the principal was last updated.
 
 
 =head2 ResourceShareArn => Str
 
-The Amazon Resource Name (ARN) of the resource share.
+The Amazon Resource Name (ARN)
+(https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+of a resource share the principal is associated with.
 
 
 

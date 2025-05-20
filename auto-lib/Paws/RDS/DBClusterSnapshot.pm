@@ -5,8 +5,10 @@ package Paws::RDS::DBClusterSnapshot;
   has AvailabilityZones => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'AvailabilityZone', traits => ['NameInRequest']);
   has ClusterCreateTime => (is => 'ro', isa => 'Str');
   has DBClusterIdentifier => (is => 'ro', isa => 'Str');
+  has DbClusterResourceId => (is => 'ro', isa => 'Str');
   has DBClusterSnapshotArn => (is => 'ro', isa => 'Str');
   has DBClusterSnapshotIdentifier => (is => 'ro', isa => 'Str');
+  has DBSystemId => (is => 'ro', isa => 'Str');
   has Engine => (is => 'ro', isa => 'Str');
   has EngineMode => (is => 'ro', isa => 'Str');
   has EngineVersion => (is => 'ro', isa => 'Str');
@@ -21,6 +23,8 @@ package Paws::RDS::DBClusterSnapshot;
   has SourceDBClusterSnapshotArn => (is => 'ro', isa => 'Str');
   has Status => (is => 'ro', isa => 'Str');
   has StorageEncrypted => (is => 'ro', isa => 'Bool');
+  has StorageThroughput => (is => 'ro', isa => 'Int');
+  has StorageType => (is => 'ro', isa => 'Str');
   has TagList => (is => 'ro', isa => 'ArrayRef[Paws::RDS::Tag]', request_name => 'Tag', traits => ['NameInRequest']);
   has VpcId => (is => 'ro', isa => 'Str');
 
@@ -64,25 +68,32 @@ C<DescribeDBClusterSnapshots> action.
 
 =head2 AllocatedStorage => Int
 
-Specifies the allocated storage size in gibibytes (GiB).
+The allocated storage size of the DB cluster snapshot in gibibytes
+(GiB).
 
 
 =head2 AvailabilityZones => ArrayRef[Str|Undef]
 
-Provides the list of Availability Zones (AZs) where instances in the DB
-cluster snapshot can be restored.
+The list of Availability Zones (AZs) where instances in the DB cluster
+snapshot can be restored.
 
 
 =head2 ClusterCreateTime => Str
 
-Specifies the time when the DB cluster was created, in Universal
-Coordinated Time (UTC).
+The time when the DB cluster was created, in Universal Coordinated Time
+(UTC).
 
 
 =head2 DBClusterIdentifier => Str
 
-Specifies the DB cluster identifier of the DB cluster that this DB
-cluster snapshot was created from.
+The DB cluster identifier of the DB cluster that this DB cluster
+snapshot was created from.
+
+
+=head2 DbClusterResourceId => Str
+
+The resource ID of the DB cluster that this DB cluster snapshot was
+created from.
 
 
 =head2 DBClusterSnapshotArn => Str
@@ -92,30 +103,33 @@ The Amazon Resource Name (ARN) for the DB cluster snapshot.
 
 =head2 DBClusterSnapshotIdentifier => Str
 
-Specifies the identifier for the DB cluster snapshot.
+The identifier for the DB cluster snapshot.
+
+
+=head2 DBSystemId => Str
+
+Reserved for future use.
 
 
 =head2 Engine => Str
 
-Specifies the name of the database engine for this DB cluster snapshot.
+The name of the database engine for this DB cluster snapshot.
 
 
 =head2 EngineMode => Str
 
-Provides the engine mode of the database engine for this DB cluster
-snapshot.
+The engine mode of the database engine for this DB cluster snapshot.
 
 
 =head2 EngineVersion => Str
 
-Provides the version of the database engine for this DB cluster
-snapshot.
+The version of the database engine for this DB cluster snapshot.
 
 
 =head2 IAMDatabaseAuthenticationEnabled => Bool
 
-True if mapping of Amazon Web Services Identity and Access Management
-(IAM) accounts to database accounts is enabled, and otherwise false.
+Indicates whether mapping of Amazon Web Services Identity and Access
+Management (IAM) accounts to database accounts is enabled.
 
 
 =head2 KmsKeyId => Str
@@ -124,41 +138,39 @@ If C<StorageEncrypted> is true, the Amazon Web Services KMS key
 identifier for the encrypted DB cluster snapshot.
 
 The Amazon Web Services KMS key identifier is the key ARN, key ID,
-alias ARN, or alias name for the Amazon Web Services KMS customer
-master key (CMK).
+alias ARN, or alias name for the KMS key.
 
 
 =head2 LicenseModel => Str
 
-Provides the license model information for this DB cluster snapshot.
+The license model information for this DB cluster snapshot.
 
 
 =head2 MasterUsername => Str
 
-Provides the master username for this DB cluster snapshot.
+The master username for this DB cluster snapshot.
 
 
 =head2 PercentProgress => Int
 
-Specifies the percentage of the estimated data that has been
-transferred.
+The percentage of the estimated data that has been transferred.
 
 
 =head2 Port => Int
 
-Specifies the port that the DB cluster was listening on at the time of
-the snapshot.
+The port that the DB cluster was listening on at the time of the
+snapshot.
 
 
 =head2 SnapshotCreateTime => Str
 
-Provides the time when the snapshot was taken, in Universal Coordinated
-Time (UTC).
+The time when the snapshot was taken, in Universal Coordinated Time
+(UTC).
 
 
 =head2 SnapshotType => Str
 
-Provides the type of the DB cluster snapshot.
+The type of the DB cluster snapshot.
 
 
 =head2 SourceDBClusterSnapshotArn => Str
@@ -170,12 +182,46 @@ snapshot, otherwise, a null value.
 
 =head2 Status => Str
 
-Specifies the status of this DB cluster snapshot.
+The status of this DB cluster snapshot. Valid statuses are the
+following:
+
+=over
+
+=item *
+
+C<available>
+
+=item *
+
+C<copying>
+
+=item *
+
+C<creating>
+
+=back
+
 
 
 =head2 StorageEncrypted => Bool
 
-Specifies whether the DB cluster snapshot is encrypted.
+Indicates whether the DB cluster snapshot is encrypted.
+
+
+=head2 StorageThroughput => Int
+
+The storage throughput for the DB cluster snapshot. The throughput is
+automatically set based on the IOPS that you provision, and is not
+configurable.
+
+This setting is only for non-Aurora Multi-AZ DB clusters.
+
+
+=head2 StorageType => Str
+
+The storage type associated with the DB cluster snapshot.
+
+This setting is only for Aurora DB clusters.
 
 
 =head2 TagList => ArrayRef[L<Paws::RDS::Tag>]
@@ -185,7 +231,7 @@ Specifies whether the DB cluster snapshot is encrypted.
 
 =head2 VpcId => Str
 
-Provides the VPC ID associated with the DB cluster snapshot.
+The VPC ID associated with the DB cluster snapshot.
 
 
 

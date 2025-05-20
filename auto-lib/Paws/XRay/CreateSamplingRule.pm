@@ -79,9 +79,9 @@ The rule definition.
 
 A map that contains one or more tag keys and tag values to attach to an
 X-Ray sampling rule. For more information about ways to use tags, see
-Tagging AWS resources
+Tagging Amazon Web Services resources
 (https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the
-I<AWS General Reference>.
+I<Amazon Web Services General Reference>.
 
 The following restrictions apply to tags:
 
@@ -110,7 +110,8 @@ Tag keys and values are case sensitive.
 
 =item *
 
-Don't use C<aws:> as a prefix for keys; it's reserved for AWS use.
+Don't use C<aws:> as a prefix for keys; it's reserved for Amazon Web
+Services use.
 
 =back
 

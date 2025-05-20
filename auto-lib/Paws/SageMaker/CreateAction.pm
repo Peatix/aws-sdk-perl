@@ -38,9 +38,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       ActionName => 'MyExperimentEntityName',
       ActionType => 'MyString256',
       Source     => {
-        SourceUri  => 'MyString2048',    # max: 2048
-        SourceId   => 'MyString256',     # max: 256
-        SourceType => 'MyString256',     # max: 256
+        SourceUri  => 'MySourceUri',    # min: 1, max: 2048
+        SourceId   => 'MyString256',    # max: 256
+        SourceType => 'MyString256',    # max: 256
       },
       Description        => 'MyExperimentDescription',    # OPTIONAL
       MetadataProperties => {
@@ -51,7 +51,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       },    # OPTIONAL
       Properties => {
         'MyStringParameterValue' =>
-          'MyStringParameterValue',    # key: max: 256, value: max: 256
+          'MyStringParameterValue',    # key: max: 2500, value: max: 2500
       },    # OPTIONAL
       Status => 'Unknown',    # OPTIONAL
       Tags   => [

@@ -2,7 +2,8 @@
 package Paws::RedShift::GetClusterCredentials;
   use Moose;
   has AutoCreate => (is => 'ro', isa => 'Bool');
-  has ClusterIdentifier => (is => 'ro', isa => 'Str', required => 1);
+  has ClusterIdentifier => (is => 'ro', isa => 'Str');
+  has CustomDomainName => (is => 'ro', isa => 'Str');
   has DbGroups => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has DbName => (is => 'ro', isa => 'Str');
   has DbUser => (is => 'ro', isa => 'Str', required => 1);
@@ -33,11 +34,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $redshift = Paws->service('RedShift');
     my $ClusterCredentials = $redshift->GetClusterCredentials(
-      ClusterIdentifier => 'MyString',
       DbUser            => 'MyString',
-      AutoCreate        => 1,            # OPTIONAL
+      AutoCreate        => 1,             # OPTIONAL
+      ClusterIdentifier => 'MyString',    # OPTIONAL
+      CustomDomainName  => 'MyString',    # OPTIONAL
       DbGroups          => [
-        'MyString', ...                  # max: 2147483647
+        'MyString', ...                   # max: 2147483647
       ],    # OPTIONAL
       DbName          => 'MyString',    # OPTIONAL
       DurationSeconds => 1,             # OPTIONAL
@@ -63,11 +65,16 @@ C<DbUser> if one does not exist.
 
 
 
-=head2 B<REQUIRED> ClusterIdentifier => Str
+=head2 ClusterIdentifier => Str
 
 The unique identifier of the cluster that contains the database for
-which your are requesting credentials. This parameter is case
-sensitive.
+which you are requesting credentials. This parameter is case sensitive.
+
+
+
+=head2 CustomDomainName => Str
+
+The custom domain name for the cluster credentials.
 
 
 
@@ -127,8 +134,8 @@ Must be 1 to 64 alphanumeric characters or hyphens
 
 =item *
 
-Must contain only lowercase letters, numbers, underscore, plus sign,
-period (dot), at symbol (@), or hyphen.
+Must contain uppercase or lowercase letters, numbers, underscore, plus
+sign, period (dot), at symbol (@), or hyphen.
 
 =item *
 
@@ -176,8 +183,8 @@ be C<PUBLIC>.
 
 =item *
 
-Must contain only lowercase letters, numbers, underscore, plus sign,
-period (dot), at symbol (@), or hyphen.
+Must contain uppercase or lowercase letters, numbers, underscore, plus
+sign, period (dot), at symbol (@), or hyphen.
 
 =item *
 

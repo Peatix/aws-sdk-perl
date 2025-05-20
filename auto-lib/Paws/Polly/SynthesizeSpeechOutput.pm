@@ -49,7 +49,7 @@ little-endian format.
 =item *
 
 If you request C<json> as the C<OutputFormat>, the C<ContentType>
-returned is audio/json.
+returned is application/x-json-stream.
 
 =back
 

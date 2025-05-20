@@ -42,7 +42,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SSM::Resour
 
 =head1 DESCRIPTION
 
-Information about a Resource Data Sync configuration, including its
+Information about a resource data sync configuration, including its
 current status and last successful sync.
 
 =head1 ATTRIBUTES
@@ -86,7 +86,7 @@ The date and time the resource data sync was changed.
 
 =head2 SyncName => Str
 
-The name of the Resource Data Sync.
+The name of the resource data sync.
 
 
 =head2 SyncSource => L<Paws::SSM::ResourceDataSyncSourceWithState>
@@ -99,7 +99,8 @@ Information about the source where the data was synchronized.
 The type of resource data sync. If C<SyncType> is C<SyncToDestination>,
 then the resource data sync synchronizes data to an S3 bucket. If the
 C<SyncType> is C<SyncFromSource> then the resource data sync
-synchronizes data from AWS Organizations or from multiple AWS Regions.
+synchronizes data from Organizations or from multiple Amazon Web
+Services Regions.
 
 
 

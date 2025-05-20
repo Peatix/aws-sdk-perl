@@ -48,7 +48,25 @@ attribute, provide the attribute name.
 
 =head2 ProjectionType => Str
 
-The types of attributes that are projected into the index.
+The types of attributes that are projected into the index. Valid values
+are as follows:
+
+=over
+
+=item *
+
+C<ALL>
+
+=item *
+
+C<INCLUDE>
+
+=item *
+
+C<KEYS_ONLY>
+
+=back
+
 
 
 

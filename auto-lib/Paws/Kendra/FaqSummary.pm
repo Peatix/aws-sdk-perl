@@ -4,6 +4,7 @@ package Paws::Kendra::FaqSummary;
   has CreatedAt => (is => 'ro', isa => 'Str');
   has FileFormat => (is => 'ro', isa => 'Str');
   has Id => (is => 'ro', isa => 'Str');
+  has LanguageCode => (is => 'ro', isa => 'Str');
   has Name => (is => 'ro', isa => 'Str');
   has Status => (is => 'ro', isa => 'Str');
   has UpdatedAt => (is => 'ro', isa => 'Str');
@@ -38,15 +39,15 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Kendra::Faq
 
 =head1 DESCRIPTION
 
-Provides information about a frequently asked questions and answer
-contained in an index.
+Summary information for frequently asked questions and answers included
+in an index.
 
 =head1 ATTRIBUTES
 
 
 =head2 CreatedAt => Str
 
-The UNIX datetime that the FAQ was added to the index.
+The Unix timestamp when the FAQ was created.
 
 
 =head2 FileFormat => Str
@@ -56,7 +57,17 @@ The file type used to create the FAQ.
 
 =head2 Id => Str
 
-The unique identifier of the FAQ.
+The identifier of the FAQ.
+
+
+=head2 LanguageCode => Str
+
+The code for a language. This shows a supported language for the FAQ
+document as part of the summary information for FAQs. English is
+supported by default. For more information on supported languages,
+including their codes, see Adding documents in languages other than
+English
+(https://docs.aws.amazon.com/kendra/latest/dg/in-adding-languages.html).
 
 
 =head2 Name => Str
@@ -72,7 +83,7 @@ ready for use.
 
 =head2 UpdatedAt => Str
 
-The UNIX datetime that the FAQ was last updated.
+The Unix timestamp when the FAQ was last updated.
 
 
 

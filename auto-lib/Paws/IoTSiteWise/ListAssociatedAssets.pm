@@ -33,8 +33,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $iotsitewise = Paws->service('IoTSiteWise');
     my $ListAssociatedAssetsResponse = $iotsitewise->ListAssociatedAssets(
-      AssetId            => 'MyID',
-      HierarchyId        => 'MyID',           # OPTIONAL
+      AssetId            => 'MyCustomID',
+      HierarchyId        => 'MyCustomID',     # OPTIONAL
       MaxResults         => 1,                # OPTIONAL
       NextToken          => 'MyNextToken',    # OPTIONAL
       TraversalDirection => 'PARENT',         # OPTIONAL
@@ -54,29 +54,35 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/iot
 
 =head2 B<REQUIRED> AssetId => Str
 
-The ID of the asset to query.
+The ID of the asset to query. This can be either the actual ID in UUID
+format, or else C<externalId:> followed by the external ID, if it has
+one. For more information, see Referencing objects with external IDs
+(https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references)
+in the I<IoT SiteWise User Guide>.
 
 
 
 =head2 HierarchyId => Str
 
+(Optional) If you don't provide a C<hierarchyId>, all the immediate
+assets in the C<traversalDirection> will be returned.
+
 The ID of the hierarchy by which child assets are associated to the
-asset. To find a hierarchy ID, use the DescribeAsset
-(https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_DescribeAsset.html)
-or DescribeAssetModel
-(https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_DescribeAssetModel.html)
-operations. This parameter is required if you choose C<CHILD> for
-C<traversalDirection>.
+asset. (This can be either the actual ID in UUID format, or else
+C<externalId:> followed by the external ID, if it has one. For more
+information, see Referencing objects with external IDs
+(https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references)
+in the I<IoT SiteWise User Guide>.)
 
 For more information, see Asset hierarchies
 (https://docs.aws.amazon.com/iot-sitewise/latest/userguide/asset-hierarchies.html)
-in the I<AWS IoT SiteWise User Guide>.
+in the I<IoT SiteWise User Guide>.
 
 
 
 =head2 MaxResults => Int
 
-The maximum number of results to be returned per paginated request.
+The maximum number of results to return for each paginated request.
 
 Default: 50
 
@@ -98,7 +104,7 @@ options:
 =item *
 
 C<CHILD> E<ndash> The list includes all child assets associated to the
-asset. The C<hierarchyId> parameter is required if you choose C<CHILD>.
+asset.
 
 =item *
 

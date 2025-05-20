@@ -11,7 +11,7 @@ package Paws::SageMaker::LabelingJobSummary;
   has LabelingJobOutput => (is => 'ro', isa => 'Paws::SageMaker::LabelingJobOutput');
   has LabelingJobStatus => (is => 'ro', isa => 'Str', required => 1);
   has LastModifiedTime => (is => 'ro', isa => 'Str', required => 1);
-  has PreHumanTaskLambdaArn => (is => 'ro', isa => 'Str', required => 1);
+  has PreHumanTaskLambdaArn => (is => 'ro', isa => 'Str');
   has WorkteamArn => (is => 'ro', isa => 'Str', required => 1);
 
 1;
@@ -104,7 +104,7 @@ The current status of the labeling job.
 The date and time that the job was last modified (timestamp).
 
 
-=head2 B<REQUIRED> PreHumanTaskLambdaArn => Str
+=head2 PreHumanTaskLambdaArn => Str
 
 The Amazon Resource Name (ARN) of a Lambda function. The function is
 run before each data object is sent to a worker.

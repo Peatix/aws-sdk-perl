@@ -34,7 +34,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Kendra::Sal
 
 =head1 DESCRIPTION
 
-Provides configuration information for processing attachments to
+Provides the configuration information for processing attachments to
 Salesforce standard objects.
 
 =head1 ATTRIBUTES

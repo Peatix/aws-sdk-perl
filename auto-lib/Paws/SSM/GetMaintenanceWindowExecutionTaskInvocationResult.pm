@@ -42,8 +42,9 @@ The invocation ID.
 
 =head2 OwnerInformation => Str
 
-User-provided value to be included in any CloudWatch events raised
-while running tasks for these targets in this maintenance window.
+User-provided value to be included in any Amazon CloudWatch Events or
+Amazon EventBridge events raised while running tasks for these targets
+in this maintenance window.
 
 
 =head2 Parameters => Str
@@ -74,8 +75,7 @@ The task execution ID.
 
 =head2 TaskType => Str
 
-Retrieves the task type for a maintenance window. Task types include
-the following: LAMBDA, STEP_FUNCTIONS, AUTOMATION, RUN_COMMAND.
+Retrieves the task type for a maintenance window.
 
 Valid values are: C<"RUN_COMMAND">, C<"AUTOMATION">, C<"STEP_FUNCTIONS">, C<"LAMBDA">
 =head2 WindowExecutionId => Str

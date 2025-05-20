@@ -54,6 +54,9 @@ again.
 A value of C<CRAWL_NEW_FOLDERS_ONLY> specifies crawling only folders
 that were added since the last crawler run.
 
+A value of C<CRAWL_EVENT_MODE> specifies crawling only the changes
+identified by Amazon S3 events.
+
 
 
 =head1 SEE ALSO

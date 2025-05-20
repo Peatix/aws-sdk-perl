@@ -61,19 +61,21 @@ cluster.
 
 If specifying a capacity provider that uses an Auto Scaling group, the
 capacity provider must already be created. New capacity providers can
-be created with the CreateCapacityProvider API operation.
+be created with the CreateCapacityProvider
+(https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateCapacityProvider.html)
+API operation.
 
-To use a AWS Fargate capacity provider, specify either the C<FARGATE>
-or C<FARGATE_SPOT> capacity providers. The AWS Fargate capacity
-providers are available to all accounts and only need to be associated
-with a cluster to be used.
+To use a Fargate capacity provider, specify either the C<FARGATE> or
+C<FARGATE_SPOT> capacity providers. The Fargate capacity providers are
+available to all accounts and only need to be associated with a cluster
+to be used.
 
 
 
 =head2 B<REQUIRED> Cluster => Str
 
 The short name or full Amazon Resource Name (ARN) of the cluster to
-modify the capacity provider settings for. If you do not specify a
+modify the capacity provider settings for. If you don't specify a
 cluster, the default cluster is assumed.
 
 
@@ -89,18 +91,21 @@ strategy for the cluster is used.
 A capacity provider strategy consists of one or more capacity providers
 along with the C<base> and C<weight> to assign to them. A capacity
 provider must be associated with the cluster to be used in a capacity
-provider strategy. The PutClusterCapacityProviders API is used to
-associate a capacity provider with a cluster. Only capacity providers
-with an C<ACTIVE> or C<UPDATING> status can be used.
+provider strategy. The PutClusterCapacityProviders
+(https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_PutClusterCapacityProviders.html)
+API is used to associate a capacity provider with a cluster. Only
+capacity providers with an C<ACTIVE> or C<UPDATING> status can be used.
 
 If specifying a capacity provider that uses an Auto Scaling group, the
 capacity provider must already be created. New capacity providers can
-be created with the CreateCapacityProvider API operation.
+be created with the CreateCapacityProvider
+(https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateCapacityProvider.html)
+API operation.
 
-To use a AWS Fargate capacity provider, specify either the C<FARGATE>
-or C<FARGATE_SPOT> capacity providers. The AWS Fargate capacity
-providers are available to all accounts and only need to be associated
-with a cluster to be used.
+To use a Fargate capacity provider, specify either the C<FARGATE> or
+C<FARGATE_SPOT> capacity providers. The Fargate capacity providers are
+available to all accounts and only need to be associated with a cluster
+to be used.
 
 
 

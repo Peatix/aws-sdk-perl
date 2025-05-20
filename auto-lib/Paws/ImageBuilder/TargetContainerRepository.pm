@@ -42,7 +42,8 @@ The container repository where the output container image is stored.
 =head2 B<REQUIRED> RepositoryName => Str
 
 The name of the container repository where the output container image
-is stored. This name is prefixed by the repository location.
+is stored. This name is prefixed by the repository location. For
+example, C<E<lt>repository location urlE<gt>/repository_name>.
 
 
 =head2 B<REQUIRED> Service => Str

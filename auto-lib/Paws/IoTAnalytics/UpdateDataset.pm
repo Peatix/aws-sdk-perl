@@ -158,14 +158,14 @@ specified here.
 
 =head2 B<REQUIRED> DatasetName => Str
 
-The name of the data set to update.
+The name of the dataset to update.
 
 
 
 =head2 LateDataRules => ArrayRef[L<Paws::IoTAnalytics::LateDataRule>]
 
-A list of data rules that send notifications to Amazon CloudWatch, when
-data arrives late. To specify C<lateDataRules>, the dataset must use a
+A list of data rules that send notifications to CloudWatch, when data
+arrives late. To specify C<lateDataRules>, the dataset must use a
 DeltaTimer
 (https://docs.aws.amazon.com/iotanalytics/latest/APIReference/API_DeltaTime.html)
 filter.
@@ -191,9 +191,9 @@ Optional. How many versions of dataset contents are kept. If not
 specified or set to null, only the latest version plus the latest
 succeeded version (if they are different) are kept for the time period
 specified by the C<retentionPeriod> parameter. For more information,
-see Keeping Multiple Versions of AWS IoT Analytics Data Sets
+see Keeping Multiple Versions of IoT Analytics datasets
 (https://docs.aws.amazon.com/iotanalytics/latest/userguide/getting-started.html#aws-iot-analytics-dataset-versions)
-in the I<AWS IoT Analytics User Guide>.
+in the I<IoT Analytics User Guide>.
 
 
 

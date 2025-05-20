@@ -75,7 +75,7 @@ subsequent call that tells the service where to continue from.
 
 The name of the IAM user to list SSH public keys for. If none is
 specified, the C<UserName> field is determined implicitly based on the
-AWS access key used to sign the request.
+Amazon Web Services access key used to sign the request.
 
 This parameter allows (through its regex pattern
 (http://wikipedia.org/wiki/regex)) a string of characters consisting of

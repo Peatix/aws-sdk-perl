@@ -6,6 +6,7 @@ package Paws::QLDB::JournalS3ExportDescription;
   has ExportId => (is => 'ro', isa => 'Str', required => 1);
   has InclusiveStartTime => (is => 'ro', isa => 'Str', required => 1);
   has LedgerName => (is => 'ro', isa => 'Str', required => 1);
+  has OutputFormat => (is => 'ro', isa => 'Str');
   has RoleArn => (is => 'ro', isa => 'Str', required => 1);
   has S3ExportConfiguration => (is => 'ro', isa => 'Paws::QLDB::S3ExportConfiguration', required => 1);
   has Status => (is => 'ro', isa => 'Str', required => 1);
@@ -50,7 +51,7 @@ original export creation request.
 =head2 B<REQUIRED> ExclusiveEndTime => Str
 
 The exclusive end date and time for the range of journal contents that
-are specified in the original export request.
+was specified in the original export request.
 
 
 =head2 B<REQUIRED> ExportCreationTime => Str
@@ -69,12 +70,17 @@ job.
 =head2 B<REQUIRED> InclusiveStartTime => Str
 
 The inclusive start date and time for the range of journal contents
-that are specified in the original export request.
+that was specified in the original export request.
 
 
 =head2 B<REQUIRED> LedgerName => Str
 
 The name of the ledger.
+
+
+=head2 OutputFormat => Str
+
+The output format of the exported journal data.
 
 
 =head2 B<REQUIRED> RoleArn => Str
@@ -91,8 +97,8 @@ bucket.
 
 =item *
 
-(Optional) Use your customer master key (CMK) in AWS Key Management
-Service (AWS KMS) for server-side encryption of your exported data.
+(Optional) Use your customer managed key in Key Management Service
+(KMS) for server-side encryption of your exported data.
 
 =back
 

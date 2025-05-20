@@ -2,6 +2,8 @@
 package Paws::Connect::ContactFlowSummary;
   use Moose;
   has Arn => (is => 'ro', isa => 'Str');
+  has ContactFlowState => (is => 'ro', isa => 'Str');
+  has ContactFlowStatus => (is => 'ro', isa => 'Str');
   has ContactFlowType => (is => 'ro', isa => 'Str');
   has Id => (is => 'ro', isa => 'Str');
   has Name => (is => 'ro', isa => 'Str');
@@ -36,33 +38,43 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Connect::Co
 
 =head1 DESCRIPTION
 
-Contains summary information about a contact flow.
+Contains summary information about a flow.
 
-You can also create and update contact flows using the Amazon Connect
-Flow language
-(https://docs.aws.amazon.com/connect/latest/adminguide/flow-language.html).
+You can also create and update flows using the Amazon Connect Flow
+language
+(https://docs.aws.amazon.com/connect/latest/APIReference/flow-language.html).
 
 =head1 ATTRIBUTES
 
 
 =head2 Arn => Str
 
-The Amazon Resource Name (ARN) of the contact flow.
+The Amazon Resource Name (ARN) of the flow.
+
+
+=head2 ContactFlowState => Str
+
+The type of flow.
+
+
+=head2 ContactFlowStatus => Str
+
+The status of the flow.
 
 
 =head2 ContactFlowType => Str
 
-The type of contact flow.
+The type of flow.
 
 
 =head2 Id => Str
 
-The identifier of the contact flow.
+The identifier of the flow.
 
 
 =head2 Name => Str
 
-The name of the contact flow.
+The name of the flow.
 
 
 

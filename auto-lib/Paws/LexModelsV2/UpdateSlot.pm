@@ -10,7 +10,8 @@ package Paws::LexModelsV2::UpdateSlot;
   has ObfuscationSetting => (is => 'ro', isa => 'Paws::LexModelsV2::ObfuscationSetting', traits => ['NameInRequest'], request_name => 'obfuscationSetting');
   has SlotId => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'slotId', required => 1);
   has SlotName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'slotName', required => 1);
-  has SlotTypeId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'slotTypeId', required => 1);
+  has SlotTypeId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'slotTypeId');
+  has SubSlotSetting => (is => 'ro', isa => 'Paws::LexModelsV2::SubSlotSetting', traits => ['NameInRequest'], request_name => 'subSlotSetting');
   has ValueElicitationSetting => (is => 'ro', isa => 'Paws::LexModelsV2::SlotValueElicitationSetting', traits => ['NameInRequest'], request_name => 'valueElicitationSetting', required => 1);
 
   use MooseX::ClassAttribute;
@@ -45,7 +46,6 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       LocaleId                => 'MyLocaleId',
       SlotId                  => 'MyId',
       SlotName                => 'MyName',
-      SlotTypeId              => 'MyBuiltInOrCustomSlotTypeId',
       ValueElicitationSetting => {
         SlotConstraint            => 'Required',    # values: Required, Optional
         DefaultValueSpecification => {
@@ -122,7 +122,38 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             },
             ...
           ],    # min: 1, max: 5
-          AllowInterrupt => 1,    # OPTIONAL
+          AllowInterrupt           => 1,    # OPTIONAL
+          MessageSelectionStrategy =>
+            'Random',                       # values: Random, Ordered; OPTIONAL
+          PromptAttemptsSpecification => {
+            'Initial' => {
+              AllowedInputTypes => {
+                AllowAudioInput => 1,    # OPTIONAL
+                AllowDTMFInput  => 1,    # OPTIONAL
+
+              },
+              AllowInterrupt                 => 1,    # OPTIONAL
+              AudioAndDTMFInputSpecification => {
+                StartTimeoutMs     => 1,              # min: 1
+                AudioSpecification => {
+                  EndTimeoutMs => 1,                  # min: 1
+                  MaxLengthMs  => 1,                  # min: 1
+
+                },    # OPTIONAL
+                DtmfSpecification => {
+                  DeletionCharacter => 'MyDTMFCharacter',
+                  EndCharacter      => 'MyDTMFCharacter',
+                  EndTimeoutMs      => 1,                   # min: 1
+                  MaxLength         => 1,                   # min: 1, max: 1024
+
+                },    # OPTIONAL
+              },    # OPTIONAL
+              TextInputSpecification => {
+                StartTimeoutMs => 1,    # min: 1
+
+              },    # OPTIONAL
+            },    # key: values: Initial, Retry1, Retry2, Retry3, Retry4, Retry5
+          },    # OPTIONAL
         },    # OPTIONAL
         SampleUtterances => [
           {
@@ -131,6 +162,1515 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           },
           ...
         ],    # OPTIONAL
+        SlotCaptureSetting => {
+          CaptureConditional => {
+            Active              => 1,    # OPTIONAL
+            ConditionalBranches => [
+              {
+                Condition => {
+                  ExpressionString =>
+                    'MyConditionExpression',    # min: 1, max: 1024
+
+                },
+                Name     => 'MyName',           # min: 1, max: 100
+                NextStep => {
+                  DialogAction => {
+                    Type => 'ElicitIntent'
+                    , # values: ElicitIntent, StartIntent, ElicitSlot, EvaluateConditional, InvokeDialogCodeHook, ConfirmIntent, FulfillIntent, CloseIntent, EndConversation
+                    SlotToElicit        => 'MyName',    # min: 1, max: 100
+                    SuppressNextMessage => 1,           # OPTIONAL
+                  },    # OPTIONAL
+                  Intent => {
+                    Name  => 'MyName',    # min: 1, max: 100
+                    Slots => {
+                      'MyName' => {
+                        Shape => 'Scalar',    # values: Scalar, List; OPTIONAL
+                        Value => {
+                          InterpretedValue =>
+                            'MyNonEmptyString',    # min: 1; OPTIONAL
+                        },    # OPTIONAL
+                        Values => [ <SlotValueOverride>, ... ],    # OPTIONAL
+                      },    # key: min: 1, max: 100
+                    },    # OPTIONAL
+                  },    # OPTIONAL
+                  SessionAttributes => {
+                    'MyNonEmptyString' => 'MyString',    # key: min: 1; OPTIONAL
+                  },    # OPTIONAL
+                },
+                Response => {
+                  MessageGroups => [
+                    {
+                      Message => {
+                        CustomPayload => {
+                          Value => 'MyCustomPayloadValue',   # min: 1, max: 1000
+
+                        },    # OPTIONAL
+                        ImageResponseCard => {
+                          Title   => 'MyAttachmentTitle',    # min: 1, max: 250
+                          Buttons => [
+                            {
+                              Text  => 'MyButtonText',     # min: 1, max: 50
+                              Value => 'MyButtonValue',    # min: 1, max: 50
+
+                            },
+                            ...
+                          ],    # max: 5; OPTIONAL
+                          ImageUrl =>
+                            'MyAttachmentUrl',    # min: 1, max: 250; OPTIONAL
+                          Subtitle => 'MyAttachmentTitle',    # min: 1, max: 250
+                        },    # OPTIONAL
+                        PlainTextMessage => {
+                          Value =>
+                            'MyPlainTextMessageValue',    # min: 1, max: 1000
+
+                        },    # OPTIONAL
+                        SsmlMessage => {
+                          Value => 'MySSMLMessageValue',    # min: 1, max: 1000
+
+                        },    # OPTIONAL
+                      },
+                      Variations => [
+                        {
+                          CustomPayload => {
+                            Value => 'MyCustomPayloadValue', # min: 1, max: 1000
+
+                          },    # OPTIONAL
+                          ImageResponseCard => {
+                            Title   => 'MyAttachmentTitle',   # min: 1, max: 250
+                            Buttons => [
+                              {
+                                Text  => 'MyButtonText',     # min: 1, max: 50
+                                Value => 'MyButtonValue',    # min: 1, max: 50
+
+                              },
+                              ...
+                            ],    # max: 5; OPTIONAL
+                            ImageUrl =>
+                              'MyAttachmentUrl',    # min: 1, max: 250; OPTIONAL
+                            Subtitle => 'MyAttachmentTitle',  # min: 1, max: 250
+                          },    # OPTIONAL
+                          PlainTextMessage => {
+                            Value =>
+                              'MyPlainTextMessageValue',    # min: 1, max: 1000
+
+                          },    # OPTIONAL
+                          SsmlMessage => {
+                            Value => 'MySSMLMessageValue',   # min: 1, max: 1000
+
+                          },    # OPTIONAL
+                        },
+                        ...
+                      ],    # max: 2; OPTIONAL
+                    },
+                    ...
+                  ],    # min: 1, max: 5
+                  AllowInterrupt => 1,    # OPTIONAL
+                },    # OPTIONAL
+              },
+              ...
+            ],    # min: 1, max: 4
+            DefaultBranch => {
+              NextStep => {
+                DialogAction => {
+                  Type => 'ElicitIntent'
+                  , # values: ElicitIntent, StartIntent, ElicitSlot, EvaluateConditional, InvokeDialogCodeHook, ConfirmIntent, FulfillIntent, CloseIntent, EndConversation
+                  SlotToElicit        => 'MyName',    # min: 1, max: 100
+                  SuppressNextMessage => 1,           # OPTIONAL
+                },    # OPTIONAL
+                Intent => {
+                  Name  => 'MyName',    # min: 1, max: 100
+                  Slots => {
+                    'MyName' => {
+                      Shape => 'Scalar',    # values: Scalar, List; OPTIONAL
+                      Value => {
+                        InterpretedValue =>
+                          'MyNonEmptyString',    # min: 1; OPTIONAL
+                      },    # OPTIONAL
+                      Values => [ <SlotValueOverride>, ... ],    # OPTIONAL
+                    },    # key: min: 1, max: 100
+                  },    # OPTIONAL
+                },    # OPTIONAL
+                SessionAttributes => {
+                  'MyNonEmptyString' => 'MyString',    # key: min: 1; OPTIONAL
+                },    # OPTIONAL
+              },
+              Response => {
+                MessageGroups => [
+                  {
+                    Message => {
+                      CustomPayload => {
+                        Value => 'MyCustomPayloadValue',    # min: 1, max: 1000
+
+                      },    # OPTIONAL
+                      ImageResponseCard => {
+                        Title   => 'MyAttachmentTitle',    # min: 1, max: 250
+                        Buttons => [
+                          {
+                            Text  => 'MyButtonText',     # min: 1, max: 50
+                            Value => 'MyButtonValue',    # min: 1, max: 50
+
+                          },
+                          ...
+                        ],    # max: 5; OPTIONAL
+                        ImageUrl =>
+                          'MyAttachmentUrl',    # min: 1, max: 250; OPTIONAL
+                        Subtitle => 'MyAttachmentTitle',    # min: 1, max: 250
+                      },    # OPTIONAL
+                      PlainTextMessage => {
+                        Value => 'MyPlainTextMessageValue',  # min: 1, max: 1000
+
+                      },    # OPTIONAL
+                      SsmlMessage => {
+                        Value => 'MySSMLMessageValue',    # min: 1, max: 1000
+
+                      },    # OPTIONAL
+                    },
+                    Variations => [
+                      {
+                        CustomPayload => {
+                          Value => 'MyCustomPayloadValue',   # min: 1, max: 1000
+
+                        },    # OPTIONAL
+                        ImageResponseCard => {
+                          Title   => 'MyAttachmentTitle',    # min: 1, max: 250
+                          Buttons => [
+                            {
+                              Text  => 'MyButtonText',     # min: 1, max: 50
+                              Value => 'MyButtonValue',    # min: 1, max: 50
+
+                            },
+                            ...
+                          ],    # max: 5; OPTIONAL
+                          ImageUrl =>
+                            'MyAttachmentUrl',    # min: 1, max: 250; OPTIONAL
+                          Subtitle => 'MyAttachmentTitle',    # min: 1, max: 250
+                        },    # OPTIONAL
+                        PlainTextMessage => {
+                          Value =>
+                            'MyPlainTextMessageValue',    # min: 1, max: 1000
+
+                        },    # OPTIONAL
+                        SsmlMessage => {
+                          Value => 'MySSMLMessageValue',    # min: 1, max: 1000
+
+                        },    # OPTIONAL
+                      },
+                      ...
+                    ],    # max: 2; OPTIONAL
+                  },
+                  ...
+                ],    # min: 1, max: 5
+                AllowInterrupt => 1,    # OPTIONAL
+              },    # OPTIONAL
+            },
+
+          },    # OPTIONAL
+          CaptureNextStep => {
+            DialogAction => {
+              Type => 'ElicitIntent'
+              , # values: ElicitIntent, StartIntent, ElicitSlot, EvaluateConditional, InvokeDialogCodeHook, ConfirmIntent, FulfillIntent, CloseIntent, EndConversation
+              SlotToElicit        => 'MyName',    # min: 1, max: 100
+              SuppressNextMessage => 1,           # OPTIONAL
+            },    # OPTIONAL
+            Intent => {
+              Name  => 'MyName',    # min: 1, max: 100
+              Slots => {
+                'MyName' => {
+                  Shape => 'Scalar',    # values: Scalar, List; OPTIONAL
+                  Value => {
+                    InterpretedValue => 'MyNonEmptyString',   # min: 1; OPTIONAL
+                  },    # OPTIONAL
+                  Values => [ <SlotValueOverride>, ... ],    # OPTIONAL
+                },    # key: min: 1, max: 100
+              },    # OPTIONAL
+            },    # OPTIONAL
+            SessionAttributes => {
+              'MyNonEmptyString' => 'MyString',    # key: min: 1; OPTIONAL
+            },    # OPTIONAL
+          },
+          CaptureResponse => {
+            MessageGroups => [
+              {
+                Message => {
+                  CustomPayload => {
+                    Value => 'MyCustomPayloadValue',    # min: 1, max: 1000
+
+                  },    # OPTIONAL
+                  ImageResponseCard => {
+                    Title   => 'MyAttachmentTitle',    # min: 1, max: 250
+                    Buttons => [
+                      {
+                        Text  => 'MyButtonText',     # min: 1, max: 50
+                        Value => 'MyButtonValue',    # min: 1, max: 50
+
+                      },
+                      ...
+                    ],    # max: 5; OPTIONAL
+                    ImageUrl => 'MyAttachmentUrl',  # min: 1, max: 250; OPTIONAL
+                    Subtitle => 'MyAttachmentTitle',    # min: 1, max: 250
+                  },    # OPTIONAL
+                  PlainTextMessage => {
+                    Value => 'MyPlainTextMessageValue',    # min: 1, max: 1000
+
+                  },    # OPTIONAL
+                  SsmlMessage => {
+                    Value => 'MySSMLMessageValue',    # min: 1, max: 1000
+
+                  },    # OPTIONAL
+                },
+                Variations => [
+                  {
+                    CustomPayload => {
+                      Value => 'MyCustomPayloadValue',    # min: 1, max: 1000
+
+                    },    # OPTIONAL
+                    ImageResponseCard => {
+                      Title   => 'MyAttachmentTitle',    # min: 1, max: 250
+                      Buttons => [
+                        {
+                          Text  => 'MyButtonText',     # min: 1, max: 50
+                          Value => 'MyButtonValue',    # min: 1, max: 50
+
+                        },
+                        ...
+                      ],    # max: 5; OPTIONAL
+                      ImageUrl =>
+                        'MyAttachmentUrl',    # min: 1, max: 250; OPTIONAL
+                      Subtitle => 'MyAttachmentTitle',    # min: 1, max: 250
+                    },    # OPTIONAL
+                    PlainTextMessage => {
+                      Value => 'MyPlainTextMessageValue',    # min: 1, max: 1000
+
+                    },    # OPTIONAL
+                    SsmlMessage => {
+                      Value => 'MySSMLMessageValue',    # min: 1, max: 1000
+
+                    },    # OPTIONAL
+                  },
+                  ...
+                ],    # max: 2; OPTIONAL
+              },
+              ...
+            ],    # min: 1, max: 5
+            AllowInterrupt => 1,    # OPTIONAL
+          },    # OPTIONAL
+          CodeHook => {
+            Active                    => 1,    # OPTIONAL
+            EnableCodeHookInvocation  => 1,    # OPTIONAL
+            PostCodeHookSpecification => {
+              FailureConditional => {
+                Active              => 1,      # OPTIONAL
+                ConditionalBranches => [
+                  {
+                    Condition => {
+                      ExpressionString =>
+                        'MyConditionExpression',    # min: 1, max: 1024
+
+                    },
+                    Name     => 'MyName',           # min: 1, max: 100
+                    NextStep => {
+                      DialogAction => {
+                        Type => 'ElicitIntent'
+                        , # values: ElicitIntent, StartIntent, ElicitSlot, EvaluateConditional, InvokeDialogCodeHook, ConfirmIntent, FulfillIntent, CloseIntent, EndConversation
+                        SlotToElicit        => 'MyName',    # min: 1, max: 100
+                        SuppressNextMessage => 1,           # OPTIONAL
+                      },    # OPTIONAL
+                      Intent => {
+                        Name  => 'MyName',    # min: 1, max: 100
+                        Slots => {
+                          'MyName' => {
+                            Shape => 'Scalar',  # values: Scalar, List; OPTIONAL
+                            Value => {
+                              InterpretedValue =>
+                                'MyNonEmptyString',    # min: 1; OPTIONAL
+                            },    # OPTIONAL
+                            Values => [ <SlotValueOverride>, ... ],   # OPTIONAL
+                          },    # key: min: 1, max: 100
+                        },    # OPTIONAL
+                      },    # OPTIONAL
+                      SessionAttributes => {
+                        'MyNonEmptyString' =>
+                          'MyString',    # key: min: 1; OPTIONAL
+                      },    # OPTIONAL
+                    },
+                    Response => {
+                      MessageGroups => [
+                        {
+                          Message => {
+                            CustomPayload => {
+                              Value =>
+                                'MyCustomPayloadValue',    # min: 1, max: 1000
+
+                            },    # OPTIONAL
+                            ImageResponseCard => {
+                              Title   => 'MyAttachmentTitle', # min: 1, max: 250
+                              Buttons => [
+                                {
+                                  Text  => 'MyButtonText',     # min: 1, max: 50
+                                  Value => 'MyButtonValue',    # min: 1, max: 50
+
+                                },
+                                ...
+                              ],    # max: 5; OPTIONAL
+                              ImageUrl =>
+                                'MyAttachmentUrl',  # min: 1, max: 250; OPTIONAL
+                              Subtitle =>
+                                'MyAttachmentTitle',    # min: 1, max: 250
+                            },    # OPTIONAL
+                            PlainTextMessage => {
+                              Value =>
+                                'MyPlainTextMessageValue',   # min: 1, max: 1000
+
+                            },    # OPTIONAL
+                            SsmlMessage => {
+                              Value => 'MySSMLMessageValue', # min: 1, max: 1000
+
+                            },    # OPTIONAL
+                          },
+                          Variations => [
+                            {
+                              CustomPayload => {
+                                Value =>
+                                  'MyCustomPayloadValue',    # min: 1, max: 1000
+
+                              },    # OPTIONAL
+                              ImageResponseCard => {
+                                Title => 'MyAttachmentTitle', # min: 1, max: 250
+                                Buttons => [
+                                  {
+                                    Text  => 'MyButtonText',   # min: 1, max: 50
+                                    Value => 'MyButtonValue',  # min: 1, max: 50
+
+                                  },
+                                  ...
+                                ],    # max: 5; OPTIONAL
+                                ImageUrl => 'MyAttachmentUrl'
+                                ,     # min: 1, max: 250; OPTIONAL
+                                Subtitle =>
+                                  'MyAttachmentTitle',    # min: 1, max: 250
+                              },    # OPTIONAL
+                              PlainTextMessage => {
+                                Value =>
+                                  'MyPlainTextMessageValue', # min: 1, max: 1000
+
+                              },    # OPTIONAL
+                              SsmlMessage => {
+                                Value =>
+                                  'MySSMLMessageValue',    # min: 1, max: 1000
+
+                              },    # OPTIONAL
+                            },
+                            ...
+                          ],    # max: 2; OPTIONAL
+                        },
+                        ...
+                      ],    # min: 1, max: 5
+                      AllowInterrupt => 1,    # OPTIONAL
+                    },    # OPTIONAL
+                  },
+                  ...
+                ],    # min: 1, max: 4
+                DefaultBranch => {
+                  NextStep => {
+                    DialogAction => {
+                      Type => 'ElicitIntent'
+                      , # values: ElicitIntent, StartIntent, ElicitSlot, EvaluateConditional, InvokeDialogCodeHook, ConfirmIntent, FulfillIntent, CloseIntent, EndConversation
+                      SlotToElicit        => 'MyName',    # min: 1, max: 100
+                      SuppressNextMessage => 1,           # OPTIONAL
+                    },    # OPTIONAL
+                    Intent => {
+                      Name  => 'MyName',    # min: 1, max: 100
+                      Slots => {
+                        'MyName' => {
+                          Shape => 'Scalar',    # values: Scalar, List; OPTIONAL
+                          Value => {
+                            InterpretedValue =>
+                              'MyNonEmptyString',    # min: 1; OPTIONAL
+                          },    # OPTIONAL
+                          Values => [ <SlotValueOverride>, ... ],    # OPTIONAL
+                        },    # key: min: 1, max: 100
+                      },    # OPTIONAL
+                    },    # OPTIONAL
+                    SessionAttributes => {
+                      'MyNonEmptyString' => 'MyString',  # key: min: 1; OPTIONAL
+                    },    # OPTIONAL
+                  },
+                  Response => {
+                    MessageGroups => [
+                      {
+                        Message => {
+                          CustomPayload => {
+                            Value => 'MyCustomPayloadValue', # min: 1, max: 1000
+
+                          },    # OPTIONAL
+                          ImageResponseCard => {
+                            Title   => 'MyAttachmentTitle',   # min: 1, max: 250
+                            Buttons => [
+                              {
+                                Text  => 'MyButtonText',     # min: 1, max: 50
+                                Value => 'MyButtonValue',    # min: 1, max: 50
+
+                              },
+                              ...
+                            ],    # max: 5; OPTIONAL
+                            ImageUrl =>
+                              'MyAttachmentUrl',    # min: 1, max: 250; OPTIONAL
+                            Subtitle => 'MyAttachmentTitle',  # min: 1, max: 250
+                          },    # OPTIONAL
+                          PlainTextMessage => {
+                            Value =>
+                              'MyPlainTextMessageValue',    # min: 1, max: 1000
+
+                          },    # OPTIONAL
+                          SsmlMessage => {
+                            Value => 'MySSMLMessageValue',   # min: 1, max: 1000
+
+                          },    # OPTIONAL
+                        },
+                        Variations => [
+                          {
+                            CustomPayload => {
+                              Value =>
+                                'MyCustomPayloadValue',    # min: 1, max: 1000
+
+                            },    # OPTIONAL
+                            ImageResponseCard => {
+                              Title   => 'MyAttachmentTitle', # min: 1, max: 250
+                              Buttons => [
+                                {
+                                  Text  => 'MyButtonText',     # min: 1, max: 50
+                                  Value => 'MyButtonValue',    # min: 1, max: 50
+
+                                },
+                                ...
+                              ],    # max: 5; OPTIONAL
+                              ImageUrl =>
+                                'MyAttachmentUrl',  # min: 1, max: 250; OPTIONAL
+                              Subtitle =>
+                                'MyAttachmentTitle',    # min: 1, max: 250
+                            },    # OPTIONAL
+                            PlainTextMessage => {
+                              Value =>
+                                'MyPlainTextMessageValue',   # min: 1, max: 1000
+
+                            },    # OPTIONAL
+                            SsmlMessage => {
+                              Value => 'MySSMLMessageValue', # min: 1, max: 1000
+
+                            },    # OPTIONAL
+                          },
+                          ...
+                        ],    # max: 2; OPTIONAL
+                      },
+                      ...
+                    ],    # min: 1, max: 5
+                    AllowInterrupt => 1,    # OPTIONAL
+                  },    # OPTIONAL
+                },
+
+              },    # OPTIONAL
+              FailureNextStep => {
+                DialogAction => {
+                  Type => 'ElicitIntent'
+                  , # values: ElicitIntent, StartIntent, ElicitSlot, EvaluateConditional, InvokeDialogCodeHook, ConfirmIntent, FulfillIntent, CloseIntent, EndConversation
+                  SlotToElicit        => 'MyName',    # min: 1, max: 100
+                  SuppressNextMessage => 1,           # OPTIONAL
+                },    # OPTIONAL
+                Intent => {
+                  Name  => 'MyName',    # min: 1, max: 100
+                  Slots => {
+                    'MyName' => {
+                      Shape => 'Scalar',    # values: Scalar, List; OPTIONAL
+                      Value => {
+                        InterpretedValue =>
+                          'MyNonEmptyString',    # min: 1; OPTIONAL
+                      },    # OPTIONAL
+                      Values => [ <SlotValueOverride>, ... ],    # OPTIONAL
+                    },    # key: min: 1, max: 100
+                  },    # OPTIONAL
+                },    # OPTIONAL
+                SessionAttributes => {
+                  'MyNonEmptyString' => 'MyString',    # key: min: 1; OPTIONAL
+                },    # OPTIONAL
+              },
+              FailureResponse => {
+                MessageGroups => [
+                  {
+                    Message => {
+                      CustomPayload => {
+                        Value => 'MyCustomPayloadValue',    # min: 1, max: 1000
+
+                      },    # OPTIONAL
+                      ImageResponseCard => {
+                        Title   => 'MyAttachmentTitle',    # min: 1, max: 250
+                        Buttons => [
+                          {
+                            Text  => 'MyButtonText',     # min: 1, max: 50
+                            Value => 'MyButtonValue',    # min: 1, max: 50
+
+                          },
+                          ...
+                        ],    # max: 5; OPTIONAL
+                        ImageUrl =>
+                          'MyAttachmentUrl',    # min: 1, max: 250; OPTIONAL
+                        Subtitle => 'MyAttachmentTitle',    # min: 1, max: 250
+                      },    # OPTIONAL
+                      PlainTextMessage => {
+                        Value => 'MyPlainTextMessageValue',  # min: 1, max: 1000
+
+                      },    # OPTIONAL
+                      SsmlMessage => {
+                        Value => 'MySSMLMessageValue',    # min: 1, max: 1000
+
+                      },    # OPTIONAL
+                    },
+                    Variations => [
+                      {
+                        CustomPayload => {
+                          Value => 'MyCustomPayloadValue',   # min: 1, max: 1000
+
+                        },    # OPTIONAL
+                        ImageResponseCard => {
+                          Title   => 'MyAttachmentTitle',    # min: 1, max: 250
+                          Buttons => [
+                            {
+                              Text  => 'MyButtonText',     # min: 1, max: 50
+                              Value => 'MyButtonValue',    # min: 1, max: 50
+
+                            },
+                            ...
+                          ],    # max: 5; OPTIONAL
+                          ImageUrl =>
+                            'MyAttachmentUrl',    # min: 1, max: 250; OPTIONAL
+                          Subtitle => 'MyAttachmentTitle',    # min: 1, max: 250
+                        },    # OPTIONAL
+                        PlainTextMessage => {
+                          Value =>
+                            'MyPlainTextMessageValue',    # min: 1, max: 1000
+
+                        },    # OPTIONAL
+                        SsmlMessage => {
+                          Value => 'MySSMLMessageValue',    # min: 1, max: 1000
+
+                        },    # OPTIONAL
+                      },
+                      ...
+                    ],    # max: 2; OPTIONAL
+                  },
+                  ...
+                ],    # min: 1, max: 5
+                AllowInterrupt => 1,    # OPTIONAL
+              },    # OPTIONAL
+              SuccessConditional => {
+                Active              => 1,    # OPTIONAL
+                ConditionalBranches => [
+                  {
+                    Condition => {
+                      ExpressionString =>
+                        'MyConditionExpression',    # min: 1, max: 1024
+
+                    },
+                    Name     => 'MyName',           # min: 1, max: 100
+                    NextStep => {
+                      DialogAction => {
+                        Type => 'ElicitIntent'
+                        , # values: ElicitIntent, StartIntent, ElicitSlot, EvaluateConditional, InvokeDialogCodeHook, ConfirmIntent, FulfillIntent, CloseIntent, EndConversation
+                        SlotToElicit        => 'MyName',    # min: 1, max: 100
+                        SuppressNextMessage => 1,           # OPTIONAL
+                      },    # OPTIONAL
+                      Intent => {
+                        Name  => 'MyName',    # min: 1, max: 100
+                        Slots => {
+                          'MyName' => {
+                            Shape => 'Scalar',  # values: Scalar, List; OPTIONAL
+                            Value => {
+                              InterpretedValue =>
+                                'MyNonEmptyString',    # min: 1; OPTIONAL
+                            },    # OPTIONAL
+                            Values => [ <SlotValueOverride>, ... ],   # OPTIONAL
+                          },    # key: min: 1, max: 100
+                        },    # OPTIONAL
+                      },    # OPTIONAL
+                      SessionAttributes => {
+                        'MyNonEmptyString' =>
+                          'MyString',    # key: min: 1; OPTIONAL
+                      },    # OPTIONAL
+                    },
+                    Response => {
+                      MessageGroups => [
+                        {
+                          Message => {
+                            CustomPayload => {
+                              Value =>
+                                'MyCustomPayloadValue',    # min: 1, max: 1000
+
+                            },    # OPTIONAL
+                            ImageResponseCard => {
+                              Title   => 'MyAttachmentTitle', # min: 1, max: 250
+                              Buttons => [
+                                {
+                                  Text  => 'MyButtonText',     # min: 1, max: 50
+                                  Value => 'MyButtonValue',    # min: 1, max: 50
+
+                                },
+                                ...
+                              ],    # max: 5; OPTIONAL
+                              ImageUrl =>
+                                'MyAttachmentUrl',  # min: 1, max: 250; OPTIONAL
+                              Subtitle =>
+                                'MyAttachmentTitle',    # min: 1, max: 250
+                            },    # OPTIONAL
+                            PlainTextMessage => {
+                              Value =>
+                                'MyPlainTextMessageValue',   # min: 1, max: 1000
+
+                            },    # OPTIONAL
+                            SsmlMessage => {
+                              Value => 'MySSMLMessageValue', # min: 1, max: 1000
+
+                            },    # OPTIONAL
+                          },
+                          Variations => [
+                            {
+                              CustomPayload => {
+                                Value =>
+                                  'MyCustomPayloadValue',    # min: 1, max: 1000
+
+                              },    # OPTIONAL
+                              ImageResponseCard => {
+                                Title => 'MyAttachmentTitle', # min: 1, max: 250
+                                Buttons => [
+                                  {
+                                    Text  => 'MyButtonText',   # min: 1, max: 50
+                                    Value => 'MyButtonValue',  # min: 1, max: 50
+
+                                  },
+                                  ...
+                                ],    # max: 5; OPTIONAL
+                                ImageUrl => 'MyAttachmentUrl'
+                                ,     # min: 1, max: 250; OPTIONAL
+                                Subtitle =>
+                                  'MyAttachmentTitle',    # min: 1, max: 250
+                              },    # OPTIONAL
+                              PlainTextMessage => {
+                                Value =>
+                                  'MyPlainTextMessageValue', # min: 1, max: 1000
+
+                              },    # OPTIONAL
+                              SsmlMessage => {
+                                Value =>
+                                  'MySSMLMessageValue',    # min: 1, max: 1000
+
+                              },    # OPTIONAL
+                            },
+                            ...
+                          ],    # max: 2; OPTIONAL
+                        },
+                        ...
+                      ],    # min: 1, max: 5
+                      AllowInterrupt => 1,    # OPTIONAL
+                    },    # OPTIONAL
+                  },
+                  ...
+                ],    # min: 1, max: 4
+                DefaultBranch => {
+                  NextStep => {
+                    DialogAction => {
+                      Type => 'ElicitIntent'
+                      , # values: ElicitIntent, StartIntent, ElicitSlot, EvaluateConditional, InvokeDialogCodeHook, ConfirmIntent, FulfillIntent, CloseIntent, EndConversation
+                      SlotToElicit        => 'MyName',    # min: 1, max: 100
+                      SuppressNextMessage => 1,           # OPTIONAL
+                    },    # OPTIONAL
+                    Intent => {
+                      Name  => 'MyName',    # min: 1, max: 100
+                      Slots => {
+                        'MyName' => {
+                          Shape => 'Scalar',    # values: Scalar, List; OPTIONAL
+                          Value => {
+                            InterpretedValue =>
+                              'MyNonEmptyString',    # min: 1; OPTIONAL
+                          },    # OPTIONAL
+                          Values => [ <SlotValueOverride>, ... ],    # OPTIONAL
+                        },    # key: min: 1, max: 100
+                      },    # OPTIONAL
+                    },    # OPTIONAL
+                    SessionAttributes => {
+                      'MyNonEmptyString' => 'MyString',  # key: min: 1; OPTIONAL
+                    },    # OPTIONAL
+                  },
+                  Response => {
+                    MessageGroups => [
+                      {
+                        Message => {
+                          CustomPayload => {
+                            Value => 'MyCustomPayloadValue', # min: 1, max: 1000
+
+                          },    # OPTIONAL
+                          ImageResponseCard => {
+                            Title   => 'MyAttachmentTitle',   # min: 1, max: 250
+                            Buttons => [
+                              {
+                                Text  => 'MyButtonText',     # min: 1, max: 50
+                                Value => 'MyButtonValue',    # min: 1, max: 50
+
+                              },
+                              ...
+                            ],    # max: 5; OPTIONAL
+                            ImageUrl =>
+                              'MyAttachmentUrl',    # min: 1, max: 250; OPTIONAL
+                            Subtitle => 'MyAttachmentTitle',  # min: 1, max: 250
+                          },    # OPTIONAL
+                          PlainTextMessage => {
+                            Value =>
+                              'MyPlainTextMessageValue',    # min: 1, max: 1000
+
+                          },    # OPTIONAL
+                          SsmlMessage => {
+                            Value => 'MySSMLMessageValue',   # min: 1, max: 1000
+
+                          },    # OPTIONAL
+                        },
+                        Variations => [
+                          {
+                            CustomPayload => {
+                              Value =>
+                                'MyCustomPayloadValue',    # min: 1, max: 1000
+
+                            },    # OPTIONAL
+                            ImageResponseCard => {
+                              Title   => 'MyAttachmentTitle', # min: 1, max: 250
+                              Buttons => [
+                                {
+                                  Text  => 'MyButtonText',     # min: 1, max: 50
+                                  Value => 'MyButtonValue',    # min: 1, max: 50
+
+                                },
+                                ...
+                              ],    # max: 5; OPTIONAL
+                              ImageUrl =>
+                                'MyAttachmentUrl',  # min: 1, max: 250; OPTIONAL
+                              Subtitle =>
+                                'MyAttachmentTitle',    # min: 1, max: 250
+                            },    # OPTIONAL
+                            PlainTextMessage => {
+                              Value =>
+                                'MyPlainTextMessageValue',   # min: 1, max: 1000
+
+                            },    # OPTIONAL
+                            SsmlMessage => {
+                              Value => 'MySSMLMessageValue', # min: 1, max: 1000
+
+                            },    # OPTIONAL
+                          },
+                          ...
+                        ],    # max: 2; OPTIONAL
+                      },
+                      ...
+                    ],    # min: 1, max: 5
+                    AllowInterrupt => 1,    # OPTIONAL
+                  },    # OPTIONAL
+                },
+
+              },    # OPTIONAL
+              SuccessNextStep => {
+                DialogAction => {
+                  Type => 'ElicitIntent'
+                  , # values: ElicitIntent, StartIntent, ElicitSlot, EvaluateConditional, InvokeDialogCodeHook, ConfirmIntent, FulfillIntent, CloseIntent, EndConversation
+                  SlotToElicit        => 'MyName',    # min: 1, max: 100
+                  SuppressNextMessage => 1,           # OPTIONAL
+                },    # OPTIONAL
+                Intent => {
+                  Name  => 'MyName',    # min: 1, max: 100
+                  Slots => {
+                    'MyName' => {
+                      Shape => 'Scalar',    # values: Scalar, List; OPTIONAL
+                      Value => {
+                        InterpretedValue =>
+                          'MyNonEmptyString',    # min: 1; OPTIONAL
+                      },    # OPTIONAL
+                      Values => [ <SlotValueOverride>, ... ],    # OPTIONAL
+                    },    # key: min: 1, max: 100
+                  },    # OPTIONAL
+                },    # OPTIONAL
+                SessionAttributes => {
+                  'MyNonEmptyString' => 'MyString',    # key: min: 1; OPTIONAL
+                },    # OPTIONAL
+              },
+              SuccessResponse => {
+                MessageGroups => [
+                  {
+                    Message => {
+                      CustomPayload => {
+                        Value => 'MyCustomPayloadValue',    # min: 1, max: 1000
+
+                      },    # OPTIONAL
+                      ImageResponseCard => {
+                        Title   => 'MyAttachmentTitle',    # min: 1, max: 250
+                        Buttons => [
+                          {
+                            Text  => 'MyButtonText',     # min: 1, max: 50
+                            Value => 'MyButtonValue',    # min: 1, max: 50
+
+                          },
+                          ...
+                        ],    # max: 5; OPTIONAL
+                        ImageUrl =>
+                          'MyAttachmentUrl',    # min: 1, max: 250; OPTIONAL
+                        Subtitle => 'MyAttachmentTitle',    # min: 1, max: 250
+                      },    # OPTIONAL
+                      PlainTextMessage => {
+                        Value => 'MyPlainTextMessageValue',  # min: 1, max: 1000
+
+                      },    # OPTIONAL
+                      SsmlMessage => {
+                        Value => 'MySSMLMessageValue',    # min: 1, max: 1000
+
+                      },    # OPTIONAL
+                    },
+                    Variations => [
+                      {
+                        CustomPayload => {
+                          Value => 'MyCustomPayloadValue',   # min: 1, max: 1000
+
+                        },    # OPTIONAL
+                        ImageResponseCard => {
+                          Title   => 'MyAttachmentTitle',    # min: 1, max: 250
+                          Buttons => [
+                            {
+                              Text  => 'MyButtonText',     # min: 1, max: 50
+                              Value => 'MyButtonValue',    # min: 1, max: 50
+
+                            },
+                            ...
+                          ],    # max: 5; OPTIONAL
+                          ImageUrl =>
+                            'MyAttachmentUrl',    # min: 1, max: 250; OPTIONAL
+                          Subtitle => 'MyAttachmentTitle',    # min: 1, max: 250
+                        },    # OPTIONAL
+                        PlainTextMessage => {
+                          Value =>
+                            'MyPlainTextMessageValue',    # min: 1, max: 1000
+
+                        },    # OPTIONAL
+                        SsmlMessage => {
+                          Value => 'MySSMLMessageValue',    # min: 1, max: 1000
+
+                        },    # OPTIONAL
+                      },
+                      ...
+                    ],    # max: 2; OPTIONAL
+                  },
+                  ...
+                ],    # min: 1, max: 5
+                AllowInterrupt => 1,    # OPTIONAL
+              },    # OPTIONAL
+              TimeoutConditional => {
+                Active              => 1,    # OPTIONAL
+                ConditionalBranches => [
+                  {
+                    Condition => {
+                      ExpressionString =>
+                        'MyConditionExpression',    # min: 1, max: 1024
+
+                    },
+                    Name     => 'MyName',           # min: 1, max: 100
+                    NextStep => {
+                      DialogAction => {
+                        Type => 'ElicitIntent'
+                        , # values: ElicitIntent, StartIntent, ElicitSlot, EvaluateConditional, InvokeDialogCodeHook, ConfirmIntent, FulfillIntent, CloseIntent, EndConversation
+                        SlotToElicit        => 'MyName',    # min: 1, max: 100
+                        SuppressNextMessage => 1,           # OPTIONAL
+                      },    # OPTIONAL
+                      Intent => {
+                        Name  => 'MyName',    # min: 1, max: 100
+                        Slots => {
+                          'MyName' => {
+                            Shape => 'Scalar',  # values: Scalar, List; OPTIONAL
+                            Value => {
+                              InterpretedValue =>
+                                'MyNonEmptyString',    # min: 1; OPTIONAL
+                            },    # OPTIONAL
+                            Values => [ <SlotValueOverride>, ... ],   # OPTIONAL
+                          },    # key: min: 1, max: 100
+                        },    # OPTIONAL
+                      },    # OPTIONAL
+                      SessionAttributes => {
+                        'MyNonEmptyString' =>
+                          'MyString',    # key: min: 1; OPTIONAL
+                      },    # OPTIONAL
+                    },
+                    Response => {
+                      MessageGroups => [
+                        {
+                          Message => {
+                            CustomPayload => {
+                              Value =>
+                                'MyCustomPayloadValue',    # min: 1, max: 1000
+
+                            },    # OPTIONAL
+                            ImageResponseCard => {
+                              Title   => 'MyAttachmentTitle', # min: 1, max: 250
+                              Buttons => [
+                                {
+                                  Text  => 'MyButtonText',     # min: 1, max: 50
+                                  Value => 'MyButtonValue',    # min: 1, max: 50
+
+                                },
+                                ...
+                              ],    # max: 5; OPTIONAL
+                              ImageUrl =>
+                                'MyAttachmentUrl',  # min: 1, max: 250; OPTIONAL
+                              Subtitle =>
+                                'MyAttachmentTitle',    # min: 1, max: 250
+                            },    # OPTIONAL
+                            PlainTextMessage => {
+                              Value =>
+                                'MyPlainTextMessageValue',   # min: 1, max: 1000
+
+                            },    # OPTIONAL
+                            SsmlMessage => {
+                              Value => 'MySSMLMessageValue', # min: 1, max: 1000
+
+                            },    # OPTIONAL
+                          },
+                          Variations => [
+                            {
+                              CustomPayload => {
+                                Value =>
+                                  'MyCustomPayloadValue',    # min: 1, max: 1000
+
+                              },    # OPTIONAL
+                              ImageResponseCard => {
+                                Title => 'MyAttachmentTitle', # min: 1, max: 250
+                                Buttons => [
+                                  {
+                                    Text  => 'MyButtonText',   # min: 1, max: 50
+                                    Value => 'MyButtonValue',  # min: 1, max: 50
+
+                                  },
+                                  ...
+                                ],    # max: 5; OPTIONAL
+                                ImageUrl => 'MyAttachmentUrl'
+                                ,     # min: 1, max: 250; OPTIONAL
+                                Subtitle =>
+                                  'MyAttachmentTitle',    # min: 1, max: 250
+                              },    # OPTIONAL
+                              PlainTextMessage => {
+                                Value =>
+                                  'MyPlainTextMessageValue', # min: 1, max: 1000
+
+                              },    # OPTIONAL
+                              SsmlMessage => {
+                                Value =>
+                                  'MySSMLMessageValue',    # min: 1, max: 1000
+
+                              },    # OPTIONAL
+                            },
+                            ...
+                          ],    # max: 2; OPTIONAL
+                        },
+                        ...
+                      ],    # min: 1, max: 5
+                      AllowInterrupt => 1,    # OPTIONAL
+                    },    # OPTIONAL
+                  },
+                  ...
+                ],    # min: 1, max: 4
+                DefaultBranch => {
+                  NextStep => {
+                    DialogAction => {
+                      Type => 'ElicitIntent'
+                      , # values: ElicitIntent, StartIntent, ElicitSlot, EvaluateConditional, InvokeDialogCodeHook, ConfirmIntent, FulfillIntent, CloseIntent, EndConversation
+                      SlotToElicit        => 'MyName',    # min: 1, max: 100
+                      SuppressNextMessage => 1,           # OPTIONAL
+                    },    # OPTIONAL
+                    Intent => {
+                      Name  => 'MyName',    # min: 1, max: 100
+                      Slots => {
+                        'MyName' => {
+                          Shape => 'Scalar',    # values: Scalar, List; OPTIONAL
+                          Value => {
+                            InterpretedValue =>
+                              'MyNonEmptyString',    # min: 1; OPTIONAL
+                          },    # OPTIONAL
+                          Values => [ <SlotValueOverride>, ... ],    # OPTIONAL
+                        },    # key: min: 1, max: 100
+                      },    # OPTIONAL
+                    },    # OPTIONAL
+                    SessionAttributes => {
+                      'MyNonEmptyString' => 'MyString',  # key: min: 1; OPTIONAL
+                    },    # OPTIONAL
+                  },
+                  Response => {
+                    MessageGroups => [
+                      {
+                        Message => {
+                          CustomPayload => {
+                            Value => 'MyCustomPayloadValue', # min: 1, max: 1000
+
+                          },    # OPTIONAL
+                          ImageResponseCard => {
+                            Title   => 'MyAttachmentTitle',   # min: 1, max: 250
+                            Buttons => [
+                              {
+                                Text  => 'MyButtonText',     # min: 1, max: 50
+                                Value => 'MyButtonValue',    # min: 1, max: 50
+
+                              },
+                              ...
+                            ],    # max: 5; OPTIONAL
+                            ImageUrl =>
+                              'MyAttachmentUrl',    # min: 1, max: 250; OPTIONAL
+                            Subtitle => 'MyAttachmentTitle',  # min: 1, max: 250
+                          },    # OPTIONAL
+                          PlainTextMessage => {
+                            Value =>
+                              'MyPlainTextMessageValue',    # min: 1, max: 1000
+
+                          },    # OPTIONAL
+                          SsmlMessage => {
+                            Value => 'MySSMLMessageValue',   # min: 1, max: 1000
+
+                          },    # OPTIONAL
+                        },
+                        Variations => [
+                          {
+                            CustomPayload => {
+                              Value =>
+                                'MyCustomPayloadValue',    # min: 1, max: 1000
+
+                            },    # OPTIONAL
+                            ImageResponseCard => {
+                              Title   => 'MyAttachmentTitle', # min: 1, max: 250
+                              Buttons => [
+                                {
+                                  Text  => 'MyButtonText',     # min: 1, max: 50
+                                  Value => 'MyButtonValue',    # min: 1, max: 50
+
+                                },
+                                ...
+                              ],    # max: 5; OPTIONAL
+                              ImageUrl =>
+                                'MyAttachmentUrl',  # min: 1, max: 250; OPTIONAL
+                              Subtitle =>
+                                'MyAttachmentTitle',    # min: 1, max: 250
+                            },    # OPTIONAL
+                            PlainTextMessage => {
+                              Value =>
+                                'MyPlainTextMessageValue',   # min: 1, max: 1000
+
+                            },    # OPTIONAL
+                            SsmlMessage => {
+                              Value => 'MySSMLMessageValue', # min: 1, max: 1000
+
+                            },    # OPTIONAL
+                          },
+                          ...
+                        ],    # max: 2; OPTIONAL
+                      },
+                      ...
+                    ],    # min: 1, max: 5
+                    AllowInterrupt => 1,    # OPTIONAL
+                  },    # OPTIONAL
+                },
+
+              },    # OPTIONAL
+              TimeoutNextStep => {
+                DialogAction => {
+                  Type => 'ElicitIntent'
+                  , # values: ElicitIntent, StartIntent, ElicitSlot, EvaluateConditional, InvokeDialogCodeHook, ConfirmIntent, FulfillIntent, CloseIntent, EndConversation
+                  SlotToElicit        => 'MyName',    # min: 1, max: 100
+                  SuppressNextMessage => 1,           # OPTIONAL
+                },    # OPTIONAL
+                Intent => {
+                  Name  => 'MyName',    # min: 1, max: 100
+                  Slots => {
+                    'MyName' => {
+                      Shape => 'Scalar',    # values: Scalar, List; OPTIONAL
+                      Value => {
+                        InterpretedValue =>
+                          'MyNonEmptyString',    # min: 1; OPTIONAL
+                      },    # OPTIONAL
+                      Values => [ <SlotValueOverride>, ... ],    # OPTIONAL
+                    },    # key: min: 1, max: 100
+                  },    # OPTIONAL
+                },    # OPTIONAL
+                SessionAttributes => {
+                  'MyNonEmptyString' => 'MyString',    # key: min: 1; OPTIONAL
+                },    # OPTIONAL
+              },
+              TimeoutResponse => {
+                MessageGroups => [
+                  {
+                    Message => {
+                      CustomPayload => {
+                        Value => 'MyCustomPayloadValue',    # min: 1, max: 1000
+
+                      },    # OPTIONAL
+                      ImageResponseCard => {
+                        Title   => 'MyAttachmentTitle',    # min: 1, max: 250
+                        Buttons => [
+                          {
+                            Text  => 'MyButtonText',     # min: 1, max: 50
+                            Value => 'MyButtonValue',    # min: 1, max: 50
+
+                          },
+                          ...
+                        ],    # max: 5; OPTIONAL
+                        ImageUrl =>
+                          'MyAttachmentUrl',    # min: 1, max: 250; OPTIONAL
+                        Subtitle => 'MyAttachmentTitle',    # min: 1, max: 250
+                      },    # OPTIONAL
+                      PlainTextMessage => {
+                        Value => 'MyPlainTextMessageValue',  # min: 1, max: 1000
+
+                      },    # OPTIONAL
+                      SsmlMessage => {
+                        Value => 'MySSMLMessageValue',    # min: 1, max: 1000
+
+                      },    # OPTIONAL
+                    },
+                    Variations => [
+                      {
+                        CustomPayload => {
+                          Value => 'MyCustomPayloadValue',   # min: 1, max: 1000
+
+                        },    # OPTIONAL
+                        ImageResponseCard => {
+                          Title   => 'MyAttachmentTitle',    # min: 1, max: 250
+                          Buttons => [
+                            {
+                              Text  => 'MyButtonText',     # min: 1, max: 50
+                              Value => 'MyButtonValue',    # min: 1, max: 50
+
+                            },
+                            ...
+                          ],    # max: 5; OPTIONAL
+                          ImageUrl =>
+                            'MyAttachmentUrl',    # min: 1, max: 250; OPTIONAL
+                          Subtitle => 'MyAttachmentTitle',    # min: 1, max: 250
+                        },    # OPTIONAL
+                        PlainTextMessage => {
+                          Value =>
+                            'MyPlainTextMessageValue',    # min: 1, max: 1000
+
+                        },    # OPTIONAL
+                        SsmlMessage => {
+                          Value => 'MySSMLMessageValue',    # min: 1, max: 1000
+
+                        },    # OPTIONAL
+                      },
+                      ...
+                    ],    # max: 2; OPTIONAL
+                  },
+                  ...
+                ],    # min: 1, max: 5
+                AllowInterrupt => 1,    # OPTIONAL
+              },    # OPTIONAL
+            },
+            InvocationLabel => 'MyName',    # min: 1, max: 100
+          },    # OPTIONAL
+          ElicitationCodeHook => {
+            EnableCodeHookInvocation => 1,           # OPTIONAL
+            InvocationLabel          => 'MyName',    # min: 1, max: 100
+          },    # OPTIONAL
+          FailureConditional => {
+            Active              => 1,    # OPTIONAL
+            ConditionalBranches => [
+              {
+                Condition => {
+                  ExpressionString =>
+                    'MyConditionExpression',    # min: 1, max: 1024
+
+                },
+                Name     => 'MyName',           # min: 1, max: 100
+                NextStep => {
+                  DialogAction => {
+                    Type => 'ElicitIntent'
+                    , # values: ElicitIntent, StartIntent, ElicitSlot, EvaluateConditional, InvokeDialogCodeHook, ConfirmIntent, FulfillIntent, CloseIntent, EndConversation
+                    SlotToElicit        => 'MyName',    # min: 1, max: 100
+                    SuppressNextMessage => 1,           # OPTIONAL
+                  },    # OPTIONAL
+                  Intent => {
+                    Name  => 'MyName',    # min: 1, max: 100
+                    Slots => {
+                      'MyName' => {
+                        Shape => 'Scalar',    # values: Scalar, List; OPTIONAL
+                        Value => {
+                          InterpretedValue =>
+                            'MyNonEmptyString',    # min: 1; OPTIONAL
+                        },    # OPTIONAL
+                        Values => [ <SlotValueOverride>, ... ],    # OPTIONAL
+                      },    # key: min: 1, max: 100
+                    },    # OPTIONAL
+                  },    # OPTIONAL
+                  SessionAttributes => {
+                    'MyNonEmptyString' => 'MyString',    # key: min: 1; OPTIONAL
+                  },    # OPTIONAL
+                },
+                Response => {
+                  MessageGroups => [
+                    {
+                      Message => {
+                        CustomPayload => {
+                          Value => 'MyCustomPayloadValue',   # min: 1, max: 1000
+
+                        },    # OPTIONAL
+                        ImageResponseCard => {
+                          Title   => 'MyAttachmentTitle',    # min: 1, max: 250
+                          Buttons => [
+                            {
+                              Text  => 'MyButtonText',     # min: 1, max: 50
+                              Value => 'MyButtonValue',    # min: 1, max: 50
+
+                            },
+                            ...
+                          ],    # max: 5; OPTIONAL
+                          ImageUrl =>
+                            'MyAttachmentUrl',    # min: 1, max: 250; OPTIONAL
+                          Subtitle => 'MyAttachmentTitle',    # min: 1, max: 250
+                        },    # OPTIONAL
+                        PlainTextMessage => {
+                          Value =>
+                            'MyPlainTextMessageValue',    # min: 1, max: 1000
+
+                        },    # OPTIONAL
+                        SsmlMessage => {
+                          Value => 'MySSMLMessageValue',    # min: 1, max: 1000
+
+                        },    # OPTIONAL
+                      },
+                      Variations => [
+                        {
+                          CustomPayload => {
+                            Value => 'MyCustomPayloadValue', # min: 1, max: 1000
+
+                          },    # OPTIONAL
+                          ImageResponseCard => {
+                            Title   => 'MyAttachmentTitle',   # min: 1, max: 250
+                            Buttons => [
+                              {
+                                Text  => 'MyButtonText',     # min: 1, max: 50
+                                Value => 'MyButtonValue',    # min: 1, max: 50
+
+                              },
+                              ...
+                            ],    # max: 5; OPTIONAL
+                            ImageUrl =>
+                              'MyAttachmentUrl',    # min: 1, max: 250; OPTIONAL
+                            Subtitle => 'MyAttachmentTitle',  # min: 1, max: 250
+                          },    # OPTIONAL
+                          PlainTextMessage => {
+                            Value =>
+                              'MyPlainTextMessageValue',    # min: 1, max: 1000
+
+                          },    # OPTIONAL
+                          SsmlMessage => {
+                            Value => 'MySSMLMessageValue',   # min: 1, max: 1000
+
+                          },    # OPTIONAL
+                        },
+                        ...
+                      ],    # max: 2; OPTIONAL
+                    },
+                    ...
+                  ],    # min: 1, max: 5
+                  AllowInterrupt => 1,    # OPTIONAL
+                },    # OPTIONAL
+              },
+              ...
+            ],    # min: 1, max: 4
+            DefaultBranch => {
+              NextStep => {
+                DialogAction => {
+                  Type => 'ElicitIntent'
+                  , # values: ElicitIntent, StartIntent, ElicitSlot, EvaluateConditional, InvokeDialogCodeHook, ConfirmIntent, FulfillIntent, CloseIntent, EndConversation
+                  SlotToElicit        => 'MyName',    # min: 1, max: 100
+                  SuppressNextMessage => 1,           # OPTIONAL
+                },    # OPTIONAL
+                Intent => {
+                  Name  => 'MyName',    # min: 1, max: 100
+                  Slots => {
+                    'MyName' => {
+                      Shape => 'Scalar',    # values: Scalar, List; OPTIONAL
+                      Value => {
+                        InterpretedValue =>
+                          'MyNonEmptyString',    # min: 1; OPTIONAL
+                      },    # OPTIONAL
+                      Values => [ <SlotValueOverride>, ... ],    # OPTIONAL
+                    },    # key: min: 1, max: 100
+                  },    # OPTIONAL
+                },    # OPTIONAL
+                SessionAttributes => {
+                  'MyNonEmptyString' => 'MyString',    # key: min: 1; OPTIONAL
+                },    # OPTIONAL
+              },
+              Response => {
+                MessageGroups => [
+                  {
+                    Message => {
+                      CustomPayload => {
+                        Value => 'MyCustomPayloadValue',    # min: 1, max: 1000
+
+                      },    # OPTIONAL
+                      ImageResponseCard => {
+                        Title   => 'MyAttachmentTitle',    # min: 1, max: 250
+                        Buttons => [
+                          {
+                            Text  => 'MyButtonText',     # min: 1, max: 50
+                            Value => 'MyButtonValue',    # min: 1, max: 50
+
+                          },
+                          ...
+                        ],    # max: 5; OPTIONAL
+                        ImageUrl =>
+                          'MyAttachmentUrl',    # min: 1, max: 250; OPTIONAL
+                        Subtitle => 'MyAttachmentTitle',    # min: 1, max: 250
+                      },    # OPTIONAL
+                      PlainTextMessage => {
+                        Value => 'MyPlainTextMessageValue',  # min: 1, max: 1000
+
+                      },    # OPTIONAL
+                      SsmlMessage => {
+                        Value => 'MySSMLMessageValue',    # min: 1, max: 1000
+
+                      },    # OPTIONAL
+                    },
+                    Variations => [
+                      {
+                        CustomPayload => {
+                          Value => 'MyCustomPayloadValue',   # min: 1, max: 1000
+
+                        },    # OPTIONAL
+                        ImageResponseCard => {
+                          Title   => 'MyAttachmentTitle',    # min: 1, max: 250
+                          Buttons => [
+                            {
+                              Text  => 'MyButtonText',     # min: 1, max: 50
+                              Value => 'MyButtonValue',    # min: 1, max: 50
+
+                            },
+                            ...
+                          ],    # max: 5; OPTIONAL
+                          ImageUrl =>
+                            'MyAttachmentUrl',    # min: 1, max: 250; OPTIONAL
+                          Subtitle => 'MyAttachmentTitle',    # min: 1, max: 250
+                        },    # OPTIONAL
+                        PlainTextMessage => {
+                          Value =>
+                            'MyPlainTextMessageValue',    # min: 1, max: 1000
+
+                        },    # OPTIONAL
+                        SsmlMessage => {
+                          Value => 'MySSMLMessageValue',    # min: 1, max: 1000
+
+                        },    # OPTIONAL
+                      },
+                      ...
+                    ],    # max: 2; OPTIONAL
+                  },
+                  ...
+                ],    # min: 1, max: 5
+                AllowInterrupt => 1,    # OPTIONAL
+              },    # OPTIONAL
+            },
+
+          },    # OPTIONAL
+          FailureNextStep => {
+            DialogAction => {
+              Type => 'ElicitIntent'
+              , # values: ElicitIntent, StartIntent, ElicitSlot, EvaluateConditional, InvokeDialogCodeHook, ConfirmIntent, FulfillIntent, CloseIntent, EndConversation
+              SlotToElicit        => 'MyName',    # min: 1, max: 100
+              SuppressNextMessage => 1,           # OPTIONAL
+            },    # OPTIONAL
+            Intent => {
+              Name  => 'MyName',    # min: 1, max: 100
+              Slots => {
+                'MyName' => {
+                  Shape => 'Scalar',    # values: Scalar, List; OPTIONAL
+                  Value => {
+                    InterpretedValue => 'MyNonEmptyString',   # min: 1; OPTIONAL
+                  },    # OPTIONAL
+                  Values => [ <SlotValueOverride>, ... ],    # OPTIONAL
+                },    # key: min: 1, max: 100
+              },    # OPTIONAL
+            },    # OPTIONAL
+            SessionAttributes => {
+              'MyNonEmptyString' => 'MyString',    # key: min: 1; OPTIONAL
+            },    # OPTIONAL
+          },
+          FailureResponse => {
+            MessageGroups => [
+              {
+                Message => {
+                  CustomPayload => {
+                    Value => 'MyCustomPayloadValue',    # min: 1, max: 1000
+
+                  },    # OPTIONAL
+                  ImageResponseCard => {
+                    Title   => 'MyAttachmentTitle',    # min: 1, max: 250
+                    Buttons => [
+                      {
+                        Text  => 'MyButtonText',     # min: 1, max: 50
+                        Value => 'MyButtonValue',    # min: 1, max: 50
+
+                      },
+                      ...
+                    ],    # max: 5; OPTIONAL
+                    ImageUrl => 'MyAttachmentUrl',  # min: 1, max: 250; OPTIONAL
+                    Subtitle => 'MyAttachmentTitle',    # min: 1, max: 250
+                  },    # OPTIONAL
+                  PlainTextMessage => {
+                    Value => 'MyPlainTextMessageValue',    # min: 1, max: 1000
+
+                  },    # OPTIONAL
+                  SsmlMessage => {
+                    Value => 'MySSMLMessageValue',    # min: 1, max: 1000
+
+                  },    # OPTIONAL
+                },
+                Variations => [
+                  {
+                    CustomPayload => {
+                      Value => 'MyCustomPayloadValue',    # min: 1, max: 1000
+
+                    },    # OPTIONAL
+                    ImageResponseCard => {
+                      Title   => 'MyAttachmentTitle',    # min: 1, max: 250
+                      Buttons => [
+                        {
+                          Text  => 'MyButtonText',     # min: 1, max: 50
+                          Value => 'MyButtonValue',    # min: 1, max: 50
+
+                        },
+                        ...
+                      ],    # max: 5; OPTIONAL
+                      ImageUrl =>
+                        'MyAttachmentUrl',    # min: 1, max: 250; OPTIONAL
+                      Subtitle => 'MyAttachmentTitle',    # min: 1, max: 250
+                    },    # OPTIONAL
+                    PlainTextMessage => {
+                      Value => 'MyPlainTextMessageValue',    # min: 1, max: 1000
+
+                    },    # OPTIONAL
+                    SsmlMessage => {
+                      Value => 'MySSMLMessageValue',    # min: 1, max: 1000
+
+                    },    # OPTIONAL
+                  },
+                  ...
+                ],    # max: 2; OPTIONAL
+              },
+              ...
+            ],    # min: 1, max: 5
+            AllowInterrupt => 1,    # OPTIONAL
+          },    # OPTIONAL
+        },    # OPTIONAL
+        SlotResolutionSetting => {
+          SlotResolutionStrategy =>
+            'EnhancedFallback',    # values: EnhancedFallback, Default
+
+        },    # OPTIONAL
         WaitAndContinueSpecification => {
           ContinueResponse => {
             MessageGroups => [
@@ -197,7 +1737,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
               ...
             ],    # min: 1, max: 5
             AllowInterrupt => 1,    # OPTIONAL
-          },
+          },    # OPTIONAL
           WaitingResponse => {
             MessageGroups => [
               {
@@ -263,7 +1803,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
               ...
             ],    # min: 1, max: 5
             AllowInterrupt => 1,    # OPTIONAL
-          },
+          },    # OPTIONAL
+          Active               => 1,    # OPTIONAL
           StillWaitingResponse => {
             FrequencyInSeconds => 1,    # min: 1, max: 300
             MessageGroups      => [
@@ -342,6 +1883,348 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ObfuscationSettingType => 'None',    # values: None, DefaultObfuscation
 
       },    # OPTIONAL
+      SlotTypeId     => 'MyBuiltInOrCustomSlotTypeId',    # OPTIONAL
+      SubSlotSetting => {
+        Expression         => 'MySubSlotExpression',      # max: 640; OPTIONAL
+        SlotSpecifications => {
+          'MyName' => {
+            SlotTypeId => 'MyBuiltInOrCustomSlotTypeId',    # min: 1, max: 25
+            ValueElicitationSetting => {
+              PromptSpecification => {
+                MaxRetries    => 1,                         # max: 5
+                MessageGroups => [
+                  {
+                    Message => {
+                      CustomPayload => {
+                        Value => 'MyCustomPayloadValue',    # min: 1, max: 1000
+
+                      },    # OPTIONAL
+                      ImageResponseCard => {
+                        Title   => 'MyAttachmentTitle',    # min: 1, max: 250
+                        Buttons => [
+                          {
+                            Text  => 'MyButtonText',     # min: 1, max: 50
+                            Value => 'MyButtonValue',    # min: 1, max: 50
+
+                          },
+                          ...
+                        ],    # max: 5; OPTIONAL
+                        ImageUrl =>
+                          'MyAttachmentUrl',    # min: 1, max: 250; OPTIONAL
+                        Subtitle => 'MyAttachmentTitle',    # min: 1, max: 250
+                      },    # OPTIONAL
+                      PlainTextMessage => {
+                        Value => 'MyPlainTextMessageValue',  # min: 1, max: 1000
+
+                      },    # OPTIONAL
+                      SsmlMessage => {
+                        Value => 'MySSMLMessageValue',    # min: 1, max: 1000
+
+                      },    # OPTIONAL
+                    },
+                    Variations => [
+                      {
+                        CustomPayload => {
+                          Value => 'MyCustomPayloadValue',   # min: 1, max: 1000
+
+                        },    # OPTIONAL
+                        ImageResponseCard => {
+                          Title   => 'MyAttachmentTitle',    # min: 1, max: 250
+                          Buttons => [
+                            {
+                              Text  => 'MyButtonText',     # min: 1, max: 50
+                              Value => 'MyButtonValue',    # min: 1, max: 50
+
+                            },
+                            ...
+                          ],    # max: 5; OPTIONAL
+                          ImageUrl =>
+                            'MyAttachmentUrl',    # min: 1, max: 250; OPTIONAL
+                          Subtitle => 'MyAttachmentTitle',    # min: 1, max: 250
+                        },    # OPTIONAL
+                        PlainTextMessage => {
+                          Value =>
+                            'MyPlainTextMessageValue',    # min: 1, max: 1000
+
+                        },    # OPTIONAL
+                        SsmlMessage => {
+                          Value => 'MySSMLMessageValue',    # min: 1, max: 1000
+
+                        },    # OPTIONAL
+                      },
+                      ...
+                    ],    # max: 2; OPTIONAL
+                  },
+                  ...
+                ],    # min: 1, max: 5
+                AllowInterrupt           => 1,    # OPTIONAL
+                MessageSelectionStrategy =>
+                  'Random',    # values: Random, Ordered; OPTIONAL
+                PromptAttemptsSpecification => {
+                  'Initial' => {
+                    AllowedInputTypes => {
+                      AllowAudioInput => 1,    # OPTIONAL
+                      AllowDTMFInput  => 1,    # OPTIONAL
+
+                    },
+                    AllowInterrupt                 => 1,    # OPTIONAL
+                    AudioAndDTMFInputSpecification => {
+                      StartTimeoutMs     => 1,              # min: 1
+                      AudioSpecification => {
+                        EndTimeoutMs => 1,                  # min: 1
+                        MaxLengthMs  => 1,                  # min: 1
+
+                      },    # OPTIONAL
+                      DtmfSpecification => {
+                        DeletionCharacter => 'MyDTMFCharacter',
+                        EndCharacter      => 'MyDTMFCharacter',
+                        EndTimeoutMs      => 1,                   # min: 1
+                        MaxLength         => 1,    # min: 1, max: 1024
+
+                      },    # OPTIONAL
+                    },    # OPTIONAL
+                    TextInputSpecification => {
+                      StartTimeoutMs => 1,    # min: 1
+
+                    },    # OPTIONAL
+                  }, # key: values: Initial, Retry1, Retry2, Retry3, Retry4, Retry5
+                },    # OPTIONAL
+              },    # OPTIONAL
+              DefaultValueSpecification => {
+                DefaultValueList => [
+                  {
+                    DefaultValue =>
+                      'MySlotDefaultValueString',    # min: 1, max: 202
+
+                  },
+                  ...
+                ],    # max: 10
+
+              },    # OPTIONAL
+              SampleUtterances => [
+                {
+                  Utterance => 'MyUtterance',
+
+                },
+                ...
+              ],    # OPTIONAL
+              WaitAndContinueSpecification => {
+                ContinueResponse => {
+                  MessageGroups => [
+                    {
+                      Message => {
+                        CustomPayload => {
+                          Value => 'MyCustomPayloadValue',   # min: 1, max: 1000
+
+                        },    # OPTIONAL
+                        ImageResponseCard => {
+                          Title   => 'MyAttachmentTitle',    # min: 1, max: 250
+                          Buttons => [
+                            {
+                              Text  => 'MyButtonText',     # min: 1, max: 50
+                              Value => 'MyButtonValue',    # min: 1, max: 50
+
+                            },
+                            ...
+                          ],    # max: 5; OPTIONAL
+                          ImageUrl =>
+                            'MyAttachmentUrl',    # min: 1, max: 250; OPTIONAL
+                          Subtitle => 'MyAttachmentTitle',    # min: 1, max: 250
+                        },    # OPTIONAL
+                        PlainTextMessage => {
+                          Value =>
+                            'MyPlainTextMessageValue',    # min: 1, max: 1000
+
+                        },    # OPTIONAL
+                        SsmlMessage => {
+                          Value => 'MySSMLMessageValue',    # min: 1, max: 1000
+
+                        },    # OPTIONAL
+                      },
+                      Variations => [
+                        {
+                          CustomPayload => {
+                            Value => 'MyCustomPayloadValue', # min: 1, max: 1000
+
+                          },    # OPTIONAL
+                          ImageResponseCard => {
+                            Title   => 'MyAttachmentTitle',   # min: 1, max: 250
+                            Buttons => [
+                              {
+                                Text  => 'MyButtonText',     # min: 1, max: 50
+                                Value => 'MyButtonValue',    # min: 1, max: 50
+
+                              },
+                              ...
+                            ],    # max: 5; OPTIONAL
+                            ImageUrl =>
+                              'MyAttachmentUrl',    # min: 1, max: 250; OPTIONAL
+                            Subtitle => 'MyAttachmentTitle',  # min: 1, max: 250
+                          },    # OPTIONAL
+                          PlainTextMessage => {
+                            Value =>
+                              'MyPlainTextMessageValue',    # min: 1, max: 1000
+
+                          },    # OPTIONAL
+                          SsmlMessage => {
+                            Value => 'MySSMLMessageValue',   # min: 1, max: 1000
+
+                          },    # OPTIONAL
+                        },
+                        ...
+                      ],    # max: 2; OPTIONAL
+                    },
+                    ...
+                  ],    # min: 1, max: 5
+                  AllowInterrupt => 1,    # OPTIONAL
+                },    # OPTIONAL
+                WaitingResponse => {
+                  MessageGroups => [
+                    {
+                      Message => {
+                        CustomPayload => {
+                          Value => 'MyCustomPayloadValue',   # min: 1, max: 1000
+
+                        },    # OPTIONAL
+                        ImageResponseCard => {
+                          Title   => 'MyAttachmentTitle',    # min: 1, max: 250
+                          Buttons => [
+                            {
+                              Text  => 'MyButtonText',     # min: 1, max: 50
+                              Value => 'MyButtonValue',    # min: 1, max: 50
+
+                            },
+                            ...
+                          ],    # max: 5; OPTIONAL
+                          ImageUrl =>
+                            'MyAttachmentUrl',    # min: 1, max: 250; OPTIONAL
+                          Subtitle => 'MyAttachmentTitle',    # min: 1, max: 250
+                        },    # OPTIONAL
+                        PlainTextMessage => {
+                          Value =>
+                            'MyPlainTextMessageValue',    # min: 1, max: 1000
+
+                        },    # OPTIONAL
+                        SsmlMessage => {
+                          Value => 'MySSMLMessageValue',    # min: 1, max: 1000
+
+                        },    # OPTIONAL
+                      },
+                      Variations => [
+                        {
+                          CustomPayload => {
+                            Value => 'MyCustomPayloadValue', # min: 1, max: 1000
+
+                          },    # OPTIONAL
+                          ImageResponseCard => {
+                            Title   => 'MyAttachmentTitle',   # min: 1, max: 250
+                            Buttons => [
+                              {
+                                Text  => 'MyButtonText',     # min: 1, max: 50
+                                Value => 'MyButtonValue',    # min: 1, max: 50
+
+                              },
+                              ...
+                            ],    # max: 5; OPTIONAL
+                            ImageUrl =>
+                              'MyAttachmentUrl',    # min: 1, max: 250; OPTIONAL
+                            Subtitle => 'MyAttachmentTitle',  # min: 1, max: 250
+                          },    # OPTIONAL
+                          PlainTextMessage => {
+                            Value =>
+                              'MyPlainTextMessageValue',    # min: 1, max: 1000
+
+                          },    # OPTIONAL
+                          SsmlMessage => {
+                            Value => 'MySSMLMessageValue',   # min: 1, max: 1000
+
+                          },    # OPTIONAL
+                        },
+                        ...
+                      ],    # max: 2; OPTIONAL
+                    },
+                    ...
+                  ],    # min: 1, max: 5
+                  AllowInterrupt => 1,    # OPTIONAL
+                },    # OPTIONAL
+                Active               => 1,    # OPTIONAL
+                StillWaitingResponse => {
+                  FrequencyInSeconds => 1,    # min: 1, max: 300
+                  MessageGroups      => [
+                    {
+                      Message => {
+                        CustomPayload => {
+                          Value => 'MyCustomPayloadValue',   # min: 1, max: 1000
+
+                        },    # OPTIONAL
+                        ImageResponseCard => {
+                          Title   => 'MyAttachmentTitle',    # min: 1, max: 250
+                          Buttons => [
+                            {
+                              Text  => 'MyButtonText',     # min: 1, max: 50
+                              Value => 'MyButtonValue',    # min: 1, max: 50
+
+                            },
+                            ...
+                          ],    # max: 5; OPTIONAL
+                          ImageUrl =>
+                            'MyAttachmentUrl',    # min: 1, max: 250; OPTIONAL
+                          Subtitle => 'MyAttachmentTitle',    # min: 1, max: 250
+                        },    # OPTIONAL
+                        PlainTextMessage => {
+                          Value =>
+                            'MyPlainTextMessageValue',    # min: 1, max: 1000
+
+                        },    # OPTIONAL
+                        SsmlMessage => {
+                          Value => 'MySSMLMessageValue',    # min: 1, max: 1000
+
+                        },    # OPTIONAL
+                      },
+                      Variations => [
+                        {
+                          CustomPayload => {
+                            Value => 'MyCustomPayloadValue', # min: 1, max: 1000
+
+                          },    # OPTIONAL
+                          ImageResponseCard => {
+                            Title   => 'MyAttachmentTitle',   # min: 1, max: 250
+                            Buttons => [
+                              {
+                                Text  => 'MyButtonText',     # min: 1, max: 50
+                                Value => 'MyButtonValue',    # min: 1, max: 50
+
+                              },
+                              ...
+                            ],    # max: 5; OPTIONAL
+                            ImageUrl =>
+                              'MyAttachmentUrl',    # min: 1, max: 250; OPTIONAL
+                            Subtitle => 'MyAttachmentTitle',  # min: 1, max: 250
+                          },    # OPTIONAL
+                          PlainTextMessage => {
+                            Value =>
+                              'MyPlainTextMessageValue',    # min: 1, max: 1000
+
+                          },    # OPTIONAL
+                          SsmlMessage => {
+                            Value => 'MySSMLMessageValue',   # min: 1, max: 1000
+
+                          },    # OPTIONAL
+                        },
+                        ...
+                      ],    # max: 2; OPTIONAL
+                    },
+                    ...
+                  ],    # min: 1, max: 5
+                  TimeoutInSeconds => 1,    # min: 1, max: 900
+                  AllowInterrupt   => 1,    # OPTIONAL
+                },    # OPTIONAL
+              },    # OPTIONAL
+            },
+
+          },    # key: min: 1, max: 100
+        },    # max: 6; OPTIONAL
+      },    # OPTIONAL
     );
 
     # Results:
@@ -357,6 +2240,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $SlotId                  = $UpdateSlotResponse->SlotId;
     my $SlotName                = $UpdateSlotResponse->SlotName;
     my $SlotTypeId              = $UpdateSlotResponse->SlotTypeId;
+    my $SubSlotSetting          = $UpdateSlotResponse->SubSlotSetting;
     my $ValueElicitationSetting = $UpdateSlotResponse->ValueElicitationSetting;
 
     # Returns a L<Paws::LexModelsV2::UpdateSlotResponse> object.
@@ -431,9 +2315,16 @@ The new name for the slot.
 
 
 
-=head2 B<REQUIRED> SlotTypeId => Str
+=head2 SlotTypeId => Str
 
 The unique identifier of the new slot type to associate with this slot.
+
+
+
+=head2 SubSlotSetting => L<Paws::LexModelsV2::SubSlotSetting>
+
+Specifications for the constituent sub slots and the expression for the
+composite slot.
 
 
 

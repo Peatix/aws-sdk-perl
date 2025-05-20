@@ -2,6 +2,7 @@
 package Paws::CodeBuild::UpdateProject;
   use Moose;
   has Artifacts => (is => 'ro', isa => 'Paws::CodeBuild::ProjectArtifacts', traits => ['NameInRequest'], request_name => 'artifacts' );
+  has AutoRetryLimit => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'autoRetryLimit' );
   has BadgeEnabled => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'badgeEnabled' );
   has BuildBatchConfig => (is => 'ro', isa => 'Paws::CodeBuild::ProjectBuildBatchConfig', traits => ['NameInRequest'], request_name => 'buildBatchConfig' );
   has Cache => (is => 'ro', isa => 'Paws::CodeBuild::ProjectCache', traits => ['NameInRequest'], request_name => 'cache' );
@@ -50,9 +51,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $UpdateProjectOutput = $codebuild->UpdateProject(
       Name      => 'MyNonEmptyString',
       Artifacts => {
-        Type => 'CODEPIPELINE',    # values: CODEPIPELINE, S3, NO_ARTIFACTS
-        ArtifactIdentifier   => 'MyString',   # OPTIONAL
-        EncryptionDisabled   => 1,            # OPTIONAL
+        Type => 'CODEPIPELINE',        # values: CODEPIPELINE, S3, NO_ARTIFACTS
+        ArtifactIdentifier => 'MyString',    # OPTIONAL
+        BucketOwnerAccess  => 'NONE',  # values: NONE, READ_ONLY, FULL; OPTIONAL
+        EncryptionDisabled => 1,       # OPTIONAL
         Location             => 'MyString',   # OPTIONAL
         Name                 => 'MyString',   # OPTIONAL
         NamespaceType        => 'NONE',       # values: NONE, BUILD_ID; OPTIONAL
@@ -60,22 +62,29 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         Packaging            => 'NONE',       # values: NONE, ZIP; OPTIONAL
         Path                 => 'MyString',   # OPTIONAL
       },    # OPTIONAL
+      AutoRetryLimit   => 1,    # OPTIONAL
       BadgeEnabled     => 1,    # OPTIONAL
       BuildBatchConfig => {
+        BatchReportMode => 'REPORT_INDIVIDUAL_BUILDS'
+        ,  # values: REPORT_INDIVIDUAL_BUILDS, REPORT_AGGREGATED_BATCH; OPTIONAL
         CombineArtifacts => 1,    # OPTIONAL
         Restrictions     => {
           ComputeTypesAllowed => [
             'MyNonEmptyString', ...    # min: 1
           ],    # OPTIONAL
-          MaximumBuildsAllowed => 1,    # OPTIONAL
+          FleetsAllowed => [
+            'MyNonEmptyString', ...    # min: 1
+          ],    # OPTIONAL
+          MaximumBuildsAllowed => 1,
         },    # OPTIONAL
         ServiceRole   => 'MyNonEmptyString',    # min: 1
-        TimeoutInMins => 1,                     # OPTIONAL
+        TimeoutInMins => 1,
       },    # OPTIONAL
       Cache => {
-        Type     => 'NO_CACHE',    # values: NO_CACHE, S3, LOCAL
-        Location => 'MyString',    # OPTIONAL
-        Modes    => [
+        Type           => 'NO_CACHE',    # values: NO_CACHE, S3, LOCAL
+        CacheNamespace => 'MyString',    # OPTIONAL
+        Location       => 'MyString',    # OPTIONAL
+        Modes          => [
           'LOCAL_DOCKER_LAYER_CACHE',
           ... # values: LOCAL_DOCKER_LAYER_CACHE, LOCAL_SOURCE_CACHE, LOCAL_CUSTOM_CACHE
         ],    # OPTIONAL
@@ -85,11 +94,29 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       EncryptionKey        => 'MyNonEmptyString',        # OPTIONAL
       Environment          => {
         ComputeType => 'BUILD_GENERAL1_SMALL'
-        , # values: BUILD_GENERAL1_SMALL, BUILD_GENERAL1_MEDIUM, BUILD_GENERAL1_LARGE, BUILD_GENERAL1_2XLARGE
+        , # values: BUILD_GENERAL1_SMALL, BUILD_GENERAL1_MEDIUM, BUILD_GENERAL1_LARGE, BUILD_GENERAL1_XLARGE, BUILD_GENERAL1_2XLARGE, BUILD_LAMBDA_1GB, BUILD_LAMBDA_2GB, BUILD_LAMBDA_4GB, BUILD_LAMBDA_8GB, BUILD_LAMBDA_10GB, ATTRIBUTE_BASED_COMPUTE, CUSTOM_INSTANCE_TYPE
         Image => 'MyNonEmptyString',    # min: 1
         Type  => 'WINDOWS_CONTAINER'
-        , # values: WINDOWS_CONTAINER, LINUX_CONTAINER, LINUX_GPU_CONTAINER, ARM_CONTAINER, WINDOWS_SERVER_2019_CONTAINER
+        , # values: WINDOWS_CONTAINER, LINUX_CONTAINER, LINUX_GPU_CONTAINER, ARM_CONTAINER, WINDOWS_SERVER_2019_CONTAINER, WINDOWS_SERVER_2022_CONTAINER, LINUX_LAMBDA_CONTAINER, ARM_LAMBDA_CONTAINER, LINUX_EC2, ARM_EC2, WINDOWS_EC2, MAC_ARM
         Certificate          => 'MyString',    # OPTIONAL
+        ComputeConfiguration => {
+          Disk         => 1,                   # OPTIONAL
+          InstanceType => 'MyNonEmptyString',  # min: 1
+          MachineType  => 'GENERAL',           # values: GENERAL, NVME; OPTIONAL
+          Memory       => 1,                   # OPTIONAL
+          VCpu         => 1,                   # OPTIONAL
+        },    # OPTIONAL
+        DockerServer => {
+          ComputeType => 'BUILD_GENERAL1_SMALL'
+          , # values: BUILD_GENERAL1_SMALL, BUILD_GENERAL1_MEDIUM, BUILD_GENERAL1_LARGE, BUILD_GENERAL1_XLARGE, BUILD_GENERAL1_2XLARGE, BUILD_LAMBDA_1GB, BUILD_LAMBDA_2GB, BUILD_LAMBDA_4GB, BUILD_LAMBDA_8GB, BUILD_LAMBDA_10GB, ATTRIBUTE_BASED_COMPUTE, CUSTOM_INSTANCE_TYPE
+          SecurityGroupIds => [
+            'MyNonEmptyString', ...    # min: 1
+          ],    # max: 5; OPTIONAL
+          Status => {
+            Message => 'MyString',    # OPTIONAL
+            Status  => 'MyString',    # OPTIONAL
+          },    # OPTIONAL
+        },    # OPTIONAL
         EnvironmentVariables => [
           {
             Name  => 'MyNonEmptyString',    # min: 1
@@ -99,6 +126,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           },
           ...
         ],    # OPTIONAL
+        Fleet => {
+          FleetArn => 'MyString',    # OPTIONAL
+        },    # OPTIONAL
         ImagePullCredentialsType =>
           'CODEBUILD',    # values: CODEBUILD, SERVICE_ROLE; OPTIONAL
         PrivilegedMode     => 1,    # OPTIONAL
@@ -125,7 +155,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           StreamName => 'MyString',    # OPTIONAL
         },    # OPTIONAL
         S3Logs => {
-          Status             => 'ENABLED',     # values: ENABLED, DISABLED
+          Status            => 'ENABLED',      # values: ENABLED, DISABLED
+          BucketOwnerAccess => 'NONE', # values: NONE, READ_ONLY, FULL; OPTIONAL
           EncryptionDisabled => 1,             # OPTIONAL
           Location           => 'MyString',    # OPTIONAL
         },    # OPTIONAL
@@ -133,8 +164,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       QueuedTimeoutInMinutes => 1,    # OPTIONAL
       SecondaryArtifacts     => [
         {
-          Type => 'CODEPIPELINE',    # values: CODEPIPELINE, S3, NO_ARTIFACTS
-          ArtifactIdentifier   => 'MyString', # OPTIONAL
+          Type => 'CODEPIPELINE',      # values: CODEPIPELINE, S3, NO_ARTIFACTS
+          ArtifactIdentifier => 'MyString',    # OPTIONAL
+          BucketOwnerAccess => 'NONE', # values: NONE, READ_ONLY, FULL; OPTIONAL
           EncryptionDisabled   => 1,          # OPTIONAL
           Location             => 'MyString', # OPTIONAL
           Name                 => 'MyString', # OPTIONAL
@@ -156,9 +188,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       SecondarySources => [
         {
           Type => 'CODECOMMIT'
-          , # values: CODECOMMIT, CODEPIPELINE, GITHUB, S3, BITBUCKET, GITHUB_ENTERPRISE, NO_SOURCE
+          , # values: CODECOMMIT, CODEPIPELINE, GITHUB, GITLAB, GITLAB_SELF_MANAGED, S3, BITBUCKET, GITHUB_ENTERPRISE, NO_SOURCE
           Auth => {
-            Type     => 'OAUTH',       # values: OAUTH
+            Type => 'OAUTH',   # values: OAUTH, CODECONNECTIONS, SECRETS_MANAGER
             Resource => 'MyString',    # OPTIONAL
           },    # OPTIONAL
           BuildStatusConfig => {
@@ -181,9 +213,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       ServiceRole => 'MyNonEmptyString',    # OPTIONAL
       Source      => {
         Type => 'CODECOMMIT'
-        , # values: CODECOMMIT, CODEPIPELINE, GITHUB, S3, BITBUCKET, GITHUB_ENTERPRISE, NO_SOURCE
+        , # values: CODECOMMIT, CODEPIPELINE, GITHUB, GITLAB, GITLAB_SELF_MANAGED, S3, BITBUCKET, GITHUB_ENTERPRISE, NO_SOURCE
         Auth => {
-          Type     => 'OAUTH',       # values: OAUTH
+          Type     => 'OAUTH', # values: OAUTH, CODECONNECTIONS, SECRETS_MANAGER
           Resource => 'MyString',    # OPTIONAL
         },    # OPTIONAL
         BuildStatusConfig => {
@@ -236,6 +268,15 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/cod
 
 Information to be changed about the build output artifacts for the
 build project.
+
+
+
+=head2 AutoRetryLimit => Int
+
+The maximum number of additional automatic retries after a failed
+build. For example, if the auto-retry limit is set to 2, CodeBuild will
+call the C<RetryBuild> API to automatically retry your build for up to
+2 additional times.
 
 
 
@@ -332,7 +373,7 @@ out.
 
 =head2 SecondaryArtifacts => ArrayRef[L<Paws::CodeBuild::ProjectArtifacts>]
 
-An array of C<ProjectSource> objects.
+An array of C<ProjectArtifact> objects.
 
 
 
@@ -352,9 +393,9 @@ take over these C<secondarySourceVersions> (at the project level).
 
 =head2 ServiceRole => Str
 
-The replacement ARN of the Identity and Access Management role that
-enables CodeBuild to interact with dependent Amazon Web Services
-services on behalf of the Amazon Web Services account.
+The replacement ARN of the IAM role that enables CodeBuild to interact
+with dependent Amazon Web Services services on behalf of the Amazon Web
+Services account.
 
 
 
@@ -384,6 +425,10 @@ If a pull request ID is specified, it must use the format
 C<pr/pull-request-ID> (for example C<pr/25>). If a branch name is
 specified, the branch's HEAD commit ID is used. If not specified, the
 default branch's HEAD commit ID is used.
+
+=item *
+
+For GitLab: the commit ID, branch, or Git tag to use.
 
 =item *
 
@@ -420,7 +465,7 @@ support CodeBuild build project tags.
 
 =head2 TimeoutInMinutes => Int
 
-The replacement value in minutes, from 5 to 480 (8 hours), for
+The replacement value in minutes, from 5 to 2160 (36 hours), for
 CodeBuild to wait before timing out any related build that did not get
 marked as completed.
 

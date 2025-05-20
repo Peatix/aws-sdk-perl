@@ -42,13 +42,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ken
 
 =head2 B<REQUIRED> Id => Str
 
-The identifier of the thesaurus to delete.
+The identifier of the thesaurus you want to delete.
 
 
 
 =head2 B<REQUIRED> IndexId => Str
 
-The identifier of the index associated with the thesaurus to delete.
+The identifier of the index for the thesaurus.
 
 
 

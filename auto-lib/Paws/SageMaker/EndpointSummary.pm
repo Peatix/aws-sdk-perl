@@ -69,12 +69,17 @@ C<OutOfService>: Endpoint is not available to take incoming requests.
 
 =item *
 
-C<Creating>: CreateEndpoint is executing.
+C<Creating>: CreateEndpoint
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateEndpoint.html)
+is executing.
 
 =item *
 
-C<Updating>: UpdateEndpoint or UpdateEndpointWeightsAndCapacities is
-executing.
+C<Updating>: UpdateEndpoint
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_UpdateEndpoint.html)
+or UpdateEndpointWeightsAndCapacities
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_UpdateEndpointWeightsAndCapacities.html)
+is executing.
 
 =item *
 
@@ -92,8 +97,10 @@ configuration. Once the rollback completes, endpoint returns to an
 C<InService> status. This transitional status only applies to an
 endpoint that has autoscaling enabled and is undergoing variant weight
 or capacity changes as part of an UpdateEndpointWeightsAndCapacities
-call or when the UpdateEndpointWeightsAndCapacities operation is called
-explicitly.
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_UpdateEndpointWeightsAndCapacities.html)
+call or when the UpdateEndpointWeightsAndCapacities
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_UpdateEndpointWeightsAndCapacities.html)
+operation is called explicitly.
 
 =item *
 
@@ -101,19 +108,23 @@ C<InService>: Endpoint is available to process incoming requests.
 
 =item *
 
-C<Deleting>: DeleteEndpoint is executing.
+C<Deleting>: DeleteEndpoint
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DeleteEndpoint.html)
+is executing.
 
 =item *
 
 C<Failed>: Endpoint could not be created, updated, or re-scaled. Use
-DescribeEndpointOutput$FailureReason for information about the failure.
-DeleteEndpoint is the only operation that can be performed on a failed
-endpoint.
+C<DescribeEndpointOutput$FailureReason> for information about the
+failure. DeleteEndpoint
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DeleteEndpoint.html)
+is the only operation that can be performed on a failed endpoint.
 
 =back
 
 To get a list of endpoints with a specified status, use the
-ListEndpointsInput$StatusEquals filter.
+C<StatusEquals> filter with a call to ListEndpoints
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_ListEndpoints.html).
 
 
 =head2 B<REQUIRED> LastModifiedTime => Str

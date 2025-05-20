@@ -74,7 +74,8 @@ The default value is -1.
 =head2 B<REQUIRED> SnapshotIdentifier => Str
 
 A unique identifier for the snapshot that you are requesting. This
-identifier must be unique for all snapshots within the AWS account.
+identifier must be unique for all snapshots within the Amazon Web
+Services account.
 
 Constraints:
 

@@ -2,6 +2,7 @@
 package Paws::Macie2::UsageRecord;
   use Moose;
   has AccountId => (is => 'ro', isa => 'Str', request_name => 'accountId', traits => ['NameInRequest']);
+  has AutomatedDiscoveryFreeTrialStartDate => (is => 'ro', isa => 'Str', request_name => 'automatedDiscoveryFreeTrialStartDate', traits => ['NameInRequest']);
   has FreeTrialStartDate => (is => 'ro', isa => 'Str', request_name => 'freeTrialStartDate', traits => ['NameInRequest']);
   has Usage => (is => 'ro', isa => 'ArrayRef[Paws::Macie2::UsageByAccount]', request_name => 'usage', traits => ['NameInRequest']);
 
@@ -46,10 +47,18 @@ The unique identifier for the Amazon Web Services account that the data
 applies to.
 
 
-=head2 FreeTrialStartDate => Str
+=head2 AutomatedDiscoveryFreeTrialStartDate => Str
 
 The date and time, in UTC and extended ISO 8601 format, when the free
-trial started for the account.
+trial of automated sensitive data discovery started for the account.
+This value is null if automated sensitive data discovery hasn't been
+enabled for the account.
+
+
+=head2 FreeTrialStartDate => Str
+
+The date and time, in UTC and extended ISO 8601 format, when the Amazon
+Macie free trial started for the account.
 
 
 =head2 Usage => ArrayRef[L<Paws::Macie2::UsageByAccount>]

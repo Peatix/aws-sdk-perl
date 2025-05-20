@@ -40,7 +40,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       CustomEventData => 'MyQueueCustomEventData',    # OPTIONAL
       Destinations    => [
         {
-          DestinationArn => 'MyArnStringModel',    # min: 1, max: 256; OPTIONAL
+          DestinationArn => 'MyArnStringModel',    # min: 1, max: 512; OPTIONAL
         },
         ...
       ],    # OPTIONAL
@@ -106,9 +106,9 @@ placement preference.
 =head2 FilterConfiguration => L<Paws::GameLift::FilterConfiguration>
 
 A list of locations where a queue is allowed to place new game
-sessions. Locations are specified in the form of AWS Region codes, such
-as C<us-west-2>. If this parameter is not set, game sessions can be
-placed in any queue location.
+sessions. Locations are specified in the form of Amazon Web Services
+Region codes, such as C<us-west-2>. If this parameter is not set, game
+sessions can be placed in any queue location.
 
 
 
@@ -129,13 +129,11 @@ notifications. See Setting up notifications for game session placement
 
 =head2 PlayerLatencyPolicies => ArrayRef[L<Paws::GameLift::PlayerLatencyPolicy>]
 
-A set of policies that act as a sliding cap on player latency. FleetIQ
-works to deliver low latency for most players in a game session. These
-policies ensure that no individual player can be placed into a game
-with unreasonably high latency. Use multiple policies to gradually
-relax latency requirements a step at a time. Multiple policies are
-applied based on their maximum allowed latency, starting with the
-lowest value.
+A set of policies that enforce a sliding cap on player latency when
+processing game sessions placement requests. Use multiple policies to
+gradually relax the cap over time if Amazon GameLift can't make a
+placement. Policies are evaluated in order starting with the lowest
+maximum latency value.
 
 
 
@@ -152,14 +150,12 @@ process.
 =head2 Tags => ArrayRef[L<Paws::GameLift::Tag>]
 
 A list of labels to assign to the new game session queue resource. Tags
-are developer-defined key-value pairs. Tagging AWS resources are useful
-for resource management, access management and cost allocation. For
-more information, see Tagging AWS Resources
+are developer-defined key-value pairs. Tagging Amazon Web Services
+resources are useful for resource management, access management and
+cost allocation. For more information, see Tagging Amazon Web Services
+Resources
 (https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the
-I<AWS General Reference>. Once the resource is created, you can use
-TagResource, UntagResource, and ListTagsForResource to add, remove, and
-view tags. The maximum tag limit may be lower than stated. See the AWS
-General Reference for actual tagging limits.
+I<Amazon Web Services General Reference>.
 
 
 
@@ -167,7 +163,8 @@ General Reference for actual tagging limits.
 
 The maximum time, in seconds, that a new game session placement request
 remains in the queue. When a request exceeds this time, the game
-session placement changes to a C<TIMED_OUT> status.
+session placement changes to a C<TIMED_OUT> status. If you don't
+specify a request timeout, the queue uses a default value.
 
 
 

@@ -1,10 +1,16 @@
 
 package Paws::DLM::UpdateLifecyclePolicy;
   use Moose;
+  has CopyTags => (is => 'ro', isa => 'Bool');
+  has CreateInterval => (is => 'ro', isa => 'Int');
+  has CrossRegionCopyTargets => (is => 'ro', isa => 'ArrayRef[Paws::DLM::CrossRegionCopyTarget]');
   has Description => (is => 'ro', isa => 'Str');
+  has Exclusions => (is => 'ro', isa => 'Paws::DLM::Exclusions');
   has ExecutionRoleArn => (is => 'ro', isa => 'Str');
+  has ExtendDeletion => (is => 'ro', isa => 'Bool');
   has PolicyDetails => (is => 'ro', isa => 'Paws::DLM::PolicyDetails');
   has PolicyId => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'policyId', required => 1);
+  has RetainInterval => (is => 'ro', isa => 'Int');
   has State => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
@@ -33,9 +39,30 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $dlm = Paws->service('DLM');
     my $UpdateLifecyclePolicyResponse = $dlm->UpdateLifecyclePolicy(
-      PolicyId         => 'MyPolicyId',
-      Description      => 'MyPolicyDescription',    # OPTIONAL
-      ExecutionRoleArn => 'MyExecutionRoleArn',     # OPTIONAL
+      PolicyId               => 'MyPolicyId',
+      CopyTags               => 1,              # OPTIONAL
+      CreateInterval         => 1,              # OPTIONAL
+      CrossRegionCopyTargets => [
+        {
+          TargetRegion => 'MyTargetRegion',     # max: 16; OPTIONAL
+        },
+        ...
+      ],    # OPTIONAL
+      Description => 'MyPolicyDescription',    # OPTIONAL
+      Exclusions  => {
+        ExcludeBootVolumes => 1,               # OPTIONAL
+        ExcludeTags        => [
+          {
+            Key   => 'MyString',    # max: 500
+            Value => 'MyString',    # max: 500
+
+          },
+          ...
+        ],    # max: 50; OPTIONAL
+        ExcludeVolumeTypes => [ 'MyVolumeTypeValues', ... ],  # max: 6; OPTIONAL
+      },    # OPTIONAL
+      ExecutionRoleArn => 'MyExecutionRoleArn',    # OPTIONAL
+      ExtendDeletion   => 1,                       # OPTIONAL
       PolicyDetails    => {
         Actions => [
           {
@@ -59,6 +86,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           },
           ...
         ],    # min: 1, max: 1; OPTIONAL
+        CopyTags               => 1,
+        CreateInterval         => 1,    # min: 1
+        CrossRegionCopyTargets => [
+          {
+            TargetRegion => 'MyTargetRegion',    # max: 16; OPTIONAL
+          },
+          ...
+        ],    # max: 3
         EventSource => {
           Type       => 'MANAGED_CWE',    # values: MANAGED_CWE
           Parameters => {
@@ -70,38 +105,95 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
           },    # OPTIONAL
         },    # OPTIONAL
-        Parameters => {
-          ExcludeBootVolume => 1,    # OPTIONAL
-          NoReboot          => 1,    # OPTIONAL
+        Exclusions => {
+          ExcludeBootVolumes => 1,    # OPTIONAL
+          ExcludeTags        => [
+            {
+              Key   => 'MyString',    # max: 500
+              Value => 'MyString',    # max: 500
+
+            },
+            ...
+          ],    # max: 50; OPTIONAL
+          ExcludeVolumeTypes => [ 'MyVolumeTypeValues', ... ]
+          ,     # max: 6; OPTIONAL
+        },
+        ExtendDeletion => 1,
+        Parameters     => {
+          ExcludeBootVolume     => 1,    # OPTIONAL
+          ExcludeDataVolumeTags => [
+            {
+              Key   => 'MyString',    # max: 500
+              Value => 'MyString',    # max: 500
+
+            },
+            ...
+          ],    # max: 50; OPTIONAL
+          NoReboot => 1,    # OPTIONAL
         },    # OPTIONAL
-        PolicyType => 'EBS_SNAPSHOT_MANAGEMENT'
+        PolicyLanguage => 'SIMPLIFIED', # values: SIMPLIFIED, STANDARD; OPTIONAL
+        PolicyType     => 'EBS_SNAPSHOT_MANAGEMENT'
         , # values: EBS_SNAPSHOT_MANAGEMENT, IMAGE_MANAGEMENT, EVENT_BASED_POLICY; OPTIONAL
         ResourceLocations => [
-          'CLOUD', ...    # values: CLOUD, OUTPOST
+          'CLOUD', ...    # values: CLOUD, OUTPOST, LOCAL_ZONE
         ],    # min: 1, max: 1; OPTIONAL
+        ResourceType  => 'VOLUME',    # values: VOLUME, INSTANCE; OPTIONAL
         ResourceTypes => [
-          'VOLUME', ...    # values: VOLUME, INSTANCE
+          'VOLUME', ...               # values: VOLUME, INSTANCE; OPTIONAL
         ],    # min: 1, max: 1; OPTIONAL
-        Schedules => [
+        RetainInterval => 1,    # min: 1; OPTIONAL
+        Schedules      => [
           {
+            ArchiveRule => {
+              RetainRule => {
+                RetentionArchiveTier => {
+                  Count        => 1,    # min: 1, max: 1000; OPTIONAL
+                  Interval     => 1,    # min: 1; OPTIONAL
+                  IntervalUnit =>
+                    'DAYS',    # values: DAYS, WEEKS, MONTHS, YEARS; OPTIONAL
+                },
+
+              },
+
+            },    # OPTIONAL
             CopyTags   => 1,    # OPTIONAL
             CreateRule => {
               CronExpression =>
                 'MyCronExpression',    # min: 17, max: 106; OPTIONAL
               Interval     => 1,       # min: 1; OPTIONAL
               IntervalUnit => 'HOURS', # values: HOURS; OPTIONAL
-              Location     => 'CLOUD', # values: CLOUD, OUTPOST_LOCAL; OPTIONAL
-              Times        => [
-                'MyTime', ...          # min: 5, max: 5
+              Location     =>
+                'CLOUD',    # values: CLOUD, OUTPOST_LOCAL, LOCAL_ZONE; OPTIONAL
+              Scripts => [
+                {
+                  ExecutionHandler => 'MyExecutionHandler',    # max: 200
+                  ExecuteOperationOnScriptFailure => 1,        # OPTIONAL
+                  ExecutionHandlerService         => 'AWS_SYSTEMS_MANAGER'
+                  ,    # values: AWS_SYSTEMS_MANAGER; OPTIONAL
+                  ExecutionTimeout  => 1,    # min: 10, max: 120; OPTIONAL
+                  MaximumRetryCount => 1,    # max: 3; OPTIONAL
+                  Stages            => [
+                    'PRE', ...               # values: PRE, POST
+                  ],    # min: 1, max: 2; OPTIONAL
+                },
+                ...
+              ],    # max: 1; OPTIONAL
+              Times => [
+                'MyTime', ...    # min: 5, max: 5
               ],    # max: 1; OPTIONAL
             },    # OPTIONAL
             CrossRegionCopyRules => [
               {
-                Encrypted  => 1,
-                CmkArn     => 'MyCmkArn',    # max: 2048; OPTIONAL
-                CopyTags   => 1,             # OPTIONAL
+                Encrypted     => 1,
+                CmkArn        => 'MyCmkArn',    # max: 2048; OPTIONAL
+                CopyTags      => 1,
+                DeprecateRule => {
+                  Interval     => 1,            # min: 1; OPTIONAL
+                  IntervalUnit =>
+                    'DAYS',    # values: DAYS, WEEKS, MONTHS, YEARS; OPTIONAL
+                },    # OPTIONAL
                 RetainRule => {
-                  Interval     => 1,         # min: 1; OPTIONAL
+                  Interval     => 1,    # min: 1; OPTIONAL
                   IntervalUnit =>
                     'DAYS',    # values: DAYS, WEEKS, MONTHS, YEARS; OPTIONAL
                 },    # OPTIONAL
@@ -110,6 +202,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
               },
               ...
             ],    # max: 3; OPTIONAL
+            DeprecateRule => {
+              Count        => 1,    # min: 1, max: 1000; OPTIONAL
+              Interval     => 1,    # min: 1; OPTIONAL
+              IntervalUnit =>
+                'DAYS',    # values: DAYS, WEEKS, MONTHS, YEARS; OPTIONAL
+            },    # OPTIONAL
             FastRestoreRule => {
               AvailabilityZones => [
                 'MyAvailabilityZone', ...    # max: 16
@@ -121,8 +219,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             },    # OPTIONAL
             Name       => 'MyScheduleName',    # max: 120; OPTIONAL
             RetainRule => {
-              Count        => 1,               # min: 1, max: 1000; OPTIONAL
-              Interval     => 1,               # min: 1; OPTIONAL
+              Count        => 1,               # max: 1000; OPTIONAL
+              Interval     => 1,               # OPTIONAL
               IntervalUnit =>
                 'DAYS',    # values: DAYS, WEEKS, MONTHS, YEARS; OPTIONAL
             },    # OPTIONAL
@@ -165,7 +263,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           ...
         ],    # min: 1, max: 50; OPTIONAL
       },    # OPTIONAL
-      State => 'ENABLED',    # OPTIONAL
+      RetainInterval => 1,            # OPTIONAL
+      State          => 'ENABLED',    # OPTIONAL
     );
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
@@ -174,9 +273,41 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/dlm
 =head1 ATTRIBUTES
 
 
+=head2 CopyTags => Bool
+
+B<[Default policies only]> Indicates whether the policy should copy
+tags from the source resource to the snapshot or AMI.
+
+
+
+=head2 CreateInterval => Int
+
+B<[Default policies only]> Specifies how often the policy should run
+and create snapshots or AMIs. The creation frequency can range from 1
+to 7 days.
+
+
+
+=head2 CrossRegionCopyTargets => ArrayRef[L<Paws::DLM::CrossRegionCopyTarget>]
+
+B<[Default policies only]> Specifies destination Regions for snapshot
+or AMI copies. You can specify up to 3 destination Regions. If you do
+not want to create cross-Region copies, omit this parameter.
+
+
+
 =head2 Description => Str
 
 A description of the lifecycle policy.
+
+
+
+=head2 Exclusions => L<Paws::DLM::Exclusions>
+
+B<[Default policies only]> Specifies exclusion parameters for volumes
+or instances for which you do not want to create snapshots or AMIs. The
+policy will not create snapshots or AMIs for target resources that
+match any of the specified exclusion parameters.
 
 
 
@@ -184,6 +315,41 @@ A description of the lifecycle policy.
 
 The Amazon Resource Name (ARN) of the IAM role used to run the
 operations specified by the lifecycle policy.
+
+
+
+=head2 ExtendDeletion => Bool
+
+B<[Default policies only]> Defines the snapshot or AMI retention
+behavior for the policy if the source volume or instance is deleted, or
+if the policy enters the error, disabled, or deleted state.
+
+By default (B<ExtendDeletion=false>):
+
+=over
+
+=item *
+
+If a source resource is deleted, Amazon Data Lifecycle Manager will
+continue to delete previously created snapshots or AMIs, up to but not
+including the last one, based on the specified retention period. If you
+want Amazon Data Lifecycle Manager to delete all snapshots or AMIs,
+including the last one, specify C<true>.
+
+=item *
+
+If a policy enters the error, disabled, or deleted state, Amazon Data
+Lifecycle Manager stops deleting snapshots and AMIs. If you want Amazon
+Data Lifecycle Manager to continue deleting snapshots or AMIs,
+including the last one, if the policy enters one of these states,
+specify C<true>.
+
+=back
+
+If you enable extended deletion (B<ExtendDeletion=true>), you override
+both default behaviors simultaneously.
+
+Default: false
 
 
 
@@ -197,6 +363,16 @@ type or the resource type.
 =head2 B<REQUIRED> PolicyId => Str
 
 The identifier of the lifecycle policy.
+
+
+
+=head2 RetainInterval => Int
+
+B<[Default policies only]> Specifies how long the policy should retain
+snapshots or AMIs before deleting them. The retention period can range
+from 2 to 14 days, but it must be greater than the creation frequency
+to ensure that the policy retains at least 1 snapshot or AMI at any
+given time.
 
 
 

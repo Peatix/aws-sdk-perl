@@ -1,6 +1,7 @@
 
 package Paws::ApplicationMigration::GetReplicationConfiguration;
   use Moose;
+  has AccountID => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'accountID');
   has SourceServerID => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'sourceServerID', required => 1);
 
   use MooseX::ClassAttribute;
@@ -30,7 +31,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $mgn = Paws->service('ApplicationMigration');
     my $ReplicationConfiguration = $mgn->GetReplicationConfiguration(
       SourceServerID => 'MySourceServerID',
-
+      AccountID      => 'MyAccountID',        # OPTIONAL
     );
 
     # Results:
@@ -54,6 +55,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $StagingAreaTags     = $ReplicationConfiguration->StagingAreaTags;
     my $UseDedicatedReplicationServer =
       $ReplicationConfiguration->UseDedicatedReplicationServer;
+    my $UseFipsEndpoint = $ReplicationConfiguration->UseFipsEndpoint;
 
     # Returns a L<Paws::ApplicationMigration::ReplicationConfiguration> object.
 
@@ -63,9 +65,15 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/mgn
 =head1 ATTRIBUTES
 
 
+=head2 AccountID => Str
+
+Request to get Replication Configuration by Account ID.
+
+
+
 =head2 B<REQUIRED> SourceServerID => Str
 
-Request to get Replication Configuaration by Source Server ID.
+Request to get Replication Configuration by Source Server ID.
 
 
 

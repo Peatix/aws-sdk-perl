@@ -47,7 +47,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       Tags => [
         {
           Key   => 'MyTagKey',      # min: 1, max: 256
-          Value => 'MyTagValue',    # min: 1, max: 256; OPTIONAL
+          Value => 'MyTagValue',    # max: 256; OPTIONAL
         },
         ...
       ],    # OPTIONAL
@@ -66,75 +66,46 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/dat
 
 =head2 MountOptions => L<Paws::Datasync::NfsMountOptions>
 
-The NFS mount options that DataSync can use to mount your NFS share.
+Specifies the options that DataSync can use to mount your NFS file
+server.
 
 
 
 =head2 B<REQUIRED> OnPremConfig => L<Paws::Datasync::OnPremConfig>
 
-Contains a list of Amazon Resource Names (ARNs) of agents that are used
-to connect to an NFS server.
+Specifies the Amazon Resource Name (ARN) of the DataSync agent that can
+connect to your NFS file server.
 
-If you are copying data to or from your AWS Snowcone device, see NFS
-Server on AWS Snowcone
-(https://docs.aws.amazon.com/datasync/latest/userguide/create-nfs-location.html#nfs-on-snowcone)
-for more information.
+You can specify more than one agent. For more information, see Using
+multiple DataSync agents
+(https://docs.aws.amazon.com/datasync/latest/userguide/do-i-need-datasync-agent.html#multiple-agents).
 
 
 
 =head2 B<REQUIRED> ServerHostname => Str
 
-The name of the NFS server. This value is the IP address or Domain Name
-Service (DNS) name of the NFS server. An agent that is installed
-on-premises uses this host name to mount the NFS server in a network.
-
-If you are copying data to or from your AWS Snowcone device, see NFS
-Server on AWS Snowcone
-(https://docs.aws.amazon.com/datasync/latest/userguide/create-nfs-location.html#nfs-on-snowcone)
-for more information.
-
-This name must either be DNS-compliant or must be an IP version 4
-(IPv4) address.
+Specifies the DNS name or IP version 4 address of the NFS file server
+that your DataSync agent connects to.
 
 
 
 =head2 B<REQUIRED> Subdirectory => Str
 
-The subdirectory in the NFS file system that is used to read data from
-the NFS source location or write data to the NFS destination. The NFS
-path should be a path that's exported by the NFS server, or a
-subdirectory of that path. The path should be such that it can be
-mounted by other NFS clients in your network.
+Specifies the export path in your NFS file server that you want
+DataSync to mount.
 
-To see all the paths exported by your NFS server, run "C<showmount -e
-nfs-server-name>" from an NFS client that has access to your server.
-You can specify any directory that appears in the results, and any
-subdirectory of that directory. Ensure that the NFS export is
-accessible without Kerberos authentication.
-
-To transfer all the data in the folder you specified, DataSync needs to
-have permissions to read all the data. To ensure this, either configure
-the NFS export with C<no_root_squash,> or ensure that the permissions
-for all of the files that you want DataSync allow read access for all
-users. Doing either enables the agent to read the files. For the agent
-to access directories, you must additionally enable all execute access.
-
-If you are copying data to or from your AWS Snowcone device, see NFS
-Server on AWS Snowcone
-(https://docs.aws.amazon.com/datasync/latest/userguide/create-nfs-location.html#nfs-on-snowcone)
-for more information.
-
-For information about NFS export configuration, see 18.7. The
-/etc/exports Configuration File in the Red Hat Enterprise Linux
-documentation.
+This path (or a subdirectory of the path) is where DataSync transfers
+data to or from. For information on configuring an export for DataSync,
+see Accessing NFS file servers
+(https://docs.aws.amazon.com/datasync/latest/userguide/create-nfs-location.html#accessing-nfs).
 
 
 
 =head2 Tags => ArrayRef[L<Paws::Datasync::TagListEntry>]
 
-The key-value pair that represents the tag that you want to add to the
-location. The value can be an empty string. We recommend using tags to
-name your resources.
+Specifies labels that help you categorize, filter, and search for your
+Amazon Web Services resources. We recommend creating at least a name
+tag for your location.
 
 
 

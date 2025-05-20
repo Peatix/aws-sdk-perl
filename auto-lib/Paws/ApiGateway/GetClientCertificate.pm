@@ -51,8 +51,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 B<REQUIRED> ClientCertificateId => Str
 
-[Required] The identifier of the ClientCertificate resource to be
-described.
+The identifier of the ClientCertificate resource to be described.
 
 
 

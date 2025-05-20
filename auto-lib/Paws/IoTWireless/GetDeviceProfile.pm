@@ -34,10 +34,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     );
 
     # Results:
-    my $Arn     = $GetDeviceProfileResponse->Arn;
-    my $Id      = $GetDeviceProfileResponse->Id;
-    my $LoRaWAN = $GetDeviceProfileResponse->LoRaWAN;
-    my $Name    = $GetDeviceProfileResponse->Name;
+    my $Arn      = $GetDeviceProfileResponse->Arn;
+    my $Id       = $GetDeviceProfileResponse->Id;
+    my $LoRaWAN  = $GetDeviceProfileResponse->LoRaWAN;
+    my $Name     = $GetDeviceProfileResponse->Name;
+    my $Sidewalk = $GetDeviceProfileResponse->Sidewalk;
 
     # Returns a L<Paws::IoTWireless::GetDeviceProfileResponse> object.
 

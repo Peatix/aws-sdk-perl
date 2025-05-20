@@ -65,20 +65,19 @@ y=2>.
 =head2 MaxConnectionsPercent => Int
 
 The maximum size of the connection pool for each target in a target
-group. For Aurora MySQL, it is expressed as a percentage of the
-C<max_connections> setting for the RDS DB instance or Aurora DB cluster
-used by the target group.
+group. The value is expressed as a percentage of the C<max_connections>
+setting for the RDS DB instance or Aurora DB cluster used by the target
+group.
 
 
 =head2 MaxIdleConnectionsPercent => Int
 
 Controls how actively the proxy closes idle database connections in the
-connection pool. A high value enables the proxy to leave a high
-percentage of idle connections open. A low value causes the proxy to
-close idle client connections and return the underlying database
-connections to the connection pool. For Aurora MySQL, it is expressed
-as a percentage of the C<max_connections> setting for the RDS DB
-instance or Aurora DB cluster used by the target group.
+connection pool. The value is expressed as a percentage of the
+C<max_connections> setting for the RDS DB instance or Aurora DB cluster
+used by the target group. With a high value, the proxy leaves a high
+percentage of idle database connections open. A low value causes the
+proxy to close more idle connections and return them to the database.
 
 
 =head2 SessionPinningFilters => ArrayRef[Str|Undef]
@@ -87,7 +86,8 @@ Each item in the list represents a class of SQL operations that
 normally cause all later statements in a session using a proxy to be
 pinned to the same underlying database connection. Including an item in
 the list exempts that class of SQL operations from the pinning
-behavior. Currently, the only allowed value is
+behavior. This setting is only supported for MySQL engine family
+databases. Currently, the only allowed value is
 C<EXCLUDE_VARIABLE_SETS>.
 
 

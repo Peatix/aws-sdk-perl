@@ -4,8 +4,10 @@ package Paws::SSM::Session;
   has Details => (is => 'ro', isa => 'Str');
   has DocumentName => (is => 'ro', isa => 'Str');
   has EndDate => (is => 'ro', isa => 'Str');
+  has MaxSessionDuration => (is => 'ro', isa => 'Str');
   has OutputUrl => (is => 'ro', isa => 'Paws::SSM::SessionManagerOutputUrl');
   has Owner => (is => 'ro', isa => 'Str');
+  has Reason => (is => 'ro', isa => 'Str');
   has SessionId => (is => 'ro', isa => 'Str');
   has StartDate => (is => 'ro', isa => 'Str');
   has Status => (is => 'ro', isa => 'Str');
@@ -41,7 +43,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SSM::Sessio
 
 =head1 DESCRIPTION
 
-Information about a Session Manager connection to an instance.
+Information about a Session Manager connection to a managed node.
 
 =head1 ATTRIBUTES
 
@@ -64,6 +66,11 @@ The date and time, in ISO-8601 Extended format, when the session was
 terminated.
 
 
+=head2 MaxSessionDuration => Str
+
+The maximum duration of a session before it terminates.
+
+
 =head2 OutputUrl => L<Paws::SSM::SessionManagerOutputUrl>
 
 Reserved for future use.
@@ -71,7 +78,12 @@ Reserved for future use.
 
 =head2 Owner => Str
 
-The ID of the AWS user account that started the session.
+The ID of the Amazon Web Services user that started the session.
+
+
+=head2 Reason => Str
+
+The reason for connecting to the instance.
 
 
 =head2 SessionId => Str
@@ -91,7 +103,7 @@ The status of the session. For example, "Connected" or "Terminated".
 
 =head2 Target => Str
 
-The instance that the Session Manager session connected to.
+The managed node that the Session Manager session connected to.
 
 
 

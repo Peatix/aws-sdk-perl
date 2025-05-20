@@ -33,14 +33,14 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::EKS::Identi
 
 =head1 DESCRIPTION
 
-An object that represents an identity configuration.
+The full description of your identity configuration.
 
 =head1 ATTRIBUTES
 
 
 =head2 Oidc => L<Paws::EKS::OidcIdentityProviderConfig>
 
-An object that represents an OpenID Connect (OIDC) identity provider
+An object representing an OpenID Connect (OIDC) identity provider
 configuration.
 
 

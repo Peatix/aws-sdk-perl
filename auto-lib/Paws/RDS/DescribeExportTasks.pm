@@ -6,6 +6,7 @@ package Paws::RDS::DescribeExportTasks;
   has Marker => (is => 'ro', isa => 'Str');
   has MaxRecords => (is => 'ro', isa => 'Int');
   has SourceArn => (is => 'ro', isa => 'Str');
+  has SourceType => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -44,6 +45,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       Marker     => 'MyString',              # OPTIONAL
       MaxRecords => 1,                       # OPTIONAL
       SourceArn  => 'MyString',              # OPTIONAL
+      SourceType => 'SNAPSHOT',              # OPTIONAL
     );
 
     # Results:
@@ -60,15 +62,15 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/rds
 
 =head2 ExportTaskIdentifier => Str
 
-The identifier of the snapshot export task to be described.
+The identifier of the snapshot or cluster export task to be described.
 
 
 
 =head2 Filters => ArrayRef[L<Paws::RDS::Filter>]
 
-Filters specify one or more snapshot exports to describe. The filters
-are specified as name-value pairs that define what to include in the
-output. Filter names and values are case-sensitive.
+Filters specify one or more snapshot or cluster exports to describe.
+The filters are specified as name-value pairs that define what to
+include in the output. Filter names and values are case-sensitive.
 
 Supported filters include the following:
 
@@ -76,21 +78,50 @@ Supported filters include the following:
 
 =item *
 
-C<export-task-identifier> - An identifier for the snapshot export task.
+C<export-task-identifier> - An identifier for the snapshot or cluster
+export task.
 
 =item *
 
-C<s3-bucket> - The Amazon S3 bucket the snapshot is exported to.
+C<s3-bucket> - The Amazon S3 bucket the data is exported to.
 
 =item *
 
-C<source-arn> - The Amazon Resource Name (ARN) of the snapshot exported
-to Amazon S3
+C<source-arn> - The Amazon Resource Name (ARN) of the snapshot or
+cluster exported to Amazon S3.
 
 =item *
 
-C<status> - The status of the export task. Must be lowercase, for
-example, C<complete>.
+C<status> - The status of the export task. Must be lowercase. Valid
+statuses are the following:
+
+=over
+
+=item *
+
+C<canceled>
+
+=item *
+
+C<canceling>
+
+=item *
+
+C<complete>
+
+=item *
+
+C<failed>
+
+=item *
+
+C<in_progress>
+
+=item *
+
+C<starting>
+
+=back
 
 =back
 
@@ -121,9 +152,16 @@ Constraints: Minimum 20, maximum 100.
 
 =head2 SourceArn => Str
 
-The Amazon Resource Name (ARN) of the snapshot exported to Amazon S3.
+The Amazon Resource Name (ARN) of the snapshot or cluster exported to
+Amazon S3.
 
 
+
+=head2 SourceType => Str
+
+The type of source for the export.
+
+Valid values are: C<"SNAPSHOT">, C<"CLUSTER">
 
 
 =head1 SEE ALSO

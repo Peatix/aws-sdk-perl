@@ -59,7 +59,7 @@ C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
 
 =head2 Filters => ArrayRef[L<Paws::EC2::Filter>]
 
-One or more filters.
+The filters.
 
 =over
 
@@ -112,9 +112,9 @@ volume, in GiB.
 =item *
 
 C<launch.block-device-mapping.volume-type> - The type of EBS volume:
-C<gp2> for General Purpose SSD, C<io1> or C<io2> for Provisioned IOPS
-SSD, C<st1> for Throughput Optimized HDD, C<sc1>for Cold HDD, or
-C<standard> for Magnetic.
+C<gp2> or C<gp3> for General Purpose SSD, C<io1> or C<io2> for
+Provisioned IOPS SSD, C<st1> for Throughput Optimized HDD, C<sc1> for
+Cold HDD, or C<standard> for Magnetic.
 
 =item *
 
@@ -215,8 +215,8 @@ C<state> - The state of the Spot Instance request (C<open> | C<active>
 | C<closed> | C<cancelled> | C<failed>). Spot request status
 information can help you track your Amazon EC2 Spot Instance requests.
 For more information, see Spot request status
-(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-bid-status.html)
-in the I<Amazon EC2 User Guide for Linux Instances>.
+(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-request-status.html)
+in the I<Amazon EC2 User Guide>.
 
 =item *
 
@@ -230,7 +230,7 @@ Instance request.
 
 =item *
 
-C<tag>:E<lt>keyE<gt> - The key/value combination of a tag assigned to
+C<tag:E<lt>keyE<gt>> - The key/value combination of a tag assigned to
 the resource. Use the tag key in the filter name and the tag value as
 the filter value. For example, to find all resources that have a tag
 with the key C<Owner> and the value C<TeamA>, specify C<tag:Owner> for
@@ -262,22 +262,23 @@ C<valid-until> - The end date of the request.
 
 =head2 MaxResults => Int
 
-The maximum number of results to return in a single call. Specify a
-value between 5 and 1000. To retrieve the remaining results, make
-another call with the returned C<NextToken> value.
+The maximum number of items to return for this request. To get the next
+page of items, make another request with the token returned in the
+output. For more information, see Pagination
+(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Query-Requests.html#api-pagination).
 
 
 
 =head2 NextToken => Str
 
-The token to request the next set of results. This value is C<null>
-when there are no more results to return.
+The token returned from a previous paginated request. Pagination
+continues from the end of the items returned by the previous request.
 
 
 
 =head2 SpotInstanceRequestIds => ArrayRef[Str|Undef]
 
-One or more Spot Instance request IDs.
+The IDs of the Spot Instance requests.
 
 
 

@@ -35,9 +35,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       CurrentVersion            => 'My__string',
       TargetBrokerEBSVolumeInfo => [
         {
-          KafkaBrokerNodeId => 'My__string',
-          VolumeSizeGB      => 1,
-
+          KafkaBrokerNodeId     => 'My__string',
+          ProvisionedThroughput => {
+            Enabled          => 1,    # OPTIONAL
+            VolumeThroughput => 1,    # OPTIONAL
+          },    # OPTIONAL
+          VolumeSizeGB => 1,    # OPTIONAL
         },
         ...
       ],

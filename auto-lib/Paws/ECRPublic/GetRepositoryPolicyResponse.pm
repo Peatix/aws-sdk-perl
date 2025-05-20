@@ -18,18 +18,18 @@ Paws::ECRPublic::GetRepositoryPolicyResponse
 
 =head2 PolicyText => Str
 
-The repository policy text associated with the repository. The policy
-text will be in JSON format.
+The repository policy text that's associated with the repository. The
+policy text will be in JSON format.
 
 
 =head2 RegistryId => Str
 
-The registry ID associated with the request.
+The registry ID that's associated with the request.
 
 
 =head2 RepositoryName => Str
 
-The repository name associated with the request.
+The repository name that's associated with the request.
 
 
 =head2 _request_id => Str

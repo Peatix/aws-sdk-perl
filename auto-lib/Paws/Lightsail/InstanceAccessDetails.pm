@@ -6,6 +6,7 @@ package Paws::Lightsail::InstanceAccessDetails;
   has HostKeys => (is => 'ro', isa => 'ArrayRef[Paws::Lightsail::HostKeyAttributes]', request_name => 'hostKeys', traits => ['NameInRequest']);
   has InstanceName => (is => 'ro', isa => 'Str', request_name => 'instanceName', traits => ['NameInRequest']);
   has IpAddress => (is => 'ro', isa => 'Str', request_name => 'ipAddress', traits => ['NameInRequest']);
+  has Ipv6Addresses => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'ipv6Addresses', traits => ['NameInRequest']);
   has Password => (is => 'ro', isa => 'Str', request_name => 'password', traits => ['NameInRequest']);
   has PasswordData => (is => 'ro', isa => 'Paws::Lightsail::PasswordData', request_name => 'passwordData', traits => ['NameInRequest']);
   has PrivateKey => (is => 'ro', isa => 'Str', request_name => 'privateKey', traits => ['NameInRequest']);
@@ -51,7 +52,7 @@ Lightsail instances.
 =head2 CertKey => Str
 
 For SSH access, the public key to use when accessing your instance For
-OpenSSH clients (e.g., command line SSH), you should save this value to
+OpenSSH clients (command line SSH), you should save this value to
 C<tempkey-cert.pub>.
 
 
@@ -73,6 +74,11 @@ The name of this Amazon Lightsail instance.
 =head2 IpAddress => Str
 
 The public IP address of the Amazon Lightsail instance.
+
+
+=head2 Ipv6Addresses => ArrayRef[Str|Undef]
+
+The IPv6 address of the Amazon Lightsail instance.
 
 
 =head2 Password => Str
@@ -103,8 +109,8 @@ for the instance to be ready.
 
 =head2 PrivateKey => Str
 
-For SSH access, the temporary private key. For OpenSSH clients (e.g.,
-command line SSH), you should save this value to C<tempkey>).
+For SSH access, the temporary private key. For OpenSSH clients (command
+line SSH), you should save this value to C<tempkey>).
 
 
 =head2 Protocol => Str

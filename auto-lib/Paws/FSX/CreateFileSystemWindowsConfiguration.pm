@@ -8,6 +8,7 @@ package Paws::FSX::CreateFileSystemWindowsConfiguration;
   has CopyTagsToBackups => (is => 'ro', isa => 'Bool');
   has DailyAutomaticBackupStartTime => (is => 'ro', isa => 'Str');
   has DeploymentType => (is => 'ro', isa => 'Str');
+  has DiskIopsConfiguration => (is => 'ro', isa => 'Paws::FSX::DiskIopsConfiguration');
   has PreferredSubnetId => (is => 'ro', isa => 'Str');
   has SelfManagedActiveDirectoryConfiguration => (is => 'ro', isa => 'Paws::FSX::SelfManagedActiveDirectoryConfiguration');
   has ThroughputCapacity => (is => 'ro', isa => 'Int', required => 1);
@@ -51,8 +52,9 @@ C<CreateFileSystem> and C<CreateFileSystemFromBackup> operations.
 
 =head2 ActiveDirectoryId => Str
 
-The ID for an existing AWS Managed Microsoft Active Directory (AD)
-instance that the file system should join when it's created.
+The ID for an existing Amazon Web Services Managed Microsoft Active
+Directory (AD) instance that the file system should join when it's
+created.
 
 
 =head2 Aliases => ArrayRef[Str|Undef]
@@ -113,10 +115,9 @@ FSx for Windows File Server file system.
 
 =head2 AutomaticBackupRetentionDays => Int
 
-The number of days to retain automatic backups. The default is to
-retain backups for 7 days. Setting this value to 0 disables the
-creation of automatic backups. The maximum retention period for backups
-is 90 days.
+The number of days to retain automatic backups. Setting this property
+to C<0> disables automatic backups. You can retain automatic backups
+for a maximum of 90 days. The default is C<30>.
 
 
 =head2 CopyTagsToBackups => Bool
@@ -149,8 +150,8 @@ following:
 C<MULTI_AZ_1> - Deploys a high availability file system that is
 configured for Multi-AZ redundancy to tolerate temporary Availability
 Zone (AZ) unavailability. You can only deploy a Multi-AZ file system in
-AWS Regions that have a minimum of three Availability Zones. Also
-supports HDD storage type
+Amazon Web Services Regions that have a minimum of three Availability
+Zones. Also supports HDD storage type
 
 =item *
 
@@ -170,13 +171,22 @@ Multi-AZ File Systems
 (https://docs.aws.amazon.com/fsx/latest/WindowsGuide/high-availability-multiAZ.html).
 
 
+=head2 DiskIopsConfiguration => L<Paws::FSX::DiskIopsConfiguration>
+
+The SSD IOPS (input/output operations per second) configuration for an
+Amazon FSx for Windows file system. By default, Amazon FSx
+automatically provisions 3 IOPS per GiB of storage capacity. You can
+provision additional IOPS per GiB of storage, up to the maximum limit
+associated with your chosen throughput capacity.
+
+
 =head2 PreferredSubnetId => Str
 
 Required when C<DeploymentType> is set to C<MULTI_AZ_1>. This specifies
 the subnet in which you want the preferred file server to be located.
-For in-AWS applications, we recommend that you launch your clients in
-the same Availability Zone (AZ) as your preferred file server to reduce
-cross-AZ data transfer costs and minimize latency.
+For in-Amazon Web Services applications, we recommend that you launch
+your clients in the same Availability Zone (AZ) as your preferred file
+server to reduce cross-AZ data transfer costs and minimize latency.
 
 
 =head2 SelfManagedActiveDirectoryConfiguration => L<Paws::FSX::SelfManagedActiveDirectoryConfiguration>
@@ -186,8 +196,9 @@ cross-AZ data transfer costs and minimize latency.
 
 =head2 B<REQUIRED> ThroughputCapacity => Int
 
-The throughput of an Amazon FSx file system, measured in megabytes per
-second, in 2 to the I<n>th increments, between 2^3 (8) and 2^11 (2048).
+Sets the throughput capacity of an Amazon FSx file system, measured in
+megabytes per second (MB/s), in 2 to the I<n>th increments, between 2^3
+(8) and 2^11 (2048).
 
 
 =head2 WeeklyMaintenanceStartTime => Str

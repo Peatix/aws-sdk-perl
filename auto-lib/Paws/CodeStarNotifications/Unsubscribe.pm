@@ -54,7 +54,7 @@ The Amazon Resource Name (ARN) of the notification rule.
 
 =head2 B<REQUIRED> TargetAddress => Str
 
-The ARN of the SNS topic to unsubscribe from the notification rule.
+The ARN of the Chatbot topic to unsubscribe from the notification rule.
 
 
 

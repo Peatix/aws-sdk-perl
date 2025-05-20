@@ -66,13 +66,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ssm
 
 =head2 B<REQUIRED> InstanceId => Str
 
-An instance ID where you want to add or update inventory items.
+An managed node ID where you want to add or update inventory items.
 
 
 
 =head2 B<REQUIRED> Items => ArrayRef[L<Paws::SSM::InventoryItem>]
 
-The inventory items that you want to add or update on instances.
+The inventory items that you want to add or update on managed nodes.
 
 
 

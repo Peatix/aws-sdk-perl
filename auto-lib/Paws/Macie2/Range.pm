@@ -35,8 +35,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Macie2::Ran
 
 =head1 DESCRIPTION
 
-Specifies the location of an occurrence of sensitive data in a
-non-binary text file, such as an HTML, TXT, or XML file.
+Specifies the location of an occurrence of sensitive data in an email
+message or a non-binary text file such as an HTML, TXT, or XML file.
 
 =head1 ATTRIBUTES
 

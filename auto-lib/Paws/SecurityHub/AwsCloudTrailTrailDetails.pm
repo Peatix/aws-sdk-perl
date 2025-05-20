@@ -59,7 +59,7 @@ The ARN of the log group that CloudTrail logs are delivered to.
 
 =head2 CloudWatchLogsRoleArn => Str
 
-The ARN of the role that the CloudWatch Logs endpoint assumes when it
+The ARN of the role that the CloudWatch Events endpoint assumes when it
 writes to the log group.
 
 
@@ -87,13 +87,13 @@ all Regions.
 
 =head2 IsOrganizationTrail => Bool
 
-Whether the trail is created for all accounts in an organization in AWS
-Organizations, or only for the current AWS account.
+Whether the trail is created for all accounts in an organization in
+Organizations, or only for the current Amazon Web Services account.
 
 
 =head2 KmsKeyId => Str
 
-The AWS KMS key ID to use to encrypt the logs.
+The KMS key ID to use to encrypt the logs.
 
 
 =head2 LogFileValidationEnabled => Bool

@@ -34,34 +34,47 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Transcribe:
 
 =head1 DESCRIPTION
 
-Provides information about when a transcription job should be executed.
+Makes it possible to control how your transcription job is processed.
+Currently, the only C<JobExecutionSettings> modification you can choose
+is enabling job queueing using the C<AllowDeferredExecution>
+sub-parameter.
+
+If you include C<JobExecutionSettings> in your request, you must also
+include the sub-parameters: C<AllowDeferredExecution> and
+C<DataAccessRoleArn>.
 
 =head1 ATTRIBUTES
 
 
 =head2 AllowDeferredExecution => Bool
 
-Indicates whether a job should be queued by Amazon Transcribe when the
-concurrent execution limit is exceeded. When the
-C<AllowDeferredExecution> field is true, jobs are queued and executed
-when the number of executing jobs falls below the concurrent execution
-limit. If the field is false, Amazon Transcribe returns a
-C<LimitExceededException> exception.
+Makes it possible to enable job queuing when your concurrent request
+limit is exceeded. When C<AllowDeferredExecution> is set to C<true>,
+transcription job requests are placed in a queue until the number of
+jobs falls below the concurrent request limit. If
+C<AllowDeferredExecution> is set to C<false> and the number of
+transcription job requests exceed the concurrent request limit, you get
+a C<LimitExceededException> error.
 
-If you specify the C<AllowDeferredExecution> field, you must specify
-the C<DataAccessRoleArn> field.
+If you include C<AllowDeferredExecution> in your request, you must also
+include C<DataAccessRoleArn>.
 
 
 =head2 DataAccessRoleArn => Str
 
-The Amazon Resource Name (ARN) of a role that has access to the S3
-bucket that contains the input files. Amazon Transcribe assumes this
-role to read queued media files. If you have specified an output S3
-bucket for the transcription results, this role should have access to
-the output bucket as well.
+The Amazon Resource Name (ARN) of an IAM role that has permissions to
+access the Amazon S3 bucket that contains your input files. If the role
+that you specify doesnE<rsquo>t have the appropriate permissions to
+access the specified Amazon S3 location, your request fails.
 
-If you specify the C<AllowDeferredExecution> field, you must specify
-the C<DataAccessRoleArn> field.
+IAM role ARNs have the format
+C<arn:partition:iam::account:role/role-name-with-path>. For example:
+C<arn:aws:iam::111122223333:role/Admin>. For more information, see IAM
+ARNs
+(https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns).
+
+Note that if you include C<DataAccessRoleArn> in your request, you must
+also include C<AllowDeferredExecution>.
 
 
 

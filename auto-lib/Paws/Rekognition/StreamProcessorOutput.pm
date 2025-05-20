@@ -2,6 +2,7 @@
 package Paws::Rekognition::StreamProcessorOutput;
   use Moose;
   has KinesisDataStream => (is => 'ro', isa => 'Paws::Rekognition::KinesisDataStream');
+  has S3Destination => (is => 'ro', isa => 'Paws::Rekognition::S3Destination');
 
 1;
 
@@ -22,7 +23,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::Rekognition::StreamProcessorOutput object:
 
-  $service_obj->Method(Att1 => { KinesisDataStream => $value, ..., KinesisDataStream => $value  });
+  $service_obj->Method(Att1 => { KinesisDataStream => $value, ..., S3Destination => $value  });
 
 =head3 Results returned from an API call
 
@@ -45,6 +46,12 @@ Amazon Rekognition Developer Guide.
 
 The Amazon Kinesis Data Streams stream to which the Amazon Rekognition
 stream processor streams the analysis results.
+
+
+=head2 S3Destination => L<Paws::Rekognition::S3Destination>
+
+The Amazon S3 bucket location to which Amazon Rekognition publishes the
+detailed inference results of a video analysis operation.
 
 
 

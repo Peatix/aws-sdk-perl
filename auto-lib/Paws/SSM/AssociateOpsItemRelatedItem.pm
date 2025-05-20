@@ -70,7 +70,6 @@ The type of resource that you want to associate with an OpsItem.
 OpsCenter supports the following types:
 
 C<AWS::SSMIncidents::IncidentRecord>: an Incident Manager incident.
-Incident Manager is a capability of AWS Systems Manager.
 
 C<AWS::SSM::Document>: a Systems Manager (SSM) document.
 
@@ -78,8 +77,8 @@ C<AWS::SSM::Document>: a Systems Manager (SSM) document.
 
 =head2 B<REQUIRED> ResourceUri => Str
 
-The Amazon Resource Name (ARN) of the AWS resource that you want to
-associate with the OpsItem.
+The Amazon Resource Name (ARN) of the Amazon Web Services resource that
+you want to associate with the OpsItem.
 
 
 

@@ -2,6 +2,7 @@
 package Paws::DynamoDB::ReplicaGlobalSecondaryIndex;
   use Moose;
   has IndexName => (is => 'ro', isa => 'Str', required => 1);
+  has OnDemandThroughputOverride => (is => 'ro', isa => 'Paws::DynamoDB::OnDemandThroughputOverride');
   has ProvisionedThroughputOverride => (is => 'ro', isa => 'Paws::DynamoDB::ProvisionedThroughputOverride');
 
 1;
@@ -42,6 +43,12 @@ Represents the properties of a replica global secondary index.
 =head2 B<REQUIRED> IndexName => Str
 
 The name of the global secondary index.
+
+
+=head2 OnDemandThroughputOverride => L<Paws::DynamoDB::OnDemandThroughputOverride>
+
+Overrides the maximum on-demand throughput settings for the specified
+global secondary index in the specified replica table.
 
 
 =head2 ProvisionedThroughputOverride => L<Paws::DynamoDB::ProvisionedThroughputOverride>

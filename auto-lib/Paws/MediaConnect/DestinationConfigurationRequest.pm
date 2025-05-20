@@ -35,8 +35,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::MediaConnec
 
 =head1 DESCRIPTION
 
-The transport parameters that you want to associate with an outbound
-media stream.
+The definition of a media stream that you want to associate with the
+output.
 
 =head1 ATTRIBUTES
 

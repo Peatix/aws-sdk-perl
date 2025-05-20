@@ -9,7 +9,10 @@ package Paws::CustomerProfiles::PutProfileObjectTypeResponse;
   has Fields => (is => 'ro', isa => 'Paws::CustomerProfiles::FieldMap');
   has Keys => (is => 'ro', isa => 'Paws::CustomerProfiles::KeyMap');
   has LastUpdatedAt => (is => 'ro', isa => 'Str');
+  has MaxAvailableProfileObjectCount => (is => 'ro', isa => 'Int');
+  has MaxProfileObjectCount => (is => 'ro', isa => 'Int');
   has ObjectTypeName => (is => 'ro', isa => 'Str', required => 1);
+  has SourceLastUpdatedTimestampFormat => (is => 'ro', isa => 'Str');
   has Tags => (is => 'ro', isa => 'Paws::CustomerProfiles::TagMap');
   has TemplateId => (is => 'ro', isa => 'Str');
 
@@ -71,9 +74,28 @@ A list of unique keys that can be used to map data to the profile.
 The timestamp of when the domain was most recently edited.
 
 
+=head2 MaxAvailableProfileObjectCount => Int
+
+The amount of provisioned profile object max count available.
+
+
+=head2 MaxProfileObjectCount => Int
+
+The amount of profile object max count assigned to the object type.
+
+
 =head2 B<REQUIRED> ObjectTypeName => Str
 
 The name of the profile object type.
+
+
+=head2 SourceLastUpdatedTimestampFormat => Str
+
+The format of your C<sourceLastUpdatedTimestamp> that was previously
+set up in fields that were parsed using SimpleDateFormat
+(https://docs.oracle.com/javase/10/docs/api/java/text/SimpleDateFormat.html).
+If you have C<sourceLastUpdatedTimestamp> in your field, you must set
+up C<sourceLastUpdatedTimestampFormat>.
 
 
 =head2 Tags => L<Paws::CustomerProfiles::TagMap>

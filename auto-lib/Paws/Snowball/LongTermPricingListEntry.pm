@@ -98,8 +98,8 @@ pricing.
 
 =head2 SnowballType => Str
 
-The type of AWS Snow Family device associated with this long-term
-pricing job.
+The type of Snow Family devices associated with this long-term pricing
+job.
 
 
 

@@ -43,8 +43,9 @@ A configuration used when creating an Object Lambda Access Point.
 
 =head2 AllowedFeatures => ArrayRef[Str|Undef]
 
-A container for allowed features. Valid inputs are C<GetObject-Range>
-and C<GetObject-PartNumber>.
+A container for allowed features. Valid inputs are C<GetObject-Range>,
+C<GetObject-PartNumber>, C<HeadObject-Range>, and
+C<HeadObject-PartNumber>.
 
 
 =head2 CloudWatchMetricsEnabled => Bool

@@ -4,6 +4,7 @@ package Paws::WorkSpaces::WorkspaceImage;
   has Created => (is => 'ro', isa => 'Str');
   has Description => (is => 'ro', isa => 'Str');
   has ErrorCode => (is => 'ro', isa => 'Str');
+  has ErrorDetails => (is => 'ro', isa => 'ArrayRef[Paws::WorkSpaces::ErrorDetails]');
   has ErrorMessage => (is => 'ro', isa => 'Str');
   has ImageId => (is => 'ro', isa => 'Str');
   has Name => (is => 'ro', isa => 'Str');
@@ -11,6 +12,7 @@ package Paws::WorkSpaces::WorkspaceImage;
   has OwnerAccountId => (is => 'ro', isa => 'Str');
   has RequiredTenancy => (is => 'ro', isa => 'Str');
   has State => (is => 'ro', isa => 'Str');
+  has Updates => (is => 'ro', isa => 'Paws::WorkSpaces::UpdateResult');
 
 1;
 
@@ -31,7 +33,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::WorkSpaces::WorkspaceImage object:
 
-  $service_obj->Method(Att1 => { Created => $value, ..., State => $value  });
+  $service_obj->Method(Att1 => { Created => $value, ..., Updates => $value  });
 
 =head3 Results returned from an API call
 
@@ -50,8 +52,8 @@ Describes a WorkSpace image.
 =head2 Created => Str
 
 The date when the image was created. If the image has been shared, the
-AWS account that the image has been shared with sees the original
-creation date of the image.
+Amazon Web Services account that the image has been shared with sees
+the original creation date of the image.
 
 
 =head2 Description => Str
@@ -62,6 +64,12 @@ The description of the image.
 =head2 ErrorCode => Str
 
 The error code that is returned for the image.
+
+
+=head2 ErrorDetails => ArrayRef[L<Paws::WorkSpaces::ErrorDetails>]
+
+Additional details of the error returned for the image, including the
+possible causes of the errors and troubleshooting information.
 
 
 =head2 ErrorMessage => Str
@@ -86,7 +94,7 @@ The operating system that the image is running.
 
 =head2 OwnerAccountId => Str
 
-The identifier of the AWS account that owns the image.
+The identifier of the Amazon Web Services account that owns the image.
 
 
 =head2 RequiredTenancy => Str
@@ -101,6 +109,11 @@ Images
 =head2 State => Str
 
 The status of the image.
+
+
+=head2 Updates => L<Paws::WorkSpaces::UpdateResult>
+
+The updates (if any) that are available for the specified image.
 
 
 

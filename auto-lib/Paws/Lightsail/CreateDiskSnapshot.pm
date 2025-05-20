@@ -56,7 +56,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/lig
 
 =head2 DiskName => Str
 
-The unique name of the source disk (e.g., C<Disk-Virginia-1>).
+The unique name of the source disk (C<Disk-Virginia-1>).
 
 This parameter cannot be defined together with the C<instance name>
 parameter. The C<disk name> and C<instance name> parameters are
@@ -66,15 +66,15 @@ mutually exclusive.
 
 =head2 B<REQUIRED> DiskSnapshotName => Str
 
-The name of the destination disk snapshot (e.g., C<my-disk-snapshot>)
-based on the source disk.
+The name of the destination disk snapshot (C<my-disk-snapshot>) based
+on the source disk.
 
 
 
 =head2 InstanceName => Str
 
-The unique name of the source instance (e.g.,
-C<Amazon_Linux-512MB-Virginia-1>). When this is defined, a snapshot of
+The unique name of the source instance
+(C<Amazon_Linux-512MB-Virginia-1>). When this is defined, a snapshot of
 the instance's system volume is created.
 
 This parameter cannot be defined together with the C<disk name>

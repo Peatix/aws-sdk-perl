@@ -17,8 +17,8 @@ Paws::Config::GetComplianceDetailsByConfigRuleResponse
 
 =head2 EvaluationResults => ArrayRef[L<Paws::Config::EvaluationResult>]
 
-Indicates whether the AWS resource complies with the specified AWS
-Config rule.
+Indicates whether the Amazon Web Services resource complies with the
+specified Config rule.
 
 
 =head2 NextToken => Str

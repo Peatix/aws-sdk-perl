@@ -17,7 +17,7 @@ Paws::STS::DecodeAuthorizationMessageResponse
 
 =head2 DecodedMessage => Str
 
-An XML document that contains the decoded message.
+The API returns a response with the decoded message.
 
 
 =head2 _request_id => Str

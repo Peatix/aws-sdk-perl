@@ -3,6 +3,7 @@ package Paws::EKS::NodegroupUpdateConfig;
   use Moose;
   has MaxUnavailable => (is => 'ro', isa => 'Int', request_name => 'maxUnavailable', traits => ['NameInRequest']);
   has MaxUnavailablePercentage => (is => 'ro', isa => 'Int', request_name => 'maxUnavailablePercentage', traits => ['NameInRequest']);
+  has UpdateStrategy => (is => 'ro', isa => 'Str', request_name => 'updateStrategy', traits => ['NameInRequest']);
 
 1;
 
@@ -23,7 +24,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::EKS::NodegroupUpdateConfig object:
 
-  $service_obj->Method(Att1 => { MaxUnavailable => $value, ..., MaxUnavailablePercentage => $value  });
+  $service_obj->Method(Att1 => { MaxUnavailable => $value, ..., UpdateStrategy => $value  });
 
 =head3 Results returned from an API call
 
@@ -34,19 +35,48 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::EKS::Nodegr
 
 =head1 DESCRIPTION
 
-This class has no description
+The node group update configuration. An Amazon EKS managed node group
+updates by replacing nodes with new nodes of newer AMI versions in
+parallel. You choose the I<maximum unavailable> and the I<update
+strategy>.
 
 =head1 ATTRIBUTES
 
 
 =head2 MaxUnavailable => Int
 
-
+The maximum number of nodes unavailable at once during a version
+update. Nodes are updated in parallel. This value or
+C<maxUnavailablePercentage> is required to have a value.The maximum
+number is 100.
 
 
 =head2 MaxUnavailablePercentage => Int
 
+The maximum percentage of nodes unavailable during a version update.
+This percentage of nodes are updated in parallel, up to 100 nodes at
+once. This value or C<maxUnavailable> is required to have a value.
 
+
+=head2 UpdateStrategy => Str
+
+The configuration for the behavior to follow during a node group
+version update of this managed node group. You choose between two
+possible strategies for replacing nodes during an
+C<UpdateNodegroupVersion>
+(https://docs.aws.amazon.com/eks/latest/APIReference/API_UpdateNodegroupVersion.html)
+action.
+
+An Amazon EKS managed node group updates by replacing nodes with new
+nodes of newer AMI versions in parallel. The I<update strategy> changes
+the managed node update behavior of the managed node group for each
+quantity. The I<default> strategy has guardrails to protect you from
+misconfiguration and launches the new instances first, before
+terminating the old instances. The I<minimal> strategy removes the
+guardrails and terminates the old instances before launching the new
+instances. This minimal strategy is useful in scenarios where you are
+constrained to resources or costs (for example, with hardware
+accelerators such as GPUs).
 
 
 

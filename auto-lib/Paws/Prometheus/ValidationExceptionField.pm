@@ -34,20 +34,20 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Prometheus:
 
 =head1 DESCRIPTION
 
-Stores information about a field passed inside a request that resulted
-in an exception.
+Information about a field passed into a request that resulted in an
+exception.
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> Message => Str
 
-Message describing why the field failed validation.
+A message describing why the field caused an exception.
 
 
 =head2 B<REQUIRED> Name => Str
 
-The field name.
+The name of the field that caused an exception.
 
 
 

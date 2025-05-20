@@ -34,7 +34,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Route53::DN
 
 =head1 DESCRIPTION
 
-A string repesenting the status of DNSSEC signing.
+A string representing the status of DNSSEC signing.
 
 =head1 ATTRIBUTES
 
@@ -62,9 +62,9 @@ DNSSEC signing is in the process of being removed for the hosted zone.
 =item ACTION_NEEDED
 
 There is a problem with signing in the hosted zone that requires you to
-take action to resolve. For example, the customer managed customer
-master key (CMK) might have been deleted, or the permissions for the
-customer managed CMK might have been changed.
+take action to resolve. For example, the customer managed key might
+have been deleted, or the permissions for the customer managed key
+might have been changed.
 
 =item INTERNAL_FAILURE
 

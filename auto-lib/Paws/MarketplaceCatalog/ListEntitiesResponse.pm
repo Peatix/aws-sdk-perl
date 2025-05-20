@@ -18,7 +18,7 @@ Paws::MarketplaceCatalog::ListEntitiesResponse
 
 =head2 EntitySummaryList => ArrayRef[L<Paws::MarketplaceCatalog::EntitySummary>]
 
-Array of C<EntitySummary> object.
+Array of C<EntitySummary> objects.
 
 
 =head2 NextToken => Str

@@ -55,28 +55,38 @@ trail.
 
 =head2 DataResources => ArrayRef[L<Paws::CloudTrail::DataResource>]
 
-CloudTrail supports data event logging for Amazon S3 objects and AWS
-Lambda functions with basic event selectors. You can specify up to 250
-resources for an individual event selector, but the total number of
-data resources cannot exceed 250 across all event selectors in a trail.
-This limit does not apply if you configure resource logging for all
-data events.
+CloudTrail supports data event logging for Amazon S3 objects in
+standard S3 buckets, Lambda functions, and Amazon DynamoDB tables with
+basic event selectors. You can specify up to 250 resources for an
+individual event selector, but the total number of data resources
+cannot exceed 250 across all event selectors in a trail. This limit
+does not apply if you configure resource logging for all data events.
 
 For more information, see Data Events
-(https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-management-and-data-events-with-cloudtrail.html#logging-data-events)
-and Limits in AWS CloudTrail
+(https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-data-events-with-cloudtrail.html)
+and Limits in CloudTrail
 (https://docs.aws.amazon.com/awscloudtrail/latest/userguide/WhatIsCloudTrail-Limits.html)
-in the I<AWS CloudTrail User Guide>.
+in the I<CloudTrail User Guide>.
+
+To log data events for all other resource types including objects
+stored in directory buckets
+(https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-overview.html),
+you must use AdvancedEventSelectors
+(https://docs.aws.amazon.com/awscloudtrail/latest/APIReference/API_AdvancedEventSelector.html).
+You must also use C<AdvancedEventSelectors> if you want to filter on
+the C<eventName> field.
 
 
 =head2 ExcludeManagementEventSources => ArrayRef[Str|Undef]
 
 An optional list of service event sources from which you do not want
 management events to be logged on your trail. In this release, the list
-can be empty (disables the filter), or it can filter out AWS Key
-Management Service events by containing C<"kms.amazonaws.com">. By
-default, C<ExcludeManagementEventSources> is empty, and AWS KMS events
-are included in events that are logged to your trail.
+can be empty (disables the filter), or it can filter out Key Management
+Service or Amazon RDS Data API events by containing
+C<kms.amazonaws.com> or C<rdsdata.amazonaws.com>. By default,
+C<ExcludeManagementEventSources> is empty, and KMS and Amazon RDS Data
+API events are logged to your trail. You can exclude management event
+sources only in Regions that support the event source.
 
 
 =head2 IncludeManagementEvents => Bool
@@ -85,15 +95,15 @@ Specify if you want your event selector to include management events
 for your trail.
 
 For more information, see Management Events
-(https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-management-and-data-events-with-cloudtrail.html#logging-management-events)
-in the I<AWS CloudTrail User Guide>.
+(https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-management-events-with-cloudtrail.html)
+in the I<CloudTrail User Guide>.
 
 By default, the value is C<true>.
 
 The first copy of management events is free. You are charged for
 additional copies of management events that you are logging on any
-subsequent trail in the same region. For more information about
-CloudTrail pricing, see AWS CloudTrail Pricing
+subsequent trail in the same Region. For more information about
+CloudTrail pricing, see CloudTrail Pricing
 (http://aws.amazon.com/cloudtrail/pricing/).
 
 

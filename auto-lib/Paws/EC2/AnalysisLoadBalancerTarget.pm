@@ -2,6 +2,7 @@ package Paws::EC2::AnalysisLoadBalancerTarget;
   use Moose;
   has Address => (is => 'ro', isa => 'Str', request_name => 'address', traits => ['NameInRequest']);
   has AvailabilityZone => (is => 'ro', isa => 'Str', request_name => 'availabilityZone', traits => ['NameInRequest']);
+  has AvailabilityZoneId => (is => 'ro', isa => 'Str', request_name => 'availabilityZoneId', traits => ['NameInRequest']);
   has Instance => (is => 'ro', isa => 'Paws::EC2::AnalysisComponent', request_name => 'instance', traits => ['NameInRequest']);
   has Port => (is => 'ro', isa => 'Int', request_name => 'port', traits => ['NameInRequest']);
 1;
@@ -47,6 +48,11 @@ The IP address.
 =head2 AvailabilityZone => Str
 
 The Availability Zone.
+
+
+=head2 AvailabilityZoneId => Str
+
+The ID of the Availability Zone.
 
 
 =head2 Instance => L<Paws::EC2::AnalysisComponent>

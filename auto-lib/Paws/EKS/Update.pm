@@ -45,7 +45,7 @@ An object representing an asynchronous update.
 
 =head2 CreatedAt => Str
 
-The Unix epoch timestamp in seconds for when the update was created.
+The Unix epoch timestamp at object creation.
 
 
 =head2 Errors => ArrayRef[L<Paws::EKS::ErrorDetail>]

@@ -81,7 +81,7 @@ I<YYYY>-I<MM>-I<DD>TI<HH>:I<MM>:I<SS>Z).
 
 =head2 Filters => ArrayRef[L<Paws::EC2::Filter>]
 
-One or more filters.
+The filters.
 
 =over
 
@@ -109,8 +109,8 @@ wildcards; greater than or less than comparison is not supported).
 =item *
 
 C<timestamp> - The time stamp of the Spot price history, in UTC format
-(for example, I<YYYY>-I<MM>-I<DD>TI<HH>:I<MM>:I<SS>Z). You can use
-wildcards (* and ?). Greater than or less than comparison is not
+(for example, I<ddd MMM dd HH>:I<mm>:I<ss> UTC I<YYYY>). You can use
+wildcards (C<*> and C<?>). Greater than or less than comparison is not
 supported.
 
 =back
@@ -126,16 +126,17 @@ Filters the results by the specified instance types.
 
 =head2 MaxResults => Int
 
-The maximum number of results to return in a single call. Specify a
-value between 1 and 1000. The default value is 1000. To retrieve the
-remaining results, make another call with the returned C<NextToken>
-value.
+The maximum number of items to return for this request. To get the next
+page of items, make another request with the token returned in the
+output. For more information, see Pagination
+(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Query-Requests.html#api-pagination).
 
 
 
 =head2 NextToken => Str
 
-The token for the next set of results.
+The token returned from a previous paginated request. Pagination
+continues from the end of the items returned by the previous request.
 
 
 

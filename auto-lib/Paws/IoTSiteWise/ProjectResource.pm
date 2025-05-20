@@ -33,7 +33,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::IoTSiteWise
 
 =head1 DESCRIPTION
 
-Identifies a specific AWS IoT SiteWise Monitor project.
+Identifies a specific IoT SiteWise Monitor project.
 
 =head1 ATTRIBUTES
 

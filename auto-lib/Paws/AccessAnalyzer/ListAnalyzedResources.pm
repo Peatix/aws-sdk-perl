@@ -75,7 +75,7 @@ A token used for pagination of results returned.
 
 The type of resource.
 
-Valid values are: C<"AWS::S3::Bucket">, C<"AWS::IAM::Role">, C<"AWS::SQS::Queue">, C<"AWS::Lambda::Function">, C<"AWS::Lambda::LayerVersion">, C<"AWS::KMS::Key">, C<"AWS::SecretsManager::Secret">
+Valid values are: C<"AWS::S3::Bucket">, C<"AWS::IAM::Role">, C<"AWS::SQS::Queue">, C<"AWS::Lambda::Function">, C<"AWS::Lambda::LayerVersion">, C<"AWS::KMS::Key">, C<"AWS::SecretsManager::Secret">, C<"AWS::EFS::FileSystem">, C<"AWS::EC2::Snapshot">, C<"AWS::ECR::Repository">, C<"AWS::RDS::DBSnapshot">, C<"AWS::RDS::DBClusterSnapshot">, C<"AWS::SNS::Topic">, C<"AWS::S3Express::DirectoryBucket">, C<"AWS::DynamoDB::Table">, C<"AWS::DynamoDB::Stream">, C<"AWS::IAM::User">
 
 
 =head1 SEE ALSO

@@ -37,8 +37,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CloudFront:
 
 A cache policy.
 
-When itE<rsquo>s attached to a cache behavior, the cache policy
-determines the following:
+When it's attached to a cache behavior, the cache policy determines the
+following:
 
 =over
 
@@ -57,11 +57,11 @@ want objects to stay in the CloudFront cache.
 =back
 
 The headers, cookies, and query strings that are included in the cache
-key are automatically included in requests that CloudFront sends to the
-origin. CloudFront sends a request when it canE<rsquo>t find a valid
-object in its cache that matches the requestE<rsquo>s cache key. If you
-want to send values to the origin but I<not> include them in the cache
-key, use C<OriginRequestPolicy>.
+key are also included in requests that CloudFront sends to the origin.
+CloudFront sends a request when it can't find a valid object in its
+cache that matches the request's cache key. If you want to send values
+to the origin but I<not> include them in the cache key, use
+C<OriginRequestPolicy>.
 
 =head1 ATTRIBUTES
 

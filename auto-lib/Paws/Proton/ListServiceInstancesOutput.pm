@@ -17,14 +17,14 @@ Paws::Proton::ListServiceInstancesOutput
 
 =head2 NextToken => Str
 
-A token to indicate the location of the next service instance in the
+A token that indicates the location of the next service instance in the
 array of service instances, after the current requested list of service
 instances.
 
 
 =head2 B<REQUIRED> ServiceInstances => ArrayRef[L<Paws::Proton::ServiceInstanceSummary>]
 
-An array of service instances with summaries of detail data.
+An array of service instances with summary data.
 
 
 =head2 _request_id => Str

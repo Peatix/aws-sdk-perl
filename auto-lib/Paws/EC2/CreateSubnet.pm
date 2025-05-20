@@ -3,9 +3,14 @@ package Paws::EC2::CreateSubnet;
   use Moose;
   has AvailabilityZone => (is => 'ro', isa => 'Str');
   has AvailabilityZoneId => (is => 'ro', isa => 'Str');
-  has CidrBlock => (is => 'ro', isa => 'Str', required => 1);
+  has CidrBlock => (is => 'ro', isa => 'Str');
   has DryRun => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'dryRun' );
+  has Ipv4IpamPoolId => (is => 'ro', isa => 'Str');
+  has Ipv4NetmaskLength => (is => 'ro', isa => 'Int');
   has Ipv6CidrBlock => (is => 'ro', isa => 'Str');
+  has Ipv6IpamPoolId => (is => 'ro', isa => 'Str');
+  has Ipv6Native => (is => 'ro', isa => 'Bool');
+  has Ipv6NetmaskLength => (is => 'ro', isa => 'Int');
   has OutpostArn => (is => 'ro', isa => 'Str');
   has TagSpecifications => (is => 'ro', isa => 'ArrayRef[Paws::EC2::TagSpecification]', traits => ['NameInRequest'], request_name => 'TagSpecification' );
   has VpcId => (is => 'ro', isa => 'Str', required => 1);
@@ -57,15 +62,14 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ec2
 
 The Availability Zone or Local Zone for the subnet.
 
-Default: AWS selects one for you. If you create more than one subnet in
-your VPC, we do not necessarily select a different zone for each
-subnet.
+Default: Amazon Web Services selects one for you. If you create more
+than one subnet in your VPC, we do not necessarily select a different
+zone for each subnet.
 
 To create a subnet in a Local Zone, set this value to the Local Zone
 ID, for example C<us-west-2-lax-1a>. For information about the Regions
-that support Local Zones, see Available Regions
-(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-available-regions)
-in the I<Amazon Elastic Compute Cloud User Guide>.
+that support Local Zones, see Available Local Zones
+(https://docs.aws.amazon.com/local-zones/latest/ug/available-local-zones.html).
 
 To create a subnet in an Outpost, set this value to the Availability
 Zone for the Outpost and specify the Outpost ARN.
@@ -78,12 +82,14 @@ The AZ ID or the Local Zone ID of the subnet.
 
 
 
-=head2 B<REQUIRED> CidrBlock => Str
+=head2 CidrBlock => Str
 
 The IPv4 network range for the subnet, in CIDR notation. For example,
 C<10.0.0.0/24>. We modify the specified CIDR block to its canonical
 form; for example, if you specify C<100.68.0.18/18>, we modify it to
 C<100.68.0.0/18>.
+
+This parameter is not supported for an IPv6 only subnet.
 
 
 
@@ -96,10 +102,40 @@ C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
 
 
 
+=head2 Ipv4IpamPoolId => Str
+
+An IPv4 IPAM pool ID for the subnet.
+
+
+
+=head2 Ipv4NetmaskLength => Int
+
+An IPv4 netmask length for the subnet.
+
+
+
 =head2 Ipv6CidrBlock => Str
 
-The IPv6 network range for the subnet, in CIDR notation. The subnet
-size must use a /64 prefix length.
+The IPv6 network range for the subnet, in CIDR notation. This parameter
+is required for an IPv6 only subnet.
+
+
+
+=head2 Ipv6IpamPoolId => Str
+
+An IPv6 IPAM pool ID for the subnet.
+
+
+
+=head2 Ipv6Native => Bool
+
+Indicates whether to create an IPv6 only subnet.
+
+
+
+=head2 Ipv6NetmaskLength => Int
+
+An IPv6 netmask length for the subnet.
 
 
 

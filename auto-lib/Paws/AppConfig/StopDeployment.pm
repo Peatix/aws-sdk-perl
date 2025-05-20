@@ -1,6 +1,7 @@
 
 package Paws::AppConfig::StopDeployment;
   use Moose;
+  has AllowRevert => (is => 'ro', isa => 'Bool', traits => ['ParamInHeader'], header_name => 'Allow-Revert');
   has ApplicationId => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'ApplicationId', required => 1);
   has DeploymentNumber => (is => 'ro', isa => 'Int', traits => ['ParamInURI'], uri_name => 'DeploymentNumber', required => 1);
   has EnvironmentId => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'EnvironmentId', required => 1);
@@ -30,32 +31,21 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $appconfig = Paws->service('AppConfig');
+  # To stop configuration deployment
+  # The following stop-deployment example stops the deployment of an application
+  # configuration to the specified environment.
     my $Deployment = $appconfig->StopDeployment(
-      ApplicationId    => 'MyId',
-      DeploymentNumber => 1,
-      EnvironmentId    => 'MyId',
-
+      'ApplicationId'    => '339ohji',
+      'DeploymentNumber' => 2,
+      'EnvironmentId'    => '54j1r29'
     );
 
     # Results:
-    my $ApplicationId               = $Deployment->ApplicationId;
-    my $CompletedAt                 = $Deployment->CompletedAt;
-    my $ConfigurationLocationUri    = $Deployment->ConfigurationLocationUri;
-    my $ConfigurationName           = $Deployment->ConfigurationName;
-    my $ConfigurationProfileId      = $Deployment->ConfigurationProfileId;
-    my $ConfigurationVersion        = $Deployment->ConfigurationVersion;
     my $DeploymentDurationInMinutes = $Deployment->DeploymentDurationInMinutes;
     my $DeploymentNumber            = $Deployment->DeploymentNumber;
-    my $DeploymentStrategyId        = $Deployment->DeploymentStrategyId;
-    my $Description                 = $Deployment->Description;
-    my $EnvironmentId               = $Deployment->EnvironmentId;
-    my $EventLog                    = $Deployment->EventLog;
     my $FinalBakeTimeInMinutes      = $Deployment->FinalBakeTimeInMinutes;
     my $GrowthFactor                = $Deployment->GrowthFactor;
-    my $GrowthType                  = $Deployment->GrowthType;
     my $PercentageComplete          = $Deployment->PercentageComplete;
-    my $StartedAt                   = $Deployment->StartedAt;
-    my $State                       = $Deployment->State;
 
     # Returns a L<Paws::AppConfig::Deployment> object.
 
@@ -63,6 +53,14 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/appconfig/StopDeployment>
 
 =head1 ATTRIBUTES
+
+
+=head2 AllowRevert => Bool
+
+A Boolean that enables AppConfig to rollback a C<COMPLETED> deployment
+to the previous configuration version. This action moves the deployment
+to a status of C<REVERTED>.
+
 
 
 =head2 B<REQUIRED> ApplicationId => Str

@@ -50,14 +50,14 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ssm
 
 =head2 B<REQUIRED> InstanceIds => ArrayRef[Str|Undef]
 
-The ID of the instance whose patch state information should be
+The ID of the managed node for which patch state information should be
 retrieved.
 
 
 
 =head2 MaxResults => Int
 
-The maximum number of instances to return (per page).
+The maximum number of managed nodes to return (per page).
 
 
 

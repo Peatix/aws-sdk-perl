@@ -74,7 +74,7 @@ topic and subscribe to it.
 
 =head2 SourceType => Str
 
-The type of AWS DMS resource that generates the events you want to
+The type of DMS resource that generates the events you want to
 subscribe to.
 
 Valid values: replication-instance | replication-task
@@ -83,7 +83,7 @@ Valid values: replication-instance | replication-task
 
 =head2 B<REQUIRED> SubscriptionName => Str
 
-The name of the AWS DMS event notification subscription to be modified.
+The name of the DMS event notification subscription to be modified.
 
 
 

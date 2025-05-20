@@ -18,15 +18,14 @@ Paws::ECRPublic::DescribeRegistriesResponse
 =head2 NextToken => Str
 
 The C<nextToken> value to include in a future C<DescribeRepositories>
-request. When the results of a C<DescribeRepositories> request exceed
-C<maxResults>, this value can be used to retrieve the next page of
-results. This value is C<null> when there are no more results to
-return.
+request. If the results of a C<DescribeRepositories> request exceed
+C<maxResults>, you can use this value to retrieve the next page of
+results. If there are no more results, this value is C<null>.
 
 
 =head2 B<REQUIRED> Registries => ArrayRef[L<Paws::ECRPublic::Registry>]
 
-An object containing the details for a public registry.
+An object that contains the details for a public registry.
 
 
 =head2 _request_id => Str

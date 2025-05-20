@@ -1,6 +1,7 @@
 
 package Paws::ELBv2::SetSecurityGroups;
   use Moose;
+  has EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic => (is => 'ro', isa => 'Str');
   has LoadBalancerArn => (is => 'ro', isa => 'Str', required => 1);
   has SecurityGroups => (is => 'ro', isa => 'ArrayRef[Str|Undef]', required => 1);
 
@@ -47,6 +48,14 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ela
 
 =head1 ATTRIBUTES
 
+
+=head2 EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic => Str
+
+Indicates whether to evaluate inbound security group rules for traffic
+sent to a Network Load Balancer through Amazon Web Services
+PrivateLink. The default is C<on>.
+
+Valid values are: C<"on">, C<"off">
 
 =head2 B<REQUIRED> LoadBalancerArn => Str
 

@@ -35,7 +35,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::IoT::IotSit
 =head1 DESCRIPTION
 
 Describes an action to send data from an MQTT message that triggered
-the rule to AWS IoT SiteWise asset properties.
+the rule to IoT SiteWise asset properties.
 
 =head1 ATTRIBUTES
 
@@ -47,8 +47,8 @@ A list of asset property value entries.
 
 =head2 B<REQUIRED> RoleArn => Str
 
-The ARN of the role that grants AWS IoT permission to send an asset
-property value to AWS IoTSiteWise. (C<"Action":
+The ARN of the role that grants IoT permission to send an asset
+property value to IoT SiteWise. (C<"Action":
 "iotsitewise:BatchPutAssetPropertyValue">). The trust policy can
 restrict access to specific asset hierarchy paths.
 

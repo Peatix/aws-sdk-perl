@@ -1,6 +1,7 @@
 
 package Paws::KMS::RevokeGrant;
   use Moose;
+  has DryRun => (is => 'ro', isa => 'Bool');
   has GrantId => (is => 'ro', isa => 'Str', required => 1);
   has KeyId => (is => 'ro', isa => 'Str', required => 1);
 
@@ -43,6 +44,18 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/kms
 =head1 ATTRIBUTES
 
 
+=head2 DryRun => Bool
+
+Checks if your request will succeed. C<DryRun> is an optional
+parameter.
+
+To learn more about how to use this parameter, see Testing your KMS API
+calls
+(https://docs.aws.amazon.com/kms/latest/developerguide/programming-dryrun.html)
+in the I<Key Management Service Developer Guide>.
+
+
+
 =head2 B<REQUIRED> GrantId => Str
 
 Identifies the grant to revoke. To get the grant ID, use CreateGrant,
@@ -52,12 +65,11 @@ ListGrants, or ListRetirableGrants.
 
 =head2 B<REQUIRED> KeyId => Str
 
-A unique identifier for the customer master key (CMK) associated with
-the grant. To get the key ID and key ARN for a CMK, use ListKeys or
-DescribeKey.
+A unique identifier for the KMS key associated with the grant. To get
+the key ID and key ARN for a KMS key, use ListKeys or DescribeKey.
 
-Specify the key ID or key ARN of the CMK. To specify a CMK in a
-different AWS account, you must use the key ARN.
+Specify the key ID or key ARN of the KMS key. To specify a KMS key in a
+different Amazon Web Services account, you must use the key ARN.
 
 For example:
 
@@ -74,7 +86,8 @@ C<arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab>
 
 =back
 
-To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
+To get the key ID and key ARN for a KMS key, use ListKeys or
+DescribeKey.
 
 
 

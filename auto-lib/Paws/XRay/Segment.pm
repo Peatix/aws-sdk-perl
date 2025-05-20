@@ -35,13 +35,15 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::XRay::Segme
 =head1 DESCRIPTION
 
 A segment from a trace that has been ingested by the X-Ray service. The
-segment can be compiled from documents uploaded with PutTraceSegments,
+segment can be compiled from documents uploaded with PutTraceSegments
+(https://docs.aws.amazon.com/xray/latest/api/API_PutTraceSegments.html),
 or an C<inferred> segment for a downstream service, generated from a
 subsegment sent by the service that called it.
 
-For the full segment document schema, see AWS X-Ray Segment Documents
-(https://docs.aws.amazon.com/xray/latest/devguide/xray-api-segmentdocuments.html)
-in the I<AWS X-Ray Developer Guide>.
+For the full segment document schema, see Amazon Web Services X-Ray
+segment documents
+(https://docs.aws.amazon.com/xray/latest/devguide/aws-xray-interface-api.html#xray-api-segmentdocuments)
+in the I<Amazon Web Services X-Ray Developer Guide>.
 
 =head1 ATTRIBUTES
 

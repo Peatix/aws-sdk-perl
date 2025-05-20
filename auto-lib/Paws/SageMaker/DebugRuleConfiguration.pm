@@ -50,8 +50,7 @@ Operations to Create, Update, and Debug Your Training Job
 
 =head2 InstanceType => Str
 
-The instance type to deploy a Debugger custom rule for debugging a
-training job.
+The instance type to deploy a custom rule for debugging a training job.
 
 
 =head2 LocalPath => Str

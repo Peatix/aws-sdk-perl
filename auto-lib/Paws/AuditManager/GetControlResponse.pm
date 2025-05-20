@@ -17,7 +17,7 @@ Paws::AuditManager::GetControlResponse
 
 =head2 Control => L<Paws::AuditManager::Control>
 
-The name of the control returned by the C<GetControl> API.
+The details of the control that the C<GetControl> API returned.
 
 
 =head2 _request_id => Str

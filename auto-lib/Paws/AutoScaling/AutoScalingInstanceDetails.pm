@@ -59,9 +59,9 @@ The Availability Zone for the instance.
 
 =head2 B<REQUIRED> HealthStatus => Str
 
-The last reported health status of this instance. "Healthy" means that
-the instance is healthy and should remain in service. "Unhealthy" means
-that the instance is unhealthy and Amazon EC2 Auto Scaling should
+The last reported health status of this instance. C<Healthy> means that
+the instance is healthy and should remain in service. C<Unhealthy>
+means that the instance is unhealthy and Amazon EC2 Auto Scaling should
 terminate and replace it.
 
 
@@ -89,11 +89,12 @@ The launch template for the instance.
 =head2 B<REQUIRED> LifecycleState => Str
 
 The lifecycle state for the instance. The C<Quarantined> state is not
-used. For information about lifecycle states, see Instance lifecycle
-(https://docs.aws.amazon.com/autoscaling/ec2/userguide/AutoScalingGroupLifecycle.html)
+used. For more information, see Amazon EC2 Auto Scaling instance
+lifecycle
+(https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-lifecycle.html)
 in the I<Amazon EC2 Auto Scaling User Guide>.
 
-Valid Values: C<Pending> | C<Pending:Wait> | C<Pending:Proceed> |
+Valid values: C<Pending> | C<Pending:Wait> | C<Pending:Proceed> |
 C<Quarantined> | C<InService> | C<Terminating> | C<Terminating:Wait> |
 C<Terminating:Proceed> | C<Terminated> | C<Detaching> | C<Detached> |
 C<EnteringStandby> | C<Standby> | C<Warmed:Pending> |

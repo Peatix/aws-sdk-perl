@@ -6,6 +6,7 @@ package Paws::EC2::DescribeVpcEndpointServices;
   has MaxResults => (is => 'ro', isa => 'Int');
   has NextToken => (is => 'ro', isa => 'Str');
   has ServiceNames => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'ServiceName' );
+  has ServiceRegions => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'ServiceRegion' );
 
   use MooseX::ClassAttribute;
 
@@ -47,6 +48,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       ServiceNames => [
         'MyString', ...              # OPTIONAL
       ],    # OPTIONAL
+      ServiceRegions => [
+        'MyString', ...    # OPTIONAL
+      ],    # OPTIONAL
     );
 
     # Results:
@@ -73,9 +77,14 @@ C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
 
 =head2 Filters => ArrayRef[L<Paws::EC2::Filter>]
 
-One or more filters.
+The filters.
 
 =over
+
+=item *
+
+C<owner> - The ID or alias of the Amazon Web Services account that owns
+the service.
 
 =item *
 
@@ -83,7 +92,17 @@ C<service-name> - The name of the service.
 
 =item *
 
-C<service-type> - The type of service (C<Interface> | C<Gateway>).
+C<service-region> - The Region of the service.
+
+=item *
+
+C<service-type> - The type of service (C<Interface> | C<Gateway> |
+C<GatewayLoadBalancer>).
+
+=item *
+
+C<supported-ip-address-types> - The IP address type (C<ipv4> |
+C<ipv6>).
 
 =item *
 
@@ -124,7 +143,13 @@ from a prior call.)
 
 =head2 ServiceNames => ArrayRef[Str|Undef]
 
-One or more service names.
+The service names.
+
+
+
+=head2 ServiceRegions => ArrayRef[Str|Undef]
+
+The service Regions.
 
 
 

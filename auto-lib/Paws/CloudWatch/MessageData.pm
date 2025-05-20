@@ -37,6 +37,11 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CloudWatch:
 A message returned by the C<GetMetricData>API, including a code and a
 description.
 
+If a cross-Region C<GetMetricData> operation fails with a code of
+C<Forbidden> and a value of C<Authentication too complex to retrieve
+cross region data>, you can correct the problem by running the
+C<GetMetricData> operation in the same Region where the metric data is.
+
 =head1 ATTRIBUTES
 
 

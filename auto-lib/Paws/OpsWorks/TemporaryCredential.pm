@@ -44,7 +44,7 @@ Desktop Connection to log in to the instance.
 
 =head2 InstanceId => Str
 
-The instance's AWS OpsWorks Stacks ID.
+The instance's OpsWorks Stacks ID.
 
 
 =head2 Password => Str
@@ -62,7 +62,7 @@ The user name.
 The length of time (in minutes) that the grant is valid. When the grant
 expires, at the end of this period, the user will no longer be able to
 use the credentials to log in. If they are logged in at the time, they
-will be automatically logged out.
+are automatically logged out.
 
 
 

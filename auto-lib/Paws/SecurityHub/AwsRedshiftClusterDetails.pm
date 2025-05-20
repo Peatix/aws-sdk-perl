@@ -28,6 +28,7 @@ package Paws::SecurityHub::AwsRedshiftClusterDetails;
   has HsmStatus => (is => 'ro', isa => 'Paws::SecurityHub::AwsRedshiftClusterHsmStatus');
   has IamRoles => (is => 'ro', isa => 'ArrayRef[Paws::SecurityHub::AwsRedshiftClusterIamRole]');
   has KmsKeyId => (is => 'ro', isa => 'Str');
+  has LoggingStatus => (is => 'ro', isa => 'Paws::SecurityHub::AwsRedshiftClusterLoggingStatus');
   has MaintenanceTrackName => (is => 'ro', isa => 'Str');
   has ManualSnapshotRetentionPeriod => (is => 'ro', isa => 'Int');
   has MasterUsername => (is => 'ro', isa => 'Str');
@@ -133,10 +134,9 @@ C<Failed> - The cluster failed and is not available for queries.
 
 Indicates when the cluster was created.
 
-Uses the C<date-time> format specified in RFC 3339 section 5.6,
-Internet Date/Time Format
-(https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot
-contain spaces. For example, C<2020-03-22T13:22:13.933Z>.
+For more information about the validation and formatting of timestamp
+fields in Security Hub, see Timestamps
+(https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
 
 
 =head2 ClusterIdentifier => Str
@@ -248,10 +248,9 @@ enabled.
 Indicates when the next snapshot is expected to be taken. The cluster
 must have a valid snapshot schedule and have backups enabled.
 
-Uses the C<date-time> format specified in RFC 3339 section 5.6,
-Internet Date/Time Format
-(https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot
-contain spaces. For example, C<2020-03-22T13:22:13.933Z>.
+For more information about the validation and formatting of timestamp
+fields in Security Hub, see Timestamps
+(https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
 
 
 =head2 ExpectedNextSnapshotScheduleTimeStatus => Str
@@ -270,14 +269,19 @@ specified in a modify cluster command.
 
 =head2 IamRoles => ArrayRef[L<Paws::SecurityHub::AwsRedshiftClusterIamRole>]
 
-A list of IAM roles that the cluster can use to access other AWS
-services.
+A list of IAM roles that the cluster can use to access other Amazon Web
+Services services.
 
 
 =head2 KmsKeyId => Str
 
-The identifier of the AWS KMS encryption key that is used to encrypt
-data in the cluster.
+The identifier of the KMS encryption key that is used to encrypt data
+in the cluster.
+
+
+=head2 LoggingStatus => L<Paws::SecurityHub::AwsRedshiftClusterLoggingStatus>
+
+Information about the logging status of the cluster.
 
 
 =head2 MaintenanceTrackName => Str
@@ -289,11 +293,11 @@ The name of the maintenance track for the cluster.
 
 The default number of days to retain a manual snapshot.
 
-If the value is -1, the snapshot is retained indefinitely.
+If the value is C<-1>, the snapshot is retained indefinitely.
 
 This setting doesn't change the retention period of existing snapshots.
 
-Valid values: Either -1 or an integer between 1 and 3,653
+Valid values: Either C<-1> or an integer between 1 and 3,653
 
 
 =head2 MasterUsername => Str
@@ -306,10 +310,9 @@ the database that is specified in as the value of C<DBName>.
 
 Indicates the start of the next maintenance window.
 
-Uses the C<date-time> format specified in RFC 3339 section 5.6,
-Internet Date/Time Format
-(https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot
-contain spaces. For example, C<2020-03-22T13:22:13.933Z>.
+For more information about the validation and formatting of timestamp
+fields in Security Hub, see Timestamps
+(https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
 
 
 =head2 NodeType => Str

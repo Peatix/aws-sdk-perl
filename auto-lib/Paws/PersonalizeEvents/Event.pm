@@ -6,6 +6,7 @@ package Paws::PersonalizeEvents::Event;
   has EventValue => (is => 'ro', isa => 'Num', request_name => 'eventValue', traits => ['NameInRequest']);
   has Impression => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'impression', traits => ['NameInRequest']);
   has ItemId => (is => 'ro', isa => 'Str', request_name => 'itemId', traits => ['NameInRequest']);
+  has MetricAttribution => (is => 'ro', isa => 'Paws::PersonalizeEvents::MetricAttribution', request_name => 'metricAttribution', traits => ['NameInRequest']);
   has Properties => (is => 'ro', isa => 'Str', request_name => 'properties', traits => ['NameInRequest']);
   has RecommendationId => (is => 'ro', isa => 'Str', request_name => 'recommendationId', traits => ['NameInRequest']);
   has SentAt => (is => 'ro', isa => 'Str', request_name => 'sentAt', traits => ['NameInRequest'], required => 1);
@@ -40,7 +41,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Personalize
 
 =head1 DESCRIPTION
 
-Represents user interaction event information sent using the
+Represents item interaction event information sent using the
 C<PutEvents> API.
 
 =head1 ATTRIBUTES
@@ -51,33 +52,45 @@ C<PutEvents> API.
 An ID associated with the event. If an event ID is not provided, Amazon
 Personalize generates a unique ID for the event. An event ID is not
 used as an input to the model. Amazon Personalize uses the event ID to
-distinquish unique events. Any subsequent events after the first with
+distinguish unique events. Any subsequent events after the first with
 the same event ID are not used in model training.
 
 
 =head2 B<REQUIRED> EventType => Str
 
 The type of event, such as click or download. This property corresponds
-to the C<EVENT_TYPE> field of your Interactions schema and depends on
-the types of events you are tracking.
+to the C<EVENT_TYPE> field of your Item interactions dataset's schema
+and depends on the types of events you are tracking.
 
 
 =head2 EventValue => Num
 
 The event value that corresponds to the C<EVENT_VALUE> field of the
-Interactions schema.
+Item interactions schema.
 
 
 =head2 Impression => ArrayRef[Str|Undef]
 
 A list of item IDs that represents the sequence of items you have shown
-the user. For example, C<["itemId1", "itemId2", "itemId3"]>.
+the user. For example, C<["itemId1", "itemId2", "itemId3"]>. Provide a
+list of items to manually record impressions data for an event. For
+more information on recording impressions data, see Recording
+impressions data
+(https://docs.aws.amazon.com/personalize/latest/dg/recording-events.html#putevents-including-impressions-data).
 
 
 =head2 ItemId => Str
 
-The item ID key that corresponds to the C<ITEM_ID> field of the
-Interactions schema.
+The item ID key that corresponds to the C<ITEM_ID> field of the Item
+interactions dataset's schema.
+
+
+=head2 MetricAttribution => L<Paws::PersonalizeEvents::MetricAttribution>
+
+Contains information about the metric attribution associated with an
+event. For more information about metric attributions, see Measuring
+impact of recommendations
+(https://docs.aws.amazon.com/personalize/latest/dg/measuring-recommendation-impact.html).
 
 
 =head2 Properties => Str
@@ -91,14 +104,58 @@ Each item in the map consists of a key-value pair. For example,
 
 C<{"numberOfRatings": "12"}>
 
-The keys use camel case names that match the fields in the Interactions
-schema. In the above example, the C<numberOfRatings> would match the
-'NUMBER_OF_RATINGS' field defined in the Interactions schema.
+The keys use camel case names that match the fields in the Item
+interactions dataset's schema. In the above example, the
+C<numberOfRatings> would match the 'NUMBER_OF_RATINGS' field defined in
+the Item interactions dataset's schema.
+
+The following can't be included as a keyword for properties (case
+insensitive).
+
+=over
+
+=item *
+
+userId
+
+=item *
+
+sessionId
+
+=item *
+
+eventType
+
+=item *
+
+timestamp
+
+=item *
+
+recommendationId
+
+=item *
+
+impression
+
+=back
+
 
 
 =head2 RecommendationId => Str
 
-The ID of the recommendation.
+The ID of the list of recommendations that contains the item the user
+interacted with. Provide a C<recommendationId> to have Amazon
+Personalize implicitly record the recommendations you show your user as
+impressions data. Or provide a C<recommendationId> if you use a metric
+attribution to measure the impact of recommendations.
+
+For more information on recording impressions data, see Recording
+impressions data
+(https://docs.aws.amazon.com/personalize/latest/dg/recording-events.html#putevents-including-impressions-data).
+For more information on creating a metric attribution see Measuring
+impact of recommendations
+(https://docs.aws.amazon.com/personalize/latest/dg/measuring-recommendation-impact.html).
 
 
 =head2 B<REQUIRED> SentAt => Str

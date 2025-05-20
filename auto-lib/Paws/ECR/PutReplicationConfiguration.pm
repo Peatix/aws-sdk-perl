@@ -19,7 +19,7 @@ Paws::ECR::PutReplicationConfiguration - Arguments for method PutReplicationConf
 =head1 DESCRIPTION
 
 This class represents the parameters used for calling the method PutReplicationConfiguration on the
-L<Amazon EC2 Container Registry|Paws::ECR> service. Use the attributes of this class
+L<Amazon Elastic Container Registry|Paws::ECR> service. Use the attributes of this class
 as arguments to method PutReplicationConfiguration.
 
 You shouldn't make instances of this class. Each attribute should be used as a named argument in the call to PutReplicationConfiguration.
@@ -39,11 +39,18 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
               },
               ...
-            ],    # max: 25
+            ],    # max: 100
+            RepositoryFilters => [
+              {
+                Filter     => 'MyRepositoryFilterValue',  # min: 2, max: 256
+                FilterType => 'PREFIX_MATCH',             # values: PREFIX_MATCH
 
+              },
+              ...
+            ],    # min: 1, max: 100; OPTIONAL
           },
           ...
-        ],    # max: 1
+        ],    # max: 10
 
       },
 

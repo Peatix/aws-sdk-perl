@@ -41,12 +41,12 @@ The output data configuration.
 
 =head2 KmsKeyId => Str
 
-The Amazon Web Services KMS encryption key ID.
+The Key Management Service encryption key ID.
 
 
 =head2 B<REQUIRED> S3OutputPath => Str
 
-The Amazon S3 output path. Must be 128 characters or less.
+The Amazon S3 output path. Must be 512 characters or less.
 
 
 

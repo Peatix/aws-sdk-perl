@@ -17,13 +17,12 @@ Paws::SSM::GetConnectionStatusResponse
 
 =head2 Status => Str
 
-The status of the connection to the instance. For example, 'Connected'
-or 'Not Connected'.
+The status of the connection to the managed node.
 
-Valid values are: C<"Connected">, C<"NotConnected">
+Valid values are: C<"connected">, C<"notconnected">
 =head2 Target => Str
 
-The ID of the instance to check connection status.
+The ID of the managed node to check connection status.
 
 
 =head2 _request_id => Str

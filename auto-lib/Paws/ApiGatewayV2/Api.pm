@@ -11,6 +11,7 @@ package Paws::ApiGatewayV2::Api;
   has DisableExecuteApiEndpoint => (is => 'ro', isa => 'Bool', request_name => 'disableExecuteApiEndpoint', traits => ['NameInRequest']);
   has DisableSchemaValidation => (is => 'ro', isa => 'Bool', request_name => 'disableSchemaValidation', traits => ['NameInRequest']);
   has ImportInfo => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'importInfo', traits => ['NameInRequest']);
+  has IpAddressType => (is => 'ro', isa => 'Str', request_name => 'ipAddressType', traits => ['NameInRequest']);
   has Name => (is => 'ro', isa => 'Str', request_name => 'name', traits => ['NameInRequest'], required => 1);
   has ProtocolType => (is => 'ro', isa => 'Str', request_name => 'protocolType', traits => ['NameInRequest'], required => 1);
   has RouteSelectionExpression => (is => 'ro', isa => 'Str', request_name => 'routeSelectionExpression', traits => ['NameInRequest'], required => 1);
@@ -115,6 +116,11 @@ WebSocket APIs.
 The validation information during API import. This may include
 particular properties of your OpenAPI definition which are ignored
 during import. Supported only for HTTP APIs.
+
+
+=head2 IpAddressType => Str
+
+The IP address types that can invoke the API.
 
 
 =head2 B<REQUIRED> Name => Str

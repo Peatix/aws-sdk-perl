@@ -63,20 +63,20 @@ The name for the certificate.
 
 =head2 B<REQUIRED> DomainName => Str
 
-The domain name (e.g., C<example.com>) for the certificate.
+The domain name (C<example.com>) for the certificate.
 
 
 
 =head2 SubjectAlternativeNames => ArrayRef[Str|Undef]
 
-An array of strings that specify the alternate domains (e.g.,
-C<example2.com>) and subdomains (e.g., C<blog.example.com>) for the
+An array of strings that specify the alternate domains
+(C<example2.com>) and subdomains (C<blog.example.com>) for the
 certificate.
 
 You can specify a maximum of nine alternate domains (in addition to the
 primary domain name).
 
-Wildcard domain entries (e.g., C<*.example.com>) are not supported.
+Wildcard domain entries (C<*.example.com>) are not supported.
 
 
 

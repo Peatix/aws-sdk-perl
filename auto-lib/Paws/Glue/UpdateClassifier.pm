@@ -36,12 +36,18 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         AllowSingleColumn => 1,                 # OPTIONAL
         ContainsHeader    =>
           'UNKNOWN',    # values: UNKNOWN, PRESENT, ABSENT; OPTIONAL
+        CustomDatatypeConfigured => 1,    # OPTIONAL
+        CustomDatatypes          => [
+          'MyNameString', ...             # min: 1, max: 255
+        ],    # OPTIONAL
         Delimiter => 'MyCsvColumnDelimiter',    # min: 1, max: 1; OPTIONAL
         DisableValueTrimming => 1,              # OPTIONAL
         Header               => [
           'MyNameString', ...                   # min: 1, max: 255
         ],    # OPTIONAL
         QuoteSymbol => 'MyCsvQuoteSymbol',    # min: 1, max: 1; OPTIONAL
+        Serde       => 'OpenCSVSerDe'
+        ,    # values: OpenCSVSerDe, LazySimpleSerDe, None; OPTIONAL
       },    # OPTIONAL
       GrokClassifier => {
         Name           => 'MyNameString',        # min: 1, max: 255

@@ -106,17 +106,16 @@ creation of duplicate code reviews if there are failures and retries.
 
 =head2 B<REQUIRED> Name => Str
 
-The name of the code review. The name of each code review in your AWS
-account must be unique.
+The name of the code review. The name of each code review in your
+Amazon Web Services account must be unique.
 
 
 
 =head2 B<REQUIRED> RepositoryAssociationArn => Str
 
-The Amazon Resource Name (ARN) of the C<RepositoryAssociation>
+The Amazon Resource Name (ARN) of the RepositoryAssociation
 (https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_RepositoryAssociation.html)
-object. You can retrieve this ARN by calling
-C<ListRepositoryAssociations>
+object. You can retrieve this ARN by calling ListRepositoryAssociations
 (https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_ListRepositoryAssociations.html).
 
 A code review can only be created on an associated repository. This is
@@ -127,7 +126,7 @@ the ARN of the associated repository.
 =head2 B<REQUIRED> Type => L<Paws::CodeGuruReviewer::CodeReviewType>
 
 The type of code review to create. This is specified using a
-C<CodeReviewType>
+CodeReviewType
 (https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_CodeReviewType.html)
 object. You can create a code review only of type
 C<RepositoryAnalysis>.

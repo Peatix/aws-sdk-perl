@@ -46,9 +46,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/sns
 
 =head2 NextToken => Str
 
-NextToken string is used when calling ListPlatformApplications action
-to retrieve additional records that are available after the first page
-results.
+C<NextToken> string is used when calling C<ListPlatformApplications>
+action to retrieve additional records that are available after the
+first page results.
 
 
 

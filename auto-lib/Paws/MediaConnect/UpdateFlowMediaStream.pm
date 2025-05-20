@@ -4,15 +4,15 @@ package Paws::MediaConnect::UpdateFlowMediaStream;
   has Attributes => (is => 'ro', isa => 'Paws::MediaConnect::MediaStreamAttributesRequest', traits => ['NameInRequest'], request_name => 'attributes');
   has ClockRate => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'clockRate');
   has Description => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'description');
-  has FlowArn => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'flowArn', required => 1);
-  has MediaStreamName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'mediaStreamName', required => 1);
+  has FlowArn => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'FlowArn', required => 1);
+  has MediaStreamName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'MediaStreamName', required => 1);
   has MediaStreamType => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'mediaStreamType');
   has VideoFormat => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'videoFormat');
 
   use MooseX::ClassAttribute;
 
   class_has _api_call => (isa => 'Str', is => 'ro', default => 'UpdateFlowMediaStream');
-  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/v1/flows/{flowArn}/mediaStreams/{mediaStreamName}');
+  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/v1/flows/{FlowArn}/mediaStreams/{MediaStreamName}');
   class_has _api_method  => (isa => 'Str', is => 'ro', default => 'PUT');
   class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::MediaConnect::UpdateFlowMediaStreamResponse');
 1;
@@ -35,27 +35,27 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $mediaconnect = Paws->service('MediaConnect');
     my $UpdateFlowMediaStreamResponse = $mediaconnect->UpdateFlowMediaStream(
-      FlowArn         => 'My__string',
-      MediaStreamName => 'My__string',
+      FlowArn         => 'MyUpdateFlowMediaStreamRequestFlowArnString',
+      MediaStreamName => 'MyString',
       Attributes      => {
         Fmtp => {
-          ChannelOrder => 'My__string',
+          ChannelOrder => 'MyString',
           Colorimetry  => 'BT601'
           , # values: BT601, BT709, BT2020, BT2100, ST2065-1, ST2065-3, XYZ; OPTIONAL
-          ExactFramerate => 'My__string',
-          Par            => 'My__string',
+          ExactFramerate => 'MyString',
+          Par            => 'MyString',
           Range    => 'NARROW',    # values: NARROW, FULL, FULLPROTECT; OPTIONAL
           ScanMode => 'progressive'
           , # values: progressive, interlace, progressive-segmented-frame; OPTIONAL
           Tcs => 'SDR'
           , # values: SDR, PQ, HLG, LINEAR, BT2100LINPQ, BT2100LINHLG, ST2065-1, ST428-1, DENSITY; OPTIONAL
         },    # OPTIONAL
-        Lang => 'My__string',
+        Lang => 'MyString',
       },    # OPTIONAL
-      ClockRate       => 1,               # OPTIONAL
-      Description     => 'My__string',    # OPTIONAL
-      MediaStreamType => 'video',         # OPTIONAL
-      VideoFormat     => 'My__string',    # OPTIONAL
+      ClockRate       => 1,             # OPTIONAL
+      Description     => 'MyString',    # OPTIONAL
+      MediaStreamType => 'video',       # OPTIONAL
+      VideoFormat     => 'MyString',    # OPTIONAL
     );
 
     # Results:
@@ -78,27 +78,27 @@ The attributes that you want to assign to the media stream.
 
 =head2 ClockRate => Int
 
-The sample rate (in Hz) for the stream. If the media stream type is
-video or ancillary data, set this value to 90000. If the media stream
-type is audio, set this value to either 48000 or 96000.
+The sample rate for the stream. This value in measured in kHz.
 
 
 
 =head2 Description => Str
 
-Description
+A description that can help you quickly identify what your media stream
+is used for.
 
 
 
 =head2 B<REQUIRED> FlowArn => Str
 
-The Amazon Resource Name (ARN) of the flow.
+The Amazon Resource Name (ARN) of the flow that is associated with the
+media stream that you updated.
 
 
 
 =head2 B<REQUIRED> MediaStreamName => Str
 
-The name of the media stream that you want to update.
+The media stream that you updated.
 
 
 

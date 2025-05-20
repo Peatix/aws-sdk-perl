@@ -4,7 +4,8 @@ package Paws::Health::DescribeAffectedEntitiesForOrganization;
   has Locale => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'locale' );
   has MaxResults => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'maxResults' );
   has NextToken => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'nextToken' );
-  has OrganizationEntityFilters => (is => 'ro', isa => 'ArrayRef[Paws::Health::EventAccountFilter]', traits => ['NameInRequest'], request_name => 'organizationEntityFilters' , required => 1);
+  has OrganizationEntityAccountFilters => (is => 'ro', isa => 'ArrayRef[Paws::Health::EntityAccountFilter]', traits => ['NameInRequest'], request_name => 'organizationEntityAccountFilters' );
+  has OrganizationEntityFilters => (is => 'ro', isa => 'ArrayRef[Paws::Health::EventAccountFilter]', traits => ['NameInRequest'], request_name => 'organizationEntityFilters' );
 
   use MooseX::ClassAttribute;
 
@@ -32,16 +33,27 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $health = Paws->service('Health');
     my $DescribeAffectedEntitiesForOrganizationResponse =
       $health->DescribeAffectedEntitiesForOrganization(
+      Locale                           => 'Mylocale',       # OPTIONAL
+      MaxResults                       => 1,                # OPTIONAL
+      NextToken                        => 'MynextToken',    # OPTIONAL
+      OrganizationEntityAccountFilters => [
+        {
+          EventArn     => 'MyeventArn',     # max: 1600
+          AwsAccountId => 'MyaccountId',    # max: 12; OPTIONAL
+          StatusCodes  => [
+            'IMPAIRED',
+            ...    # values: IMPAIRED, UNIMPAIRED, UNKNOWN, PENDING, RESOLVED
+          ],    # min: 1, max: 5; OPTIONAL
+        },
+        ...
+      ],    # OPTIONAL
       OrganizationEntityFilters => [
         {
           EventArn     => 'MyeventArn',     # max: 1600
           AwsAccountId => 'MyaccountId',    # max: 12; OPTIONAL
         },
         ...
-      ],
-      Locale     => 'Mylocale',       # OPTIONAL
-      MaxResults => 1,                # OPTIONAL
-      NextToken  => 'MynextToken',    # OPTIONAL
+      ],    # OPTIONAL
       );
 
     # Results:
@@ -81,7 +93,14 @@ returned, the response does not contain a pagination token value.
 
 
 
-=head2 B<REQUIRED> OrganizationEntityFilters => ArrayRef[L<Paws::Health::EventAccountFilter>]
+=head2 OrganizationEntityAccountFilters => ArrayRef[L<Paws::Health::EntityAccountFilter>]
+
+A JSON set of elements including the C<awsAccountId>, C<eventArn> and a
+set of C<statusCodes>.
+
+
+
+=head2 OrganizationEntityFilters => ArrayRef[L<Paws::Health::EventAccountFilter>]
 
 A JSON set of elements including the C<awsAccountId> and the
 C<eventArn>.

@@ -39,9 +39,16 @@ This class has no description
 
 =head2 ResourceType => Str
 
-The type of resource to tag. Currently, the resource types that support
-tagging on creation are C<instance> and C<volume>. To tag a resource
-after it has been created, see CreateTags
+The type of resource to tag.
+
+Valid Values lists all resource types for Amazon EC2 that can be
+tagged. When you create a launch template, you can specify tags for the
+following resource types only: C<instance> | C<volume> |
+C<network-interface> | C<spot-instances-request>. If the instance does
+not include the resource type that you specify, the instance launch
+fails. For example, not all instance types include a volume.
+
+To tag a resource after it has been created, see CreateTags
 (https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateTags.html).
 
 

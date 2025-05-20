@@ -58,9 +58,17 @@ The name of the image used for the container.
 
 Container images sourced from your Lightsail container service, that
 are registered and stored on your service, start with a colon (C<:>).
-For example, C<:container-service-1.mystaticwebsite.1>. Container
-images sourced from a public registry like Docker Hub don't start with
-a colon. For example, C<nginx:latest> or C<nginx>.
+For example, if your container service name is C<container-service-1>,
+the container image label is C<mystaticsite>, and you want to use the
+third (C<3>) version of the registered container image, then you should
+specify C<:container-service-1.mystaticsite.3>. To use the latest
+version of a container image, specify C<latest> instead of a version
+number (for example, C<:container-service-1.mystaticsite.latest>).
+Lightsail will automatically use the highest numbered version of the
+registered container image.
+
+Container images sourced from a public registry like Docker Hub don't
+start with a colon. For example, C<nginx:latest> or C<nginx>.
 
 
 =head2 Ports => L<Paws::Lightsail::PortMap>

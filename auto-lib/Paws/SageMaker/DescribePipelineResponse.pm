@@ -6,6 +6,7 @@ package Paws::SageMaker::DescribePipelineResponse;
   has LastModifiedBy => (is => 'ro', isa => 'Paws::SageMaker::UserContext');
   has LastModifiedTime => (is => 'ro', isa => 'Str');
   has LastRunTime => (is => 'ro', isa => 'Str');
+  has ParallelismConfiguration => (is => 'ro', isa => 'Paws::SageMaker::ParallelismConfiguration');
   has PipelineArn => (is => 'ro', isa => 'Str');
   has PipelineDefinition => (is => 'ro', isa => 'Str');
   has PipelineDescription => (is => 'ro', isa => 'Str');
@@ -50,6 +51,11 @@ The time when the pipeline was last modified.
 The time when the pipeline was last run.
 
 
+=head2 ParallelismConfiguration => L<Paws::SageMaker::ParallelismConfiguration>
+
+Lists the parallelism configuration applied to the pipeline.
+
+
 =head2 PipelineArn => Str
 
 The Amazon Resource Name (ARN) of the pipeline.
@@ -79,7 +85,7 @@ The name of the pipeline.
 
 The status of the pipeline execution.
 
-Valid values are: C<"Active">
+Valid values are: C<"Active">, C<"Deleting">
 =head2 RoleArn => Str
 
 The Amazon Resource Name (ARN) that the pipeline uses to execute.

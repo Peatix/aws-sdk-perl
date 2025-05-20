@@ -1,6 +1,7 @@
 
 package Paws::Schemas::CreateDiscoverer;
   use Moose;
+  has CrossAccount => (is => 'ro', isa => 'Bool');
   has Description => (is => 'ro', isa => 'Str');
   has SourceArn => (is => 'ro', isa => 'Str', required => 1);
   has Tags => (is => 'ro', isa => 'Paws::Schemas::Tags', traits => ['NameInRequest'], request_name => 'tags');
@@ -31,12 +32,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $schemas = Paws->service('Schemas');
     my $CreateDiscovererResponse = $schemas->CreateDiscoverer(
-      SourceArn   => 'My__stringMin20Max1600',
-      Description => 'My__stringMin0Max256',               # OPTIONAL
-      Tags        => { 'My__string' => 'My__string', },    # OPTIONAL
+      SourceArn    => 'My__stringMin20Max1600',
+      CrossAccount => 1,                                    # OPTIONAL
+      Description  => 'My__stringMin0Max256',               # OPTIONAL
+      Tags         => { 'My__string' => 'My__string', },    # OPTIONAL
     );
 
     # Results:
+    my $CrossAccount  = $CreateDiscovererResponse->CrossAccount;
     my $Description   = $CreateDiscovererResponse->Description;
     my $DiscovererArn = $CreateDiscovererResponse->DiscovererArn;
     my $DiscovererId  = $CreateDiscovererResponse->DiscovererId;
@@ -50,6 +53,13 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/schemas/CreateDiscoverer>
 
 =head1 ATTRIBUTES
+
+
+=head2 CrossAccount => Bool
+
+Support discovery of schemas in events sent to the bus from another
+account. (default: true).
+
 
 
 =head2 Description => Str

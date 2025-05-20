@@ -28,10 +28,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $appconfig = Paws->service('AppConfig');
-    my $ResourceTags = $appconfig->ListTagsForResource(
-      ResourceArn => 'MyArn',
-
-    );
+    # To list the tags of an application
+    # The following list-tags-for-resource example lists the tags of a specified
+    # application.
+    my $ResourceTags = $appconfig->ListTagsForResource( 'ResourceArn' =>
+        'arn:aws:appconfig:us-east-1:111122223333:application/339ohji' );
 
     # Results:
     my $Tags = $ResourceTags->Tags;

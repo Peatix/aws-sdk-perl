@@ -50,20 +50,19 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AuditManage
 
 =head1 DESCRIPTION
 
-The folder in which AWS Audit Manager stores evidence for an
-assessment.
+The folder where Audit Manager stores evidence for an assessment.
 
 =head1 ATTRIBUTES
 
 
 =head2 AssessmentId => Str
 
-The identifier for the specified assessment.
+The identifier for the assessment.
 
 
 =head2 AssessmentReportSelectionCount => Int
 
-The total count of evidence included in the assessment report.
+The total count of evidence that's included in the assessment report.
 
 
 =head2 Author => Str
@@ -73,7 +72,7 @@ The name of the user who created the evidence folder.
 
 =head2 ControlId => Str
 
-The unique identifier for the specified control.
+The unique identifier for the control.
 
 
 =head2 ControlName => Str
@@ -88,7 +87,7 @@ The identifier for the control set.
 
 =head2 DataSource => Str
 
-The AWS service from which the evidence was collected.
+The Amazon Web Service that the evidence was collected from.
 
 
 =head2 Date => Str
@@ -98,26 +97,27 @@ The date when the first evidence was added to the evidence folder.
 
 =head2 EvidenceAwsServiceSourceCount => Int
 
-The total number of AWS resources assessed to generate the evidence.
+The total number of Amazon Web Services resources that were assessed to
+generate the evidence.
 
 
 =head2 EvidenceByTypeComplianceCheckCount => Int
 
 The number of evidence that falls under the compliance check category.
-This evidence is collected from AWS Config or AWS Security Hub.
+This evidence is collected from Config or Security Hub.
 
 
 =head2 EvidenceByTypeComplianceCheckIssuesCount => Int
 
-The total number of issues that were reported directly from AWS
-Security Hub, AWS Config, or both.
+The total number of issues that were reported directly from Security
+Hub, Config, or both.
 
 
 =head2 EvidenceByTypeConfigurationDataCount => Int
 
 The number of evidence that falls under the configuration data
 category. This evidence is collected from configuration snapshots of
-other AWS services such as Amazon EC2, Amazon S3, or IAM.
+other Amazon Web Services such as Amazon EC2, Amazon S3, or IAM.
 
 
 =head2 EvidenceByTypeManualCount => Int
@@ -129,22 +129,22 @@ evidence is imported manually.
 =head2 EvidenceByTypeUserActivityCount => Int
 
 The number of evidence that falls under the user activity category.
-This evidence is collected from AWS CloudTrail logs.
+This evidence is collected from CloudTrail logs.
 
 
 =head2 EvidenceResourcesIncludedCount => Int
 
-The amount of evidence included in the evidence folder.
+The amount of evidence that's included in the evidence folder.
 
 
 =head2 Id => Str
 
-The identifier for the folder in which evidence is stored.
+The identifier for the folder that the evidence is stored in.
 
 
 =head2 Name => Str
 
-The name of the specified evidence folder.
+The name of the evidence folder.
 
 
 =head2 TotalEvidence => Int

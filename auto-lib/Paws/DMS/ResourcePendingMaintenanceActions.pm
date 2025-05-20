@@ -34,7 +34,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::DMS::Resour
 
 =head1 DESCRIPTION
 
-Identifies an AWS DMS resource and any pending actions for it.
+Identifies an DMS resource and any pending actions for it.
 
 =head1 ATTRIBUTES
 
@@ -48,7 +48,7 @@ Detailed information about the pending maintenance action.
 
 The Amazon Resource Name (ARN) of the DMS resource that the pending
 maintenance action applies to. For information about creating an ARN,
-see Constructing an Amazon Resource Name (ARN) for AWS DMS
+see Constructing an Amazon Resource Name (ARN) for DMS
 (https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Introduction.AWS.ARN.html)
 in the DMS documentation.
 

@@ -40,7 +40,7 @@ Details of the license configuration that this generator reports on.
 
 =head2 B<REQUIRED> LicenseConfigurationArns => ArrayRef[Str|Undef]
 
-Amazon Resource Number (ARN) of the license configuration that this
+Amazon Resource Name (ARN) of the license configuration that this
 generator reports on.
 
 

@@ -57,7 +57,7 @@ applied.
 =head2 Limit => Int
 
 The maximum number of items returned. If you don't specify a value, the
-default is up to 50 items.
+default maximum value of 50 items is used.
 
 
 

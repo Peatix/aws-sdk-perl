@@ -33,8 +33,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SageMaker::
 
 =head1 DESCRIPTION
 
-Specified in the GetSearchSuggestions request. Limits the property
-names that are included in the response.
+Specified in the GetSearchSuggestions
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_GetSearchSuggestions.html)
+request. Limits the property names that are included in the response.
 
 =head1 ATTRIBUTES
 

@@ -3,7 +3,9 @@ package Paws::Batch::UpdateJobQueue;
   use Moose;
   has ComputeEnvironmentOrder => (is => 'ro', isa => 'ArrayRef[Paws::Batch::ComputeEnvironmentOrder]', traits => ['NameInRequest'], request_name => 'computeEnvironmentOrder');
   has JobQueue => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'jobQueue', required => 1);
+  has JobStateTimeLimitActions => (is => 'ro', isa => 'ArrayRef[Paws::Batch::JobStateTimeLimitAction]', traits => ['NameInRequest'], request_name => 'jobStateTimeLimitActions');
   has Priority => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'priority');
+  has SchedulingPolicyArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'schedulingPolicyArn');
   has State => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'state');
 
   use MooseX::ClassAttribute;
@@ -54,14 +56,14 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/bat
 
 Details the set of compute environments mapped to a job queue and their
 order relative to each other. This is one of the parameters used by the
-job scheduler to determine which compute environment should run a given
-job. Compute environments must be in the C<VALID> state before you can
+job scheduler to determine which compute environment runs a given job.
+Compute environments must be in the C<VALID> state before you can
 associate them with a job queue. All of the compute environments must
 be either EC2 (C<EC2> or C<SPOT>) or Fargate (C<FARGATE> or
 C<FARGATE_SPOT>). EC2 and Fargate compute environments can't be mixed.
 
 All compute environments that are associated with a job queue must
-share the same architecture. AWS Batch doesn't support mixing compute
+share the same architecture. Batch doesn't support mixing compute
 environment architecture types in a single job queue.
 
 
@@ -72,16 +74,37 @@ The name or the Amazon Resource Name (ARN) of the job queue.
 
 
 
+=head2 JobStateTimeLimitActions => ArrayRef[L<Paws::Batch::JobStateTimeLimitAction>]
+
+The set of actions that Batch perform on jobs that remain at the head
+of the job queue in the specified state longer than specified times.
+Batch will perform each action after C<maxTimeSeconds> has passed.
+(B<Note>: The minimum value for maxTimeSeconds is 600 (10 minutes) and
+its maximum value is 86,400 (24 hours).)
+
+
+
 =head2 Priority => Int
 
 The priority of the job queue. Job queues with a higher priority (or a
 higher integer value for the C<priority> parameter) are evaluated first
 when associated with the same compute environment. Priority is
-determined in descending order, for example, a job queue with a
+determined in descending order. For example, a job queue with a
 priority value of C<10> is given scheduling preference over a job queue
 with a priority value of C<1>. All of the compute environments must be
 either EC2 (C<EC2> or C<SPOT>) or Fargate (C<FARGATE> or
 C<FARGATE_SPOT>). EC2 and Fargate compute environments can't be mixed.
+
+
+
+=head2 SchedulingPolicyArn => Str
+
+Amazon Resource Name (ARN) of the fair-share scheduling policy. Once a
+job queue is created, the fair-share scheduling policy can be replaced
+but not removed. The format is
+C<aws:I<Partition>:batch:I<Region>:I<Account>:scheduling-policy/I<Name>
+>. For example,
+C<aws:aws:batch:us-west-2:123456789012:scheduling-policy/MySchedulingPolicy>.
 
 
 

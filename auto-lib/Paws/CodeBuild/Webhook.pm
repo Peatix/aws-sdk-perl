@@ -5,8 +5,12 @@ package Paws::CodeBuild::Webhook;
   has BuildType => (is => 'ro', isa => 'Str', request_name => 'buildType', traits => ['NameInRequest']);
   has FilterGroups => (is => 'ro', isa => 'ArrayRef[ArrayRef[Paws::CodeBuild::WebhookFilter]]', request_name => 'filterGroups', traits => ['NameInRequest']);
   has LastModifiedSecret => (is => 'ro', isa => 'Str', request_name => 'lastModifiedSecret', traits => ['NameInRequest']);
+  has ManualCreation => (is => 'ro', isa => 'Bool', request_name => 'manualCreation', traits => ['NameInRequest']);
   has PayloadUrl => (is => 'ro', isa => 'Str', request_name => 'payloadUrl', traits => ['NameInRequest']);
+  has ScopeConfiguration => (is => 'ro', isa => 'Paws::CodeBuild::ScopeConfiguration', request_name => 'scopeConfiguration', traits => ['NameInRequest']);
   has Secret => (is => 'ro', isa => 'Str', request_name => 'secret', traits => ['NameInRequest']);
+  has Status => (is => 'ro', isa => 'Str', request_name => 'status', traits => ['NameInRequest']);
+  has StatusMessage => (is => 'ro', isa => 'Str', request_name => 'statusMessage', traits => ['NameInRequest']);
   has Url => (is => 'ro', isa => 'Str', request_name => 'url', traits => ['NameInRequest']);
 
 1;
@@ -60,6 +64,13 @@ C<branchFilter>.
 
 Specifies the type of build this webhook will trigger.
 
+C<RUNNER_BUILDKITE_BUILD> is only available for C<NO_SOURCE> source
+type projects configured for Buildkite runner builds. For more
+information about CodeBuild-hosted Buildkite runner builds, see
+Tutorial: Configure a CodeBuild-hosted Buildkite runner
+(https://docs.aws.amazon.com/codebuild/latest/userguide/sample-runner-buildkite.html)
+in the I<CodeBuild user guide>.
+
 
 =head2 FilterGroups => ArrayRef[L<ArrayRef[Paws::CodeBuild::WebhookFilter]>]
 
@@ -78,9 +89,27 @@ A timestamp that indicates the last time a repository's secret token
 was modified.
 
 
+=head2 ManualCreation => Bool
+
+If manualCreation is true, CodeBuild doesn't create a webhook in GitHub
+and instead returns C<payloadUrl> and C<secret> values for the webhook.
+The C<payloadUrl> and C<secret> values in the output can be used to
+manually create a webhook within GitHub.
+
+manualCreation is only available for GitHub webhooks.
+
+
 =head2 PayloadUrl => Str
 
 The CodeBuild endpoint where webhook events are sent.
+
+
+=head2 ScopeConfiguration => L<Paws::CodeBuild::ScopeConfiguration>
+
+The scope configuration for global or organization webhooks.
+
+Global or organization webhooks are only available for GitHub and
+Github Enterprise webhooks.
 
 
 =head2 Secret => Str
@@ -88,6 +117,37 @@ The CodeBuild endpoint where webhook events are sent.
 The secret token of the associated repository.
 
 A Bitbucket webhook does not support C<secret>.
+
+
+=head2 Status => Str
+
+The status of the webhook. Valid values include:
+
+=over
+
+=item *
+
+C<CREATING>: The webhook is being created.
+
+=item *
+
+C<CREATE_FAILED>: The webhook has failed to create.
+
+=item *
+
+C<ACTIVE>: The webhook has succeeded and is active.
+
+=item *
+
+C<DELETING>: The webhook is being deleted.
+
+=back
+
+
+
+=head2 StatusMessage => Str
+
+A message associated with the status of a webhook.
 
 
 =head2 Url => Str

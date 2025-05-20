@@ -4,6 +4,7 @@ package Paws::Firehose::ElasticsearchDestinationUpdate;
   has BufferingHints => (is => 'ro', isa => 'Paws::Firehose::ElasticsearchBufferingHints');
   has CloudWatchLoggingOptions => (is => 'ro', isa => 'Paws::Firehose::CloudWatchLoggingOptions');
   has ClusterEndpoint => (is => 'ro', isa => 'Str');
+  has DocumentIdOptions => (is => 'ro', isa => 'Paws::Firehose::DocumentIdOptions');
   has DomainARN => (is => 'ro', isa => 'Str');
   has IndexName => (is => 'ro', isa => 'Str');
   has IndexRotationPeriod => (is => 'ro', isa => 'Str');
@@ -43,7 +44,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Firehose::E
 
 =head1 DESCRIPTION
 
-Describes an update for a destination in Amazon ES.
+Describes an update for a destination in Amazon OpenSearch Service.
 
 =head1 ATTRIBUTES
 
@@ -56,7 +57,7 @@ C<ElasticsearchBufferingHints> object default values are used.
 
 =head2 CloudWatchLoggingOptions => L<Paws::Firehose::CloudWatchLoggingOptions>
 
-The CloudWatch logging options for your delivery stream.
+The CloudWatch logging options for your Firehose stream.
 
 
 =head2 ClusterEndpoint => Str
@@ -65,13 +66,20 @@ The endpoint to use when communicating with the cluster. Specify either
 this C<ClusterEndpoint> or the C<DomainARN> field.
 
 
+=head2 DocumentIdOptions => L<Paws::Firehose::DocumentIdOptions>
+
+Indicates the method for setting up document ID. The supported methods
+are Firehose generated document ID and OpenSearch Service generated
+document ID.
+
+
 =head2 DomainARN => Str
 
-The ARN of the Amazon ES domain. The IAM role must have permissions for
-C<DescribeElasticsearchDomain>, C<DescribeElasticsearchDomains>, and
-C<DescribeElasticsearchDomainConfig> after assuming the IAM role
-specified in C<RoleARN>. For more information, see Amazon Resource
-Names (ARNs) and AWS Service Namespaces
+The ARN of the Amazon OpenSearch Service domain. The IAM role must have
+permissions for C<DescribeDomain>, C<DescribeDomains>, and
+C<DescribeDomainConfig> after assuming the IAM role specified in
+C<RoleARN>. For more information, see Amazon Resource Names (ARNs) and
+Amazon Web Services Service Namespaces
 (https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
 
 Specify either C<ClusterEndpoint> or C<DomainARN>.
@@ -86,7 +94,8 @@ The Elasticsearch index name.
 
 The Elasticsearch index rotation period. Index rotation appends a
 timestamp to C<IndexName> to facilitate the expiration of old data. For
-more information, see Index Rotation for the Amazon ES Destination
+more information, see Index Rotation for the Amazon OpenSearch Service
+Destination
 (https://docs.aws.amazon.com/firehose/latest/dev/basic-deliver.html#es-index-rotation).
 Default value is C<OneDay>.
 
@@ -98,18 +107,19 @@ The data processing configuration.
 
 =head2 RetryOptions => L<Paws::Firehose::ElasticsearchRetryOptions>
 
-The retry behavior in case Kinesis Data Firehose is unable to deliver
-documents to Amazon ES. The default value is 300 (5 minutes).
+The retry behavior in case Firehose is unable to deliver documents to
+Amazon OpenSearch Service. The default value is 300 (5 minutes).
 
 
 =head2 RoleARN => Str
 
-The Amazon Resource Name (ARN) of the IAM role to be assumed by Kinesis
-Data Firehose for calling the Amazon ES Configuration API and for
-indexing documents. For more information, see Grant Kinesis Data
-Firehose Access to an Amazon S3 Destination
+The Amazon Resource Name (ARN) of the IAM role to be assumed by
+Firehose for calling the Amazon OpenSearch Service Configuration API
+and for indexing documents. For more information, see Grant Firehose
+Access to an Amazon S3 Destination
 (https://docs.aws.amazon.com/firehose/latest/dev/controlling-access.html#using-iam-s3)
-and Amazon Resource Names (ARNs) and AWS Service Namespaces
+and Amazon Resource Names (ARNs) and Amazon Web Services Service
+Namespaces
 (https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
 
 
@@ -122,14 +132,14 @@ The Amazon S3 destination.
 
 The Elasticsearch type name. For Elasticsearch 6.x, there can be only
 one type per index. If you try to specify a new type for an existing
-index that already has another type, Kinesis Data Firehose returns an
-error during runtime.
+index that already has another type, Firehose returns an error during
+runtime.
 
 If you upgrade Elasticsearch from 6.x to 7.x and donE<rsquo>t update
-your delivery stream, Kinesis Data Firehose still delivers data to
-Elasticsearch with the old index name and type name. If you want to
-update your delivery stream with a new index name, provide an empty
-string for C<TypeName>.
+your Firehose stream, Firehose still delivers data to Elasticsearch
+with the old index name and type name. If you want to update your
+Firehose stream with a new index name, provide an empty string for
+C<TypeName>.
 
 
 

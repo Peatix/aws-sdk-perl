@@ -2,7 +2,13 @@
 package Paws::ComputeOptimizer::RecommendationSummary;
   use Moose;
   has AccountId => (is => 'ro', isa => 'Str', request_name => 'accountId', traits => ['NameInRequest']);
+  has AggregatedSavingsOpportunity => (is => 'ro', isa => 'Paws::ComputeOptimizer::SavingsOpportunity', request_name => 'aggregatedSavingsOpportunity', traits => ['NameInRequest']);
+  has CurrentPerformanceRiskRatings => (is => 'ro', isa => 'Paws::ComputeOptimizer::CurrentPerformanceRiskRatings', request_name => 'currentPerformanceRiskRatings', traits => ['NameInRequest']);
+  has IdleSavingsOpportunity => (is => 'ro', isa => 'Paws::ComputeOptimizer::SavingsOpportunity', request_name => 'idleSavingsOpportunity', traits => ['NameInRequest']);
+  has IdleSummaries => (is => 'ro', isa => 'ArrayRef[Paws::ComputeOptimizer::IdleSummary]', request_name => 'idleSummaries', traits => ['NameInRequest']);
+  has InferredWorkloadSavings => (is => 'ro', isa => 'ArrayRef[Paws::ComputeOptimizer::InferredWorkloadSaving]', request_name => 'inferredWorkloadSavings', traits => ['NameInRequest']);
   has RecommendationResourceType => (is => 'ro', isa => 'Str', request_name => 'recommendationResourceType', traits => ['NameInRequest']);
+  has SavingsOpportunity => (is => 'ro', isa => 'Paws::ComputeOptimizer::SavingsOpportunity', request_name => 'savingsOpportunity', traits => ['NameInRequest']);
   has Summaries => (is => 'ro', isa => 'ArrayRef[Paws::ComputeOptimizer::Summary]', request_name => 'summaries', traits => ['NameInRequest']);
 
 1;
@@ -42,12 +48,48 @@ A summary of a recommendation.
 
 =head2 AccountId => Str
 
-The AWS account ID of the recommendation summary.
+The Amazon Web Services account ID of the recommendation summary.
+
+
+=head2 AggregatedSavingsOpportunity => L<Paws::ComputeOptimizer::SavingsOpportunity>
+
+
+
+
+=head2 CurrentPerformanceRiskRatings => L<Paws::ComputeOptimizer::CurrentPerformanceRiskRatings>
+
+An object that describes the performance risk ratings for a given
+resource type.
+
+
+=head2 IdleSavingsOpportunity => L<Paws::ComputeOptimizer::SavingsOpportunity>
+
+
+
+
+=head2 IdleSummaries => ArrayRef[L<Paws::ComputeOptimizer::IdleSummary>]
+
+Describes the findings summary of the idle resources.
+
+
+=head2 InferredWorkloadSavings => ArrayRef[L<Paws::ComputeOptimizer::InferredWorkloadSaving>]
+
+An array of objects that describes the estimated monthly saving amounts
+for the instances running on the specified C<inferredWorkloadTypes>.
+The array contains the top five savings opportunites for the instances
+that run inferred workload types.
 
 
 =head2 RecommendationResourceType => Str
 
-The resource type of the recommendation.
+The resource type that the recommendation summary applies to.
+
+
+=head2 SavingsOpportunity => L<Paws::ComputeOptimizer::SavingsOpportunity>
+
+An object that describes the savings opportunity for a given resource
+type. Savings opportunity includes the estimated monthly savings amount
+and percentage.
 
 
 =head2 Summaries => ArrayRef[L<Paws::ComputeOptimizer::Summary>]

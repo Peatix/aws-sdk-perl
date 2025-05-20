@@ -3,12 +3,12 @@ package Paws::MediaTailor::ListVodSources;
   use Moose;
   has MaxResults => (is => 'ro', isa => 'Int', traits => ['ParamInQuery'], query_name => 'maxResults');
   has NextToken => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'nextToken');
-  has SourceLocationName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'sourceLocationName', required => 1);
+  has SourceLocationName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'SourceLocationName', required => 1);
 
   use MooseX::ClassAttribute;
 
   class_has _api_call => (isa => 'Str', is => 'ro', default => 'ListVodSources');
-  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/sourceLocation/{sourceLocationName}/vodSources');
+  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/sourceLocation/{SourceLocationName}/vodSources');
   class_has _api_method  => (isa => 'Str', is => 'ro', default => 'GET');
   class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::MediaTailor::ListVodSourcesResponse');
 1;
@@ -50,21 +50,23 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 MaxResults => Int
 
-Upper bound on number of records to return. The maximum number of
-results is 100.
+The maximum number of VOD sources that you want MediaTailor to return
+in response to the current request. If there are more than
+C<MaxResults> VOD sources, use the value of C<NextToken> in the
+response to get the next page of results.
 
 
 
 =head2 NextToken => Str
 
-Pagination token from the GET list request. Use the token to fetch the
-next page of results.
+Pagination token returned by the list request when results exceed the
+maximum allowed. Use the token to fetch the next page of results.
 
 
 
 =head2 B<REQUIRED> SourceLocationName => Str
 
-The identifier for the source location you are working on.
+The name of the source location associated with this VOD Source list.
 
 
 

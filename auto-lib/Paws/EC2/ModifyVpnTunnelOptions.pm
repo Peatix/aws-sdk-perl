@@ -2,6 +2,7 @@
 package Paws::EC2::ModifyVpnTunnelOptions;
   use Moose;
   has DryRun => (is => 'ro', isa => 'Bool');
+  has SkipTunnelReplacement => (is => 'ro', isa => 'Bool');
   has TunnelOptions => (is => 'ro', isa => 'Paws::EC2::ModifyVpnTunnelOptionsSpecification', required => 1);
   has VpnConnectionId => (is => 'ro', isa => 'Str', required => 1);
   has VpnTunnelOutsideIpAddress => (is => 'ro', isa => 'Str', required => 1);
@@ -32,14 +33,22 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $ec2 = Paws->service('EC2');
     my $ModifyVpnTunnelOptionsResult = $ec2->ModifyVpnTunnelOptions(
       TunnelOptions => {
-        DPDTimeoutAction  => 'MyString',    # OPTIONAL
-        DPDTimeoutSeconds => 1,             # OPTIONAL
-        IKEVersions       => [
+        DPDTimeoutAction             => 'MyString',    # OPTIONAL
+        DPDTimeoutSeconds            => 1,             # OPTIONAL
+        EnableTunnelLifecycleControl => 1,             # OPTIONAL
+        IKEVersions                  => [
           {
-            Value => 'MyString',            # OPTIONAL
+            Value => 'MyString',                       # OPTIONAL
           },
           ...
         ],    # OPTIONAL
+        LogOptions => {
+          CloudWatchLogOptions => {
+            LogEnabled      => 1,                            # OPTIONAL
+            LogGroupArn     => 'MyCloudWatchLogGroupArn',    # OPTIONAL
+            LogOutputFormat => 'MyString',                   # OPTIONAL
+          },    # OPTIONAL
+        },    # OPTIONAL
         Phase1DHGroupNumbers => [
           {
             Value => 1,    # OPTIONAL
@@ -77,18 +86,19 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           },
           ...
         ],    # OPTIONAL
-        Phase2LifetimeSeconds  => 1,             # OPTIONAL
-        PreSharedKey           => 'MyString',    # OPTIONAL
-        RekeyFuzzPercentage    => 1,             # OPTIONAL
-        RekeyMarginTimeSeconds => 1,             # OPTIONAL
-        ReplayWindowSize       => 1,             # OPTIONAL
-        StartupAction          => 'MyString',    # OPTIONAL
-        TunnelInsideCidr       => 'MyString',    # OPTIONAL
-        TunnelInsideIpv6Cidr   => 'MyString',    # OPTIONAL
+        Phase2LifetimeSeconds  => 1,                   # OPTIONAL
+        PreSharedKey           => 'MypreSharedKey',    # OPTIONAL
+        RekeyFuzzPercentage    => 1,                   # OPTIONAL
+        RekeyMarginTimeSeconds => 1,                   # OPTIONAL
+        ReplayWindowSize       => 1,                   # OPTIONAL
+        StartupAction          => 'MyString',          # OPTIONAL
+        TunnelInsideCidr       => 'MyString',          # OPTIONAL
+        TunnelInsideIpv6Cidr   => 'MyString',          # OPTIONAL
       },
       VpnConnectionId           => 'MyVpnConnectionId',
       VpnTunnelOutsideIpAddress => 'MyString',
       DryRun                    => 1,                     # OPTIONAL
+      SkipTunnelReplacement     => 1,                     # OPTIONAL
     );
 
     # Results:
@@ -111,6 +121,15 @@ C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
 
 
 
+=head2 SkipTunnelReplacement => Bool
+
+Choose whether or not to trigger immediate tunnel replacement. This is
+only applicable when turning on or off C<EnableTunnelLifecycleControl>.
+
+Valid values: C<True> | C<False>
+
+
+
 =head2 B<REQUIRED> TunnelOptions => L<Paws::EC2::ModifyVpnTunnelOptionsSpecification>
 
 The tunnel options to modify.
@@ -119,7 +138,7 @@ The tunnel options to modify.
 
 =head2 B<REQUIRED> VpnConnectionId => Str
 
-The ID of the AWS Site-to-Site VPN connection.
+The ID of the Amazon Web Services Site-to-Site VPN connection.
 
 
 

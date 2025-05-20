@@ -40,8 +40,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $DirectoryId       = $DescribeOrganizationResponse->DirectoryId;
     my $DirectoryType     = $DescribeOrganizationResponse->DirectoryType;
     my $ErrorMessage      = $DescribeOrganizationResponse->ErrorMessage;
-    my $OrganizationId    = $DescribeOrganizationResponse->OrganizationId;
-    my $State             = $DescribeOrganizationResponse->State;
+    my $InteroperabilityEnabled =
+      $DescribeOrganizationResponse->InteroperabilityEnabled;
+    my $MigrationAdmin = $DescribeOrganizationResponse->MigrationAdmin;
+    my $OrganizationId = $DescribeOrganizationResponse->OrganizationId;
+    my $State          = $DescribeOrganizationResponse->State;
 
     # Returns a L<Paws::WorkMail::DescribeOrganizationResponse> object.
 

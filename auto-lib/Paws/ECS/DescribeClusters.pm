@@ -56,13 +56,18 @@ assumed.
 
 =head2 Include => ArrayRef[Str|Undef]
 
-Whether to include additional information about the clusters in the
-response. If this field is omitted, this information isn't included.
+Determines whether to include additional information about the clusters
+in the response. If this field is omitted, this information isn't
+included.
 
 If C<ATTACHMENTS> is specified, the attachments for the container
-instances or tasks within the cluster are included.
+instances or tasks within the cluster are included, for example the
+capacity providers.
 
 If C<SETTINGS> is specified, the settings for the cluster are included.
+
+If C<CONFIGURATIONS> is specified, the configuration for the cluster is
+included.
 
 If C<STATISTICS> is specified, the task and service count is included,
 separated by launch type.

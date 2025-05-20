@@ -1,10 +1,12 @@
 
 package Paws::GreengrassV2::CreateDeployment;
   use Moose;
+  has ClientToken => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'clientToken');
   has Components => (is => 'ro', isa => 'Paws::GreengrassV2::ComponentDeploymentSpecifications', traits => ['NameInRequest'], request_name => 'components');
   has DeploymentName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'deploymentName');
   has DeploymentPolicies => (is => 'ro', isa => 'Paws::GreengrassV2::DeploymentPolicies', traits => ['NameInRequest'], request_name => 'deploymentPolicies');
   has IotJobConfiguration => (is => 'ro', isa => 'Paws::GreengrassV2::DeploymentIoTJobConfiguration', traits => ['NameInRequest'], request_name => 'iotJobConfiguration');
+  has ParentTargetArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'parentTargetArn');
   has Tags => (is => 'ro', isa => 'Paws::GreengrassV2::TagMap', traits => ['NameInRequest'], request_name => 'tags');
   has TargetArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'targetArn', required => 1);
 
@@ -34,24 +36,29 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $greengrass = Paws->service('GreengrassV2');
     my $CreateDeploymentResponse = $greengrass->CreateDeployment(
-      TargetArn  => 'MyTargetARN',
-      Components => {
+      TargetArn   => 'MyTargetARN',
+      ClientToken => 'MyClientTokenString',    # OPTIONAL
+      Components  => {
         'MyNonEmptyString' => {
-          ComponentVersion =>
-            'MyComponentVersionString',    # min: 1, max: 64; OPTIONAL
+          ComponentVersion    => 'MyComponentVersionString',   # min: 1, max: 64
           ConfigurationUpdate => {
-            Merge =>
-              'MyComponentConfigurationString',   # min: 1, max: 65536; OPTIONAL
+            Merge => 'MyComponentConfigurationString'
+            ,    # min: 1, max: 10485760; OPTIONAL
             Reset => [
               'MyComponentConfigurationPath', ...    # max: 256
             ],    # OPTIONAL
           },    # OPTIONAL
           RunWith => {
-            PosixUser => 'MyNonEmptyString',    # min: 1
+            PosixUser            => 'MyNonEmptyString',    # min: 1
+            SystemResourceLimits => {
+              Cpus   => 1,    # OPTIONAL
+              Memory => 1,    # max: 9223372036854771712; OPTIONAL
+            },    # OPTIONAL
+            WindowsUser => 'MyNonEmptyString',    # min: 1
           },    # OPTIONAL
         },    # key: min: 1
       },    # OPTIONAL
-      DeploymentName     => 'MyNonEmptyString',    # OPTIONAL
+      DeploymentName     => 'MyDeploymentNameString',    # OPTIONAL
       DeploymentPolicies => {
         ComponentUpdatePolicy => {
           Action => 'NOTIFY_COMPONENTS'
@@ -95,7 +102,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           InProgressTimeoutInMinutes => 1,    # OPTIONAL
         },    # OPTIONAL
       },    # OPTIONAL
-      Tags => {
+      ParentTargetArn => 'MyThingGroupARN',    # OPTIONAL
+      Tags            => {
         'MyTagKey' => 'MyTagValue',    # key: min: 1, max: 128, value: max: 256
       },    # OPTIONAL
     );
@@ -113,6 +121,19 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/gre
 =head1 ATTRIBUTES
 
 
+=head2 ClientToken => Str
+
+A unique, case-sensitive identifier that you can provide to ensure that
+the request is idempotent. Idempotency means that the request is
+successfully processed only once, even if you send the request multiple
+times. When a request succeeds, and you specify the same client token
+for subsequent successful requests, the IoT Greengrass V2 service
+returns the successful response that it caches from the previous
+request. IoT Greengrass V2 caches successful responses for idempotent
+requests for up to 8 hours.
+
+
+
 =head2 Components => L<Paws::GreengrassV2::ComponentDeploymentSpecifications>
 
 The components to deploy. This is a dictionary, where each key is the
@@ -124,12 +145,6 @@ configuration to deploy for that component.
 =head2 DeploymentName => Str
 
 The name of the deployment.
-
-You can create deployments without names. If you create a deployment
-without a name, the AWS IoT Greengrass V2 console shows the deployment
-name as C<E<lt>targetTypeE<gt>:E<lt>targetNameE<gt>>, where
-C<targetType> and C<targetName> are the type and name of the deployment
-target.
 
 
 
@@ -148,12 +163,20 @@ for the deployment configuration.
 
 
 
+=head2 ParentTargetArn => Str
+
+The parent deployment's target ARN
+(https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+within a subdeployment.
+
+
+
 =head2 Tags => L<Paws::GreengrassV2::TagMap>
 
 A list of key-value pairs that contain metadata for the resource. For
 more information, see Tag your resources
 (https://docs.aws.amazon.com/greengrass/v2/developerguide/tag-resources.html)
-in the I<AWS IoT Greengrass V2 Developer Guide>.
+in the I<IoT Greengrass V2 Developer Guide>.
 
 
 
@@ -161,7 +184,8 @@ in the I<AWS IoT Greengrass V2 Developer Guide>.
 
 The ARN
 (https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
-of the target AWS IoT thing or thing group.
+of the target IoT thing or thing group. When creating a subdeployment,
+the targetARN can only be a thing group.
 
 
 

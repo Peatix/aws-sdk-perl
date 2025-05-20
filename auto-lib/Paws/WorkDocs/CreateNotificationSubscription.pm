@@ -69,7 +69,7 @@ The ID of the organization.
 The protocol to use. The supported value is https, which delivers
 JSON-encoded messages using HTTPS POST.
 
-Valid values are: C<"HTTPS">
+Valid values are: C<"HTTPS">, C<"SQS">
 
 =head2 B<REQUIRED> SubscriptionType => Str
 

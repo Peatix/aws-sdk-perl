@@ -26,7 +26,8 @@ Paws::S3::UploadPartCopyOutput
 =head2 BucketKeyEnabled => Bool
 
 Indicates whether the multipart upload uses an S3 Bucket Key for
-server-side encryption with AWS KMS (SSE-KMS).
+server-side encryption with Key Management Service (KMS) keys
+(SSE-KMS).
 
 
 
@@ -41,6 +42,9 @@ Container for all response elements.
 The version of the source object that was copied, if you have enabled
 versioning on the source bucket.
 
+This functionality is not supported when the source object is in a
+directory bucket.
+
 
 
 =head2 RequestCharged => Str
@@ -51,32 +55,36 @@ Valid values are: C<"requester">
 
 =head2 ServerSideEncryption => Str
 
-The server-side encryption algorithm used when storing this object in
-Amazon S3 (for example, AES256, aws:kms).
+The server-side encryption algorithm used when you store this object in
+Amazon S3 (for example, C<AES256>, C<aws:kms>).
 
-Valid values are: C<"AES256">, C<"aws:kms">
+Valid values are: C<"AES256">, C<"aws:kms">, C<"aws:kms:dsse">
 
 =head2 SSECustomerAlgorithm => Str
 
 If server-side encryption with a customer-provided encryption key was
-requested, the response will include this header confirming the
-encryption algorithm used.
+requested, the response will include this header to confirm the
+encryption algorithm that's used.
+
+This functionality is not supported for directory buckets.
 
 
 
 =head2 SSECustomerKeyMD5 => Str
 
 If server-side encryption with a customer-provided encryption key was
-requested, the response will include this header to provide round-trip
-message integrity verification of the customer-provided encryption key.
+requested, the response will include this header to provide the
+round-trip message integrity verification of the customer-provided
+encryption key.
+
+This functionality is not supported for directory buckets.
 
 
 
 =head2 SSEKMSKeyId => Str
 
-If present, specifies the ID of the AWS Key Management Service (AWS
-KMS) symmetric customer managed customer master key (CMK) that was used
-for the object.
+If present, indicates the ID of the KMS key that was used for object
+encryption.
 
 
 

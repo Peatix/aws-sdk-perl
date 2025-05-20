@@ -1,6 +1,7 @@
 
 package Paws::Glue::GetConnection;
   use Moose;
+  has ApplyOverrideForComputeEnvironment => (is => 'ro', isa => 'Str');
   has CatalogId => (is => 'ro', isa => 'Str');
   has HidePassword => (is => 'ro', isa => 'Bool');
   has Name => (is => 'ro', isa => 'Str', required => 1);
@@ -30,9 +31,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $glue = Paws->service('Glue');
     my $GetConnectionResponse = $glue->GetConnection(
-      Name         => 'MyNameString',
-      CatalogId    => 'MyCatalogIdString',    # OPTIONAL
-      HidePassword => 1,                      # OPTIONAL
+      Name                               => 'MyNameString',
+      ApplyOverrideForComputeEnvironment => 'SPARK',                # OPTIONAL
+      CatalogId                          => 'MyCatalogIdString',    # OPTIONAL
+      HidePassword                       => 1,                      # OPTIONAL
     );
 
     # Results:
@@ -46,6 +48,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/glu
 =head1 ATTRIBUTES
 
 
+=head2 ApplyOverrideForComputeEnvironment => Str
+
+For connections that may be used in multiple services, specifies
+returning properties for the specified compute environment.
+
+Valid values are: C<"SPARK">, C<"ATHENA">, C<"PYTHON">
+
 =head2 CatalogId => Str
 
 The ID of the Data Catalog in which the connection resides. If none is
@@ -56,10 +65,10 @@ provided, the Amazon Web Services account ID is used by default.
 =head2 HidePassword => Bool
 
 Allows you to retrieve the connection metadata without returning the
-password. For instance, the AWS Glue console uses this flag to retrieve
-the connection, and does not display the password. Set this parameter
-when the caller might not have permission to use the KMS key to decrypt
-the password, but it does have permission to access the rest of the
+password. For instance, the Glue console uses this flag to retrieve the
+connection, and does not display the password. Set this parameter when
+the caller might not have permission to use the KMS key to decrypt the
+password, but it does have permission to access the rest of the
 connection properties.
 
 

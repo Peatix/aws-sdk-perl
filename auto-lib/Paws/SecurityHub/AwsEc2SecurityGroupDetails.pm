@@ -38,7 +38,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SecurityHub
 
 =head1 DESCRIPTION
 
-Details about an EC2 security group.
+Details about an Amazon EC2 security group.
 
 =head1 ATTRIBUTES
 
@@ -65,7 +65,7 @@ The inbound rules associated with the security group.
 
 =head2 OwnerId => Str
 
-The AWS account ID of the owner of the security group.
+The Amazon Web Services account ID of the owner of the security group.
 
 
 =head2 VpcId => Str

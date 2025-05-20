@@ -52,7 +52,7 @@ The name of the application.
 
 =head2 IncludeAdditionalDetails => Bool
 
-Displays verbose information about a Kinesis Data Analytics
+Displays verbose information about a Managed Service for Apache Flink
 application, including the application's job plan.
 
 

@@ -33,14 +33,14 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Snowball::W
 
 =head1 DESCRIPTION
 
-Configures the wireless connection on an AWS Snowcone device.
+Configures the wireless connection on an Snowcone device.
 
 =head1 ATTRIBUTES
 
 
 =head2 IsWifiEnabled => Bool
 
-Enables the Wi-Fi adapter on an AWS Snowcone device.
+Enables the Wi-Fi adapter on an Snowcone device.
 
 
 

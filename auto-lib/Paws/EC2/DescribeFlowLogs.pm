@@ -81,9 +81,8 @@ C<FAILED>).
 
 =item *
 
-C<log-destination-type> - The type of destination to which the flow log
-publishes data. Possible destination types include C<cloud-watch-logs>
-and C<s3>.
+C<log-destination-type> - The type of destination for the flow log data
+(C<cloud-watch-logs> | C<s3> | C<kinesis-data-firehose>).
 
 =item *
 
@@ -130,15 +129,17 @@ Constraint: Maximum of 1000 flow log IDs.
 
 =head2 MaxResults => Int
 
-The maximum number of results to return with a single call. To retrieve
-the remaining results, make another call with the returned C<nextToken>
-value.
+The maximum number of items to return for this request. To get the next
+page of items, make another request with the token returned in the
+output. For more information, see Pagination
+(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Query-Requests.html#api-pagination).
 
 
 
 =head2 NextToken => Str
 
-The token for the next page of results.
+The token to request the next page of items. Pagination continues from
+the end of the items returned by the previous request.
 
 
 

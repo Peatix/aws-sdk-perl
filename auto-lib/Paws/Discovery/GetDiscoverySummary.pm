@@ -29,10 +29,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $GetDiscoverySummaryResponse = $discovery->GetDiscoverySummary();
 
     # Results:
-    my $AgentSummary     = $GetDiscoverySummaryResponse->AgentSummary;
-    my $Applications     = $GetDiscoverySummaryResponse->Applications;
-    my $ConnectorSummary = $GetDiscoverySummaryResponse->ConnectorSummary;
-    my $Servers          = $GetDiscoverySummaryResponse->Servers;
+    my $AgentSummary = $GetDiscoverySummaryResponse->AgentSummary;
+    my $AgentlessCollectorSummary =
+      $GetDiscoverySummaryResponse->AgentlessCollectorSummary;
+    my $Applications       = $GetDiscoverySummaryResponse->Applications;
+    my $ConnectorSummary   = $GetDiscoverySummaryResponse->ConnectorSummary;
+    my $MeCollectorSummary = $GetDiscoverySummaryResponse->MeCollectorSummary;
+    my $Servers            = $GetDiscoverySummaryResponse->Servers;
     my $ServersMappedToApplications =
       $GetDiscoverySummaryResponse->ServersMappedToApplications;
     my $ServersMappedtoTags = $GetDiscoverySummaryResponse->ServersMappedtoTags;

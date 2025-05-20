@@ -49,7 +49,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/tra
 
 =head2 B<REQUIRED> VocabularyFilterName => Str
 
-The name of the vocabulary filter for which to return information.
+The name of the custom vocabulary filter you want information about.
+Custom vocabulary filter names are case sensitive.
 
 
 

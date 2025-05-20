@@ -53,7 +53,10 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/par
 =head2 ClientToken => Str
 
 A unique, case-sensitive identifier that you provide to ensure the
-idempotency of the request.
+idempotency of the request. If not provided, the Amazon Web Services
+SDK populates this field. For more information about idempotency, see
+Making retries safe with idempotent APIs
+(https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
 
 
 
@@ -65,8 +68,12 @@ The authentication token associated with the participant's connection.
 
 =head2 Content => Str
 
-The content of the event to be sent (for example, message text). This
-is not yet supported.
+The content of the event to be sent (for example, message text). For
+content related to message receipts, this is supported in the form of a
+JSON string.
+
+Sample Content:
+"{\"messageId\":\"11111111-aaaa-bbbb-cccc-EXAMPLE01234\"}"
 
 
 
@@ -82,7 +89,16 @@ application/vnd.amazonaws.connect.event.typing
 
 =item *
 
-application/vnd.amazonaws.connect.event.connection.acknowledged
+application/vnd.amazonaws.connect.event.connection.acknowledged (will
+be deprecated on December 31, 2024)
+
+=item *
+
+application/vnd.amazonaws.connect.event.message.delivered
+
+=item *
+
+application/vnd.amazonaws.connect.event.message.read
 
 =back
 

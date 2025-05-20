@@ -1,8 +1,10 @@
 
 package Paws::CloudTrail::PutInsightSelectors;
   use Moose;
+  has EventDataStore => (is => 'ro', isa => 'Str');
+  has InsightsDestination => (is => 'ro', isa => 'Str');
   has InsightSelectors => (is => 'ro', isa => 'ArrayRef[Paws::CloudTrail::InsightSelector]', required => 1);
-  has TrailName => (is => 'ro', isa => 'Str', required => 1);
+  has TrailName => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -31,18 +33,21 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $PutInsightSelectorsResponse = $cloudtrail->PutInsightSelectors(
       InsightSelectors => [
         {
-          InsightType =>
-            'ApiCallRateInsight',    # values: ApiCallRateInsight; OPTIONAL
+          InsightType => 'ApiCallRateInsight'
+          ,    # values: ApiCallRateInsight, ApiErrorRateInsight; OPTIONAL
         },
         ...
       ],
-      TrailName => 'MyString',
-
+      EventDataStore      => 'MyEventDataStoreArn',    # OPTIONAL
+      InsightsDestination => 'MyEventDataStoreArn',    # OPTIONAL
+      TrailName           => 'MyString',               # OPTIONAL
     );
 
     # Results:
-    my $InsightSelectors = $PutInsightSelectorsResponse->InsightSelectors;
-    my $TrailARN         = $PutInsightSelectorsResponse->TrailARN;
+    my $EventDataStoreArn   = $PutInsightSelectorsResponse->EventDataStoreArn;
+    my $InsightSelectors    = $PutInsightSelectorsResponse->InsightSelectors;
+    my $InsightsDestination = $PutInsightSelectorsResponse->InsightsDestination;
+    my $TrailARN            = $PutInsightSelectorsResponse->TrailARN;
 
     # Returns a L<Paws::CloudTrail::PutInsightSelectorsResponse> object.
 
@@ -52,18 +57,51 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/clo
 =head1 ATTRIBUTES
 
 
+=head2 EventDataStore => Str
+
+The ARN (or ID suffix of the ARN) of the source event data store for
+which you want to change or add Insights selectors. To enable Insights
+on an event data store, you must provide both the C<EventDataStore> and
+C<InsightsDestination> parameters.
+
+You cannot use this parameter with the C<TrailName> parameter.
+
+
+
+=head2 InsightsDestination => Str
+
+The ARN (or ID suffix of the ARN) of the destination event data store
+that logs Insights events. To enable Insights on an event data store,
+you must provide both the C<EventDataStore> and C<InsightsDestination>
+parameters.
+
+You cannot use this parameter with the C<TrailName> parameter.
+
+
+
 =head2 B<REQUIRED> InsightSelectors => ArrayRef[L<Paws::CloudTrail::InsightSelector>]
 
-A JSON string that contains the insight types you want to log on a
-trail. In this release, only C<ApiCallRateInsight> is supported as an
-insight type.
+A JSON string that contains the Insights types you want to log on a
+trail or event data store. C<ApiCallRateInsight> and
+C<ApiErrorRateInsight> are valid Insight types.
+
+The C<ApiCallRateInsight> Insights type analyzes write-only management
+API calls that are aggregated per minute against a baseline API call
+volume.
+
+The C<ApiErrorRateInsight> Insights type analyzes management API calls
+that result in error codes. The error is shown if the API call is
+unsuccessful.
 
 
 
-=head2 B<REQUIRED> TrailName => Str
+=head2 TrailName => Str
 
 The name of the CloudTrail trail for which you want to change or add
 Insights selectors.
+
+You cannot use this parameter with the C<EventDataStore> and
+C<InsightsDestination> parameters.
 
 
 

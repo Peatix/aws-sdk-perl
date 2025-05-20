@@ -61,7 +61,7 @@ string. You can't modify the default subnet group.
 Constraints: Must match the name of an existing DBSubnetGroup. Must not
 be default.
 
-Example: C<mySubnetgroup>
+Example: C<mydbsubnetgroup>
 
 
 

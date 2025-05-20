@@ -63,8 +63,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ops
 
 An C<AutoScalingThresholds> object with the downscaling threshold
 configuration. If the load falls below these thresholds for a specified
-amount of time, AWS OpsWorks Stacks stops a specified number of
-instances.
+amount of time, OpsWorks Stacks stops a specified number of instances.
 
 
 
@@ -84,8 +83,7 @@ The layer ID.
 
 An C<AutoScalingThresholds> object with the upscaling threshold
 configuration. If the load exceeds these thresholds for a specified
-amount of time, AWS OpsWorks Stacks starts a specified number of
-instances.
+amount of time, OpsWorks Stacks starts a specified number of instances.
 
 
 

@@ -72,49 +72,46 @@ The Amazon Resource Name (ARN) of the incident record you are updating.
 
 =head2 ChatChannel => L<Paws::SSMIncidents::ChatChannel>
 
-The AWS Chatbot chat channel for responders to collaborate in.
+The Chatbot chat channel where responders can collaborate.
 
 
 
 =head2 ClientToken => Str
 
-A token ensuring that the action is called only once with the specified
-details.
+A token that ensures that a client calls the operation only once with
+the specified details.
 
 
 
 =head2 Impact => Int
 
-Defines the impact to customers and applications. Providing an impact
-overwrites the impact provided by the response plan.
+Defines the impact of the incident to customers and applications. If
+you provide an impact for an incident, it overwrites the impact
+provided by the response plan.
 
-B<Possible impacts:>
+B<Supported impact codes>
 
 =over
 
 =item *
 
-C<1> - Critical impact, this typically relates to full application
-failure that impacts many to all customers.
+C<1> - Critical
 
 =item *
 
-C<2> - High impact, partial application failure with impact to many
-customers.
+C<2> - High
 
 =item *
 
-C<3> - Medium impact, the application is providing reduced service to
-customers.
+C<3> - Medium
 
 =item *
 
-C<4> - Low impact, customer might aren't impacted by the problem yet.
+C<4> - Low
 
 =item *
 
-C<5> - No impact, customers aren't currently impacted but urgent action
-is needed to avoid impact.
+C<5> - No Impact
 
 =back
 
@@ -123,30 +120,30 @@ is needed to avoid impact.
 
 =head2 NotificationTargets => ArrayRef[L<Paws::SSMIncidents::NotificationTargetItem>]
 
-The SNS targets that AWS Chatbot uses to notify the chat channel of
-updates to an incident. You can also make updates to the incident
-through the chat channel using the SNS topics.
+The Amazon SNS targets that Incident Manager notifies when a client
+updates an incident.
 
-Using multiple SNS topics creates redundancy in the case that a Region
+Using multiple SNS topics creates redundancy in the event that a Region
 is down during the incident.
 
 
 
 =head2 Status => Str
 
-The status of the incident. An incident can be C<Open> or C<Resolved>.
+The status of the incident. Possible statuses are C<Open> or
+C<Resolved>.
 
 Valid values are: C<"OPEN">, C<"RESOLVED">
 
 =head2 Summary => Str
 
-The summary describes what has happened during the incident.
+A longer description of what occurred during the incident.
 
 
 
 =head2 Title => Str
 
-The title of the incident is a brief and easily recognizable.
+A brief description of the incident.
 
 
 

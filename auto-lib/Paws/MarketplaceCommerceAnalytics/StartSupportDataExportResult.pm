@@ -16,9 +16,10 @@ Paws::MarketplaceCommerceAnalytics::StartSupportDataExportResult
 
 =head2 DataSetRequestId => Str
 
-A unique identifier representing a specific request to the
-StartSupportDataExport operation. This identifier can be used to
-correlate a request with notifications from the SNS topic.
+I<This target has been deprecated.> A unique identifier representing a
+specific request to the StartSupportDataExport operation. This
+identifier can be used to correlate a request with notifications from
+the SNS topic.
 
 
 =head2 _request_id => Str

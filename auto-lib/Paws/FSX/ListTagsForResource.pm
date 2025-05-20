@@ -29,15 +29,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $fsx = Paws->service('FSX');
-    my $ListTagsForResourceResponse = $fsx->ListTagsForResource(
-      ResourceARN => 'MyResourceARN',
-      MaxResults  => 1,                 # OPTIONAL
-      NextToken   => 'MyNextToken',     # OPTIONAL
-    );
+    # To list tags for a resource
+    # This operation lists tags for an Amazon FSx resource.
+    my $ListTagsForResourceResponse =
+      $fsx->ListTagsForResource( 'ResourceARN' =>
+        'arn:aws:fsx:us-east-1:012345678912:file-system/fs-0498eed5fe91001ec' );
 
     # Results:
-    my $NextToken = $ListTagsForResourceResponse->NextToken;
-    my $Tags      = $ListTagsForResourceResponse->Tags;
+    my $Tags = $ListTagsForResourceResponse->Tags;
 
     # Returns a L<Paws::FSX::ListTagsForResourceResponse> object.
 

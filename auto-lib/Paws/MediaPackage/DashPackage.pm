@@ -4,6 +4,7 @@ package Paws::MediaPackage::DashPackage;
   has AdsOnDeliveryRestrictions => (is => 'ro', isa => 'Str', request_name => 'adsOnDeliveryRestrictions', traits => ['NameInRequest']);
   has AdTriggers => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'adTriggers', traits => ['NameInRequest']);
   has Encryption => (is => 'ro', isa => 'Paws::MediaPackage::DashEncryption', request_name => 'encryption', traits => ['NameInRequest']);
+  has IncludeIframeOnlyStream => (is => 'ro', isa => 'Bool', request_name => 'includeIframeOnlyStream', traits => ['NameInRequest']);
   has ManifestLayout => (is => 'ro', isa => 'Str', request_name => 'manifestLayout', traits => ['NameInRequest']);
   has ManifestWindowSeconds => (is => 'ro', isa => 'Int', request_name => 'manifestWindowSeconds', traits => ['NameInRequest']);
   has MinBufferTimeSeconds => (is => 'ro', isa => 'Int', request_name => 'minBufferTimeSeconds', traits => ['NameInRequest']);
@@ -67,12 +68,19 @@ A Dynamic Adaptive Streaming over HTTP (DASH) packaging configuration.
 
 
 
+=head2 IncludeIframeOnlyStream => Bool
+
+When enabled, an I-Frame only stream will be included in the output.
+
+
 =head2 ManifestLayout => Str
 
 Determines the position of some tags in the Media Presentation
 Description (MPD). When set to FULL, elements like SegmentTemplate and
 ContentProtection are included in each Representation. When set to
 COMPACT, duplicate elements are combined and presented at the
+AdaptationSet level. When set to DRM_TOP_LEVEL_COMPACT, content
+protection elements are placed the MPD level and referenced at the
 AdaptationSet level.
 
 
@@ -107,7 +115,8 @@ markers.
 =head2 Profile => Str
 
 The Dynamic Adaptive Streaming over HTTP (DASH) profile type. When set
-to "HBBTV_1_5", HbbTV 1.5 compliant output is enabled.
+to "HBBTV_1_5", HbbTV 1.5 compliant output is enabled. When set to
+"DVB-DASH_2014", DVB-DASH 2014 compliant output is enabled.
 
 
 =head2 SegmentDurationSeconds => Int
@@ -146,7 +155,7 @@ Description (MPD)
 =head2 UtcTimingUri => Str
 
 Specifies the value attribute of the UTCTiming field when utcTiming is
-set to HTTP-ISO or HTTP-HEAD
+set to HTTP-ISO, HTTP-HEAD or HTTP-XSDATE
 
 
 

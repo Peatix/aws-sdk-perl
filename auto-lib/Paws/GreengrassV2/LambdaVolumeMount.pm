@@ -37,17 +37,16 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::GreengrassV
 =head1 DESCRIPTION
 
 Contains information about a volume that Linux processes in a container
-can access. When you define a volume, the AWS IoT Greengrass Core
-software mounts the source files to the destination inside the
-container.
+can access. When you define a volume, the IoT Greengrass Core software
+mounts the source files to the destination inside the container.
 
 =head1 ATTRIBUTES
 
 
 =head2 AddGroupOwner => Bool
 
-Whether or not to add the AWS IoT Greengrass user group as an owner of
-the volume.
+Whether or not to add the IoT Greengrass user group as an owner of the
+volume.
 
 Default: C<false>
 

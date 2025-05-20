@@ -139,8 +139,8 @@ set of job executions, use it in the next request.
 
 =head2 SortBy => Str
 
-Whether to sort results by C<Status>, C<CreationTime>, C<ScheduledTime>
-field. The default is C<CreationTime>.
+Whether to sort the results by the C<Status>, C<CreationTime>, or
+C<ScheduledTime> field. The default is C<CreationTime>.
 
 Valid values are: C<"Name">, C<"CreationTime">, C<"Status">
 

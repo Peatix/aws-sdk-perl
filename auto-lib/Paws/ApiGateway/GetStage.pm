@@ -64,13 +64,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 B<REQUIRED> RestApiId => Str
 
-[Required] The string identifier of the associated RestApi.
+The string identifier of the associated RestApi.
 
 
 
 =head2 B<REQUIRED> StageName => Str
 
-[Required] The name of the Stage resource to get information about.
+The name of the Stage resource to get information about.
 
 
 

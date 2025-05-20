@@ -50,8 +50,8 @@ List of global secondary indexes for the replica.
 
 =head2 KmsMasterKeyId => Str
 
-The identifier of the AWS KMS customer master key (CMK) that will be
-used for AWS KMS encryption for the replica.
+The identifier of the KMS key that will be used for KMS encryption for
+the replica.
 
 
 =head2 ProvisionedThroughputOverride => L<Paws::SecurityHub::AwsDynamoDbTableProvisionedThroughputOverride>
@@ -66,7 +66,32 @@ The name of the Region where the replica is located.
 
 =head2 ReplicaStatus => Str
 
-The current status of the replica.
+The current status of the replica. Valid values are as follows:
+
+=over
+
+=item *
+
+C<ACTIVE>
+
+=item *
+
+C<CREATING>
+
+=item *
+
+C<CREATION_FAILED>
+
+=item *
+
+C<DELETING>
+
+=item *
+
+C<UPDATING>
+
+=back
+
 
 
 =head2 ReplicaStatusDescription => Str

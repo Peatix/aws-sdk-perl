@@ -18,7 +18,7 @@ Paws::AuditManager::ListNotificationsResponse
 
 =head2 NextToken => Str
 
-The pagination token used to fetch the next set of results.
+The pagination token that's used to fetch the next set of results.
 
 
 =head2 Notifications => ArrayRef[L<Paws::AuditManager::Notification>]

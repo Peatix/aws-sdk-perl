@@ -33,8 +33,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SSMIncident
 
 =head1 DESCRIPTION
 
-The mapping between a Region and the key that's used to encrypt the
-data.
+The mapping between a Amazon Web Services Region and the key that's
+used to encrypt the data.
 
 =head1 ATTRIBUTES
 

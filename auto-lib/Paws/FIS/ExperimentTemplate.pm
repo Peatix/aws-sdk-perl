@@ -2,13 +2,18 @@
 package Paws::FIS::ExperimentTemplate;
   use Moose;
   has Actions => (is => 'ro', isa => 'Paws::FIS::ExperimentTemplateActionMap', request_name => 'actions', traits => ['NameInRequest']);
+  has Arn => (is => 'ro', isa => 'Str', request_name => 'arn', traits => ['NameInRequest']);
   has CreationTime => (is => 'ro', isa => 'Str', request_name => 'creationTime', traits => ['NameInRequest']);
   has Description => (is => 'ro', isa => 'Str', request_name => 'description', traits => ['NameInRequest']);
+  has ExperimentOptions => (is => 'ro', isa => 'Paws::FIS::ExperimentTemplateExperimentOptions', request_name => 'experimentOptions', traits => ['NameInRequest']);
+  has ExperimentReportConfiguration => (is => 'ro', isa => 'Paws::FIS::ExperimentTemplateReportConfiguration', request_name => 'experimentReportConfiguration', traits => ['NameInRequest']);
   has Id => (is => 'ro', isa => 'Str', request_name => 'id', traits => ['NameInRequest']);
   has LastUpdateTime => (is => 'ro', isa => 'Str', request_name => 'lastUpdateTime', traits => ['NameInRequest']);
+  has LogConfiguration => (is => 'ro', isa => 'Paws::FIS::ExperimentTemplateLogConfiguration', request_name => 'logConfiguration', traits => ['NameInRequest']);
   has RoleArn => (is => 'ro', isa => 'Str', request_name => 'roleArn', traits => ['NameInRequest']);
   has StopConditions => (is => 'ro', isa => 'ArrayRef[Paws::FIS::ExperimentTemplateStopCondition]', request_name => 'stopConditions', traits => ['NameInRequest']);
   has Tags => (is => 'ro', isa => 'Paws::FIS::TagMap', request_name => 'tags', traits => ['NameInRequest']);
+  has TargetAccountConfigurationsCount => (is => 'ro', isa => 'Int', request_name => 'targetAccountConfigurationsCount', traits => ['NameInRequest']);
   has Targets => (is => 'ro', isa => 'Paws::FIS::ExperimentTemplateTargetMap', request_name => 'targets', traits => ['NameInRequest']);
 
 1;
@@ -51,6 +56,11 @@ Describes an experiment template.
 The actions for the experiment.
 
 
+=head2 Arn => Str
+
+The Amazon Resource Name (ARN) of the experiment template.
+
+
 =head2 CreationTime => Str
 
 The time the experiment template was created.
@@ -61,6 +71,16 @@ The time the experiment template was created.
 The description for the experiment template.
 
 
+=head2 ExperimentOptions => L<Paws::FIS::ExperimentTemplateExperimentOptions>
+
+The experiment options for an experiment template.
+
+
+=head2 ExperimentReportConfiguration => L<Paws::FIS::ExperimentTemplateReportConfiguration>
+
+Describes the report configuration for the experiment template.
+
+
 =head2 Id => Str
 
 The ID of the experiment template.
@@ -69,6 +89,11 @@ The ID of the experiment template.
 =head2 LastUpdateTime => Str
 
 The time the experiment template was last updated.
+
+
+=head2 LogConfiguration => L<Paws::FIS::ExperimentTemplateLogConfiguration>
+
+The configuration for experiment logging.
 
 
 =head2 RoleArn => Str
@@ -84,6 +109,11 @@ The stop conditions for the experiment.
 =head2 Tags => L<Paws::FIS::TagMap>
 
 The tags for the experiment template.
+
+
+=head2 TargetAccountConfigurationsCount => Int
+
+The count of target account configurations for the experiment template.
 
 
 =head2 Targets => L<Paws::FIS::ExperimentTemplateTargetMap>

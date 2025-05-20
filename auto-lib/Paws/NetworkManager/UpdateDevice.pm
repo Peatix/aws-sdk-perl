@@ -38,23 +38,23 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $networkmanager = Paws->service('NetworkManager');
     my $UpdateDeviceResponse = $networkmanager->UpdateDevice(
-      DeviceId        => 'MyString',
-      GlobalNetworkId => 'MyString',
+      DeviceId        => 'MyDeviceId',
+      GlobalNetworkId => 'MyGlobalNetworkId',
       AWSLocation     => {
-        SubnetArn => 'MyString',
-        Zone      => 'MyString',
+        SubnetArn => 'MySubnetArn',            # max: 500; OPTIONAL
+        Zone      => 'MyConstrainedString',    # max: 256; OPTIONAL
       },    # OPTIONAL
-      Description => 'MyString',    # OPTIONAL
+      Description => 'MyConstrainedString',    # OPTIONAL
       Location    => {
-        Address   => 'MyString',
-        Latitude  => 'MyString',
-        Longitude => 'MyString',
-      },                            # OPTIONAL
-      Model        => 'MyString',   # OPTIONAL
-      SerialNumber => 'MyString',   # OPTIONAL
-      SiteId       => 'MyString',   # OPTIONAL
-      Type         => 'MyString',   # OPTIONAL
-      Vendor       => 'MyString',   # OPTIONAL
+        Address   => 'MyConstrainedString',    # max: 256; OPTIONAL
+        Latitude  => 'MyConstrainedString',    # max: 256; OPTIONAL
+        Longitude => 'MyConstrainedString',    # max: 256; OPTIONAL
+      },    # OPTIONAL
+      Model        => 'MyConstrainedString',    # OPTIONAL
+      SerialNumber => 'MyConstrainedString',    # OPTIONAL
+      SiteId       => 'MySiteId',               # OPTIONAL
+      Type         => 'MyConstrainedString',    # OPTIONAL
+      Vendor       => 'MyConstrainedString',    # OPTIONAL
     );
 
     # Results:
@@ -70,7 +70,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/net
 
 =head2 AWSLocation => L<Paws::NetworkManager::AWSLocation>
 
-The AWS location of the device.
+The Amazon Web Services location of the device, if applicable. For an
+on-premises device, you can omit this parameter.
 
 
 
@@ -78,7 +79,7 @@ The AWS location of the device.
 
 A description of the device.
 
-Length Constraints: Maximum length of 256 characters.
+Constraints: Maximum length of 256 characters.
 
 
 
@@ -104,7 +105,7 @@ The ID of the global network.
 
 The model of the device.
 
-Length Constraints: Maximum length of 128 characters.
+Constraints: Maximum length of 128 characters.
 
 
 
@@ -112,7 +113,7 @@ Length Constraints: Maximum length of 128 characters.
 
 The serial number of the device.
 
-Length Constraints: Maximum length of 128 characters.
+Constraints: Maximum length of 128 characters.
 
 
 
@@ -132,7 +133,7 @@ The type of the device.
 
 The vendor of the device.
 
-Length Constraints: Maximum length of 128 characters.
+Constraints: Maximum length of 128 characters.
 
 
 

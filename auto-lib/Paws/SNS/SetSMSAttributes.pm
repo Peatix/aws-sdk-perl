@@ -40,8 +40,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/sns
 
 =head2 B<REQUIRED> Attributes => L<Paws::SNS::MapStringToString>
 
-The default settings for sending SMS messages from your account. You
-can set values for the following attribute names:
+The default settings for sending SMS messages from your Amazon Web
+Services account. You can set values for the following attribute names:
 
 C<MonthlySpendLimit> E<ndash> The maximum amount in USD that you are
 willing to spend each month to send SMS messages. When Amazon SNS
@@ -101,7 +101,7 @@ C<UsageReportS3Bucket> E<ndash> The name of the Amazon S3 bucket to
 receive daily SMS usage reports from Amazon SNS. Each day, Amazon SNS
 will deliver a usage report as a CSV file to the bucket. The report
 includes the following information for each SMS message that was
-successfully delivered by your account:
+successfully delivered by your Amazon Web Services account:
 
 =over
 

@@ -56,7 +56,7 @@ A message that provides additional information about the error.
 
 =head2 ThingName => Str
 
-The name of the AWS IoT thing whose disassociate request failed.
+The name of the IoT thing whose disassociate request failed.
 
 
 

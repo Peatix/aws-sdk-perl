@@ -43,7 +43,7 @@ registry.
 =head2 AuthorizationToken => Str
 
 A base64-encoded string that contains authorization data for a public
-Amazon ECR registry. When the string is decoded, it is presented in the
+Amazon ECR registry. When the string is decoded, it's presented in the
 format C<user:password> for public registry authentication using
 C<docker login>.
 

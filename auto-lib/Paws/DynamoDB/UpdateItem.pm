@@ -11,6 +11,7 @@ package Paws::DynamoDB::UpdateItem;
   has ReturnConsumedCapacity => (is => 'ro', isa => 'Str');
   has ReturnItemCollectionMetrics => (is => 'ro', isa => 'Str');
   has ReturnValues => (is => 'ro', isa => 'Str');
+  has ReturnValuesOnConditionCheckFailure => (is => 'ro', isa => 'Str');
   has TableName => (is => 'ro', isa => 'Str', required => 1);
   has UpdateExpression => (is => 'ro', isa => 'Str');
 
@@ -268,8 +269,8 @@ Valid values are: C<"SIZE">, C<"NONE">
 =head2 ReturnValues => Str
 
 Use C<ReturnValues> if you want to get the item attributes as they
-appear before or after they are updated. For C<UpdateItem>, the valid
-values are:
+appear before or after they are successfully updated. For
+C<UpdateItem>, the valid values are:
 
 =over
 
@@ -309,9 +310,21 @@ The values returned are strongly consistent.
 
 Valid values are: C<"NONE">, C<"ALL_OLD">, C<"UPDATED_OLD">, C<"ALL_NEW">, C<"UPDATED_NEW">
 
+=head2 ReturnValuesOnConditionCheckFailure => Str
+
+An optional parameter that returns the item attributes for an
+C<UpdateItem> operation that failed a condition check.
+
+There is no additional cost associated with requesting a return value
+aside from the small network and processing overhead of receiving a
+larger response. No read capacity units are consumed.
+
+Valid values are: C<"ALL_OLD">, C<"NONE">
+
 =head2 B<REQUIRED> TableName => Str
 
-The name of the table containing the item to update.
+The name of the table containing the item to update. You can also
+provide the Amazon Resource Name (ARN) of the table in this parameter.
 
 
 

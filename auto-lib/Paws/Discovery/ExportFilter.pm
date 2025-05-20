@@ -50,15 +50,15 @@ Supported condition: C<EQUALS>
 
 =head2 B<REQUIRED> Name => Str
 
-A single C<ExportFilter> name. Supported filters: C<agentId>.
+A single C<ExportFilter> name. Supported filters: C<agentIds>.
 
 
 =head2 B<REQUIRED> Values => ArrayRef[Str|Undef]
 
-A single C<agentId> for a Discovery Agent. An C<agentId> can be found
-using the DescribeAgents
-(http://docs.aws.amazon.com/application-discovery/latest/APIReference/API_DescribeExportTasks.html)
-action. Typically an ADS C<agentId> is in the form
+A single agent ID for a Discovery Agent. An agent ID can be found using
+the DescribeAgents
+(http://docs.aws.amazon.com/application-discovery/latest/APIReference/API_DescribeAgents.html)
+action. Typically an ADS agent ID is in the form
 C<o-0123456789abcdef0>.
 
 

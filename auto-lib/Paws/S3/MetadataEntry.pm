@@ -41,12 +41,12 @@ A metadata key-value pair to store with an object.
 
 =head2 Name => Str
 
-Name of the Object.
+Name of the object.
 
 
 =head2 Value => Str
 
-Value of the Object.
+Value of the object.
 
 
 

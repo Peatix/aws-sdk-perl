@@ -36,8 +36,12 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::DevOpsGuru:
 
 =head1 DESCRIPTION
 
-Specifies one or more severity values and one or more status values
-that are used to search for insights.
+Specifies values used to filter responses when searching for insights.
+You can use a C<ResourceCollection>, C<ServiceCollection>, array of
+severities, and an array of status values. Each filter type contains
+one or more values to search for. If you specify multiple filter types,
+the filter types are joined with an C<AND>, and the request returns
+only results that match all of the specified filters.
 
 =head1 ATTRIBUTES
 
@@ -49,7 +53,7 @@ that are used to search for insights.
 
 =head2 ServiceCollection => L<Paws::DevOpsGuru::ServiceCollection>
 
-A collection of the names of AWS services.
+A collection of the names of Amazon Web Services services.
 
 
 =head2 Severities => ArrayRef[Str|Undef]

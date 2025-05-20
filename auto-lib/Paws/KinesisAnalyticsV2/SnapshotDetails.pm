@@ -2,6 +2,7 @@
 package Paws::KinesisAnalyticsV2::SnapshotDetails;
   use Moose;
   has ApplicationVersionId => (is => 'ro', isa => 'Int', required => 1);
+  has RuntimeEnvironment => (is => 'ro', isa => 'Str');
   has SnapshotCreationTimestamp => (is => 'ro', isa => 'Str');
   has SnapshotName => (is => 'ro', isa => 'Str', required => 1);
   has SnapshotStatus => (is => 'ro', isa => 'Str', required => 1);
@@ -44,6 +45,11 @@ Provides details about a snapshot of application state.
 =head2 B<REQUIRED> ApplicationVersionId => Int
 
 The current application version ID when the snapshot was created.
+
+
+=head2 RuntimeEnvironment => Str
+
+The Flink Runtime for the application snapshot.
 
 
 =head2 SnapshotCreationTimestamp => Str

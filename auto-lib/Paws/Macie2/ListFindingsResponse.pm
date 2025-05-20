@@ -19,7 +19,7 @@ Paws::Macie2::ListFindingsResponse
 =head2 FindingIds => ArrayRef[Str|Undef]
 
 An array of strings, where each string is the unique identifier for a
-finding that meets the filter criteria specified in the request.
+finding that matches the filter criteria specified in the request.
 
 
 =head2 NextToken => Str

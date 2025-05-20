@@ -47,8 +47,8 @@ members: NodeGroupId, NewReplicaCount, and PreferredAvailabilityZones.
 
 The number of replicas you want in this node group at the end of this
 operation. The maximum value for C<NewReplicaCount> is 5. The minimum
-value depends upon the type of Redis replication group you are working
-with.
+value depends upon the type of Valkey or Redis OSS replication group
+you are working with.
 
 The minimum number of replicas in a shard or replication group is:
 
@@ -56,7 +56,7 @@ The minimum number of replicas in a shard or replication group is:
 
 =item *
 
-Redis (cluster mode disabled)
+Valkey or Redis OSS (cluster mode disabled)
 
 =over
 
@@ -72,8 +72,8 @@ If Multi-AZ: 0
 
 =item *
 
-Redis (cluster mode enabled): 0 (though you will not be able to
-failover to a replica if your primary node fails)
+Valkey or Redis OSS (cluster mode enabled): 0 (though you will not be
+able to failover to a replica if your primary node fails)
 
 =back
 
@@ -81,11 +81,11 @@ failover to a replica if your primary node fails)
 
 =head2 B<REQUIRED> NodeGroupId => Str
 
-The 4-digit id for the node group you are configuring. For Redis
-(cluster mode disabled) replication groups, the node group id is always
-0001. To find a Redis (cluster mode enabled)'s node group's (shard's)
-id, see Finding a Shard's Id
-(https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/shard-find-id.html).
+The 4-digit id for the node group you are configuring. For Valkey or
+Redis OSS (cluster mode disabled) replication groups, the node group id
+is always 0001. To find a Valkey or Redis OSS (cluster mode enabled)'s
+node group's (shard's) id, see Finding a Shard's Id
+(https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/shard-find-id.html).
 
 
 =head2 PreferredAvailabilityZones => ArrayRef[Str|Undef]
@@ -94,8 +94,8 @@ A list of C<PreferredAvailabilityZone> strings that specify which
 availability zones the replication group's nodes are to be in. The
 nummber of C<PreferredAvailabilityZone> values must equal the value of
 C<NewReplicaCount> plus 1 to account for the primary node. If this
-member of C<ReplicaConfiguration> is omitted, ElastiCache for Redis
-selects the availability zone for each of the replicas.
+member of C<ReplicaConfiguration> is omitted, ElastiCache selects the
+availability zone for each of the replicas.
 
 
 =head2 PreferredOutpostArns => ArrayRef[Str|Undef]

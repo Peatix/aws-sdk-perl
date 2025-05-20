@@ -11,6 +11,7 @@ package Paws::Kafka::CreateCluster;
   has LoggingInfo => (is => 'ro', isa => 'Paws::Kafka::LoggingInfo', traits => ['NameInRequest'], request_name => 'loggingInfo');
   has NumberOfBrokerNodes => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'numberOfBrokerNodes', required => 1);
   has OpenMonitoring => (is => 'ro', isa => 'Paws::Kafka::OpenMonitoringInfo', traits => ['NameInRequest'], request_name => 'openMonitoring');
+  has StorageMode => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'storageMode');
   has Tags => (is => 'ro', isa => 'Paws::Kafka::__mapOf__string', traits => ['NameInRequest'], request_name => 'tags');
 
   use MooseX::ClassAttribute;
@@ -43,12 +44,35 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ClientSubnets        => [ 'My__string', ... ],
         InstanceType         => 'My__stringMin5Max32',    # min: 5, max: 32
         BrokerAZDistribution => 'DEFAULT',    # values: DEFAULT; OPTIONAL
-        SecurityGroups       => [ 'My__string', ... ],
-        StorageInfo          => {
-          EbsStorageInfo => {
-            VolumeSize => 1,                  # min: 1, max: 16384; OPTIONAL
+        ConnectivityInfo     => {
+          PublicAccess    => { Type => 'My__string', },    # OPTIONAL
+          VpcConnectivity => {
+            ClientAuthentication => {
+              Sasl => {
+                Iam => {
+                  Enabled => 1,    # OPTIONAL
+                },    # OPTIONAL
+                Scram => {
+                  Enabled => 1,    # OPTIONAL
+                },    # OPTIONAL
+              },    # OPTIONAL
+              Tls => {
+                Enabled => 1,    # OPTIONAL
+              },    # OPTIONAL
+            },    # OPTIONAL
           },    # OPTIONAL
         },    # OPTIONAL
+        SecurityGroups => [ 'My__string', ... ],
+        StorageInfo    => {
+          EbsStorageInfo => {
+            ProvisionedThroughput => {
+              Enabled          => 1,    # OPTIONAL
+              VolumeThroughput => 1,    # OPTIONAL
+            },    # OPTIONAL
+            VolumeSize => 1,    # min: 1, max: 16384; OPTIONAL
+          },    # OPTIONAL
+        },    # OPTIONAL
+        ZoneIds => [ 'My__string', ... ],
       },
       ClusterName          => 'My__stringMin1Max64',
       KafkaVersion         => 'My__stringMin1Max128',
@@ -62,8 +86,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             Enabled => 1,    # OPTIONAL
           },    # OPTIONAL
         },    # OPTIONAL
-        Tls => { CertificateAuthorityArnList => [ 'My__string', ... ], }
-        ,     # OPTIONAL
+        Tls => {
+          CertificateAuthorityArnList => [ 'My__string', ... ],
+          Enabled                     => 1,                       # OPTIONAL
+        },    # OPTIONAL
+        Unauthenticated => {
+          Enabled => 1,    # OPTIONAL
+        },    # OPTIONAL
       },    # OPTIONAL
       ConfigurationInfo => {
         Arn      => 'My__string',
@@ -113,7 +142,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },
 
       },    # OPTIONAL
-      Tags => { 'My__string' => 'My__string', },    # OPTIONAL
+      StorageMode => 'LOCAL',                              # OPTIONAL
+      Tags        => { 'My__string' => 'My__string', },    # OPTIONAL
     );
 
     # Results:
@@ -191,6 +221,12 @@ The number of broker nodes in the cluster.
 The settings for open monitoring.
 
 
+
+=head2 StorageMode => Str
+
+This controls storage mode for supported storage tiers.
+
+Valid values are: C<"LOCAL">, C<"TIERED">
 
 =head2 Tags => L<Paws::Kafka::__mapOf__string>
 

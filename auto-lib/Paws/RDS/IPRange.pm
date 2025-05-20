@@ -42,13 +42,13 @@ C<DescribeDBSecurityGroups> action.
 
 =head2 CIDRIP => Str
 
-Specifies the IP range.
+The IP range.
 
 
 =head2 Status => Str
 
-Specifies the status of the IP range. Status can be "authorizing",
-"authorized", "revoking", and "revoked".
+The status of the IP range. Status can be "authorizing", "authorized",
+"revoking", and "revoked".
 
 
 

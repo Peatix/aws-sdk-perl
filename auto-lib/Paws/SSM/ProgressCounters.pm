@@ -37,8 +37,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SSM::Progre
 
 =head1 DESCRIPTION
 
-An aggregate of step execution statuses displayed in the AWS Console
-for a multi-Region and multi-account Automation execution.
+An aggregate of step execution statuses displayed in the Amazon Web
+Services Systems Manager console for a multi-Region and multi-account
+Automation execution.
 
 =head1 ATTRIBUTES
 
@@ -46,31 +47,36 @@ for a multi-Region and multi-account Automation execution.
 =head2 CancelledSteps => Int
 
 The total number of steps that the system cancelled in all specified
-AWS Regions and accounts for the current Automation execution.
+Amazon Web Services Regions and Amazon Web Services accounts for the
+current Automation execution.
 
 
 =head2 FailedSteps => Int
 
-The total number of steps that failed to run in all specified AWS
-Regions and accounts for the current Automation execution.
+The total number of steps that failed to run in all specified Amazon
+Web Services Regions and Amazon Web Services accounts for the current
+Automation execution.
 
 
 =head2 SuccessSteps => Int
 
 The total number of steps that successfully completed in all specified
-AWS Regions and accounts for the current Automation execution.
+Amazon Web Services Regions and Amazon Web Services accounts for the
+current Automation execution.
 
 
 =head2 TimedOutSteps => Int
 
-The total number of steps that timed out in all specified AWS Regions
-and accounts for the current Automation execution.
+The total number of steps that timed out in all specified Amazon Web
+Services Regions and Amazon Web Services accounts for the current
+Automation execution.
 
 
 =head2 TotalSteps => Int
 
-The total number of steps run in all specified AWS Regions and accounts
-for the current Automation execution.
+The total number of steps run in all specified Amazon Web Services
+Regions and Amazon Web Services accounts for the current Automation
+execution.
 
 
 

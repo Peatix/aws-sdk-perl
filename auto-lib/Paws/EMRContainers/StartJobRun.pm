@@ -3,10 +3,13 @@ package Paws::EMRContainers::StartJobRun;
   use Moose;
   has ClientToken => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'clientToken', required => 1);
   has ConfigurationOverrides => (is => 'ro', isa => 'Paws::EMRContainers::ConfigurationOverrides', traits => ['NameInRequest'], request_name => 'configurationOverrides');
-  has ExecutionRoleArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'executionRoleArn', required => 1);
-  has JobDriver => (is => 'ro', isa => 'Paws::EMRContainers::JobDriver', traits => ['NameInRequest'], request_name => 'jobDriver', required => 1);
+  has ExecutionRoleArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'executionRoleArn');
+  has JobDriver => (is => 'ro', isa => 'Paws::EMRContainers::JobDriver', traits => ['NameInRequest'], request_name => 'jobDriver');
+  has JobTemplateId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'jobTemplateId');
+  has JobTemplateParameters => (is => 'ro', isa => 'Paws::EMRContainers::TemplateParameterInputMap', traits => ['NameInRequest'], request_name => 'jobTemplateParameters');
   has Name => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'name');
-  has ReleaseLabel => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'releaseLabel', required => 1);
+  has ReleaseLabel => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'releaseLabel');
+  has RetryPolicyConfiguration => (is => 'ro', isa => 'Paws::EMRContainers::RetryPolicyConfiguration', traits => ['NameInRequest'], request_name => 'retryPolicyConfiguration');
   has Tags => (is => 'ro', isa => 'Paws::EMRContainers::TagMap', traits => ['NameInRequest'], request_name => 'tags');
   has VirtualClusterId => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'virtualClusterId', required => 1);
 
@@ -36,19 +39,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $emr-containers = Paws->service('EMRContainers');
     my $StartJobRunResponse = $emr -containers->StartJobRun(
-      ClientToken      => 'MyClientToken',
-      ExecutionRoleArn => 'MyIAMRoleArn',
-      JobDriver        => {
-        SparkSubmitJobDriver => {
-          EntryPoint          => 'MyEntryPointPath',    # min: 1, max: 256
-          EntryPointArguments => [
-            'MyEntryPointArgument', ...                 # min: 1, max: 10280
-          ],    # OPTIONAL
-          SparkSubmitParameters =>
-            'MySparkSubmitParameters',    # min: 1, max: 1024; OPTIONAL
-        },    # OPTIONAL
-      },
-      ReleaseLabel           => 'MyReleaseLabel',
+      ClientToken            => 'MyClientToken',
       VirtualClusterId       => 'MyResourceIdString',
       ConfigurationOverrides => {
         ApplicationConfiguration => [
@@ -67,6 +58,16 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             LogGroupName        => 'MyLogGroupName',    # min: 1, max: 512
             LogStreamNamePrefix => 'MyString256',   # min: 1, max: 256; OPTIONAL
           },    # OPTIONAL
+          ContainerLogRotationConfiguration => {
+            MaxFilesToKeep => 1,                   # min: 1, max: 50
+            RotationSize   => 'MyRotationSize',    # min: 3, max: 12
+
+          },    # OPTIONAL
+          ManagedLogs => {
+            AllowAWSToRetainLogs =>
+              'ENABLED',    # values: ENABLED, DISABLED; OPTIONAL
+            EncryptionKeyArn => 'MyKmsKeyArn',    # min: 3, max: 2048; OPTIONAL
+          },    # OPTIONAL
           PersistentAppUI => 'ENABLED',    # values: ENABLED, DISABLED; OPTIONAL
           S3MonitoringConfiguration => {
             LogUri => 'MyUriString',       # min: 1, max: 10280
@@ -74,7 +75,33 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           },    # OPTIONAL
         },    # OPTIONAL
       },    # OPTIONAL
-      Name => 'MyResourceNameString',    # OPTIONAL
+      ExecutionRoleArn => 'MyIAMRoleArn',    # OPTIONAL
+      JobDriver        => {
+        SparkSqlJobDriver => {
+          EntryPoint         => 'MyEntryPointPath', # min: 1, max: 256; OPTIONAL
+          SparkSqlParameters =>
+            'MySparkSqlParameters',    # min: 1, max: 102400; OPTIONAL
+        },    # OPTIONAL
+        SparkSubmitJobDriver => {
+          EntryPoint => 'MyEntryPointPath',    # min: 1, max: 256; OPTIONAL
+          EntryPointArguments => [
+            'MyEntryPointArgument', ...        # min: 1, max: 10280
+          ],    # OPTIONAL
+          SparkSubmitParameters =>
+            'MySparkSubmitParameters',    # min: 1, max: 102400; OPTIONAL
+        },    # OPTIONAL
+      },    # OPTIONAL
+      JobTemplateId         => 'MyResourceIdString',    # OPTIONAL
+      JobTemplateParameters => {
+        'MyTemplateParameterName' =>
+          'MyString1024',    # key: min: 1, max: 512, value: min: 1, max: 1024
+      },    # OPTIONAL
+      Name                     => 'MyResourceNameString',    # OPTIONAL
+      ReleaseLabel             => 'MyReleaseLabel',          # OPTIONAL
+      RetryPolicyConfiguration => {
+        MaxAttempts => 1,
+
+      },                                                     # OPTIONAL
       Tags => {
         'MyString128' =>
           'MyStringEmpty256',    # key: min: 1, max: 128, value: max: 256
@@ -107,15 +134,27 @@ The configuration overrides for the job run.
 
 
 
-=head2 B<REQUIRED> ExecutionRoleArn => Str
+=head2 ExecutionRoleArn => Str
 
 The execution role ARN for the job run.
 
 
 
-=head2 B<REQUIRED> JobDriver => L<Paws::EMRContainers::JobDriver>
+=head2 JobDriver => L<Paws::EMRContainers::JobDriver>
 
 The job driver for the job run.
+
+
+
+=head2 JobTemplateId => Str
+
+The job template ID to be used to start the job run.
+
+
+
+=head2 JobTemplateParameters => L<Paws::EMRContainers::TemplateParameterInputMap>
+
+The values of job template parameters to start a job run.
 
 
 
@@ -125,9 +164,15 @@ The name of the job run.
 
 
 
-=head2 B<REQUIRED> ReleaseLabel => Str
+=head2 ReleaseLabel => Str
 
 The Amazon EMR release version to use for the job run.
+
+
+
+=head2 RetryPolicyConfiguration => L<Paws::EMRContainers::RetryPolicyConfiguration>
+
+The retry policy configuration for the job run.
 
 
 

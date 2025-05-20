@@ -36,29 +36,32 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::MWAA::Stati
 
 =head1 DESCRIPTION
 
-Internal only API.
+B<Internal only>. Represents a set of statistics that describe a
+specific metric. To learn more about the metrics published to Amazon
+CloudWatch, see Amazon MWAA performance metrics in Amazon CloudWatch
+(https://docs.aws.amazon.com/mwaa/latest/userguide/cw-metrics.html).
 
 =head1 ATTRIBUTES
 
 
 =head2 Maximum => Num
 
-Internal only API.
+B<Internal only>. The maximum value of the sample set.
 
 
 =head2 Minimum => Num
 
-Internal only API.
+B<Internal only>. The minimum value of the sample set.
 
 
 =head2 SampleCount => Int
 
-Internal only API.
+B<Internal only>. The number of samples used for the statistic set.
 
 
 =head2 Sum => Num
 
-Internal only API.
+B<Internal only>. The sum of values for the sample set.
 
 
 

@@ -62,7 +62,7 @@ When the channel was created.
 
 The last time when a new message arrived in the channel.
 
-AWS IoT Analytics updates this value at most once per minute for one
+IoT Analytics updates this value at most once per minute for one
 channel. Hence, the C<lastMessageArrivalTime> value is an
 approximation.
 

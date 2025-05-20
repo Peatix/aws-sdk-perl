@@ -1,0 +1,34 @@
+
+package Paws::WorkSpacesWeb::ListPortalsResponse;
+  use Moose;
+  has NextToken => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'nextToken');
+  has Portals => (is => 'ro', isa => 'ArrayRef[Paws::WorkSpacesWeb::PortalSummary]', traits => ['NameInRequest'], request_name => 'portals');
+
+  has _request_id => (is => 'ro', isa => 'Str');
+1;
+
+### main pod documentation begin ###
+
+=head1 NAME
+
+Paws::WorkSpacesWeb::ListPortalsResponse
+
+=head1 ATTRIBUTES
+
+
+=head2 NextToken => Str
+
+The pagination token used to retrieve the next page of results for this
+operation.
+
+
+=head2 Portals => ArrayRef[L<Paws::WorkSpacesWeb::PortalSummary>]
+
+The portals in the list.
+
+
+=head2 _request_id => Str
+
+
+=cut
+

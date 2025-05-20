@@ -2,6 +2,8 @@
 package Paws::Proton::EnvironmentAccountConnection;
   use Moose;
   has Arn => (is => 'ro', isa => 'Str', request_name => 'arn', traits => ['NameInRequest'], required => 1);
+  has CodebuildRoleArn => (is => 'ro', isa => 'Str', request_name => 'codebuildRoleArn', traits => ['NameInRequest']);
+  has ComponentRoleArn => (is => 'ro', isa => 'Str', request_name => 'componentRoleArn', traits => ['NameInRequest']);
   has EnvironmentAccountId => (is => 'ro', isa => 'Str', request_name => 'environmentAccountId', traits => ['NameInRequest'], required => 1);
   has EnvironmentName => (is => 'ro', isa => 'Str', request_name => 'environmentName', traits => ['NameInRequest'], required => 1);
   has Id => (is => 'ro', isa => 'Str', request_name => 'id', traits => ['NameInRequest'], required => 1);
@@ -41,7 +43,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Proton::Env
 
 =head1 DESCRIPTION
 
-The environment account connection detail data.
+Detailed data of an Proton environment account connection resource.
 
 =head1 ATTRIBUTES
 
@@ -49,6 +51,30 @@ The environment account connection detail data.
 =head2 B<REQUIRED> Arn => Str
 
 The Amazon Resource Name (ARN) of the environment account connection.
+
+
+=head2 CodebuildRoleArn => Str
+
+The Amazon Resource Name (ARN) of an IAM service role in the
+environment account. Proton uses this role to provision infrastructure
+resources using CodeBuild-based provisioning in the associated
+environment account.
+
+
+=head2 ComponentRoleArn => Str
+
+The Amazon Resource Name (ARN) of the IAM service role that Proton uses
+when provisioning directly defined components in the associated
+environment account. It determines the scope of infrastructure that a
+component can provision in the account.
+
+The environment account connection must have a C<componentRoleArn> to
+allow directly defined components to be associated with any
+environments running in the account.
+
+For more information about components, see Proton components
+(https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html)
+in the I<Proton User Guide>.
 
 
 =head2 B<REQUIRED> EnvironmentAccountId => Str

@@ -33,7 +33,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       Tags        => [
         {
           Key   => 'MyTagKey',      # min: 1, max: 256
-          Value => 'MyTagValue',    # min: 1, max: 256; OPTIONAL
+          Value => 'MyTagValue',    # max: 256; OPTIONAL
         },
         ...
       ],
@@ -48,13 +48,14 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/dat
 
 =head2 B<REQUIRED> ResourceArn => Str
 
-The Amazon Resource Name (ARN) of the resource to apply the tag to.
+Specifies the Amazon Resource Name (ARN) of the resource to apply the
+tag to.
 
 
 
 =head2 B<REQUIRED> Tags => ArrayRef[L<Paws::Datasync::TagListEntry>]
 
-The tags to apply.
+Specifies the tags that you want to apply to the resource.
 
 
 

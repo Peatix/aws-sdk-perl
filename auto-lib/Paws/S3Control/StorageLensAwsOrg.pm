@@ -33,15 +33,16 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::S3Control::
 
 =head1 DESCRIPTION
 
-The AWS organization for your S3 Storage Lens.
+The Amazon Web Services organization for your S3 Storage Lens.
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> Arn => Str
 
-A container for the Amazon Resource Name (ARN) of the AWS organization.
-This property is read-only and follows the following format: C<
+A container for the Amazon Resource Name (ARN) of the Amazon Web
+Services organization. This property is read-only and follows the
+following format: C<
 arn:aws:organizations:I<us-east-1>:I<example-account-id>:organization/I<o-ex2l495dck>>
 
 

@@ -37,8 +37,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Config::Eva
 
 =head1 DESCRIPTION
 
-Identifies an AWS resource and indicates whether it complies with the
-AWS Config rule that it was evaluated against.
+Identifies an Amazon Web Services resource and indicates whether it
+complies with the Config rule that it was evaluated against.
 
 =head1 ATTRIBUTES
 
@@ -51,38 +51,36 @@ compliance.
 
 =head2 B<REQUIRED> ComplianceResourceId => Str
 
-The ID of the AWS resource that was evaluated.
+The ID of the Amazon Web Services resource that was evaluated.
 
 
 =head2 B<REQUIRED> ComplianceResourceType => Str
 
-The type of AWS resource that was evaluated.
+The type of Amazon Web Services resource that was evaluated.
 
 
 =head2 B<REQUIRED> ComplianceType => Str
 
-Indicates whether the AWS resource complies with the AWS Config rule
-that it was evaluated against.
+Indicates whether the Amazon Web Services resource complies with the
+Config rule that it was evaluated against.
 
-For the C<Evaluation> data type, AWS Config supports only the
-C<COMPLIANT>, C<NON_COMPLIANT>, and C<NOT_APPLICABLE> values. AWS
-Config does not support the C<INSUFFICIENT_DATA> value for this data
-type.
+For the C<Evaluation> data type, Config supports only the C<COMPLIANT>,
+C<NON_COMPLIANT>, and C<NOT_APPLICABLE> values. Config does not support
+the C<INSUFFICIENT_DATA> value for this data type.
 
-Similarly, AWS Config does not accept C<INSUFFICIENT_DATA> as the value
-for C<ComplianceType> from a C<PutEvaluations> request. For example, an
-AWS Lambda function for a custom AWS Config rule cannot pass an
-C<INSUFFICIENT_DATA> value to AWS Config.
+Similarly, Config does not accept C<INSUFFICIENT_DATA> as the value for
+C<ComplianceType> from a C<PutEvaluations> request. For example, an
+Lambda function for a custom Config rule cannot pass an
+C<INSUFFICIENT_DATA> value to Config.
 
 
 =head2 B<REQUIRED> OrderingTimestamp => Str
 
-The time of the event in AWS Config that triggered the evaluation. For
-event-based evaluations, the time indicates when AWS Config created the
+The time of the event in Config that triggered the evaluation. For
+event-based evaluations, the time indicates when Config created the
 configuration item that triggered the evaluation. For periodic
-evaluations, the time indicates when AWS Config triggered the
-evaluation at the frequency that you specified (for example, every 24
-hours).
+evaluations, the time indicates when Config triggered the evaluation at
+the frequency that you specified (for example, every 24 hours).
 
 
 

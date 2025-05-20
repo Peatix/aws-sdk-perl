@@ -2,6 +2,7 @@
 package Paws::Synthetics::CanaryRunTimeline;
   use Moose;
   has Completed => (is => 'ro', isa => 'Str');
+  has MetricTimestampForRunAndRetries => (is => 'ro', isa => 'Str');
   has Started => (is => 'ro', isa => 'Str');
 
 1;
@@ -42,6 +43,12 @@ This structure contains the start and end times of a single canary run.
 =head2 Completed => Str
 
 The end time of the run.
+
+
+=head2 MetricTimestampForRunAndRetries => Str
+
+The time at which the metrics will be generated for this run or
+retries.
 
 
 =head2 Started => Str

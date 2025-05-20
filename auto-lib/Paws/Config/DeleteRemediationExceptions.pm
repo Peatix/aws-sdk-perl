@@ -56,16 +56,16 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/con
 
 =head2 B<REQUIRED> ConfigRuleName => Str
 
-The name of the AWS Config rule for which you want to delete
-remediation exception configuration.
+The name of the Config rule for which you want to delete remediation
+exception configuration.
 
 
 
 =head2 B<REQUIRED> ResourceKeys => ArrayRef[L<Paws::Config::RemediationExceptionResourceKey>]
 
 An exception list of resource exception keys to be processed with the
-current request. AWS Config adds exception for each resource key. For
-example, AWS Config adds 3 exceptions for 3 resource keys.
+current request. Config adds exception for each resource key. For
+example, Config adds 3 exceptions for 3 resource keys.
 
 
 

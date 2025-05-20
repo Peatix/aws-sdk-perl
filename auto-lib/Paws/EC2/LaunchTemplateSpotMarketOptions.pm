@@ -54,7 +54,13 @@ The behavior when a Spot Instance is interrupted.
 
 =head2 MaxPrice => Str
 
-The maximum hourly price you're willing to pay for the Spot Instances.
+The maximum hourly price you're willing to pay for a Spot Instance. We
+do not recommend using this parameter because it can lead to increased
+interruptions. If you do not specify this parameter, you will pay the
+current Spot price. If you do specify this parameter, it must be more
+than USD $0.001. Specifying a value below USD $0.001 will result in an
+C<InvalidParameterValue> error message when the launch template is used
+to launch an instance.
 
 
 =head2 SpotInstanceType => Str

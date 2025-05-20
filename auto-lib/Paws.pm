@@ -324,15 +324,17 @@ kept stable, and changes to it should be notified via ChangeLog
 
 L<Paws::AccessAnalyzer>
 
+L<Paws::Account>
+
 L<Paws::ACM>
 
 L<Paws::ACMPCA>
 
-L<Paws::AlexaForBusiness>
-
 L<Paws::Amplify>
 
 L<Paws::AmplifyBackend>
+
+L<Paws::AmplifyUIBuilder>
 
 L<Paws::ApiGateway>
 
@@ -341,6 +343,10 @@ L<Paws::ApiGatewayManagement>
 L<Paws::ApiGatewayV2>
 
 L<Paws::AppConfig>
+
+L<Paws::AppConfigData>
+
+L<Paws::AppFabric>
 
 L<Paws::Appflow>
 
@@ -354,6 +360,8 @@ L<Paws::ApplicationInsights>
 
 L<Paws::ApplicationMigration>
 
+L<Paws::ApplicationSignals>
+
 L<Paws::AppMesh>
 
 L<Paws::AppRunner>
@@ -361,6 +369,12 @@ L<Paws::AppRunner>
 L<Paws::AppStream>
 
 L<Paws::AppSync>
+
+L<Paws::AppTest>
+
+L<Paws::ARCZonalShift>
+
+L<Paws::Artifact>
 
 L<Paws::Athena>
 
@@ -370,23 +384,69 @@ L<Paws::AutoScaling>
 
 L<Paws::AutoScalingPlans>
 
+L<Paws::B2bi>
+
 L<Paws::Backup>
 
+L<Paws::BackupGateway>
+
+L<Paws::BackupSearch>
+
 L<Paws::Batch>
+
+L<Paws::BCMDataExports>
+
+L<Paws::BCMPricingCalculator>
+
+L<Paws::Bedrock>
+
+L<Paws::BedrockAgent>
+
+L<Paws::BedrockAgentRuntime>
+
+L<Paws::BedrockDataAutomation>
+
+L<Paws::BedrockDataAutomationRuntime>
+
+L<Paws::BedrockRuntime>
+
+L<Paws::Billing>
+
+L<Paws::Billingconductor>
 
 L<Paws::Braket>
 
 L<Paws::Budgets>
 
+L<Paws::Chatbot>
+
 L<Paws::Chime>
 
+L<Paws::ChimeSDKIdentity>
+
+L<Paws::ChimeSDKMediaPipelines>
+
+L<Paws::ChimeSDKMeetings>
+
+L<Paws::ChimeSDKMessaging>
+
+L<Paws::ChimeSDKVoice>
+
+L<Paws::CleanRooms>
+
+L<Paws::CleanRoomsML>
+
 L<Paws::Cloud9>
+
+L<Paws::CloudControl>
 
 L<Paws::CloudDirectory>
 
 L<Paws::CloudFormation>
 
 L<Paws::CloudFront>
+
+L<Paws::CloudFrontKeyValueStore>
 
 L<Paws::CloudHSM>
 
@@ -398,6 +458,8 @@ L<Paws::CloudSearchDomain>
 
 L<Paws::CloudTrail>
 
+L<Paws::CloudTrailData>
+
 L<Paws::CloudWatch>
 
 L<Paws::CloudWatchEvents>
@@ -408,7 +470,11 @@ L<Paws::CodeArtifact>
 
 L<Paws::CodeBuild>
 
+L<Paws::CodeCatalyst>
+
 L<Paws::CodeCommit>
+
+L<Paws::CodeConnections>
 
 L<Paws::CodeDeploy>
 
@@ -416,9 +482,9 @@ L<Paws::CodeGuruProfiler>
 
 L<Paws::CodeGuruReviewer>
 
-L<Paws::CodePipeline>
+L<Paws::CodeGuruSecurity>
 
-L<Paws::CodeStar>
+L<Paws::CodePipeline>
 
 L<Paws::CodeStarConnections>
 
@@ -440,11 +506,23 @@ L<Paws::Config>
 
 L<Paws::Connect>
 
+L<Paws::ConnectCampaigns>
+
+L<Paws::ConnectCampaignsV2>
+
+L<Paws::ConnectCases>
+
 L<Paws::ConnectContactLens>
 
 L<Paws::ConnectParticipant>
 
+L<Paws::ControlCatalog>
+
+L<Paws::ControlTower>
+
 L<Paws::CostExplorer>
+
+L<Paws::CostOptimizationHub>
 
 L<Paws::CUR>
 
@@ -456,7 +534,11 @@ L<Paws::DataPipeline>
 
 L<Paws::Datasync>
 
+L<Paws::DataZone>
+
 L<Paws::DAX>
+
+L<Paws::Deadline>
 
 L<Paws::Detective>
 
@@ -466,6 +548,8 @@ L<Paws::DevOpsGuru>
 
 L<Paws::DirectConnect>
 
+L<Paws::DirectoryServiceData>
+
 L<Paws::Discovery>
 
 L<Paws::DLM>
@@ -474,7 +558,13 @@ L<Paws::DMS>
 
 L<Paws::DocDB>
 
+L<Paws::DocDBElastic>
+
+L<Paws::Drs>
+
 L<Paws::DS>
+
+L<Paws::DSQL>
 
 L<Paws::DynamoDB>
 
@@ -496,11 +586,11 @@ L<Paws::EFS>
 
 L<Paws::EKS>
 
+L<Paws::EKSAuth>
+
 L<Paws::ElastiCache>
 
 L<Paws::ElasticBeanstalk>
-
-L<Paws::ElasticInference>
 
 L<Paws::ElasticTranscoder>
 
@@ -512,7 +602,13 @@ L<Paws::EMR>
 
 L<Paws::EMRContainers>
 
+L<Paws::EMRServerless>
+
+L<Paws::EntityResolution>
+
 L<Paws::ES>
+
+L<Paws::Evidently>
 
 L<Paws::Finspace>
 
@@ -530,9 +626,19 @@ L<Paws::ForecastQuery>
 
 L<Paws::FraudDetector>
 
+L<Paws::FreeTier>
+
 L<Paws::FSX>
 
 L<Paws::GameLift>
+
+L<Paws::GameLiftStreams>
+
+L<Paws::GeoMaps>
+
+L<Paws::GeoPlaces>
+
+L<Paws::GeoRoutes>
 
 L<Paws::Glacier>
 
@@ -541,6 +647,8 @@ L<Paws::GlobalAccelerator>
 L<Paws::Glue>
 
 L<Paws::GlueDataBrew>
+
+L<Paws::Grafana>
 
 L<Paws::Greengrass>
 
@@ -554,8 +662,6 @@ L<Paws::Health>
 
 L<Paws::HealthLake>
 
-L<Paws::Honeycode>
-
 L<Paws::IAM>
 
 L<Paws::ImageBuilder>
@@ -564,11 +670,15 @@ L<Paws::ImportExport>
 
 L<Paws::Inspector>
 
+L<Paws::Inspector2>
+
+L<Paws::InspectorScan>
+
+L<Paws::InternetMonitor>
+
+L<Paws::Invoicing>
+
 L<Paws::IoT>
-
-L<Paws::IoT1ClickDevices>
-
-L<Paws::IoT1ClickProjects>
 
 L<Paws::IoTAnalytics>
 
@@ -582,7 +692,11 @@ L<Paws::IoTEventsData>
 
 L<Paws::IoTFleetHub>
 
+L<Paws::IoTFleetWise>
+
 L<Paws::IoTJobsData>
+
+L<Paws::IoTManagedIntegrations>
 
 L<Paws::IoTSecureTunneling>
 
@@ -590,13 +704,25 @@ L<Paws::IoTSiteWise>
 
 L<Paws::IoTThingsGraph>
 
+L<Paws::IoTTwinMaker>
+
 L<Paws::IoTWireless>
 
 L<Paws::IVS>
 
+L<Paws::Ivschat>
+
+L<Paws::IVSRealTime>
+
 L<Paws::Kafka>
 
+L<Paws::KafkaConnect>
+
 L<Paws::Kendra>
+
+L<Paws::KendraRanking>
+
+L<Paws::Keyspaces>
 
 L<Paws::Kinesis>
 
@@ -612,11 +738,15 @@ L<Paws::KinesisVideoMedia>
 
 L<Paws::KinesisVideoSignaling>
 
+L<Paws::KinesisVideoWebRTCStorage>
+
 L<Paws::KMS>
 
 L<Paws::LakeFormation>
 
 L<Paws::Lambda>
+
+L<Paws::LaunchWizard>
 
 L<Paws::LexModels>
 
@@ -628,6 +758,10 @@ L<Paws::LexRuntimeV2>
 
 L<Paws::LicenseManager>
 
+L<Paws::LicenseManagerLinuxSubscriptions>
+
+L<Paws::LicenseManagerUserSubscriptions>
+
 L<Paws::Lightsail>
 
 L<Paws::LocationService>
@@ -638,21 +772,31 @@ L<Paws::LookoutMetrics>
 
 L<Paws::LookoutVision>
 
-L<Paws::MachineLearning>
+L<Paws::M2>
 
-L<Paws::Macie>
+L<Paws::MachineLearning>
 
 L<Paws::Macie2>
 
+L<Paws::MailManager>
+
 L<Paws::ManagedBlockchain>
+
+L<Paws::ManagedBlockchainQuery>
+
+L<Paws::MarketplaceAgreement>
 
 L<Paws::MarketplaceCatalog>
 
 L<Paws::MarketplaceCommerceAnalytics>
 
+L<Paws::MarketplaceDeployment>
+
 L<Paws::MarketplaceEntitlement>
 
 L<Paws::MarketplaceMetering>
+
+L<Paws::MarketplaceReporting>
 
 L<Paws::MediaConnect>
 
@@ -662,6 +806,8 @@ L<Paws::MediaLive>
 
 L<Paws::MediaPackage>
 
+L<Paws::MediaPackageV2>
+
 L<Paws::MediaPackageVod>
 
 L<Paws::MediaStore>
@@ -670,11 +816,19 @@ L<Paws::MediaStoreData>
 
 L<Paws::MediaTailor>
 
+L<Paws::MedicalImaging>
+
+L<Paws::MemoryDB>
+
 L<Paws::MigrationHub>
 
 L<Paws::MigrationHubConfig>
 
-L<Paws::MobileHub>
+L<Paws::MigrationHubOrchestrator>
+
+L<Paws::MigrationHubRefactorSpaces>
+
+L<Paws::MigrationHubStrategy>
 
 L<Paws::MQ>
 
@@ -684,11 +838,31 @@ L<Paws::MWAA>
 
 L<Paws::Neptune>
 
+L<Paws::Neptunedata>
+
+L<Paws::NeptuneGraph>
+
 L<Paws::NetworkFirewall>
+
+L<Paws::NetworkFlowMonitor>
 
 L<Paws::NetworkManager>
 
-L<Paws::NimbleStudio>
+L<Paws::NetworkMonitor>
+
+L<Paws::Notifications>
+
+L<Paws::NotificationsContacts>
+
+L<Paws::OAM>
+
+L<Paws::ObservabilityAdmin>
+
+L<Paws::Omics>
+
+L<Paws::OpenSearch>
+
+L<Paws::OpenSearchServerless>
 
 L<Paws::OpsWorks>
 
@@ -696,7 +870,23 @@ L<Paws::OpsWorksCM>
 
 L<Paws::Organizations>
 
+L<Paws::OSIS>
+
 L<Paws::Outposts>
+
+L<Paws::Panorama>
+
+L<Paws::PartnerCentralSelling>
+
+L<Paws::PaymentCryptography>
+
+L<Paws::PaymentCryptographyData>
+
+L<Paws::PcaConnectorAd>
+
+L<Paws::PcaConnectorScep>
+
+L<Paws::PCS>
 
 L<Paws::PerformanceInsights>
 
@@ -714,13 +904,25 @@ L<Paws::PinpointSMSVoice>
 
 L<Paws::PinpointSMSVoice>
 
+L<Paws::PinpointSMSVoiceV2>
+
+L<Paws::Pipes>
+
 L<Paws::Polly>
 
 L<Paws::Pricing>
 
+L<Paws::PrivateNetworks>
+
 L<Paws::Prometheus>
 
 L<Paws::Proton>
+
+L<Paws::QApps>
+
+L<Paws::QBusiness>
+
+L<Paws::QConnect>
 
 L<Paws::QLDB>
 
@@ -730,6 +932,8 @@ L<Paws::Quicksight>
 
 L<Paws::RAM>
 
+L<Paws::Rbin>
+
 L<Paws::RDS>
 
 L<Paws::RDSData>
@@ -738,7 +942,15 @@ L<Paws::RedShift>
 
 L<Paws::RedshiftData>
 
+L<Paws::RedshiftServerless>
+
 L<Paws::Rekognition>
+
+L<Paws::Repostspace>
+
+L<Paws::Resiliencehub>
+
+L<Paws::ResourceExplorer2>
 
 L<Paws::ResourceGroups>
 
@@ -746,17 +958,31 @@ L<Paws::ResourceTagging>
 
 L<Paws::Robomaker>
 
+L<Paws::RolesAnywhere>
+
 L<Paws::Route53>
 
 L<Paws::Route53Domains>
 
+L<Paws::Route53Profiles>
+
+L<Paws::Route53RecoveryCluster>
+
+L<Paws::Route53RecoveryControlConfig>
+
+L<Paws::Route53RecoveryReadiness>
+
 L<Paws::Route53Resolver>
+
+L<Paws::RUM>
 
 L<Paws::S3>
 
 L<Paws::S3Control>
 
 L<Paws::S3Outposts>
+
+L<Paws::S3Tables>
 
 L<Paws::SageMaker>
 
@@ -766,9 +992,15 @@ L<Paws::SageMakerEdge>
 
 L<Paws::SageMakerFeatureStoreRuntime>
 
+L<Paws::SageMakerGeospatial>
+
+L<Paws::SageMakerMetrics>
+
 L<Paws::SageMakerRuntime>
 
 L<Paws::SavingsPlans>
+
+L<Paws::Scheduler>
 
 L<Paws::Schemas>
 
@@ -777,6 +1009,10 @@ L<Paws::SDB>
 L<Paws::SecretsManager>
 
 L<Paws::SecurityHub>
+
+L<Paws::SecurityIR>
+
+L<Paws::SecurityLake>
 
 L<Paws::ServerlessRepo>
 
@@ -798,11 +1034,17 @@ L<Paws::Signer>
 
 L<Paws::SimpleWorkflow>
 
+L<Paws::SimSpaceWeaver>
+
 L<Paws::SMS>
 
 L<Paws::Snowball>
 
+L<Paws::SnowDeviceManagement>
+
 L<Paws::SNS>
+
+L<Paws::SocialMessaging>
 
 L<Paws::SQS>
 
@@ -810,7 +1052,13 @@ L<Paws::SSM>
 
 L<Paws::SSMContacts>
 
+L<Paws::SSMGuiConnect>
+
 L<Paws::SSMIncidents>
+
+L<Paws::SSMQuickSetup>
+
+L<Paws::SsmSap>
 
 L<Paws::SSO>
 
@@ -826,21 +1074,39 @@ L<Paws::StorageGateway>
 
 L<Paws::STS>
 
+L<Paws::SupplyChain>
+
 L<Paws::Support>
+
+L<Paws::SupportApp>
 
 L<Paws::Synthetics>
 
+L<Paws::TaxSettings>
+
 L<Paws::Textract>
+
+L<Paws::TimestreamInfluxDB>
 
 L<Paws::TimestreamQuery>
 
 L<Paws::TimestreamWrite>
+
+L<Paws::Tnb>
 
 L<Paws::Transcribe>
 
 L<Paws::Transfer>
 
 L<Paws::Translate>
+
+L<Paws::TrustedAdvisor>
+
+L<Paws::VerifiedPermissions>
+
+L<Paws::VoiceID>
+
+L<Paws::VPCLattice>
 
 L<Paws::WAF>
 
@@ -850,15 +1116,19 @@ L<Paws::WAFV2>
 
 L<Paws::WellArchitected>
 
-L<Paws::WorkDocs>
+L<Paws::Wisdom>
 
-L<Paws::WorkLink>
+L<Paws::WorkDocs>
 
 L<Paws::WorkMail>
 
 L<Paws::WorkMailMessageFlow>
 
 L<Paws::WorkSpaces>
+
+L<Paws::WorkSpacesThinClient>
+
+L<Paws::WorkSpacesWeb>
 
 L<Paws::XRay>
 

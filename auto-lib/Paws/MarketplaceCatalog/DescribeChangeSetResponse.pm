@@ -8,6 +8,7 @@ package Paws::MarketplaceCatalog::DescribeChangeSetResponse;
   has EndTime => (is => 'ro', isa => 'Str');
   has FailureCode => (is => 'ro', isa => 'Str');
   has FailureDescription => (is => 'ro', isa => 'Str');
+  has Intent => (is => 'ro', isa => 'Str');
   has StartTime => (is => 'ro', isa => 'Str');
   has Status => (is => 'ro', isa => 'Str');
 
@@ -67,6 +68,12 @@ Returned if there is a failure on the change set, but that failure is
 not related to any of the changes in the request.
 
 
+=head2 Intent => Str
+
+The optional intent provided in the C<StartChangeSet> request. If you
+do not provide an intent, C<APPLY> is set by default.
+
+Valid values are: C<"VALIDATE">, C<"APPLY">
 =head2 StartTime => Str
 
 The date and time, in ISO 8601 format (2018-02-27T13:45:22Z), the

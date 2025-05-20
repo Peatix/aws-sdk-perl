@@ -49,7 +49,7 @@ The ARN of the IAM session to associate with the on-premises instance.
 
 =head2 IamUserArn => Str
 
-The ARN of the IAM user to associate with the on-premises instance.
+The ARN of the user to associate with the on-premises instance.
 
 
 

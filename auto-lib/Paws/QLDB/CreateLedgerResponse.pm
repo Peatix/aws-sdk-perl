@@ -4,6 +4,7 @@ package Paws::QLDB::CreateLedgerResponse;
   has Arn => (is => 'ro', isa => 'Str');
   has CreationDateTime => (is => 'ro', isa => 'Str');
   has DeletionProtection => (is => 'ro', isa => 'Bool');
+  has KmsKeyArn => (is => 'ro', isa => 'Str');
   has Name => (is => 'ro', isa => 'Str');
   has PermissionsMode => (is => 'ro', isa => 'Str');
   has State => (is => 'ro', isa => 'Str');
@@ -34,13 +35,20 @@ January 1, 1970 UTC.)
 
 =head2 DeletionProtection => Bool
 
-The flag that prevents a ledger from being deleted by any user. If not
-provided on ledger creation, this feature is enabled (C<true>) by
-default.
+Specifies whether the ledger is protected from being deleted by any
+user. If not defined during ledger creation, this feature is enabled
+(C<true>) by default.
 
 If deletion protection is enabled, you must first disable it before you
 can delete the ledger. You can disable it by calling the
-C<UpdateLedger> operation to set the flag to C<false>.
+C<UpdateLedger> operation to set this parameter to C<false>.
+
+
+=head2 KmsKeyArn => Str
+
+The ARN of the customer managed KMS key that the ledger uses for
+encryption at rest. If this parameter is undefined, the ledger uses an
+Amazon Web Services owned KMS key for encryption.
 
 
 =head2 Name => Str

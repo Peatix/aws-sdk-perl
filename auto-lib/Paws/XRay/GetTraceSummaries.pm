@@ -102,10 +102,10 @@ The start of the time frame for which to retrieve traces.
 
 =head2 TimeRangeType => Str
 
-A parameter to indicate whether to query trace summaries by TraceId or
-Event time.
+Query trace summaries by TraceId (trace start time), Event (trace
+update time), or Service (trace segment end time).
 
-Valid values are: C<"TraceId">, C<"Event">
+Valid values are: C<"TraceId">, C<"Event">, C<"Service">
 
 
 =head1 SEE ALSO

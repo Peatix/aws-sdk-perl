@@ -42,7 +42,7 @@ specifies one dimension.
 
 =head2 B<REQUIRED> Dimensions => L<Paws::PerformanceInsights::DimensionMap>
 
-A dimension map that contains the dimension(s) for this partition.
+A dimension map that contains the dimensions for this partition.
 
 
 

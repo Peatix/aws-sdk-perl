@@ -60,9 +60,9 @@ The domain associated with the dataset.
 Valid values are: C<"RETAIL">, C<"CUSTOM">, C<"INVENTORY_PLANNING">, C<"EC2_CAPACITY">, C<"WORK_FORCE">, C<"WEB_TRAFFIC">, C<"METRICS">
 =head2 EncryptionConfig => L<Paws::Forecast::EncryptionConfig>
 
-The AWS Key Management Service (KMS) key and the AWS Identity and
-Access Management (IAM) role that Amazon Forecast can assume to access
-the key.
+The Key Management Service (KMS) key and the Identity and Access
+Management (IAM) role that Amazon Forecast can assume to access the
+key.
 
 
 =head2 LastModificationTime => Str
@@ -70,8 +70,10 @@ the key.
 When you create a dataset, C<LastModificationTime> is the same as
 C<CreationTime>. While data is being imported to the dataset,
 C<LastModificationTime> is the current time of the C<DescribeDataset>
-call. After a CreateDatasetImportJob operation has finished,
-C<LastModificationTime> is when the import job completed or failed.
+call. After a CreateDatasetImportJob
+(https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDatasetImportJob.html)
+operation has finished, C<LastModificationTime> is when the import job
+completed or failed.
 
 
 =head2 Schema => L<Paws::Forecast::Schema>
@@ -105,10 +107,11 @@ C<UPDATE_PENDING>, C<UPDATE_IN_PROGRESS>, C<UPDATE_FAILED>
 =back
 
 The C<UPDATE> states apply while data is imported to the dataset from a
-call to the CreateDatasetImportJob operation and reflect the status of
-the dataset import job. For example, when the import job status is
-C<CREATE_IN_PROGRESS>, the status of the dataset is
-C<UPDATE_IN_PROGRESS>.
+call to the CreateDatasetImportJob
+(https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDatasetImportJob.html)
+operation and reflect the status of the dataset import job. For
+example, when the import job status is C<CREATE_IN_PROGRESS>, the
+status of the dataset is C<UPDATE_IN_PROGRESS>.
 
 The C<Status> of the dataset must be C<ACTIVE> before you can import
 training data.

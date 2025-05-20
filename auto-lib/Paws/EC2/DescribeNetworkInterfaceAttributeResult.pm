@@ -1,6 +1,7 @@
 
 package Paws::EC2::DescribeNetworkInterfaceAttributeResult;
   use Moose;
+  has AssociatePublicIpAddress => (is => 'ro', isa => 'Bool', request_name => 'associatePublicIpAddress', traits => ['NameInRequest',]);
   has Attachment => (is => 'ro', isa => 'Paws::EC2::NetworkInterfaceAttachment', request_name => 'attachment', traits => ['NameInRequest',]);
   has Description => (is => 'ro', isa => 'Paws::EC2::AttributeValue', request_name => 'description', traits => ['NameInRequest',]);
   has Groups => (is => 'ro', isa => 'ArrayRef[Paws::EC2::GroupIdentifier]', request_name => 'groupSet', traits => ['NameInRequest',]);
@@ -17,6 +18,13 @@ package Paws::EC2::DescribeNetworkInterfaceAttributeResult;
 Paws::EC2::DescribeNetworkInterfaceAttributeResult
 
 =head1 ATTRIBUTES
+
+
+=head2 AssociatePublicIpAddress => Bool
+
+Indicates whether to assign a public IPv4 address to a network
+interface. This option can be enabled for any network interface but
+will only apply to the primary network interface (eth0).
 
 
 =head2 Attachment => L<Paws::EC2::NetworkInterfaceAttachment>

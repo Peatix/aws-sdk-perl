@@ -85,6 +85,11 @@ mirror. For example, if you set this value to 100, then the first 100
 bytes that meet the filter criteria are copied to the target. Do not
 specify this parameter when you want to mirror the entire packet.
 
+For sessions with Network Load Balancer (NLB) traffic mirror targets,
+the default C<PacketLength> will be set to 8500. Valid values are
+1-8500. Setting a C<PacketLength> greater than 8500 will result in an
+error response.
+
 
 
 =head2 RemoveFields => ArrayRef[Str|Undef]

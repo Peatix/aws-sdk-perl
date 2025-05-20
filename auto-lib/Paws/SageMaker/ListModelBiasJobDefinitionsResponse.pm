@@ -22,8 +22,8 @@ A JSON array in which each element is a summary for a model bias jobs.
 
 =head2 NextToken => Str
 
-If the response is truncated, Amazon SageMaker returns this token. To
-retrieve the next set of jobs, use it in the subsequent request.
+The token returned if the response is truncated. To retrieve the next
+set of job executions, use it in the next request.
 
 
 =head2 _request_id => Str

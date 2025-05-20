@@ -61,7 +61,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/kin
 =head2 B<REQUIRED> ChannelName => Str
 
 A name for the signaling channel that you are creating. It must be
-unique for each AWS account and AWS Region.
+unique for each Amazon Web Services account and Amazon Web Services
+Region.
 
 
 
@@ -70,7 +71,7 @@ unique for each AWS account and AWS Region.
 A type of the signaling channel that you are creating. Currently,
 C<SINGLE_MASTER> is the only supported channel type.
 
-Valid values are: C<"SINGLE_MASTER">
+Valid values are: C<"SINGLE_MASTER">, C<"FULL_MESH">
 
 =head2 SingleMasterConfiguration => L<Paws::KinesisVideo::SingleMasterConfiguration>
 

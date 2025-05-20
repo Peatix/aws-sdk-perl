@@ -5,9 +5,11 @@ package Paws::StorageGateway::SMBFileShareInfo;
   has AdminUserList => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has AuditDestinationARN => (is => 'ro', isa => 'Str');
   has Authentication => (is => 'ro', isa => 'Str');
+  has BucketRegion => (is => 'ro', isa => 'Str');
   has CacheAttributes => (is => 'ro', isa => 'Paws::StorageGateway::CacheAttributes');
   has CaseSensitivity => (is => 'ro', isa => 'Str');
   has DefaultStorageClass => (is => 'ro', isa => 'Str');
+  has EncryptionType => (is => 'ro', isa => 'Str');
   has FileShareARN => (is => 'ro', isa => 'Str');
   has FileShareId => (is => 'ro', isa => 'Str');
   has FileShareName => (is => 'ro', isa => 'Str');
@@ -20,6 +22,7 @@ package Paws::StorageGateway::SMBFileShareInfo;
   has LocationARN => (is => 'ro', isa => 'Str');
   has NotificationPolicy => (is => 'ro', isa => 'Str');
   has ObjectACL => (is => 'ro', isa => 'Str');
+  has OplocksEnabled => (is => 'ro', isa => 'Bool');
   has Path => (is => 'ro', isa => 'Str');
   has ReadOnly => (is => 'ro', isa => 'Bool');
   has RequesterPays => (is => 'ro', isa => 'Bool');
@@ -27,6 +30,7 @@ package Paws::StorageGateway::SMBFileShareInfo;
   has SMBACLEnabled => (is => 'ro', isa => 'Bool');
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::StorageGateway::Tag]');
   has ValidUserList => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has VPCEndpointDNSName => (is => 'ro', isa => 'Str');
 
 1;
 
@@ -47,7 +51,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::StorageGateway::SMBFileShareInfo object:
 
-  $service_obj->Method(Att1 => { AccessBasedEnumeration => $value, ..., ValidUserList => $value  });
+  $service_obj->Method(Att1 => { AccessBasedEnumeration => $value, ..., VPCEndpointDNSName => $value  });
 
 =head3 Results returned from an API call
 
@@ -59,8 +63,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::StorageGate
 =head1 DESCRIPTION
 
 The Windows file permissions and ownership information assigned, by
-default, to native S3 objects when file gateway discovers them in S3
-buckets. This operation is only supported for file gateways.
+default, to native S3 objects when S3 File Gateway discovers them in S3
+buckets. This operation is only supported for S3 File Gateways.
 
 =head1 ATTRIBUTES
 
@@ -89,6 +93,16 @@ The Amazon Resource Name (ARN) of the storage used for audit logs.
 
 
 
+=head2 BucketRegion => Str
+
+Specifies the Region of the S3 bucket where the SMB file share stores
+files.
+
+This parameter is required for SMB file shares that connect to Amazon
+S3 through a VPC endpoint, a VPC access point, or an access point alias
+that points to a VPC access point.
+
+
 =head2 CacheAttributes => L<Paws::StorageGateway::CacheAttributes>
 
 Refresh cache information for the file share.
@@ -105,11 +119,26 @@ default value is C<ClientSpecified>.
 =head2 DefaultStorageClass => Str
 
 The default storage class for objects put into an Amazon S3 bucket by
-the file gateway. The default value is C<S3_INTELLIGENT_TIERING>.
-Optional.
+the S3 File Gateway. The default value is C<S3_STANDARD>. Optional.
 
 Valid Values: C<S3_STANDARD> | C<S3_INTELLIGENT_TIERING> |
 C<S3_STANDARD_IA> | C<S3_ONEZONE_IA>
+
+
+=head2 EncryptionType => Str
+
+A value that specifies the type of server-side encryption that the file
+share will use for the data that it stores in Amazon S3.
+
+We recommend using C<EncryptionType> instead of C<KMSEncrypted> to set
+the file share encryption method. You do not need to provide values for
+both parameters.
+
+If values for both parameters exist in the same request, then the
+specified encryption methods must not conflict. For example, if
+C<EncryptionType> is C<SseS3>, then C<KMSEncrypted> must be C<false>.
+If C<EncryptionType> is C<SseKms> or C<DsseKms>, then C<KMSEncrypted>
+must be C<true>.
 
 
 =head2 FileShareARN => Str
@@ -127,7 +156,7 @@ C<S3_STANDARD_IA> | C<S3_ONEZONE_IA>
 The name of the file share. Optional.
 
 C<FileShareName> must be set if an S3 prefix name is set in
-C<LocationARN>.
+C<LocationARN>, or if an access point or access point alias is used.
 
 
 =head2 FileShareStatus => Str
@@ -160,8 +189,20 @@ set to C<ActiveDirectory>.
 
 =head2 KMSEncrypted => Bool
 
-Set to C<true> to use Amazon S3 server-side encryption with your own
-AWS KMS key, or C<false> to use a key managed by Amazon S3. Optional.
+Optional. Set to C<true> to use Amazon S3 server-side encryption with
+your own KMS key (SSE-KMS), or C<false> to use a key managed by Amazon
+S3 (SSE-S3). To use dual-layer encryption (DSSE-KMS), set the
+C<EncryptionType> parameter instead.
+
+We recommend using C<EncryptionType> instead of C<KMSEncrypted> to set
+the file share encryption method. You do not need to provide values for
+both parameters.
+
+If values for both parameters exist in the same request, then the
+specified encryption methods must not conflict. For example, if
+C<EncryptionType> is C<SseS3>, then C<KMSEncrypted> must be C<false>.
+If C<EncryptionType> is C<SseKms> or C<DsseKms>, then C<KMSEncrypted>
+must be C<true>.
 
 Valid Values: C<true> | C<false>
 
@@ -188,6 +229,10 @@ multiple notifications for the same file in a small time period.
 C<SettlingTimeInSeconds> has no effect on the timing of the object
 uploading to Amazon S3, only the timing of the notification.
 
+This setting is not meant to specify an exact time at which the
+notification will be sent. In some cases, the gateway might require
+more than the specified delay time to generate and send notifications.
+
 The following example sets C<NotificationPolicy> on with
 C<SettlingTimeInSeconds> set to 60.
 
@@ -201,6 +246,18 @@ C<{}>
 =head2 ObjectACL => Str
 
 
+
+
+=head2 OplocksEnabled => Bool
+
+Specifies whether opportunistic locking is enabled for the SMB file
+share.
+
+Enabling opportunistic locking on case-sensitive shares is not
+recommended for workloads that involve access to files with the same
+name in different case.
+
+Valid Values: C<true> | C<false>
 
 
 =head2 Path => Str
@@ -244,10 +301,10 @@ If this value is set to C<true>, it indicates that access control list
 indicates that file and directory permissions are mapped to the POSIX
 permission.
 
-For more information, see Using Microsoft Windows ACLs to control
-access to an SMB file share
-(https://docs.aws.amazon.com/storagegateway/latest/userguide/smb-acl.html)
-in the I<AWS Storage Gateway User Guide>.
+For more information, see Using Windows ACLs to limit SMB file share
+access
+(https://docs.aws.amazon.com/filegateway/latest/files3/smb-acl.html) in
+the I<Amazon S3 File Gateway User Guide>.
 
 
 =head2 Tags => ArrayRef[L<Paws::StorageGateway::Tag>]
@@ -265,6 +322,16 @@ access the file share. A group must be prefixed with the @ character.
 Acceptable formats include: C<DOMAIN\User1>, C<user1>, C<@group1>, and
 C<@DOMAIN\group1>. Can only be set if Authentication is set to
 C<ActiveDirectory>.
+
+
+=head2 VPCEndpointDNSName => Str
+
+Specifies the DNS name for the VPC endpoint that the SMB file share
+uses to connect to Amazon S3.
+
+This parameter is required for SMB file shares that connect to Amazon
+S3 through a VPC endpoint, a VPC access point, or an access point alias
+that points to a VPC access point.
 
 
 

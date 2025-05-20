@@ -35,9 +35,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ACM::Resour
 
 =head1 DESCRIPTION
 
-Contains a DNS record value that you can use to can use to validate
-ownership or control of a domain. This is used by the
-DescribeCertificate action.
+Contains a DNS record value that you can use to validate ownership or
+control of a domain. This is used by the DescribeCertificate action.
 
 =head1 ATTRIBUTES
 

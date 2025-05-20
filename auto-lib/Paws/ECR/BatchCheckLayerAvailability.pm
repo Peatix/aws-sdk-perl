@@ -21,7 +21,7 @@ Paws::ECR::BatchCheckLayerAvailability - Arguments for method BatchCheckLayerAva
 =head1 DESCRIPTION
 
 This class represents the parameters used for calling the method BatchCheckLayerAvailability on the
-L<Amazon EC2 Container Registry|Paws::ECR> service. Use the attributes of this class
+L<Amazon Elastic Container Registry|Paws::ECR> service. Use the attributes of this class
 as arguments to method BatchCheckLayerAvailability.
 
 You shouldn't make instances of this class. Each attribute should be used as a named argument in the call to BatchCheckLayerAvailability.
@@ -58,9 +58,9 @@ The digests of the image layers to check.
 
 =head2 RegistryId => Str
 
-The AWS account ID associated with the registry that contains the image
-layers to check. If you do not specify a registry, the default registry
-is assumed.
+The Amazon Web Services account ID associated with the registry that
+contains the image layers to check. If you do not specify a registry,
+the default registry is assumed.
 
 
 

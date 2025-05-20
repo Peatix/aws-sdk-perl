@@ -63,20 +63,20 @@ Represents metadata about a patch.
 =head2 AdvisoryIds => ArrayRef[Str|Undef]
 
 The Advisory ID of the patch. For example, C<RHSA-2020:3779>. Applies
-to Linux-based instances only.
+to Linux-based managed nodes only.
 
 
 =head2 Arch => Str
 
 The architecture of the patch. For example, in
 C<example-pkg-0.710.10-2.7.abcd.x86_64>, the architecture is indicated
-by C<x86_64>. Applies to Linux-based instances only.
+by C<x86_64>. Applies to Linux-based managed nodes only.
 
 
 =head2 BugzillaIds => ArrayRef[Str|Undef]
 
 The Bugzilla ID of the patch. For example, C<1600646>. Applies to
-Linux-based instances only.
+Linux-based managed nodes only.
 
 
 =head2 Classification => Str
@@ -93,7 +93,7 @@ The URL where more information can be obtained about the patch.
 =head2 CVEIds => ArrayRef[Str|Undef]
 
 The Common Vulnerabilities and Exposures (CVE) ID of the patch. For
-example, C<CVE-2011-3192>. Applies to Linux-based instances only.
+example, C<CVE-2011-3192>. Applies to Linux-based managed nodes only.
 
 
 =head2 Description => Str
@@ -105,14 +105,14 @@ The description of the patch.
 
 The epoch of the patch. For example in
 C<pkg-example-EE-20180914-2.2.amzn1.noarch>, the epoch value is
-C<20180914-2>. Applies to Linux-based instances only.
+C<20180914-2>. Applies to Linux-based managed nodes only.
 
 
 =head2 Id => Str
 
 The ID of the patch. Applies to Windows patches only.
 
-This ID is not the same as the Microsoft Knowledge Base ID.
+This ID isn't the same as the Microsoft Knowledge Base ID.
 
 
 =head2 KbNumber => Str
@@ -141,7 +141,7 @@ C<Moderate>. Applies to Windows patches only.
 
 =head2 Name => Str
 
-The name of the patch. Applies to Linux-based instances only.
+The name of the patch. Applies to Linux-based managed nodes only.
 
 
 =head2 Product => Str
@@ -160,7 +160,7 @@ or C<Amazon Linux 2>.
 
 The particular release of a patch. For example, in
 C<pkg-example-EE-20180914-2.2.amzn1.noarch>, the release is C<2.amaz1>.
-Applies to Linux-based instances only.
+Applies to Linux-based managed nodes only.
 
 
 =head2 ReleaseDate => Str
@@ -172,7 +172,7 @@ The date the patch was released.
 
 The source patch repository for the operating system and version, such
 as C<trusty-security> for Ubuntu Server 14.04 LTE and C<focal-security>
-for Ubuntu Server 20.04 LTE. Applies to Linux-based instances only.
+for Ubuntu Server 20.04 LTE. Applies to Linux-based managed nodes only.
 
 
 =head2 Severity => Str
@@ -195,7 +195,7 @@ The name of the vendor providing the patch.
 
 The version number of the patch. For example, in
 C<example-pkg-1.710.10-2.7.abcd.x86_64>, the version number is
-indicated by C<-1>. Applies to Linux-based instances only.
+indicated by C<-1>. Applies to Linux-based managed nodes only.
 
 
 

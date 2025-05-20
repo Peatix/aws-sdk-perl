@@ -34,20 +34,20 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CloudFront:
 
 =head1 DESCRIPTION
 
-A list of AWS accounts and the active CloudFront key pairs in each
-account that CloudFront can use to verify the signatures of signed URLs
-and signed cookies.
+A list of Amazon Web Services accounts and the active CloudFront key
+pairs in each account that CloudFront can use to verify the signatures
+of signed URLs and signed cookies.
 
 =head1 ATTRIBUTES
 
 
 =head2 AwsAccountNumber => Str
 
-An AWS account number that contains active CloudFront key pairs that
-CloudFront can use to verify the signatures of signed URLs and signed
-cookies. If the AWS account that owns the key pairs is the same account
-that owns the CloudFront distribution, the value of this field is
-C<self>.
+An Amazon Web Services account number that contains active CloudFront
+key pairs that CloudFront can use to verify the signatures of signed
+URLs and signed cookies. If the Amazon Web Services account that owns
+the key pairs is the same account that owns the CloudFront
+distribution, the value of this field is C<self>.
 
 
 =head2 KeyPairIds => L<Paws::CloudFront::KeyPairIds>

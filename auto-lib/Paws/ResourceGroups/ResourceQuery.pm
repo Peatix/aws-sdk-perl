@@ -34,107 +34,83 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ResourceGro
 
 =head1 DESCRIPTION
 
-The query that is used to define a resource group or a search for
-resources. A query specifies both a query type and a query string as a
-JSON object. See the examples section for example JSON strings.
+The query you can use to define a resource group or a search for
+resources. A C<ResourceQuery> specifies both a query C<Type> and a
+C<Query> string as JSON string objects. See the examples section for
+example JSON strings. For more information about creating a resource
+group with a resource query, see Build queries and groups in Resource
+Groups
+(https://docs.aws.amazon.com/ARG/latest/userguide/gettingstarted-query.html)
+in the I<Resource Groups User Guide>
 
-The examples that follow are shown as standard JSON strings. If you
-include such a string as a parameter to the AWS CLI or an SDK API, you
-might need to 'escape' the string into a single line. For example, see
-the Quoting strings
+When you combine all of the elements together into a single string, any
+double quotes that are embedded inside another double quote pair must
+be escaped by preceding the embedded double quote with a backslash
+character (\). For example, a complete C<ResourceQuery> parameter must
+be formatted like the following CLI parameter example:
+
+C<--resource-query
+'{"Type":"TAG_FILTERS_1_0","Query":"{\"ResourceTypeFilters\":[\"AWS::AllSupported\"],\"TagFilters\":[{\"Key\":\"Stage\",\"Values\":[\"Test\"]}]}"}'>
+
+In the preceding example, all of the double quote characters in the
+value part of the C<Query> element must be escaped because the value
+itself is surrounded by double quotes. For more information, see
+Quoting strings
 (https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters-quoting-strings.html)
-in the I<AWS CLI User Guide>.
+in the I<Command Line Interface User Guide>.
 
-B<Example 1>
+For the complete list of resource types that you can use in the array
+value for C<ResourceTypeFilters>, see Resources you can use with
+Resource Groups and Tag Editor
+(https://docs.aws.amazon.com/ARG/latest/userguide/supported-resources.html)
+in the I<Resource Groups User Guide>. For example:
 
-The following generic example shows a resource query JSON string that
-includes only resources that meet the following criteria:
-
-=over
-
-=item *
-
-The resource type must be either C<resource_type1> or
-C<resource_type2>.
-
-=item *
-
-The resource must have a tag C<Key1> with a value of either C<ValueA>
-or C<ValueB>.
-
-=item *
-
-The resource must have a tag C<Key2> with a value of either C<ValueC>
-or C<ValueD>.
-
-=back
-
-C<{ "Type": "TAG_FILTERS_1_0", "Query": { "ResourceTypeFilters": [
-"resource_type1", "resource_type2"], "TagFilters": [ { "Key": "Key1",
-"Values": ["ValueA","ValueB"] }, { "Key":"Key2",
-"Values":["ValueC","ValueD"] } ] } }>
-
-This has the equivalent "shortcut" syntax of the following:
-
-C<{ "Type": "TAG_FILTERS_1_0", "Query": { "ResourceTypeFilters": [
-"resource_type1", "resource_type2"], "TagFilters": [ { "Key1":
-["ValueA","ValueB"] }, { "Key2": ["ValueC","ValueD"] } ] } }>
-
-B<Example 2>
-
-The following example shows a resource query JSON string that includes
-only Amazon EC2 instances that are tagged C<Stage> with a value of
-C<Test>.
-
-C<{ "Type": "TAG_FILTERS_1_0", "Query": "{ "ResourceTypeFilters":
-"AWS::EC2::Instance", "TagFilters": { "Stage": "Test" } } }>
-
-B<Example 3>
-
-The following example shows a resource query JSON string that includes
-resource of any supported type as long as it is tagged C<Stage> with a
-value of C<Prod>.
-
-C<{ "Type": "TAG_FILTERS_1_0", "Query": { "ResourceTypeFilters":
-"AWS::AllSupported", "TagFilters": { "Stage": "Prod" } } }>
-
-B<Example 4>
-
-The following example shows a resource query JSON string that includes
-only Amazon EC2 instances and Amazon S3 buckets that are part of the
-specified AWS CloudFormation stack.
-
-C<{ "Type": "CLOUDFORMATION_STACK_1_0", "Query": {
-"ResourceTypeFilters": [ "AWS::EC2::Instance", "AWS::S3::Bucket" ],
-"StackIdentifier":
-"arn:aws:cloudformation:us-west-2:123456789012:stack/AWStestuseraccount/fb0d5000-aba8-00e8-aa9e-50d5cEXAMPLE"
-} }>
+C<"ResourceTypeFilters":["AWS::S3::Bucket", "AWS::EC2::Instance"]>
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> Query => Str
 
-The query that defines a group or a search.
-
-
-=head2 B<REQUIRED> Type => Str
-
-The type of the query. You can use the following values:
+The query that defines a group or a search. The contents depends on the
+value of the C<Type> element.
 
 =over
 
 =item *
 
-I<C<CLOUDFORMATION_STACK_1_0:> >Specifies that the C<Query> contains an
-ARN for a CloudFormation stack.
+C<ResourceTypeFilters> E<ndash> Applies to all C<ResourceQuery> objects
+of either C<Type>. This element contains one of the following two
+items:
+
+=over
 
 =item *
 
-I<C<TAG_FILTERS_1_0:> >Specifies that the C<Query> parameter contains a
-JSON string that represents a collection of simple tag filters for
-resource types and tags. The JSON string uses a syntax similar to the
-C< GetResources
+The value C<AWS::AllSupported>. This causes the ResourceQuery to match
+resources of any resource type that also match the query.
+
+=item *
+
+A list (a JSON array) of resource type identifiers that limit the query
+to only resources of the specified types. For the complete list of
+resource types that you can use in the array value for
+C<ResourceTypeFilters>, see Resources you can use with Resource Groups
+and Tag Editor
+(https://docs.aws.amazon.com/ARG/latest/userguide/supported-resources.html)
+in the I<Resource Groups User Guide>.
+
+=back
+
+Example: C<"ResourceTypeFilters": ["AWS::AllSupported"]> or
+C<"ResourceTypeFilters": ["AWS::EC2::Instance", "AWS::S3::Bucket"]>
+
+=item *
+
+C<TagFilters> E<ndash> applicable only if C<Type> = C<TAG_FILTERS_1_0>.
+The C<Query> contains a JSON string that represents a collection of
+simple tag filters. The JSON string uses a syntax similar to the C<
+GetResources
 (https://docs.aws.amazon.com/resourcegroupstagging/latest/APIReference/API_GetResources.html)
 > operation, but uses only the C< ResourceTypeFilters
 (https://docs.aws.amazon.com/resourcegroupstagging/latest/APIReference/API_GetResources.html#resourcegrouptagging-GetResources-request-ResourceTypeFilters)
@@ -151,14 +127,14 @@ have two tags, C<Stage> and C<Version>, with two values each:
 
 C<[{"Stage":["Test","Deploy"]},{"Version":["1","2"]}]>
 
-The results of this query could include the following.
+The results of this resource query could include the following.
 
 =over
 
 =item *
 
-An EC2 instance that has the following two tags: C<{"Stage":"Deploy"}>,
-and C<{"Version":"2"}>
+An Amazon EC2 instance that has the following two tags:
+C<{"Stage":"Deploy"}>, and C<{"Version":"2"}>
 
 =item *
 
@@ -167,14 +143,15 @@ C<{"Version":"1"}>
 
 =back
 
-The query would not include the following items in the results,
-however.
+The resource query results would I<not> include the following items in
+the results, however.
 
 =over
 
 =item *
 
-An EC2 instance that has only the following tag: C<{"Stage":"Deploy"}>.
+An Amazon EC2 instance that has only the following tag:
+C<{"Stage":"Deploy"}>.
 
 The instance does not have B<all> of the tag keys specified in the
 filter, so it is excluded from the results.
@@ -189,6 +166,38 @@ associated value that matches at least one of the specified values in
 the filter.
 
 =back
+
+Example: C<"TagFilters": [ { "Key": "Stage", "Values": [ "Gamma",
+"Beta" ] }>
+
+=item *
+
+C<StackIdentifier> E<ndash> applicable only if C<Type> =
+C<CLOUDFORMATION_STACK_1_0>. The value of this parameter is the Amazon
+Resource Name (ARN) of the CloudFormation stack whose resources you
+want included in the group.
+
+=back
+
+
+
+=head2 B<REQUIRED> Type => Str
+
+The type of the query to perform. This can have one of two values:
+
+=over
+
+=item *
+
+I<C<CLOUDFORMATION_STACK_1_0:> > Specifies that you want the group to
+contain the members of an CloudFormation stack. The C<Query> contains a
+C<StackIdentifier> element with an Amazon resource name (ARN) for a
+CloudFormation stack.
+
+=item *
+
+I<C<TAG_FILTERS_1_0:> > Specifies that you want the group to include
+resource that have tags that match the query.
 
 =back
 

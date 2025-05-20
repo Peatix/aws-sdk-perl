@@ -34,7 +34,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SecurityHub
 
 =head1 DESCRIPTION
 
-An AWS Lambda layer.
+An Lambda layer.
 
 =head1 ATTRIBUTES
 

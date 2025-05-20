@@ -56,6 +56,11 @@ interface, not an existing one. You cannot specify more than one
 network interface in the request. If launching into a default subnet,
 the default value is C<true>.
 
+Amazon Web Services charges for all public IPv4 addresses, including
+public IPv4 addresses associated with running instances and Elastic IP
+addresses. For more information, see the I<Public IPv4 Address> tab on
+the Amazon VPC pricing page (http://aws.amazon.com/vpc/pricing/).
+
 
 =head2 DeleteOnTermination => Bool
 

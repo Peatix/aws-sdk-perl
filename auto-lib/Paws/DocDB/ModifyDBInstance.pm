@@ -4,9 +4,13 @@ package Paws::DocDB::ModifyDBInstance;
   has ApplyImmediately => (is => 'ro', isa => 'Bool');
   has AutoMinorVersionUpgrade => (is => 'ro', isa => 'Bool');
   has CACertificateIdentifier => (is => 'ro', isa => 'Str');
+  has CertificateRotationRestart => (is => 'ro', isa => 'Bool');
+  has CopyTagsToSnapshot => (is => 'ro', isa => 'Bool');
   has DBInstanceClass => (is => 'ro', isa => 'Str');
   has DBInstanceIdentifier => (is => 'ro', isa => 'Str', required => 1);
+  has EnablePerformanceInsights => (is => 'ro', isa => 'Bool');
   has NewDBInstanceIdentifier => (is => 'ro', isa => 'Str');
+  has PerformanceInsightsKMSKeyId => (is => 'ro', isa => 'Str');
   has PreferredMaintenanceWindow => (is => 'ro', isa => 'Str');
   has PromotionTier => (is => 'ro', isa => 'Int');
 
@@ -35,14 +39,18 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $rds = Paws->service('DocDB');
     my $ModifyDBInstanceResult = $rds->ModifyDBInstance(
-      DBInstanceIdentifier       => 'MyString',
-      ApplyImmediately           => 1,             # OPTIONAL
-      AutoMinorVersionUpgrade    => 1,             # OPTIONAL
-      CACertificateIdentifier    => 'MyString',    # OPTIONAL
-      DBInstanceClass            => 'MyString',    # OPTIONAL
-      NewDBInstanceIdentifier    => 'MyString',    # OPTIONAL
-      PreferredMaintenanceWindow => 'MyString',    # OPTIONAL
-      PromotionTier              => 1,             # OPTIONAL
+      DBInstanceIdentifier        => 'MyString',
+      ApplyImmediately            => 1,             # OPTIONAL
+      AutoMinorVersionUpgrade     => 1,             # OPTIONAL
+      CACertificateIdentifier     => 'MyString',    # OPTIONAL
+      CertificateRotationRestart  => 1,             # OPTIONAL
+      CopyTagsToSnapshot          => 1,             # OPTIONAL
+      DBInstanceClass             => 'MyString',    # OPTIONAL
+      EnablePerformanceInsights   => 1,             # OPTIONAL
+      NewDBInstanceIdentifier     => 'MyString',    # OPTIONAL
+      PerformanceInsightsKMSKeyId => 'MyString',    # OPTIONAL
+      PreferredMaintenanceWindow  => 'MyString',    # OPTIONAL
+      PromotionTier               => 1,             # OPTIONAL
     );
 
     # Results:
@@ -85,10 +93,39 @@ instance.
 
 
 
+=head2 CertificateRotationRestart => Bool
+
+Specifies whether the DB instance is restarted when you rotate your
+SSL/TLS certificate.
+
+By default, the DB instance is restarted when you rotate your SSL/TLS
+certificate. The certificate is not updated until the DB instance is
+restarted.
+
+Set this parameter only if you are I<not> using SSL/TLS to connect to
+the DB instance.
+
+If you are using SSL/TLS to connect to the DB instance, see Updating
+Your Amazon DocumentDB TLS Certificates
+(https://docs.aws.amazon.com/documentdb/latest/developerguide/ca_cert_rotation.html)
+and Encrypting Data in Transit
+(https://docs.aws.amazon.com/documentdb/latest/developerguide/security.encryption.ssl.html)
+in the I<Amazon DocumentDB Developer Guide>.
+
+
+
+=head2 CopyTagsToSnapshot => Bool
+
+A value that indicates whether to copy all tags from the DB instance to
+snapshots of the DB instance. By default, tags are not copied.
+
+
+
 =head2 DBInstanceClass => Str
 
 The new compute and memory capacity of the instance; for example,
-C<db.r5.large>. Not all instance classes are available in all Regions.
+C<db.r5.large>. Not all instance classes are available in all Amazon
+Web Services Regions.
 
 If you modify the instance class, an outage occurs during the change.
 The change is applied during the next maintenance window, unless
@@ -112,6 +149,15 @@ Must match the identifier of an existing C<DBInstance>.
 
 =back
 
+
+
+
+=head2 EnablePerformanceInsights => Bool
+
+A value that indicates whether to enable Performance Insights for the
+DB Instance. For more information, see Using Amazon Performance
+Insights
+(https://docs.aws.amazon.com/documentdb/latest/developerguide/performance-insights.html).
 
 
 
@@ -142,6 +188,20 @@ Cannot end with a hyphen or contain two consecutive hyphens.
 =back
 
 Example: C<mydbinstance>
+
+
+
+=head2 PerformanceInsightsKMSKeyId => Str
+
+The KMS key identifier for encryption of Performance Insights data.
+
+The KMS key identifier is the key ARN, key ID, alias ARN, or alias name
+for the KMS key.
+
+If you do not specify a value for PerformanceInsightsKMSKeyId, then
+Amazon DocumentDB uses your default KMS key. There is a default KMS key
+for your Amazon Web Services account. Your Amazon Web Services account
+has a different default KMS key for each Amazon Web Services region.
 
 
 

@@ -34,8 +34,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::RedShift::C
 
 =head1 DESCRIPTION
 
-An AWS Identity and Access Management (IAM) role that can be used by
-the associated Amazon Redshift cluster to access other AWS services.
+An Identity and Access Management (IAM) role that can be used by the
+associated Amazon Redshift cluster to access other Amazon Web Services
+services.
 
 =head1 ATTRIBUTES
 

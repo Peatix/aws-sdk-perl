@@ -2,6 +2,7 @@
 package Paws::Config::DescribeConfigRules;
   use Moose;
   has ConfigRuleNames => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has Filters => (is => 'ro', isa => 'Paws::Config::DescribeConfigRulesFilters');
   has NextToken => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
@@ -32,6 +33,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       ConfigRuleNames => [
         'MyConfigRuleName', ...    # min: 1, max: 128
       ],    # OPTIONAL
+      Filters => {
+        EvaluationMode => 'DETECTIVE',  # values: DETECTIVE, PROACTIVE; OPTIONAL
+      },    # OPTIONAL
       NextToken => 'MyString',    # OPTIONAL
     );
 
@@ -49,8 +53,18 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/con
 
 =head2 ConfigRuleNames => ArrayRef[Str|Undef]
 
-The names of the AWS Config rules for which you want details. If you do
-not specify any names, AWS Config returns details for all your rules.
+The names of the Config rules for which you want details. If you do not
+specify any names, Config returns details for all your rules.
+
+
+
+=head2 Filters => L<Paws::Config::DescribeConfigRulesFilters>
+
+Returns a list of Detective or Proactive Config rules. By default, this
+API returns an unfiltered list. For more information on Detective or
+Proactive Config rules, see B<Evaluation Mode>
+(https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config-rules.html)
+in the I<Config Developer Guide>.
 
 
 

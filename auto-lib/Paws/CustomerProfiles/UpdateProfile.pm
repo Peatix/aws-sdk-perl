@@ -14,12 +14,14 @@ package Paws::CustomerProfiles::UpdateProfile;
   has EmailAddress => (is => 'ro', isa => 'Str');
   has FirstName => (is => 'ro', isa => 'Str');
   has Gender => (is => 'ro', isa => 'Str');
+  has GenderString => (is => 'ro', isa => 'Str');
   has HomePhoneNumber => (is => 'ro', isa => 'Str');
   has LastName => (is => 'ro', isa => 'Str');
   has MailingAddress => (is => 'ro', isa => 'Paws::CustomerProfiles::UpdateAddress');
   has MiddleName => (is => 'ro', isa => 'Str');
   has MobilePhoneNumber => (is => 'ro', isa => 'Str');
   has PartyType => (is => 'ro', isa => 'Str');
+  has PartyTypeString => (is => 'ro', isa => 'Str');
   has PersonalEmailAddress => (is => 'ro', isa => 'Str');
   has PhoneNumber => (is => 'ro', isa => 'Str');
   has ProfileId => (is => 'ro', isa => 'Str', required => 1);
@@ -53,73 +55,75 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $UpdateProfileResponse = $profile->UpdateProfile(
       DomainName            => 'Myname',
       ProfileId             => 'Myuuid',
-      AccountNumber         => 'Mystring0To255',     # OPTIONAL
-      AdditionalInformation => 'Mystring0To1000',    # OPTIONAL
+      AccountNumber         => 'MysensitiveString0To255',     # OPTIONAL
+      AdditionalInformation => 'MysensitiveString0To1000',    # OPTIONAL
       Address               => {
-        Address1   => 'Mystring0To255',    # max: 255
-        Address2   => 'Mystring0To255',    # max: 255
-        Address3   => 'Mystring0To255',    # max: 255
-        Address4   => 'Mystring0To255',    # max: 255
-        City       => 'Mystring0To255',    # max: 255
-        Country    => 'Mystring0To255',    # max: 255
-        County     => 'Mystring0To255',    # max: 255
-        PostalCode => 'Mystring0To255',    # max: 255
-        Province   => 'Mystring0To255',    # max: 255
-        State      => 'Mystring0To255',    # max: 255
+        Address1   => 'Mystring0To255',    # max: 255; OPTIONAL
+        Address2   => 'Mystring0To255',    # max: 255; OPTIONAL
+        Address3   => 'Mystring0To255',    # max: 255; OPTIONAL
+        Address4   => 'Mystring0To255',    # max: 255; OPTIONAL
+        City       => 'Mystring0To255',    # max: 255; OPTIONAL
+        Country    => 'Mystring0To255',    # max: 255; OPTIONAL
+        County     => 'Mystring0To255',    # max: 255; OPTIONAL
+        PostalCode => 'Mystring0To255',    # max: 255; OPTIONAL
+        Province   => 'Mystring0To255',    # max: 255; OPTIONAL
+        State      => 'Mystring0To255',    # max: 255; OPTIONAL
       },    # OPTIONAL
       Attributes => {
         'Mystring1To255' =>
-          'Mystring0To255',    # key: min: 1, max: 255, value: max: 255
+          'Mystring0To255',   # key: min: 1, max: 255, value: max: 255; OPTIONAL
       },    # OPTIONAL
       BillingAddress => {
-        Address1   => 'Mystring0To255',    # max: 255
-        Address2   => 'Mystring0To255',    # max: 255
-        Address3   => 'Mystring0To255',    # max: 255
-        Address4   => 'Mystring0To255',    # max: 255
-        City       => 'Mystring0To255',    # max: 255
-        Country    => 'Mystring0To255',    # max: 255
-        County     => 'Mystring0To255',    # max: 255
-        PostalCode => 'Mystring0To255',    # max: 255
-        Province   => 'Mystring0To255',    # max: 255
-        State      => 'Mystring0To255',    # max: 255
+        Address1   => 'Mystring0To255',    # max: 255; OPTIONAL
+        Address2   => 'Mystring0To255',    # max: 255; OPTIONAL
+        Address3   => 'Mystring0To255',    # max: 255; OPTIONAL
+        Address4   => 'Mystring0To255',    # max: 255; OPTIONAL
+        City       => 'Mystring0To255',    # max: 255; OPTIONAL
+        Country    => 'Mystring0To255',    # max: 255; OPTIONAL
+        County     => 'Mystring0To255',    # max: 255; OPTIONAL
+        PostalCode => 'Mystring0To255',    # max: 255; OPTIONAL
+        Province   => 'Mystring0To255',    # max: 255; OPTIONAL
+        State      => 'Mystring0To255',    # max: 255; OPTIONAL
       },    # OPTIONAL
-      BirthDate            => 'Mystring0To255',    # OPTIONAL
-      BusinessEmailAddress => 'Mystring0To255',    # OPTIONAL
-      BusinessName         => 'Mystring0To255',    # OPTIONAL
-      BusinessPhoneNumber  => 'Mystring0To255',    # OPTIONAL
-      EmailAddress         => 'Mystring0To255',    # OPTIONAL
-      FirstName            => 'Mystring0To255',    # OPTIONAL
-      Gender               => 'MALE',              # OPTIONAL
-      HomePhoneNumber      => 'Mystring0To255',    # OPTIONAL
-      LastName             => 'Mystring0To255',    # OPTIONAL
+      BirthDate            => 'MysensitiveString0To255',    # OPTIONAL
+      BusinessEmailAddress => 'MysensitiveString0To255',    # OPTIONAL
+      BusinessName         => 'MysensitiveString0To255',    # OPTIONAL
+      BusinessPhoneNumber  => 'MysensitiveString0To255',    # OPTIONAL
+      EmailAddress         => 'MysensitiveString0To255',    # OPTIONAL
+      FirstName            => 'MysensitiveString0To255',    # OPTIONAL
+      Gender               => 'MALE',                       # OPTIONAL
+      GenderString         => 'MysensitiveString0To255',    # OPTIONAL
+      HomePhoneNumber      => 'MysensitiveString0To255',    # OPTIONAL
+      LastName             => 'MysensitiveString0To255',    # OPTIONAL
       MailingAddress       => {
-        Address1   => 'Mystring0To255',    # max: 255
-        Address2   => 'Mystring0To255',    # max: 255
-        Address3   => 'Mystring0To255',    # max: 255
-        Address4   => 'Mystring0To255',    # max: 255
-        City       => 'Mystring0To255',    # max: 255
-        Country    => 'Mystring0To255',    # max: 255
-        County     => 'Mystring0To255',    # max: 255
-        PostalCode => 'Mystring0To255',    # max: 255
-        Province   => 'Mystring0To255',    # max: 255
-        State      => 'Mystring0To255',    # max: 255
+        Address1   => 'Mystring0To255',    # max: 255; OPTIONAL
+        Address2   => 'Mystring0To255',    # max: 255; OPTIONAL
+        Address3   => 'Mystring0To255',    # max: 255; OPTIONAL
+        Address4   => 'Mystring0To255',    # max: 255; OPTIONAL
+        City       => 'Mystring0To255',    # max: 255; OPTIONAL
+        Country    => 'Mystring0To255',    # max: 255; OPTIONAL
+        County     => 'Mystring0To255',    # max: 255; OPTIONAL
+        PostalCode => 'Mystring0To255',    # max: 255; OPTIONAL
+        Province   => 'Mystring0To255',    # max: 255; OPTIONAL
+        State      => 'Mystring0To255',    # max: 255; OPTIONAL
       },    # OPTIONAL
-      MiddleName           => 'Mystring0To255',    # OPTIONAL
-      MobilePhoneNumber    => 'Mystring0To255',    # OPTIONAL
-      PartyType            => 'INDIVIDUAL',        # OPTIONAL
-      PersonalEmailAddress => 'Mystring0To255',    # OPTIONAL
-      PhoneNumber          => 'Mystring0To255',    # OPTIONAL
+      MiddleName           => 'MysensitiveString0To255',    # OPTIONAL
+      MobilePhoneNumber    => 'MysensitiveString0To255',    # OPTIONAL
+      PartyType            => 'INDIVIDUAL',                 # OPTIONAL
+      PartyTypeString      => 'MysensitiveString0To255',    # OPTIONAL
+      PersonalEmailAddress => 'MysensitiveString0To255',    # OPTIONAL
+      PhoneNumber          => 'MysensitiveString0To255',    # OPTIONAL
       ShippingAddress      => {
-        Address1   => 'Mystring0To255',    # max: 255
-        Address2   => 'Mystring0To255',    # max: 255
-        Address3   => 'Mystring0To255',    # max: 255
-        Address4   => 'Mystring0To255',    # max: 255
-        City       => 'Mystring0To255',    # max: 255
-        Country    => 'Mystring0To255',    # max: 255
-        County     => 'Mystring0To255',    # max: 255
-        PostalCode => 'Mystring0To255',    # max: 255
-        Province   => 'Mystring0To255',    # max: 255
-        State      => 'Mystring0To255',    # max: 255
+        Address1   => 'Mystring0To255',    # max: 255; OPTIONAL
+        Address2   => 'Mystring0To255',    # max: 255; OPTIONAL
+        Address3   => 'Mystring0To255',    # max: 255; OPTIONAL
+        Address4   => 'Mystring0To255',    # max: 255; OPTIONAL
+        City       => 'Mystring0To255',    # max: 255; OPTIONAL
+        Country    => 'Mystring0To255',    # max: 255; OPTIONAL
+        County     => 'Mystring0To255',    # max: 255; OPTIONAL
+        PostalCode => 'Mystring0To255',    # max: 255; OPTIONAL
+        Province   => 'Mystring0To255',    # max: 255; OPTIONAL
+        State      => 'Mystring0To255',    # max: 255; OPTIONAL
       },    # OPTIONAL
     );
 
@@ -136,7 +140,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/pro
 
 =head2 AccountNumber => Str
 
-A unique account number that you have given to the customer.
+An account number that you have given to the customer.
 
 
 
@@ -214,6 +218,12 @@ The gender with which the customer identifies.
 
 Valid values are: C<"MALE">, C<"FEMALE">, C<"UNSPECIFIED">
 
+=head2 GenderString => Str
+
+An alternative to C<Gender> which accepts any string as input.
+
+
+
 =head2 HomePhoneNumber => Str
 
 The customerE<rsquo>s home phone number.
@@ -249,6 +259,12 @@ The customerE<rsquo>s mobile phone number.
 The type of profile used to describe the customer.
 
 Valid values are: C<"INDIVIDUAL">, C<"BUSINESS">, C<"OTHER">
+
+=head2 PartyTypeString => Str
+
+An alternative to C<PartyType> which accepts any string as input.
+
+
 
 =head2 PersonalEmailAddress => Str
 

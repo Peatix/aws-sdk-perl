@@ -4,6 +4,7 @@ package Paws::Glue::TableIdentifier;
   has CatalogId => (is => 'ro', isa => 'Str');
   has DatabaseName => (is => 'ro', isa => 'Str');
   has Name => (is => 'ro', isa => 'Str');
+  has Region => (is => 'ro', isa => 'Str');
 
 1;
 
@@ -24,7 +25,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::Glue::TableIdentifier object:
 
-  $service_obj->Method(Att1 => { CatalogId => $value, ..., Name => $value  });
+  $service_obj->Method(Att1 => { CatalogId => $value, ..., Region => $value  });
 
 =head3 Results returned from an API call
 
@@ -53,6 +54,11 @@ The name of the catalog database that contains the target table.
 =head2 Name => Str
 
 The name of the target table.
+
+
+=head2 Region => Str
+
+Region of the target table.
 
 
 

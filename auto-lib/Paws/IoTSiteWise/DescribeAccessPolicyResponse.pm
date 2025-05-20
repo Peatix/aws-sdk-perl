@@ -42,8 +42,8 @@ The ID of the access policy.
 
 =head2 B<REQUIRED> AccessPolicyIdentity => L<Paws::IoTSiteWise::Identity>
 
-The identity (AWS SSO user, AWS SSO group, or IAM user) to which this
-access policy applies.
+The identity (IAM Identity Center user, IAM Identity Center group, or
+IAM user) to which this access policy applies.
 
 
 =head2 B<REQUIRED> AccessPolicyLastUpdateDate => Str
@@ -59,7 +59,7 @@ also known as a project owner.
 Valid values are: C<"ADMINISTRATOR">, C<"VIEWER">
 =head2 B<REQUIRED> AccessPolicyResource => L<Paws::IoTSiteWise::Resource>
 
-The AWS IoT SiteWise Monitor resource (portal or project) to which this
+The IoT SiteWise Monitor resource (portal or project) to which this
 access policy provides access.
 
 

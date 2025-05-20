@@ -44,7 +44,8 @@ PutBucketAcl
 
 =head2 Id => Str
 
-The value specified is the canonical user ID of an AWS account.
+The value specified is the canonical user ID of an Amazon Web Services
+account.
 
 
 =head2 Uri => Str

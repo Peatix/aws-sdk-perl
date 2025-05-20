@@ -2,7 +2,9 @@
 package Paws::SageMaker::CreatePipeline;
   use Moose;
   has ClientRequestToken => (is => 'ro', isa => 'Str', required => 1);
-  has PipelineDefinition => (is => 'ro', isa => 'Str', required => 1);
+  has ParallelismConfiguration => (is => 'ro', isa => 'Paws::SageMaker::ParallelismConfiguration');
+  has PipelineDefinition => (is => 'ro', isa => 'Str');
+  has PipelineDefinitionS3Location => (is => 'ro', isa => 'Paws::SageMaker::PipelineDefinitionS3Location');
   has PipelineDescription => (is => 'ro', isa => 'Str');
   has PipelineDisplayName => (is => 'ro', isa => 'Str');
   has PipelineName => (is => 'ro', isa => 'Str', required => 1);
@@ -34,10 +36,19 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $api.sagemaker = Paws->service('SageMaker');
     my $CreatePipelineResponse = $api . sagemaker->CreatePipeline(
-      ClientRequestToken  => 'MyIdempotencyToken',
-      PipelineDefinition  => 'MyPipelineDefinition',
-      PipelineName        => 'MyPipelineName',
-      RoleArn             => 'MyRoleArn',
+      ClientRequestToken       => 'MyIdempotencyToken',
+      PipelineName             => 'MyPipelineName',
+      RoleArn                  => 'MyRoleArn',
+      ParallelismConfiguration => {
+        MaxParallelExecutionSteps => 1,    # min: 1
+
+      },    # OPTIONAL
+      PipelineDefinition           => 'MyPipelineDefinition',    # OPTIONAL
+      PipelineDefinitionS3Location => {
+        Bucket    => 'MyBucketName',    # min: 3, max: 63
+        ObjectKey => 'MyKey',           # min: 1, max: 1024
+        VersionId => 'MyVersionId',     # min: 1, max: 1024; OPTIONAL
+      },    # OPTIONAL
       PipelineDescription => 'MyPipelineDescription',    # OPTIONAL
       PipelineDisplayName => 'MyPipelineName',           # OPTIONAL
       Tags                => [
@@ -69,9 +80,27 @@ than one time.
 
 
 
-=head2 B<REQUIRED> PipelineDefinition => Str
+=head2 ParallelismConfiguration => L<Paws::SageMaker::ParallelismConfiguration>
 
-The JSON pipeline definition of the pipeline.
+This is the configuration that controls the parallelism of the
+pipeline. If specified, it applies to all runs of this pipeline by
+default.
+
+
+
+=head2 PipelineDefinition => Str
+
+The JSON pipeline definition
+(https://aws-sagemaker-mlops.github.io/sagemaker-model-building-pipeline-definition-JSON-schema/)
+of the pipeline.
+
+
+
+=head2 PipelineDefinitionS3Location => L<Paws::SageMaker::PipelineDefinitionS3Location>
+
+The location of the pipeline definition stored in Amazon S3. If
+specified, SageMaker will retrieve the pipeline definition from this
+location.
 
 
 

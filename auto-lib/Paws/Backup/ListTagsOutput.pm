@@ -19,15 +19,14 @@ Paws::Backup::ListTagsOutput
 =head2 NextToken => Str
 
 The next item following a partial list of returned items. For example,
-if a request is made to return C<maxResults> number of items,
+if a request is made to return C<MaxResults> number of items,
 C<NextToken> allows you to return more items in your list starting at
 the location pointed to by the next token.
 
 
 =head2 Tags => L<Paws::Backup::Tags>
 
-To help organize your resources, you can assign your own metadata to
-the resources you create. Each tag is a key-value pair.
+Information about the tags.
 
 
 =head2 _request_id => Str

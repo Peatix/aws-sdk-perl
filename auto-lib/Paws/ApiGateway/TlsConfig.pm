@@ -33,7 +33,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ApiGateway:
 
 =head1 DESCRIPTION
 
-This class has no description
+Specifies the TLS configuration for an integration.
 
 =head1 ATTRIBUTES
 
@@ -42,14 +42,18 @@ This class has no description
 
 Specifies whether or not API Gateway skips verification that the
 certificate for an integration endpoint is issued by a supported
-certificate authority
-(https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-supported-certificate-authorities-for-http-endpoints.html).
-This isnE<rsquo>t recommended, but it enables you to use certificates
-that are signed by private certificate authorities, or certificates
-that are self-signed. If enabled, API Gateway still performs basic
-certificate validation, which includes checking the certificate's
-expiration date, hostname, and presence of a root certificate
-authority. Supported only for C<HTTP> and C<HTTP_PROXY> integrations.
+certificate authority. This isnE<rsquo>t recommended, but it enables
+you to use certificates that are signed by private certificate
+authorities, or certificates that are self-signed. If enabled, API
+Gateway still performs basic certificate validation, which includes
+checking the certificate's expiration date, hostname, and presence of a
+root certificate authority. Supported only for C<HTTP> and
+C<HTTP_PROXY> integrations.
+
+Enabling C<insecureSkipVerification> isn't recommended, especially for
+integrations with public HTTPS endpoints. If you enable
+C<insecureSkipVerification>, you increase the risk of man-in-the-middle
+attacks.
 
 
 

@@ -16,7 +16,7 @@ Paws::Proton::GetServiceInstanceOutput
 
 =head2 B<REQUIRED> ServiceInstance => L<Paws::Proton::ServiceInstance>
 
-The service instance detail data that's returned by AWS Proton.
+The detailed data of the requested service instance.
 
 
 =head2 _request_id => Str

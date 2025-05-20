@@ -32,14 +32,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $networkmanager = Paws->service('NetworkManager');
     my $UpdateSiteResponse = $networkmanager->UpdateSite(
-      GlobalNetworkId => 'MyString',
-      SiteId          => 'MyString',
-      Description     => 'MyString',    # OPTIONAL
+      GlobalNetworkId => 'MyGlobalNetworkId',
+      SiteId          => 'MySiteId',
+      Description     => 'MyConstrainedString',    # OPTIONAL
       Location        => {
-        Address   => 'MyString',
-        Latitude  => 'MyString',
-        Longitude => 'MyString',
-      },                                # OPTIONAL
+        Address   => 'MyConstrainedString',        # max: 256
+        Latitude  => 'MyConstrainedString',        # max: 256
+        Longitude => 'MyConstrainedString',        # max: 256
+      },    # OPTIONAL
     );
 
     # Results:
@@ -57,7 +57,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/net
 
 A description of your site.
 
-Length Constraints: Maximum length of 256 characters.
+Constraints: Maximum length of 256 characters.
 
 
 

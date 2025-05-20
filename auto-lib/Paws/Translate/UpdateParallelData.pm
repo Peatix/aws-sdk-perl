@@ -34,9 +34,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       ClientToken        => 'MyClientTokenString',
       Name               => 'MyResourceName',
       ParallelDataConfig => {
-        Format => 'TSV',        # values: TSV, CSV, TMX
-        S3Uri  => 'MyS3Uri',    # max: 1024
-
+        Format => 'TSV',        # values: TSV, CSV, TMX; OPTIONAL
+        S3Uri  => 'MyS3Uri',    # max: 1024; OPTIONAL
       },
       Description => 'MyDescription',    # OPTIONAL
     );

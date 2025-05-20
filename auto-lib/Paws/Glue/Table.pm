@@ -6,6 +6,8 @@ package Paws::Glue::Table;
   has CreateTime => (is => 'ro', isa => 'Str');
   has DatabaseName => (is => 'ro', isa => 'Str');
   has Description => (is => 'ro', isa => 'Str');
+  has FederatedTable => (is => 'ro', isa => 'Paws::Glue::FederatedTable');
+  has IsMultiDialectView => (is => 'ro', isa => 'Bool');
   has IsRegisteredWithLakeFormation => (is => 'ro', isa => 'Bool');
   has LastAccessTime => (is => 'ro', isa => 'Str');
   has LastAnalyzedTime => (is => 'ro', isa => 'Str');
@@ -14,10 +16,13 @@ package Paws::Glue::Table;
   has Parameters => (is => 'ro', isa => 'Paws::Glue::ParametersMap');
   has PartitionKeys => (is => 'ro', isa => 'ArrayRef[Paws::Glue::Column]');
   has Retention => (is => 'ro', isa => 'Int');
+  has Status => (is => 'ro', isa => 'Paws::Glue::TableStatus');
   has StorageDescriptor => (is => 'ro', isa => 'Paws::Glue::StorageDescriptor');
   has TableType => (is => 'ro', isa => 'Str');
   has TargetTable => (is => 'ro', isa => 'Paws::Glue::TableIdentifier');
   has UpdateTime => (is => 'ro', isa => 'Str');
+  has VersionId => (is => 'ro', isa => 'Str');
+  has ViewDefinition => (is => 'ro', isa => 'Paws::Glue::ViewDefinition');
   has ViewExpandedText => (is => 'ro', isa => 'Str');
   has ViewOriginalText => (is => 'ro', isa => 'Str');
 
@@ -82,6 +87,18 @@ compatibility, this must be all lowercase.
 A description of the table.
 
 
+=head2 FederatedTable => L<Paws::Glue::FederatedTable>
+
+A C<FederatedTable> structure that references an entity outside the
+Glue Data Catalog.
+
+
+=head2 IsMultiDialectView => Bool
+
+Specifies whether the view supports the SQL dialects of one or more
+different query engines and can therefore be read by those engines.
+
+
 =head2 IsRegisteredWithLakeFormation => Bool
 
 Indicates whether the table has been registered with Lake Formation.
@@ -131,6 +148,11 @@ C<"PartitionKeys": []>
 The retention time for this table.
 
 
+=head2 Status => L<Paws::Glue::TableStatus>
+
+
+
+
 =head2 StorageDescriptor => L<Paws::Glue::StorageDescriptor>
 
 A storage descriptor containing information about the physical storage
@@ -139,7 +161,24 @@ of this table.
 
 =head2 TableType => Str
 
-The type of this table (C<EXTERNAL_TABLE>, C<VIRTUAL_VIEW>, etc.).
+The type of this table. Glue will create tables with the
+C<EXTERNAL_TABLE> type. Other services, such as Athena, may create
+tables with additional table types.
+
+Glue related table types:
+
+=over
+
+=item EXTERNAL_TABLE
+
+Hive compatible attribute - indicates a non-Hive managed table.
+
+=item GOVERNED
+
+Used by Lake Formation. The Glue Data Catalog understands C<GOVERNED>.
+
+=back
+
 
 
 =head2 TargetTable => L<Paws::Glue::TableIdentifier>
@@ -153,16 +192,28 @@ resource linking.
 The last time that the table was updated.
 
 
+=head2 VersionId => Str
+
+The ID of the table version.
+
+
+=head2 ViewDefinition => L<Paws::Glue::ViewDefinition>
+
+A structure that contains all the information that defines the view,
+including the dialect or dialects for the view, and the query.
+
+
 =head2 ViewExpandedText => Str
 
-If the table is a view, the expanded text of the view; otherwise
-C<null>.
+Included for Apache Hive compatibility. Not used in the normal course
+of Glue operations.
 
 
 =head2 ViewOriginalText => Str
 
-If the table is a view, the original text of the view; otherwise
-C<null>.
+Included for Apache Hive compatibility. Not used in the normal course
+of Glue operations. If the table is a C<VIRTUAL_VIEW>, certain Athena
+configuration encoded in base64.
 
 
 

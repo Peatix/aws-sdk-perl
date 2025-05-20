@@ -49,7 +49,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/lam
 
 =head2 B<REQUIRED> FunctionName => Str
 
-The name of the Lambda function, version, or alias.
+The name or ARN of the Lambda function, version, or alias.
 
 B<Name formats>
 
@@ -57,17 +57,17 @@ B<Name formats>
 
 =item *
 
-B<Function name> - C<my-function> (name-only), C<my-function:v1> (with
-alias).
+B<Function name> E<ndash> C<my-function> (name-only), C<my-function:v1>
+(with alias).
 
 =item *
 
-B<Function ARN> -
+B<Function ARN> E<ndash>
 C<arn:aws:lambda:us-west-2:123456789012:function:my-function>.
 
 =item *
 
-B<Partial ARN> - C<123456789012:function:my-function>.
+B<Partial ARN> E<ndash> C<123456789012:function:my-function>.
 
 =back
 
@@ -86,7 +86,7 @@ version of the function.
 
 =head2 RevisionId => Str
 
-Only update the policy if the revision ID matches the ID that's
+Update the policy only if the revision ID matches the ID that's
 specified. Use this option to avoid modifying a policy that has changed
 since you last read it.
 

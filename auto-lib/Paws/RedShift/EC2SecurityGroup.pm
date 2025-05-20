@@ -48,8 +48,8 @@ The name of the EC2 Security Group.
 
 =head2 EC2SecurityGroupOwnerId => Str
 
-The AWS ID of the owner of the EC2 security group specified in the
-C<EC2SecurityGroupName> field.
+The Amazon Web Services account ID of the owner of the EC2 security
+group specified in the C<EC2SecurityGroupName> field.
 
 
 =head2 Status => Str

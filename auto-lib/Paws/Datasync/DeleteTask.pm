@@ -40,7 +40,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/dat
 
 =head2 B<REQUIRED> TaskArn => Str
 
-The Amazon Resource Name (ARN) of the task to delete.
+Specifies the Amazon Resource Name (ARN) of the task that you want to
+delete.
 
 
 

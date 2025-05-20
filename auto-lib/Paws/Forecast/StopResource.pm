@@ -42,8 +42,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/for
 
 The Amazon Resource Name (ARN) that identifies the resource to stop.
 The supported ARNs are C<DatasetImportJobArn>, C<PredictorArn>,
-C<PredictorBacktestExportJobArn>, C<ForecastArn>, and
-C<ForecastExportJobArn>.
+C<PredictorBacktestExportJobArn>, C<ForecastArn>,
+C<ForecastExportJobArn>, C<ExplainabilityArn>, and
+C<ExplainabilityExportArn>.
 
 
 

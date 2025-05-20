@@ -49,6 +49,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           MinSegmentConfidence => 1.0,    # min: 50, max: 100; OPTIONAL
         },    # OPTIONAL
         TechnicalCueFilter => {
+          BlackFrame => {
+            MaxPixelThreshold     => 1.0,    # max: 1; OPTIONAL
+            MinCoveragePercentage => 1.0,    # max: 100; OPTIONAL
+          },    # OPTIONAL
           MinSegmentConfidence => 1.0,    # min: 50, max: 100; OPTIONAL
         },    # OPTIONAL
       },    # OPTIONAL
@@ -99,7 +103,9 @@ and identify them in the completion notification.
 
 The ARN of the Amazon SNS topic to which you want Amazon Rekognition
 Video to publish the completion status of the segment detection
-operation.
+operation. Note that the Amazon SNS topic must have a topic name that
+begins with I<AmazonRekognition> if you are using the
+AmazonRekognitionServiceRole permissions policy to access the topic.
 
 
 

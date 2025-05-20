@@ -36,7 +36,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AutoScaling
 
 Describes an auto scaling process that has been suspended.
 
-For more information, see Scaling processes
+For more information, see Types of processes
 (https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-suspend-resume-processes.html#process-types)
 in the I<Amazon EC2 Auto Scaling User Guide>.
 

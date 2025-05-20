@@ -33,10 +33,11 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SSM::Resour
 
 =head1 DESCRIPTION
 
-Synchronize Systems Manager Inventory data from multiple AWS accounts
-defined in AWS Organizations to a centralized S3 bucket. Data is
-synchronized to individual key prefixes in the central bucket. Each key
-prefix represents a different AWS account ID.
+Synchronize Amazon Web Services Systems Manager Inventory data from
+multiple Amazon Web Services accounts defined in Organizations to a
+centralized Amazon S3 bucket. Data is synchronized to individual key
+prefixes in the central bucket. Each key prefix represents a different
+Amazon Web Services account ID.
 
 =head1 ATTRIBUTES
 

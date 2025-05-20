@@ -4,6 +4,7 @@ package Paws::AppConfig::ListConfigurationProfiles;
   has ApplicationId => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'ApplicationId', required => 1);
   has MaxResults => (is => 'ro', isa => 'Int', traits => ['ParamInQuery'], query_name => 'max_results');
   has NextToken => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'next_token');
+  has Type => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'type');
 
   use MooseX::ClassAttribute;
 
@@ -30,15 +31,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $appconfig = Paws->service('AppConfig');
-    my $ConfigurationProfiles = $appconfig->ListConfigurationProfiles(
-      ApplicationId => 'MyId',
-      MaxResults    => 1,                # OPTIONAL
-      NextToken     => 'MyNextToken',    # OPTIONAL
-    );
+    # To list the available configuration profiles
+    # The following list-configuration-profiles example lists the available
+    # configuration profiles for the specified application.
+    my $ConfigurationProfiles =
+      $appconfig->ListConfigurationProfiles( 'ApplicationId' => '339ohji' );
 
     # Results:
-    my $Items     = $ConfigurationProfiles->Items;
-    my $NextToken = $ConfigurationProfiles->NextToken;
+    my $Items = $ConfigurationProfiles->Items;
 
     # Returns a L<Paws::AppConfig::ConfigurationProfiles> object.
 
@@ -66,6 +66,14 @@ next set of results.
 
 A token to start the list. Use this token to get the next set of
 results.
+
+
+
+=head2 Type => Str
+
+A filter based on the type of configurations that the configuration
+profile contains. A configuration can be a feature flag or a freeform
+configuration.
 
 
 

@@ -50,8 +50,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/tra
 
 =head2 B<REQUIRED> VocabularyName => Str
 
-The name of the vocabulary that you want information about. The value
-is case sensitive.
+The name of the custom medical vocabulary you want information about.
+Custom medical vocabulary names are case sensitive.
 
 
 

@@ -51,8 +51,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ds/
 
 =head2 B<REQUIRED> DirectoryId => Str
 
-The identifier of the AWS Managed Microsoft AD directory that you want
-to stop sharing.
+The identifier of the Managed Microsoft AD directory that you want to
+stop sharing.
 
 
 

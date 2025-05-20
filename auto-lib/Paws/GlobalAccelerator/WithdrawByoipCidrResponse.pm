@@ -16,7 +16,7 @@ Paws::GlobalAccelerator::WithdrawByoipCidrResponse
 
 =head2 ByoipCidr => L<Paws::GlobalAccelerator::ByoipCidr>
 
-Information about the address pool.
+Information about the BYOIP address pool.
 
 
 =head2 _request_id => Str

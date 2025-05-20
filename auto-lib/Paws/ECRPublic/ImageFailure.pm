@@ -35,14 +35,14 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ECRPublic::
 
 =head1 DESCRIPTION
 
-An object representing an Amazon ECR image failure.
+An object that represents an Amazon ECR image failure.
 
 =head1 ATTRIBUTES
 
 
 =head2 FailureCode => Str
 
-The code associated with the failure.
+The code that's associated with the failure.
 
 
 =head2 FailureReason => Str
@@ -52,7 +52,7 @@ The reason for the failure.
 
 =head2 ImageId => L<Paws::ECRPublic::ImageIdentifier>
 
-The image ID associated with the failure.
+The image ID that's associated with the failure.
 
 
 

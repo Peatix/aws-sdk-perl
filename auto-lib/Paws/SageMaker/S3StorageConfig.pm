@@ -35,7 +35,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SageMaker::
 
 =head1 DESCRIPTION
 
-The Amazon Simple Storage (Amazon S3) location and and security
+The Amazon Simple Storage (Amazon S3) location and security
 configuration for C<OfflineStore>.
 
 =head1 ATTRIBUTES
@@ -43,7 +43,7 @@ configuration for C<OfflineStore>.
 
 =head2 KmsKeyId => Str
 
-The Amazon Web Services Key Management Service (KMS) key ID of the key
+The Amazon Web Services Key Management Service (KMS) key ARN of the key
 used to encrypt any objects written into the C<OfflineStore> S3
 location.
 

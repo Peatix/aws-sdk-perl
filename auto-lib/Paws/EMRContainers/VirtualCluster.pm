@@ -6,6 +6,7 @@ package Paws::EMRContainers::VirtualCluster;
   has CreatedAt => (is => 'ro', isa => 'Str', request_name => 'createdAt', traits => ['NameInRequest']);
   has Id => (is => 'ro', isa => 'Str', request_name => 'id', traits => ['NameInRequest']);
   has Name => (is => 'ro', isa => 'Str', request_name => 'name', traits => ['NameInRequest']);
+  has SecurityConfigurationId => (is => 'ro', isa => 'Str', request_name => 'securityConfigurationId', traits => ['NameInRequest']);
   has State => (is => 'ro', isa => 'Str', request_name => 'state', traits => ['NameInRequest']);
   has Tags => (is => 'ro', isa => 'Paws::EMRContainers::TagMap', request_name => 'tags', traits => ['NameInRequest']);
 
@@ -43,7 +44,7 @@ This entity describes a virtual cluster. A virtual cluster is a
 Kubernetes namespace that Amazon EMR is registered with. Amazon EMR
 uses virtual clusters to run jobs and host endpoints. Multiple virtual
 clusters can be backed by the same physical cluster. However, each
-virtual cluster maps to one namespace on an EKS cluster. Virtual
+virtual cluster maps to one namespace on an Amazon EKS cluster. Virtual
 clusters do not create any active resources that contribute to your
 bill or that require lifecycle management outside the service.
 
@@ -73,6 +74,11 @@ The ID of the virtual cluster.
 =head2 Name => Str
 
 The name of the virtual cluster.
+
+
+=head2 SecurityConfigurationId => Str
+
+The ID of the security configuration.
 
 
 =head2 State => Str

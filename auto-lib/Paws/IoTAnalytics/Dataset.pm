@@ -43,20 +43,20 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::IoTAnalytic
 
 =head1 DESCRIPTION
 
-Information about a data set.
+Information about a dataset.
 
 =head1 ATTRIBUTES
 
 
 =head2 Actions => ArrayRef[L<Paws::IoTAnalytics::DatasetAction>]
 
-The C<DatasetAction> objects that automatically create the data set
+The C<DatasetAction> objects that automatically create the dataset
 contents.
 
 
 =head2 Arn => Str
 
-The ARN of the data set.
+The ARN of the dataset.
 
 
 =head2 ContentDeliveryRules => ArrayRef[L<Paws::IoTAnalytics::DatasetContentDeliveryRule>]
@@ -67,18 +67,18 @@ specified here.
 
 =head2 CreationTime => Str
 
-When the data set was created.
+When the dataset was created.
 
 
 =head2 LastUpdateTime => Str
 
-The last time the data set was updated.
+The last time the dataset was updated.
 
 
 =head2 LateDataRules => ArrayRef[L<Paws::IoTAnalytics::LateDataRule>]
 
-A list of data rules that send notifications to Amazon CloudWatch, when
-data arrives late. To specify C<lateDataRules>, the dataset must use a
+A list of data rules that send notifications to CloudWatch, when data
+arrives late. To specify C<lateDataRules>, the dataset must use a
 DeltaTimer
 (https://docs.aws.amazon.com/iotanalytics/latest/APIReference/API_DeltaTime.html)
 filter.
@@ -86,22 +86,22 @@ filter.
 
 =head2 Name => Str
 
-The name of the data set.
+The name of the dataset.
 
 
 =head2 RetentionPeriod => L<Paws::IoTAnalytics::RetentionPeriod>
 
-Optional. How long, in days, message data is kept for the data set.
+Optional. How long, in days, message data is kept for the dataset.
 
 
 =head2 Status => Str
 
-The status of the data set.
+The status of the dataset.
 
 
 =head2 Triggers => ArrayRef[L<Paws::IoTAnalytics::DatasetTrigger>]
 
-The C<DatasetTrigger> objects that specify when the data set is
+The C<DatasetTrigger> objects that specify when the dataset is
 automatically updated.
 
 
@@ -111,9 +111,9 @@ Optional. How many versions of dataset contents are kept. If not
 specified or set to null, only the latest version plus the latest
 succeeded version (if they are different) are kept for the time period
 specified by the C<retentionPeriod> parameter. For more information,
-see Keeping Multiple Versions of AWS IoT Analytics Data Sets
+see Keeping Multiple Versions of IoT Analytics datasets
 (https://docs.aws.amazon.com/iotanalytics/latest/userguide/getting-started.html#aws-iot-analytics-dataset-versions)
-in the I<AWS IoT Analytics User Guide>.
+in the I<IoT Analytics User Guide>.
 
 
 

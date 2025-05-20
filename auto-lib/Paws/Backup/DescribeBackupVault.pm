@@ -1,6 +1,7 @@
 
 package Paws::Backup::DescribeBackupVault;
   use Moose;
+  has BackupVaultAccountId => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'backupVaultAccountId');
   has BackupVaultName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'backupVaultName', required => 1);
 
   use MooseX::ClassAttribute;
@@ -29,8 +30,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $backup = Paws->service('Backup');
     my $DescribeBackupVaultOutput = $backup->DescribeBackupVault(
-      BackupVaultName => 'Mystring',
-
+      BackupVaultName      => 'Mystring',
+      BackupVaultAccountId => 'Mystring',    # OPTIONAL
     );
 
     # Results:
@@ -39,8 +40,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $CreationDate     = $DescribeBackupVaultOutput->CreationDate;
     my $CreatorRequestId = $DescribeBackupVaultOutput->CreatorRequestId;
     my $EncryptionKeyArn = $DescribeBackupVaultOutput->EncryptionKeyArn;
+    my $LockDate         = $DescribeBackupVaultOutput->LockDate;
+    my $Locked           = $DescribeBackupVaultOutput->Locked;
+    my $MaxRetentionDays = $DescribeBackupVaultOutput->MaxRetentionDays;
+    my $MinRetentionDays = $DescribeBackupVaultOutput->MinRetentionDays;
     my $NumberOfRecoveryPoints =
       $DescribeBackupVaultOutput->NumberOfRecoveryPoints;
+    my $VaultState = $DescribeBackupVaultOutput->VaultState;
+    my $VaultType  = $DescribeBackupVaultOutput->VaultType;
 
     # Returns a L<Paws::Backup::DescribeBackupVaultOutput> object.
 
@@ -50,12 +57,17 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/bac
 =head1 ATTRIBUTES
 
 
+=head2 BackupVaultAccountId => Str
+
+The account ID of the specified backup vault.
+
+
+
 =head2 B<REQUIRED> BackupVaultName => Str
 
 The name of a logical container where backups are stored. Backup vaults
 are identified by names that are unique to the account used to create
-them and the AWS Region where they are created. They consist of
-lowercase letters, numbers, and hyphens.
+them and the Amazon Web Services Region where they are created.
 
 
 

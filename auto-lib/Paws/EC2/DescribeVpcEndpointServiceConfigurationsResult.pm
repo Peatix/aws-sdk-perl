@@ -24,7 +24,7 @@ C<null> when there are no more results to return.
 
 =head2 ServiceConfigurations => ArrayRef[L<Paws::EC2::ServiceConfiguration>]
 
-Information about one or more services.
+Information about the services.
 
 
 =head2 _request_id => Str

@@ -7,8 +7,10 @@ package Paws::Config::BaseConfigurationItem;
   has AwsRegion => (is => 'ro', isa => 'Str', request_name => 'awsRegion', traits => ['NameInRequest']);
   has Configuration => (is => 'ro', isa => 'Str', request_name => 'configuration', traits => ['NameInRequest']);
   has ConfigurationItemCaptureTime => (is => 'ro', isa => 'Str', request_name => 'configurationItemCaptureTime', traits => ['NameInRequest']);
+  has ConfigurationItemDeliveryTime => (is => 'ro', isa => 'Str', request_name => 'configurationItemDeliveryTime', traits => ['NameInRequest']);
   has ConfigurationItemStatus => (is => 'ro', isa => 'Str', request_name => 'configurationItemStatus', traits => ['NameInRequest']);
   has ConfigurationStateId => (is => 'ro', isa => 'Str', request_name => 'configurationStateId', traits => ['NameInRequest']);
+  has RecordingFrequency => (is => 'ro', isa => 'Str', request_name => 'recordingFrequency', traits => ['NameInRequest']);
   has ResourceCreationTime => (is => 'ro', isa => 'Str', request_name => 'resourceCreationTime', traits => ['NameInRequest']);
   has ResourceId => (is => 'ro', isa => 'Str', request_name => 'resourceId', traits => ['NameInRequest']);
   has ResourceName => (is => 'ro', isa => 'Str', request_name => 'resourceName', traits => ['NameInRequest']);
@@ -46,14 +48,15 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Config::Bas
 
 =head1 DESCRIPTION
 
-The detailed configuration of a specified resource.
+The detailed configurations of a specified resource.
 
 =head1 ATTRIBUTES
 
 
 =head2 AccountId => Str
 
-The 12-digit AWS account ID associated with the resource.
+The 12-digit Amazon Web Services account ID associated with the
+resource.
 
 
 =head2 Arn => Str
@@ -78,28 +81,43 @@ The description of the resource configuration.
 
 =head2 ConfigurationItemCaptureTime => Str
 
-The time when the configuration recording was initiated.
+The time when the recording of configuration changes was initiated for
+the resource.
+
+
+=head2 ConfigurationItemDeliveryTime => Str
+
+The time when configuration changes for the resource were delivered.
+
+This field is optional and is not guaranteed to be present in a
+configuration item (CI). If you are using daily recording, this field
+will be populated. However, if you are using continuous recording, this
+field will be omitted since the delivery time is instantaneous as the
+CI is available right away. For more information on daily recording and
+continuous recording, see Recording Frequency
+(https://docs.aws.amazon.com/config/latest/developerguide/select-resources.html#select-resources-recording-frequency)
+in the I<Config Developer Guide>.
 
 
 =head2 ConfigurationItemStatus => Str
 
-The configuration item status. The valid values are:
+The configuration item status. Valid values include:
 
 =over
 
 =item *
 
-OK E<ndash> The resource configuration has been updated
+OK E<ndash> The resource configuration has been updated.
 
 =item *
 
-ResourceDiscovered E<ndash> The resource was newly discovered
+ResourceDiscovered E<ndash> The resource was newly discovered.
 
 =item *
 
-ResourceNotRecorded E<ndash> The resource was discovered but its
-configuration was not recorded since the recorder excludes the
-recording of resources of this type
+ResourceNotRecorded E<ndash> The resource was discovered, but its
+configuration was not recorded since the recorder doesn't record
+resources of this type.
 
 =item *
 
@@ -107,19 +125,24 @@ ResourceDeleted E<ndash> The resource was deleted
 
 =item *
 
-ResourceDeletedNotRecorded E<ndash> The resource was deleted but its
-configuration was not recorded since the recorder excludes the
-recording of resources of this type
+ResourceDeletedNotRecorded E<ndash> The resource was deleted, but its
+configuration was not recorded since the recorder doesn't record
+resources of this type.
 
 =back
 
-The CIs do not incur any cost.
 
 
 =head2 ConfigurationStateId => Str
 
 An identifier that indicates the ordering of the configuration items of
 a resource.
+
+
+=head2 RecordingFrequency => Str
+
+The recording frequency that Config uses to record configuration
+changes for the resource.
 
 
 =head2 ResourceCreationTime => Str
@@ -139,14 +162,13 @@ The custom name of the resource, if available.
 
 =head2 ResourceType => Str
 
-The type of AWS resource.
+The type of Amazon Web Services resource.
 
 
 =head2 SupplementaryConfiguration => L<Paws::Config::SupplementaryConfiguration>
 
-Configuration attributes that AWS Config returns for certain resource
-types to supplement the information returned for the configuration
-parameter.
+Configuration attributes that Config returns for certain resource types
+to supplement the information returned for the configuration parameter.
 
 
 =head2 Version => Str

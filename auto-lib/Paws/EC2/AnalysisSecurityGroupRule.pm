@@ -48,7 +48,7 @@ The IPv4 address range, in CIDR notation.
 
 =head2 Direction => Str
 
-The direction. The following are possible values:
+The direction. The following are the possible values:
 
 =over
 

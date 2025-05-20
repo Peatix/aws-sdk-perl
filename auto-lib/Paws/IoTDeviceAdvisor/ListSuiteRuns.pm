@@ -65,14 +65,14 @@ A token to retrieve the next set of results.
 =head2 SuiteDefinitionId => Str
 
 Lists the test suite runs of the specified test suite based on suite
-definition Id.
+definition ID.
 
 
 
 =head2 SuiteDefinitionVersion => Str
 
-Must be passed along with suiteDefinitionId. Lists the test suite runs
-of the specified test suite based on suite definition version.
+Must be passed along with C<suiteDefinitionId>. Lists the test suite
+runs of the specified test suite based on suite definition version.
 
 
 

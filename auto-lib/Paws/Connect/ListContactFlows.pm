@@ -35,7 +35,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       InstanceId       => 'MyInstanceId',
       ContactFlowTypes => [
         'CONTACT_FLOW',
-        ... # values: CONTACT_FLOW, CUSTOMER_QUEUE, CUSTOMER_HOLD, CUSTOMER_WHISPER, AGENT_HOLD, AGENT_WHISPER, OUTBOUND_WHISPER, AGENT_TRANSFER, QUEUE_TRANSFER
+        ... # values: CONTACT_FLOW, CUSTOMER_QUEUE, CUSTOMER_HOLD, CUSTOMER_WHISPER, AGENT_HOLD, AGENT_WHISPER, OUTBOUND_WHISPER, AGENT_TRANSFER, QUEUE_TRANSFER, CAMPAIGN
       ],    # OPTIONAL
       MaxResults => 1,                # OPTIONAL
       NextToken  => 'MyNextToken',    # OPTIONAL
@@ -56,20 +56,23 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/con
 
 =head2 ContactFlowTypes => ArrayRef[Str|Undef]
 
-The type of contact flow.
+The type of flow.
 
 
 
 =head2 B<REQUIRED> InstanceId => Str
 
 The identifier of the Amazon Connect instance. You can find the
-instanceId in the ARN of the instance.
+instance ID
+(https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html)
+in the Amazon Resource Name (ARN) of the instance.
 
 
 
 =head2 MaxResults => Int
 
-The maximum number of results to return per page.
+The maximum number of results to return per page. The default MaxResult
+size is 100.
 
 
 

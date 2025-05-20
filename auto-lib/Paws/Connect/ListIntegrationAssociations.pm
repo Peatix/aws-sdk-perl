@@ -2,6 +2,8 @@
 package Paws::Connect::ListIntegrationAssociations;
   use Moose;
   has InstanceId => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'InstanceId', required => 1);
+  has IntegrationArn => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'integrationArn');
+  has IntegrationType => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'integrationType');
   has MaxResults => (is => 'ro', isa => 'Int', traits => ['ParamInQuery'], query_name => 'maxResults');
   has NextToken => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'nextToken');
 
@@ -32,9 +34,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $connect = Paws->service('Connect');
     my $ListIntegrationAssociationsResponse =
       $connect->ListIntegrationAssociations(
-      InstanceId => 'MyInstanceId',
-      MaxResults => 1,                # OPTIONAL
-      NextToken  => 'MyNextToken',    # OPTIONAL
+      InstanceId      => 'MyInstanceId',
+      IntegrationArn  => 'MyARN',          # OPTIONAL
+      IntegrationType => 'EVENT',          # OPTIONAL
+      MaxResults      => 1,                # OPTIONAL
+      NextToken       => 'MyNextToken',    # OPTIONAL
       );
 
     # Results:
@@ -53,9 +57,23 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/con
 =head2 B<REQUIRED> InstanceId => Str
 
 The identifier of the Amazon Connect instance. You can find the
-instanceId in the ARN of the instance.
+instance ID
+(https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html)
+in the Amazon Resource Name (ARN) of the instance.
 
 
+
+=head2 IntegrationArn => Str
+
+The Amazon Resource Name (ARN) of the integration.
+
+
+
+=head2 IntegrationType => Str
+
+The integration type.
+
+Valid values are: C<"EVENT">, C<"VOICE_ID">, C<"PINPOINT_APP">, C<"WISDOM_ASSISTANT">, C<"WISDOM_KNOWLEDGE_BASE">, C<"WISDOM_QUICK_RESPONSES">, C<"Q_MESSAGE_TEMPLATES">, C<"CASES_DOMAIN">, C<"APPLICATION">, C<"FILE_SCANNER">, C<"SES_IDENTITY">, C<"ANALYTICS_CONNECTOR">, C<"CALL_TRANSFER_CONNECTOR">, C<"COGNITO_USER_POOL">
 
 =head2 MaxResults => Int
 

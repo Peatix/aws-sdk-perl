@@ -61,7 +61,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       Dimensions        => [
         {
           Name  => 'MyDimensionName',     # min: 1, max: 255
-          Value => 'MyDimensionValue',    # min: 1, max: 255
+          Value => 'MyDimensionValue',    # min: 1, max: 1024
 
         },
         ...
@@ -76,18 +76,19 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       Metrics    => [
         {
           Id         => 'MyMetricId',            # min: 1, max: 255
-          Expression => 'MyMetricExpression',    # min: 1, max: 1024; OPTIONAL
+          AccountId  => 'MyAccountId',           # min: 1, max: 255; OPTIONAL
+          Expression => 'MyMetricExpression',    # min: 1, max: 2048; OPTIONAL
           Label      => 'MyMetricLabel',         # OPTIONAL
           MetricStat => {
             Metric => {
               Dimensions => [
                 {
                   Name  => 'MyDimensionName',     # min: 1, max: 255
-                  Value => 'MyDimensionValue',    # min: 1, max: 255
+                  Value => 'MyDimensionValue',    # min: 1, max: 1024
 
                 },
                 ...
-              ],    # max: 10
+              ],    # max: 30
               MetricName => 'MyMetricName',    # min: 1, max: 255
               Namespace  => 'MyNamespace',     # min: 1, max: 255; OPTIONAL
             },
@@ -138,22 +139,104 @@ alarm state. The default is C<TRUE>.
 
 The actions to execute when this alarm transitions to the C<ALARM>
 state from any other state. Each action is specified as an Amazon
-Resource Name (ARN).
+Resource Name (ARN). Valid values:
 
-Valid Values: C<arn:aws:automate:I<region>:ec2:stop> |
-C<arn:aws:automate:I<region>:ec2:terminate> |
-C<arn:aws:automate:I<region>:ec2:recover> |
-C<arn:aws:automate:I<region>:ec2:reboot> |
-C<arn:aws:sns:I<region>:I<account-id>:I<sns-topic-name> > |
-C<arn:aws:autoscaling:I<region>:I<account-id>:scalingPolicy:I<policy-id>:autoScalingGroupName/I<group-friendly-name>:policyName/I<policy-friendly-name>
-> | C<arn:aws:ssm:I<region>:I<account-id>:opsitem:I<severity>>
+B<EC2 actions:>
 
-Valid Values (for use with IAM roles):
+=over
+
+=item *
+
+C<arn:aws:automate:I<region>:ec2:stop>
+
+=item *
+
+C<arn:aws:automate:I<region>:ec2:terminate>
+
+=item *
+
+C<arn:aws:automate:I<region>:ec2:reboot>
+
+=item *
+
+C<arn:aws:automate:I<region>:ec2:recover>
+
+=item *
+
 C<arn:aws:swf:I<region>:I<account-id>:action/actions/AWS_EC2.InstanceId.Stop/1.0>
-|
+
+=item *
+
 C<arn:aws:swf:I<region>:I<account-id>:action/actions/AWS_EC2.InstanceId.Terminate/1.0>
-|
+
+=item *
+
 C<arn:aws:swf:I<region>:I<account-id>:action/actions/AWS_EC2.InstanceId.Reboot/1.0>
+
+=item *
+
+C<arn:aws:swf:I<region>:I<account-id>:action/actions/AWS_EC2.InstanceId.Recover/1.0>
+
+=back
+
+B<Autoscaling action:>
+
+=over
+
+=item *
+
+C<arn:aws:autoscaling:I<region>:I<account-id>:scalingPolicy:I<policy-id>:autoScalingGroupName/I<group-friendly-name>:policyName/I<policy-friendly-name>>
+
+=back
+
+B<Lambda actions:>
+
+=over
+
+=item *
+
+Invoke the latest version of a Lambda function:
+C<arn:aws:lambda:I<region>:I<account-id>:function:I<function-name>>
+
+=item *
+
+Invoke a specific version of a Lambda function:
+C<arn:aws:lambda:I<region>:I<account-id>:function:I<function-name>:I<version-number>>
+
+=item *
+
+Invoke a function by using an alias Lambda function:
+C<arn:aws:lambda:I<region>:I<account-id>:function:I<function-name>:I<alias-name>>
+
+=back
+
+B<SNS notification action:>
+
+=over
+
+=item *
+
+C<arn:aws:sns:I<region>:I<account-id>:I<sns-topic-name>>
+
+=back
+
+B<SSM integration actions:>
+
+=over
+
+=item *
+
+C<arn:aws:ssm:I<region>:I<account-id>:opsitem:I<severity>#CATEGORY=I<category-name>>
+
+=item *
+
+C<arn:aws:ssm-incidents::I<account-id>:responseplan/I<response-plan-name>>
+
+=back
+
+B<Start a Amazon Q Developer operational investigation>
+
+C<arn:aws:aiops:I<region>:I<account-id>:investigation-group:I<ingestigation-group-id>>
 
 
 
@@ -166,6 +249,9 @@ The description for the alarm.
 =head2 B<REQUIRED> AlarmName => Str
 
 The name for the alarm. This name must be unique within the Region.
+
+The name must contain only UTF-8 characters, and can't contain ASCII
+control characters
 
 
 
@@ -229,10 +315,63 @@ seconds.
 
 =head2 ExtendedStatistic => Str
 
-The percentile statistic for the metric specified in C<MetricName>.
-Specify a value between p0.0 and p100. When you call C<PutMetricAlarm>
-and specify a C<MetricName>, you must specify either C<Statistic> or
-C<ExtendedStatistic,> but not both.
+The extended statistic for the metric specified in C<MetricName>. When
+you call C<PutMetricAlarm> and specify a C<MetricName>, you must
+specify either C<Statistic> or C<ExtendedStatistic> but not both.
+
+If you specify C<ExtendedStatistic>, the following are valid values:
+
+=over
+
+=item *
+
+C<p90>
+
+=item *
+
+C<tm90>
+
+=item *
+
+C<tc90>
+
+=item *
+
+C<ts90>
+
+=item *
+
+C<wm90>
+
+=item *
+
+C<IQM>
+
+=item *
+
+C<PR(I<n>:I<m>)> where n and m are values of the metric
+
+=item *
+
+C<TC(I<X>%:I<X>%)> where X is between 10 and 90 inclusive.
+
+=item *
+
+C<TM(I<X>%:I<X>%)> where X is between 10 and 90 inclusive.
+
+=item *
+
+C<TS(I<X>%:I<X>%)> where X is between 10 and 90 inclusive.
+
+=item *
+
+C<WM(I<X>%:I<X>%)> where X is between 10 and 90 inclusive.
+
+=back
+
+For more information about these extended statistics, see CloudWatch
+statistics definitions
+(https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Statistics-definitions.html).
 
 
 
@@ -240,21 +379,101 @@ C<ExtendedStatistic,> but not both.
 
 The actions to execute when this alarm transitions to the
 C<INSUFFICIENT_DATA> state from any other state. Each action is
-specified as an Amazon Resource Name (ARN).
+specified as an Amazon Resource Name (ARN). Valid values:
 
-Valid Values: C<arn:aws:automate:I<region>:ec2:stop> |
-C<arn:aws:automate:I<region>:ec2:terminate> |
-C<arn:aws:automate:I<region>:ec2:recover> |
-C<arn:aws:automate:I<region>:ec2:reboot> |
-C<arn:aws:sns:I<region>:I<account-id>:I<sns-topic-name> > |
+B<EC2 actions:>
+
+=over
+
+=item *
+
+C<arn:aws:automate:I<region>:ec2:stop>
+
+=item *
+
+C<arn:aws:automate:I<region>:ec2:terminate>
+
+=item *
+
+C<arn:aws:automate:I<region>:ec2:reboot>
+
+=item *
+
+C<arn:aws:automate:I<region>:ec2:recover>
+
+=item *
+
+C<arn:aws:swf:I<region>:I<account-id>:action/actions/AWS_EC2.InstanceId.Stop/1.0>
+
+=item *
+
+C<arn:aws:swf:I<region>:I<account-id>:action/actions/AWS_EC2.InstanceId.Terminate/1.0>
+
+=item *
+
+C<arn:aws:swf:I<region>:I<account-id>:action/actions/AWS_EC2.InstanceId.Reboot/1.0>
+
+=item *
+
+C<arn:aws:swf:I<region>:I<account-id>:action/actions/AWS_EC2.InstanceId.Recover/1.0>
+
+=back
+
+B<Autoscaling action:>
+
+=over
+
+=item *
+
 C<arn:aws:autoscaling:I<region>:I<account-id>:scalingPolicy:I<policy-id>:autoScalingGroupName/I<group-friendly-name>:policyName/I<policy-friendly-name>>
 
-Valid Values (for use with IAM roles):
-C<E<gt>arn:aws:swf:I<region>:I<account-id>:action/actions/AWS_EC2.InstanceId.Stop/1.0>
-|
-C<arn:aws:swf:I<region>:I<account-id>:action/actions/AWS_EC2.InstanceId.Terminate/1.0>
-|
-C<arn:aws:swf:I<region>:I<account-id>:action/actions/AWS_EC2.InstanceId.Reboot/1.0>
+=back
+
+B<Lambda actions:>
+
+=over
+
+=item *
+
+Invoke the latest version of a Lambda function:
+C<arn:aws:lambda:I<region>:I<account-id>:function:I<function-name>>
+
+=item *
+
+Invoke a specific version of a Lambda function:
+C<arn:aws:lambda:I<region>:I<account-id>:function:I<function-name>:I<version-number>>
+
+=item *
+
+Invoke a function by using an alias Lambda function:
+C<arn:aws:lambda:I<region>:I<account-id>:function:I<function-name>:I<alias-name>>
+
+=back
+
+B<SNS notification action:>
+
+=over
+
+=item *
+
+C<arn:aws:sns:I<region>:I<account-id>:I<sns-topic-name>>
+
+=back
+
+B<SSM integration actions:>
+
+=over
+
+=item *
+
+C<arn:aws:ssm:I<region>:I<account-id>:opsitem:I<severity>#CATEGORY=I<category-name>>
+
+=item *
+
+C<arn:aws:ssm-incidents::I<account-id>:responseplan/I<response-plan-name>>
+
+=back
+
 
 
 
@@ -265,8 +484,8 @@ C<PutMetricAlarm> operation, you must specify either C<MetricName> or a
 C<Metrics> array.
 
 If you are creating an alarm based on a math expression, you cannot
-specify this parameter, or any of the C<Dimensions>, C<Period>,
-C<Namespace>, C<Statistic>, or C<ExtendedStatistic> parameters.
+specify this parameter, or any of the C<Namespace>, C<Dimensions>,
+C<Period>, C<Unit>, C<Statistic>, or C<ExtendedStatistic> parameters.
 Instead, you specify all this information in the C<Metrics> array.
 
 
@@ -287,10 +506,10 @@ for this object in the array. For more information, see MetricDataQuery
 (https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_MetricDataQuery.html).
 
 If you use the C<Metrics> parameter, you cannot include the
-C<MetricName>, C<Dimensions>, C<Period>, C<Namespace>, C<Statistic>, or
-C<ExtendedStatistic> parameters of C<PutMetricAlarm> in the same
-operation. Instead, you retrieve the metrics you are using in your math
-expression as part of the C<Metrics> array.
+C<Namespace>, C<MetricName>, C<Dimensions>, C<Period>, C<Unit>,
+C<Statistic>, or C<ExtendedStatistic> parameters of C<PutMetricAlarm>
+in the same operation. Instead, you retrieve the metrics you are using
+in your math expression as part of the C<Metrics> array.
 
 
 
@@ -304,23 +523,101 @@ The namespace for the metric associated specified in C<MetricName>.
 
 The actions to execute when this alarm transitions to an C<OK> state
 from any other state. Each action is specified as an Amazon Resource
-Name (ARN).
+Name (ARN). Valid values:
 
-Valid Values: C<arn:aws:automate:I<region>:ec2:stop> |
-C<arn:aws:automate:I<region>:ec2:terminate> |
-C<arn:aws:automate:I<region>:ec2:recover> |
-C<arn:aws:automate:I<region>:ec2:reboot> |
-C<arn:aws:sns:I<region>:I<account-id>:I<sns-topic-name> > |
+B<EC2 actions:>
+
+=over
+
+=item *
+
+C<arn:aws:automate:I<region>:ec2:stop>
+
+=item *
+
+C<arn:aws:automate:I<region>:ec2:terminate>
+
+=item *
+
+C<arn:aws:automate:I<region>:ec2:reboot>
+
+=item *
+
+C<arn:aws:automate:I<region>:ec2:recover>
+
+=item *
+
+C<arn:aws:swf:I<region>:I<account-id>:action/actions/AWS_EC2.InstanceId.Stop/1.0>
+
+=item *
+
+C<arn:aws:swf:I<region>:I<account-id>:action/actions/AWS_EC2.InstanceId.Terminate/1.0>
+
+=item *
+
+C<arn:aws:swf:I<region>:I<account-id>:action/actions/AWS_EC2.InstanceId.Reboot/1.0>
+
+=item *
+
+C<arn:aws:swf:I<region>:I<account-id>:action/actions/AWS_EC2.InstanceId.Recover/1.0>
+
+=back
+
+B<Autoscaling action:>
+
+=over
+
+=item *
+
 C<arn:aws:autoscaling:I<region>:I<account-id>:scalingPolicy:I<policy-id>:autoScalingGroupName/I<group-friendly-name>:policyName/I<policy-friendly-name>>
 
-Valid Values (for use with IAM roles):
-C<arn:aws:swf:I<region>:I<account-id>:action/actions/AWS_EC2.InstanceId.Stop/1.0>
-|
-C<arn:aws:swf:I<region>:I<account-id>:action/actions/AWS_EC2.InstanceId.Terminate/1.0>
-|
-C<arn:aws:swf:I<region>:I<account-id>:action/actions/AWS_EC2.InstanceId.Reboot/1.0>
-|
-C<arn:aws:swf:I<region>:I<account-id>:action/actions/AWS_EC2.InstanceId.Recover/1.0>
+=back
+
+B<Lambda actions:>
+
+=over
+
+=item *
+
+Invoke the latest version of a Lambda function:
+C<arn:aws:lambda:I<region>:I<account-id>:function:I<function-name>>
+
+=item *
+
+Invoke a specific version of a Lambda function:
+C<arn:aws:lambda:I<region>:I<account-id>:function:I<function-name>:I<version-number>>
+
+=item *
+
+Invoke a function by using an alias Lambda function:
+C<arn:aws:lambda:I<region>:I<account-id>:function:I<function-name>:I<alias-name>>
+
+=back
+
+B<SNS notification action:>
+
+=over
+
+=item *
+
+C<arn:aws:sns:I<region>:I<account-id>:I<sns-topic-name>>
+
+=back
+
+B<SSM integration actions:>
+
+=over
+
+=item *
+
+C<arn:aws:ssm:I<region>:I<account-id>:opsitem:I<severity>#CATEGORY=I<category-name>>
+
+=item *
+
+C<arn:aws:ssm-incidents::I<account-id>:responseplan/I<response-plan-name>>
+
+=back
+
 
 
 
@@ -364,7 +661,9 @@ Valid values are: C<"SampleCount">, C<"Average">, C<"Sum">, C<"Minimum">, C<"Max
 =head2 Tags => ArrayRef[L<Paws::CloudWatch::Tag>]
 
 A list of key-value pairs to associate with the alarm. You can
-associate as many as 50 tags with an alarm.
+associate as many as 50 tags with an alarm. To be able to associate
+tags with the alarm when you create the alarm, you must have the
+C<cloudwatch:TagResource> permission.
 
 Tags can help you organize and categorize your resources. You can also
 use them to scope user permissions by granting a user permission to
@@ -376,6 +675,10 @@ existing alarm, use TagResource
 (https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_TagResource.html)
 or UntagResource
 (https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_UntagResource.html).
+
+To use this field to set tags for an alarm when you create it, you must
+be signed on with both the C<cloudwatch:PutMetricAlarm> and
+C<cloudwatch:TagResource> permissions.
 
 
 
@@ -410,6 +713,11 @@ Treats Missing Data
 
 Valid Values: C<breaching | notBreaching | ignore | missing>
 
+Alarms that evaluate metrics in the C<AWS/DynamoDB> namespace always
+C<ignore> missing data even if you choose a different option for
+C<TreatMissingData>. When an C<AWS/DynamoDB> metric has missing data,
+alarms that evaluate that metric remain in their current state.
+
 
 
 =head2 Unit => Str
@@ -420,6 +728,9 @@ number of bytes that an instance receives on all network interfaces.
 You can also specify a unit when you create a custom metric. Units help
 provide conceptual meaning to your data. Metric data points that
 specify a unit of measure, such as Percent, are aggregated separately.
+If you are creating an alarm based on a metric math expression, you can
+specify the unit for each metric (if needed) within the objects in the
+C<Metrics> array.
 
 If you don't specify C<Unit>, CloudWatch retrieves all unit types that
 have been published for the metric and attempts to evaluate the alarm.
@@ -428,7 +739,7 @@ as intended.
 
 However, if the metric is published with multiple types of units and
 you don't specify a unit, the alarm's behavior is not defined and it
-behaves predictably.
+behaves unpredictably.
 
 We recommend omitting C<Unit> so that you don't inadvertently specify
 an incorrect unit that is not published for this metric. Doing so

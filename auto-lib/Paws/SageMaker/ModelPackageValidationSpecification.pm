@@ -34,8 +34,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SageMaker::
 
 =head1 DESCRIPTION
 
-Specifies batch transform jobs that Amazon SageMaker runs to validate
-your model package.
+Specifies batch transform jobs that SageMaker runs to validate your
+model package.
 
 =head1 ATTRIBUTES
 
@@ -43,8 +43,8 @@ your model package.
 =head2 B<REQUIRED> ValidationProfiles => ArrayRef[L<Paws::SageMaker::ModelPackageValidationProfile>]
 
 An array of C<ModelPackageValidationProfile> objects, each of which
-specifies a batch transform job that Amazon SageMaker runs to validate
-your model package.
+specifies a batch transform job that SageMaker runs to validate your
+model package.
 
 
 =head2 B<REQUIRED> ValidationRole => Str

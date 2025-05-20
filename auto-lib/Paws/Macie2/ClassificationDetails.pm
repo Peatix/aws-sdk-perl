@@ -4,6 +4,7 @@ package Paws::Macie2::ClassificationDetails;
   has DetailedResultsLocation => (is => 'ro', isa => 'Str', request_name => 'detailedResultsLocation', traits => ['NameInRequest']);
   has JobArn => (is => 'ro', isa => 'Str', request_name => 'jobArn', traits => ['NameInRequest']);
   has JobId => (is => 'ro', isa => 'Str', request_name => 'jobId', traits => ['NameInRequest']);
+  has OriginType => (is => 'ro', isa => 'Str', request_name => 'originType', traits => ['NameInRequest']);
   has Result => (is => 'ro', isa => 'Paws::Macie2::ClassificationResult', request_name => 'result', traits => ['NameInRequest']);
 
 1;
@@ -36,15 +37,15 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Macie2::Cla
 
 =head1 DESCRIPTION
 
-Provides information about a sensitive data finding, including the
-classification job that produced the finding.
+Provides information about a sensitive data finding and the details of
+the finding.
 
 =head1 ATTRIBUTES
 
 
 =head2 DetailedResultsLocation => Str
 
-The path to the folder or file (in Amazon S3) that contains the
+The path to the folder or file in Amazon S3 that contains the
 corresponding sensitive data discovery result for the finding. If a
 finding applies to a large archive or compressed file, this value is
 the path to a folder. Otherwise, this value is the path to a file.
@@ -53,13 +54,23 @@ the path to a folder. Otherwise, this value is the path to a file.
 =head2 JobArn => Str
 
 The Amazon Resource Name (ARN) of the classification job that produced
-the finding.
+the finding. This value is null if the origin of the finding
+(originType) is AUTOMATED_SENSITIVE_DATA_DISCOVERY.
 
 
 =head2 JobId => Str
 
 The unique identifier for the classification job that produced the
-finding.
+finding. This value is null if the origin of the finding (originType)
+is AUTOMATED_SENSITIVE_DATA_DISCOVERY.
+
+
+=head2 OriginType => Str
+
+Specifies how Amazon Macie found the sensitive data that produced the
+finding. Possible values are: SENSITIVE_DATA_DISCOVERY_JOB, for a
+classification job; and, AUTOMATED_SENSITIVE_DATA_DISCOVERY, for
+automated sensitive data discovery.
 
 
 =head2 Result => L<Paws::Macie2::ClassificationResult>

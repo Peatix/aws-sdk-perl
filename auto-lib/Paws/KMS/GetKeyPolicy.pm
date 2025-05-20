@@ -2,7 +2,7 @@
 package Paws::KMS::GetKeyPolicy;
   use Moose;
   has KeyId => (is => 'ro', isa => 'Str', required => 1);
-  has PolicyName => (is => 'ro', isa => 'Str', required => 1);
+  has PolicyName => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -29,8 +29,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $kms = Paws->service('KMS');
     # To retrieve a key policy
-    # The following example retrieves the key policy for the specified customer
-    # master key (CMK).
+    # The following example retrieves the key policy for the specified KMS key.
     my $GetKeyPolicyResponse = $kms->GetKeyPolicy(
       'KeyId'      => '1234abcd-12ab-34cd-56ef-1234567890ab',
       'PolicyName' => 'default'
@@ -49,9 +48,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/kms
 
 =head2 B<REQUIRED> KeyId => Str
 
-Gets the key policy for the specified customer master key (CMK).
+Gets the key policy for the specified KMS key.
 
-Specify the key ID or key ARN of the CMK.
+Specify the key ID or key ARN of the KMS key.
 
 For example:
 
@@ -68,14 +67,16 @@ C<arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab>
 
 =back
 
-To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
+To get the key ID and key ARN for a KMS key, use ListKeys or
+DescribeKey.
 
 
 
-=head2 B<REQUIRED> PolicyName => Str
+=head2 PolicyName => Str
 
-Specifies the name of the key policy. The only valid name is
-C<default>. To get the names of key policies, use ListKeyPolicies.
+Specifies the name of the key policy. If no policy name is specified,
+the default value is C<default>. The only valid name is C<default>. To
+get the names of key policies, use ListKeyPolicies.
 
 
 

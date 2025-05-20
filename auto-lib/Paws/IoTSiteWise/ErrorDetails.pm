@@ -2,6 +2,7 @@
 package Paws::IoTSiteWise::ErrorDetails;
   use Moose;
   has Code => (is => 'ro', isa => 'Str', request_name => 'code', traits => ['NameInRequest'], required => 1);
+  has Details => (is => 'ro', isa => 'ArrayRef[Paws::IoTSiteWise::DetailedError]', request_name => 'details', traits => ['NameInRequest']);
   has Message => (is => 'ro', isa => 'Str', request_name => 'message', traits => ['NameInRequest'], required => 1);
 
 1;
@@ -34,7 +35,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::IoTSiteWise
 
 =head1 DESCRIPTION
 
-Contains the details of an AWS IoT SiteWise error.
+Contains the details of an IoT SiteWise error.
 
 =head1 ATTRIBUTES
 
@@ -42,6 +43,11 @@ Contains the details of an AWS IoT SiteWise error.
 =head2 B<REQUIRED> Code => Str
 
 The error code.
+
+
+=head2 Details => ArrayRef[L<Paws::IoTSiteWise::DetailedError>]
+
+A list of detailed errors.
 
 
 =head2 B<REQUIRED> Message => Str

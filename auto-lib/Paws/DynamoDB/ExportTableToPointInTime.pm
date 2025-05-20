@@ -4,6 +4,8 @@ package Paws::DynamoDB::ExportTableToPointInTime;
   has ClientToken => (is => 'ro', isa => 'Str');
   has ExportFormat => (is => 'ro', isa => 'Str');
   has ExportTime => (is => 'ro', isa => 'Str');
+  has ExportType => (is => 'ro', isa => 'Str');
+  has IncrementalExportSpecification => (is => 'ro', isa => 'Paws::DynamoDB::IncrementalExportSpecification');
   has S3Bucket => (is => 'ro', isa => 'Str', required => 1);
   has S3BucketOwner => (is => 'ro', isa => 'Str');
   has S3Prefix => (is => 'ro', isa => 'Str');
@@ -36,15 +38,22 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $dynamodb = Paws->service('DynamoDB');
     my $ExportTableToPointInTimeOutput = $dynamodb->ExportTableToPointInTime(
-      S3Bucket       => 'MyS3Bucket',
-      TableArn       => 'MyTableArn',
-      ClientToken    => 'MyClientToken',          # OPTIONAL
-      ExportFormat   => 'DYNAMODB_JSON',          # OPTIONAL
-      ExportTime     => '1970-01-01T01:00:00',    # OPTIONAL
-      S3BucketOwner  => 'MyS3BucketOwner',        # OPTIONAL
-      S3Prefix       => 'MyS3Prefix',             # OPTIONAL
-      S3SseAlgorithm => 'AES256',                 # OPTIONAL
-      S3SseKmsKeyId  => 'MyS3SseKmsKeyId',        # OPTIONAL
+      S3Bucket                       => 'MyS3Bucket',
+      TableArn                       => 'MyTableArn',
+      ClientToken                    => 'MyClientToken',          # OPTIONAL
+      ExportFormat                   => 'DYNAMODB_JSON',          # OPTIONAL
+      ExportTime                     => '1970-01-01T01:00:00',    # OPTIONAL
+      ExportType                     => 'FULL_EXPORT',            # OPTIONAL
+      IncrementalExportSpecification => {
+        ExportFromTime => '1970-01-01T01:00:00',                  # OPTIONAL
+        ExportToTime   => '1970-01-01T01:00:00',                  # OPTIONAL
+        ExportViewType =>
+          'NEW_IMAGE',    # values: NEW_IMAGE, NEW_AND_OLD_IMAGES; OPTIONAL
+      },    # OPTIONAL
+      S3BucketOwner  => 'MyS3BucketOwner',    # OPTIONAL
+      S3Prefix       => 'MyS3Prefix',         # OPTIONAL
+      S3SseAlgorithm => 'AES256',             # OPTIONAL
+      S3SseKmsKeyId  => 'MyS3SseKmsKeyId',    # OPTIONAL
     );
 
     # Results:
@@ -72,7 +81,7 @@ idempotent.
 
 If you submit a request with the same client token but a change in
 other parameters within the 8-hour idempotency window, DynamoDB returns
-an C<IdempotentParameterMismatch> exception.
+an C<ImportConflictException>.
 
 
 
@@ -85,8 +94,25 @@ Valid values are: C<"DYNAMODB_JSON">, C<"ION">
 
 =head2 ExportTime => Str
 
-Time in the past from which to export table data. The table export will
-be a snapshot of the table's state at this point in time.
+Time in the past from which to export table data, counted in seconds
+from the start of the Unix epoch. The table export will be a snapshot
+of the table's state at this point in time.
+
+
+
+=head2 ExportType => Str
+
+Choice of whether to execute as a full export or incremental export.
+Valid values are FULL_EXPORT or INCREMENTAL_EXPORT. The default value
+is FULL_EXPORT. If INCREMENTAL_EXPORT is provided, the
+IncrementalExportSpecification must also be used.
+
+Valid values are: C<"FULL_EXPORT">, C<"INCREMENTAL_EXPORT">
+
+=head2 IncrementalExportSpecification => L<Paws::DynamoDB::IncrementalExportSpecification>
+
+Optional object containing the parameters specific to an incremental
+export.
 
 
 
@@ -98,8 +124,11 @@ The name of the Amazon S3 bucket to export the snapshot to.
 
 =head2 S3BucketOwner => Str
 
-The ID of the AWS account that owns the bucket the export will be
-stored in.
+The ID of the Amazon Web Services account that owns the bucket the
+export will be stored in.
+
+S3BucketOwner is a required parameter when exporting to a S3 bucket in
+another account.
 
 
 
@@ -123,7 +152,7 @@ C<AES256> - server-side encryption with Amazon S3 managed keys
 
 =item *
 
-C<KMS> - server-side encryption with AWS KMS managed keys
+C<KMS> - server-side encryption with KMS managed keys
 
 =back
 
@@ -132,7 +161,7 @@ Valid values are: C<"AES256">, C<"KMS">
 
 =head2 S3SseKmsKeyId => Str
 
-The ID of the AWS KMS managed key used to encrypt the S3 bucket where
+The ID of the KMS managed key used to encrypt the S3 bucket where
 export data will be stored (if applicable).
 
 

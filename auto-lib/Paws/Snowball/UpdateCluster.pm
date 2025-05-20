@@ -42,8 +42,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $UpdateClusterResult = $snowball->UpdateCluster(
       'AddressId'   => 'ADID1234ab12-3eec-4eb3-9be6-9374c10eb51b',
       'ClusterId'   => 'CID123e4567-e89b-12d3-a456-426655440000',
-      'Description' =>
-        'Updated the address to send this to image processing - RJ'
+      'Description' => 'updated-cluster-name'
     );
 
 
@@ -88,8 +87,9 @@ The new or updated Notification object.
 =head2 OnDeviceServiceConfiguration => L<Paws::Snowball::OnDeviceServiceConfiguration>
 
 Specifies the service or services on the Snow Family device that your
-transferred data will be exported from or imported into. AWS Snow
-Family supports Amazon S3 and NFS (Network File System).
+transferred data will be exported from or imported into. Amazon Web
+Services Snow Family device clusters support Amazon S3 and NFS (Network
+File System).
 
 
 
@@ -105,7 +105,7 @@ S3Resource objects or LambdaResource objects.
 The new role Amazon Resource Name (ARN) that you want to associate with
 this cluster. To create a role ARN, use the CreateRole
 (https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html)
-API action in AWS Identity and Access Management (IAM).
+API action in Identity and Access Management (IAM).
 
 
 

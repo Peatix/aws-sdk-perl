@@ -50,31 +50,31 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/fir
 
 =head2 DeliveryStreamType => Str
 
-The delivery stream type. This can be one of the following values:
+The Firehose stream type. This can be one of the following values:
 
 =over
 
 =item *
 
-C<DirectPut>: Provider applications access the delivery stream
+C<DirectPut>: Provider applications access the Firehose stream
 directly.
 
 =item *
 
-C<KinesisStreamAsSource>: The delivery stream uses a Kinesis data
+C<KinesisStreamAsSource>: The Firehose stream uses a Kinesis data
 stream as a source.
 
 =back
 
-This parameter is optional. If this parameter is omitted, delivery
+This parameter is optional. If this parameter is omitted, Firehose
 streams of all types are returned.
 
-Valid values are: C<"DirectPut">, C<"KinesisStreamAsSource">
+Valid values are: C<"DirectPut">, C<"KinesisStreamAsSource">, C<"MSKAsSource">, C<"DatabaseAsSource">
 
 =head2 ExclusiveStartDeliveryStreamName => Str
 
-The list of delivery streams returned by this call to
-C<ListDeliveryStreams> will start with the delivery stream whose name
+The list of Firehose streams returned by this call to
+C<ListDeliveryStreams> will start with the Firehose stream whose name
 comes alphabetically immediately after the name you specify in
 C<ExclusiveStartDeliveryStreamName>.
 
@@ -82,7 +82,7 @@ C<ExclusiveStartDeliveryStreamName>.
 
 =head2 Limit => Int
 
-The maximum number of delivery streams to list. The default value is
+The maximum number of Firehose streams to list. The default value is
 10.
 
 

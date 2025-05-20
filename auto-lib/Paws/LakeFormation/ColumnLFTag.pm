@@ -34,7 +34,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::LakeFormati
 
 =head1 DESCRIPTION
 
-A structure containing the name of a column resource and the tags
+A structure containing the name of a column resource and the LF-tags
 attached to it.
 
 =head1 ATTRIBUTES
@@ -42,7 +42,7 @@ attached to it.
 
 =head2 LFTags => ArrayRef[L<Paws::LakeFormation::LFTagPair>]
 
-The tags attached to a column resource.
+The LF-tags attached to a column resource.
 
 
 =head2 Name => Str

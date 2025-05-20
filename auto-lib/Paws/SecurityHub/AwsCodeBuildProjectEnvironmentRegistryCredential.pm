@@ -41,10 +41,10 @@ The credentials for access to a private registry.
 
 =head2 Credential => Str
 
-The ARN or name of credentials created using AWS Secrets Manager.
+The ARN or name of credentials created using Secrets Manager.
 
 The credential can use the name of the credentials only if they exist
-in your current AWS Region.
+in your current Amazon Web Services Region.
 
 
 =head2 CredentialProvider => Str
@@ -52,7 +52,7 @@ in your current AWS Region.
 The service that created the credentials to access a private Docker
 registry.
 
-The valid value,C< SECRETS_MANAGER>, is for AWS Secrets Manager.
+The valid value,C< SECRETS_MANAGER>, is for Secrets Manager.
 
 
 

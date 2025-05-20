@@ -1,7 +1,8 @@
 
 package Paws::Backup::StartRestoreJob;
   use Moose;
-  has IamRoleArn => (is => 'ro', isa => 'Str', required => 1);
+  has CopySourceTagsToRestoredResource => (is => 'ro', isa => 'Bool');
+  has IamRoleArn => (is => 'ro', isa => 'Str');
   has IdempotencyToken => (is => 'ro', isa => 'Str');
   has Metadata => (is => 'ro', isa => 'Paws::Backup::Metadata', required => 1);
   has RecoveryPointArn => (is => 'ro', isa => 'Str', required => 1);
@@ -33,11 +34,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $backup = Paws->service('Backup');
     my $StartRestoreJobOutput = $backup->StartRestoreJob(
-      IamRoleArn       => 'MyIAMRoleArn',
       Metadata         => { 'MyMetadataKey' => 'MyMetadataValue', },
       RecoveryPointArn => 'MyARN',
-      IdempotencyToken => 'Mystring',                                 # OPTIONAL
-      ResourceType     => 'MyResourceType',                           # OPTIONAL
+      CopySourceTagsToRestoredResource => 1,                   # OPTIONAL
+      IamRoleArn                       => 'MyIAMRoleArn',      # OPTIONAL
+      IdempotencyToken                 => 'Mystring',          # OPTIONAL
+      ResourceType                     => 'MyResourceType',    # OPTIONAL
     );
 
     # Results:
@@ -51,25 +53,35 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/bac
 =head1 ATTRIBUTES
 
 
-=head2 B<REQUIRED> IamRoleArn => Str
+=head2 CopySourceTagsToRestoredResource => Bool
 
-The Amazon Resource Name (ARN) of the IAM role that AWS Backup uses to
-create the target recovery point; for example,
+This is an optional parameter. If this equals C<True>, tags included in
+the backup will be copied to the restored resource.
+
+This can only be applied to backups created through Backup.
+
+
+
+=head2 IamRoleArn => Str
+
+The Amazon Resource Name (ARN) of the IAM role that Backup uses to
+create the target resource; for example:
 C<arn:aws:iam::123456789012:role/S3Access>.
 
 
 
 =head2 IdempotencyToken => Str
 
-A customer chosen string that can be used to distinguish between calls
-to C<StartRestoreJob>.
+A customer-chosen string that you can use to distinguish between
+otherwise identical calls to C<StartRestoreJob>. Retrying a successful
+request with the same idempotency token results in a success message
+with no action taken.
 
 
 
 =head2 B<REQUIRED> Metadata => L<Paws::Backup::Metadata>
 
-A set of metadata key-value pairs. Contains information, such as a
-resource name, required to restore a recovery point.
+A set of metadata key-value pairs.
 
 You can get configuration metadata about a resource at the time it was
 backed up by calling C<GetRecoveryPointRestoreMetadata>. However,
@@ -78,48 +90,85 @@ C<GetRecoveryPointRestoreMetadata> might be required to restore a
 resource. For example, you might need to provide a new resource name if
 the original already exists.
 
-You need to specify specific metadata to restore an Amazon Elastic File
-System (Amazon EFS) instance:
+For more information about the metadata for each resource, see the
+following:
 
 =over
 
 =item *
 
-C<file-system-id>: The ID of the Amazon EFS file system that is backed
-up by AWS Backup. Returned in C<GetRecoveryPointRestoreMetadata>.
+Metadata for Amazon Aurora
+(https://docs.aws.amazon.com/aws-backup/latest/devguide/restoring-aur.html#aur-restore-cli)
 
 =item *
 
-C<Encrypted>: A Boolean value that, if true, specifies that the file
-system is encrypted. If C<KmsKeyId> is specified, C<Encrypted> must be
-set to C<true>.
+Metadata for Amazon DocumentDB
+(https://docs.aws.amazon.com/aws-backup/latest/devguide/restoring-docdb.html#docdb-restore-cli)
 
 =item *
 
-C<KmsKeyId>: Specifies the AWS KMS key that is used to encrypt the
-restored file system. You can specify a key from another AWS account
-provided that key it is properly shared with your account via AWS KMS.
+Metadata for CloudFormation
+(https://docs.aws.amazon.com/aws-backup/latest/devguide/restore-application-stacks.html#restoring-cfn-cli)
 
 =item *
 
-C<PerformanceMode>: Specifies the throughput mode of the file system.
+Metadata for Amazon DynamoDB
+(https://docs.aws.amazon.com/aws-backup/latest/devguide/restoring-dynamodb.html#ddb-restore-cli)
 
 =item *
 
-C<CreationToken>: A user-supplied value that ensures the uniqueness
-(idempotency) of the request.
+Metadata for Amazon EBS
+(https://docs.aws.amazon.com/aws-backup/latest/devguide/restoring-ebs.html#ebs-restore-cli)
 
 =item *
 
-C<newFileSystem>: A Boolean value that, if true, specifies that the
-recovery point is restored to a new Amazon EFS file system.
+Metadata for Amazon EC2
+(https://docs.aws.amazon.com/aws-backup/latest/devguide/restoring-ec2.html#restoring-ec2-cli)
 
 =item *
 
-C<ItemsToRestore >: An array of one to five strings where each string
-is a file path. Use C<ItemsToRestore> to restore specific files or
-directories rather than the entire file system. This parameter is
-optional. For example, C<"itemsToRestore":"[\"/my.test\"]">.
+Metadata for Amazon EFS
+(https://docs.aws.amazon.com/aws-backup/latest/devguide/restoring-efs.html#efs-restore-cli)
+
+=item *
+
+Metadata for Amazon FSx
+(https://docs.aws.amazon.com/aws-backup/latest/devguide/restoring-fsx.html#fsx-restore-cli)
+
+=item *
+
+Metadata for Amazon Neptune
+(https://docs.aws.amazon.com/aws-backup/latest/devguide/restoring-nep.html#nep-restore-cli)
+
+=item *
+
+Metadata for Amazon RDS
+(https://docs.aws.amazon.com/aws-backup/latest/devguide/restoring-rds.html#rds-restore-cli)
+
+=item *
+
+Metadata for Amazon Redshift
+(https://docs.aws.amazon.com/aws-backup/latest/devguide/redshift-restores.html#redshift-restore-api)
+
+=item *
+
+Metadata for Storage Gateway
+(https://docs.aws.amazon.com/aws-backup/latest/devguide/restoring-storage-gateway.html#restoring-sgw-cli)
+
+=item *
+
+Metadata for Amazon S3
+(https://docs.aws.amazon.com/aws-backup/latest/devguide/restoring-s3.html#s3-restore-cli)
+
+=item *
+
+Metadata for Amazon Timestream
+(https://docs.aws.amazon.com/aws-backup/latest/devguide/timestream-restore.html#timestream-restore-api)
+
+=item *
+
+Metadata for virtual machines
+(https://docs.aws.amazon.com/aws-backup/latest/devguide/restoring-vm.html#vm-restore-cli)
 
 =back
 
@@ -142,31 +191,63 @@ resources:
 
 =item *
 
-C<DynamoDB> for Amazon DynamoDB
+C<Aurora> - Amazon Aurora
 
 =item *
 
-C<EBS> for Amazon Elastic Block Store
+C<DocumentDB> - Amazon DocumentDB
 
 =item *
 
-C<EC2> for Amazon Elastic Compute Cloud
+C<CloudFormation> - CloudFormation
 
 =item *
 
-C<EFS> for Amazon Elastic File System
+C<DynamoDB> - Amazon DynamoDB
 
 =item *
 
-C<RDS> for Amazon Relational Database Service
+C<EBS> - Amazon Elastic Block Store
 
 =item *
 
-C<Aurora> for Amazon Aurora
+C<EC2> - Amazon Elastic Compute Cloud
 
 =item *
 
-C<Storage Gateway> for AWS Storage Gateway
+C<EFS> - Amazon Elastic File System
+
+=item *
+
+C<FSx> - Amazon FSx
+
+=item *
+
+C<Neptune> - Amazon Neptune
+
+=item *
+
+C<RDS> - Amazon Relational Database Service
+
+=item *
+
+C<Redshift> - Amazon Redshift
+
+=item *
+
+C<Storage Gateway> - Storage Gateway
+
+=item *
+
+C<S3> - Amazon Simple Storage Service
+
+=item *
+
+C<Timestream> - Amazon Timestream
+
+=item *
+
+C<VirtualMachine> - Virtual machines
 
 =back
 

@@ -50,12 +50,12 @@ The list of available az.
 
 =head2 EngineType => Str
 
-The type of broker engine.
+The broker's engine type.
 
 
 =head2 HostInstanceType => Str
 
-The type of broker instance.
+The broker's instance type.
 
 
 =head2 StorageType => Str

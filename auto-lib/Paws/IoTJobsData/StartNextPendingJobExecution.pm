@@ -35,7 +35,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       ThingName     => 'MyThingName',
       StatusDetails => {
         'MyDetailsKey' =>
-          'MyDetailsValue',    # key: min: 1, max: 128, value: min: 1, max: 1024
+          'MyDetailsValue',    # key: min: 1, max: 128, value: min: 1
       },    # OPTIONAL
       StepTimeoutInMinutes => 1,    # OPTIONAL
       );
@@ -56,6 +56,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/dat
 A collection of name/value pairs that describe the status of the job
 execution. If not specified, the statusDetails are unchanged.
 
+The maximum length of the value in the name/value pair is 1,024
+characters.
+
 
 
 =head2 StepTimeoutInMinutes => Int
@@ -63,12 +66,15 @@ execution. If not specified, the statusDetails are unchanged.
 Specifies the amount of time this device has to finish execution of
 this job. If the job execution status is not set to a terminal state
 before this timer expires, or before the timer is reset (by calling
-C<UpdateJobExecution>, setting the status to C<IN_PROGRESS> and
+C<UpdateJobExecution>, setting the status to C<IN_PROGRESS>, and
 specifying a new timeout value in field C<stepTimeoutInMinutes>) the
 job execution status will be automatically set to C<TIMED_OUT>. Note
-that setting this timeout has no effect on that job execution timeout
-which may have been specified when the job was created (C<CreateJob>
+that setting the step timeout has no effect on the in progress timeout
+that may have been specified when the job was created (C<CreateJob>
 using field C<timeoutConfig>).
+
+Valid values for this parameter range from 1 to 10080 (1 minute to 7
+days).
 
 
 

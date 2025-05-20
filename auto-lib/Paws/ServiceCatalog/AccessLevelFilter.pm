@@ -65,7 +65,7 @@ C<User> - Filter results based on the specified user.
 =head2 Value => Str
 
 The user to which the access level applies. The only supported value is
-C<Self>.
+C<self>.
 
 
 

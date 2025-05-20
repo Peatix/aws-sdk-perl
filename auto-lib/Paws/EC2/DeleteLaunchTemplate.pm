@@ -56,15 +56,19 @@ C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
 
 =head2 LaunchTemplateId => Str
 
-The ID of the launch template. You must specify either the launch
-template ID or launch template name in the request.
+The ID of the launch template.
+
+You must specify either the launch template ID or the launch template
+name, but not both.
 
 
 
 =head2 LaunchTemplateName => Str
 
-The name of the launch template. You must specify either the launch
-template ID or launch template name in the request.
+The name of the launch template.
+
+You must specify either the launch template ID or the launch template
+name, but not both.
 
 
 

@@ -1,6 +1,7 @@
 
 package Paws::EC2::CopySnapshot;
   use Moose;
+  has CompletionDurationMinutes => (is => 'ro', isa => 'Int');
   has Description => (is => 'ro', isa => 'Str');
   has DestinationOutpostArn => (is => 'ro', isa => 'Str');
   has DestinationRegion => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'destinationRegion' );
@@ -58,6 +59,19 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ec2
 =head1 ATTRIBUTES
 
 
+=head2 CompletionDurationMinutes => Int
+
+Specify a completion duration, in 15 minute increments, to initiate a
+time-based snapshot copy. Time-based snapshot copy operations complete
+within the specified duration. For more information, see Time-based
+copies
+(https://docs.aws.amazon.com/ebs/latest/userguide/time-based-copies.html).
+
+If you do not specify a value, the snapshot copy operation is completed
+on a best-effort basis.
+
+
+
 =head2 Description => Str
 
 A description for the EBS snapshot.
@@ -68,14 +82,15 @@ A description for the EBS snapshot.
 
 The Amazon Resource Name (ARN) of the Outpost to which to copy the
 snapshot. Only specify this parameter when copying a snapshot from an
-AWS Region to an Outpost. The snapshot must be in the Region for the
-destination Outpost. You cannot copy a snapshot from an Outpost to a
-Region, from one Outpost to another, or within the same Outpost.
+Amazon Web Services Region to an Outpost. The snapshot must be in the
+Region for the destination Outpost. You cannot copy a snapshot from an
+Outpost to a Region, from one Outpost to another, or within the same
+Outpost.
 
-For more information, see Copying snapshots from an AWS Region to an
-Outpost
-(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/snapshots-outposts.html#copy-snapshots)
-in the I<Amazon Elastic Compute Cloud User Guide>.
+For more information, see Copy snapshots from an Amazon Web Services
+Region to an Outpost
+(https://docs.aws.amazon.com/ebs/latest/userguide/snapshots-outposts.html#copy-snapshots)
+in the I<Amazon EBS User Guide>.
 
 
 
@@ -88,8 +103,8 @@ required.
 
 The snapshot copy is sent to the regional endpoint that you sent the
 HTTP request to (for example, C<ec2.us-east-1.amazonaws.com>). With the
-AWS CLI, this is specified using the C<--region> parameter or the
-default Region in your AWS configuration file.
+CLI, this is specified using the C<--region> parameter or the default
+Region in your Amazon Web Services configuration file.
 
 
 
@@ -110,19 +125,18 @@ this parameter. Encrypted snapshots are encrypted, even if you omit
 this parameter and encryption by default is not enabled. You cannot set
 this parameter to false. For more information, see Amazon EBS
 encryption
-(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html)
-in the I<Amazon Elastic Compute Cloud User Guide>.
+(https://docs.aws.amazon.com/ebs/latest/userguide/ebs-encryption.html)
+in the I<Amazon EBS User Guide>.
 
 
 
 =head2 KmsKeyId => Str
 
-The identifier of the AWS Key Management Service (AWS KMS) customer
-master key (CMK) to use for Amazon EBS encryption. If this parameter is
-not specified, your AWS managed CMK for EBS is used. If C<KmsKeyId> is
-specified, the encrypted state must be C<true>.
+The identifier of the KMS key to use for Amazon EBS encryption. If this
+parameter is not specified, your KMS key for Amazon EBS is used. If
+C<KmsKeyId> is specified, the encrypted state must be C<true>.
 
-You can specify the CMK using any of the following:
+You can specify the KMS key using any of the following:
 
 =over
 
@@ -146,9 +160,9 @@ arn:aws:kms:us-east-1:012345678910:alias/ExampleAlias.
 
 =back
 
-AWS authenticates the CMK asynchronously. Therefore, if you specify an
-ID, alias, or ARN that is not valid, the action can appear to complete,
-but eventually fails.
+Amazon Web Services authenticates the KMS key asynchronously.
+Therefore, if you specify an ID, alias, or ARN that is not valid, the
+action can appear to complete, but eventually fails.
 
 
 
@@ -162,14 +176,15 @@ unencrypted snapshots. For more information, see Query requests
 The C<PresignedUrl> should use the snapshot source endpoint, the
 C<CopySnapshot> action, and include the C<SourceRegion>,
 C<SourceSnapshotId>, and C<DestinationRegion> parameters. The
-C<PresignedUrl> must be signed using AWS Signature Version 4. Because
-EBS snapshots are stored in Amazon S3, the signing algorithm for this
-parameter uses the same logic that is described in Authenticating
-Requests: Using Query Parameters (AWS Signature Version 4)
+C<PresignedUrl> must be signed using Amazon Web Services Signature
+Version 4. Because EBS snapshots are stored in Amazon S3, the signing
+algorithm for this parameter uses the same logic that is described in
+Authenticating Requests: Using Query Parameters (Amazon Web Services
+Signature Version 4)
 (https://docs.aws.amazon.com/AmazonS3/latest/API/sigv4-query-string-auth.html)
-in the I<Amazon Simple Storage Service API Reference>. An invalid or
-improperly signed C<PresignedUrl> will cause the copy operation to fail
-asynchronously, and the snapshot will move to an C<error> state.
+in the I<Amazon S3 API Reference>. An invalid or improperly signed
+C<PresignedUrl> will cause the copy operation to fail asynchronously,
+and the snapshot will move to an C<error> state.
 
 
 

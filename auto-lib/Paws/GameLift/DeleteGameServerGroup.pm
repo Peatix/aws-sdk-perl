@@ -53,19 +53,19 @@ The type of delete to perform. Options include the following:
 =item *
 
 C<SAFE_DELETE> E<ndash> (default) Terminates the game server group and
-EC2 Auto Scaling group only when it has no game servers that are in
-C<UTILIZED> status.
+Amazon EC2 Auto Scaling group only when it has no game servers that are
+in C<UTILIZED> status.
 
 =item *
 
 C<FORCE_DELETE> E<ndash> Terminates the game server group, including
 all active game servers regardless of their utilization status, and the
-EC2 Auto Scaling group.
+Amazon EC2 Auto Scaling group.
 
 =item *
 
 C<RETAIN> E<ndash> Does a safe delete of the game server group but
-retains the EC2 Auto Scaling group as is.
+retains the Amazon EC2 Auto Scaling group as is.
 
 =back
 
@@ -74,8 +74,8 @@ Valid values are: C<"SAFE_DELETE">, C<"FORCE_DELETE">, C<"RETAIN">
 
 =head2 B<REQUIRED> GameServerGroupName => Str
 
-A unique identifier for the game server group. Use either the
-GameServerGroup name or ARN value.
+A unique identifier for the game server group. Use either the name or
+ARN value.
 
 
 

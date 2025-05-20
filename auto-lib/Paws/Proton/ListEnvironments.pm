@@ -68,9 +68,9 @@ The maximum number of environments to list.
 
 =head2 NextToken => Str
 
-A token to indicate the location of the next environment in the array
-of environments, after the list of environments that was previously
-requested.
+A token that indicates the location of the next environment in the
+array of environments, after the list of environments that was
+previously requested.
 
 
 

@@ -42,7 +42,7 @@ Error related to a specific channel, specified by its ARN.
 
 =head2 Arn => Str
 
-Channel ARN.
+ARN of an IVS resource; e.g., channel.
 
 
 =head2 Code => Str

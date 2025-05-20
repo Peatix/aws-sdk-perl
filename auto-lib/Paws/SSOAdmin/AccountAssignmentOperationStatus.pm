@@ -61,16 +61,17 @@ failure.
 =head2 PermissionSetArn => Str
 
 The ARN of the permission set. For more information about ARNs, see
-Amazon Resource Names (ARNs) and AWS Service Namespaces in the I<AWS
-General Reference>.
+Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces
+in the I<Amazon Web Services General Reference>.
 
 
 =head2 PrincipalId => Str
 
-An identifier for an object in AWS SSO, such as a user or group.
-PrincipalIds are GUIDs (For example,
+An identifier for an object in IAM Identity Center, such as a user or
+group. PrincipalIds are GUIDs (For example,
 f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more information about
-PrincipalIds in AWS SSO, see the AWS SSO Identity Store API Reference.
+PrincipalIds in IAM Identity Center, see the IAM Identity Center
+Identity Store API Reference.
 
 
 =head2 PrincipalType => Str
@@ -91,8 +92,8 @@ The status of the permission set provisioning process.
 
 =head2 TargetId => Str
 
-TargetID is an AWS account identifier, typically a 10-12 digit string
-(For example, 123456789012).
+TargetID is an Amazon Web Services account identifier, (For example,
+123456789012).
 
 
 =head2 TargetType => Str

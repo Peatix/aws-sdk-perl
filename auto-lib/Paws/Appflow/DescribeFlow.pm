@@ -46,12 +46,16 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $KmsArn            = $DescribeFlowResponse->KmsArn;
     my $LastRunExecutionDetails =
       $DescribeFlowResponse->LastRunExecutionDetails;
-    my $LastUpdatedAt    = $DescribeFlowResponse->LastUpdatedAt;
-    my $LastUpdatedBy    = $DescribeFlowResponse->LastUpdatedBy;
-    my $SourceFlowConfig = $DescribeFlowResponse->SourceFlowConfig;
-    my $Tags             = $DescribeFlowResponse->Tags;
-    my $Tasks            = $DescribeFlowResponse->Tasks;
-    my $TriggerConfig    = $DescribeFlowResponse->TriggerConfig;
+    my $LastRunMetadataCatalogDetails =
+      $DescribeFlowResponse->LastRunMetadataCatalogDetails;
+    my $LastUpdatedAt         = $DescribeFlowResponse->LastUpdatedAt;
+    my $LastUpdatedBy         = $DescribeFlowResponse->LastUpdatedBy;
+    my $MetadataCatalogConfig = $DescribeFlowResponse->MetadataCatalogConfig;
+    my $SchemaVersion         = $DescribeFlowResponse->SchemaVersion;
+    my $SourceFlowConfig      = $DescribeFlowResponse->SourceFlowConfig;
+    my $Tags                  = $DescribeFlowResponse->Tags;
+    my $Tasks                 = $DescribeFlowResponse->Tasks;
+    my $TriggerConfig         = $DescribeFlowResponse->TriggerConfig;
 
     # Returns a L<Paws::Appflow::DescribeFlowResponse> object.
 

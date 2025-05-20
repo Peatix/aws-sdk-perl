@@ -19,7 +19,9 @@ Paws::Kinesis::GetRecordsOutput
 
 =head2 ChildShards => ArrayRef[L<Paws::Kinesis::ChildShard>]
 
-
+The list of the current shard's child shards, returned in the
+C<GetRecords> API's response only when the end of the current shard is
+reached.
 
 
 =head2 MillisBehindLatest => Int

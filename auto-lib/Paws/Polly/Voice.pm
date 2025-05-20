@@ -84,8 +84,8 @@ human readable voice name that you might display in your application.
 
 =head2 SupportedEngines => ArrayRef[Str|Undef]
 
-Specifies which engines (C<standard> or C<neural>) that are supported
-by a given voice.
+Specifies which engines (C<standard>, C<neural>, C<long-form> or
+C<generative>) are supported by a given voice.
 
 
 

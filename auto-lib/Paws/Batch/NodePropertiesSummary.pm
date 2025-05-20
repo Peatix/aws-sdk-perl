@@ -35,8 +35,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Batch::Node
 
 =head1 DESCRIPTION
 
-An object representing the properties of a node that's associated with
-a multi-node parallel job.
+An object that represents the properties of a node that's associated
+with a multi-node parallel job.
 
 =head1 ATTRIBUTES
 
@@ -56,7 +56,7 @@ C<AWS_BATCH_JOB_NODE_INDEX> environment variable.
 
 =head2 NumNodes => Int
 
-The number of nodes associated with a multi-node parallel job.
+The number of nodes that are associated with a multi-node parallel job.
 
 
 

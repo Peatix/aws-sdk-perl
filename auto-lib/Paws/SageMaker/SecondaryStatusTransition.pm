@@ -36,15 +36,16 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SageMaker::
 
 =head1 DESCRIPTION
 
-An array element of
-DescribeTrainingJobResponse$SecondaryStatusTransitions. It provides
-additional details about a status that the training job has
+An array element of C<SecondaryStatusTransitions> for
+DescribeTrainingJob
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeTrainingJob.html).
+It provides additional details about a status that the training job has
 transitioned through. A training job can be in one of several states,
 for example, starting, downloading, training, or uploading. Within each
 state, there are a number of intermediate states. For example, within
-the starting state, Amazon SageMaker could be starting the training job
-or launching the ML instances. These transitional states are referred
-to as the job's secondary status.
+the starting state, SageMaker could be starting the training job or
+launching the ML instances. These transitional states are referred to
+as the job's secondary status.
 
 =head1 ATTRIBUTES
 
@@ -168,8 +169,8 @@ C<DownloadingTrainingImage>
 
 A detailed description of the progress within a secondary status.
 
-Amazon SageMaker provides secondary statuses and status messages that
-apply to each of them:
+SageMaker provides secondary statuses and status messages that apply to
+each of them:
 
 =over
 
@@ -206,10 +207,6 @@ Preparing the instances for training.
 
 =item *
 
-Downloading the training image.
-
-=item *
-
 Training image download completed. Training in progress.
 
 =back
@@ -221,9 +218,10 @@ including them in code that programmatically initiates actions. For
 examples, don't use status messages in if statements.
 
 To have an overview of your training job's progress, view
-C<TrainingJobStatus> and C<SecondaryStatus> in DescribeTrainingJob, and
-C<StatusMessage> together. For example, at the start of a training job,
-you might see the following:
+C<TrainingJobStatus> and C<SecondaryStatus> in DescribeTrainingJob
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeTrainingJob.html),
+and C<StatusMessage> together. For example, at the start of a training
+job, you might see the following:
 
 =over
 

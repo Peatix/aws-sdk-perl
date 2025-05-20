@@ -2,8 +2,10 @@
 package Paws::Route53::ResourceRecordSet;
   use Moose;
   has AliasTarget => (is => 'ro', isa => 'Paws::Route53::AliasTarget');
+  has CidrRoutingConfig => (is => 'ro', isa => 'Paws::Route53::CidrRoutingConfig');
   has Failover => (is => 'ro', isa => 'Str');
   has GeoLocation => (is => 'ro', isa => 'Paws::Route53::GeoLocation');
+  has GeoProximityLocation => (is => 'ro', isa => 'Paws::Route53::GeoProximityLocation');
   has HealthCheckId => (is => 'ro', isa => 'Str');
   has MultiValueAnswer => (is => 'ro', isa => 'Bool');
   has Name => (is => 'ro', isa => 'Str', required => 1);
@@ -52,9 +54,9 @@ Information about the resource record set to create or delete.
 
 =head2 AliasTarget => L<Paws::Route53::AliasTarget>
 
-I<Alias resource record sets only:> Information about the AWS resource,
-such as a CloudFront distribution or an Amazon S3 bucket, that you want
-to route traffic to.
+I<Alias resource record sets only:> Information about the Amazon Web
+Services resource, such as a CloudFront distribution or an Amazon S3
+bucket, that you want to route traffic to.
 
 If you're creating resource records sets for a private hosted zone,
 note the following:
@@ -68,17 +70,17 @@ to route traffic to a CloudFront distribution.
 
 =item *
 
-Creating geolocation alias resource record sets or latency alias
-resource record sets in a private hosted zone is unsupported.
-
-=item *
-
 For information about creating failover resource record sets in a
 private hosted zone, see Configuring Failover in a Private Hosted Zone
 (https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-private-hosted-zones.html)
 in the I<Amazon Route 53 Developer Guide>.
 
 =back
+
+
+
+=head2 CidrRoutingConfig => L<Paws::Route53::CidrRoutingConfig>
+
 
 
 
@@ -160,9 +162,6 @@ from Africa to be routed to a web server with an IP address of
 C<192.0.2.111>, create a resource record set with a C<Type> of C<A> and
 a C<ContinentCode> of C<AF>.
 
-Although creating geolocation and geolocation alias resource record
-sets in a private hosted zone is allowed, it's not supported.
-
 If you create separate resource record sets for overlapping geographic
 regions (for example, one resource record set for a continent and one
 for a country on the same continent), priority goes to the smallest
@@ -192,6 +191,13 @@ returns a "no answer" response for queries from those locations.
 You can't create non-geolocation resource record sets that have the
 same values for the C<Name> and C<Type> elements as geolocation
 resource record sets.
+
+
+=head2 GeoProximityLocation => L<Paws::Route53::GeoProximityLocation>
+
+I<GeoproximityLocation resource record sets only:> A complex type that
+lets you control how Route 53 responds to DNS queries based on the
+geographic origin of the query and your resources.
 
 
 =head2 HealthCheckId => Str
@@ -469,23 +475,15 @@ of NS.
 
 =back
 
-You can use the * wildcard as the leftmost label in a domain name, for
-example, C<*.example.com>. You can't use an * for one of the middle
-labels, for example, C<marketing.*.example.com>. In addition, the *
-must replace the entire label; for example, you can't specify
-C<prod*.example.com>.
 
 
 =head2 Region => Str
 
 I<Latency-based resource record sets only:> The Amazon EC2 Region where
 you created the resource that this resource record set refers to. The
-resource typically is an AWS resource, such as an EC2 instance or an
-ELB load balancer, and is referred to by an IP address or a DNS domain
-name, depending on the record type.
-
-Although creating latency and latency alias resource record sets in a
-private hosted zone is allowed, it's not supported.
+resource typically is an Amazon Web Services resource, such as an EC2
+instance or an ELB load balancer, and is referred to by an IP address
+or a DNS domain name, depending on the record type.
 
 When Amazon Route 53 receives a DNS query for a domain name and type
 for which you have created latency resource record sets, Route 53
@@ -610,16 +608,18 @@ in the I<Amazon Route 53 Developer Guide>.
 
 Valid values for basic resource record sets: C<A> | C<AAAA> | C<CAA> |
 C<CNAME> | C<DS> |C<MX> | C<NAPTR> | C<NS> | C<PTR> | C<SOA> | C<SPF> |
-C<SRV> | C<TXT>
+C<SRV> | C<TXT>| C<TLSA>| C<SSHFP>| C<SVCB>| C<HTTPS>
 
 Values for weighted, latency, geolocation, and failover resource record
 sets: C<A> | C<AAAA> | C<CAA> | C<CNAME> | C<MX> | C<NAPTR> | C<PTR> |
-C<SPF> | C<SRV> | C<TXT>. When creating a group of weighted, latency,
-geolocation, or failover resource record sets, specify the same value
-for all of the resource record sets in the group.
+C<SPF> | C<SRV> | C<TXT>| C<TLSA>| C<SSHFP>| C<SVCB>| C<HTTPS>. When
+creating a group of weighted, latency, geolocation, or failover
+resource record sets, specify the same value for all of the resource
+record sets in the group.
 
 Valid values for multivalue answer resource record sets: C<A> | C<AAAA>
-| C<MX> | C<NAPTR> | C<PTR> | C<SPF> | C<SRV> | C<TXT>
+| C<MX> | C<NAPTR> | C<PTR> | C<SPF> | C<SRV> | C<TXT>| C<CAA>|
+C<TLSA>| C<SSHFP>| C<SVCB>| C<HTTPS>
 
 SPF records were formerly used to verify the identity of the sender of
 email messages. However, we no longer recommend that you create

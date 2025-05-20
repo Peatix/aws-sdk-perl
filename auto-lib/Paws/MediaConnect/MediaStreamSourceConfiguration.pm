@@ -51,13 +51,12 @@ raw. For video, JPEG XS streams, set the encoding name to jxsv.
 
 =head2 InputConfigurations => ArrayRef[L<Paws::MediaConnect::InputConfiguration>]
 
-The transport parameters that are associated with an incoming media
-stream.
+The media streams that you want to associate with the source.
 
 
 =head2 B<REQUIRED> MediaStreamName => Str
 
-The name of the media stream.
+A name that helps you distinguish one media stream from another.
 
 
 

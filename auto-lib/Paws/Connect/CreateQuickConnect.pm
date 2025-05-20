@@ -79,13 +79,15 @@ The description of the quick connect.
 =head2 B<REQUIRED> InstanceId => Str
 
 The identifier of the Amazon Connect instance. You can find the
-instanceId in the ARN of the instance.
+instance ID
+(https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html)
+in the Amazon Resource Name (ARN) of the instance.
 
 
 
 =head2 B<REQUIRED> Name => Str
 
-The name of the quick connect.
+A unique name of the quick connect.
 
 
 
@@ -97,7 +99,8 @@ Configuration settings for the quick connect.
 
 =head2 Tags => L<Paws::Connect::TagMap>
 
-One or more tags.
+The tags used to organize, track, or control access for this resource.
+For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
 
 
 

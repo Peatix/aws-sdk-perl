@@ -43,10 +43,10 @@ A structure that contains input information for a canary run.
 
 =head2 ActiveTracing => Bool
 
-Specifies whether this canary is to use active AWS X-Ray tracing when
-it runs. Active tracing enables this canary run to be displayed in the
+Specifies whether this canary is to use active X-Ray tracing when it
+runs. Active tracing enables this canary run to be displayed in the
 ServiceLens and X-Ray service maps even if the canary does not hit an
-endpoint that has X-ray tracing enabled. Using X-Ray tracing incurs
+endpoint that has X-Ray tracing enabled. Using X-Ray tracing incurs
 charges. For more information, see Canaries and X-Ray tracing
 (https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_tracing.html).
 
@@ -67,6 +67,11 @@ specify any Lambda reserved environment variables as the keys for your
 environment variables. For more information about reserved keys, see
 Runtime environment variables
 (https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html#configuration-envvars-runtime).
+
+Environment variable keys and values are encrypted at rest using Amazon
+Web Services owned KMS keys. However, the environment variables are not
+encrypted on the client side. Do not store sensitive information in
+them.
 
 
 =head2 MemoryInMB => Int

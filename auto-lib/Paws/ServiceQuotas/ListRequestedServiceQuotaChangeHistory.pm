@@ -3,6 +3,7 @@ package Paws::ServiceQuotas::ListRequestedServiceQuotaChangeHistory;
   use Moose;
   has MaxResults => (is => 'ro', isa => 'Int');
   has NextToken => (is => 'ro', isa => 'Str');
+  has QuotaRequestedAtLevel => (is => 'ro', isa => 'Str');
   has ServiceCode => (is => 'ro', isa => 'Str');
   has Status => (is => 'ro', isa => 'Str');
 
@@ -32,10 +33,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $servicequotas = Paws->service('ServiceQuotas');
     my $ListRequestedServiceQuotaChangeHistoryResponse =
       $servicequotas->ListRequestedServiceQuotaChangeHistory(
-      MaxResults  => 1,                  # OPTIONAL
-      NextToken   => 'MyNextToken',      # OPTIONAL
-      ServiceCode => 'MyServiceCode',    # OPTIONAL
-      Status      => 'PENDING',          # OPTIONAL
+      MaxResults            => 1,                  # OPTIONAL
+      NextToken             => 'MyNextToken',      # OPTIONAL
+      QuotaRequestedAtLevel => 'ACCOUNT',          # OPTIONAL
+      ServiceCode           => 'MyServiceCode',    # OPTIONAL
+      Status                => 'PENDING',          # OPTIONAL
       );
 
     # Results:
@@ -53,29 +55,50 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ser
 
 =head2 MaxResults => Int
 
-The maximum number of results to return with a single call. To retrieve
-the remaining results, if any, make another call with the token
-returned from this call.
+Specifies the maximum number of results that you want included on each
+page of the response. If you do not include this parameter, it defaults
+to a value appropriate to the operation. If additional items exist
+beyond those included in the current response, the C<NextToken>
+response element is present and has a value (is not null). Include that
+value as the C<NextToken> request parameter in the next call to the
+operation to get the next part of the results.
+
+An API operation can return fewer results than the maximum even when
+there are more results available. You should check C<NextToken> after
+every operation to ensure that you receive all of the results.
 
 
 
 =head2 NextToken => Str
 
-The token for the next page of results.
+Specifies a value for receiving additional results after you receive a
+C<NextToken> response in a previous request. A C<NextToken> response
+indicates that more output is available. Set this parameter to the
+value of the previous call's C<NextToken> response to indicate where
+the output should continue from.
 
 
+
+=head2 QuotaRequestedAtLevel => Str
+
+Filters the response to return quota requests for the C<ACCOUNT>,
+C<RESOURCE>, or C<ALL> levels. C<ACCOUNT> is the default.
+
+Valid values are: C<"ACCOUNT">, C<"RESOURCE">, C<"ALL">
 
 =head2 ServiceCode => Str
 
-The service identifier.
+Specifies the service identifier. To find the service code value for an
+Amazon Web Services service, use the ListServices operation.
 
 
 
 =head2 Status => Str
 
-The status of the quota increase request.
+Specifies that you want to filter the results to only the requests with
+the matching status.
 
-Valid values are: C<"PENDING">, C<"CASE_OPENED">, C<"APPROVED">, C<"DENIED">, C<"CASE_CLOSED">
+Valid values are: C<"PENDING">, C<"CASE_OPENED">, C<"APPROVED">, C<"DENIED">, C<"CASE_CLOSED">, C<"NOT_APPROVED">, C<"INVALID_REQUEST">
 
 
 =head1 SEE ALSO

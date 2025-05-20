@@ -6,7 +6,9 @@ package Paws::AppConfig::StartDeployment;
   has ConfigurationVersion => (is => 'ro', isa => 'Str', required => 1);
   has DeploymentStrategyId => (is => 'ro', isa => 'Str', required => 1);
   has Description => (is => 'ro', isa => 'Str');
+  has DynamicExtensionParameters => (is => 'ro', isa => 'Paws::AppConfig::DynamicParameterMap');
   has EnvironmentId => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'EnvironmentId', required => 1);
+  has KmsKeyIdentifier => (is => 'ro', isa => 'Str');
   has Tags => (is => 'ro', isa => 'Paws::AppConfig::TagMap');
 
   use MooseX::ClassAttribute;
@@ -34,21 +36,24 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $appconfig = Paws->service('AppConfig');
+ # To start a configuration deployment
+ # The following start-deployment example starts a deployment to the application
+ # using the specified environment, deployment strategy, and configuration
+ # profile.
     my $Deployment = $appconfig->StartDeployment(
-      ApplicationId          => 'MyId',
-      ConfigurationProfileId => 'MyId',
-      ConfigurationVersion   => 'MyVersion',
-      DeploymentStrategyId   => 'MyDeploymentStrategyId',
-      EnvironmentId          => 'MyId',
-      Description            => 'MyDescription',            # OPTIONAL
-      Tags                   => {
-        'MyTagKey' => 'MyTagValue',    # key: min: 1, max: 128, value: max: 256
-      },    # OPTIONAL
+      'ApplicationId'          => '339ohji',
+      'ConfigurationProfileId' => 'ur8hx2f',
+      'ConfigurationVersion'   => 1,
+      'DeploymentStrategyId'   => '1225qzk',
+      'Description'            => '',
+      'EnvironmentId'          => '54j1r29',
+      'Tags'                   => {
+
+      }
     );
 
     # Results:
     my $ApplicationId               = $Deployment->ApplicationId;
-    my $CompletedAt                 = $Deployment->CompletedAt;
     my $ConfigurationLocationUri    = $Deployment->ConfigurationLocationUri;
     my $ConfigurationName           = $Deployment->ConfigurationName;
     my $ConfigurationProfileId      = $Deployment->ConfigurationProfileId;
@@ -56,7 +61,6 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $DeploymentDurationInMinutes = $Deployment->DeploymentDurationInMinutes;
     my $DeploymentNumber            = $Deployment->DeploymentNumber;
     my $DeploymentStrategyId        = $Deployment->DeploymentStrategyId;
-    my $Description                 = $Deployment->Description;
     my $EnvironmentId               = $Deployment->EnvironmentId;
     my $EventLog                    = $Deployment->EventLog;
     my $FinalBakeTimeInMinutes      = $Deployment->FinalBakeTimeInMinutes;
@@ -88,7 +92,10 @@ The configuration profile ID.
 
 =head2 B<REQUIRED> ConfigurationVersion => Str
 
-The configuration version to deploy.
+The configuration version to deploy. If deploying an AppConfig hosted
+configuration version, you can specify either the version number or
+version label. For all other configurations, you must specify the
+version number.
 
 
 
@@ -104,9 +111,23 @@ A description of the deployment.
 
 
 
+=head2 DynamicExtensionParameters => L<Paws::AppConfig::DynamicParameterMap>
+
+A map of dynamic extension parameter names to values to pass to
+associated extensions with C<PRE_START_DEPLOYMENT> actions.
+
+
+
 =head2 B<REQUIRED> EnvironmentId => Str
 
 The environment ID.
+
+
+
+=head2 KmsKeyIdentifier => Str
+
+The KMS key identifier (key ID, key alias, or key ARN). AppConfig uses
+this ID to encrypt the configuration data using a customer managed key.
 
 
 

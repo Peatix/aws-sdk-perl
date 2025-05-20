@@ -6,9 +6,11 @@ package Paws::Personalize::Solution;
   has DatasetGroupArn => (is => 'ro', isa => 'Str', request_name => 'datasetGroupArn', traits => ['NameInRequest']);
   has EventType => (is => 'ro', isa => 'Str', request_name => 'eventType', traits => ['NameInRequest']);
   has LastUpdatedDateTime => (is => 'ro', isa => 'Str', request_name => 'lastUpdatedDateTime', traits => ['NameInRequest']);
+  has LatestSolutionUpdate => (is => 'ro', isa => 'Paws::Personalize::SolutionUpdateSummary', request_name => 'latestSolutionUpdate', traits => ['NameInRequest']);
   has LatestSolutionVersion => (is => 'ro', isa => 'Paws::Personalize::SolutionVersionSummary', request_name => 'latestSolutionVersion', traits => ['NameInRequest']);
   has Name => (is => 'ro', isa => 'Str', request_name => 'name', traits => ['NameInRequest']);
   has PerformAutoML => (is => 'ro', isa => 'Bool', request_name => 'performAutoML', traits => ['NameInRequest']);
+  has PerformAutoTraining => (is => 'ro', isa => 'Bool', request_name => 'performAutoTraining', traits => ['NameInRequest']);
   has PerformHPO => (is => 'ro', isa => 'Bool', request_name => 'performHPO', traits => ['NameInRequest']);
   has RecipeArn => (is => 'ro', isa => 'Str', request_name => 'recipeArn', traits => ['NameInRequest']);
   has SolutionArn => (is => 'ro', isa => 'Str', request_name => 'solutionArn', traits => ['NameInRequest']);
@@ -45,8 +47,24 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Personalize
 
 =head1 DESCRIPTION
 
-An object that provides information about a solution. A solution is a
-trained model that can be deployed as a campaign.
+By default, all new solutions use automatic training. With automatic
+training, you incur training costs while your solution is active. To
+avoid unnecessary costs, when you are finished you can update the
+solution
+(https://docs.aws.amazon.com/personalize/latest/dg/API_UpdateSolution.html)
+to turn off automatic training. For information about training costs,
+see Amazon Personalize pricing
+(https://aws.amazon.com/personalize/pricing/).
+
+An object that provides information about a solution. A solution
+includes the custom recipe, customized parameters, and trained models
+(Solution Versions) that Amazon Personalize uses to generate
+recommendations.
+
+After you create a solution, you canE<rsquo>t change its configuration.
+If you need to make changes, you can clone the solution
+(https://docs.aws.amazon.com/personalize/latest/dg/cloning-solution.html)
+with the Amazon Personalize console or create a new one.
 
 =head1 ATTRIBUTES
 
@@ -80,6 +98,11 @@ type.
 The date and time (in Unix time) that the solution was last updated.
 
 
+=head2 LatestSolutionUpdate => L<Paws::Personalize::SolutionUpdateSummary>
+
+Provides a summary of the latest updates to the solution.
+
+
 =head2 LatestSolutionVersion => L<Paws::Personalize::SolutionVersionSummary>
 
 Describes the latest version of the solution, including the status and
@@ -93,10 +116,26 @@ The name of the solution.
 
 =head2 PerformAutoML => Bool
 
+We don't recommend enabling automated machine learning. Instead, match
+your use case to the available Amazon Personalize recipes. For more
+information, see Determining your use case.
+(https://docs.aws.amazon.com/personalize/latest/dg/determining-use-case.html)
+
 When true, Amazon Personalize performs a search for the best
 USER_PERSONALIZATION recipe from the list specified in the solution
 configuration (C<recipeArn> must not be specified). When false (the
 default), Amazon Personalize uses C<recipeArn> for training.
+
+
+=head2 PerformAutoTraining => Bool
+
+Specifies whether the solution automatically creates solution versions.
+The default is C<True> and the solution automatically creates new
+solution versions every 7 days.
+
+For more information about auto training, see Creating and configuring
+a solution
+(https://docs.aws.amazon.com/personalize/latest/dg/customizing-solution-config.html).
 
 
 =head2 PerformHPO => Bool
@@ -107,7 +146,8 @@ recipe. The default is C<false>.
 
 =head2 RecipeArn => Str
 
-The ARN of the recipe used to create the solution.
+The ARN of the recipe used to create the solution. This is required
+when C<performAutoML> is false.
 
 
 =head2 SolutionArn => Str

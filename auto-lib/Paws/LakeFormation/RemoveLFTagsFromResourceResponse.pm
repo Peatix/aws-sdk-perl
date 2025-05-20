@@ -4,6 +4,7 @@ package Paws::LakeFormation::RemoveLFTagsFromResourceResponse;
   has Failures => (is => 'ro', isa => 'ArrayRef[Paws::LakeFormation::LFTagError]');
 
   has _request_id => (is => 'ro', isa => 'Str');
+1;
 
 ### main pod documentation begin ###
 
@@ -24,4 +25,3 @@ A list of failures to untag a resource.
 
 =cut
 
-1;

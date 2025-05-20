@@ -5,6 +5,8 @@ package Paws::EKS::UpdateAddon;
   has AddonVersion => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'addonVersion');
   has ClientRequestToken => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'clientRequestToken');
   has ClusterName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'name', required => 1);
+  has ConfigurationValues => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'configurationValues');
+  has PodIdentityAssociations => (is => 'ro', isa => 'ArrayRef[Paws::EKS::AddonPodIdentityAssociations]', traits => ['NameInRequest'], request_name => 'podIdentityAssociations');
   has ResolveConflicts => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'resolveConflicts');
   has ServiceAccountRoleArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'serviceAccountRoleArn');
 
@@ -34,12 +36,21 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $eks = Paws->service('EKS');
     my $UpdateAddonResponse = $eks->UpdateAddon(
-      AddonName             => 'MyString',
-      ClusterName           => 'MyClusterName',
-      AddonVersion          => 'MyString',        # OPTIONAL
-      ClientRequestToken    => 'MyString',        # OPTIONAL
-      ResolveConflicts      => 'OVERWRITE',       # OPTIONAL
-      ServiceAccountRoleArn => 'MyRoleArn',       # OPTIONAL
+      AddonName               => 'MyString',
+      ClusterName             => 'MyClusterName',
+      AddonVersion            => 'MyString',        # OPTIONAL
+      ClientRequestToken      => 'MyString',        # OPTIONAL
+      ConfigurationValues     => 'MyString',        # OPTIONAL
+      PodIdentityAssociations => [
+        {
+          RoleArn        => 'MyString',
+          ServiceAccount => 'MyString',
+
+        },
+        ...
+      ],                                            # OPTIONAL
+      ResolveConflicts      => 'OVERWRITE',         # OPTIONAL
+      ServiceAccountRoleArn => 'MyRoleArn',         # OPTIONAL
     );
 
     # Results:
@@ -71,23 +82,68 @@ returned by C<DescribeAddonVersions>
 
 =head2 ClientRequestToken => Str
 
-Unique, case-sensitive identifier that you provide to ensure the
+A unique, case-sensitive identifier that you provide to ensure the
 idempotency of the request.
 
 
 
 =head2 B<REQUIRED> ClusterName => Str
 
-The name of the cluster.
+The name of your cluster.
+
+
+
+=head2 ConfigurationValues => Str
+
+The set of configuration values for the add-on that's created. The
+values that you provide are validated against the schema returned by
+C<DescribeAddonConfiguration>.
+
+
+
+=head2 PodIdentityAssociations => ArrayRef[L<Paws::EKS::AddonPodIdentityAssociations>]
+
+An array of Pod Identity Assocations to be updated. Each EKS Pod
+Identity association maps a Kubernetes service account to an IAM Role.
+If this value is left blank, no change. If an empty array is provided,
+existing Pod Identity Assocations owned by the Addon are deleted.
+
+For more information, see Attach an IAM Role to an Amazon EKS add-on
+using Pod Identity
+(https://docs.aws.amazon.com/eks/latest/userguide/add-ons-iam.html) in
+the I<Amazon EKS User Guide>.
 
 
 
 =head2 ResolveConflicts => Str
 
-How to resolve parameter value conflicts when applying the new version
-of the add-on to the cluster.
+How to resolve field value conflicts for an Amazon EKS add-on if you've
+changed a value from the Amazon EKS default value. Conflicts are
+handled based on the option you choose:
 
-Valid values are: C<"OVERWRITE">, C<"NONE">
+=over
+
+=item *
+
+B<None> E<ndash> Amazon EKS doesn't change the value. The update might
+fail.
+
+=item *
+
+B<Overwrite> E<ndash> Amazon EKS overwrites the changed value back to
+the Amazon EKS default value.
+
+=item *
+
+B<Preserve> E<ndash> Amazon EKS preserves the value. If you choose this
+option, we recommend that you test any field and value changes on a
+non-production cluster before updating the add-on on your production
+cluster.
+
+=back
+
+
+Valid values are: C<"OVERWRITE">, C<"NONE">, C<"PRESERVE">
 
 =head2 ServiceAccountRoleArn => Str
 

@@ -5,9 +5,11 @@ package Paws::S3Control::JobDescriptor;
   has CreationTime => (is => 'ro', isa => 'Str');
   has Description => (is => 'ro', isa => 'Str');
   has FailureReasons => (is => 'ro', isa => 'ArrayRef[Paws::S3Control::JobFailure]');
+  has GeneratedManifestDescriptor => (is => 'ro', isa => 'Paws::S3Control::S3GeneratedManifestDescriptor');
   has JobArn => (is => 'ro', isa => 'Str');
   has JobId => (is => 'ro', isa => 'Str');
   has Manifest => (is => 'ro', isa => 'Paws::S3Control::JobManifest');
+  has ManifestGenerator => (is => 'ro', isa => 'Paws::S3Control::JobManifestGenerator');
   has Operation => (is => 'ro', isa => 'Paws::S3Control::JobOperation');
   has Priority => (is => 'ro', isa => 'Int');
   has ProgressSummary => (is => 'ro', isa => 'Paws::S3Control::JobProgressSummary');
@@ -79,6 +81,12 @@ If the specified job failed, this field contains information describing
 the failure.
 
 
+=head2 GeneratedManifestDescriptor => L<Paws::S3Control::S3GeneratedManifestDescriptor>
+
+The attribute of the JobDescriptor containing details about the job's
+generated manifest.
+
+
 =head2 JobArn => Str
 
 The Amazon Resource Name (ARN) for this job.
@@ -92,6 +100,12 @@ The ID for the specified job.
 =head2 Manifest => L<Paws::S3Control::JobManifest>
 
 The configuration information for the specified job's manifest object.
+
+
+=head2 ManifestGenerator => L<Paws::S3Control::JobManifestGenerator>
+
+The manifest generator that was used to generate a job manifest for
+this job.
 
 
 =head2 Operation => L<Paws::S3Control::JobOperation>
@@ -119,8 +133,8 @@ you requested one in the C<Create Job> request.
 
 =head2 RoleArn => Str
 
-The Amazon Resource Name (ARN) for the AWS Identity and Access
-Management (IAM) role assigned to run the tasks for this job.
+The Amazon Resource Name (ARN) for the Identity and Access Management
+(IAM) role assigned to run the tasks for this job.
 
 
 =head2 Status => Str

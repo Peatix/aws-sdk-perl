@@ -5,6 +5,7 @@ package Paws::LexRuntimeV2::SessionState;
   has DialogAction => (is => 'ro', isa => 'Paws::LexRuntimeV2::DialogAction', request_name => 'dialogAction', traits => ['NameInRequest']);
   has Intent => (is => 'ro', isa => 'Paws::LexRuntimeV2::Intent', request_name => 'intent', traits => ['NameInRequest']);
   has OriginatingRequestId => (is => 'ro', isa => 'Str', request_name => 'originatingRequestId', traits => ['NameInRequest']);
+  has RuntimeHints => (is => 'ro', isa => 'Paws::LexRuntimeV2::RuntimeHints', request_name => 'runtimeHints', traits => ['NameInRequest']);
   has SessionAttributes => (is => 'ro', isa => 'Paws::LexRuntimeV2::StringMap', request_name => 'sessionAttributes', traits => ['NameInRequest']);
 
 1;
@@ -62,7 +63,13 @@ The active intent that Amazon Lex V2 is processing.
 
 =head2 OriginatingRequestId => Str
 
+A unique identifier for a specific request.
 
+
+=head2 RuntimeHints => L<Paws::LexRuntimeV2::RuntimeHints>
+
+Hints for phrases that a customer is likely to use for a slot. Amazon
+Lex V2 uses the hints to help determine the correct value of a slot.
 
 
 =head2 SessionAttributes => L<Paws::LexRuntimeV2::StringMap>

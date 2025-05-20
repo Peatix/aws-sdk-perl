@@ -17,21 +17,17 @@ Paws::Transcribe::ListVocabularyFiltersResponse
 
 =head2 NextToken => Str
 
-The C<ListVocabularyFilters> operation returns a page of collections at
-a time. The maximum size of the page is set by the C<MaxResults>
-parameter. If there are more jobs in the list than the page size,
-Amazon Transcribe returns the C<NextPage> token. Include the token in
-the next request to the C<ListVocabularyFilters> operation to return in
-the next page of jobs.
+If C<NextToken> is present in your response, it indicates that not all
+results are displayed. To view the next set of results, copy the string
+associated with the C<NextToken> parameter in your results output, then
+run your request again including C<NextToken> with the value of the
+copied string. Repeat as needed to view all your results.
 
 
 =head2 VocabularyFilters => ArrayRef[L<Paws::Transcribe::VocabularyFilterInfo>]
 
-The list of vocabulary filters. It contains at most C<MaxResults>
-number of filters. If there are more filters, call the
-C<ListVocabularyFilters> operation again with the C<NextToken>
-parameter in the request set to the value of the C<NextToken> field in
-the response.
+Provides information about the custom vocabulary filters that match the
+criteria specified in your request.
 
 
 =head2 _request_id => Str

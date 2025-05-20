@@ -65,8 +65,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/wor
 
 =head2 AuthenticationToken => Str
 
-Amazon WorkDocs authentication token. Not required when using AWS
-administrator credentials to access the API.
+Amazon WorkDocs authentication token. Not required when using Amazon
+Web Services administrator credentials to access the API.
 
 
 
@@ -110,7 +110,39 @@ The ID of the organization.
 
 =head2 Query => Str
 
-A query to filter users by user name.
+A query to filter users by user name. Remember the following about the
+C<Userids> and C<Query> parameters:
+
+=over
+
+=item *
+
+If you don't use either parameter, the API returns a paginated list of
+all users on the site.
+
+=item *
+
+If you use both parameters, the API ignores the C<Query> parameter.
+
+=item *
+
+The C<Userid> parameter only returns user names that match a
+corresponding user ID.
+
+=item *
+
+The C<Query> parameter runs a "prefix" search for users by the
+C<GivenName>, C<SurName>, or C<UserName> fields included in a
+CreateUser
+(https://docs.aws.amazon.com/workdocs/latest/APIReference/API_CreateUser.html)
+API call. For example, querying on C<Ma> returns ME<aacute>rcia
+Oliveira, MarE<iacute>a GarcE<iacute>a, and Mateo Jackson. If you use
+multiple characters, the API only returns data that matches all
+characters. For example, querying on C<Ma J> only returns Mateo
+Jackson.
+
+=back
+
 
 
 

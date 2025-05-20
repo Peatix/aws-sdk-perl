@@ -4,6 +4,7 @@ package Paws::Forecast::CreateForecastExportJob;
   has Destination => (is => 'ro', isa => 'Paws::Forecast::DataDestination', required => 1);
   has ForecastArn => (is => 'ro', isa => 'Str', required => 1);
   has ForecastExportJobName => (is => 'ro', isa => 'Str', required => 1);
+  has Format => (is => 'ro', isa => 'Str');
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::Forecast::Tag]');
 
   use MooseX::ClassAttribute;
@@ -33,7 +34,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $CreateForecastExportJobResponse = $forecast->CreateForecastExportJob(
       Destination => {
         S3Config => {
-          Path      => 'MyS3Path',
+          Path      => 'MyS3Path',       # min: 7, max: 4096
           RoleArn   => 'MyArn',          # max: 256
           KMSKeyArn => 'MyKMSKeyArn',    # max: 256; OPTIONAL
         },
@@ -41,10 +42,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       },
       ForecastArn           => 'MyArn',
       ForecastExportJobName => 'MyName',
+      Format                => 'MyFormat',    # OPTIONAL
       Tags                  => [
         {
-          Key   => 'MyTagKey',           # min: 1, max: 128
-          Value => 'MyTagValue',         # max: 256
+          Key   => 'MyTagKey',      # min: 1, max: 128
+          Value => 'MyTagValue',    # max: 256
 
         },
         ...
@@ -65,14 +67,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/for
 
 =head2 B<REQUIRED> Destination => L<Paws::Forecast::DataDestination>
 
-The location where you want to save the forecast and an AWS Identity
-and Access Management (IAM) role that Amazon Forecast can assume to
-access the location. The forecast must be exported to an Amazon S3
-bucket.
+The location where you want to save the forecast and an Identity and
+Access Management (IAM) role that Amazon Forecast can assume to access
+the location. The forecast must be exported to an Amazon S3 bucket.
 
-If encryption is used, C<Destination> must include an AWS Key
-Management Service (KMS) key. The IAM role must allow Amazon Forecast
-permission to access the key.
+If encryption is used, C<Destination> must include an Key Management
+Service (KMS) key. The IAM role must allow Amazon Forecast permission
+to access the key.
 
 
 
@@ -85,6 +86,13 @@ The Amazon Resource Name (ARN) of the forecast that you want to export.
 =head2 B<REQUIRED> ForecastExportJobName => Str
 
 The name for the forecast export job.
+
+
+
+=head2 Format => Str
+
+The format of the exported data, CSV or PARQUET. The default value is
+CSV.
 
 
 
@@ -130,12 +138,12 @@ Tag keys and values are case sensitive.
 =item *
 
 Do not use C<aws:>, C<AWS:>, or any upper or lowercase combination of
-such as a prefix for keys as it is reserved for AWS use. You cannot
-edit or delete tag keys with this prefix. Values can have this prefix.
-If a tag value has C<aws> as its prefix but the key does not, then
-Forecast considers it to be a user tag and will count against the limit
-of 50 tags. Tags with only the key prefix of C<aws> do not count
-against your tags per resource limit.
+such as a prefix for keys as it is reserved for Amazon Web Services
+use. You cannot edit or delete tag keys with this prefix. Values can
+have this prefix. If a tag value has C<aws> as its prefix but the key
+does not, then Forecast considers it to be a user tag and will count
+against the limit of 50 tags. Tags with only the key prefix of C<aws>
+do not count against your tags per resource limit.
 
 =back
 

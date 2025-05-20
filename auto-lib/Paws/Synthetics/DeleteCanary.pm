@@ -1,6 +1,7 @@
 
 package Paws::Synthetics::DeleteCanary;
   use Moose;
+  has DeleteLambda => (is => 'ro', isa => 'Bool', traits => ['ParamInQuery'], query_name => 'deleteLambda');
   has Name => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'name', required => 1);
 
   use MooseX::ClassAttribute;
@@ -29,14 +30,28 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $synthetics = Paws->service('Synthetics');
     my $DeleteCanaryResponse = $synthetics->DeleteCanary(
-      Name => 'MyCanaryName',
-
+      Name         => 'MyCanaryName',
+      DeleteLambda => 1,                # OPTIONAL
     );
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/synthetics/DeleteCanary>
 
 =head1 ATTRIBUTES
+
+
+=head2 DeleteLambda => Bool
+
+Specifies whether to also delete the Lambda functions and layers used
+by this canary. The default is C<false>.
+
+Your setting for this parameter is used only if the canary doesn't have
+C<AUTOMATIC> for its C<ProvisionedResourceCleanup> field. If that field
+is set to C<AUTOMATIC>, then the Lambda functions and layers will be
+deleted when this canary is deleted.
+
+Type: Boolean
+
 
 
 =head2 B<REQUIRED> Name => Str

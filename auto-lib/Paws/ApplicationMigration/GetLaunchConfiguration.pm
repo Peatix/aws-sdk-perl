@@ -1,6 +1,7 @@
 
 package Paws::ApplicationMigration::GetLaunchConfiguration;
   use Moose;
+  has AccountID => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'accountID');
   has SourceServerID => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'sourceServerID', required => 1);
 
   use MooseX::ClassAttribute;
@@ -30,17 +31,21 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $mgn = Paws->service('ApplicationMigration');
     my $LaunchConfiguration = $mgn->GetLaunchConfiguration(
       SourceServerID => 'MySourceServerID',
-
+      AccountID      => 'MyAccountID',        # OPTIONAL
     );
 
     # Results:
-    my $CopyPrivateIp       = $LaunchConfiguration->CopyPrivateIp;
-    my $CopyTags            = $LaunchConfiguration->CopyTags;
-    my $Ec2LaunchTemplateID = $LaunchConfiguration->Ec2LaunchTemplateID;
-    my $LaunchDisposition   = $LaunchConfiguration->LaunchDisposition;
-    my $Licensing           = $LaunchConfiguration->Licensing;
-    my $Name                = $LaunchConfiguration->Name;
-    my $SourceServerID      = $LaunchConfiguration->SourceServerID;
+    my $BootMode             = $LaunchConfiguration->BootMode;
+    my $CopyPrivateIp        = $LaunchConfiguration->CopyPrivateIp;
+    my $CopyTags             = $LaunchConfiguration->CopyTags;
+    my $Ec2LaunchTemplateID  = $LaunchConfiguration->Ec2LaunchTemplateID;
+    my $EnableMapAutoTagging = $LaunchConfiguration->EnableMapAutoTagging;
+    my $LaunchDisposition    = $LaunchConfiguration->LaunchDisposition;
+    my $Licensing            = $LaunchConfiguration->Licensing;
+    my $MapAutoTaggingMpeID  = $LaunchConfiguration->MapAutoTaggingMpeID;
+    my $Name                 = $LaunchConfiguration->Name;
+    my $PostLaunchActions    = $LaunchConfiguration->PostLaunchActions;
+    my $SourceServerID       = $LaunchConfiguration->SourceServerID;
     my $TargetInstanceTypeRightSizingMethod =
       $LaunchConfiguration->TargetInstanceTypeRightSizingMethod;
 
@@ -50,6 +55,12 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/mgn/GetLaunchConfiguration>
 
 =head1 ATTRIBUTES
+
+
+=head2 AccountID => Str
+
+Request to get Launch Configuration information by Account ID.
+
 
 
 =head2 B<REQUIRED> SourceServerID => Str

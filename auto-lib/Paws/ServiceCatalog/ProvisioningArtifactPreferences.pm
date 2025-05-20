@@ -41,15 +41,15 @@ C<UpdateProvisioningPreferences>.
 For more information on maximum concurrent accounts and failure
 tolerance, see Stack set operation options
 (https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-concepts.html#stackset-ops-options)
-in the I<AWS CloudFormation User Guide>.
+in the I<CloudFormation User Guide>.
 
 =head1 ATTRIBUTES
 
 
 =head2 StackSetAccounts => ArrayRef[Str|Undef]
 
-One or more AWS accounts where stack instances are deployed from the
-stack set. These accounts can be scoped in
+One or more Amazon Web Services accounts where stack instances are
+deployed from the stack set. These accounts can be scoped in
 C<ProvisioningPreferences$StackSetAccounts> and
 C<UpdateProvisioningPreferences$StackSetAccounts>.
 
@@ -58,8 +58,8 @@ Applicable only to a C<CFN_STACKSET> provisioned product type.
 
 =head2 StackSetRegions => ArrayRef[Str|Undef]
 
-One or more AWS Regions where stack instances are deployed from the
-stack set. These regions can be scoped in
+One or more Amazon Web Services Regions where stack instances are
+deployed from the stack set. These Regions can be scoped in
 C<ProvisioningPreferences$StackSetRegions> and
 C<UpdateProvisioningPreferences$StackSetRegions>.
 

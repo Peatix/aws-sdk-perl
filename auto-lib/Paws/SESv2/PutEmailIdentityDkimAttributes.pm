@@ -43,7 +43,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ema
 
 =head2 B<REQUIRED> EmailIdentity => Str
 
-The email identity that you want to change the DKIM settings for.
+The email identity.
 
 
 

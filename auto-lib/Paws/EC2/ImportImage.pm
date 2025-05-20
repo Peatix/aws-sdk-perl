@@ -2,6 +2,7 @@
 package Paws::EC2::ImportImage;
   use Moose;
   has Architecture => (is => 'ro', isa => 'Str');
+  has BootMode => (is => 'ro', isa => 'Str');
   has ClientData => (is => 'ro', isa => 'Paws::EC2::ClientData');
   has ClientToken => (is => 'ro', isa => 'Str');
   has Description => (is => 'ro', isa => 'Str');
@@ -15,6 +16,7 @@ package Paws::EC2::ImportImage;
   has Platform => (is => 'ro', isa => 'Str');
   has RoleName => (is => 'ro', isa => 'Str');
   has TagSpecifications => (is => 'ro', isa => 'ArrayRef[Paws::EC2::TagSpecification]', traits => ['NameInRequest'], request_name => 'TagSpecification' );
+  has UsageOperation => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -41,7 +43,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $ec2 = Paws->service('EC2');
     my $ImportImageResult = $ec2->ImportImage(
-      Architecture => 'MyString',    # OPTIONAL
+      Architecture => 'MyString',       # OPTIONAL
+      BootMode     => 'legacy-bios',    # OPTIONAL
       ClientData   => {
         Comment     => 'MyString',
         UploadEnd   => '1970-01-01T01:00:00',    # OPTIONAL
@@ -55,12 +58,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           Description => 'MyString',
           DeviceName  => 'MyString',
           Format      => 'MyString',
-          SnapshotId  => 'MySnapshotId',    # OPTIONAL
-          Url         => 'MyString',
+          SnapshotId  => 'MySnapshotId',      # OPTIONAL
+          Url         => 'MySensitiveUrl',    # OPTIONAL
           UserBucket  => {
             S3Bucket => 'MyString',
             S3Key    => 'MyString',
-          },                                # OPTIONAL
+          },                                  # OPTIONAL
         },
         ...
       ],    # OPTIONAL
@@ -75,8 +78,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       RoleName          => 'MyString',                          # OPTIONAL
       TagSpecifications => [
         {
-          ResourceType => 'client-vpn-endpoint'
-          , # values: client-vpn-endpoint, customer-gateway, dedicated-host, dhcp-options, egress-only-internet-gateway, elastic-ip, elastic-gpu, export-image-task, export-instance-task, fleet, fpga-image, host-reservation, image, import-image-task, import-snapshot-task, instance, internet-gateway, key-pair, launch-template, local-gateway-route-table-vpc-association, natgateway, network-acl, network-interface, network-insights-analysis, network-insights-path, placement-group, reserved-instances, route-table, security-group, snapshot, spot-fleet-request, spot-instances-request, subnet, traffic-mirror-filter, traffic-mirror-session, traffic-mirror-target, transit-gateway, transit-gateway-attachment, transit-gateway-connect-peer, transit-gateway-multicast-domain, transit-gateway-route-table, volume, vpc, vpc-peering-connection, vpn-connection, vpn-gateway, vpc-flow-log; OPTIONAL
+          ResourceType => 'capacity-reservation'
+          , # values: capacity-reservation, client-vpn-endpoint, customer-gateway, carrier-gateway, coip-pool, declarative-policies-report, dedicated-host, dhcp-options, egress-only-internet-gateway, elastic-ip, elastic-gpu, export-image-task, export-instance-task, fleet, fpga-image, host-reservation, image, import-image-task, import-snapshot-task, instance, instance-event-window, internet-gateway, ipam, ipam-pool, ipam-scope, ipv4pool-ec2, ipv6pool-ec2, key-pair, launch-template, local-gateway, local-gateway-route-table, local-gateway-virtual-interface, local-gateway-virtual-interface-group, local-gateway-route-table-vpc-association, local-gateway-route-table-virtual-interface-group-association, natgateway, network-acl, network-interface, network-insights-analysis, network-insights-path, network-insights-access-scope, network-insights-access-scope-analysis, outpost-lag, placement-group, prefix-list, replace-root-volume-task, reserved-instances, route-table, security-group, security-group-rule, service-link-virtual-interface, snapshot, spot-fleet-request, spot-instances-request, subnet, subnet-cidr-reservation, traffic-mirror-filter, traffic-mirror-session, traffic-mirror-target, transit-gateway, transit-gateway-attachment, transit-gateway-connect-peer, transit-gateway-multicast-domain, transit-gateway-policy-table, transit-gateway-route-table, transit-gateway-route-table-announcement, volume, vpc, vpc-endpoint, vpc-endpoint-connection, vpc-endpoint-service, vpc-endpoint-service-permission, vpc-peering-connection, vpn-connection, vpn-gateway, vpc-flow-log, capacity-reservation-fleet, traffic-mirror-filter-rule, vpc-endpoint-connection-device-type, verified-access-instance, verified-access-group, verified-access-endpoint, verified-access-policy, verified-access-trust-provider, vpn-connection-device-type, vpc-block-public-access-exclusion, route-server, route-server-endpoint, route-server-peer, ipam-resource-discovery, ipam-resource-discovery-association, instance-connect-endpoint, verified-access-endpoint-target, ipam-external-resource-verification-token, mac-modification-task; OPTIONAL
           Tags => [
             {
               Key   => 'MyString',
@@ -87,6 +90,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },
         ...
       ],    # OPTIONAL
+      UsageOperation => 'MyString',    # OPTIONAL
     );
 
     # Results:
@@ -105,6 +109,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $Status                = $ImportImageResult->Status;
     my $StatusMessage         = $ImportImageResult->StatusMessage;
     my $Tags                  = $ImportImageResult->Tags;
+    my $UsageOperation        = $ImportImageResult->UsageOperation;
 
     # Returns a L<Paws::EC2::ImportImageResult> object.
 
@@ -118,9 +123,20 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ec2
 
 The architecture of the virtual machine.
 
-Valid values: C<i386> | C<x86_64> | C<arm64>
+Valid values: C<i386> | C<x86_64>
 
 
+
+=head2 BootMode => Str
+
+The boot mode of the virtual machine.
+
+The C<uefi-preferred> boot mode isn't supported for importing images.
+For more information, see Boot modes
+(https://docs.aws.amazon.com/vm-import/latest/userguide/prerequisites.html#vmimport-boot-modes)
+in the I<VM Import/Export User Guide>.
+
+Valid values are: C<"legacy-bios">, C<"uefi">, C<"uefi-preferred">
 
 =head2 ClientData => L<Paws::EC2::ClientData>
 
@@ -158,9 +174,9 @@ C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
 =head2 Encrypted => Bool
 
 Specifies whether the destination AMI of the imported image should be
-encrypted. The default CMK for EBS is used unless you specify a
-non-default AWS Key Management Service (AWS KMS) CMK using C<KmsKeyId>.
-For more information, see Amazon EBS Encryption
+encrypted. The default KMS key for EBS is used unless you specify a
+non-default KMS key using C<KmsKeyId>. For more information, see Amazon
+EBS Encryption
 (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html)
 in the I<Amazon Elastic Compute Cloud User Guide>.
 
@@ -176,13 +192,13 @@ Valid values: C<xen>
 
 =head2 KmsKeyId => Str
 
-An identifier for the symmetric AWS Key Management Service (AWS KMS)
-customer master key (CMK) to use when creating the encrypted AMI. This
-parameter is only required if you want to use a non-default CMK; if
-this parameter is not specified, the default CMK for EBS is used. If a
-C<KmsKeyId> is specified, the C<Encrypted> flag must also be set.
+An identifier for the symmetric KMS key to use when creating the
+encrypted AMI. This parameter is only required if you want to use a
+non-default KMS key; if this parameter is not specified, the default
+KMS key for EBS is used. If a C<KmsKeyId> is specified, the
+C<Encrypted> flag must also be set.
 
-The CMK identifier may be provided in any of the following formats:
+The KMS key identifier may be provided in any of the following formats:
 
 =over
 
@@ -192,35 +208,34 @@ Key ID
 
 =item *
 
-Key alias. The alias ARN contains the C<arn:aws:kms> namespace,
-followed by the Region of the CMK, the AWS account ID of the CMK owner,
-the C<alias> namespace, and then the CMK alias. For example,
-arn:aws:kms:I<us-east-1>:I<012345678910>:alias/I<ExampleAlias>.
+Key alias
 
 =item *
 
 ARN using key ID. The ID ARN contains the C<arn:aws:kms> namespace,
-followed by the Region of the CMK, the AWS account ID of the CMK owner,
-the C<key> namespace, and then the CMK ID. For example,
+followed by the Region of the key, the Amazon Web Services account ID
+of the key owner, the C<key> namespace, and then the key ID. For
+example,
 arn:aws:kms:I<us-east-1>:I<012345678910>:key/I<abcd1234-a123-456a-a12b-a123b4cd56ef>.
 
 =item *
 
 ARN using key alias. The alias ARN contains the C<arn:aws:kms>
-namespace, followed by the Region of the CMK, the AWS account ID of the
-CMK owner, the C<alias> namespace, and then the CMK alias. For example,
+namespace, followed by the Region of the key, the Amazon Web Services
+account ID of the key owner, the C<alias> namespace, and then the key
+alias. For example,
 arn:aws:kms:I<us-east-1>:I<012345678910>:alias/I<ExampleAlias>.
 
 =back
 
-AWS parses C<KmsKeyId> asynchronously, meaning that the action you call
-may appear to complete even though you provided an invalid identifier.
-This action will eventually report failure.
+Amazon Web Services parses C<KmsKeyId> asynchronously, meaning that the
+action you call may appear to complete even though you provided an
+invalid identifier. This action will eventually report failure.
 
-The specified CMK must exist in the Region that the AMI is being copied
-to.
+The specified KMS key must exist in the Region that the AMI is being
+copied to.
 
-Amazon EBS does not support asymmetric CMKs.
+Amazon EBS does not support asymmetric KMS keys.
 
 
 
@@ -235,14 +250,16 @@ The ARNs of the license configurations.
 The license type to be used for the Amazon Machine Image (AMI) after
 importing.
 
-By default, we detect the source-system operating system (OS) and apply
-the appropriate license. Specify C<AWS> to replace the source-system
-license with an AWS license, if appropriate. Specify C<BYOL> to retain
-the source-system license, if appropriate.
+Specify C<AWS> to replace the source-system license with an Amazon Web
+Services license or C<BYOL> to retain the source-system license.
+Leaving this parameter undefined is the same as choosing C<AWS> when
+importing a Windows Server operating system, and the same as choosing
+C<BYOL> when importing a Windows client operating system (such as
+Windows 10) or a Linux operating system.
 
 To use C<BYOL>, you must have existing licenses with rights to use
-these licenses in a third party cloud, such as AWS. For more
-information, see Prerequisites
+these licenses in a third party cloud, such as Amazon Web Services. For
+more information, see Prerequisites
 (https://docs.aws.amazon.com/vm-import/latest/userguide/vmimport-image-import.html#prerequisites-image)
 in the VM Import/Export User Guide.
 
@@ -250,7 +267,9 @@ in the VM Import/Export User Guide.
 
 =head2 Platform => Str
 
-The operating system of the virtual machine.
+The operating system of the virtual machine. If you import a VM that is
+compatible with Unified Extensible Firmware Interface (UEFI) using an
+EBS snapshot, you must specify a value for the platform.
 
 Valid values: C<Windows> | C<Linux>
 
@@ -266,6 +285,14 @@ The name of the role to use when not using the default role,
 =head2 TagSpecifications => ArrayRef[L<Paws::EC2::TagSpecification>]
 
 The tags to apply to the import image task during creation.
+
+
+
+=head2 UsageOperation => Str
+
+The usage operation value. For more information, see Licensing options
+(https://docs.aws.amazon.com/vm-import/latest/userguide/vmie_prereqs.html#prerequisites)
+in the I<VM Import/Export User Guide>.
 
 
 

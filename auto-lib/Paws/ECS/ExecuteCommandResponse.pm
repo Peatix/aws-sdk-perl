@@ -36,9 +36,9 @@ The name of the container.
 
 =head2 Interactive => Bool
 
-Whether or not the execute command session is running in interactive
-mode. Amazon ECS only supports initiating interactive sessions, so you
-must specify C<true> for this value.
+Determines whether the execute command session is running in
+interactive mode. Amazon ECS only supports initiating interactive
+sessions, so you must specify C<true> for this value.
 
 
 =head2 Session => L<Paws::ECS::Session>

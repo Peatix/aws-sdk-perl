@@ -33,44 +33,45 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Datasync::N
 
 =head1 DESCRIPTION
 
-Represents the mount options that are available for DataSync to access
-an NFS location.
+Specifies how DataSync can access a location using the NFS protocol.
 
 =head1 ATTRIBUTES
 
 
 =head2 Version => Str
 
-The specific NFS version that you want DataSync to use to mount your
-NFS share. If the server refuses to use the version specified, the sync
-will fail. If you don't specify a version, DataSync defaults to
-C<AUTOMATIC>. That is, DataSync automatically selects a version based
-on negotiation with the NFS server.
+Specifies the NFS version that you want DataSync to use when mounting
+your NFS share. If the server refuses to use the version specified, the
+task fails.
 
-You can specify the following NFS versions:
+You can specify the following options:
 
 =over
 
 =item *
 
-B<NFSv3 (https://tools.ietf.org/html/rfc1813) > - stateless protocol
-version that allows for asynchronous writes on the server.
+C<AUTOMATIC> (default): DataSync chooses NFS version 4.1.
 
 =item *
 
-B<NFSv4.0 (https://tools.ietf.org/html/rfc3530) > - stateful,
-firewall-friendly protocol version that supports delegations and pseudo
-filesystems.
+C<NFS3>: Stateless protocol version that allows for asynchronous writes
+on the server.
 
 =item *
 
-B<NFSv4.1 (https://tools.ietf.org/html/rfc5661) > - stateful protocol
-version that supports sessions, directory delegations, and parallel
-data processing. Version 4.1 also includes all features available in
-version 4.0.
+C<NFSv4_0>: Stateful, firewall-friendly protocol version that supports
+delegations and pseudo file systems.
+
+=item *
+
+C<NFSv4_1>: Stateful protocol version that supports sessions, directory
+delegations, and parallel data processing. NFS version 4.1 also
+includes all features available in version 4.0.
 
 =back
 
+DataSync currently only supports NFS version 3 with Amazon FSx for
+NetApp ONTAP locations.
 
 
 

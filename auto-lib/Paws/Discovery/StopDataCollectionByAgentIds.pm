@@ -29,7 +29,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $discovery = Paws->service('Discovery');
     my $StopDataCollectionByAgentIdsResponse =
       $discovery->StopDataCollectionByAgentIds(
-      AgentIds => [ 'MyAgentId', ... ],
+      AgentIds => [
+        'MyAgentId', ...    # min: 10, max: 20
+      ],
 
       );
 
@@ -47,7 +49,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/dis
 
 =head2 B<REQUIRED> AgentIds => ArrayRef[Str|Undef]
 
-The IDs of the agents or connectors from which to stop collecting data.
+The IDs of the agents from which to stop collecting data.
 
 
 

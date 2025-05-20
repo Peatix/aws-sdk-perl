@@ -37,10 +37,10 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CloudFront:
 
 An origin request policy.
 
-When itE<rsquo>s attached to a cache behavior, the origin request
-policy determines the values that CloudFront includes in requests that
-it sends to the origin. Each request that CloudFront sends to the
-origin includes the following:
+When it's attached to a cache behavior, the origin request policy
+determines the values that CloudFront includes in requests that it
+sends to the origin. Each request that CloudFront sends to the origin
+includes the following:
 
 =over
 
@@ -63,9 +63,9 @@ that are added by CloudFront.
 
 =back
 
-CloudFront sends a request when it canE<rsquo>t find an object in its
-cache that matches the request. If you want to send values to the
-origin and also include them in the cache key, use C<CachePolicy>.
+CloudFront sends a request when it can't find an object in its cache
+that matches the request. If you want to send values to the origin and
+also include them in the cache key, use C<CachePolicy>.
 
 =head1 ATTRIBUTES
 

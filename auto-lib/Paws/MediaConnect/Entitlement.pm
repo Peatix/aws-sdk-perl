@@ -78,9 +78,9 @@ The name of the entitlement.
 
 =head2 B<REQUIRED> Subscribers => ArrayRef[Str|Undef]
 
-The AWS account IDs that you want to share your content with. The
-receiving accounts (subscribers) will be allowed to create their own
-flow using your content as the source.
+The Amazon Web Services account IDs that you want to share your content
+with. The receiving accounts (subscribers) will be allowed to create
+their own flow using your content as the source.
 
 
 

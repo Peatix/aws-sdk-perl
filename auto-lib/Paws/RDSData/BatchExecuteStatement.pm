@@ -121,17 +121,24 @@ The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster.
 
 The name of the database schema.
 
+Currently, the C<schema> parameter isn't supported.
+
 
 
 =head2 B<REQUIRED> SecretArn => Str
 
-The name or ARN of the secret that enables access to the DB cluster.
+The ARN of the secret that enables access to the DB cluster. Enter the
+database user name and password for the credentials in the secret.
+
+For information about creating the secret, see Create a database secret
+(https://docs.aws.amazon.com/secretsmanager/latest/userguide/create_database_secret.html).
 
 
 
 =head2 B<REQUIRED> Sql => Str
 
-The SQL statement to run.
+The SQL statement to run. Don't include a semicolon (;) at the end of
+the SQL statement.
 
 
 

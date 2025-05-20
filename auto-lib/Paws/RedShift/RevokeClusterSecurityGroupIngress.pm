@@ -75,11 +75,11 @@ also be provided and C<CIDRIP> cannot be provided.
 
 =head2 EC2SecurityGroupOwnerId => Str
 
-The AWS account number of the owner of the security group specified in
-the C<EC2SecurityGroupName> parameter. The AWS access key ID is not an
-acceptable value. If C<EC2SecurityGroupOwnerId> is specified,
-C<EC2SecurityGroupName> must also be provided. and C<CIDRIP> cannot be
-provided.
+The Amazon Web Services account number of the owner of the security
+group specified in the C<EC2SecurityGroupName> parameter. The Amazon
+Web Services access key ID is not an acceptable value. If
+C<EC2SecurityGroupOwnerId> is specified, C<EC2SecurityGroupName> must
+also be provided. and C<CIDRIP> cannot be provided.
 
 Example: C<111122223333>
 

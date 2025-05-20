@@ -36,8 +36,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SSM::Instan
 An S3 bucket where you want to store the results of this request.
 
 For the minimal permissions required to enable Amazon S3 output for an
-association, see Creating associations
-(https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-state-assoc.html)
+association, see Create an association (console)
+(https://docs.aws.amazon.com/systems-manager/latest/userguide/state-manager-associations-creating.html#state-manager-associations-console)
 in the I<Systems Manager User Guide>.
 
 =head1 ATTRIBUTES

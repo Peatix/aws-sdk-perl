@@ -1,6 +1,7 @@
 
 package Paws::SageMaker::UpdatePipelineExecution;
   use Moose;
+  has ParallelismConfiguration => (is => 'ro', isa => 'Paws::SageMaker::ParallelismConfiguration');
   has PipelineExecutionArn => (is => 'ro', isa => 'Str', required => 1);
   has PipelineExecutionDescription => (is => 'ro', isa => 'Str');
   has PipelineExecutionDisplayName => (is => 'ro', isa => 'Str');
@@ -31,7 +32,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $api.sagemaker = Paws->service('SageMaker');
     my $UpdatePipelineExecutionResponse =
       $api . sagemaker->UpdatePipelineExecution(
-      PipelineExecutionArn         => 'MyPipelineExecutionArn',
+      PipelineExecutionArn     => 'MyPipelineExecutionArn',
+      ParallelismConfiguration => {
+        MaxParallelExecutionSteps => 1,    # min: 1
+
+      },    # OPTIONAL
       PipelineExecutionDescription =>
         'MyPipelineExecutionDescription',    # OPTIONAL
       PipelineExecutionDisplayName => 'MyPipelineExecutionName',    # OPTIONAL
@@ -47,6 +52,13 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api.sagemaker/UpdatePipelineExecution>
 
 =head1 ATTRIBUTES
+
+
+=head2 ParallelismConfiguration => L<Paws::SageMaker::ParallelismConfiguration>
+
+This configuration, if specified, overrides the parallelism
+configuration of the parent pipeline for this specific run.
+
 
 
 =head2 B<REQUIRED> PipelineExecutionArn => Str

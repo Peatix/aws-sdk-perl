@@ -3,6 +3,8 @@ package Paws::NetworkFirewall::Firewall;
   use Moose;
   has DeleteProtection => (is => 'ro', isa => 'Bool');
   has Description => (is => 'ro', isa => 'Str');
+  has EnabledAnalysisTypes => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has EncryptionConfiguration => (is => 'ro', isa => 'Paws::NetworkFirewall::EncryptionConfiguration');
   has FirewallArn => (is => 'ro', isa => 'Str');
   has FirewallId => (is => 'ro', isa => 'Str', required => 1);
   has FirewallName => (is => 'ro', isa => 'Str');
@@ -43,10 +45,10 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::NetworkFire
 
 =head1 DESCRIPTION
 
-The firewall defines the configuration settings for an AWS Network
-Firewall firewall. These settings include the firewall policy, the
-subnets in your VPC to use for the firewall endpoints, and any tags
-that are attached to the firewall AWS resource.
+The firewall defines the configuration settings for an Network Firewall
+firewall. These settings include the firewall policy, the subnets in
+your VPC to use for the firewall endpoints, and any tags that are
+attached to the firewall Amazon Web Services resource.
 
 The status of the firewall, for example whether it's ready to filter
 network traffic, is provided in the corresponding FirewallStatus. You
@@ -67,6 +69,18 @@ initializes this flag to C<TRUE>.
 =head2 Description => Str
 
 A description of the firewall.
+
+
+=head2 EnabledAnalysisTypes => ArrayRef[Str|Undef]
+
+An optional setting indicating the specific traffic analysis types to
+enable on the firewall.
+
+
+=head2 EncryptionConfiguration => L<Paws::NetworkFirewall::EncryptionConfiguration>
+
+A complex type that contains the Amazon Web Services KMS encryption
+configuration settings for your firewall.
 
 
 =head2 FirewallArn => Str

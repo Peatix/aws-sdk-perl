@@ -43,6 +43,10 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::S3::Lifecyc
 
 A lifecycle rule for individual objects in an Amazon S3 bucket.
 
+For more information see, Managing your storage lifecycle
+(https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lifecycle-mgmt.html)
+in the I<Amazon S3 User Guide>.
+
 =head1 ATTRIBUTES
 
 
@@ -62,7 +66,9 @@ date, days and, whether the object has a delete marker.
 The C<Filter> is used to identify objects that a Lifecycle Rule applies
 to. A C<Filter> must have exactly one of C<Prefix>, C<Tag>, or C<And>
 specified. C<Filter> is required if the C<LifecycleRule> does not
-containt a C<Prefix> element.
+contain a C<Prefix> element.
+
+C<Tag> filters are not supported for directory buckets.
 
 
 =head2 ID => Str
@@ -84,6 +90,9 @@ bucket is versioning-enabled (or versioning is suspended), you can set
 this action to request that Amazon S3 transition noncurrent object
 versions to a specific storage class at a set period in the object's
 lifetime.
+
+This parameter applies to general purpose buckets only. It is not
+supported for directory bucket lifecycle configurations.
 
 
 =head2 Prefix => Str
@@ -107,6 +116,9 @@ rule is not currently being applied.
 
 Specifies when an Amazon S3 object transitions to a specified storage
 class.
+
+This parameter applies to general purpose buckets only. It is not
+supported for directory bucket lifecycle configurations.
 
 
 

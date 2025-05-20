@@ -2,6 +2,7 @@
 package Paws::DevOpsGuru::AnomalySourceDetails;
   use Moose;
   has CloudWatchMetrics => (is => 'ro', isa => 'ArrayRef[Paws::DevOpsGuru::CloudWatchMetricsDetail]');
+  has PerformanceInsightsMetrics => (is => 'ro', isa => 'ArrayRef[Paws::DevOpsGuru::PerformanceInsightsMetricsDetail]');
 
 1;
 
@@ -22,7 +23,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::DevOpsGuru::AnomalySourceDetails object:
 
-  $service_obj->Method(Att1 => { CloudWatchMetrics => $value, ..., CloudWatchMetrics => $value  });
+  $service_obj->Method(Att1 => { CloudWatchMetrics => $value, ..., PerformanceInsightsMetrics => $value  });
 
 =head3 Results returned from an API call
 
@@ -34,16 +35,22 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::DevOpsGuru:
 =head1 DESCRIPTION
 
 Details about the source of the anomalous operational data that
-triggered the anomaly. The one supported source is Amazon CloudWatch
-metrics.
+triggered the anomaly.
 
 =head1 ATTRIBUTES
 
 
 =head2 CloudWatchMetrics => ArrayRef[L<Paws::DevOpsGuru::CloudWatchMetricsDetail>]
 
-An array of C<CloudWatchMetricsDetail> object that contains information
-about the analyzed metrics that displayed anomalous behavior.
+An array of C<CloudWatchMetricsDetail> objects that contain information
+about analyzed CloudWatch metrics that show anomalous behavior.
+
+
+=head2 PerformanceInsightsMetrics => ArrayRef[L<Paws::DevOpsGuru::PerformanceInsightsMetricsDetail>]
+
+An array of C<PerformanceInsightsMetricsDetail> objects that contain
+information about analyzed Performance Insights metrics that show
+anomalous behavior.
 
 
 

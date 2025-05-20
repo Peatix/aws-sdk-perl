@@ -17,7 +17,8 @@ Paws::WAFV2::ListLoggingConfigurationsResponse
 
 =head2 LoggingConfigurations => ArrayRef[L<Paws::WAFV2::LoggingConfiguration>]
 
-
+Array of logging configurations. If you specified a C<Limit> in your
+request, this might not be the full list.
 
 
 =head2 NextMarker => Str

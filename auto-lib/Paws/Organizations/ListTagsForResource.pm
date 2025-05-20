@@ -65,7 +65,7 @@ You can specify any of the following taggable resources.
 
 =item *
 
-AWS account E<ndash> specify the account ID number.
+Amazon Web Services account E<ndash> specify the account ID number.
 
 =item *
 

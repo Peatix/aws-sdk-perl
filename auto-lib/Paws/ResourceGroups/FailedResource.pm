@@ -52,7 +52,8 @@ The error message text associated with the failure.
 
 =head2 ResourceArn => Str
 
-The ARN of the resource that failed to be added or removed.
+The Amazon resource name (ARN) of the resource that failed to be added
+or removed.
 
 
 

@@ -41,7 +41,7 @@ The destination to which dataset contents are delivered.
 
 =head2 IotEventsDestinationConfiguration => L<Paws::IoTAnalytics::IotEventsDestinationConfiguration>
 
-Configuration information for delivery of dataset contents to AWS IoT
+Configuration information for delivery of dataset contents to IoT
 Events.
 
 

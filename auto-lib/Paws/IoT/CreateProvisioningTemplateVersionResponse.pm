@@ -20,7 +20,7 @@ Paws::IoT::CreateProvisioningTemplateVersionResponse
 
 =head2 IsDefaultVersion => Bool
 
-True if the fleet provisioning template version is the default version,
+True if the provisioning template version is the default version,
 otherwise false.
 
 
@@ -31,12 +31,12 @@ The ARN that identifies the provisioning template.
 
 =head2 TemplateName => Str
 
-The name of the fleet provisioning template.
+The name of the provisioning template.
 
 
 =head2 VersionId => Int
 
-The version of the fleet provisioning template.
+The version of the provisioning template.
 
 
 =head2 _request_id => Str

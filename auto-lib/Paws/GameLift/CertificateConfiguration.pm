@@ -36,11 +36,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::GameLift::C
 Determines whether a TLS/SSL certificate is generated for a fleet. This
 feature must be enabled when creating the fleet. All instances in a
 fleet share the same certificate. The certificate can be retrieved by
-calling the GameLift Server SDK
+calling the Amazon GameLift Server SDK
 (https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-serversdk.html)
 operation C<GetInstanceCertificate>.
-
-A fleet's certificate configuration is part of FleetAttributes.
 
 =head1 ATTRIBUTES
 

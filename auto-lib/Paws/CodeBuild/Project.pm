@@ -3,6 +3,7 @@ package Paws::CodeBuild::Project;
   use Moose;
   has Arn => (is => 'ro', isa => 'Str', request_name => 'arn', traits => ['NameInRequest']);
   has Artifacts => (is => 'ro', isa => 'Paws::CodeBuild::ProjectArtifacts', request_name => 'artifacts', traits => ['NameInRequest']);
+  has AutoRetryLimit => (is => 'ro', isa => 'Int', request_name => 'autoRetryLimit', traits => ['NameInRequest']);
   has Badge => (is => 'ro', isa => 'Paws::CodeBuild::ProjectBadge', request_name => 'badge', traits => ['NameInRequest']);
   has BuildBatchConfig => (is => 'ro', isa => 'Paws::CodeBuild::ProjectBuildBatchConfig', request_name => 'buildBatchConfig', traits => ['NameInRequest']);
   has Cache => (is => 'ro', isa => 'Paws::CodeBuild::ProjectCache', request_name => 'cache', traits => ['NameInRequest']);
@@ -15,7 +16,10 @@ package Paws::CodeBuild::Project;
   has LastModified => (is => 'ro', isa => 'Str', request_name => 'lastModified', traits => ['NameInRequest']);
   has LogsConfig => (is => 'ro', isa => 'Paws::CodeBuild::LogsConfig', request_name => 'logsConfig', traits => ['NameInRequest']);
   has Name => (is => 'ro', isa => 'Str', request_name => 'name', traits => ['NameInRequest']);
+  has ProjectVisibility => (is => 'ro', isa => 'Str', request_name => 'projectVisibility', traits => ['NameInRequest']);
+  has PublicProjectAlias => (is => 'ro', isa => 'Str', request_name => 'publicProjectAlias', traits => ['NameInRequest']);
   has QueuedTimeoutInMinutes => (is => 'ro', isa => 'Int', request_name => 'queuedTimeoutInMinutes', traits => ['NameInRequest']);
+  has ResourceAccessRole => (is => 'ro', isa => 'Str', request_name => 'resourceAccessRole', traits => ['NameInRequest']);
   has SecondaryArtifacts => (is => 'ro', isa => 'ArrayRef[Paws::CodeBuild::ProjectArtifacts]', request_name => 'secondaryArtifacts', traits => ['NameInRequest']);
   has SecondarySources => (is => 'ro', isa => 'ArrayRef[Paws::CodeBuild::ProjectSource]', request_name => 'secondarySources', traits => ['NameInRequest']);
   has SecondarySourceVersions => (is => 'ro', isa => 'ArrayRef[Paws::CodeBuild::ProjectSourceVersion]', request_name => 'secondarySourceVersions', traits => ['NameInRequest']);
@@ -70,6 +74,14 @@ The Amazon Resource Name (ARN) of the build project.
 =head2 Artifacts => L<Paws::CodeBuild::ProjectArtifacts>
 
 Information about the build output artifacts for the build project.
+
+
+=head2 AutoRetryLimit => Int
+
+The maximum number of additional automatic retries after a failed
+build. For example, if the auto-retry limit is set to 2, CodeBuild will
+call the C<RetryBuild> API to automatically retry your build for up to
+2 additional times.
 
 
 =head2 Badge => L<Paws::CodeBuild::ProjectBadge>
@@ -152,10 +164,26 @@ in CloudWatch Logs, an S3 bucket, or both.
 The name of the build project.
 
 
+=head2 ProjectVisibility => Str
+
+
+
+
+=head2 PublicProjectAlias => Str
+
+Contains the project identifier used with the public build APIs.
+
+
 =head2 QueuedTimeoutInMinutes => Int
 
 The number of minutes a build is allowed to be queued before it times
 out.
+
+
+=head2 ResourceAccessRole => Str
+
+The ARN of the IAM role that enables CodeBuild to access the CloudWatch
+Logs and Amazon S3 artifacts for the project's builds.
 
 
 =head2 SecondaryArtifacts => ArrayRef[L<Paws::CodeBuild::ProjectArtifacts>]
@@ -177,9 +205,9 @@ take over these C<secondarySourceVersions> (at the project level).
 
 =head2 ServiceRole => Str
 
-The ARN of the Identity and Access Management role that enables
-CodeBuild to interact with dependent Amazon Web Services services on
-behalf of the Amazon Web Services account.
+The ARN of the IAM role that enables CodeBuild to interact with
+dependent Amazon Web Services services on behalf of the Amazon Web
+Services account.
 
 
 =head2 Source => L<Paws::CodeBuild::ProjectSource>
@@ -206,6 +234,10 @@ If a pull request ID is specified, it must use the format
 C<pr/pull-request-ID> (for example C<pr/25>). If a branch name is
 specified, the branch's HEAD commit ID is used. If not specified, the
 default branch's HEAD commit ID is used.
+
+=item *
+
+For GitLab: the commit ID, branch, or Git tag to use.
 
 =item *
 
@@ -239,7 +271,7 @@ support CodeBuild build project tags.
 
 =head2 TimeoutInMinutes => Int
 
-How long, in minutes, from 5 to 480 (8 hours), for CodeBuild to wait
+How long, in minutes, from 5 to 2160 (36 hours), for CodeBuild to wait
 before timing out any related build that did not get marked as
 completed. The default is 60 minutes.
 

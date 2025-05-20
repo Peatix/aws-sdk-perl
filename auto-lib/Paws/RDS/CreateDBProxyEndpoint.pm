@@ -79,8 +79,10 @@ create.
 
 =head2 TargetRole => Str
 
-A value that indicates whether the DB proxy endpoint can be used for
-read/write or read-only operations. The default is C<READ_WRITE>.
+The role of the DB proxy endpoint. The role determines whether the
+endpoint can be used for read/write or only read operations. The
+default is C<READ_WRITE>. The only role that proxies for RDS for
+Microsoft SQL Server support is C<READ_WRITE>.
 
 Valid values are: C<"READ_WRITE">, C<"READ_ONLY">
 

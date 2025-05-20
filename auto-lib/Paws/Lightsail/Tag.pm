@@ -37,9 +37,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Lightsail::
 Describes a tag key and optional value assigned to an Amazon Lightsail
 resource.
 
-For more information about tags in Lightsail, see the Lightsail Dev
-Guide
-(https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-tags).
+For more information about tags in Lightsail, see the Amazon Lightsail
+Developer Guide
+(https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-tags).
 
 =head1 ATTRIBUTES
 

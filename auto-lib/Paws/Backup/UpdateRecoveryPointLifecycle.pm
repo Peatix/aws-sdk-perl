@@ -35,8 +35,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       BackupVaultName  => 'MyBackupVaultName',
       RecoveryPointArn => 'MyARN',
       Lifecycle        => {
-        DeleteAfterDays            => 1,    # OPTIONAL
-        MoveToColdStorageAfterDays => 1,    # OPTIONAL
+        DeleteAfterDays                     => 1,    # OPTIONAL
+        MoveToColdStorageAfterDays          => 1,    # OPTIONAL
+        OptInToArchiveForSupportedResources => 1,    # OPTIONAL
       },    # OPTIONAL
       );
 
@@ -60,23 +61,21 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/bac
 
 The name of a logical container where backups are stored. Backup vaults
 are identified by names that are unique to the account used to create
-them and the AWS Region where they are created. They consist of
-lowercase letters, numbers, and hyphens.
+them and the Amazon Web Services Region where they are created.
 
 
 
 =head2 Lifecycle => L<Paws::Backup::Lifecycle>
 
 The lifecycle defines when a protected resource is transitioned to cold
-storage and when it expires. AWS Backup transitions and expires backups
+storage and when it expires. Backup transitions and expires backups
 automatically according to the lifecycle that you define.
 
 Backups transitioned to cold storage must be stored in cold storage for
-a minimum of 90 days. Therefore, the E<ldquo>expire after daysE<rdquo>
-setting must be 90 days greater than the E<ldquo>transition to cold
-after daysE<rdquo> setting. The E<ldquo>transition to cold after
-daysE<rdquo> setting cannot be changed after a backup has been
-transitioned to cold.
+a minimum of 90 days. Therefore, the E<ldquo>retentionE<rdquo> setting
+must be 90 days greater than the E<ldquo>transition to cold after
+daysE<rdquo> setting. The E<ldquo>transition to cold after daysE<rdquo>
+setting cannot be changed after a backup has been transitioned to cold.
 
 
 

@@ -53,7 +53,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       Tags             => [
         {
           Key   => 'MyTagKey',      # min: 1, max: 128
-          Value => 'MyTagValue',    # min: 1, max: 256
+          Value => 'MyTagValue',    # max: 256
 
         },
         ...
@@ -73,10 +73,10 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ssm
 
 =head2 B<REQUIRED> AllowUnassociatedTargets => Bool
 
-Enables a maintenance window task to run on managed instances, even if
-you have not registered those instances as targets. If enabled, then
-you must specify the unregistered instances (by instance ID) when you
-register a task with the maintenance window.
+Enables a maintenance window task to run on managed nodes, even if you
+haven't registered those nodes as targets. If enabled, then you must
+specify the unregistered managed nodes (by node ID) when you register a
+task with the maintenance window.
 
 If you don't enable this option, then you must specify
 previously-registered targets when you register a task with the
@@ -93,7 +93,8 @@ User-provided idempotency token.
 =head2 B<REQUIRED> Cutoff => Int
 
 The number of hours before the end of the maintenance window that
-Systems Manager stops scheduling new tasks for execution.
+Amazon Web Services Systems Manager stops scheduling new tasks for
+execution.
 
 
 
@@ -113,8 +114,9 @@ The duration of the maintenance window in hours.
 =head2 EndDate => Str
 
 The date and time, in ISO-8601 Extended format, for when you want the
-maintenance window to become inactive. EndDate allows you to set a date
-and time in the future when the maintenance window will no longer run.
+maintenance window to become inactive. C<EndDate> allows you to set a
+date and time in the future when the maintenance window will no longer
+run.
 
 
 
@@ -133,7 +135,7 @@ expression.
 
 =head2 ScheduleOffset => Int
 
-The number of days to wait after the date and time specified by a CRON
+The number of days to wait after the date and time specified by a cron
 expression before running the maintenance window.
 
 For example, the following cron expression schedules a maintenance
@@ -159,8 +161,11 @@ information, see the Time Zone Database
 =head2 StartDate => Str
 
 The date and time, in ISO-8601 Extended format, for when you want the
-maintenance window to become active. StartDate allows you to delay
+maintenance window to become active. C<StartDate> allows you to delay
 activation of the maintenance window until the specified future date.
+
+When using a rate schedule, if you provide a start date that occurs in
+the past, the current date and time are used as the start date.
 
 
 
@@ -171,7 +176,7 @@ categorize a resource in different ways, such as by purpose, owner, or
 environment. For example, you might want to tag a maintenance window to
 identify the type of tasks it will run, the types of targets, and the
 environment it will run in. In this case, you could specify the
-following key name/value pairs:
+following key-value pairs:
 
 =over
 
@@ -190,7 +195,7 @@ C<Key=Environment,Value=Production>
 =back
 
 To add tags to an existing maintenance window, use the
-AddTagsToResource action.
+AddTagsToResource operation.
 
 
 

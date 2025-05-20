@@ -53,7 +53,7 @@ The maximum number of service templates to list.
 
 =head2 NextToken => Str
 
-A token to indicate the location of the next service template in the
+A token that indicates the location of the next service template in the
 array of service templates, after the list of service templates
 previously requested.
 

@@ -6,6 +6,7 @@ package Paws::Connect::InstanceSummary;
   has Id => (is => 'ro', isa => 'Str');
   has IdentityManagementType => (is => 'ro', isa => 'Str');
   has InboundCallsEnabled => (is => 'ro', isa => 'Bool');
+  has InstanceAccessUrl => (is => 'ro', isa => 'Str');
   has InstanceAlias => (is => 'ro', isa => 'Str');
   has InstanceStatus => (is => 'ro', isa => 'Str');
   has OutboundCallsEnabled => (is => 'ro', isa => 'Bool');
@@ -69,6 +70,12 @@ The identity management type of the instance.
 =head2 InboundCallsEnabled => Bool
 
 Whether inbound calls are enabled.
+
+
+=head2 InstanceAccessUrl => Str
+
+This URL allows contact center users to access the Amazon Connect admin
+website.
 
 
 =head2 InstanceAlias => Str

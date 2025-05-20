@@ -18,12 +18,16 @@ Paws::EFS::DescribeAccountPreferencesResponse
 
 =head2 NextToken => Str
 
-
+Present if there are more records than returned in the response. You
+can use the C<NextToken> in the subsequent request to fetch the
+additional descriptions.
 
 
 =head2 ResourceIdPreference => L<Paws::EFS::ResourceIdPreference>
 
-
+Describes the resource ID preference setting for the Amazon Web
+Services account associated with the user making the request, in the
+current Amazon Web Services Region.
 
 
 =head2 _request_id => Str

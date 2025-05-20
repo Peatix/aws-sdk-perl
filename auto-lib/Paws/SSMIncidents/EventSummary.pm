@@ -2,6 +2,7 @@
 package Paws::SSMIncidents::EventSummary;
   use Moose;
   has EventId => (is => 'ro', isa => 'Str', request_name => 'eventId', traits => ['NameInRequest'], required => 1);
+  has EventReferences => (is => 'ro', isa => 'ArrayRef[Paws::SSMIncidents::EventReference]', request_name => 'eventReferences', traits => ['NameInRequest']);
   has EventTime => (is => 'ro', isa => 'Str', request_name => 'eventTime', traits => ['NameInRequest'], required => 1);
   has EventType => (is => 'ro', isa => 'Str', request_name => 'eventType', traits => ['NameInRequest'], required => 1);
   has EventUpdatedTime => (is => 'ro', isa => 'Str', request_name => 'eventUpdatedTime', traits => ['NameInRequest'], required => 1);
@@ -47,19 +48,25 @@ Details about a timeline event during an incident.
 The timeline event ID.
 
 
+=head2 EventReferences => ArrayRef[L<Paws::SSMIncidents::EventReference>]
+
+A list of references in a C<TimelineEvent>.
+
+
 =head2 B<REQUIRED> EventTime => Str
 
-The time that the event occurred.
+The timestamp for when the event occurred.
 
 
 =head2 B<REQUIRED> EventType => Str
 
-The type of event. The timeline event must be C<Custom Event>.
+The type of event. The timeline event must be C<Custom Event> or
+C<Note>.
 
 
 =head2 B<REQUIRED> EventUpdatedTime => Str
 
-The time that the timeline event was last updated.
+The timestamp for when the timeline event was last updated.
 
 
 =head2 B<REQUIRED> IncidentRecordArn => Str

@@ -8,6 +8,8 @@ package Paws::Amplify::JobSummary;
   has JobArn => (is => 'ro', isa => 'Str', request_name => 'jobArn', traits => ['NameInRequest'], required => 1);
   has JobId => (is => 'ro', isa => 'Str', request_name => 'jobId', traits => ['NameInRequest'], required => 1);
   has JobType => (is => 'ro', isa => 'Str', request_name => 'jobType', traits => ['NameInRequest'], required => 1);
+  has SourceUrl => (is => 'ro', isa => 'Str', request_name => 'sourceUrl', traits => ['NameInRequest']);
+  has SourceUrlType => (is => 'ro', isa => 'Str', request_name => 'sourceUrlType', traits => ['NameInRequest']);
   has StartTime => (is => 'ro', isa => 'Str', request_name => 'startTime', traits => ['NameInRequest'], required => 1);
   has Status => (is => 'ro', isa => 'Str', request_name => 'status', traits => ['NameInRequest'], required => 1);
 
@@ -79,10 +81,29 @@ The unique ID for the job.
 =head2 B<REQUIRED> JobType => Str
 
 The type for the job. If the value is C<RELEASE>, the job was manually
-released from its source by using the C<StartJob> API. If the value is
-C<RETRY>, the job was manually retried using the C<StartJob> API. If
-the value is C<WEB_HOOK>, the job was automatically triggered by
-webhooks.
+released from its source by using the C<StartJob> API. This value is
+available only for apps that are connected to a repository.
+
+If the value is C<RETRY>, the job was manually retried using the
+C<StartJob> API. If the value is C<WEB_HOOK>, the job was automatically
+triggered by webhooks. If the value is C<MANUAL>, the job is for a
+manually deployed app. Manually deployed apps are not connected to a
+Git repository.
+
+
+=head2 SourceUrl => Str
+
+The source URL for the files to deploy. The source URL can be either an
+HTTP GET URL that is publicly accessible and downloads a single .zip
+file, or an Amazon S3 bucket and prefix.
+
+
+=head2 SourceUrlType => Str
+
+The type of source specified by the C<sourceURL>. If the value is
+C<ZIP>, the source is a .zip file. If the value is C<BUCKET_PREFIX>,
+the source is an Amazon S3 bucket and prefix. If no value is specified,
+the default is C<ZIP>.
 
 
 =head2 B<REQUIRED> StartTime => Str

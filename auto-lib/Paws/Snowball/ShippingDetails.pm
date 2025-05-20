@@ -44,7 +44,7 @@ numbers and shipping speed options.
 =head2 InboundShipment => L<Paws::Snowball::Shipment>
 
 The C<Status> and C<TrackingNumber> values for a Snow device being
-returned to AWS for a particular job.
+returned to Amazon Web Services for a particular job.
 
 
 =head2 OutboundShipment => L<Paws::Snowball::Shipment>

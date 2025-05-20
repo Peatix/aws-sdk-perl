@@ -9,6 +9,7 @@ package Paws::IoTDeviceAdvisor::TestCaseRun;
   has TestCaseDefinitionId => (is => 'ro', isa => 'Str', request_name => 'testCaseDefinitionId', traits => ['NameInRequest']);
   has TestCaseDefinitionName => (is => 'ro', isa => 'Str', request_name => 'testCaseDefinitionName', traits => ['NameInRequest']);
   has TestCaseRunId => (is => 'ro', isa => 'Str', request_name => 'testCaseRunId', traits => ['NameInRequest']);
+  has TestScenarios => (is => 'ro', isa => 'ArrayRef[Paws::IoTDeviceAdvisor::TestCaseScenario]', request_name => 'testScenarios', traits => ['NameInRequest']);
   has Warnings => (is => 'ro', isa => 'Str', request_name => 'warnings', traits => ['NameInRequest']);
 
 1;
@@ -41,7 +42,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::IoTDeviceAd
 
 =head1 DESCRIPTION
 
-Provides test case run.
+Provides the test case run.
 
 =head1 ATTRIBUTES
 
@@ -58,7 +59,7 @@ Provides test case run failure result.
 
 =head2 LogUrl => Str
 
-Provides test case run log Url.
+Provides test case run log URL.
 
 
 =head2 StartTime => Str
@@ -68,22 +69,66 @@ Provides test case run start time.
 
 =head2 Status => Str
 
-Provides test case run status.
+Provides the test case run status. Status is one of the following:
+
+=over
+
+=item *
+
+C<PASS>: Test passed.
+
+=item *
+
+C<FAIL>: Test failed.
+
+=item *
+
+C<PENDING>: Test has not started running but is scheduled.
+
+=item *
+
+C<RUNNING>: Test is running.
+
+=item *
+
+C<STOPPING>: Test is performing cleanup steps. You will see this status
+only if you stop a suite run.
+
+=item *
+
+C<STOPPED> Test is stopped. You will see this status only if you stop a
+suite run.
+
+=item *
+
+C<PASS_WITH_WARNINGS>: Test passed with warnings.
+
+=item *
+
+C<ERORR>: Test faced an error when running due to an internal issue.
+
+=back
+
 
 
 =head2 TestCaseDefinitionId => Str
 
-Provides test case run definition Id.
+Provides the test case run definition ID.
 
 
 =head2 TestCaseDefinitionName => Str
 
-Provides test case run definition Name.
+Provides the test case run definition name.
 
 
 =head2 TestCaseRunId => Str
 
-Provides test case run Id.
+Provides the test case run ID.
+
+
+=head2 TestScenarios => ArrayRef[L<Paws::IoTDeviceAdvisor::TestCaseScenario>]
+
+Provides the test scenarios for the test case run.
 
 
 =head2 Warnings => Str

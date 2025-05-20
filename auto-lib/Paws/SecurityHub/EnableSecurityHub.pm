@@ -1,6 +1,7 @@
 
 package Paws::SecurityHub::EnableSecurityHub;
   use Moose;
+  has ControlFindingGenerator => (is => 'ro', isa => 'Str');
   has EnableDefaultStandards => (is => 'ro', isa => 'Bool');
   has Tags => (is => 'ro', isa => 'Paws::SecurityHub::TagMap');
 
@@ -30,8 +31,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $securityhub = Paws->service('SecurityHub');
     my $EnableSecurityHubResponse = $securityhub->EnableSecurityHub(
-      EnableDefaultStandards => 1,    # OPTIONAL
-      Tags                   => {
+      ControlFindingGenerator => 'STANDARD_CONTROL',    # OPTIONAL
+      EnableDefaultStandards  => 1,                     # OPTIONAL
+      Tags                    => {
         'MyTagKey' => 'MyTagValue',    # key: min: 1, max: 128, value: max: 256
       },    # OPTIONAL
     );
@@ -42,10 +44,29 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/sec
 =head1 ATTRIBUTES
 
 
+=head2 ControlFindingGenerator => Str
+
+This field, used when enabling Security Hub, specifies whether the
+calling account has consolidated control findings turned on. If the
+value for this field is set to C<SECURITY_CONTROL>, Security Hub
+generates a single finding for a control check even when the check
+applies to multiple enabled standards.
+
+If the value for this field is set to C<STANDARD_CONTROL>, Security Hub
+generates separate findings for a control check when the check applies
+to multiple enabled standards.
+
+The value for this field in a member account matches the value in the
+administrator account. For accounts that aren't part of an
+organization, the default value of this field is C<SECURITY_CONTROL> if
+you enabled Security Hub on or after February 23, 2023.
+
+Valid values are: C<"STANDARD_CONTROL">, C<"SECURITY_CONTROL">
+
 =head2 EnableDefaultStandards => Bool
 
 Whether to enable the security standards that Security Hub has
-designated as automatically enabled. If you do not provide a value for
+designated as automatically enabled. If you don't provide a value for
 C<EnableDefaultStandards>, it is set to C<true>. To not enable the
 automatically enabled standards, set C<EnableDefaultStandards> to
 C<false>.

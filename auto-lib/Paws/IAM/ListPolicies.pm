@@ -119,9 +119,9 @@ Valid values are: C<"PermissionsPolicy">, C<"PermissionsBoundary">
 
 The scope to use for filtering the results.
 
-To list only AWS managed policies, set C<Scope> to C<AWS>. To list only
-the customer managed policies in your AWS account, set C<Scope> to
-C<Local>.
+To list only Amazon Web Services managed policies, set C<Scope> to
+C<AWS>. To list only the customer managed policies in your Amazon Web
+Services account, set C<Scope> to C<Local>.
 
 This parameter is optional. If it is not included, or if it is set to
 C<All>, all policies are returned.

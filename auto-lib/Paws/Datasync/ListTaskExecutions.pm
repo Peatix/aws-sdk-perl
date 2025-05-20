@@ -49,21 +49,21 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/dat
 
 =head2 MaxResults => Int
 
-The maximum number of executed tasks to list.
+Specifies how many results you want in the response.
 
 
 
 =head2 NextToken => Str
 
-An opaque string that indicates the position at which to begin the next
-list of the executed tasks.
+Specifies an opaque string that indicates the position at which to
+begin the next list of results in the response.
 
 
 
 =head2 TaskArn => Str
 
-The Amazon Resource Name (ARN) of the task whose tasks you want to
-list.
+Specifies the Amazon Resource Name (ARN) of the task that you want
+execution information about.
 
 
 

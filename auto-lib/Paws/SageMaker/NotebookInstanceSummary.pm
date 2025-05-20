@@ -42,7 +42,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SageMaker::
 
 =head1 DESCRIPTION
 
-Provides summary information for an Amazon SageMaker notebook instance.
+Provides summary information for an SageMaker AI notebook instance.
 
 =head1 ATTRIBUTES
 
@@ -56,8 +56,8 @@ Services CodeCommit
 (https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html)
 or in any other Git repository. These repositories are cloned at the
 same level as the default repository of your notebook instance. For
-more information, see Associating Git Repositories with Amazon
-SageMaker Notebook Instances
+more information, see Associating Git Repositories with SageMaker AI
+Notebook Instances
 (https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html).
 
 
@@ -75,7 +75,7 @@ Web Services CodeCommit
 (https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html)
 or in any other Git repository. When you open a notebook instance, it
 opens in the directory that contains this repository. For more
-information, see Associating Git Repositories with Amazon SageMaker
+information, see Associating Git Repositories with SageMaker AI
 Notebook Instances
 (https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html).
 
@@ -118,7 +118,7 @@ The status of the notebook instance.
 
 =head2 Url => Str
 
-The URL that you use to connect to the Jupyter instance running in your
+The URL that you use to connect to the Jupyter notebook running in your
 notebook instance.
 
 

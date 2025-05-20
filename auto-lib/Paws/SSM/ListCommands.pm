@@ -74,11 +74,11 @@ list of results.
 
 =head2 InstanceId => Str
 
-(Optional) Lists commands issued against this instance ID.
+(Optional) Lists commands issued against this managed node ID.
 
-You can't specify an instance ID in the same command that you specify
-C<Status> = C<Pending>. This is because the command has not reached the
-instance yet.
+You can't specify a managed node ID in the same command that you
+specify C<Status> = C<Pending>. This is because the command hasn't
+reached the managed node yet.
 
 
 

@@ -8,6 +8,7 @@ package Paws::LicenseManager::Grant;
   has GrantStatus => (is => 'ro', isa => 'Str', required => 1);
   has HomeRegion => (is => 'ro', isa => 'Str', required => 1);
   has LicenseArn => (is => 'ro', isa => 'Str', required => 1);
+  has Options => (is => 'ro', isa => 'Paws::LicenseManager::Options');
   has ParentArn => (is => 'ro', isa => 'Str', required => 1);
   has StatusReason => (is => 'ro', isa => 'Str');
   has Version => (is => 'ro', isa => 'Str', required => 1);
@@ -80,6 +81,11 @@ Home Region of the grant.
 =head2 B<REQUIRED> LicenseArn => Str
 
 License ARN.
+
+
+=head2 Options => L<Paws::LicenseManager::Options>
+
+The options specified for the grant.
 
 
 =head2 B<REQUIRED> ParentArn => Str

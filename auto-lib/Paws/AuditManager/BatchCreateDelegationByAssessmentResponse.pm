@@ -18,13 +18,13 @@ Paws::AuditManager::BatchCreateDelegationByAssessmentResponse
 
 =head2 Delegations => ArrayRef[L<Paws::AuditManager::Delegation>]
 
-The delegations associated with the assessment.
+The delegations that are associated with the assessment.
 
 
 =head2 Errors => ArrayRef[L<Paws::AuditManager::BatchCreateDelegationByAssessmentError>]
 
-A list of errors returned by the C<BatchCreateDelegationByAssessment>
-API.
+A list of errors that the C<BatchCreateDelegationByAssessment> API
+returned.
 
 
 =head2 _request_id => Str

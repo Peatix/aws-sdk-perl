@@ -40,7 +40,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/loo
 
 =head2 B<REQUIRED> ModelName => Str
 
-The name of the ML model to be deleted.
+The name of the machine learning model to be deleted.
 
 
 

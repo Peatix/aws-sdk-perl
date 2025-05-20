@@ -56,31 +56,19 @@ after you create it.
 
 =head2 B<REQUIRED> OverrideAction => L<Paws::WAFV2::OverrideAction>
 
-The override action to apply to the rules in a rule group. Used only
-for rule statements that reference a rule group, like
-C<RuleGroupReferenceStatement> and C<ManagedRuleGroupStatement>.
+The action to use in the place of the action that results from the rule
+group evaluation. Set the override action to none to leave the result
+of the rule group alone. Set it to count to override the result to
+count only.
 
-Set the override action to none to leave the rule actions in effect.
-Set it to count to only count matches, regardless of the rule action
-settings.
+You can only use this for rule statements that reference a rule group,
+like C<RuleGroupReferenceStatement> and C<ManagedRuleGroupStatement>.
 
-In a Rule, you must specify either this C<OverrideAction> setting or
-the rule C<Action> setting, but not both:
-
-=over
-
-=item *
-
-If the rule statement references a rule group, use this override action
-setting and not the action setting.
-
-=item *
-
-If the rule statement does not reference a rule group, use the rule
-action setting and not this rule override action setting.
-
-=back
-
+This option is usually set to none. It does not affect how the rules in
+the rule group are evaluated. If you want the rules in the rule group
+to only count matches, do not use this and instead use the rule action
+override option, with C<Count> action, in your rule group reference
+statement settings.
 
 
 =head2 B<REQUIRED> Priority => Int

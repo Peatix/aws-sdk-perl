@@ -2,7 +2,11 @@
 package Paws::S3Control::AccountLevel;
   use Moose;
   has ActivityMetrics => (is => 'ro', isa => 'Paws::S3Control::ActivityMetrics');
+  has AdvancedCostOptimizationMetrics => (is => 'ro', isa => 'Paws::S3Control::AdvancedCostOptimizationMetrics');
+  has AdvancedDataProtectionMetrics => (is => 'ro', isa => 'Paws::S3Control::AdvancedDataProtectionMetrics');
   has BucketLevel => (is => 'ro', isa => 'Paws::S3Control::BucketLevel', required => 1);
+  has DetailedStatusCodesMetrics => (is => 'ro', isa => 'Paws::S3Control::DetailedStatusCodesMetrics');
+  has StorageLensGroupLevel => (is => 'ro', isa => 'Paws::S3Control::StorageLensGroupLevel');
 
 1;
 
@@ -23,7 +27,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::S3Control::AccountLevel object:
 
-  $service_obj->Method(Att1 => { ActivityMetrics => $value, ..., BucketLevel => $value  });
+  $service_obj->Method(Att1 => { ActivityMetrics => $value, ..., StorageLensGroupLevel => $value  });
 
 =head3 Results returned from an API call
 
@@ -34,19 +38,50 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::S3Control::
 
 =head1 DESCRIPTION
 
-A container for the account level Amazon S3 Storage Lens configuration.
+A container element for the account-level Amazon S3 Storage Lens
+configuration.
+
+For more information about S3 Storage Lens, see Assessing your storage
+activity and usage with S3 Storage Lens
+(https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens.html)
+in the I<Amazon S3 User Guide>. For a complete list of S3 Storage Lens
+metrics, see S3 Storage Lens metrics glossary
+(https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_metrics_glossary.html)
+in the I<Amazon S3 User Guide>.
 
 =head1 ATTRIBUTES
 
 
 =head2 ActivityMetrics => L<Paws::S3Control::ActivityMetrics>
 
-A container for the S3 Storage Lens activity metrics.
+A container element for S3 Storage Lens activity metrics.
+
+
+=head2 AdvancedCostOptimizationMetrics => L<Paws::S3Control::AdvancedCostOptimizationMetrics>
+
+A container element for S3 Storage Lens advanced cost-optimization
+metrics.
+
+
+=head2 AdvancedDataProtectionMetrics => L<Paws::S3Control::AdvancedDataProtectionMetrics>
+
+A container element for S3 Storage Lens advanced data-protection
+metrics.
 
 
 =head2 B<REQUIRED> BucketLevel => L<Paws::S3Control::BucketLevel>
 
-A container for the S3 Storage Lens bucket-level configuration.
+A container element for the S3 Storage Lens bucket-level configuration.
+
+
+=head2 DetailedStatusCodesMetrics => L<Paws::S3Control::DetailedStatusCodesMetrics>
+
+A container element for detailed status code metrics.
+
+
+=head2 StorageLensGroupLevel => L<Paws::S3Control::StorageLensGroupLevel>
+
+A container element for S3 Storage Lens groups metrics.
 
 
 

@@ -44,7 +44,10 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/par
 =head2 ClientToken => Str
 
 A unique, case-sensitive identifier that you provide to ensure the
-idempotency of the request.
+idempotency of the request. If not provided, the Amazon Web Services
+SDK populates this field. For more information about idempotency, see
+Making retries safe with idempotent APIs
+(https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
 
 
 

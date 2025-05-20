@@ -4,6 +4,7 @@ package Paws::LexModelsV2::UpdateBotLocale;
   has BotId => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'botId', required => 1);
   has BotVersion => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'botVersion', required => 1);
   has Description => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'description');
+  has GenerativeAISettings => (is => 'ro', isa => 'Paws::LexModelsV2::GenerativeAISettings', traits => ['NameInRequest'], request_name => 'generativeAISettings');
   has LocaleId => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'localeId', required => 1);
   has NluIntentConfidenceThreshold => (is => 'ro', isa => 'Num', traits => ['NameInRequest'], request_name => 'nluIntentConfidenceThreshold', required => 1);
   has VoiceSettings => (is => 'ro', isa => 'Paws::LexModelsV2::VoiceSettings', traits => ['NameInRequest'], request_name => 'voiceSettings');
@@ -39,25 +40,79 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       LocaleId                     => 'MyLocaleId',
       NluIntentConfidenceThreshold => 1,
       Description                  => 'MyDescription',       # OPTIONAL
-      VoiceSettings                => {
-        VoiceId => 'MyVoiceId',
+      GenerativeAISettings         => {
+        BuildtimeSettings => {
+          DescriptiveBotBuilder => {
+            Enabled                   => 1,
+            BedrockModelSpecification => {
+              ModelArn     => 'MyBedrockModelArn',
+              CustomPrompt =>
+                'MyBedrockModelCustomPrompt',    # min: 1, max: 4000; OPTIONAL
+              Guardrail => {
+                Identifier =>
+                  'MyBedrockGuardrailIdentifier',    # min: 1, max: 2048
+                Version => 'MyBedrockGuardrailVersion',
 
-      },                                                     # OPTIONAL
+              },    # OPTIONAL
+              TraceStatus => 'ENABLED',    # values: ENABLED, DISABLED; OPTIONAL
+            },    # OPTIONAL
+          },    # OPTIONAL
+          SampleUtteranceGeneration => {
+            Enabled                   => 1,
+            BedrockModelSpecification => {
+              ModelArn     => 'MyBedrockModelArn',
+              CustomPrompt =>
+                'MyBedrockModelCustomPrompt',    # min: 1, max: 4000; OPTIONAL
+              Guardrail => {
+                Identifier =>
+                  'MyBedrockGuardrailIdentifier',    # min: 1, max: 2048
+                Version => 'MyBedrockGuardrailVersion',
+
+              },    # OPTIONAL
+              TraceStatus => 'ENABLED',    # values: ENABLED, DISABLED; OPTIONAL
+            },    # OPTIONAL
+          },    # OPTIONAL
+        },    # OPTIONAL
+        RuntimeSettings => {
+          SlotResolutionImprovement => {
+            Enabled                   => 1,
+            BedrockModelSpecification => {
+              ModelArn     => 'MyBedrockModelArn',
+              CustomPrompt =>
+                'MyBedrockModelCustomPrompt',    # min: 1, max: 4000; OPTIONAL
+              Guardrail => {
+                Identifier =>
+                  'MyBedrockGuardrailIdentifier',    # min: 1, max: 2048
+                Version => 'MyBedrockGuardrailVersion',
+
+              },    # OPTIONAL
+              TraceStatus => 'ENABLED',    # values: ENABLED, DISABLED; OPTIONAL
+            },    # OPTIONAL
+          },    # OPTIONAL
+        },    # OPTIONAL
+      },    # OPTIONAL
+      VoiceSettings => {
+        VoiceId => 'MyVoiceId',
+        Engine  => 'standard'
+        ,    # values: standard, neural, long-form, generative; OPTIONAL
+      },    # OPTIONAL
     );
 
     # Results:
-    my $BotId               = $UpdateBotLocaleResponse->BotId;
-    my $BotLocaleStatus     = $UpdateBotLocaleResponse->BotLocaleStatus;
-    my $BotVersion          = $UpdateBotLocaleResponse->BotVersion;
-    my $CreationDateTime    = $UpdateBotLocaleResponse->CreationDateTime;
-    my $Description         = $UpdateBotLocaleResponse->Description;
-    my $FailureReasons      = $UpdateBotLocaleResponse->FailureReasons;
-    my $LastUpdatedDateTime = $UpdateBotLocaleResponse->LastUpdatedDateTime;
-    my $LocaleId            = $UpdateBotLocaleResponse->LocaleId;
-    my $LocaleName          = $UpdateBotLocaleResponse->LocaleName;
+    my $BotId                = $UpdateBotLocaleResponse->BotId;
+    my $BotLocaleStatus      = $UpdateBotLocaleResponse->BotLocaleStatus;
+    my $BotVersion           = $UpdateBotLocaleResponse->BotVersion;
+    my $CreationDateTime     = $UpdateBotLocaleResponse->CreationDateTime;
+    my $Description          = $UpdateBotLocaleResponse->Description;
+    my $FailureReasons       = $UpdateBotLocaleResponse->FailureReasons;
+    my $GenerativeAISettings = $UpdateBotLocaleResponse->GenerativeAISettings;
+    my $LastUpdatedDateTime  = $UpdateBotLocaleResponse->LastUpdatedDateTime;
+    my $LocaleId             = $UpdateBotLocaleResponse->LocaleId;
+    my $LocaleName           = $UpdateBotLocaleResponse->LocaleName;
     my $NluIntentConfidenceThreshold =
       $UpdateBotLocaleResponse->NluIntentConfidenceThreshold;
-    my $VoiceSettings = $UpdateBotLocaleResponse->VoiceSettings;
+    my $RecommendedActions = $UpdateBotLocaleResponse->RecommendedActions;
+    my $VoiceSettings      = $UpdateBotLocaleResponse->VoiceSettings;
 
     # Returns a L<Paws::LexModelsV2::UpdateBotLocaleResponse> object.
 
@@ -83,6 +138,15 @@ version can only be the C<DRAFT> version.
 =head2 Description => Str
 
 The new description of the locale.
+
+
+
+=head2 GenerativeAISettings => L<Paws::LexModelsV2::GenerativeAISettings>
+
+Contains settings for generative AI features powered by Amazon Bedrock
+for your bot locale. Use this object to turn generative AI features on
+and off. Pricing may differ if you turn a feature on. For more
+information, see LINK.
 
 
 

@@ -64,15 +64,16 @@ DescribeServices.
 
 =item *
 
-B<displayId> - The identifier for the case on pages in the AWS Support
-Center.
+B<displayId> - The identifier for the case on pages in the Amazon Web
+Services Support Center.
 
 =item *
 
-B<language> - The ISO 639-1 code for the language in which AWS provides
-support. AWS Support currently supports English ("en") and Japanese
-("ja"). Language parameters must be passed explicitly for operations
-that take them.
+B<language> - The language in which Amazon Web Services Support handles
+the case. Amazon Web Services Support currently supports Chinese
+(E<ldquo>zhE<rdquo>), English ("en"), Japanese ("ja") and Korean
+(E<ldquo>koE<rdquo>). You must specify the ISO 639-1 code for the
+C<language> parameter if you want support in that language.
 
 =item *
 
@@ -86,8 +87,9 @@ and C<timeCreated>.
 
 =item *
 
-B<serviceCode> - The identifier for the AWS service that corresponds to
-the service code defined in the call to DescribeServices.
+B<serviceCode> - The identifier for the Amazon Web Services service
+that corresponds to the service code defined in the call to
+DescribeServices.
 
 =item *
 
@@ -98,10 +100,18 @@ C<critical>.
 
 =item *
 
-B<status> - The status of the case in the AWS Support Center. Valid
-values:
+B<status> - The status of the case in the Amazon Web Services Support
+Center. Valid values:
 
 =over
+
+=item *
+
+C<all-open>
+
+=item *
+
+C<customer-action-completed>
 
 =item *
 
@@ -168,29 +178,31 @@ case.
 
 =head2 DisplayId => Str
 
-The ID displayed for the case in the AWS Support Center. This is a
-numeric string.
+The ID displayed for the case in the Amazon Web Services Support
+Center. This is a numeric string.
 
 
 =head2 Language => Str
 
-The ISO 639-1 code for the language in which AWS provides support. AWS
-Support currently supports English ("en") and Japanese ("ja"). Language
-parameters must be passed explicitly for operations that take them.
+The language in which Amazon Web Services Support handles the case.
+Amazon Web Services Support currently supports Chinese
+(E<ldquo>zhE<rdquo>), English ("en"), Japanese ("ja") and Korean
+(E<ldquo>koE<rdquo>). You must specify the ISO 639-1 code for the
+C<language> parameter if you want support in that language.
 
 
 =head2 RecentCommunications => L<Paws::Support::RecentCaseCommunications>
 
-The five most recent communications between you and AWS Support Center,
-including the IDs of any attachments to the communications. Also
-includes a C<nextToken> that you can use to retrieve earlier
-communications.
+The five most recent communications between you and Amazon Web Services
+Support Center, including the IDs of any attachments to the
+communications. Also includes a C<nextToken> that you can use to
+retrieve earlier communications.
 
 
 =head2 ServiceCode => Str
 
-The code for the AWS service. You can get a list of codes and the
-corresponding service names by calling DescribeServices.
+The code for the Amazon Web Services service. You can get a list of
+codes and the corresponding service names by calling DescribeServices.
 
 
 =head2 SeverityCode => Str
@@ -206,6 +218,14 @@ The status of the case.
 Valid values:
 
 =over
+
+=item *
+
+C<all-open>
+
+=item *
+
+C<customer-action-completed>
 
 =item *
 
@@ -237,7 +257,8 @@ C<work-in-progress>
 
 =head2 Subject => Str
 
-The subject line for the case in the AWS Support Center.
+The subject line for the case in the Amazon Web Services Support
+Center.
 
 
 =head2 SubmittedBy => Str
@@ -247,7 +268,8 @@ The email address of the account that submitted the case.
 
 =head2 TimeCreated => Str
 
-The time that the case was created in the AWS Support Center.
+The time that the case was created in the Amazon Web Services Support
+Center.
 
 
 

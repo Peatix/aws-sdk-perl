@@ -73,6 +73,10 @@ Invoke
 
 Approval
 
+=item *
+
+Compute
+
 =back
 
 
@@ -90,9 +94,9 @@ information, see Valid Action Types and Providers in CodePipeline
 
 The provider of the service being called by the action. Valid providers
 are determined by the action category. For example, an action in the
-Deploy category type might have a provider of AWS CodeDeploy, which
-would be specified as CodeDeploy. For more information, see Valid
-Action Types and Providers in CodePipeline
+Deploy category type might have a provider of CodeDeploy, which would
+be specified as C<CodeDeploy>. For more information, see Valid Action
+Types and Providers in CodePipeline
 (https://docs.aws.amazon.com/codepipeline/latest/userguide/reference-pipeline-structure.html#actions-valid-providers).
 
 

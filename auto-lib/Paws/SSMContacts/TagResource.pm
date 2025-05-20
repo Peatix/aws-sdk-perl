@@ -28,17 +28,21 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $ssm-contacts = Paws->service('SSMContacts');
+ # To tag a contact
+ # The following tag-resource example tags a specified contact with the provided
+ # tag key value pair.
     my $TagResourceResult = $ssm -contacts->TagResource(
-      ResourceARN => 'MyAmazonResourceName',
-      Tags        => [
-        {
-          Key   => 'MyTagKey',      # min: 1, max: 128; OPTIONAL
-          Value => 'MyTagValue',    # min: 1, max: 256; OPTIONAL
-        },
-        ...
-      ],
+      'ResourceARN' =>
+        'arn:aws:ssm-contacts:us-east-1:111122223333:contact/akuam',
+      'Tags' => [
 
+        {
+          'Key'   => 'group1',
+          'Value' => 1
+        }
+      ]
     );
+
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ssm-contacts/TagResource>

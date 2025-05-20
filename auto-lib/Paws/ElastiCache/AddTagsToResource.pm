@@ -67,7 +67,7 @@ C<arn:aws:elasticache:us-west-2:0123456789:snapshot:mySnapshot>.
 ElastiCache resources are I<cluster> and I<snapshot>.
 
 For more information about ARNs, see Amazon Resource Names (ARNs) and
-AWS Service Namespaces
+Amazon Service Namespaces
 (https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
 
 

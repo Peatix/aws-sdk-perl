@@ -60,9 +60,10 @@ Timestamp for the time the synthesis task was started.
 
 =head2 Engine => Str
 
-Specifies the engine (C<standard> or C<neural>) for Amazon Polly to use
-when processing input text for speech synthesis. Using a voice that is
-not supported for the engine selected will result in an error.
+Specifies the engine (C<standard>, C<neural>, C<long-form> or
+C<generative>) for Amazon Polly to use when processing input text for
+speech synthesis. Using a voice that is not supported for the engine
+selected will result in an error.
 
 
 =head2 LanguageCode => Str
@@ -72,7 +73,7 @@ using a bilingual voice, such as Aditi, which can be used for either
 Indian English (en-IN) or Hindi (hi-IN).
 
 If a bilingual voice is used and no language code is specified, Amazon
-Polly will use the default language of the bilingual voice. The default
+Polly uses the default language of the bilingual voice. The default
 language for any voice is the one returned by the DescribeVoices
 (https://docs.aws.amazon.com/polly/latest/dg/API_DescribeVoices.html)
 operation for the C<LanguageCode> parameter. For example, if no
@@ -110,7 +111,9 @@ The audio frequency specified in Hz.
 
 The valid values for mp3 and ogg_vorbis are "8000", "16000", "22050",
 and "24000". The default value for standard voices is "22050". The
-default value for neural voices is "24000".
+default value for neural voices is "24000". The default value for
+long-form voices is "24000". The default value for generative voices is
+"24000".
 
 Valid values for pcm are "8000" and "16000" The default value is
 "16000".

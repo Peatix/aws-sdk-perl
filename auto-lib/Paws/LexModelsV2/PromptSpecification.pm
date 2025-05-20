@@ -4,6 +4,8 @@ package Paws::LexModelsV2::PromptSpecification;
   has AllowInterrupt => (is => 'ro', isa => 'Bool', request_name => 'allowInterrupt', traits => ['NameInRequest']);
   has MaxRetries => (is => 'ro', isa => 'Int', request_name => 'maxRetries', traits => ['NameInRequest'], required => 1);
   has MessageGroups => (is => 'ro', isa => 'ArrayRef[Paws::LexModelsV2::MessageGroup]', request_name => 'messageGroups', traits => ['NameInRequest'], required => 1);
+  has MessageSelectionStrategy => (is => 'ro', isa => 'Str', request_name => 'messageSelectionStrategy', traits => ['NameInRequest']);
+  has PromptAttemptsSpecification => (is => 'ro', isa => 'Paws::LexModelsV2::PromptAttemptsSpecificationMap', request_name => 'promptAttemptsSpecification', traits => ['NameInRequest']);
 
 1;
 
@@ -24,7 +26,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::LexModelsV2::PromptSpecification object:
 
-  $service_obj->Method(Att1 => { AllowInterrupt => $value, ..., MessageGroups => $value  });
+  $service_obj->Method(Att1 => { AllowInterrupt => $value, ..., PromptAttemptsSpecification => $value  });
 
 =head3 Results returned from an API call
 
@@ -48,7 +50,7 @@ Indicates whether the user can interrupt a speech prompt from the bot.
 
 =head2 B<REQUIRED> MaxRetries => Int
 
-The maximum number of times the bot tries to elicit a resonse from the
+The maximum number of times the bot tries to elicit a response from the
 user using this prompt.
 
 
@@ -56,6 +58,16 @@ user using this prompt.
 
 A collection of messages that Amazon Lex can send to the user. Amazon
 Lex chooses the actual message to send at runtime.
+
+
+=head2 MessageSelectionStrategy => Str
+
+Indicates how a message is selected from a message group among retries.
+
+
+=head2 PromptAttemptsSpecification => L<Paws::LexModelsV2::PromptAttemptsSpecificationMap>
+
+Specifies the advanced settings on each attempt of the prompt.
 
 
 

@@ -56,7 +56,9 @@ this value to TRUE may lower performance.
 
 A single character used to indicate that a row should be ignored when
 the character is present at the start of that row. You can specify any
-character to indicate a comment line.
+character to indicate a comment line. The default character is C<#>.
+
+Default: C<#>
 
 
 =head2 FieldDelimiter => Str
@@ -107,8 +109,8 @@ Ancestors: C<CSV>
 =head2 QuoteEscapeCharacter => Str
 
 A single character used for escaping the quotation mark character
-inside an already escaped value. For example, the value """ a , b """
-is parsed as " a , b ".
+inside an already escaped value. For example, the value C<""" a , b
+"""> is parsed as C<" a , b ">.
 
 
 =head2 RecordDelimiter => Str

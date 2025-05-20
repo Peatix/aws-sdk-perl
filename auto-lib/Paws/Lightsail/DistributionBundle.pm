@@ -50,7 +50,7 @@ The ID of the bundle.
 =head2 IsActive => Bool
 
 Indicates whether the bundle is active, and can be specified for a new
-distribution.
+or existing distribution.
 
 
 =head2 Name => Str

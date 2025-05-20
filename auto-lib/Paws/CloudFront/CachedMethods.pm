@@ -61,7 +61,9 @@ be cached correctly.
 =head2 B<REQUIRED> Items => ArrayRef[Str|Undef]
 
 A complex type that contains the HTTP methods that you want CloudFront
-to cache responses to.
+to cache responses to. Valid values for C<CachedMethods> include
+C<GET>, C<HEAD>, and C<OPTIONS>, depending on which caching option you
+choose. For more information, see the preceding section.
 
 
 =head2 B<REQUIRED> Quantity => Int

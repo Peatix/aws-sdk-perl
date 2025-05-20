@@ -45,13 +45,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ecs
 
 =head2 MaxResults => Int
 
-The maximum number of cluster results returned by C<ListClusters> in
+The maximum number of cluster results that C<ListClusters> returned in
 paginated output. When this parameter is used, C<ListClusters> only
 returns C<maxResults> results in a single page along with a
 C<nextToken> response element. The remaining results of the initial
 request can be seen by sending another C<ListClusters> request with the
 returned C<nextToken> value. This value can be between 1 and 100. If
-this parameter is not used, then C<ListClusters> returns up to 100
+this parameter isn't used, then C<ListClusters> returns up to 100
 results and a C<nextToken> value if applicable.
 
 
@@ -60,8 +60,8 @@ results and a C<nextToken> value if applicable.
 
 The C<nextToken> value returned from a C<ListClusters> request
 indicating that more results are available to fulfill the request and
-further calls will be needed. If C<maxResults> was provided, it is
-possible the number of results to be fewer than C<maxResults>.
+further calls are needed. If C<maxResults> was provided, it's possible
+the number of results to be fewer than C<maxResults>.
 
 This token should be treated as an opaque identifier that is only used
 to retrieve the next items in a list and not for other programmatic

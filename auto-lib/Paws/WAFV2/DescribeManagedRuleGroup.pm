@@ -4,6 +4,7 @@ package Paws::WAFV2::DescribeManagedRuleGroup;
   has Name => (is => 'ro', isa => 'Str', required => 1);
   has Scope => (is => 'ro', isa => 'Str', required => 1);
   has VendorName => (is => 'ro', isa => 'Str', required => 1);
+  has VersionName => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -30,10 +31,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $wafv2 = Paws->service('WAFV2');
     my $DescribeManagedRuleGroupResponse = $wafv2->DescribeManagedRuleGroup(
-      Name       => 'MyEntityName',
-      Scope      => 'CLOUDFRONT',
-      VendorName => 'MyVendorName',
-
+      Name        => 'MyEntityName',
+      Scope       => 'CLOUDFRONT',
+      VendorName  => 'MyVendorName',
+      VersionName => 'MyVersionKeyString',    # OPTIONAL
     );
 
     # Results:
@@ -42,6 +43,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $ConsumedLabels  = $DescribeManagedRuleGroupResponse->ConsumedLabels;
     my $LabelNamespace  = $DescribeManagedRuleGroupResponse->LabelNamespace;
     my $Rules           = $DescribeManagedRuleGroupResponse->Rules;
+    my $SnsTopicArn     = $DescribeManagedRuleGroupResponse->SnsTopicArn;
+    my $VersionName     = $DescribeManagedRuleGroupResponse->VersionName;
 
     # Returns a L<Paws::WAFV2::DescribeManagedRuleGroupResponse> object.
 
@@ -60,10 +63,8 @@ name, to identify the rule group.
 
 =head2 B<REQUIRED> Scope => Str
 
-Specifies whether this is for an Amazon CloudFront distribution or for
-a regional application. A regional application can be an Application
-Load Balancer (ALB), an Amazon API Gateway REST API, or an AppSync
-GraphQL API.
+Specifies whether this is for a global resource type, such as a Amazon
+CloudFront distribution. For an Amplify application, use C<CLOUDFRONT>.
 
 To work with CloudFront, you must also specify the Region US East (N.
 Virginia) as follows:
@@ -87,7 +88,15 @@ Valid values are: C<"CLOUDFRONT">, C<"REGIONAL">
 =head2 B<REQUIRED> VendorName => Str
 
 The name of the managed rule group vendor. You use this, along with the
-rule group name, to identify the rule group.
+rule group name, to identify a rule group.
+
+
+
+=head2 VersionName => Str
+
+The version of the rule group. You can only use a version that is not
+scheduled for expiration. If you don't provide this, WAF uses the
+vendor's default version.
 
 
 

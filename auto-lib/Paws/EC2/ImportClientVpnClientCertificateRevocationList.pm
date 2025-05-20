@@ -52,7 +52,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ec2
 The client certificate revocation list file. For more information, see
 Generate a Client Certificate Revocation List
 (https://docs.aws.amazon.com/vpn/latest/clientvpn-admin/cvpn-working-certificates.html#cvpn-working-certificates-generate)
-in the I<AWS Client VPN Administrator Guide>.
+in the I<Client VPN Administrator Guide>.
 
 
 

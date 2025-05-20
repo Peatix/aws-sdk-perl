@@ -4,9 +4,11 @@ package Paws::CloudWatch::PutMetricStream;
   has ExcludeFilters => (is => 'ro', isa => 'ArrayRef[Paws::CloudWatch::MetricStreamFilter]');
   has FirehoseArn => (is => 'ro', isa => 'Str', required => 1);
   has IncludeFilters => (is => 'ro', isa => 'ArrayRef[Paws::CloudWatch::MetricStreamFilter]');
+  has IncludeLinkedAccountsMetrics => (is => 'ro', isa => 'Bool');
   has Name => (is => 'ro', isa => 'Str', required => 1);
   has OutputFormat => (is => 'ro', isa => 'Str', required => 1);
   has RoleArn => (is => 'ro', isa => 'Str', required => 1);
+  has StatisticsConfigurations => (is => 'ro', isa => 'ArrayRef[Paws::CloudWatch::MetricStreamStatisticsConfiguration]');
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::CloudWatch::Tag]');
 
   use MooseX::ClassAttribute;
@@ -40,13 +42,35 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       RoleArn        => 'MyAmazonResourceName',
       ExcludeFilters => [
         {
+          MetricNames => [
+            'MyMetricName', ...    # min: 1, max: 255
+          ],    # OPTIONAL
           Namespace => 'MyNamespace',    # min: 1, max: 255; OPTIONAL
         },
         ...
       ],    # OPTIONAL
       IncludeFilters => [
         {
+          MetricNames => [
+            'MyMetricName', ...    # min: 1, max: 255
+          ],    # OPTIONAL
           Namespace => 'MyNamespace',    # min: 1, max: 255; OPTIONAL
+        },
+        ...
+      ],    # OPTIONAL
+      IncludeLinkedAccountsMetrics => 1,    # OPTIONAL
+      StatisticsConfigurations     => [
+        {
+          AdditionalStatistics => [ 'MyMetricStreamStatistic', ... ],
+          IncludeMetrics       => [
+            {
+              MetricName => 'MyMetricName',    # min: 1, max: 255
+              Namespace  => 'MyNamespace',     # min: 1, max: 255; OPTIONAL
+
+            },
+            ...
+          ],
+
         },
         ...
       ],    # OPTIONAL
@@ -83,9 +107,10 @@ operation.
 
 =head2 B<REQUIRED> FirehoseArn => Str
 
-The ARN of the Amazon Kinesis Firehose delivery stream to use for this
-metric stream. This Amazon Kinesis Firehose delivery stream must
-already exist and must be in the same account as the metric stream.
+The ARN of the Amazon Kinesis Data Firehose delivery stream to use for
+this metric stream. This Amazon Kinesis Data Firehose delivery stream
+must already exist and must be in the same account as the metric
+stream.
 
 
 
@@ -96,6 +121,13 @@ the metric namespaces that you specify here.
 
 You cannot include C<IncludeFilters> and C<ExcludeFilters> in the same
 operation.
+
+
+
+=head2 IncludeLinkedAccountsMetrics => Bool
+
+If you are creating a metric stream in a monitoring account, specify
+C<true> to include metrics from source accounts in the metric stream.
 
 
 
@@ -114,19 +146,19 @@ Valid characters are A-Z, a-z, 0-9, "-" and "_".
 
 =head2 B<REQUIRED> OutputFormat => Str
 
-The output format for the stream. Valid values are C<json> and
-C<opentelemetry0.7>. For more information about metric stream output
-formats, see Metric streams output formats
+The output format for the stream. Valid values are C<json>,
+C<opentelemetry1.0>, and C<opentelemetry0.7>. For more information
+about metric stream output formats, see Metric streams output formats
 (https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-metric-streams-formats.html).
 
-Valid values are: C<"json">, C<"opentelemetry0.7">
+Valid values are: C<"json">, C<"opentelemetry0.7">, C<"opentelemetry1.0">
 
 =head2 B<REQUIRED> RoleArn => Str
 
 The ARN of an IAM role that this metric stream will use to access
-Amazon Kinesis Firehose resources. This IAM role must already exist and
-must be in the same account as the metric stream. This IAM role must
-include the following permissions:
+Amazon Kinesis Data Firehose resources. This IAM role must already
+exist and must be in the same account as the metric stream. This IAM
+role must include the following permissions:
 
 =over
 
@@ -143,6 +175,25 @@ firehose:PutRecordBatch
 
 
 
+=head2 StatisticsConfigurations => ArrayRef[L<Paws::CloudWatch::MetricStreamStatisticsConfiguration>]
+
+By default, a metric stream always sends the C<MAX>, C<MIN>, C<SUM>,
+and C<SAMPLECOUNT> statistics for each metric that is streamed. You can
+use this parameter to have the metric stream also send additional
+statistics in the stream. This array can have up to 100 members.
+
+For each entry in this array, you specify one or more metrics and the
+list of additional statistics to stream for those metrics. The
+additional statistics that you can stream depend on the stream's
+C<OutputFormat>. If the C<OutputFormat> is C<json>, you can stream any
+additional statistic that is supported by CloudWatch, listed in
+CloudWatch statistics definitions
+(https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Statistics-definitions.html.html).
+If the C<OutputFormat> is C<opentelemetry1.0> or C<opentelemetry0.7>,
+you can stream percentile statistics such as p95, p99.9, and so on.
+
+
+
 =head2 Tags => ArrayRef[L<Paws::CloudWatch::Tag>]
 
 A list of key-value pairs to associate with the metric stream. You can
@@ -151,6 +202,14 @@ associate as many as 50 tags with a metric stream.
 Tags can help you organize and categorize your resources. You can also
 use them to scope user permissions by granting a user permission to
 access or change only resources with certain tag values.
+
+You can use this parameter only when you are creating a new metric
+stream. If you are using this operation to update an existing metric
+stream, any tags you specify in this parameter are ignored. To change
+the tags of an existing metric stream, use TagResource
+(https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_TagResource.html)
+or UntagResource
+(https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_UntagResource.html).
 
 
 

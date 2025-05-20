@@ -64,7 +64,7 @@ Returns the job's objective.
 
 Returns the secondary status of the AutoML job.
 
-Valid values are: C<"Starting">, C<"AnalyzingData">, C<"FeatureEngineering">, C<"ModelTuning">, C<"MaxCandidatesReached">, C<"Failed">, C<"Stopped">, C<"MaxAutoMLJobRuntimeReached">, C<"Stopping">, C<"CandidateDefinitionsGenerated">, C<"GeneratingExplainabilityReport">, C<"Completed">, C<"ExplainabilityError">, C<"DeployingModel">, C<"ModelDeploymentError">
+Valid values are: C<"Starting">, C<"MaxCandidatesReached">, C<"Failed">, C<"Stopped">, C<"MaxAutoMLJobRuntimeReached">, C<"Stopping">, C<"CandidateDefinitionsGenerated">, C<"Completed">, C<"ExplainabilityError">, C<"DeployingModel">, C<"ModelDeploymentError">, C<"GeneratingModelInsightsReport">, C<"ModelInsightsError">, C<"AnalyzingData">, C<"FeatureEngineering">, C<"ModelTuning">, C<"GeneratingExplainabilityReport">, C<"TrainingModels">, C<"PreTraining">
 =head2 B<REQUIRED> AutoMLJobStatus => Str
 
 Returns the status of the AutoML job.
@@ -72,7 +72,10 @@ Returns the status of the AutoML job.
 Valid values are: C<"Completed">, C<"InProgress">, C<"Failed">, C<"Stopped">, C<"Stopping">
 =head2 BestCandidate => L<Paws::SageMaker::AutoMLCandidate>
 
-Returns the job's best C<AutoMLCandidate>.
+The best model candidate selected by SageMaker AI Autopilot using both
+the best objective metric and lowest InferenceLatency
+(https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-metrics-validation.html)
+for an experiment.
 
 
 =head2 B<REQUIRED> CreationTime => Str
@@ -98,7 +101,7 @@ definitions only.
 
 =head2 B<REQUIRED> InputDataConfig => ArrayRef[L<Paws::SageMaker::AutoMLChannel>]
 
-Returns the input data configuration for the AutoML job..
+Returns the input data configuration for the AutoML job.
 
 
 =head2 B<REQUIRED> LastModifiedTime => Str
@@ -134,16 +137,14 @@ Returns the job's problem type.
 Valid values are: C<"BinaryClassification">, C<"MulticlassClassification">, C<"Regression">
 =head2 ResolvedAttributes => L<Paws::SageMaker::ResolvedAttributes>
 
-This contains C<ProblemType>, C<AutoMLJobObjective> and
+Contains C<ProblemType>, C<AutoMLJobObjective>, and
 C<CompletionCriteria>. If you do not provide these values, they are
-auto-inferred. If you do provide them, the values used are the ones you
-provide.
+inferred.
 
 
 =head2 B<REQUIRED> RoleArn => Str
 
-The Amazon Resource Name (ARN) of the Amazon Web Services Identity and
-Access Management (IAM) role that has read permission to the input data
+The ARN of the IAM role that has read permission to the input data
 location and write permission to the output data location in Amazon S3.
 
 

@@ -53,8 +53,8 @@ The type of endpoint. Valid values are C<source> and C<target>.
 =head2 EngineDisplayName => Str
 
 The expanded name for the engine name. For example, if the
-C<EngineName> parameter is "aurora," this value would be "Amazon Aurora
-MySQL."
+C<EngineName> parameter is "aurora", this value would be "Amazon Aurora
+MySQL".
 
 
 =head2 EngineName => Str
@@ -62,21 +62,21 @@ MySQL."
 The database engine name. Valid values, depending on the EndpointType,
 include C<"mysql">, C<"oracle">, C<"postgres">, C<"mariadb">,
 C<"aurora">, C<"aurora-postgresql">, C<"redshift">, C<"s3">, C<"db2">,
-C<"azuredb">, C<"sybase">, C<"dynamodb">, C<"mongodb">, C<"kinesis">,
-C<"kafka">, C<"elasticsearch">, C<"documentdb">, C<"sqlserver">, and
-C<"neptune">.
+C<"db2-zos">, C<"azuredb">, C<"sybase">, C<"dynamodb">, C<"mongodb">,
+C<"kinesis">, C<"kafka">, C<"elasticsearch">, C<"documentdb">,
+C<"sqlserver">, C<"neptune">, and C<"babelfish">.
 
 
 =head2 ReplicationInstanceEngineMinimumVersion => Str
 
-The earliest AWS DMS engine version that supports this endpoint engine.
-Note that endpoint engines released with AWS DMS versions earlier than
+The earliest DMS engine version that supports this endpoint engine.
+Note that endpoint engines released with DMS versions earlier than
 3.1.1 do not return a value for this parameter.
 
 
 =head2 SupportsCDC => Bool
 
-Indicates if Change Data Capture (CDC) is supported.
+Indicates if change data capture (CDC) is supported.
 
 
 

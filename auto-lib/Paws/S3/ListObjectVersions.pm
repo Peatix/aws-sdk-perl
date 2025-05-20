@@ -7,7 +7,9 @@ package Paws::S3::ListObjectVersions;
   has ExpectedBucketOwner => (is => 'ro', isa => 'Str', header_name => 'x-amz-expected-bucket-owner', traits => ['ParamInHeader']);
   has KeyMarker => (is => 'ro', isa => 'Str', query_name => 'key-marker', traits => ['ParamInQuery']);
   has MaxKeys => (is => 'ro', isa => 'Int', query_name => 'max-keys', traits => ['ParamInQuery']);
+  has OptionalObjectAttributes => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'x-amz-optional-object-attributes', traits => ['NameInRequest']);
   has Prefix => (is => 'ro', isa => 'Str', query_name => 'prefix', traits => ['ParamInQuery']);
+  has RequestPayer => (is => 'ro', isa => 'Str', header_name => 'x-amz-request-payer', traits => ['ParamInHeader']);
   has VersionIdMarker => (is => 'ro', isa => 'Str', query_name => 'version-id-marker', traits => ['ParamInQuery']);
 
 
@@ -72,9 +74,9 @@ The bucket name that contains the objects.
 A delimiter is a character that you specify to group keys. All keys
 that contain the same string between the C<prefix> and the first
 occurrence of the delimiter are grouped under a single result element
-in CommonPrefixes. These groups are counted as one result against the
-max-keys limitation. These keys are not returned elsewhere in the
-response.
+in C<CommonPrefixes>. These groups are counted as one result against
+the C<max-keys> limitation. These keys are not returned elsewhere in
+the response.
 
 
 
@@ -86,9 +88,9 @@ Valid values are: C<"url">
 
 =head2 ExpectedBucketOwner => Str
 
-The account ID of the expected bucket owner. If the bucket is owned by
-a different account, the request will fail with an HTTP C<403 (Access
-Denied)> error.
+The account ID of the expected bucket owner. If the account ID that you
+provide does not match the actual owner of the bucket, the request
+fails with the HTTP status code C<403 Forbidden> (access denied).
 
 
 
@@ -100,12 +102,20 @@ Specifies the key to start with when listing objects in a bucket.
 
 =head2 MaxKeys => Int
 
-Sets the maximum number of keys returned in the response. By default
+Sets the maximum number of keys returned in the response. By default,
 the action returns up to 1,000 key names. The response might contain
 fewer keys but will never contain more. If additional keys satisfy the
-search criteria, but were not returned because max-keys was exceeded,
-the response contains E<lt>isTruncatedE<gt>trueE<lt>/isTruncatedE<gt>.
-To return the additional keys, see key-marker and version-id-marker.
+search criteria, but were not returned because C<max-keys> was
+exceeded, the response contains
+C<E<lt>isTruncatedE<gt>trueE<lt>/isTruncatedE<gt>>. To return the
+additional keys, see C<key-marker> and C<version-id-marker>.
+
+
+
+=head2 OptionalObjectAttributes => ArrayRef[Str|Undef]
+
+Specifies the optional fields that you want returned in the response.
+Fields that you do not specify are not returned.
 
 
 
@@ -113,12 +123,18 @@ To return the additional keys, see key-marker and version-id-marker.
 
 Use this parameter to select only those keys that begin with the
 specified prefix. You can use prefixes to separate a bucket into
-different groupings of keys. (You can think of using prefix to make
-groups in the same way you'd use a folder in a file system.) You can
-use prefix with delimiter to roll up numerous objects into a single
-result under CommonPrefixes.
+different groupings of keys. (You can think of using C<prefix> to make
+groups in the same way that you'd use a folder in a file system.) You
+can use C<prefix> with C<delimiter> to roll up numerous objects into a
+single result under C<CommonPrefixes>.
 
 
+
+=head2 RequestPayer => Str
+
+
+
+Valid values are: C<"requester">
 
 =head2 VersionIdMarker => Str
 

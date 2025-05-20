@@ -34,14 +34,18 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AppSync::El
 
 =head1 DESCRIPTION
 
-Describes an Elasticsearch data source configuration.
+Describes an OpenSearch data source configuration.
+
+As of September 2021, Amazon Elasticsearch service is Amazon OpenSearch
+Service. This configuration is deprecated. For new data sources, use
+OpenSearchServiceDataSourceConfig to specify an OpenSearch data source.
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> AwsRegion => Str
 
-The AWS Region.
+The Amazon Web Services Region.
 
 
 =head2 B<REQUIRED> Endpoint => Str

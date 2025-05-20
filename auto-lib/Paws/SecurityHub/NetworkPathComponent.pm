@@ -45,10 +45,14 @@ Information about a network path component.
 
 The identifier of a component in the network path.
 
+Length Constraints: Minimum of 1. Maximum of 32.
+
 
 =head2 ComponentType => Str
 
 The type of component.
+
+Length Constraints: Minimum of 1. Maximum of 32.
 
 
 =head2 Egress => L<Paws::SecurityHub::NetworkHeader>

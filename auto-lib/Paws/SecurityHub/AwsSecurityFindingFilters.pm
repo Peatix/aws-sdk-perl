@@ -2,7 +2,12 @@
 package Paws::SecurityHub::AwsSecurityFindingFilters;
   use Moose;
   has AwsAccountId => (is => 'ro', isa => 'ArrayRef[Paws::SecurityHub::StringFilter]');
+  has AwsAccountName => (is => 'ro', isa => 'ArrayRef[Paws::SecurityHub::StringFilter]');
   has CompanyName => (is => 'ro', isa => 'ArrayRef[Paws::SecurityHub::StringFilter]');
+  has ComplianceAssociatedStandardsId => (is => 'ro', isa => 'ArrayRef[Paws::SecurityHub::StringFilter]');
+  has ComplianceSecurityControlId => (is => 'ro', isa => 'ArrayRef[Paws::SecurityHub::StringFilter]');
+  has ComplianceSecurityControlParametersName => (is => 'ro', isa => 'ArrayRef[Paws::SecurityHub::StringFilter]');
+  has ComplianceSecurityControlParametersValue => (is => 'ro', isa => 'ArrayRef[Paws::SecurityHub::StringFilter]');
   has ComplianceStatus => (is => 'ro', isa => 'ArrayRef[Paws::SecurityHub::StringFilter]');
   has Confidence => (is => 'ro', isa => 'ArrayRef[Paws::SecurityHub::NumberFilter]');
   has CreatedAt => (is => 'ro', isa => 'ArrayRef[Paws::SecurityHub::DateFilter]');
@@ -49,8 +54,11 @@ package Paws::SecurityHub::AwsSecurityFindingFilters;
   has ProductName => (is => 'ro', isa => 'ArrayRef[Paws::SecurityHub::StringFilter]');
   has RecommendationText => (is => 'ro', isa => 'ArrayRef[Paws::SecurityHub::StringFilter]');
   has RecordState => (is => 'ro', isa => 'ArrayRef[Paws::SecurityHub::StringFilter]');
+  has Region => (is => 'ro', isa => 'ArrayRef[Paws::SecurityHub::StringFilter]');
   has RelatedFindingsId => (is => 'ro', isa => 'ArrayRef[Paws::SecurityHub::StringFilter]');
   has RelatedFindingsProductArn => (is => 'ro', isa => 'ArrayRef[Paws::SecurityHub::StringFilter]');
+  has ResourceApplicationArn => (is => 'ro', isa => 'ArrayRef[Paws::SecurityHub::StringFilter]');
+  has ResourceApplicationName => (is => 'ro', isa => 'ArrayRef[Paws::SecurityHub::StringFilter]');
   has ResourceAwsEc2InstanceIamInstanceProfileArn => (is => 'ro', isa => 'ArrayRef[Paws::SecurityHub::StringFilter]');
   has ResourceAwsEc2InstanceImageId => (is => 'ro', isa => 'ArrayRef[Paws::SecurityHub::StringFilter]');
   has ResourceAwsEc2InstanceIpV4Addresses => (is => 'ro', isa => 'ArrayRef[Paws::SecurityHub::IpFilter]');
@@ -61,8 +69,10 @@ package Paws::SecurityHub::AwsSecurityFindingFilters;
   has ResourceAwsEc2InstanceType => (is => 'ro', isa => 'ArrayRef[Paws::SecurityHub::StringFilter]');
   has ResourceAwsEc2InstanceVpcId => (is => 'ro', isa => 'ArrayRef[Paws::SecurityHub::StringFilter]');
   has ResourceAwsIamAccessKeyCreatedAt => (is => 'ro', isa => 'ArrayRef[Paws::SecurityHub::DateFilter]');
+  has ResourceAwsIamAccessKeyPrincipalName => (is => 'ro', isa => 'ArrayRef[Paws::SecurityHub::StringFilter]');
   has ResourceAwsIamAccessKeyStatus => (is => 'ro', isa => 'ArrayRef[Paws::SecurityHub::StringFilter]');
   has ResourceAwsIamAccessKeyUserName => (is => 'ro', isa => 'ArrayRef[Paws::SecurityHub::StringFilter]');
+  has ResourceAwsIamUserUserName => (is => 'ro', isa => 'ArrayRef[Paws::SecurityHub::StringFilter]');
   has ResourceAwsS3BucketOwnerId => (is => 'ro', isa => 'ArrayRef[Paws::SecurityHub::StringFilter]');
   has ResourceAwsS3BucketOwnerName => (is => 'ro', isa => 'ArrayRef[Paws::SecurityHub::StringFilter]');
   has ResourceContainerImageId => (is => 'ro', isa => 'ArrayRef[Paws::SecurityHub::StringFilter]');
@@ -75,6 +85,7 @@ package Paws::SecurityHub::AwsSecurityFindingFilters;
   has ResourceRegion => (is => 'ro', isa => 'ArrayRef[Paws::SecurityHub::StringFilter]');
   has ResourceTags => (is => 'ro', isa => 'ArrayRef[Paws::SecurityHub::MapFilter]');
   has ResourceType => (is => 'ro', isa => 'ArrayRef[Paws::SecurityHub::StringFilter]');
+  has Sample => (is => 'ro', isa => 'ArrayRef[Paws::SecurityHub::BooleanFilter]');
   has SeverityLabel => (is => 'ro', isa => 'ArrayRef[Paws::SecurityHub::StringFilter]');
   has SeverityNormalized => (is => 'ro', isa => 'ArrayRef[Paws::SecurityHub::NumberFilter]');
   has SeverityProduct => (is => 'ro', isa => 'ArrayRef[Paws::SecurityHub::NumberFilter]');
@@ -90,6 +101,8 @@ package Paws::SecurityHub::AwsSecurityFindingFilters;
   has UpdatedAt => (is => 'ro', isa => 'ArrayRef[Paws::SecurityHub::DateFilter]');
   has UserDefinedFields => (is => 'ro', isa => 'ArrayRef[Paws::SecurityHub::MapFilter]');
   has VerificationState => (is => 'ro', isa => 'ArrayRef[Paws::SecurityHub::StringFilter]');
+  has VulnerabilitiesExploitAvailable => (is => 'ro', isa => 'ArrayRef[Paws::SecurityHub::StringFilter]');
+  has VulnerabilitiesFixAvailable => (is => 'ro', isa => 'ArrayRef[Paws::SecurityHub::StringFilter]');
   has WorkflowState => (is => 'ro', isa => 'ArrayRef[Paws::SecurityHub::StringFilter]');
   has WorkflowStatus => (is => 'ro', isa => 'ArrayRef[Paws::SecurityHub::StringFilter]');
 
@@ -123,11 +136,10 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SecurityHub
 
 =head1 DESCRIPTION
 
-A collection of attributes that are applied to all active Security
-Hub-aggregated findings and that result in a subset of findings that
-are included in this insight.
+A collection of filters that are applied to all active findings
+aggregated by Security Hub.
 
-You can filter by up to 10 finding attributes. For each attribute, you
+You can filter by up to ten finding attributes. For each attribute, you
 can provide up to 20 filter values.
 
 =head1 ATTRIBUTES
@@ -135,7 +147,13 @@ can provide up to 20 filter values.
 
 =head2 AwsAccountId => ArrayRef[L<Paws::SecurityHub::StringFilter>]
 
-The AWS account ID that a finding is generated in.
+The Amazon Web Services account ID in which a finding is generated.
+
+
+=head2 AwsAccountName => ArrayRef[L<Paws::SecurityHub::StringFilter>]
+
+The name of the Amazon Web Services account in which a finding is
+generated.
 
 
 =head2 CompanyName => ArrayRef[L<Paws::SecurityHub::StringFilter>]
@@ -144,11 +162,38 @@ The name of the findings provider (company) that owns the solution
 (product) that generates findings.
 
 
+=head2 ComplianceAssociatedStandardsId => ArrayRef[L<Paws::SecurityHub::StringFilter>]
+
+The unique identifier of a standard in which a control is enabled. This
+field consists of the resource portion of the Amazon Resource Name
+(ARN) returned for a standard in the DescribeStandards
+(https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_DescribeStandards.html)
+API response.
+
+
+=head2 ComplianceSecurityControlId => ArrayRef[L<Paws::SecurityHub::StringFilter>]
+
+The unique identifier of a control across standards. Values for this
+field typically consist of an Amazon Web Services service and a number,
+such as APIGateway.5.
+
+
+=head2 ComplianceSecurityControlParametersName => ArrayRef[L<Paws::SecurityHub::StringFilter>]
+
+The name of a security control parameter.
+
+
+=head2 ComplianceSecurityControlParametersValue => ArrayRef[L<Paws::SecurityHub::StringFilter>]
+
+The current value of a security control parameter.
+
+
 =head2 ComplianceStatus => ArrayRef[L<Paws::SecurityHub::StringFilter>]
 
 Exclusive to findings that are generated as the result of a check run
-against a specific rule in a supported standard, such as CIS AWS
-Foundations. Contains security standard-related finding details.
+against a specific rule in a supported standard, such as CIS Amazon Web
+Services Foundations. Contains security standard-related finding
+details.
 
 
 =head2 Confidence => ArrayRef[L<Paws::SecurityHub::NumberFilter>]
@@ -163,9 +208,12 @@ means zero percent confidence and 100 means 100 percent confidence.
 
 =head2 CreatedAt => ArrayRef[L<Paws::SecurityHub::DateFilter>]
 
-An ISO8601-formatted timestamp that indicates when the
-security-findings provider captured the potential security issue that a
-finding captured.
+A timestamp that indicates when the security findings provider created
+the potential security issue that a finding reflects.
+
+For more information about the validation and formatting of timestamp
+fields in Security Hub, see Timestamps
+(https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
 
 
 =head2 Criticality => ArrayRef[L<Paws::SecurityHub::NumberFilter>]
@@ -235,15 +283,18 @@ Effects | Unusual Behaviors | Sensitive Data Identifications
 
 =head2 FirstObservedAt => ArrayRef[L<Paws::SecurityHub::DateFilter>]
 
-An ISO8601-formatted timestamp that indicates when the
-security-findings provider first observed the potential security issue
-that a finding captured.
+A timestamp that indicates when the security findings provider first
+observed the potential security issue that a finding captured.
+
+For more information about the validation and formatting of timestamp
+fields in Security Hub, see Timestamps
+(https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
 
 
 =head2 GeneratorId => ArrayRef[L<Paws::SecurityHub::StringFilter>]
 
 The identifier for the solution-specific component (a discrete unit of
-logic) that generated a finding. In various security-findings
+logic) that generated a finding. In various security findings
 providers' solutions, this generator can be called a rule, a check, a
 detector, a plugin, etc.
 
@@ -260,9 +311,13 @@ A keyword for a finding.
 
 =head2 LastObservedAt => ArrayRef[L<Paws::SecurityHub::DateFilter>]
 
-An ISO8601-formatted timestamp that indicates when the
-security-findings provider most recently observed the potential
-security issue that a finding captured.
+A timestamp that indicates when the security findings provider most
+recently observed a change in the resource that is involved in the
+finding.
+
+For more information about the validation and formatting of timestamp
+fields in Security Hub, see Timestamps
+(https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
 
 
 =head2 MalwareName => ArrayRef[L<Paws::SecurityHub::StringFilter>]
@@ -360,7 +415,11 @@ The principal that created a note.
 
 =head2 ProcessLaunchedAt => ArrayRef[L<Paws::SecurityHub::DateFilter>]
 
-The date/time that the process was launched.
+A timestamp that identifies when the process was launched.
+
+For more information about the validation and formatting of timestamp
+fields in Security Hub, see Timestamps
+(https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
 
 
 =head2 ProcessName => ArrayRef[L<Paws::SecurityHub::StringFilter>]
@@ -370,7 +429,8 @@ The name of the process.
 
 =head2 ProcessParentPid => ArrayRef[L<Paws::SecurityHub::NumberFilter>]
 
-The parent process ID.
+The parent process ID. This field accepts positive integers between
+C<O> and C<2147483647>.
 
 
 =head2 ProcessPath => ArrayRef[L<Paws::SecurityHub::StringFilter>]
@@ -385,7 +445,11 @@ The process ID.
 
 =head2 ProcessTerminatedAt => ArrayRef[L<Paws::SecurityHub::DateFilter>]
 
-The date/time that the process was terminated.
+A timestamp that identifies when the process was terminated.
+
+For more information about the validation and formatting of timestamp
+fields in Security Hub, see Timestamps
+(https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
 
 
 =head2 ProductArn => ArrayRef[L<Paws::SecurityHub::StringFilter>]
@@ -398,7 +462,7 @@ Hub.
 
 =head2 ProductFields => ArrayRef[L<Paws::SecurityHub::MapFilter>]
 
-A data type where security-findings providers can include additional
+A data type where security findings providers can include additional
 solution-specific details that aren't part of the defined
 C<AwsSecurityFinding> format.
 
@@ -419,6 +483,11 @@ finding.
 The updated record state for the finding.
 
 
+=head2 Region => ArrayRef[L<Paws::SecurityHub::StringFilter>]
+
+The Region from which the finding was generated.
+
+
 =head2 RelatedFindingsId => ArrayRef[L<Paws::SecurityHub::StringFilter>]
 
 The solution-generated identifier for a related finding.
@@ -427,6 +496,16 @@ The solution-generated identifier for a related finding.
 =head2 RelatedFindingsProductArn => ArrayRef[L<Paws::SecurityHub::StringFilter>]
 
 The ARN of the solution that generated a related finding.
+
+
+=head2 ResourceApplicationArn => ArrayRef[L<Paws::SecurityHub::StringFilter>]
+
+The ARN of the application that is related to a finding.
+
+
+=head2 ResourceApplicationName => ArrayRef[L<Paws::SecurityHub::StringFilter>]
+
+The name of the application that is related to a finding.
 
 
 =head2 ResourceAwsEc2InstanceIamInstanceProfileArn => ArrayRef[L<Paws::SecurityHub::StringFilter>]
@@ -479,6 +558,11 @@ The identifier of the VPC that the instance was launched in.
 The creation date/time of the IAM access key related to a finding.
 
 
+=head2 ResourceAwsIamAccessKeyPrincipalName => ArrayRef[L<Paws::SecurityHub::StringFilter>]
+
+The name of the principal that is associated with an IAM access key.
+
+
 =head2 ResourceAwsIamAccessKeyStatus => ArrayRef[L<Paws::SecurityHub::StringFilter>]
 
 The status of the IAM access key related to a finding.
@@ -487,6 +571,11 @@ The status of the IAM access key related to a finding.
 =head2 ResourceAwsIamAccessKeyUserName => ArrayRef[L<Paws::SecurityHub::StringFilter>]
 
 The user associated with the IAM access key related to a finding.
+
+
+=head2 ResourceAwsIamUserUserName => ArrayRef[L<Paws::SecurityHub::StringFilter>]
+
+The name of an IAM user.
 
 
 =head2 ResourceAwsS3BucketOwnerId => ArrayRef[L<Paws::SecurityHub::StringFilter>]
@@ -511,7 +600,11 @@ The name of the image related to a finding.
 
 =head2 ResourceContainerLaunchedAt => ArrayRef[L<Paws::SecurityHub::DateFilter>]
 
-The date/time that the container was started.
+A timestamp that identifies when the container was started.
+
+For more information about the validation and formatting of timestamp
+fields in Security Hub, see Timestamps
+(https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
 
 
 =head2 ResourceContainerName => ArrayRef[L<Paws::SecurityHub::StringFilter>]
@@ -532,23 +625,31 @@ The canonical identifier for the given resource type.
 
 =head2 ResourcePartition => ArrayRef[L<Paws::SecurityHub::StringFilter>]
 
-The canonical AWS partition name that the Region is assigned to.
+The canonical Amazon Web Services partition name that the Region is
+assigned to.
 
 
 =head2 ResourceRegion => ArrayRef[L<Paws::SecurityHub::StringFilter>]
 
-The canonical AWS external Region name where this resource is located.
+The canonical Amazon Web Services external Region name where this
+resource is located.
 
 
 =head2 ResourceTags => ArrayRef[L<Paws::SecurityHub::MapFilter>]
 
-A list of AWS tags associated with a resource at the time the finding
-was processed.
+A list of Amazon Web Services tags associated with a resource at the
+time the finding was processed.
 
 
 =head2 ResourceType => ArrayRef[L<Paws::SecurityHub::StringFilter>]
 
 Specifies the type of the resource that details are provided for.
+
+
+=head2 Sample => ArrayRef[L<Paws::SecurityHub::BooleanFilter>]
+
+Indicates whether or not sample findings are included in the filter
+results.
 
 
 =head2 SeverityLabel => ArrayRef[L<Paws::SecurityHub::StringFilter>]
@@ -563,14 +664,14 @@ The normalized severity of a finding.
 
 =head2 SeverityProduct => ArrayRef[L<Paws::SecurityHub::NumberFilter>]
 
-The native severity as defined by the security-findings provider's
+The native severity as defined by the security findings provider's
 solution that generated the finding.
 
 
 =head2 SourceUrl => ArrayRef[L<Paws::SecurityHub::StringFilter>]
 
-A URL that links to a page about the current finding in the
-security-findings provider's solution.
+A URL that links to a page about the current finding in the security
+findings provider's solution.
 
 
 =head2 ThreatIntelIndicatorCategory => ArrayRef[L<Paws::SecurityHub::StringFilter>]
@@ -580,8 +681,12 @@ The category of a threat intelligence indicator.
 
 =head2 ThreatIntelIndicatorLastObservedAt => ArrayRef[L<Paws::SecurityHub::DateFilter>]
 
-The date/time of the last observation of a threat intelligence
-indicator.
+A timestamp that identifies the last observation of a threat
+intelligence indicator.
+
+For more information about the validation and formatting of timestamp
+fields in Security Hub, see Timestamps
+(https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
 
 
 =head2 ThreatIntelIndicatorSource => ArrayRef[L<Paws::SecurityHub::StringFilter>]
@@ -617,8 +722,12 @@ classifies a finding.
 
 =head2 UpdatedAt => ArrayRef[L<Paws::SecurityHub::DateFilter>]
 
-An ISO8601-formatted timestamp that indicates when the
-security-findings provider last updated the finding record.
+A timestamp that indicates when the security findings provider last
+updated the finding record.
+
+For more information about the validation and formatting of timestamp
+fields in Security Hub, see Timestamps
+(https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
 
 
 =head2 UserDefinedFields => ArrayRef[L<Paws::SecurityHub::MapFilter>]
@@ -630,6 +739,20 @@ are custom, user-defined fields added to a finding.
 =head2 VerificationState => ArrayRef[L<Paws::SecurityHub::StringFilter>]
 
 The veracity of a finding.
+
+
+=head2 VulnerabilitiesExploitAvailable => ArrayRef[L<Paws::SecurityHub::StringFilter>]
+
+Indicates whether a software vulnerability in your environment has a
+known exploit. You can filter findings by this field only if you use
+Security Hub and Amazon Inspector.
+
+
+=head2 VulnerabilitiesFixAvailable => ArrayRef[L<Paws::SecurityHub::StringFilter>]
+
+Indicates whether a vulnerability is fixed in a newer version of the
+affected software packages. You can filter findings by this field only
+if you use Security Hub and Amazon Inspector.
 
 
 =head2 WorkflowState => ArrayRef[L<Paws::SecurityHub::StringFilter>]
@@ -658,11 +781,11 @@ C<RESOLVED> to C<NEW> in the following cases:
 
 =item *
 
-The record state changes from C<ARCHIVED> to C<ACTIVE>.
+C<RecordState> changes from C<ARCHIVED> to C<ACTIVE>.
 
 =item *
 
-The compliance status changes from C<PASSED> to either C<WARNING>,
+C<Compliance.Status> changes from C<PASSED> to either C<WARNING>,
 C<FAILED>, or C<NOT_AVAILABLE>.
 
 =back
@@ -673,15 +796,54 @@ C<NOTIFIED> - Indicates that the resource owner has been notified about
 the security issue. Used when the initial reviewer is not the resource
 owner, and needs intervention from the resource owner.
 
+If one of the following occurs, the workflow status is changed
+automatically from C<NOTIFIED> to C<NEW>:
+
+=over
+
 =item *
 
-C<SUPPRESSED> - The finding will not be reviewed again and will not be
-acted upon.
+C<RecordState> changes from C<ARCHIVED> to C<ACTIVE>.
+
+=item *
+
+C<Compliance.Status> changes from C<PASSED> to C<FAILED>, C<WARNING>,
+or C<NOT_AVAILABLE>.
+
+=back
+
+=item *
+
+C<SUPPRESSED> - Indicates that you reviewed the finding and don't
+believe that any action is needed.
+
+The workflow status of a C<SUPPRESSED> finding does not change if
+C<RecordState> changes from C<ARCHIVED> to C<ACTIVE>.
 
 =item *
 
 C<RESOLVED> - The finding was reviewed and remediated and is now
 considered resolved.
+
+The finding remains C<RESOLVED> unless one of the following occurs:
+
+=over
+
+=item *
+
+C<RecordState> changes from C<ARCHIVED> to C<ACTIVE>.
+
+=item *
+
+C<Compliance.Status> changes from C<PASSED> to C<FAILED>, C<WARNING>,
+or C<NOT_AVAILABLE>.
+
+=back
+
+In those cases, the workflow status is automatically reset to C<NEW>.
+
+For findings from controls, if C<Compliance.Status> is C<PASSED>, then
+Security Hub automatically sets the workflow status to C<RESOLVED>.
 
 =back
 

@@ -1,6 +1,7 @@
 
 package Paws::ELBv2::SetSubnets;
   use Moose;
+  has EnablePrefixForIpv6SourceNat => (is => 'ro', isa => 'Str');
   has IpAddressType => (is => 'ro', isa => 'Str');
   has LoadBalancerArn => (is => 'ro', isa => 'Str', required => 1);
   has SubnetMappings => (is => 'ro', isa => 'ArrayRef[Paws::ELBv2::SubnetMapping]');
@@ -50,15 +51,28 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ela
 =head1 ATTRIBUTES
 
 
+=head2 EnablePrefixForIpv6SourceNat => Str
+
+[Network Load Balancers with UDP listeners] Indicates whether to use an
+IPv6 prefix from each subnet for source NAT. The IP address type must
+be C<dualstack>. The default value is C<off>.
+
+Valid values are: C<"on">, C<"off">
+
 =head2 IpAddressType => Str
 
-[Network Load Balancers] The type of IP addresses used by the subnets
-for your load balancer. The possible values are C<ipv4> (for IPv4
-addresses) and C<dualstack> (for IPv4 and IPv6 addresses). You
-canE<rsquo>t specify C<dualstack> for a load balancer with a UDP or
-TCP_UDP listener. Internal load balancers must use C<ipv4>.
+The IP address type.
 
-Valid values are: C<"ipv4">, C<"dualstack">
+[Application Load Balancers] The possible values are C<ipv4> (IPv4
+addresses), C<dualstack> (IPv4 and IPv6 addresses), and
+C<dualstack-without-public-ipv4> (public IPv6 addresses and private
+IPv4 and IPv6 addresses).
+
+[Network Load Balancers and Gateway Load Balancers] The possible values
+are C<ipv4> (IPv4 addresses) and C<dualstack> (IPv4 and IPv6
+addresses).
+
+Valid values are: C<"ipv4">, C<"dualstack">, C<"dualstack-without-public-ipv4">
 
 =head2 B<REQUIRED> LoadBalancerArn => Str
 
@@ -72,7 +86,7 @@ The IDs of the public subnets. You can specify only one subnet per
 Availability Zone. You must specify either subnets or subnet mappings.
 
 [Application Load Balancers] You must specify subnets from at least two
-Availability Zones. You cannot specify Elastic IP addresses for your
+Availability Zones. You can't specify Elastic IP addresses for your
 subnets.
 
 [Application Load Balancers on Outposts] You must specify one Outpost
@@ -87,6 +101,9 @@ if you need static IP addresses for your internet-facing load balancer.
 For internal load balancers, you can specify one private IP address per
 subnet from the IPv4 range of the subnet. For internet-facing load
 balancer, you can specify one IPv6 address per subnet.
+
+[Gateway Load Balancers] You can specify subnets from one or more
+Availability Zones.
 
 
 
@@ -104,8 +121,8 @@ subnet.
 [Application Load Balancers on Local Zones] You can specify subnets
 from one or more Local Zones.
 
-[Network Load Balancers] You can specify subnets from one or more
-Availability Zones.
+[Network Load Balancers and Gateway Load Balancers] You can specify
+subnets from one or more Availability Zones.
 
 
 

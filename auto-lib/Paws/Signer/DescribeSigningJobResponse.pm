@@ -105,8 +105,8 @@ job.
 
 =head2 SignedObject => L<Paws::Signer::SignedObject>
 
-Name of the S3 bucket where the signed code image is saved by code
-signing.
+Name of the S3 bucket where the signed code image is saved by AWS
+Signer.
 
 
 =head2 SigningMaterial => L<Paws::Signer::SigningMaterial>

@@ -34,7 +34,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::LicenseMana
 
 =head1 DESCRIPTION
 
-Details on how frequently reports are generated.
+Details about how frequently reports are generated.
 
 =head1 ATTRIBUTES
 
@@ -47,8 +47,8 @@ monthly.
 
 =head2 Value => Int
 
-Number of times within the frequency period that a report will be
-generated. Currently only C<1> is supported.
+Number of times within the frequency period that a report is generated.
+The only supported value is C<1>.
 
 
 

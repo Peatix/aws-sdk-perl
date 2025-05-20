@@ -2,6 +2,7 @@
 package Paws::Transfer::DescribedServer;
   use Moose;
   has Arn => (is => 'ro', isa => 'Str', required => 1);
+  has As2ServiceManagedEgressIpAddresses => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has Certificate => (is => 'ro', isa => 'Str');
   has Domain => (is => 'ro', isa => 'Str');
   has EndpointDetails => (is => 'ro', isa => 'Paws::Transfer::EndpointDetails');
@@ -10,13 +11,18 @@ package Paws::Transfer::DescribedServer;
   has IdentityProviderDetails => (is => 'ro', isa => 'Paws::Transfer::IdentityProviderDetails');
   has IdentityProviderType => (is => 'ro', isa => 'Str');
   has LoggingRole => (is => 'ro', isa => 'Str');
+  has PostAuthenticationLoginBanner => (is => 'ro', isa => 'Str');
+  has PreAuthenticationLoginBanner => (is => 'ro', isa => 'Str');
   has ProtocolDetails => (is => 'ro', isa => 'Paws::Transfer::ProtocolDetails');
   has Protocols => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has S3StorageOptions => (is => 'ro', isa => 'Paws::Transfer::S3StorageOptions');
   has SecurityPolicyName => (is => 'ro', isa => 'Str');
   has ServerId => (is => 'ro', isa => 'Str');
   has State => (is => 'ro', isa => 'Str');
+  has StructuredLogDestinations => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::Transfer::Tag]');
   has UserCount => (is => 'ro', isa => 'Int');
+  has WorkflowDetails => (is => 'ro', isa => 'Paws::Transfer::WorkflowDetails');
 
 1;
 
@@ -37,7 +43,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::Transfer::DescribedServer object:
 
-  $service_obj->Method(Att1 => { Arn => $value, ..., UserCount => $value  });
+  $service_obj->Method(Att1 => { Arn => $value, ..., WorkflowDetails => $value  });
 
 =head3 Results returned from an API call
 
@@ -59,6 +65,17 @@ that was specified.
 Specifies the unique Amazon Resource Name (ARN) of the server.
 
 
+=head2 As2ServiceManagedEgressIpAddresses => ArrayRef[Str|Undef]
+
+The list of egress IP addresses of this server. These IP addresses are
+only relevant for servers that use the AS2 protocol. They are used for
+sending asynchronous MDNs.
+
+These IP addresses are assigned automatically when you create an AS2
+server. Additionally, if you update an existing server and add the AS2
+protocol, static IP addresses are assigned as well.
+
+
 =head2 Certificate => Str
 
 Specifies the ARN of the Amazon Web ServicesCertificate Manager (ACM)
@@ -68,17 +85,19 @@ certificate. Required when C<Protocols> is set to C<FTPS>.
 =head2 Domain => Str
 
 Specifies the domain of the storage system that is used for file
-transfers.
+transfers. There are two domains available: Amazon Simple Storage
+Service (Amazon S3) and Amazon Elastic File System (Amazon EFS). The
+default value is S3.
 
 
 =head2 EndpointDetails => L<Paws::Transfer::EndpointDetails>
 
 The virtual private cloud (VPC) endpoint settings that are configured
 for your server. When you host your endpoint within your VPC, you can
-make it accessible only to resources within your VPC, or you can attach
-Elastic IP addresses and make it accessible to clients over the
-internet. Your VPC's default security groups are automatically assigned
-to your endpoint.
+make your endpoint accessible only to resources within your VPC, or you
+can attach Elastic IP addresses and make your endpoint accessible to
+clients over the internet. Your VPC's default security groups are
+automatically assigned to your endpoint.
 
 
 =head2 EndpointType => Str
@@ -104,37 +123,92 @@ server is C<AWS_DIRECTORY_SERVICE> or C<SERVICE_MANAGED>.
 
 =head2 IdentityProviderType => Str
 
-Specifies the mode of authentication for a server. The default value is
+The mode of authentication for a server. The default value is
 C<SERVICE_MANAGED>, which allows you to store and access user
-credentials within the Amazon Web Services Transfer Family service.
+credentials within the Transfer Family service.
 
 Use C<AWS_DIRECTORY_SERVICE> to provide access to Active Directory
-groups in Amazon Web Services Managed Active Directory or Microsoft
+groups in Directory Service for Microsoft Active Directory or Microsoft
 Active Directory in your on-premises environment or in Amazon Web
-Services using AD Connectors. This option also requires you to provide
-a Directory ID using the C<IdentityProviderDetails> parameter.
+Services using AD Connector. This option also requires you to provide a
+Directory ID by using the C<IdentityProviderDetails> parameter.
 
 Use the C<API_GATEWAY> value to integrate with an identity provider of
 your choosing. The C<API_GATEWAY> setting requires you to provide an
-API Gateway endpoint URL to call for authentication using the
+Amazon API Gateway endpoint URL to call for authentication by using the
 C<IdentityProviderDetails> parameter.
+
+Use the C<AWS_LAMBDA> value to directly use an Lambda function as your
+identity provider. If you choose this value, you must specify the ARN
+for the Lambda function in the C<Function> parameter for the
+C<IdentityProviderDetails> data type.
 
 
 =head2 LoggingRole => Str
 
-Specifies the Amazon Resource Name (ARN) of the Amazon Web Services
-Identity and Access Management (IAM) role that allows a server to turn
-on Amazon CloudWatch logging for Amazon S3 or Amazon EFS events. When
-set, user activity can be viewed in your CloudWatch logs.
+The Amazon Resource Name (ARN) of the Identity and Access Management
+(IAM) role that allows a server to turn on Amazon CloudWatch logging
+for Amazon S3 or Amazon EFS events. When set, you can view user
+activity in your CloudWatch logs.
+
+
+=head2 PostAuthenticationLoginBanner => Str
+
+Specifies a string to display when users connect to a server. This
+string is displayed after the user authenticates.
+
+The SFTP protocol does not support post-authentication display banners.
+
+
+=head2 PreAuthenticationLoginBanner => Str
+
+Specifies a string to display when users connect to a server. This
+string is displayed before the user authenticates. For example, the
+following banner displays details about using the system:
+
+C<This system is for the use of authorized users only. Individuals
+using this computer system without authority, or in excess of their
+authority, are subject to having all of their activities on this system
+monitored and recorded by system personnel.>
 
 
 =head2 ProtocolDetails => L<Paws::Transfer::ProtocolDetails>
 
 The protocol settings that are configured for your server.
 
-Use the C<PassiveIp> parameter to indicate passive mode. Enter a single
-dotted-quad IPv4 address, such as the external IP address of a
-firewall, router, or load balancer.
+=over
+
+=item *
+
+To indicate passive mode (for FTP and FTPS protocols), use the
+C<PassiveIp> parameter. Enter a single dotted-quad IPv4 address, such
+as the external IP address of a firewall, router, or load balancer.
+
+=item *
+
+To ignore the error that is generated when the client attempts to use
+the C<SETSTAT> command on a file that you are uploading to an Amazon S3
+bucket, use the C<SetStatOption> parameter. To have the Transfer Family
+server ignore the C<SETSTAT> command and upload files without needing
+to make any changes to your SFTP client, set the value to
+C<ENABLE_NO_OP>. If you set the C<SetStatOption> parameter to
+C<ENABLE_NO_OP>, Transfer Family generates a log entry to Amazon
+CloudWatch Logs, so that you can determine when the client is making a
+C<SETSTAT> call.
+
+=item *
+
+To determine whether your Transfer Family server resumes recent,
+negotiated sessions through a unique session ID, use the
+C<TlsSessionResumptionMode> parameter.
+
+=item *
+
+C<As2Transports> indicates the transport method for the AS2 messages.
+Currently, only HTTP is supported.
+
+=back
+
 
 
 =head2 Protocols => ArrayRef[Str|Undef]
@@ -159,14 +233,62 @@ encryption
 
 C<FTP> (File Transfer Protocol): Unencrypted file transfer
 
+=item *
+
+C<AS2> (Applicability Statement 2): used for transporting structured
+business-to-business data
+
+=back
+
+=over
+
+=item *
+
+If you select C<FTPS>, you must choose a certificate stored in
+Certificate Manager (ACM) which is used to identify your server when
+clients connect to it over FTPS.
+
+=item *
+
+If C<Protocol> includes either C<FTP> or C<FTPS>, then the
+C<EndpointType> must be C<VPC> and the C<IdentityProviderType> must be
+either C<AWS_DIRECTORY_SERVICE>, C<AWS_LAMBDA>, or C<API_GATEWAY>.
+
+=item *
+
+If C<Protocol> includes C<FTP>, then C<AddressAllocationIds> cannot be
+associated.
+
+=item *
+
+If C<Protocol> is set only to C<SFTP>, the C<EndpointType> can be set
+to C<PUBLIC> and the C<IdentityProviderType> can be set any of the
+supported identity types: C<SERVICE_MANAGED>, C<AWS_DIRECTORY_SERVICE>,
+C<AWS_LAMBDA>, or C<API_GATEWAY>.
+
+=item *
+
+If C<Protocol> includes C<AS2>, then the C<EndpointType> must be
+C<VPC>, and domain must be Amazon S3.
+
 =back
 
 
 
+=head2 S3StorageOptions => L<Paws::Transfer::S3StorageOptions>
+
+Specifies whether or not performance for your Amazon S3 directories is
+optimized. This is disabled by default.
+
+By default, home directory mappings have a C<TYPE> of C<DIRECTORY>. If
+you enable this option, you would then need to explicitly set the
+C<HomeDirectoryMapEntry> C<Type> to C<FILE> if you want a mapping to
+have a file target.
+
+
 =head2 SecurityPolicyName => Str
 
-Specifies the name of the security policy that is attached to the
-server.
+Specifies the name of the security policy for the server.
 
 
 =head2 ServerId => Str
@@ -177,15 +299,36 @@ instantiate.
 
 =head2 State => Str
 
-Specifies the condition of a server for the server that was described.
-A value of C<ONLINE> indicates that the server can accept jobs and
-transfer files. A C<State> value of C<OFFLINE> means that the server
-cannot perform file transfer operations.
+The condition of the server that was described. A value of C<ONLINE>
+indicates that the server can accept jobs and transfer files. A
+C<State> value of C<OFFLINE> means that the server cannot perform file
+transfer operations.
 
 The states of C<STARTING> and C<STOPPING> indicate that the server is
 in an intermediate state, either not fully able to respond, or not
 fully offline. The values of C<START_FAILED> or C<STOP_FAILED> can
 indicate an error condition.
+
+
+=head2 StructuredLogDestinations => ArrayRef[Str|Undef]
+
+Specifies the log groups to which your server logs are sent.
+
+To specify a log group, you must provide the ARN for an existing log
+group. In this case, the format of the log group is as follows:
+
+C<arn:aws:logs:region-name:amazon-account-id:log-group:log-group-name:*>
+
+For example,
+C<arn:aws:logs:us-east-1:111122223333:log-group:mytestgroup:*>
+
+If you have previously specified a log group for a server, you can
+clear it, and in effect turn off structured logging, by providing an
+empty value for this parameter in an C<update-server> call. For
+example:
+
+C<update-server --server-id s-1234567890abcdef0
+--structured-log-destinations>
 
 
 =head2 Tags => ArrayRef[L<Paws::Transfer::Tag>]
@@ -198,6 +341,18 @@ servers that were assigned to the server that was described.
 
 Specifies the number of users that are assigned to a server you
 specified with the C<ServerId>.
+
+
+=head2 WorkflowDetails => L<Paws::Transfer::WorkflowDetails>
+
+Specifies the workflow ID for the workflow to assign and the execution
+role that's used for executing the workflow.
+
+In addition to a workflow to execute when a file is uploaded
+completely, C<WorkflowDetails> can also contain a workflow ID (and
+execution role) for a workflow to execute on partial upload. A partial
+upload occurs when the server session disconnects while the file is
+still being uploaded.
 
 
 

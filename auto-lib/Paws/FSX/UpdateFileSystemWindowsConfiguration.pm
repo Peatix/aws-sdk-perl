@@ -4,6 +4,7 @@ package Paws::FSX::UpdateFileSystemWindowsConfiguration;
   has AuditLogConfiguration => (is => 'ro', isa => 'Paws::FSX::WindowsAuditLogCreateConfiguration');
   has AutomaticBackupRetentionDays => (is => 'ro', isa => 'Int');
   has DailyAutomaticBackupStartTime => (is => 'ro', isa => 'Str');
+  has DiskIopsConfiguration => (is => 'ro', isa => 'Paws::FSX::DiskIopsConfiguration');
   has SelfManagedActiveDirectoryConfiguration => (is => 'ro', isa => 'Paws::FSX::SelfManagedActiveDirectoryConfigurationUpdates');
   has ThroughputCapacity => (is => 'ro', isa => 'Int');
   has WeeklyMaintenanceStartTime => (is => 'ro', isa => 'Str');
@@ -54,10 +55,10 @@ FSx for Windows File Server file system..
 
 =head2 AutomaticBackupRetentionDays => Int
 
-The number of days to retain automatic daily backups. Setting this to
-zero (0) disables automatic daily backups. You can retain automatic
-daily backups for a maximum of 90 days. For more information, see
-Working with Automatic Daily Backups
+The number of days to retain automatic backups. Setting this property
+to C<0> disables automatic backups. You can retain automatic backups
+for a maximum of 90 days. The default is C<30>. For more information,
+see Working with Automatic Daily Backups
 (https://docs.aws.amazon.com/fsx/latest/WindowsGuide/using-backups.html#automatic-backups).
 
 
@@ -65,6 +66,15 @@ Working with Automatic Daily Backups
 
 The preferred time to start the daily automatic backup, in the UTC time
 zone, for example, C<02:00>
+
+
+=head2 DiskIopsConfiguration => L<Paws::FSX::DiskIopsConfiguration>
+
+The SSD IOPS (input/output operations per second) configuration for an
+Amazon FSx for Windows file system. By default, Amazon FSx
+automatically provisions 3 IOPS per GiB of storage capacity. You can
+provision additional IOPS per GiB of storage, up to the maximum limit
+associated with your chosen throughput capacity.
 
 
 =head2 SelfManagedActiveDirectoryConfiguration => L<Paws::FSX::SelfManagedActiveDirectoryConfigurationUpdates>

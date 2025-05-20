@@ -6,6 +6,7 @@ package Paws::Proton::CreateServiceTemplateVersion;
   has Description => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'description' );
   has MajorVersion => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'majorVersion' );
   has Source => (is => 'ro', isa => 'Paws::Proton::TemplateVersionSourceInput', traits => ['NameInRequest'], request_name => 'source' , required => 1);
+  has SupportedComponentSources => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'supportedComponentSources' );
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::Proton::Tag]', traits => ['NameInRequest'], request_name => 'tags' );
   has TemplateName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'templateName' , required => 1);
 
@@ -50,11 +51,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
         },    # OPTIONAL
       },
-      TemplateName => 'MyResourceName',
-      ClientToken  => 'MyClientToken',            # OPTIONAL
-      Description  => 'MyDescription',            # OPTIONAL
-      MajorVersion => 'MyTemplateVersionPart',    # OPTIONAL
-      Tags         => [
+      TemplateName              => 'MyResourceName',
+      ClientToken               => 'MyClientToken',            # OPTIONAL
+      Description               => 'MyDescription',            # OPTIONAL
+      MajorVersion              => 'MyTemplateVersionPart',    # OPTIONAL
+      SupportedComponentSources => [
+        'DIRECTLY_DEFINED', ...    # values: DIRECTLY_DEFINED
+      ],    # OPTIONAL
+      Tags => [
         {
           Key   => 'MyTagKey',      # min: 1, max: 128
           Value => 'MyTagValue',    # max: 256
@@ -78,16 +82,17 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/pro
 
 =head2 ClientToken => Str
 
-When included, if two identicial requests are made with the same client
-token, AWS Proton returns the service template version that the first
+When included, if two identical requests are made with the same client
+token, Proton returns the service template version that the first
 request created.
 
 
 
 =head2 B<REQUIRED> CompatibleEnvironmentTemplates => ArrayRef[L<Paws::Proton::CompatibleEnvironmentTemplateInput>]
 
-An array of compatible environment template objects for the new version
-of a service template.
+An array of environment template objects that are compatible with the
+new service template version. A service instance based on this service
+template version can run in environments based on compatible templates.
 
 
 
@@ -100,10 +105,10 @@ A description of the new version of a service template.
 =head2 MajorVersion => Str
 
 To create a new minor version of the service template, include a
-C<majorVersion>.
+C<major Version>.
 
 To create a new major and minor version of the service template,
-I<exclude> C<majorVersion>.
+I<exclude> C<major Version>.
 
 
 
@@ -114,9 +119,26 @@ the new version of a service template.
 
 
 
+=head2 SupportedComponentSources => ArrayRef[Str|Undef]
+
+An array of supported component sources. Components with supported
+sources can be attached to service instances based on this service
+template version.
+
+For more information about components, see Proton components
+(https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html)
+in the I<Proton User Guide>.
+
+
+
 =head2 Tags => ArrayRef[L<Paws::Proton::Tag>]
 
-Create tags for a new version of a service template.
+An optional list of metadata items that you can associate with the
+Proton service template version. A tag is a key-value pair.
+
+For more information, see Proton resources and tagging
+(https://docs.aws.amazon.com/proton/latest/userguide/resources.html) in
+the I<Proton User Guide>.
 
 
 

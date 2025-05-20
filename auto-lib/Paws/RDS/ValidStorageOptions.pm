@@ -3,7 +3,9 @@ package Paws::RDS::ValidStorageOptions;
   use Moose;
   has IopsToStorageRatio => (is => 'ro', isa => 'ArrayRef[Paws::RDS::DoubleRange]', request_name => 'DoubleRange', traits => ['NameInRequest']);
   has ProvisionedIops => (is => 'ro', isa => 'ArrayRef[Paws::RDS::Range]', request_name => 'Range', traits => ['NameInRequest']);
+  has ProvisionedStorageThroughput => (is => 'ro', isa => 'ArrayRef[Paws::RDS::Range]', request_name => 'Range', traits => ['NameInRequest']);
   has StorageSize => (is => 'ro', isa => 'ArrayRef[Paws::RDS::Range]', request_name => 'Range', traits => ['NameInRequest']);
+  has StorageThroughputToIopsRatio => (is => 'ro', isa => 'ArrayRef[Paws::RDS::DoubleRange]', request_name => 'DoubleRange', traits => ['NameInRequest']);
   has StorageType => (is => 'ro', isa => 'Str');
   has SupportsStorageAutoscaling => (is => 'ro', isa => 'Bool');
 
@@ -53,23 +55,37 @@ and 10 times storage.
 
 =head2 ProvisionedIops => ArrayRef[L<Paws::RDS::Range>]
 
-The valid range of provisioned IOPS. For example, 1000-20000.
+The valid range of provisioned IOPS. For example, 1000-256,000.
+
+
+=head2 ProvisionedStorageThroughput => ArrayRef[L<Paws::RDS::Range>]
+
+The valid range of provisioned storage throughput. For example,
+500-4,000 mebibytes per second (MiBps).
 
 
 =head2 StorageSize => ArrayRef[L<Paws::RDS::Range>]
 
-The valid range of storage in gibibytes. For example, 100 to 16384.
+The valid range of storage in gibibytes (GiB). For example, 100 to
+16,384.
+
+
+=head2 StorageThroughputToIopsRatio => ArrayRef[L<Paws::RDS::DoubleRange>]
+
+The valid range of storage throughput to provisioned IOPS ratios. For
+example, 0-0.25.
 
 
 =head2 StorageType => Str
 
-The valid storage types for your DB instance. For example, gp2, io1.
+The valid storage types for your DB instance. For example: gp2, gp3,
+io1, io2.
 
 
 =head2 SupportsStorageAutoscaling => Bool
 
-Whether or not Amazon RDS can automatically scale storage for DB
-instances that use the new instance class.
+Indicates whether or not Amazon RDS can automatically scale storage for
+DB instances that use the new instance class.
 
 
 

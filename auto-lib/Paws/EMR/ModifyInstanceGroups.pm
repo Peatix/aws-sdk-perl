@@ -20,7 +20,7 @@ Paws::EMR::ModifyInstanceGroups - Arguments for method ModifyInstanceGroups on L
 =head1 DESCRIPTION
 
 This class represents the parameters used for calling the method ModifyInstanceGroups on the
-L<Amazon Elastic MapReduce|Paws::EMR> service. Use the attributes of this class
+L<Amazon EMR|Paws::EMR> service. Use the attributes of this class
 as arguments to method ModifyInstanceGroups.
 
 You shouldn't make instances of this class. Each attribute should be used as a named argument in the call to ModifyInstanceGroups.
@@ -45,10 +45,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           ],    # OPTIONAL
           EC2InstanceIdsToTerminate => [ 'MyInstanceId', ... ],    # OPTIONAL
           InstanceCount             => 1,                          # OPTIONAL
-          ShrinkPolicy              => {
-            DecommissionTimeout  => 1,                             # OPTIONAL
+          ReconfigurationType       =>
+            'OVERWRITE',    # values: OVERWRITE, MERGE; OPTIONAL
+          ShrinkPolicy => {
+            DecommissionTimeout  => 1,    # OPTIONAL
             InstanceResizePolicy => {
-              InstanceTerminationTimeout => 1,                     # OPTIONAL
+              InstanceTerminationTimeout => 1,    # OPTIONAL
               InstancesToProtect         => [ 'MyInstanceId', ... ],  # OPTIONAL
               InstancesToTerminate       => [ 'MyInstanceId', ... ],  # OPTIONAL
             },    # OPTIONAL

@@ -36,8 +36,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Macie2::Sec
 
 Specifies configuration settings that determine which findings are
 published to Security Hub automatically. For information about how
-Macie publishes findings to Security Hub, see Amazon Macie integration
-with Security Hub
+Macie publishes findings to Security Hub, see Evaluating findings with
+Security Hub
 (https://docs.aws.amazon.com/macie/latest/user/securityhub-integration.html)
 in the I<Amazon Macie User Guide>.
 

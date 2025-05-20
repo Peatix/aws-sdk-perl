@@ -48,7 +48,8 @@ default value is C<False>.
 
 =head2 Match => L<Paws::AppMesh::HeaderMatchMethod>
 
-
+An object that represents the method and value to match with the header
+value sent in a request. Specify one match method.
 
 
 =head2 B<REQUIRED> Name => Str

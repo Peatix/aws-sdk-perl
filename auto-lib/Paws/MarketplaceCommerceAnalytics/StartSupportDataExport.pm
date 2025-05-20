@@ -60,20 +60,22 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/mar
 
 =head2 CustomerDefinedValues => L<Paws::MarketplaceCommerceAnalytics::CustomerDefinedValues>
 
-(Optional) Key-value pairs which will be returned, unmodified, in the
-Amazon SNS notification message and the data set metadata file.
+I<This target has been deprecated.> (Optional) Key-value pairs which
+will be returned, unmodified, in the Amazon SNS notification message
+and the data set metadata file.
 
 
 
 =head2 B<REQUIRED> DataSetType => Str
 
-Specifies the data set type to be written to the output csv file. The
-data set types customer_support_contacts_data and
-test_customer_support_contacts_data both result in a csv file
-containing the following fields: Product Id, Product Code, Customer
-Guid, Subscription Guid, Subscription Start Date, Organization, AWS
-Account Id, Given Name, Surname, Telephone Number, Email, Title,
-Country Code, ZIP Code, Operation Type, and Operation Time.
+I<This target has been deprecated.> Specifies the data set type to be
+written to the output csv file. The data set types
+customer_support_contacts_data and test_customer_support_contacts_data
+both result in a csv file containing the following fields: Product Id,
+Product Code, Customer Guid, Subscription Guid, Subscription Start
+Date, Organization, AWS Account Id, Given Name, Surname, Telephone
+Number, Email, Title, Country Code, ZIP Code, Operation Type, and
+Operation Time.
 
 =over
 
@@ -93,41 +95,45 @@ Valid values are: C<"customer_support_contacts_data">, C<"test_customer_support_
 
 =head2 B<REQUIRED> DestinationS3BucketName => Str
 
-The name (friendly name, not ARN) of the destination S3 bucket.
+I<This target has been deprecated.> The name (friendly name, not ARN)
+of the destination S3 bucket.
 
 
 
 =head2 DestinationS3Prefix => Str
 
-(Optional) The desired S3 prefix for the published data set, similar to
-a directory path in standard file systems. For example, if given the
-bucket name "mybucket" and the prefix "myprefix/mydatasets", the output
-file "outputfile" would be published to
-"s3://mybucket/myprefix/mydatasets/outputfile". If the prefix directory
-structure does not exist, it will be created. If no prefix is provided,
-the data set will be published to the S3 bucket root.
+I<This target has been deprecated.> (Optional) The desired S3 prefix
+for the published data set, similar to a directory path in standard
+file systems. For example, if given the bucket name "mybucket" and the
+prefix "myprefix/mydatasets", the output file "outputfile" would be
+published to "s3://mybucket/myprefix/mydatasets/outputfile". If the
+prefix directory structure does not exist, it will be created. If no
+prefix is provided, the data set will be published to the S3 bucket
+root.
 
 
 
 =head2 B<REQUIRED> FromDate => Str
 
-The start date from which to retrieve the data set in UTC. This
-parameter only affects the customer_support_contacts_data data set
-type.
+I<This target has been deprecated.> The start date from which to
+retrieve the data set in UTC. This parameter only affects the
+customer_support_contacts_data data set type.
 
 
 
 =head2 B<REQUIRED> RoleNameArn => Str
 
-The Amazon Resource Name (ARN) of the Role with an attached permissions
-policy to interact with the provided AWS services.
+I<This target has been deprecated.> The Amazon Resource Name (ARN) of
+the Role with an attached permissions policy to interact with the
+provided AWS services.
 
 
 
 =head2 B<REQUIRED> SnsTopicArn => Str
 
-Amazon Resource Name (ARN) for the SNS Topic that will be notified when
-the data set has been published or if an error has occurred.
+I<This target has been deprecated.> Amazon Resource Name (ARN) for the
+SNS Topic that will be notified when the data set has been published or
+if an error has occurred.
 
 
 

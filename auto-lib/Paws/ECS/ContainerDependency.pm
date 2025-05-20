@@ -39,12 +39,12 @@ container can contain multiple dependencies. When a dependency is
 defined for container startup, for container shutdown it is reversed.
 
 Your Amazon ECS container instances require at least version 1.26.0 of
-the container agent to enable container dependencies. However, we
+the container agent to use container dependencies. However, we
 recommend using the latest container agent version. For information
 about checking your agent version and updating to the latest version,
 see Updating the Amazon ECS Container Agent
 (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-update.html)
-in the I<Amazon Elastic Container Service Developer Guide>. If you are
+in the I<Amazon Elastic Container Service Developer Guide>. If you're
 using an Amazon ECS-optimized Linux AMI, your instance needs at least
 version 1.26.0-1 of the C<ecs-init> package. If your container
 instances are launched from version C<20190301> or later, then they
@@ -53,8 +53,25 @@ For more information, see Amazon ECS-optimized Linux AMI
 (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html)
 in the I<Amazon Elastic Container Service Developer Guide>.
 
-For tasks using the Fargate launch type, this parameter requires that
-the task or service uses platform version 1.3.0 or later.
+For tasks that use the Fargate launch type, the task or service
+requires the following platforms:
+
+=over
+
+=item *
+
+Linux platform version C<1.3.0> or later.
+
+=item *
+
+Windows platform version C<1.0.0> or later.
+
+=back
+
+For more information about how to create a container dependency, see
+Container dependency
+(https://docs.aws.amazon.com/AmazonECS/latest/developerguide/example_task_definitions.html#example_task_definition-containerdependency)
+in the I<Amazon Elastic Container Service Developer Guide>.
 
 =head1 ATTRIBUTES
 
@@ -77,13 +94,13 @@ permitting other containers to start.
 C<COMPLETE> - This condition validates that a dependent container runs
 to completion (exits) before permitting other containers to start. This
 can be useful for nonessential containers that run a script and then
-exit. This condition cannot be set on an essential container.
+exit. This condition can't be set on an essential container.
 
 =item *
 
 C<SUCCESS> - This condition is the same as C<COMPLETE>, but it also
 requires that the container exits with a C<zero> status. This condition
-cannot be set on an essential container.
+can't be set on an essential container.
 
 =item *
 

@@ -39,7 +39,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SageMaker::
 =head1 DESCRIPTION
 
 A summary of the properties of a trial. To get the complete set of
-properties, call the DescribeTrial API and provide the C<TrialName>.
+properties, call the DescribeTrial
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeTrial.html)
+API and provide the C<TrialName>.
 
 =head1 ATTRIBUTES
 

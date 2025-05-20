@@ -59,8 +59,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ],    # max: 20; OPTIONAL
         DialogAction => {
           Type => 'Close'
-          ,   # values: Close, ConfirmIntent, Delegate, ElicitIntent, ElicitSlot
-          SlotToElicit => 'MyNonEmptyString',    # min: 1; OPTIONAL
+          , # values: Close, ConfirmIntent, Delegate, ElicitIntent, ElicitSlot, None
+          SlotElicitationStyle =>
+            'Default',   # values: Default, SpellByLetter, SpellByWord; OPTIONAL
+          SlotToElicit    => 'MyNonEmptyString',    # min: 1; OPTIONAL
+          SubSlotToElicit => {
+            Name            => 'MyNonEmptyString',    # min: 1; OPTIONAL
+            SubSlotToElicit => <ElicitSubSlot>,
+          },    # OPTIONAL
         },    # OPTIONAL
         Intent => {
           Name              => 'MyNonEmptyString',    # min: 1; OPTIONAL
@@ -68,8 +74,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             'Confirmed',    # values: Confirmed, Denied, None; OPTIONAL
           Slots => {
             'MyNonEmptyString' => {
-              Shape => 'Scalar',    # values: Scalar, List; OPTIONAL
-              Value => {
+              Shape    => 'Scalar',  # values: Scalar, List, Composite; OPTIONAL
+              SubSlots => <Slots>,
+              Value    => {
                 InterpretedValue => 'MyNonEmptyString',    # min: 1; OPTIONAL
                 OriginalValue    => 'MyNonEmptyString',    # min: 1; OPTIONAL
                 ResolvedValues   => [
@@ -80,11 +87,27 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             },    # key: min: 1; OPTIONAL
           },    # OPTIONAL
           State => 'Failed'
-          , # values: Failed, Fulfilled, InProgress, ReadyForFulfillment, Waiting; OPTIONAL
+          , # values: Failed, Fulfilled, InProgress, ReadyForFulfillment, Waiting, FulfillmentInProgress; OPTIONAL
         },    # OPTIONAL
         OriginatingRequestId => 'MyNonEmptyString',    # min: 1; OPTIONAL
-        SessionAttributes    => {
-          'MyNonEmptyString' => 'MyString',            # key: min: 1; OPTIONAL
+        RuntimeHints         => {
+          SlotHints => {
+            'MyName' => {
+              'MyName' => {
+                RuntimeHintValues => [
+                  {
+                    Phrase => 'MyRuntimeHintPhrase',    # min: 1, max: 140
+
+                  },
+                  ...
+                ],    # min: 1, max: 100; OPTIONAL
+                SubSlotHints => <SlotHintsSlotMap>,
+              },    # key: min: 1, max: 100
+            },    # key: min: 1, max: 100
+          },    # OPTIONAL
+        },    # OPTIONAL
+        SessionAttributes => {
+          'MyNonEmptyString' => 'MyString',    # key: min: 1; OPTIONAL
         },    # OPTIONAL
       },
       Messages => [

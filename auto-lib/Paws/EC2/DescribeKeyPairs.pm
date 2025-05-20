@@ -3,6 +3,7 @@ package Paws::EC2::DescribeKeyPairs;
   use Moose;
   has DryRun => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'dryRun' );
   has Filters => (is => 'ro', isa => 'ArrayRef[Paws::EC2::Filter]', traits => ['NameInRequest'], request_name => 'Filter' );
+  has IncludePublicKey => (is => 'ro', isa => 'Bool');
   has KeyNames => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'KeyName' );
   has KeyPairIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'KeyPairId' );
 
@@ -92,11 +93,19 @@ the filter name and C<TeamA> for the filter value.
 
 
 
+=head2 IncludePublicKey => Bool
+
+If C<true>, the public key material is included in the response.
+
+Default: C<false>
+
+
+
 =head2 KeyNames => ArrayRef[Str|Undef]
 
 The key pair names.
 
-Default: Describes all your key pairs.
+Default: Describes all of your key pairs.
 
 
 

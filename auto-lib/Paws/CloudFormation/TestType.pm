@@ -52,7 +52,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/clo
 
 =head2 Arn => Str
 
-The Amazon Resource Number (ARN) of the extension.
+The Amazon Resource Name (ARN) of the extension.
 
 Conditional: You must specify C<Arn>, or C<TypeName> and C<Type>.
 
@@ -75,18 +75,18 @@ permissions:
 
 =item *
 
-GetObject
+C<GetObject>
 
 =item *
 
-PutObject
+C<PutObject>
 
 =back
 
 For more information, see Actions, Resources, and Condition Keys for
 Amazon S3
 (https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazons3.html)
-in the I<AWS Identity and Access Management User Guide>.
+in the I<Identity and Access Management User Guide>.
 
 
 
@@ -96,7 +96,7 @@ The type of the extension to test.
 
 Conditional: You must specify C<Arn>, or C<TypeName> and C<Type>.
 
-Valid values are: C<"RESOURCE">, C<"MODULE">
+Valid values are: C<"RESOURCE">, C<"MODULE">, C<"HOOK">
 
 =head2 TypeName => Str
 
@@ -113,8 +113,8 @@ The version of the extension to test.
 You can specify the version id with either C<Arn>, or with C<TypeName>
 and C<Type>.
 
-If you do not specify a version, CloudFormation uses the default
-version of the extension in this account and region for testing.
+If you don't specify a version, CloudFormation uses the default version
+of the extension in this account and Region for testing.
 
 
 

@@ -18,7 +18,7 @@ Paws::CustomerProfiles::SearchProfilesResponse
 
 =head2 Items => ArrayRef[L<Paws::CustomerProfiles::Profile>]
 
-The list of SearchProfiles instances.
+The list of Profiles matching the search criteria.
 
 
 =head2 NextToken => Str

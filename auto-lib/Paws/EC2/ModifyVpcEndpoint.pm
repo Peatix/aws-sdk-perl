@@ -4,13 +4,16 @@ package Paws::EC2::ModifyVpcEndpoint;
   has AddRouteTableIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'AddRouteTableId' );
   has AddSecurityGroupIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'AddSecurityGroupId' );
   has AddSubnetIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'AddSubnetId' );
+  has DnsOptions => (is => 'ro', isa => 'Paws::EC2::DnsOptionsSpecification');
   has DryRun => (is => 'ro', isa => 'Bool');
+  has IpAddressType => (is => 'ro', isa => 'Str');
   has PolicyDocument => (is => 'ro', isa => 'Str');
   has PrivateDnsEnabled => (is => 'ro', isa => 'Bool');
   has RemoveRouteTableIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'RemoveRouteTableId' );
   has RemoveSecurityGroupIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'RemoveSecurityGroupId' );
   has RemoveSubnetIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'RemoveSubnetId' );
   has ResetPolicy => (is => 'ro', isa => 'Bool');
+  has SubnetConfigurations => (is => 'ro', isa => 'ArrayRef[Paws::EC2::SubnetConfiguration]', traits => ['NameInRequest'], request_name => 'SubnetConfiguration' );
   has VpcEndpointId => (is => 'ro', isa => 'Str', required => 1);
 
   use MooseX::ClassAttribute;
@@ -38,17 +41,31 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $ec2 = Paws->service('EC2');
     my $ModifyVpcEndpointResult = $ec2->ModifyVpcEndpoint(
-      VpcEndpointId          => 'MyVpcEndpointId',
-      AddRouteTableIds       => [ 'MyRouteTableId',    ... ],    # OPTIONAL
-      AddSecurityGroupIds    => [ 'MySecurityGroupId', ... ],    # OPTIONAL
-      AddSubnetIds           => [ 'MySubnetId',        ... ],    # OPTIONAL
+      VpcEndpointId       => 'MyVpcEndpointId',
+      AddRouteTableIds    => [ 'MyRouteTableId',    ... ],    # OPTIONAL
+      AddSecurityGroupIds => [ 'MySecurityGroupId', ... ],    # OPTIONAL
+      AddSubnetIds        => [ 'MySubnetId',        ... ],    # OPTIONAL
+      DnsOptions          => {
+        DnsRecordIpType =>
+          'ipv4',    # values: ipv4, dualstack, ipv6, service-defined; OPTIONAL
+        PrivateDnsOnlyForInboundResolverEndpoint => 1,    # OPTIONAL
+      },    # OPTIONAL
       DryRun                 => 1,                               # OPTIONAL
+      IpAddressType          => 'ipv4',                          # OPTIONAL
       PolicyDocument         => 'MyString',                      # OPTIONAL
       PrivateDnsEnabled      => 1,                               # OPTIONAL
       RemoveRouteTableIds    => [ 'MyRouteTableId',    ... ],    # OPTIONAL
       RemoveSecurityGroupIds => [ 'MySecurityGroupId', ... ],    # OPTIONAL
       RemoveSubnetIds        => [ 'MySubnetId',        ... ],    # OPTIONAL
       ResetPolicy            => 1,                               # OPTIONAL
+      SubnetConfigurations   => [
+        {
+          Ipv4     => 'MyString',
+          Ipv6     => 'MyString',
+          SubnetId => 'MySubnetId',
+        },
+        ...
+      ],                                                         # OPTIONAL
     );
 
     # Results:
@@ -64,23 +81,29 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ec2
 
 =head2 AddRouteTableIds => ArrayRef[Str|Undef]
 
-(Gateway endpoint) One or more route tables IDs to associate with the
+(Gateway endpoint) The IDs of the route tables to associate with the
 endpoint.
 
 
 
 =head2 AddSecurityGroupIds => ArrayRef[Str|Undef]
 
-(Interface endpoint) One or more security group IDs to associate with
-the network interface.
+(Interface endpoint) The IDs of the security groups to associate with
+the endpoint network interfaces.
 
 
 
 =head2 AddSubnetIds => ArrayRef[Str|Undef]
 
-(Interface and Gateway Load Balancer endpoints) One or more subnet IDs
+(Interface and Gateway Load Balancer endpoints) The IDs of the subnets
 in which to serve the endpoint. For a Gateway Load Balancer endpoint,
 you can specify only one subnet.
+
+
+
+=head2 DnsOptions => L<Paws::EC2::DnsOptionsSpecification>
+
+The DNS options for the endpoint.
 
 
 
@@ -92,6 +115,12 @@ you have the required permissions, the error response is
 C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
 
 
+
+=head2 IpAddressType => Str
+
+The IP address type for the endpoint.
+
+Valid values are: C<"ipv4">, C<"dualstack">, C<"ipv6">
 
 =head2 PolicyDocument => Str
 
@@ -110,21 +139,21 @@ associated with the VPC.
 
 =head2 RemoveRouteTableIds => ArrayRef[Str|Undef]
 
-(Gateway endpoint) One or more route table IDs to disassociate from the
+(Gateway endpoint) The IDs of the route tables to disassociate from the
 endpoint.
 
 
 
 =head2 RemoveSecurityGroupIds => ArrayRef[Str|Undef]
 
-(Interface endpoint) One or more security group IDs to disassociate
-from the network interface.
+(Interface endpoint) The IDs of the security groups to disassociate
+from the endpoint network interfaces.
 
 
 
 =head2 RemoveSubnetIds => ArrayRef[Str|Undef]
 
-(Interface endpoint) One or more subnets IDs in which to remove the
+(Interface endpoint) The IDs of the subnets from which to remove the
 endpoint.
 
 
@@ -133,6 +162,12 @@ endpoint.
 
 (Gateway endpoint) Specify C<true> to reset the policy document to the
 default policy. The default policy allows full access to the service.
+
+
+
+=head2 SubnetConfigurations => ArrayRef[L<Paws::EC2::SubnetConfiguration>]
+
+The subnet configurations for the endpoint.
 
 
 

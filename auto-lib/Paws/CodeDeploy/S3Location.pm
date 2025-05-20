@@ -68,6 +68,14 @@ C<tgz>: A compressed tar archive file.
 
 C<zip>: A zip archive file.
 
+=item *
+
+C<YAML>: A YAML-formatted file.
+
+=item *
+
+C<JSON>: A JSON-formatted file.
+
 =back
 
 

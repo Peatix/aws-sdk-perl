@@ -58,7 +58,9 @@ raw. For video, JPEG XS streams, set the encoding name to jxsv.
 
 =head2 EncodingParameters => L<Paws::MediaConnect::EncodingParameters>
 
-Encoding parameters
+A collection of parameters that determine how MediaConnect will convert
+the content. These fields only apply to outputs on flows that have a
+CDI source.
 
 
 =head2 B<REQUIRED> MediaStreamName => Str

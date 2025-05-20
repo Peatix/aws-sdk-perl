@@ -55,8 +55,8 @@ C<arn:aws:airflow:us-east-1:123456789012:environment/MyMWAAEnvironment>.
 =head2 B<REQUIRED> Tags => L<Paws::MWAA::TagMap>
 
 The key-value tag pairs you want to associate to your environment. For
-example, C<"Environment": "Staging">. To learn more, see Tagging AWS
-resources
+example, C<"Environment": "Staging">. For more information, see Tagging
+Amazon Web Services resources
 (https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
 
 

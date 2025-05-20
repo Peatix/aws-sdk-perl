@@ -2,7 +2,7 @@
 package Paws::IAM::DeactivateMFADevice;
   use Moose;
   has SerialNumber => (is => 'ro', isa => 'Str', required => 1);
-  has UserName => (is => 'ro', isa => 'Str', required => 1);
+  has UserName => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -30,8 +30,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $iam = Paws->service('IAM');
     $iam->DeactivateMFADevice(
       SerialNumber => 'MyserialNumberType',
-      UserName     => 'MyexistingUserNameType',
-
+      UserName     => 'MyexistingUserNameType',    # OPTIONAL
     );
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
@@ -52,9 +51,15 @@ also include any of the following characters: =,.@:/-
 
 
 
-=head2 B<REQUIRED> UserName => Str
+=head2 UserName => Str
 
 The name of the user whose MFA device you want to deactivate.
+
+This parameter is optional. If no user name is included, it defaults to
+the principal making the request. When you make this request with root
+user credentials, you must use an AssumeRoot
+(https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRoot.html)
+session to omit the user name.
 
 This parameter allows (through its regex pattern
 (http://wikipedia.org/wiki/regex)) a string of characters consisting of

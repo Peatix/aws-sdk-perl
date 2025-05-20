@@ -37,8 +37,9 @@ Contains the Amazon S3 bucket location of the validation data for a
 model training job.
 
 The validation data includes error information for individual JSON
-lines in the dataset. For more information, see Debugging a Failed
-Model Training in the Amazon Rekognition Custom Labels Developer Guide.
+Lines in the dataset. For more information, see I<Debugging a Failed
+Model Training> in the Amazon Rekognition Custom Labels Developer
+Guide.
 
 You get the C<ValidationData> object for the training dataset
 (TrainingDataResult) and the test dataset (TestingDataResult) by

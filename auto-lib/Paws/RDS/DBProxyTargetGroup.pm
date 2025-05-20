@@ -68,9 +68,10 @@ The identifier for the RDS proxy associated with this target group.
 
 =head2 IsDefault => Bool
 
-Whether this target group is the first one used for connection requests
-by the associated proxy. Because each proxy is currently associated
-with a single target group, currently this setting is always C<true>.
+Indicates whether this target group is the first one used for
+connection requests by the associated proxy. Because each proxy is
+currently associated with a single target group, currently this setting
+is always C<true>.
 
 
 =head2 Status => Str

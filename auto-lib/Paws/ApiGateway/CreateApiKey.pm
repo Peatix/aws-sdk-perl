@@ -74,8 +74,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 CustomerId => Str
 
-An AWS Marketplace customer identifier , when integrating with the AWS
-SaaS Marketplace.
+An Amazon Web Services Marketplace customer identifier, when
+integrating with the Amazon Web Services SaaS Marketplace.
 
 
 

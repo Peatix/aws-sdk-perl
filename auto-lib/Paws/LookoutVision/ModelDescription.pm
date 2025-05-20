@@ -7,6 +7,8 @@ package Paws::LookoutVision::ModelDescription;
   has EvaluationManifest => (is => 'ro', isa => 'Paws::LookoutVision::OutputS3Object');
   has EvaluationResult => (is => 'ro', isa => 'Paws::LookoutVision::OutputS3Object');
   has KmsKeyId => (is => 'ro', isa => 'Str');
+  has MaxInferenceUnits => (is => 'ro', isa => 'Int');
+  has MinInferenceUnits => (is => 'ro', isa => 'Int');
   has ModelArn => (is => 'ro', isa => 'Str');
   has ModelVersion => (is => 'ro', isa => 'Str');
   has OutputConfig => (is => 'ro', isa => 'Paws::LookoutVision::OutputConfig');
@@ -81,6 +83,18 @@ metrics.
 
 The identifer for the AWS Key Management Service (AWS KMS) key that was
 used to encrypt the model during training.
+
+
+=head2 MaxInferenceUnits => Int
+
+The maximum number of inference units Amazon Lookout for Vision uses to
+auto-scale the model. For more information, see StartModel.
+
+
+=head2 MinInferenceUnits => Int
+
+The minimum number of inference units used by the model. For more
+information, see StartModel
 
 
 =head2 ModelArn => Str

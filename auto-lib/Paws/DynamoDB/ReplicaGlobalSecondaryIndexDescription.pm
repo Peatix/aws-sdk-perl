@@ -2,7 +2,9 @@
 package Paws::DynamoDB::ReplicaGlobalSecondaryIndexDescription;
   use Moose;
   has IndexName => (is => 'ro', isa => 'Str');
+  has OnDemandThroughputOverride => (is => 'ro', isa => 'Paws::DynamoDB::OnDemandThroughputOverride');
   has ProvisionedThroughputOverride => (is => 'ro', isa => 'Paws::DynamoDB::ProvisionedThroughputOverride');
+  has WarmThroughput => (is => 'ro', isa => 'Paws::DynamoDB::GlobalSecondaryIndexWarmThroughputDescription');
 
 1;
 
@@ -23,7 +25,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::DynamoDB::ReplicaGlobalSecondaryIndexDescription object:
 
-  $service_obj->Method(Att1 => { IndexName => $value, ..., ProvisionedThroughputOverride => $value  });
+  $service_obj->Method(Att1 => { IndexName => $value, ..., WarmThroughput => $value  });
 
 =head3 Results returned from an API call
 
@@ -44,9 +46,21 @@ Represents the properties of a replica global secondary index.
 The name of the global secondary index.
 
 
+=head2 OnDemandThroughputOverride => L<Paws::DynamoDB::OnDemandThroughputOverride>
+
+Overrides the maximum on-demand throughput for the specified global
+secondary index in the specified replica table.
+
+
 =head2 ProvisionedThroughputOverride => L<Paws::DynamoDB::ProvisionedThroughputOverride>
 
 If not described, uses the source table GSI's read capacity settings.
+
+
+=head2 WarmThroughput => L<Paws::DynamoDB::GlobalSecondaryIndexWarmThroughputDescription>
+
+Represents the warm throughput of the global secondary index for this
+replica.
 
 
 

@@ -57,7 +57,8 @@ The ID of the Direct Connect gateway.
 
 =head2 DirectConnectGatewayOwnerAccount => Str
 
-The ID of the AWS account that owns the Direct Connect gateway.
+The ID of the Amazon Web Services account that owns the Direct Connect
+gateway.
 
 
 =head2 ExistingAllowedPrefixesToDirectConnectGateway => ArrayRef[L<Paws::DirectConnect::RouteFilterPrefix>]

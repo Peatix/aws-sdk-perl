@@ -73,8 +73,8 @@ Networking options for a model quality job.
 
 =head2 B<REQUIRED> RoleArn => Str
 
-The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can
-assume to perform tasks on your behalf.
+The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker AI
+can assume to perform tasks on your behalf.
 
 
 =head2 StoppingCondition => L<Paws::SageMaker::MonitoringStoppingCondition>

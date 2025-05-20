@@ -60,7 +60,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ken
 
 =head2 B<REQUIRED> Id => Str
 
-The unique identifier of the block list.
+The identifier of the block list you want to get information on.
 
 
 

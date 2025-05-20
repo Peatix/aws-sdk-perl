@@ -3,6 +3,7 @@ package Paws::EFS::FileSystemSize;
   use Moose;
   has Timestamp => (is => 'ro', isa => 'Str');
   has Value => (is => 'ro', isa => 'Int', required => 1);
+  has ValueInArchive => (is => 'ro', isa => 'Int');
   has ValueInIA => (is => 'ro', isa => 'Int');
   has ValueInStandard => (is => 'ro', isa => 'Int');
 
@@ -60,6 +61,12 @@ determined. The value is the integer number of seconds since
 
 The latest known metered size (in bytes) of data stored in the file
 system.
+
+
+=head2 ValueInArchive => Int
+
+The latest known metered size (in bytes) of data stored in the Archive
+storage class.
 
 
 =head2 ValueInIA => Int

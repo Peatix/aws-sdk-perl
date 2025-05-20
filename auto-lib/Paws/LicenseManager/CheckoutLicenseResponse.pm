@@ -5,6 +5,7 @@ package Paws::LicenseManager::CheckoutLicenseResponse;
   has EntitlementsAllowed => (is => 'ro', isa => 'ArrayRef[Paws::LicenseManager::EntitlementData]');
   has Expiration => (is => 'ro', isa => 'Str');
   has IssuedAt => (is => 'ro', isa => 'Str');
+  has LicenseArn => (is => 'ro', isa => 'Str');
   has LicenseConsumptionToken => (is => 'ro', isa => 'Str');
   has NodeId => (is => 'ro', isa => 'Str');
   has SignedToken => (is => 'ro', isa => 'Str');
@@ -24,7 +25,7 @@ Paws::LicenseManager::CheckoutLicenseResponse
 
 Checkout type.
 
-Valid values are: C<"PROVISIONAL">
+Valid values are: C<"PROVISIONAL">, C<"PERPETUAL">
 =head2 EntitlementsAllowed => ArrayRef[L<Paws::LicenseManager::EntitlementData>]
 
 Allowed license entitlements.
@@ -38,6 +39,11 @@ Date and time at which the license checkout expires.
 =head2 IssuedAt => Str
 
 Date and time at which the license checkout is issued.
+
+
+=head2 LicenseArn => Str
+
+Amazon Resource Name (ARN) of the checkout license.
 
 
 =head2 LicenseConsumptionToken => Str

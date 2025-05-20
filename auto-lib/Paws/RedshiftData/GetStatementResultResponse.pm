@@ -34,7 +34,7 @@ been retrieved for the request.
 
 =head2 B<REQUIRED> Records => ArrayRef[L<ArrayRef[Paws::RedshiftData::Field]>]
 
-The results of the SQL statement.
+The results of the SQL statement in JSON format.
 
 
 =head2 TotalNumRows => Int

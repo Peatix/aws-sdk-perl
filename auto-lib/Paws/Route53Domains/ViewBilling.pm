@@ -61,11 +61,12 @@ Coordinated Universal time (UTC).
 
 For an initial request for a list of billing records, omit this
 element. If the number of billing records that are associated with the
-current AWS account during the specified period is greater than the
-value that you specified for C<MaxItems>, you can use C<Marker> to
-return additional billing records. Get the value of C<NextPageMarker>
-from the previous response, and submit another request that includes
-the value of C<NextPageMarker> in the C<Marker> element.
+current Amazon Web Services account during the specified period is
+greater than the value that you specified for C<MaxItems>, you can use
+C<Marker> to return additional billing records. Get the value of
+C<NextPageMarker> from the previous response, and submit another
+request that includes the value of C<NextPageMarker> in the C<Marker>
+element.
 
 Constraints: The marker must match the value of C<NextPageMarker> that
 was returned in the previous response.

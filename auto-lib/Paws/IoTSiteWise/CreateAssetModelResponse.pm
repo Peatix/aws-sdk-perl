@@ -28,8 +28,8 @@ C<arn:${Partition}:iotsitewise:${Region}:${Account}:asset-model/${AssetModelId}>
 
 =head2 B<REQUIRED> AssetModelId => Str
 
-The ID of the asset model. You can use this ID when you call other AWS
-IoT SiteWise APIs.
+The ID of the asset model, in UUID format. You can use this ID when you
+call other IoT SiteWise API operations.
 
 
 =head2 B<REQUIRED> AssetModelStatus => L<Paws::IoTSiteWise::AssetModelStatus>

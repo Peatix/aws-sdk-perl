@@ -1,13 +1,13 @@
 
 package Paws::MediaConnect::AddFlowSources;
   use Moose;
-  has FlowArn => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'flowArn', required => 1);
+  has FlowArn => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'FlowArn', required => 1);
   has Sources => (is => 'ro', isa => 'ArrayRef[Paws::MediaConnect::SetSourceRequest]', traits => ['NameInRequest'], request_name => 'sources', required => 1);
 
   use MooseX::ClassAttribute;
 
   class_has _api_call => (isa => 'Str', is => 'ro', default => 'AddFlowSources');
-  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/v1/flows/{flowArn}/source');
+  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/v1/flows/{FlowArn}/source');
   class_has _api_method  => (isa => 'Str', is => 'ro', default => 'POST');
   class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::MediaConnect::AddFlowSourcesResponse');
 1;
@@ -30,36 +30,41 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $mediaconnect = Paws->service('MediaConnect');
     my $AddFlowSourcesResponse = $mediaconnect->AddFlowSources(
-      FlowArn => 'My__string',
+      FlowArn => 'MyAddFlowSourcesRequestFlowArnString',
       Sources => [
         {
           Decryption => {
-            RoleArn   => 'My__string',
+            RoleArn   => 'MyString',
             Algorithm => 'aes128',    # values: aes128, aes192, aes256; OPTIONAL
-            ConstantInitializationVector => 'My__string',
-            DeviceId                     => 'My__string',
+            ConstantInitializationVector => 'MyString',
+            DeviceId                     => 'MyString',
             KeyType                      =>
               'speke',    # values: speke, static-key, srt-password; OPTIONAL
-            Region     => 'My__string',
-            ResourceId => 'My__string',
-            SecretArn  => 'My__string',
-            Url        => 'My__string',
+            Region     => 'MyString',
+            ResourceId => 'MyString',
+            SecretArn  => 'MyString',
+            Url        => 'MyString',
           },    # OPTIONAL
-          Description                     => 'My__string',
-          EntitlementArn                  => 'My__string',
-          IngestPort                      => 1,              # OPTIONAL
-          MaxBitrate                      => 1,              # OPTIONAL
-          MaxLatency                      => 1,              # OPTIONAL
-          MaxSyncBuffer                   => 1,              # OPTIONAL
+          Description    => 'MyString',
+          EntitlementArn => 'MySetSourceRequestEntitlementArnString', # OPTIONAL
+          GatewayBridgeSource => {
+            BridgeArn => 'MySetGatewayBridgeSourceRequestBridgeArnString',
+            VpcInterfaceAttachment => { VpcInterfaceName => 'MyString', }
+            ,                                                         # OPTIONAL
+          },    # OPTIONAL
+          IngestPort                      => 1,    # OPTIONAL
+          MaxBitrate                      => 1,    # OPTIONAL
+          MaxLatency                      => 1,    # OPTIONAL
+          MaxSyncBuffer                   => 1,    # OPTIONAL
           MediaStreamSourceConfigurations => [
             {
               EncodingName    => 'jxsv',      # values: jxsv, raw, smpte291, pcm
-              MediaStreamName => 'My__string',
+              MediaStreamName => 'MyString',
               InputConfigurations => [
                 {
                   InputPort => 1,             # OPTIONAL
                   Interface => {
-                    Name => 'My__string',
+                    Name => 'MyString',
 
                   },
 
@@ -69,13 +74,17 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             },
             ...
           ],    # OPTIONAL
-          MinLatency => 1,              # OPTIONAL
-          Name       => 'My__string',
+          MinLatency => 1,                       # OPTIONAL
+          Name       => 'MyString',
           Protocol   => 'zixi-push'
-          , # values: zixi-push, rtp-fec, rtp, zixi-pull, rist, st2110-jpegxs, cdi, srt-listener; OPTIONAL
-          StreamId         => 'My__string',
-          VpcInterfaceName => 'My__string',
-          WhitelistCidr    => 'My__string',
+          , # values: zixi-push, rtp-fec, rtp, zixi-pull, rist, st2110-jpegxs, cdi, srt-listener, srt-caller, fujitsu-qos, udp, ndi-speed-hq; OPTIONAL
+          SenderControlPort     => 1,            # OPTIONAL
+          SenderIpAddress       => 'MyString',
+          SourceListenerAddress => 'MyString',
+          SourceListenerPort    => 1,            # OPTIONAL
+          StreamId              => 'MyString',
+          VpcInterfaceName      => 'MyString',
+          WhitelistCidr         => 'MyString',
         },
         ...
       ],
@@ -96,13 +105,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/med
 
 =head2 B<REQUIRED> FlowArn => Str
 
-The flow that you want to mutate.
+The Amazon Resource Name (ARN) of the flow that you want to update.
 
 
 
 =head2 B<REQUIRED> Sources => ArrayRef[L<Paws::MediaConnect::SetSourceRequest>]
 
-A list of sources that you want to add.
+A list of sources that you want to add to the flow.
 
 
 

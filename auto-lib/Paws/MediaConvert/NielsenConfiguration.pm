@@ -36,12 +36,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::MediaConver
 
 Settings for your Nielsen configuration. If you don't do Nielsen
 measurement and analytics, ignore these settings. When you enable
-Nielsen configuration (nielsenConfiguration), MediaConvert enables PCM
-to ID3 tagging for all outputs in the job. To enable Nielsen
-configuration programmatically, include an instance of
-nielsenConfiguration in your JSON job specification. Even if you don't
-include any children of nielsenConfiguration, you still enable the
-setting.
+Nielsen configuration, MediaConvert enables PCM to ID3 tagging for all
+outputs in the job.
 
 =head1 ATTRIBUTES
 
@@ -54,8 +50,8 @@ must include this property, set the value to zero.
 
 =head2 DistributorId => Str
 
-Use Distributor ID (DistributorID) to specify the distributor ID that
-is assigned to your organization by Neilsen.
+Use Distributor ID to specify the distributor ID that is assigned to
+your organization by Nielsen.
 
 
 

@@ -51,8 +51,9 @@ entity that was used to get the credentials.
 
 =head2 Arn => Str
 
-The Amazon Resource Name (ARN) of the source account, IAM user, or role
-that was used to get the credentials.
+The Amazon Resource Name (ARN) of the source account, Identity and
+Access Management (IAM) user, or role that was used to get the
+credentials.
 
 
 =head2 PrincipalId => Str

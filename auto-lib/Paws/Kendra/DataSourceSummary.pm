@@ -3,6 +3,7 @@ package Paws::Kendra::DataSourceSummary;
   use Moose;
   has CreatedAt => (is => 'ro', isa => 'Str');
   has Id => (is => 'ro', isa => 'Str');
+  has LanguageCode => (is => 'ro', isa => 'Str');
   has Name => (is => 'ro', isa => 'Str');
   has Status => (is => 'ro', isa => 'Str');
   has Type => (is => 'ro', isa => 'Str');
@@ -38,20 +39,28 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Kendra::Dat
 
 =head1 DESCRIPTION
 
-Summary information for a Amazon Kendra data source. Returned in a call
-to the C<DescribeDataSource> operation.
+Summary information for a Amazon Kendra data source.
 
 =head1 ATTRIBUTES
 
 
 =head2 CreatedAt => Str
 
-The UNIX datetime that the data source was created.
+The Unix timestamp when the data source connector was created.
 
 
 =head2 Id => Str
 
-The unique identifier for the data source.
+The identifier for the data source.
+
+
+=head2 LanguageCode => Str
+
+The code for a language. This shows a supported language for all
+documents in the data source. English is supported by default. For more
+information on supported languages, including their codes, see Adding
+documents in languages other than English
+(https://docs.aws.amazon.com/kendra/latest/dg/in-adding-languages.html).
 
 
 =head2 Name => Str
@@ -72,7 +81,7 @@ The type of the data source.
 
 =head2 UpdatedAt => Str
 
-The UNIX datetime that the data source was lasted updated.
+The Unix timestamp when the data source connector was last updated.
 
 
 

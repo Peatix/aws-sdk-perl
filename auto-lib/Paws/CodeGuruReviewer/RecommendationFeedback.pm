@@ -45,7 +45,7 @@ Information about the recommendation feedback.
 
 =head2 CodeReviewArn => Str
 
-The Amazon Resource Name (ARN) of the C<CodeReview>
+The Amazon Resource Name (ARN) of the CodeReview
 (https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_CodeReview.html)
 object.
 
@@ -76,11 +76,12 @@ recommendations. Later on it can be used to collect the feedback.
 
 The ID of the user that made the API call.
 
-The C<UserId> is an IAM principal that can be specified as an AWS
-account ID or an Amazon Resource Name (ARN). For more information, see
-Specifying a Principal
+The C<UserId> is an IAM principal that can be specified as an Amazon
+Web Services account ID or an Amazon Resource Name (ARN). For more
+information, see Specifying a Principal
 (https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html#Principal_specifying)
-in the I<AWS Identity and Access Management User Guide>.
+in the I<Amazon Web Services Identity and Access Management User
+Guide>.
 
 
 

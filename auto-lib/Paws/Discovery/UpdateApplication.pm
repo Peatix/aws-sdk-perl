@@ -4,6 +4,7 @@ package Paws::Discovery::UpdateApplication;
   has ConfigurationId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'configurationId' , required => 1);
   has Description => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'description' );
   has Name => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'name' );
+  has Wave => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'wave' );
 
   use MooseX::ClassAttribute;
 
@@ -31,8 +32,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $discovery = Paws->service('Discovery');
     my $UpdateApplicationResponse = $discovery->UpdateApplication(
       ConfigurationId => 'MyApplicationId',
-      Description     => 'MyString',          # OPTIONAL
-      Name            => 'MyString',          # OPTIONAL
+      Description     => 'MyApplicationDescription',    # OPTIONAL
+      Name            => 'MyApplicationName',           # OPTIONAL
+      Wave            => 'MyApplicationWave',           # OPTIONAL
     );
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
@@ -56,6 +58,12 @@ New description of the application to be updated.
 =head2 Name => Str
 
 New name of the application to be updated.
+
+
+
+=head2 Wave => Str
+
+The new migration wave of the application that you want to update.
 
 
 

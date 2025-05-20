@@ -70,7 +70,7 @@ proceed if it is unable to properly evaluate them.
 This behavior is only enforced for VPCs that have at least one DNS
 Firewall rule group association.
 
-Valid values are: C<"ENABLED">, C<"DISABLED">
+Valid values are: C<"ENABLED">, C<"DISABLED">, C<"USE_LOCAL_RESOURCE_SETTING">
 
 =head2 B<REQUIRED> ResourceId => Str
 

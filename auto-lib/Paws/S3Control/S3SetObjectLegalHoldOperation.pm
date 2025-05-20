@@ -34,11 +34,13 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::S3Control::
 =head1 DESCRIPTION
 
 Contains the configuration for an S3 Object Lock legal hold operation
-that an S3 Batch Operations job passes every object to the underlying
-C<PutObjectLegalHold> API. For more information, see Using S3 Object
-Lock legal hold with S3 Batch Operations
+that an S3 Batch Operations job passes to every object to the
+underlying C<PutObjectLegalHold> API operation. For more information,
+see Using S3 Object Lock legal hold with S3 Batch Operations
 (https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-legal-hold.html)
 in the I<Amazon S3 User Guide>.
+
+This functionality is not supported by directory buckets.
 
 =head1 ATTRIBUTES
 

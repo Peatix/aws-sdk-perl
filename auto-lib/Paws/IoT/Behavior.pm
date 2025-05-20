@@ -2,6 +2,7 @@
 package Paws::IoT::Behavior;
   use Moose;
   has Criteria => (is => 'ro', isa => 'Paws::IoT::BehaviorCriteria', request_name => 'criteria', traits => ['NameInRequest']);
+  has ExportMetric => (is => 'ro', isa => 'Bool', request_name => 'exportMetric', traits => ['NameInRequest']);
   has Metric => (is => 'ro', isa => 'Str', request_name => 'metric', traits => ['NameInRequest']);
   has MetricDimension => (is => 'ro', isa => 'Paws::IoT::MetricDimension', request_name => 'metricDimension', traits => ['NameInRequest']);
   has Name => (is => 'ro', isa => 'Str', request_name => 'name', traits => ['NameInRequest'], required => 1);
@@ -46,6 +47,16 @@ A Device Defender security profile behavior.
 
 The criteria that determine if a device is behaving normally in regard
 to the C<metric>.
+
+In the IoT console, you can choose to be sent an alert through Amazon
+SNS when IoT Device Defender detects that a device is behaving
+anomalously.
+
+
+=head2 ExportMetric => Bool
+
+Value indicates exporting metrics related to the behavior when it is
+true.
 
 
 =head2 Metric => Str

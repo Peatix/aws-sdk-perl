@@ -17,7 +17,7 @@ Paws::SSOAdmin::ListAccountsForProvisionedPermissionSetResponse
 
 =head2 AccountIds => ArrayRef[Str|Undef]
 
-The list of AWS C<AccountIds>.
+The list of Amazon Web Services C<AccountIds>.
 
 
 =head2 NextToken => Str

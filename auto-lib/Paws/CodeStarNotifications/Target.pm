@@ -34,19 +34,33 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CodeStarNot
 
 =head1 DESCRIPTION
 
-Information about the SNS topics associated with a notification rule.
+Information about the Chatbot topics or Chatbot clients associated with
+a notification rule.
 
 =head1 ATTRIBUTES
 
 
 =head2 TargetAddress => Str
 
-The Amazon Resource Name (ARN) of the SNS topic.
+The Amazon Resource Name (ARN) of the Chatbot topic or Chatbot client.
 
 
 =head2 TargetType => Str
 
-The target type. Can be an Amazon SNS topic.
+The target type. Can be an Chatbot topic or Chatbot client.
+
+=over
+
+=item *
+
+Chatbot topics are specified as C<SNS>.
+
+=item *
+
+Chatbot clients are specified as C<AWSChatbotSlack>.
+
+=back
+
 
 
 

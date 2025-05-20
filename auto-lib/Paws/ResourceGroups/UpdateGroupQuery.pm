@@ -54,7 +54,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/res
 
 =head2 Group => Str
 
-The name or the ARN of the resource group to query.
+The name or the Amazon resource name (ARN) of the resource group to
+query.
 
 
 
@@ -66,8 +67,8 @@ Don't use this parameter. Use C<Group> instead.
 
 =head2 B<REQUIRED> ResourceQuery => L<Paws::ResourceGroups::ResourceQuery>
 
-The resource query to determine which AWS resources are members of this
-resource group.
+The resource query to determine which Amazon Web Services resources are
+members of this resource group.
 
 A resource group can contain either a C<Configuration> or a
 C<ResourceQuery>, but not both.

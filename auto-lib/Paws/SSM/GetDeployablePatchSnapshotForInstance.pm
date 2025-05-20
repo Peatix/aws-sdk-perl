@@ -67,8 +67,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ],    # max: 50; OPTIONAL
         ApprovedPatchesComplianceLevel => 'CRITICAL'
         , # values: CRITICAL, HIGH, MEDIUM, LOW, INFORMATIONAL, UNSPECIFIED; OPTIONAL
-        ApprovedPatchesEnableNonSecurity => 1,    # OPTIONAL
-        GlobalFilters                    => {
+        ApprovedPatchesEnableNonSecurity         => 1,    # OPTIONAL
+        AvailableSecurityUpdatesComplianceStatus =>
+          'COMPLIANT',    # values: COMPLIANT, NON_COMPLIANT; OPTIONAL
+        GlobalFilters => {
           PatchFilters => [
             {
               Key => 'ARCH'
@@ -83,7 +85,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
         },
         OperatingSystem => 'WINDOWS'
-        , # values: WINDOWS, AMAZON_LINUX, AMAZON_LINUX_2, UBUNTU, REDHAT_ENTERPRISE_LINUX, SUSE, CENTOS, ORACLE_LINUX, DEBIAN, MACOS; OPTIONAL
+        , # values: WINDOWS, AMAZON_LINUX, AMAZON_LINUX_2, AMAZON_LINUX_2022, UBUNTU, REDHAT_ENTERPRISE_LINUX, SUSE, CENTOS, ORACLE_LINUX, DEBIAN, MACOS, RASPBIAN, ROCKY_LINUX, ALMA_LINUX, AMAZON_LINUX_2023; OPTIONAL
         RejectedPatches => [
           'MyPatchId', ...    # min: 1, max: 100
         ],    # max: 50; OPTIONAL
@@ -126,14 +128,15 @@ Defines the basic information about a patch baseline override.
 
 =head2 B<REQUIRED> InstanceId => Str
 
-The ID of the instance for which the appropriate patch snapshot should
-be retrieved.
+The ID of the managed node for which the appropriate patch snapshot
+should be retrieved.
 
 
 
 =head2 B<REQUIRED> SnapshotId => Str
 
-The user-defined snapshot ID.
+The snapshot ID provided by the user when running
+C<AWS-RunPatchBaseline>.
 
 
 

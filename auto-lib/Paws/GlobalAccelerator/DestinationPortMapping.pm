@@ -77,7 +77,7 @@ The Amazon Resource Name (ARN) of the endpoint group.
 
 =head2 EndpointGroupRegion => Str
 
-The AWS Region for the endpoint group.
+The Amazon Web Services Region for the endpoint group.
 
 
 =head2 EndpointId => Str
@@ -87,7 +87,8 @@ The ID for the virtual private cloud (VPC) subnet.
 
 =head2 IpAddressType => Str
 
-The IP address type, which must be IPv4.
+The IP address type that an accelerator supports. For a custom routing
+accelerator, the value must be IPV4.
 
 
 

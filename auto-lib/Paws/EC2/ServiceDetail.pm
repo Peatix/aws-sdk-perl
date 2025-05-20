@@ -5,12 +5,15 @@ package Paws::EC2::ServiceDetail;
   has BaseEndpointDnsNames => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'baseEndpointDnsNameSet', traits => ['NameInRequest']);
   has ManagesVpcEndpoints => (is => 'ro', isa => 'Bool', request_name => 'managesVpcEndpoints', traits => ['NameInRequest']);
   has Owner => (is => 'ro', isa => 'Str', request_name => 'owner', traits => ['NameInRequest']);
+  has PayerResponsibility => (is => 'ro', isa => 'Str', request_name => 'payerResponsibility', traits => ['NameInRequest']);
   has PrivateDnsName => (is => 'ro', isa => 'Str', request_name => 'privateDnsName', traits => ['NameInRequest']);
   has PrivateDnsNames => (is => 'ro', isa => 'ArrayRef[Paws::EC2::PrivateDnsDetails]', request_name => 'privateDnsNameSet', traits => ['NameInRequest']);
   has PrivateDnsNameVerificationState => (is => 'ro', isa => 'Str', request_name => 'privateDnsNameVerificationState', traits => ['NameInRequest']);
   has ServiceId => (is => 'ro', isa => 'Str', request_name => 'serviceId', traits => ['NameInRequest']);
   has ServiceName => (is => 'ro', isa => 'Str', request_name => 'serviceName', traits => ['NameInRequest']);
+  has ServiceRegion => (is => 'ro', isa => 'Str', request_name => 'serviceRegion', traits => ['NameInRequest']);
   has ServiceType => (is => 'ro', isa => 'ArrayRef[Paws::EC2::ServiceTypeDetail]', request_name => 'serviceType', traits => ['NameInRequest']);
+  has SupportedIpAddressTypes => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'supportedIpAddressTypeSet', traits => ['NameInRequest']);
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::EC2::Tag]', request_name => 'tagSet', traits => ['NameInRequest']);
   has VpcEndpointPolicySupported => (is => 'ro', isa => 'Bool', request_name => 'vpcEndpointPolicySupported', traits => ['NameInRequest']);
 1;
@@ -72,7 +75,12 @@ the service VPC endpoints using the VPC endpoint API is restricted.
 
 =head2 Owner => Str
 
-The AWS account ID of the service owner.
+The Amazon Web Services account ID of the service owner.
+
+
+=head2 PayerResponsibility => Str
+
+The payer responsibility.
 
 
 =head2 PrivateDnsName => Str
@@ -100,7 +108,12 @@ The ID of the endpoint service.
 
 =head2 ServiceName => Str
 
-The Amazon Resource Name (ARN) of the service.
+The name of the service.
+
+
+=head2 ServiceRegion => Str
+
+The Region where the service is hosted.
 
 
 =head2 ServiceType => ArrayRef[L<Paws::EC2::ServiceTypeDetail>]
@@ -108,9 +121,14 @@ The Amazon Resource Name (ARN) of the service.
 The type of service.
 
 
+=head2 SupportedIpAddressTypes => ArrayRef[Str|Undef]
+
+The supported IP address types.
+
+
 =head2 Tags => ArrayRef[L<Paws::EC2::Tag>]
 
-Any tags assigned to the service.
+The tags assigned to the service.
 
 
 =head2 VpcEndpointPolicySupported => Bool

@@ -15,6 +15,7 @@ package Paws::DMS::RedshiftSettings;
   has ExplicitIds => (is => 'ro', isa => 'Bool');
   has FileTransferUploadStreams => (is => 'ro', isa => 'Int');
   has LoadTimeout => (is => 'ro', isa => 'Int');
+  has MapBooleanAsBoolean => (is => 'ro', isa => 'Bool');
   has MaxFileSize => (is => 'ro', isa => 'Int');
   has Password => (is => 'ro', isa => 'Str');
   has Port => (is => 'ro', isa => 'Int');
@@ -90,17 +91,17 @@ itself, not the name of a file containing the code.
 An S3 folder where the comma-separated-value (.csv) files are stored
 before being uploaded to the target Redshift cluster.
 
-For full load mode, AWS DMS converts source records into .csv files and
-loads them to the I<BucketFolder/TableID> path. AWS DMS uses the
-Redshift C<COPY> command to upload the .csv files to the target table.
-The files are deleted once the C<COPY> operation has finished. For more
+For full load mode, DMS converts source records into .csv files and
+loads them to the I<BucketFolder/TableID> path. DMS uses the Redshift
+C<COPY> command to upload the .csv files to the target table. The files
+are deleted once the C<COPY> operation has finished. For more
 information, see COPY
 (https://docs.aws.amazon.com/redshift/latest/dg/r_COPY.html) in the
 I<Amazon Redshift Database Developer Guide>.
 
-For change-data-capture (CDC) mode, AWS DMS creates a I<NetChanges>
-table, and loads the .csv files to this
-I<BucketFolder/NetChangesTableID> path.
+For change-data-capture (CDC) mode, DMS creates a I<NetChanges> table,
+and loads the .csv files to this I<BucketFolder/NetChangesTableID>
+path.
 
 
 =head2 BucketName => Str
@@ -150,7 +151,7 @@ this to C<auto>.
 
 =head2 EmptyAsNull => Bool
 
-A value that specifies whether AWS DMS should migrate empty CHAR and
+A value that specifies whether DMS should migrate empty CHAR and
 VARCHAR fields as NULL. A value of C<true> sets empty CHAR and VARCHAR
 fields to null. The default is C<false>.
 
@@ -167,8 +168,8 @@ of the C<EncryptionMode> parameter from C<SSE_KMS> to C<SSE_S3>. But
 you canE<rsquo>t change the existing value from C<SSE_S3> to
 C<SSE_KMS>.
 
-To use C<SSE_S3>, create an AWS Identity and Access Management (IAM)
-role with a policy that allows C<"arn:aws:s3:::*"> to use the following
+To use C<SSE_S3>, create an Identity and Access Management (IAM) role
+with a policy that allows C<"arn:aws:s3:::*"> to use the following
 actions: C<"s3:PutObject", "s3:ListBucket">
 
 
@@ -198,8 +199,15 @@ defaults to 10.
 =head2 LoadTimeout => Int
 
 The amount of time to wait (in milliseconds) before timing out of
-operations performed by AWS DMS on a Redshift cluster, such as Redshift
+operations performed by DMS on a Redshift cluster, such as Redshift
 COPY, INSERT, DELETE, and UPDATE.
+
+
+=head2 MapBooleanAsBoolean => Bool
+
+When true, lets Redshift migrate the boolean type as boolean. By
+default, Redshift migrates booleans as C<varchar(1)>. You must set this
+setting on both the source and target endpoints for it to take effect.
 
 
 =head2 MaxFileSize => Int
@@ -242,10 +250,11 @@ C<ReplaceChars>.
 
 =head2 SecretsManagerAccessRoleArn => Str
 
-The full Amazon Resource Name (ARN) of the IAM role that specifies AWS
-DMS as the trusted entity and grants the required permissions to access
-the value in C<SecretsManagerSecret>. C<SecretsManagerSecret> has the
-value of the AWS Secrets Manager secret that allows access to the
+The full Amazon Resource Name (ARN) of the IAM role that specifies DMS
+as the trusted entity and grants the required permissions to access the
+value in C<SecretsManagerSecret>. The role must allow the
+C<iam:PassRole> action. C<SecretsManagerSecret> has the value of the
+Amazon Web Services Secrets Manager secret that allows access to the
 Amazon Redshift endpoint.
 
 You can specify one of two sets of values for these permissions. You
@@ -254,10 +263,10 @@ Or you can specify clear-text values for C<UserName>, C<Password>,
 C<ServerName>, and C<Port>. You can't specify both. For more
 information on creating this C<SecretsManagerSecret> and the
 C<SecretsManagerAccessRoleArn> and C<SecretsManagerSecretId> required
-to access it, see Using secrets to access AWS Database Migration
-Service resources
-(https://docs.aws.amazon.com/https:/docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#security-iam-secretsmanager)
-in the I<AWS Database Migration Service User Guide>.
+to access it, see Using secrets to access Database Migration Service
+resources
+(https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#security-iam-secretsmanager)
+in the I<Database Migration Service User Guide>.
 
 
 =head2 SecretsManagerSecretId => Str
@@ -274,16 +283,16 @@ The name of the Amazon Redshift cluster you are using.
 
 =head2 ServerSideEncryptionKmsKeyId => Str
 
-The AWS KMS key ID. If you are using C<SSE_KMS> for the
-C<EncryptionMode>, provide this key ID. The key that you use needs an
-attached policy that enables IAM user permissions and allows use of the
-key.
+The KMS key ID. If you are using C<SSE_KMS> for the C<EncryptionMode>,
+provide this key ID. The key that you use needs an attached policy that
+enables IAM user permissions and allows use of the key.
 
 
 =head2 ServiceAccessRoleArn => Str
 
 The Amazon Resource Name (ARN) of the IAM role that has access to the
-Amazon Redshift service.
+Amazon Redshift service. The role must allow the C<iam:PassRole>
+action.
 
 
 =head2 TimeFormat => Str

@@ -11,8 +11,11 @@ package Paws::Appflow::DescribeFlowResponse;
   has FlowStatusMessage => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'flowStatusMessage');
   has KmsArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'kmsArn');
   has LastRunExecutionDetails => (is => 'ro', isa => 'Paws::Appflow::ExecutionDetails', traits => ['NameInRequest'], request_name => 'lastRunExecutionDetails');
+  has LastRunMetadataCatalogDetails => (is => 'ro', isa => 'ArrayRef[Paws::Appflow::MetadataCatalogDetail]', traits => ['NameInRequest'], request_name => 'lastRunMetadataCatalogDetails');
   has LastUpdatedAt => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'lastUpdatedAt');
   has LastUpdatedBy => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'lastUpdatedBy');
+  has MetadataCatalogConfig => (is => 'ro', isa => 'Paws::Appflow::MetadataCatalogConfig', traits => ['NameInRequest'], request_name => 'metadataCatalogConfig');
+  has SchemaVersion => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'schemaVersion');
   has SourceFlowConfig => (is => 'ro', isa => 'Paws::Appflow::SourceFlowConfig', traits => ['NameInRequest'], request_name => 'sourceFlowConfig');
   has Tags => (is => 'ro', isa => 'Paws::Appflow::TagMap', traits => ['NameInRequest'], request_name => 'tags');
   has Tasks => (is => 'ro', isa => 'ArrayRef[Paws::Appflow::Task]', traits => ['NameInRequest'], request_name => 'tasks');
@@ -86,6 +89,12 @@ Amazon AppFlow uses the Amazon AppFlow-managed KMS key.
 Describes the details of the most recent flow run.
 
 
+=head2 LastRunMetadataCatalogDetails => ArrayRef[L<Paws::Appflow::MetadataCatalogDetail>]
+
+Describes the metadata catalog, metadata table, and data partitions
+that Amazon AppFlow used for the associated flow run.
+
+
 =head2 LastUpdatedAt => Str
 
 Specifies when the flow was last updated.
@@ -95,6 +104,37 @@ Specifies when the flow was last updated.
 
 Specifies the user name of the account that performed the most recent
 update.
+
+
+=head2 MetadataCatalogConfig => L<Paws::Appflow::MetadataCatalogConfig>
+
+Specifies the configuration that Amazon AppFlow uses when it catalogs
+the data that's transferred by the associated flow. When Amazon AppFlow
+catalogs the data from a flow, it stores metadata in a data catalog.
+
+
+=head2 SchemaVersion => Int
+
+The version number of your data schema. Amazon AppFlow assigns this
+version number. The version number increases by one when you change any
+of the following settings in your flow configuration:
+
+=over
+
+=item *
+
+Source-to-destination field mappings
+
+=item *
+
+Field data types
+
+=item *
+
+Partition keys
+
+=back
+
 
 
 =head2 SourceFlowConfig => L<Paws::Appflow::SourceFlowConfig>

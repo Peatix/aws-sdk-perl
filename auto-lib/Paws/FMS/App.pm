@@ -35,7 +35,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::FMS::App ob
 
 =head1 DESCRIPTION
 
-An individual AWS Firewall Manager application.
+An individual Firewall Manager application.
 
 =head1 ATTRIBUTES
 

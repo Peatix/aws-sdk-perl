@@ -1,6 +1,7 @@
 
 package Paws::ApplicationMigration::MarkAsArchived;
   use Moose;
+  has AccountID => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'accountID');
   has SourceServerID => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'sourceServerID', required => 1);
 
   use MooseX::ClassAttribute;
@@ -30,18 +31,24 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $mgn = Paws->service('ApplicationMigration');
     my $SourceServer = $mgn->MarkAsArchived(
       SourceServerID => 'MySourceServerID',
-
+      AccountID      => 'MyAccountID',        # OPTIONAL
     );
 
     # Results:
-    my $Arn                 = $SourceServer->Arn;
-    my $DataReplicationInfo = $SourceServer->DataReplicationInfo;
-    my $IsArchived          = $SourceServer->IsArchived;
-    my $LaunchedInstance    = $SourceServer->LaunchedInstance;
-    my $LifeCycle           = $SourceServer->LifeCycle;
-    my $SourceProperties    = $SourceServer->SourceProperties;
-    my $SourceServerID      = $SourceServer->SourceServerID;
-    my $Tags                = $SourceServer->Tags;
+    my $ApplicationID          = $SourceServer->ApplicationID;
+    my $Arn                    = $SourceServer->Arn;
+    my $ConnectorAction        = $SourceServer->ConnectorAction;
+    my $DataReplicationInfo    = $SourceServer->DataReplicationInfo;
+    my $FqdnForActionFramework = $SourceServer->FqdnForActionFramework;
+    my $IsArchived             = $SourceServer->IsArchived;
+    my $LaunchedInstance       = $SourceServer->LaunchedInstance;
+    my $LifeCycle              = $SourceServer->LifeCycle;
+    my $ReplicationType        = $SourceServer->ReplicationType;
+    my $SourceProperties       = $SourceServer->SourceProperties;
+    my $SourceServerID         = $SourceServer->SourceServerID;
+    my $Tags                   = $SourceServer->Tags;
+    my $UserProvidedID         = $SourceServer->UserProvidedID;
+    my $VcenterClientID        = $SourceServer->VcenterClientID;
 
     # Returns a L<Paws::ApplicationMigration::SourceServer> object.
 
@@ -49,6 +56,12 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/mgn/MarkAsArchived>
 
 =head1 ATTRIBUTES
+
+
+=head2 AccountID => Str
+
+Mark as archived by Account ID.
+
 
 
 =head2 B<REQUIRED> SourceServerID => Str

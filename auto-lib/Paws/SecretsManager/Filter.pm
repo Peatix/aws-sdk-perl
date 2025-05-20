@@ -35,19 +35,54 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SecretsMana
 =head1 DESCRIPTION
 
 Allows you to add filters when you use the search function in Secrets
-Manager.
+Manager. For more information, see Find secrets in Secrets Manager
+(https://docs.aws.amazon.com/secretsmanager/latest/userguide/manage_search-secret.html).
 
 =head1 ATTRIBUTES
 
 
 =head2 Key => Str
 
-Filters your list of secrets by a specific key.
+The following are keys you can use:
+
+=over
+
+=item *
+
+B<description>: Prefix match, not case-sensitive.
+
+=item *
+
+B<name>: Prefix match, case-sensitive.
+
+=item *
+
+B<tag-key>: Prefix match, case-sensitive.
+
+=item *
+
+B<tag-value>: Prefix match, case-sensitive.
+
+=item *
+
+B<primary-region>: Prefix match, case-sensitive.
+
+=item *
+
+B<owning-service>: Prefix match, case-sensitive.
+
+=item *
+
+B<all>: Breaks the filter value string into words and then searches all
+attributes for matches. Not case-sensitive.
+
+=back
+
 
 
 =head2 Values => ArrayRef[Str|Undef]
 
-Filters your list of secrets by a specific value.
+The keyword to filter for.
 
 You can prefix your search value with an exclamation mark (C<!>) in
 order to perform negation filters.

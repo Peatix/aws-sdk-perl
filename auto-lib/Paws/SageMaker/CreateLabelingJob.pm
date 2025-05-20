@@ -38,21 +38,21 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $api.sagemaker = Paws->service('SageMaker');
     my $CreateLabelingJobResponse = $api . sagemaker->CreateLabelingJob(
       HumanTaskConfig => {
+        NumberOfHumanWorkersPerDataObject => 1,           # min: 1, max: 9
+        TaskDescription        => 'MyTaskDescription',    # min: 1, max: 255
+        TaskTimeLimitInSeconds => 1,                      # min: 30
+        TaskTitle              => 'MyTaskTitle',          # min: 1, max: 128
+        UiConfig               => {
+          HumanTaskUiArn  => 'MyHumanTaskUiArn',          # max: 1024; OPTIONAL
+          UiTemplateS3Uri => 'MyS3Uri',                   # max: 1024; OPTIONAL
+        },
+        WorkteamArn                   => 'MyWorkteamArn',    # max: 256
         AnnotationConsolidationConfig => {
           AnnotationConsolidationLambdaArn => 'MyLambdaFunctionArn', # max: 2048
 
-        },
-        NumberOfHumanWorkersPerDataObject => 1,             # min: 1, max: 9
-        PreHumanTaskLambdaArn  => 'MyLambdaFunctionArn',    # max: 2048
-        TaskDescription        => 'MyTaskDescription',      # min: 1, max: 255
-        TaskTimeLimitInSeconds => 1,                        # min: 30
-        TaskTitle              => 'MyTaskTitle',            # min: 1, max: 128
-        UiConfig               => {
-          HumanTaskUiArn  => 'MyHumanTaskUiArn',    # max: 1024; OPTIONAL
-          UiTemplateS3Uri => 'MyS3Uri',             # max: 1024; OPTIONAL
-        },
-        WorkteamArn            => 'MyWorkteamArn', # max: 256
-        MaxConcurrentTaskCount => 1,               # min: 1, max: 1000; OPTIONAL
+        },    # OPTIONAL
+        MaxConcurrentTaskCount   => 1,    # min: 1, max: 5000; OPTIONAL
+        PreHumanTaskLambdaArn    => 'MyLambdaFunctionArn',    # max: 2048
         PublicWorkforceTaskPrice => {
           AmountInUsd => {
             Cents                 => 1,    # max: 99; OPTIONAL
@@ -99,6 +99,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           'MyModelArn',    # min: 20, max: 2048; OPTIONAL
         LabelingJobResourceConfig => {
           VolumeKmsKeyId => 'MyKmsKeyId',    # max: 2048; OPTIONAL
+          VpcConfig      => {
+            SecurityGroupIds => [
+              'MySecurityGroupId', ...       # max: 32
+            ],    # min: 1, max: 5
+            Subnets => [
+              'MySubnetId', ...    # max: 32
+            ],    # min: 1, max: 16
+
+          },    # OPTIONAL
         },    # OPTIONAL
       },    # OPTIONAL
       StoppingConditions => {
@@ -246,6 +255,15 @@ category attributes and frame attributes to your label category
 configuration file. To learn how, see Create a Labeling Category
 Configuration File for 3D Point Cloud Labeling Jobs
 (https://docs.aws.amazon.com/sagemaker/latest/dg/sms-point-cloud-label-category-config.html).
+
+For named entity recognition jobs, in addition to C<"labels">, you must
+provide worker instructions in the label category configuration file
+using the C<"instructions"> parameter: C<"instructions":
+{"shortInstruction":"E<lt>h1E<gt>Add headerE<lt>/h1E<gt>E<lt>pE<gt>Add
+InstructionsE<lt>/pE<gt>", "fullInstruction":"E<lt>pE<gt>Add additional
+instructions.E<lt>/pE<gt>"}>. For details and an example, see Create a
+Named Entity Recognition Labeling Job (API)
+(https://docs.aws.amazon.com/sagemaker/latest/dg/sms-named-entity-recg.html#sms-creating-ner-api).
 
 For all other built-in task types
 (https://docs.aws.amazon.com/sagemaker/latest/dg/sms-task-types.html)

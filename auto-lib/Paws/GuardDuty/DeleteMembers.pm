@@ -60,6 +60,11 @@ delete.
 The unique ID of the detector of the GuardDuty account whose members
 you want to delete.
 
+To find the C<detectorId> in the current Region, see the Settings page
+in the GuardDuty console, or run the ListDetectors
+(https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+API.
+
 
 
 

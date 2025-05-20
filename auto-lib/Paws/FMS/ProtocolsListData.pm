@@ -39,29 +39,29 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::FMS::Protoc
 
 =head1 DESCRIPTION
 
-An AWS Firewall Manager protocols list.
+An Firewall Manager protocols list.
 
 =head1 ATTRIBUTES
 
 
 =head2 CreateTime => Str
 
-The time that the AWS Firewall Manager protocols list was created.
+The time that the Firewall Manager protocols list was created.
 
 
 =head2 LastUpdateTime => Str
 
-The time that the AWS Firewall Manager protocols list was last updated.
+The time that the Firewall Manager protocols list was last updated.
 
 
 =head2 ListId => Str
 
-The ID of the AWS Firewall Manager protocols list.
+The ID of the Firewall Manager protocols list.
 
 
 =head2 B<REQUIRED> ListName => Str
 
-The name of the AWS Firewall Manager protocols list.
+The name of the Firewall Manager protocols list.
 
 
 =head2 ListUpdateToken => Str
@@ -80,7 +80,7 @@ arrays.
 
 =head2 B<REQUIRED> ProtocolsList => ArrayRef[Str|Undef]
 
-An array of protocols in the AWS Firewall Manager protocols list.
+An array of protocols in the Firewall Manager protocols list.
 
 
 

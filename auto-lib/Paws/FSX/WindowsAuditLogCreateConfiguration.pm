@@ -55,13 +55,14 @@ requirements:
 =item *
 
 The destination ARN that you provide (either CloudWatch Logs log group
-or Kinesis Data Firehose delivery stream) must be in the same AWS
-partition, AWS region, and AWS account as your Amazon FSx file system.
+or Kinesis Data Firehose delivery stream) must be in the same Amazon
+Web Services partition, Amazon Web Services Region, and Amazon Web
+Services account as your Amazon FSx file system.
 
 =item *
 
 The name of the Amazon CloudWatch Logs log group must begin with the
-C</aws/fsx> prefix. The name of the Amazon Kinesis Data Firehouse
+C</aws/fsx> prefix. The name of the Amazon Kinesis Data Firehose
 delivery stream must begin with the C<aws-fsx> prefix.
 
 =item *

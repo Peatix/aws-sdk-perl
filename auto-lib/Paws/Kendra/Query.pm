@@ -2,15 +2,18 @@
 package Paws::Kendra::Query;
   use Moose;
   has AttributeFilter => (is => 'ro', isa => 'Paws::Kendra::AttributeFilter');
+  has CollapseConfiguration => (is => 'ro', isa => 'Paws::Kendra::CollapseConfiguration');
   has DocumentRelevanceOverrideConfigurations => (is => 'ro', isa => 'ArrayRef[Paws::Kendra::DocumentRelevanceConfiguration]');
   has Facets => (is => 'ro', isa => 'ArrayRef[Paws::Kendra::Facet]');
   has IndexId => (is => 'ro', isa => 'Str', required => 1);
   has PageNumber => (is => 'ro', isa => 'Int');
   has PageSize => (is => 'ro', isa => 'Int');
   has QueryResultTypeFilter => (is => 'ro', isa => 'Str');
-  has QueryText => (is => 'ro', isa => 'Str', required => 1);
+  has QueryText => (is => 'ro', isa => 'Str');
   has RequestedDocumentAttributes => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has SortingConfiguration => (is => 'ro', isa => 'Paws::Kendra::SortingConfiguration');
+  has SortingConfigurations => (is => 'ro', isa => 'ArrayRef[Paws::Kendra::SortingConfiguration]');
+  has SpellCorrectionConfiguration => (is => 'ro', isa => 'Paws::Kendra::SpellCorrectionConfiguration');
   has UserContext => (is => 'ro', isa => 'Paws::Kendra::UserContext');
   has VisitorId => (is => 'ro', isa => 'Str');
 
@@ -40,7 +43,6 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $kendra = Paws->service('Kendra');
     my $QueryResult = $kendra->Query(
       IndexId         => 'MyIndexId',
-      QueryText       => 'MyQueryText',
       AttributeFilter => {
         AndAllFilters => [ <AttributeFilter>, ... ],    # OPTIONAL
         ContainsAll   => {
@@ -137,6 +139,24 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         NotFilter    => <AttributeFilter>,
         OrAllFilters => [ <AttributeFilter>, ... ],    # OPTIONAL
       },    # OPTIONAL
+      CollapseConfiguration => {
+        DocumentAttributeKey => 'MyDocumentAttributeKey',    # min: 1, max: 200
+        Expand               => 1,                           # OPTIONAL
+        ExpandConfiguration  => {
+          MaxExpandedResultsPerItem => 1,                    # OPTIONAL
+          MaxResultItemsToExpand    => 1,                    # OPTIONAL
+        },    # OPTIONAL
+        MissingAttributeKeyStrategy =>
+          'IGNORE',    # values: IGNORE, COLLAPSE, EXPAND; OPTIONAL
+        SortingConfigurations => [
+          {
+            DocumentAttributeKey => 'MyDocumentAttributeKey', # min: 1, max: 200
+            SortOrder            => 'DESC',    # values: DESC, ASC
+
+          },
+          ...
+        ],    # min: 1; OPTIONAL
+      },    # OPTIONAL
       DocumentRelevanceOverrideConfigurations => [
         {
           Name      => 'MyDocumentMetadataConfigurationName',  # min: 1, max: 30
@@ -157,31 +177,61 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       Facets => [
         {
           DocumentAttributeKey => 'MyDocumentAttributeKey',   # min: 1, max: 200
+          Facets               => <FacetList>,
+          MaxResults           => 1,    # max: 5000; OPTIONAL
         },
         ...
       ],    # OPTIONAL
-      PageNumber                  => 1,             # OPTIONAL
-      PageSize                    => 1,             # OPTIONAL
-      QueryResultTypeFilter       => 'DOCUMENT',    # OPTIONAL
+      PageNumber                  => 1,                # OPTIONAL
+      PageSize                    => 1,                # OPTIONAL
+      QueryResultTypeFilter       => 'DOCUMENT',       # OPTIONAL
+      QueryText                   => 'MyQueryText',    # OPTIONAL
       RequestedDocumentAttributes => [
-        'MyDocumentAttributeKey', ...               # min: 1, max: 200
+        'MyDocumentAttributeKey', ...                  # min: 1, max: 200
       ],    # OPTIONAL
       SortingConfiguration => {
         DocumentAttributeKey => 'MyDocumentAttributeKey',    # min: 1, max: 200
         SortOrder            => 'DESC',                      # values: DESC, ASC
 
       },    # OPTIONAL
+      SortingConfigurations => [
+        {
+          DocumentAttributeKey => 'MyDocumentAttributeKey',  # min: 1, max: 200
+          SortOrder            => 'DESC',                    # values: DESC, ASC
+
+        },
+        ...
+      ],    # OPTIONAL
+      SpellCorrectionConfiguration => {
+        IncludeQuerySpellCheckSuggestions => 1,    # OPTIONAL
+
+      },    # OPTIONAL
       UserContext => {
-        Token => 'MyToken',    # min: 1, max: 100000; OPTIONAL
+        DataSourceGroups => [
+          {
+            DataSourceId => 'MyDataSourceId',     # min: 1, max: 100
+            GroupId      => 'MyPrincipalName',    # min: 1, max: 200
+
+          },
+          ...
+        ],    # min: 1, max: 2048; OPTIONAL
+        Groups => [
+          'MyPrincipalName', ...    # min: 1, max: 200
+        ],    # min: 1, max: 2048; OPTIONAL
+        Token  => 'MyToken',            # min: 1, max: 100000; OPTIONAL
+        UserId => 'MyPrincipalName',    # min: 1, max: 200
       },    # OPTIONAL
       VisitorId => 'MyVisitorId',    # OPTIONAL
     );
 
     # Results:
-    my $FacetResults         = $QueryResult->FacetResults;
-    my $QueryId              = $QueryResult->QueryId;
-    my $ResultItems          = $QueryResult->ResultItems;
-    my $TotalNumberOfResults = $QueryResult->TotalNumberOfResults;
+    my $FacetResults          = $QueryResult->FacetResults;
+    my $FeaturedResultsItems  = $QueryResult->FeaturedResultsItems;
+    my $QueryId               = $QueryResult->QueryId;
+    my $ResultItems           = $QueryResult->ResultItems;
+    my $SpellCorrectedQueries = $QueryResult->SpellCorrectedQueries;
+    my $TotalNumberOfResults  = $QueryResult->TotalNumberOfResults;
+    my $Warnings              = $QueryResult->Warnings;
 
     # Returns a L<Paws::Kendra::QueryResult> object.
 
@@ -193,49 +243,55 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ken
 
 =head2 AttributeFilter => L<Paws::Kendra::AttributeFilter>
 
-Enables filtered searches based on document attributes. You can only
+Filters search results by document fields/attributes. You can only
 provide one attribute filter; however, the C<AndAllFilters>,
 C<NotFilter>, and C<OrAllFilters> parameters contain a list of other
 filters.
 
-The C<AttributeFilter> parameter enables you to create a set of
+The C<AttributeFilter> parameter means you can create a set of
 filtering rules that a document must satisfy to be included in the
 query results.
+
+For Amazon Kendra Gen AI Enterprise Edition indices use
+C<AttributeFilter> to enable document filtering for end users using
+C<_email_id> or include public documents (C<_email_id=null>).
+
+
+
+=head2 CollapseConfiguration => L<Paws::Kendra::CollapseConfiguration>
+
+Provides configuration to determine how to group results by document
+attribute value, and how to display them (collapsed or expanded) under
+a designated primary document for each group.
 
 
 
 =head2 DocumentRelevanceOverrideConfigurations => ArrayRef[L<Paws::Kendra::DocumentRelevanceConfiguration>]
 
-Overrides relevance tuning configurations of fields or attributes set
-at the index level.
+Overrides relevance tuning configurations of fields/attributes set at
+the index level.
 
 If you use this API to override the relevance tuning configured at the
 index level, but there is no relevance tuning configured at the index
 level, then Amazon Kendra does not apply any relevance tuning.
 
-If there is relevance tuning configured at the index level, but you do
-not use this API to override any relevance tuning in the index, then
-Amazon Kendra uses the relevance tuning that is configured at the index
-level.
-
 If there is relevance tuning configured for fields at the index level,
-but you use this API to override only some of these fields, then for
+and you use this API to override only some of these fields, then for
 the fields you did not override, the importance is set to 1.
 
 
 
 =head2 Facets => ArrayRef[L<Paws::Kendra::Facet>]
 
-An array of documents attributes. Amazon Kendra returns a count for
-each attribute key specified. You can use this information to help
-narrow the search for your user.
+An array of documents fields/attributes for faceted search. Amazon
+Kendra returns a count for each field key specified. This helps your
+users narrow their search.
 
 
 
 =head2 B<REQUIRED> IndexId => Str
 
-The unique identifier of the index to search. The identifier is
-returned in the response from the C<CreateIndex> operation.
+The identifier of the index for the search.
 
 
 
@@ -257,22 +313,29 @@ The default page size is 10. The maximum number of results returned is
 
 =head2 QueryResultTypeFilter => Str
 
-Sets the type of query. Only results for the specified query type are
-returned.
+Sets the type of query result or response. Only results for the
+specified type are returned.
 
 Valid values are: C<"DOCUMENT">, C<"QUESTION_ANSWER">, C<"ANSWER">
 
-=head2 B<REQUIRED> QueryText => Str
+=head2 QueryText => Str
 
-The text to search for.
+The input query text for the search. Amazon Kendra truncates queries at
+30 token words, which excludes punctuation and stop words. Truncation
+still applies if you use Boolean or more advanced, complex queries. For
+example, C<Timeoff AND October AND Category:HR> is counted as 3 tokens:
+C<timeoff>, C<october>, C<hr>. For more information, see Searching with
+advanced query syntax
+(https://docs.aws.amazon.com/kendra/latest/dg/searching-example.html#searching-index-query-syntax)
+in the Amazon Kendra Developer Guide.
 
 
 
 =head2 RequestedDocumentAttributes => ArrayRef[Str|Undef]
 
-An array of document attributes to include in the response. No other
-document attributes are included in the response. By default all
-document attributes are included in the response.
+An array of document fields/attributes to include in the response. You
+can limit the response to include certain document fields. By default,
+all document attributes are included in the response.
 
 
 
@@ -289,9 +352,30 @@ the relevance that Amazon Kendra determines for the result.
 
 
 
+=head2 SortingConfigurations => ArrayRef[L<Paws::Kendra::SortingConfiguration>]
+
+Provides configuration information to determine how the results of a
+query are sorted.
+
+You can set upto 3 fields that Amazon Kendra should sort the results
+on, and specify whether the results should be sorted in ascending or
+descending order. The sort field quota can be increased.
+
+If you don't provide a sorting configuration, the results are sorted by
+the relevance that Amazon Kendra determines for the result. In the case
+of ties in sorting the results, the results are sorted by relevance.
+
+
+
+=head2 SpellCorrectionConfiguration => L<Paws::Kendra::SpellCorrectionConfiguration>
+
+Enables suggested spell corrections for queries.
+
+
+
 =head2 UserContext => L<Paws::Kendra::UserContext>
 
-The user context token.
+The user context token or user and group information.
 
 
 

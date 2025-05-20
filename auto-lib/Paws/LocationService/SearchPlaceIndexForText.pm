@@ -3,8 +3,11 @@ package Paws::LocationService::SearchPlaceIndexForText;
   use Moose;
   has BiasPosition => (is => 'ro', isa => 'ArrayRef[Num]');
   has FilterBBox => (is => 'ro', isa => 'ArrayRef[Num]');
+  has FilterCategories => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has FilterCountries => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has IndexName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'IndexName', required => 1);
+  has Key => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'key');
+  has Language => (is => 'ro', isa => 'Str');
   has MaxResults => (is => 'ro', isa => 'Int');
   has Text => (is => 'ro', isa => 'Str', required => 1);
 
@@ -34,12 +37,19 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $geo = Paws->service('LocationService');
     my $SearchPlaceIndexForTextResponse = $geo->SearchPlaceIndexForText(
-      IndexName       => 'MyResourceName',
-      Text            => 'MySyntheticSearchPlaceIndexForTextRequestString',
-      BiasPosition    => [ 1,               ... ],    # OPTIONAL
-      FilterBBox      => [ 1,               ... ],    # OPTIONAL
-      FilterCountries => [ 'MyCountryCode', ... ],    # OPTIONAL
-      MaxResults      => 1,                           # OPTIONAL
+      IndexName        => 'MyResourceName',
+      Text             => 'MySearchPlaceIndexForTextRequestTextString',
+      BiasPosition     => [ 1, ... ],    # OPTIONAL
+      FilterBBox       => [ 1, ... ],    # OPTIONAL
+      FilterCategories => [
+        'MyPlaceCategory', ...           # max: 35
+      ],    # OPTIONAL
+      FilterCountries => [
+        'MyCountryCode3', ...    # min: 3, max: 3
+      ],    # OPTIONAL
+      Key        => 'MyApiKey',         # OPTIONAL
+      Language   => 'MyLanguageTag',    # OPTIONAL
+      MaxResults => 1,                  # OPTIONAL
     );
 
     # Results:
@@ -56,80 +66,68 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/geo
 
 =head2 BiasPosition => ArrayRef[Num]
 
-Searches for results closest to the given position. An optional
-parameter defined by longitude, and latitude.
+An optional parameter that indicates a preference for places that are
+closer to a specified position.
 
-=over
+If provided, this parameter must contain a pair of numbers. The first
+number represents the X coordinate, or longitude; the second number
+represents the Y coordinate, or latitude.
 
-=item *
+For example, C<[-123.1174, 49.2847]> represents the position with
+longitude C<-123.1174> and latitude C<49.2847>.
 
-The first C<bias> position is the X coordinate, or longitude.
-
-=item *
-
-The second C<bias> position is the Y coordinate, or latitude.
-
-=back
-
-For example, C<bias=xLongitude&bias=yLatitude>.
+C<BiasPosition> and C<FilterBBox> are mutually exclusive. Specifying
+both options results in an error.
 
 
 
 =head2 FilterBBox => ArrayRef[Num]
 
-Filters the results by returning only Places within the provided
-bounding box. An optional parameter.
+An optional parameter that limits the search results by returning only
+places that are within the provided bounding box.
 
-The first 2 C<bbox> parameters describe the lower southwest corner:
+If provided, this parameter must contain a total of four consecutive
+numbers in two pairs. The first pair of numbers represents the X and Y
+coordinates (longitude and latitude, respectively) of the southwest
+corner of the bounding box; the second pair of numbers represents the X
+and Y coordinates (longitude and latitude, respectively) of the
+northeast corner of the bounding box.
 
-=over
+For example, C<[-12.7935, -37.4835, -12.0684, -36.9542]> represents a
+bounding box where the southwest corner has longitude C<-12.7935> and
+latitude C<-37.4835>, and the northeast corner has longitude
+C<-12.0684> and latitude C<-36.9542>.
 
-=item *
+C<FilterBBox> and C<BiasPosition> are mutually exclusive. Specifying
+both options results in an error.
 
-The first C<bbox> position is the X coordinate or longitude of the
-lower southwest corner.
 
-=item *
 
-The second C<bbox> position is the Y coordinate or latitude of the
-lower southwest corner.
+=head2 FilterCategories => ArrayRef[Str|Undef]
 
-=back
+A list of one or more Amazon Location categories to filter the returned
+places. If you include more than one category, the results will include
+results that match I<any> of the categories listed.
 
-For example, C<bbox=xLongitudeSW&bbox=yLatitudeSW>.
-
-The next C<bbox> parameters describe the upper northeast corner:
-
-=over
-
-=item *
-
-The third C<bbox> position is the X coordinate, or longitude of the
-upper northeast corner.
-
-=item *
-
-The fourth C<bbox> position is the Y coordinate, or longitude of the
-upper northeast corner.
-
-=back
-
-For example, C<bbox=xLongitudeNE&bbox=yLatitudeNE>
+For more information about using categories, including a list of Amazon
+Location categories, see Categories and filtering
+(https://docs.aws.amazon.com/location/latest/developerguide/category-filtering.html),
+in the I<Amazon Location Service Developer Guide>.
 
 
 
 =head2 FilterCountries => ArrayRef[Str|Undef]
 
-Limits the search to the given a list of countries/regions. An optional
-parameter.
+An optional parameter that limits the search results by returning only
+places that are in a specified list of countries.
 
 =over
 
 =item *
 
-Use the ISO 3166 (https://www.iso.org/iso-3166-country-codes.html)
-3-digit country code. For example, Australia uses three upper-case
-characters: C<AUS>.
+Valid values include ISO 3166
+(https://www.iso.org/iso-3166-country-codes.html) 3-digit country
+codes. For example, Australia uses three upper-case characters: C<AUS>.
 
 =back
 
@@ -139,6 +137,38 @@ characters: C<AUS>.
 =head2 B<REQUIRED> IndexName => Str
 
 The name of the place index resource you want to use for the search.
+
+
+
+=head2 Key => Str
+
+The optional API key
+(https://docs.aws.amazon.com/location/latest/developerguide/using-apikeys.html)
+to authorize the request.
+
+
+
+=head2 Language => Str
+
+The preferred language used to return results. The value must be a
+valid BCP 47 (https://tools.ietf.org/search/bcp47) language tag, for
+example, C<en> for English.
+
+This setting affects the languages used in the results, but not the
+results themselves. If no language is specified, or not supported for a
+particular result, the partner automatically chooses a language for the
+result.
+
+For an example, we'll use the Greek language. You search for C<Athens,
+Greece>, with the C<language> parameter set to C<en>. The result found
+will most likely be returned as C<Athens>.
+
+If you set the C<language> parameter to C<el>, for Greek, then the
+result found will more likely be returned as
+C<E<Alpha>E<theta>E<nu>E<alpha>>.
+
+If the data provider does not have a value for Greek, the result will
+be in a language that the provider does support.
 
 
 
@@ -153,7 +183,7 @@ The default: C<50>
 
 =head2 B<REQUIRED> Text => Str
 
-The address, name, city, or region to be used in the search. In
+The address, name, city, or region to be used in the search in
 free-form text format. For example, C<123 Any Street>.
 
 

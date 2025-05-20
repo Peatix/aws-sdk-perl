@@ -102,7 +102,7 @@ Valid values are: C<"SHA256">
 =head2 B<REQUIRED> DataLength => Int
 
 The size of the data to write to the block, in bytes. Currently, the
-only supported size is C<524288>.
+only supported size is C<524288> bytes.
 
 Valid values: C<524288>
 
@@ -117,6 +117,12 @@ The progress of the write process, as a percentage.
 =head2 B<REQUIRED> SnapshotId => Str
 
 The ID of the snapshot.
+
+If the specified snapshot is encrypted, you must have permission to use
+the KMS key that was used to encrypt the snapshot. For more
+information, see Using encryption
+(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebsapis-using-encryption.html)
+in the I<Amazon Elastic Compute Cloud User Guide>..
 
 
 

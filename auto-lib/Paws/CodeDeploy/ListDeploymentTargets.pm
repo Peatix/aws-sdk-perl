@@ -1,7 +1,7 @@
 
 package Paws::CodeDeploy::ListDeploymentTargets;
   use Moose;
-  has DeploymentId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'deploymentId' );
+  has DeploymentId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'deploymentId' , required => 1);
   has NextToken => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'nextToken' );
   has TargetFilters => (is => 'ro', isa => 'Paws::CodeDeploy::TargetFilters', traits => ['NameInRequest'], request_name => 'targetFilters' );
 
@@ -30,8 +30,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $codedeploy = Paws->service('CodeDeploy');
     my $ListDeploymentTargetsOutput = $codedeploy->ListDeploymentTargets(
-      DeploymentId  => 'MyDeploymentId',    # OPTIONAL
-      NextToken     => 'MyNextToken',       # OPTIONAL
+      DeploymentId  => 'MyDeploymentId',
+      NextToken     => 'MyNextToken',      # OPTIONAL
       TargetFilters => {
         'TargetStatus' => [ 'MyFilterValue', ... ]
         ,    # key: values: TargetStatus, ServerInstanceLabel
@@ -50,7 +50,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/cod
 =head1 ATTRIBUTES
 
 
-=head2 DeploymentId => Str
+=head2 B<REQUIRED> DeploymentId => Str
 
 The unique ID of a deployment.
 

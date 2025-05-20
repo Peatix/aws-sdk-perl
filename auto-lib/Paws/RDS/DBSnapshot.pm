@@ -7,6 +7,8 @@ package Paws::RDS::DBSnapshot;
   has DbiResourceId => (is => 'ro', isa => 'Str');
   has DBSnapshotArn => (is => 'ro', isa => 'Str');
   has DBSnapshotIdentifier => (is => 'ro', isa => 'Str');
+  has DBSystemId => (is => 'ro', isa => 'Str');
+  has DedicatedLogVolume => (is => 'ro', isa => 'Bool');
   has Encrypted => (is => 'ro', isa => 'Bool');
   has Engine => (is => 'ro', isa => 'Str');
   has EngineVersion => (is => 'ro', isa => 'Str');
@@ -16,15 +18,20 @@ package Paws::RDS::DBSnapshot;
   has KmsKeyId => (is => 'ro', isa => 'Str');
   has LicenseModel => (is => 'ro', isa => 'Str');
   has MasterUsername => (is => 'ro', isa => 'Str');
+  has MultiTenant => (is => 'ro', isa => 'Bool');
   has OptionGroupName => (is => 'ro', isa => 'Str');
+  has OriginalSnapshotCreateTime => (is => 'ro', isa => 'Str');
   has PercentProgress => (is => 'ro', isa => 'Int');
   has Port => (is => 'ro', isa => 'Int');
   has ProcessorFeatures => (is => 'ro', isa => 'ArrayRef[Paws::RDS::ProcessorFeature]', request_name => 'ProcessorFeature', traits => ['NameInRequest']);
   has SnapshotCreateTime => (is => 'ro', isa => 'Str');
+  has SnapshotDatabaseTime => (is => 'ro', isa => 'Str');
+  has SnapshotTarget => (is => 'ro', isa => 'Str');
   has SnapshotType => (is => 'ro', isa => 'Str');
   has SourceDBSnapshotIdentifier => (is => 'ro', isa => 'Str');
   has SourceRegion => (is => 'ro', isa => 'Str');
   has Status => (is => 'ro', isa => 'Str');
+  has StorageThroughput => (is => 'ro', isa => 'Int');
   has StorageType => (is => 'ro', isa => 'Str');
   has TagList => (is => 'ro', isa => 'ArrayRef[Paws::RDS::Tag]', request_name => 'Tag', traits => ['NameInRequest']);
   has TdeCredentialArn => (is => 'ro', isa => 'Str');
@@ -102,9 +109,22 @@ The Amazon Resource Name (ARN) for the DB snapshot.
 Specifies the identifier for the DB snapshot.
 
 
+=head2 DBSystemId => Str
+
+The Oracle system identifier (SID), which is the name of the Oracle
+database instance that manages your database files. The Oracle SID is
+also the name of your CDB.
+
+
+=head2 DedicatedLogVolume => Bool
+
+Indicates whether the DB instance has a dedicated log volume (DLV)
+enabled.
+
+
 =head2 Encrypted => Bool
 
-Specifies whether the DB snapshot is encrypted.
+Indicates whether the DB snapshot is encrypted.
 
 
 =head2 Engine => Str
@@ -119,8 +139,8 @@ Specifies the version of the database engine.
 
 =head2 IAMDatabaseAuthenticationEnabled => Bool
 
-True if mapping of Amazon Web Services Identity and Access Management
-(IAM) accounts to database accounts is enabled, and otherwise false.
+Indicates whether mapping of Amazon Web Services Identity and Access
+Management (IAM) accounts to database accounts is enabled.
 
 
 =head2 InstanceCreateTime => Str
@@ -141,8 +161,7 @@ If C<Encrypted> is true, the Amazon Web Services KMS key identifier for
 the encrypted DB snapshot.
 
 The Amazon Web Services KMS key identifier is the key ARN, key ID,
-alias ARN, or alias name for the Amazon Web Services KMS customer
-master key (CMK).
+alias ARN, or alias name for the KMS key.
 
 
 =head2 LicenseModel => Str
@@ -155,9 +174,22 @@ License model information for the restored DB instance.
 Provides the master username for the DB snapshot.
 
 
+=head2 MultiTenant => Bool
+
+Indicates whether the snapshot is of a DB instance using the
+multi-tenant configuration (TRUE) or the single-tenant configuration
+(FALSE).
+
+
 =head2 OptionGroupName => Str
 
 Provides the option group name for the DB snapshot.
+
+
+=head2 OriginalSnapshotCreateTime => Str
+
+Specifies the time of the CreateDBSnapshot operation in Coordinated
+Universal Time (UTC). Doesn't change when the snapshot is copied.
 
 
 =head2 PercentProgress => Int
@@ -180,7 +212,27 @@ instance class of the DB instance when the DB snapshot was created.
 =head2 SnapshotCreateTime => Str
 
 Specifies when the snapshot was taken in Coordinated Universal Time
-(UTC).
+(UTC). Changes for the copy when the snapshot is copied.
+
+
+=head2 SnapshotDatabaseTime => Str
+
+The timestamp of the most recent transaction applied to the database
+that you're backing up. Thus, if you restore a snapshot,
+SnapshotDatabaseTime is the most recent transaction in the restored DB
+instance. In contrast, originalSnapshotCreateTime specifies the system
+time that the snapshot completed.
+
+If you back up a read replica, you can determine the replica lag by
+comparing SnapshotDatabaseTime with originalSnapshotCreateTime. For
+example, if originalSnapshotCreateTime is two hours later than
+SnapshotDatabaseTime, then the replica lag is two hours.
+
+
+=head2 SnapshotTarget => Str
+
+Specifies where manual snapshots are stored: Amazon Web Services
+Outposts or the Amazon Web Services Region.
 
 
 =head2 SnapshotType => Str
@@ -191,8 +243,8 @@ Provides the type of the DB snapshot.
 =head2 SourceDBSnapshotIdentifier => Str
 
 The DB snapshot Amazon Resource Name (ARN) that the DB snapshot was
-copied from. It only has value in case of cross-customer or
-cross-region copy.
+copied from. It only has a value in the case of a cross-account or
+cross-Region copy.
 
 
 =head2 SourceRegion => Str
@@ -204,6 +256,11 @@ copied from.
 =head2 Status => Str
 
 Specifies the status of this DB snapshot.
+
+
+=head2 StorageThroughput => Int
+
+Specifies the storage throughput for the DB snapshot.
 
 
 =head2 StorageType => Str

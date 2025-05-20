@@ -2,6 +2,7 @@
 package Paws::SecretsManager::SecretVersionsListEntry;
   use Moose;
   has CreatedDate => (is => 'ro', isa => 'Str');
+  has KmsKeyIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has LastAccessedDate => (is => 'ro', isa => 'Str');
   has VersionId => (is => 'ro', isa => 'Str');
   has VersionStages => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
@@ -44,6 +45,11 @@ A structure that contains information about one version of a secret.
 =head2 CreatedDate => Str
 
 The date and time this version of the secret was created.
+
+
+=head2 KmsKeyIds => ArrayRef[Str|Undef]
+
+The KMS keys used to encrypt the secret version.
 
 
 =head2 LastAccessedDate => Str

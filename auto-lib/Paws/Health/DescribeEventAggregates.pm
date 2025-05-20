@@ -45,10 +45,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ],    # min: 1, max: 10; OPTIONAL
         EntityArns => [
           'MyentityArn', ...    # max: 1600
-        ],    # min: 1, max: 100; OPTIONAL
+        ],    # min: 1, max: 99; OPTIONAL
         EntityValues => [
           'MyentityValue', ...    # max: 1224
-        ],    # min: 1, max: 100; OPTIONAL
+        ],    # min: 1, max: 99; OPTIONAL
         EventArns => [
           'MyeventArn', ...    # max: 1600
         ],    # min: 1, max: 10; OPTIONAL

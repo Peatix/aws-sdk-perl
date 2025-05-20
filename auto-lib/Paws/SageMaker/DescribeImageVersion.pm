@@ -1,6 +1,7 @@
 
 package Paws::SageMaker::DescribeImageVersion;
   use Moose;
+  has Alias => (is => 'ro', isa => 'Str');
   has ImageName => (is => 'ro', isa => 'Str', required => 1);
   has Version => (is => 'ro', isa => 'Int');
 
@@ -30,7 +31,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $api.sagemaker = Paws->service('SageMaker');
     my $DescribeImageVersionResponse = $api . sagemaker->DescribeImageVersion(
       ImageName => 'MyImageName',
-      Version   => 1,               # OPTIONAL
+      Alias     => 'MySageMakerImageVersionAlias',    # OPTIONAL
+      Version   => 1,                                 # OPTIONAL
     );
 
     # Results:
@@ -38,10 +40,17 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $ContainerImage     = $DescribeImageVersionResponse->ContainerImage;
     my $CreationTime       = $DescribeImageVersionResponse->CreationTime;
     my $FailureReason      = $DescribeImageVersionResponse->FailureReason;
+    my $Horovod            = $DescribeImageVersionResponse->Horovod;
     my $ImageArn           = $DescribeImageVersionResponse->ImageArn;
     my $ImageVersionArn    = $DescribeImageVersionResponse->ImageVersionArn;
     my $ImageVersionStatus = $DescribeImageVersionResponse->ImageVersionStatus;
+    my $JobType            = $DescribeImageVersionResponse->JobType;
     my $LastModifiedTime   = $DescribeImageVersionResponse->LastModifiedTime;
+    my $MLFramework        = $DescribeImageVersionResponse->MLFramework;
+    my $Processor          = $DescribeImageVersionResponse->Processor;
+    my $ProgrammingLang    = $DescribeImageVersionResponse->ProgrammingLang;
+    my $ReleaseNotes       = $DescribeImageVersionResponse->ReleaseNotes;
+    my $VendorGuidance     = $DescribeImageVersionResponse->VendorGuidance;
     my $Version            = $DescribeImageVersionResponse->Version;
 
     # Returns a L<Paws::SageMaker::DescribeImageVersionResponse> object.
@@ -50,6 +59,12 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api.sagemaker/DescribeImageVersion>
 
 =head1 ATTRIBUTES
+
+
+=head2 Alias => Str
+
+The alias of the image version.
+
 
 
 =head2 B<REQUIRED> ImageName => Str

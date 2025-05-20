@@ -34,6 +34,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       $iot->UpdateAccountAuditConfiguration(
       AuditCheckConfigurations => {
         'MyAuditCheckName' => {
+          Configuration => {
+            'CERT_AGE_THRESHOLD_IN_DAYS' => 'MyConfigValue'
+            , # key: values: CERT_AGE_THRESHOLD_IN_DAYS, CERT_EXPIRATION_THRESHOLD_IN_DAYS, value: min: 1, max: 64
+          },    # OPTIONAL
           Enabled => 1,    # OPTIONAL
         },
       },    # OPTIONAL
@@ -81,8 +85,8 @@ Information about the targets to which audit notifications are sent.
 =head2 RoleArn => Str
 
 The Amazon Resource Name (ARN) of the role that grants permission to
-AWS IoT to access information about your devices, policies,
-certificates, and other items as required when performing an audit.
+IoT to access information about your devices, policies, certificates,
+and other items as required when performing an audit.
 
 
 

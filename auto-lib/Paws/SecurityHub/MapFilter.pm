@@ -35,35 +35,86 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SecurityHub
 
 =head1 DESCRIPTION
 
-A map filter for querying findings. Each map filter provides the field
-to check, the value to look for, and the comparison operator.
+A map filter for filtering Security Hub findings. Each map filter
+provides the field to check for, the value to check for, and the
+comparison operator.
 
 =head1 ATTRIBUTES
 
 
 =head2 Comparison => Str
 
-The condition to apply to the key value when querying for findings with
-a map filter.
+The condition to apply to the key value when filtering Security Hub
+findings with a map filter.
+
+To search for values that have the filter value, use one of the
+following comparison operators:
+
+=over
+
+=item *
+
+To search for values that include the filter value, use C<CONTAINS>.
+For example, for the C<ResourceTags> field, the filter C<Department
+CONTAINS Security> matches findings that include the value C<Security>
+for the C<Department> tag. In the same example, a finding with a value
+of C<Security team> for the C<Department> tag is a match.
+
+=item *
 
 To search for values that exactly match the filter value, use
 C<EQUALS>. For example, for the C<ResourceTags> field, the filter
 C<Department EQUALS Security> matches findings that have the value
-C<Security> for the tag C<Department>.
+C<Security> for the C<Department> tag.
+
+=back
+
+C<CONTAINS> and C<EQUALS> filters on the same field are joined by
+C<OR>. A finding matches if it matches any one of those filters. For
+example, the filters C<Department CONTAINS Security OR Department
+CONTAINS Finance> match a finding that includes either C<Security>,
+C<Finance>, or both values.
+
+To search for values that don't have the filter value, use one of the
+following comparison operators:
+
+=over
+
+=item *
+
+To search for values that exclude the filter value, use
+C<NOT_CONTAINS>. For example, for the C<ResourceTags> field, the filter
+C<Department NOT_CONTAINS Finance> matches findings that exclude the
+value C<Finance> for the C<Department> tag.
+
+=item *
 
 To search for values other than the filter value, use C<NOT_EQUALS>.
 For example, for the C<ResourceTags> field, the filter C<Department
-NOT_EQUALS Finance> matches findings that do not have the value
-C<Finance> for the tag C<Department>.
+NOT_EQUALS Finance> matches findings that donE<rsquo>t have the value
+C<Finance> for the C<Department> tag.
 
-C<EQUALS> filters on the same field are joined by C<OR>. A finding
-matches if it matches any one of those filters.
+=back
 
-C<NOT_EQUALS> filters on the same field are joined by C<AND>. A finding
-matches only if it matches all of those filters.
+C<NOT_CONTAINS> and C<NOT_EQUALS> filters on the same field are joined
+by C<AND>. A finding matches only if it matches all of those filters.
+For example, the filters C<Department NOT_CONTAINS Security AND
+Department NOT_CONTAINS Finance> match a finding that excludes both the
+C<Security> and C<Finance> values.
 
-You cannot have both an C<EQUALS> filter and a C<NOT_EQUALS> filter on
-the same field.
+C<CONTAINS> filters can only be used with other C<CONTAINS> filters.
+C<NOT_CONTAINS> filters can only be used with other C<NOT_CONTAINS>
+filters.
+
+You canE<rsquo>t have both a C<CONTAINS> filter and a C<NOT_CONTAINS>
+filter on the same field. Similarly, you canE<rsquo>t have both an
+C<EQUALS> filter and a C<NOT_EQUALS> filter on the same field.
+Combining filters in this way returns an error.
+
+C<CONTAINS> and C<NOT_CONTAINS> operators can be used only with
+automation rules. For more information, see Automation rules
+(https://docs.aws.amazon.com/securityhub/latest/userguide/automation-rules.html)
+in the I<Security Hub User Guide>.
 
 
 =head2 Key => Str
@@ -78,7 +129,7 @@ name of the field.
 The value for the key in the map filter. Filter values are case
 sensitive. For example, one of the values for a tag called
 C<Department> might be C<Security>. If you provide C<security> as the
-filter value, then there is no match.
+filter value, then there's no match.
 
 
 

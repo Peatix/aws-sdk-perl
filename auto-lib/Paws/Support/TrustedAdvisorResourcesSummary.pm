@@ -36,34 +36,34 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Support::Tr
 
 =head1 DESCRIPTION
 
-Details about AWS resources that were analyzed in a call to Trusted
-Advisor DescribeTrustedAdvisorCheckSummaries.
+Details about Amazon Web Services resources that were analyzed in a
+call to Trusted Advisor DescribeTrustedAdvisorCheckSummaries.
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> ResourcesFlagged => Int
 
-The number of AWS resources that were flagged (listed) by the Trusted
-Advisor check.
+The number of Amazon Web Services resources that were flagged (listed)
+by the Trusted Advisor check.
 
 
 =head2 B<REQUIRED> ResourcesIgnored => Int
 
-The number of AWS resources ignored by Trusted Advisor because
-information was unavailable.
+The number of Amazon Web Services resources ignored by Trusted Advisor
+because information was unavailable.
 
 
 =head2 B<REQUIRED> ResourcesProcessed => Int
 
-The number of AWS resources that were analyzed by the Trusted Advisor
-check.
+The number of Amazon Web Services resources that were analyzed by the
+Trusted Advisor check.
 
 
 =head2 B<REQUIRED> ResourcesSuppressed => Int
 
-The number of AWS resources ignored by Trusted Advisor because they
-were marked as suppressed by the user.
+The number of Amazon Web Services resources ignored by Trusted Advisor
+because they were marked as suppressed by the user.
 
 
 

@@ -2,6 +2,7 @@
 package Paws::LookoutMetrics::SNSConfiguration;
   use Moose;
   has RoleArn => (is => 'ro', isa => 'Str', required => 1);
+  has SnsFormat => (is => 'ro', isa => 'Str');
   has SnsTopicArn => (is => 'ro', isa => 'Str', required => 1);
 
 1;
@@ -43,6 +44,32 @@ alerts and the IAM role that has access to that topic.
 =head2 B<REQUIRED> RoleArn => Str
 
 The ARN of the IAM role that has access to the target SNS topic.
+
+
+=head2 SnsFormat => Str
+
+The format of the SNS topic.
+
+=over
+
+=item *
+
+C<JSON> E<ndash> Send JSON alerts with an anomaly ID and a link to the
+anomaly detail page. This is the default.
+
+=item *
+
+C<LONG_TEXT> E<ndash> Send human-readable alerts with information about
+the impacted timeseries and a link to the anomaly detail page. We
+recommend this for email.
+
+=item *
+
+C<SHORT_TEXT> E<ndash> Send human-readable alerts with a link to the
+anomaly detail page. We recommend this for SMS.
+
+=back
+
 
 
 =head2 B<REQUIRED> SnsTopicArn => Str

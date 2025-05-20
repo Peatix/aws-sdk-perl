@@ -2,6 +2,7 @@
 package Paws::IoTAnalytics::DatastoreStorageSummary;
   use Moose;
   has CustomerManagedS3 => (is => 'ro', isa => 'Paws::IoTAnalytics::CustomerManagedDatastoreS3StorageSummary', request_name => 'customerManagedS3', traits => ['NameInRequest']);
+  has IotSiteWiseMultiLayerStorage => (is => 'ro', isa => 'Paws::IoTAnalytics::DatastoreIotSiteWiseMultiLayerStorageSummary', request_name => 'iotSiteWiseMultiLayerStorage', traits => ['NameInRequest']);
   has ServiceManagedS3 => (is => 'ro', isa => 'Paws::IoTAnalytics::ServiceManagedDatastoreS3StorageSummary', request_name => 'serviceManagedS3', traits => ['NameInRequest']);
 
 1;
@@ -34,20 +35,25 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::IoTAnalytic
 
 =head1 DESCRIPTION
 
-Where data store data is stored.
+Contains information about your data store.
 
 =head1 ATTRIBUTES
 
 
 =head2 CustomerManagedS3 => L<Paws::IoTAnalytics::CustomerManagedDatastoreS3StorageSummary>
 
-Used to store data store data in an S3 bucket that you manage.
+Used to store data in an Amazon S3 bucket managed by IoT Analytics.
+
+
+=head2 IotSiteWiseMultiLayerStorage => L<Paws::IoTAnalytics::DatastoreIotSiteWiseMultiLayerStorageSummary>
+
+Used to store data used by IoT SiteWise in an Amazon S3 bucket that you
+manage.
 
 
 =head2 ServiceManagedS3 => L<Paws::IoTAnalytics::ServiceManagedDatastoreS3StorageSummary>
 
-Used to store data store data in an S3 bucket managed by AWS IoT
-Analytics.
+Used to store data in an Amazon S3 bucket managed by IoT Analytics.
 
 
 

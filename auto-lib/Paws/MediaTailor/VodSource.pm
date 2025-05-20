@@ -71,7 +71,11 @@ The name of the source location that the VOD source is associated with.
 
 =head2 Tags => L<Paws::MediaTailor::__mapOf__string>
 
-The tags assigned to the VOD source.
+The tags assigned to the VOD source. Tags are key-value pairs that you
+can associate with Amazon resources to help with organization, access
+control, and cost tracking. For more information, see Tagging AWS
+Elemental MediaTailor Resources
+(https://docs.aws.amazon.com/mediatailor/latest/ug/tagging.html).
 
 
 =head2 B<REQUIRED> VodSourceName => Str

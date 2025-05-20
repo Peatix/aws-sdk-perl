@@ -4,6 +4,7 @@ package Paws::ComputeOptimizer::GetEC2RecommendationProjectedMetrics;
   has EndTime => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'endTime' , required => 1);
   has InstanceArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'instanceArn' , required => 1);
   has Period => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'period' , required => 1);
+  has RecommendationPreferences => (is => 'ro', isa => 'Paws::ComputeOptimizer::RecommendationPreferences', traits => ['NameInRequest'], request_name => 'recommendationPreferences' );
   has StartTime => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'startTime' , required => 1);
   has Stat => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'stat' , required => 1);
 
@@ -33,12 +34,16 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $compute-optimizer = Paws->service('ComputeOptimizer');
     my $GetEC2RecommendationProjectedMetricsResponse =
       $compute -optimizer->GetEC2RecommendationProjectedMetrics(
-      EndTime     => '1970-01-01T01:00:00',
-      InstanceArn => 'MyInstanceArn',
-      Period      => 1,
-      StartTime   => '1970-01-01T01:00:00',
-      Stat        => 'Maximum',
-
+      EndTime                   => '1970-01-01T01:00:00',
+      InstanceArn               => 'MyInstanceArn',
+      Period                    => 1,
+      StartTime                 => '1970-01-01T01:00:00',
+      Stat                      => 'Maximum',
+      RecommendationPreferences => {
+        CpuVendorArchitectures => [
+          'AWS_ARM64', ...    # values: AWS_ARM64, CURRENT
+        ],    # OPTIONAL
+      },    # OPTIONAL
       );
 
     # Results:
@@ -56,7 +61,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/com
 
 =head2 B<REQUIRED> EndTime => Str
 
-The time stamp of the last projected metrics data point to return.
+The timestamp of the last projected metrics data point to return.
 
 
 
@@ -73,9 +78,16 @@ The granularity, in seconds, of the projected metrics data points.
 
 
 
+=head2 RecommendationPreferences => L<Paws::ComputeOptimizer::RecommendationPreferences>
+
+An object to specify the preferences for the Amazon EC2 recommendation
+projected metrics to return in the response.
+
+
+
 =head2 B<REQUIRED> StartTime => Str
 
-The time stamp of the first projected metrics data point to return.
+The timestamp of the first projected metrics data point to return.
 
 
 

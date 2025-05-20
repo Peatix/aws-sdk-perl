@@ -40,11 +40,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
         },    # OPTIONAL
         IamRole => {
-          Arn => 'MyARN',    # min: 1, max: 1600
+          Arn => 'MyIamArn',    # min: 1, max: 1600
 
         },    # OPTIONAL
         IamUser => {
-          Arn => 'MyARN',    # min: 1, max: 1600
+          Arn => 'MyIamArn',    # min: 1, max: 1600
 
         },    # OPTIONAL
         User => {
@@ -80,8 +80,8 @@ The ID of the access policy.
 
 =head2 B<REQUIRED> AccessPolicyIdentity => L<Paws::IoTSiteWise::Identity>
 
-The identity for this access policy. Choose an AWS SSO user, an AWS SSO
-group, or an IAM user.
+The identity for this access policy. Choose an IAM Identity Center
+user, an IAM Identity Center group, or an IAM user.
 
 
 
@@ -94,8 +94,8 @@ Valid values are: C<"ADMINISTRATOR">, C<"VIEWER">
 
 =head2 B<REQUIRED> AccessPolicyResource => L<Paws::IoTSiteWise::Resource>
 
-The AWS IoT SiteWise Monitor resource for this access policy. Choose
-either a portal or a project.
+The IoT SiteWise Monitor resource for this access policy. Choose either
+a portal or a project.
 
 
 

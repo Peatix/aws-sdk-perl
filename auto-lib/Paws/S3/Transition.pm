@@ -54,8 +54,16 @@ UTC.
 =head2 Days => Int
 
 Indicates the number of days after creation when objects are
-transitioned to the specified storage class. The value must be a
-positive integer.
+transitioned to the specified storage class. If the specified storage
+class is C<INTELLIGENT_TIERING>, C<GLACIER_IR>, C<GLACIER>, or
+C<DEEP_ARCHIVE>, valid values are C<0> or positive integers. If the
+specified storage class is C<STANDARD_IA> or C<ONEZONE_IA>, valid
+values are positive integers greater than C<30>. Be aware that some
+storage classes have a minimum storage duration and that you're charged
+for transitioning objects before their minimum storage duration. For
+more information, see Constraints and considerations for transitions
+(https://docs.aws.amazon.com/AmazonS3/latest/userguide/lifecycle-transition-general-considerations.html#lifecycle-configuration-constraints)
+in the I<Amazon S3 User Guide>.
 
 
 =head2 StorageClass => Str

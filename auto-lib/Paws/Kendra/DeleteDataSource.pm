@@ -42,13 +42,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ken
 
 =head2 B<REQUIRED> Id => Str
 
-The unique identifier of the data source to delete.
+The identifier of the data source connector you want to delete.
 
 
 
 =head2 B<REQUIRED> IndexId => Str
 
-The unique identifier of the index associated with the data source.
+The identifier of the index used with the data source connector.
 
 
 

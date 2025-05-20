@@ -2,9 +2,11 @@
 package Paws::AutoScaling::CustomizedMetricSpecification;
   use Moose;
   has Dimensions => (is => 'ro', isa => 'ArrayRef[Paws::AutoScaling::MetricDimension]');
-  has MetricName => (is => 'ro', isa => 'Str', required => 1);
-  has Namespace => (is => 'ro', isa => 'Str', required => 1);
-  has Statistic => (is => 'ro', isa => 'Str', required => 1);
+  has MetricName => (is => 'ro', isa => 'Str');
+  has Metrics => (is => 'ro', isa => 'ArrayRef[Paws::AutoScaling::TargetTrackingMetricDataQuery]');
+  has Namespace => (is => 'ro', isa => 'Str');
+  has Period => (is => 'ro', isa => 'Int');
+  has Statistic => (is => 'ro', isa => 'Str');
   has Unit => (is => 'ro', isa => 'Str');
 
 1;
@@ -46,10 +48,10 @@ To create your customized metric specification:
 
 =item *
 
-Add values for each required parameter from CloudWatch. You can use an
+Add values for each required property from CloudWatch. You can use an
 existing metric, or a new metric that you create. To use your own
 metric, you must first publish the metric to CloudWatch. For more
-information, see Publish Custom Metrics
+information, see Publish custom metrics
 (https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/publishingMetrics.html)
 in the I<Amazon CloudWatch User Guide>.
 
@@ -62,8 +64,15 @@ decrease when capacity increases.
 
 =back
 
-For more information about CloudWatch, see Amazon CloudWatch Concepts
+For more information about the CloudWatch terminology below, see Amazon
+CloudWatch concepts
 (https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html).
+
+Each individual service provides information about the metrics,
+namespace, and dimensions they use. For more information, see Amazon
+Web Services services that publish CloudWatch metrics
+(https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/aws-services-cloudwatch-metrics.html)
+in the I<Amazon CloudWatch User Guide>.
 
 =head1 ATTRIBUTES
 
@@ -76,24 +85,47 @@ Conditional: If you published your metric with dimensions, you must
 specify the same dimensions in your scaling policy.
 
 
-=head2 B<REQUIRED> MetricName => Str
+=head2 MetricName => Str
 
-The name of the metric.
+The name of the metric. To get the exact metric name, namespace, and
+dimensions, inspect the Metric
+(https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_Metric.html)
+object that is returned by a call to ListMetrics
+(https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_ListMetrics.html).
 
 
-=head2 B<REQUIRED> Namespace => Str
+=head2 Metrics => ArrayRef[L<Paws::AutoScaling::TargetTrackingMetricDataQuery>]
+
+The metrics to include in the target tracking scaling policy, as a
+metric data query. This can include both raw metric and metric math
+expressions.
+
+
+=head2 Namespace => Str
 
 The namespace of the metric.
 
 
-=head2 B<REQUIRED> Statistic => Str
+=head2 Period => Int
+
+The period of the metric in seconds. The default value is 60. Accepted
+values are 10, 30, and 60. For high resolution metric, set the value to
+less than 60. For more information, see Create a target tracking policy
+using high-resolution metrics for faster response
+(https://docs.aws.amazon.com/autoscaling/ec2/userguide/policy-creating-high-resolution-metrics.html).
+
+
+=head2 Statistic => Str
 
 The statistic of the metric.
 
 
 =head2 Unit => Str
 
-The unit of the metric.
+The unit of the metric. For a complete list of the units that
+CloudWatch supports, see the MetricDatum
+(https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_MetricDatum.html)
+data type in the I<Amazon CloudWatch API Reference>.
 
 
 

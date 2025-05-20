@@ -4,6 +4,7 @@ package Paws::MediaConnect::ListedFlow;
   has AvailabilityZone => (is => 'ro', isa => 'Str', request_name => 'availabilityZone', traits => ['NameInRequest'], required => 1);
   has Description => (is => 'ro', isa => 'Str', request_name => 'description', traits => ['NameInRequest'], required => 1);
   has FlowArn => (is => 'ro', isa => 'Str', request_name => 'flowArn', traits => ['NameInRequest'], required => 1);
+  has Maintenance => (is => 'ro', isa => 'Paws::MediaConnect::Maintenance', request_name => 'maintenance', traits => ['NameInRequest']);
   has Name => (is => 'ro', isa => 'Str', request_name => 'name', traits => ['NameInRequest'], required => 1);
   has SourceType => (is => 'ro', isa => 'Str', request_name => 'sourceType', traits => ['NameInRequest'], required => 1);
   has Status => (is => 'ro', isa => 'Str', request_name => 'status', traits => ['NameInRequest'], required => 1);
@@ -38,8 +39,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::MediaConnec
 
 =head1 DESCRIPTION
 
-Provides a summary of a flow, including its ARN, Availability Zone, and
-source type.
+A summary of a flow, including its ARN, Availability Zone, and source
+type.
 
 =head1 ATTRIBUTES
 
@@ -59,6 +60,11 @@ A description of the flow.
 The ARN of the flow.
 
 
+=head2 Maintenance => L<Paws::MediaConnect::Maintenance>
+
+The maintenance settings for the flow.
+
+
 =head2 B<REQUIRED> Name => Str
 
 The name of the flow.
@@ -67,9 +73,9 @@ The name of the flow.
 =head2 B<REQUIRED> SourceType => Str
 
 The type of source. This value is either owned (originated somewhere
-other than an AWS Elemental MediaConnect flow owned by another AWS
-account) or entitled (originated at an AWS Elemental MediaConnect flow
-owned by another AWS account).
+other than an MediaConnect flow owned by another Amazon Web Services
+account) or entitled (originated at a MediaConnect flow owned by
+another Amazon Web Services account).
 
 
 =head2 B<REQUIRED> Status => Str

@@ -36,10 +36,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       Description => 'MyExperimentDescription',    # OPTIONAL
       Properties  => {
         'MyStringParameterValue' =>
-          'MyStringParameterValue',    # key: max: 256, value: max: 256
+          'MyStringParameterValue',    # key: max: 2500, value: max: 2500
       },    # OPTIONAL
       PropertiesToRemove => [
-        'MyStringParameterValue', ...    # max: 256
+        'MyStringParameterValue', ...    # max: 2500
       ],    # OPTIONAL
       Status => 'Unknown',    # OPTIONAL
     );

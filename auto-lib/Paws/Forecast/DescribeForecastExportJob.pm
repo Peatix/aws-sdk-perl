@@ -41,6 +41,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       $DescribeForecastExportJobResponse->ForecastExportJobArn;
     my $ForecastExportJobName =
       $DescribeForecastExportJobResponse->ForecastExportJobName;
+    my $Format = $DescribeForecastExportJobResponse->Format;
     my $LastModificationTime =
       $DescribeForecastExportJobResponse->LastModificationTime;
     my $Message = $DescribeForecastExportJobResponse->Message;

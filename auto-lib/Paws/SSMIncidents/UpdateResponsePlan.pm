@@ -11,7 +11,9 @@ package Paws::SSMIncidents::UpdateResponsePlan;
   has IncidentTemplateImpact => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'incidentTemplateImpact');
   has IncidentTemplateNotificationTargets => (is => 'ro', isa => 'ArrayRef[Paws::SSMIncidents::NotificationTargetItem]', traits => ['NameInRequest'], request_name => 'incidentTemplateNotificationTargets');
   has IncidentTemplateSummary => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'incidentTemplateSummary');
+  has IncidentTemplateTags => (is => 'ro', isa => 'Paws::SSMIncidents::TagMapUpdate', traits => ['NameInRequest'], request_name => 'incidentTemplateTags');
   has IncidentTemplateTitle => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'incidentTemplateTitle');
+  has Integrations => (is => 'ro', isa => 'ArrayRef[Paws::SSMIncidents::Integration]', traits => ['NameInRequest'], request_name => 'integrations');
 
   use MooseX::ClassAttribute;
 
@@ -47,6 +49,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             RoleArn         => 'MyRoleArn',                          # max: 1000
             DocumentVersion =>
               'MySsmAutomationDocumentVersionString',    # max: 128; OPTIONAL
+            DynamicParameters => {
+              'MyDynamicSsmParametersKeyString' => {
+                Variable => 'INCIDENT_RECORD_ARN'
+                ,    # values: INCIDENT_RECORD_ARN, INVOLVED_RESOURCES; OPTIONAL
+              },    # key: min: 1, max: 50
+            },    # min: 1, max: 200; OPTIONAL
             Parameters => {
               'MySsmParametersKeyString' => [
                 'MySsmParameterValuesMemberString', ...    # max: 512
@@ -80,7 +88,26 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ...
       ],    # OPTIONAL
       IncidentTemplateSummary => 'MyIncidentSummary',    # OPTIONAL
-      IncidentTemplateTitle   => 'MyIncidentTitle',      # OPTIONAL
+      IncidentTemplateTags    => {
+        'MyTagKey' => 'MyTagValue',    # key: min: 1, max: 128, value: max: 256
+      },    # OPTIONAL
+      IncidentTemplateTitle => 'MyIncidentTitle',    # OPTIONAL
+      Integrations          => [
+        {
+          PagerDutyConfiguration => {
+            Name => 'MyPagerDutyConfigurationNameString',    # min: 1, max: 200
+            PagerDutyIncidentConfiguration => {
+              ServiceId => 'MyPagerDutyIncidentConfigurationServiceIdString'
+              ,                                              # min: 1, max: 200
+
+            },
+            SecretId =>
+              'MyPagerDutyConfigurationSecretIdString',      # min: 1, max: 512
+
+          },    # OPTIONAL
+        },
+        ...
+      ],    # OPTIONAL
     );
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
@@ -104,33 +131,38 @@ The Amazon Resource Name (ARN) of the response plan.
 
 =head2 ChatChannel => L<Paws::SSMIncidents::ChatChannel>
 
-The AWS Chatbot chat channel used for collaboration during an incident.
+The Chatbot chat channel used for collaboration during an incident.
+
+Use the empty structure to remove the chat channel from the response
+plan.
 
 
 
 =head2 ClientToken => Str
 
-A token ensuring that the action is called only once with the specified
-details.
+A token ensuring that the operation is called only once with the
+specified details.
 
 
 
 =head2 DisplayName => Str
 
-The long format name of the response plan. Can't contain spaces.
+The long format name of the response plan. The display name can't
+contain spaces.
 
 
 
 =head2 Engagements => ArrayRef[Str|Undef]
 
-The contacts and escalation plans that Incident Manager engages at the
-start of the incident.
+The Amazon Resource Name (ARN) for the contacts and escalation plans
+that the response plan engages during an incident.
 
 
 
 =head2 IncidentTemplateDedupeString => Str
 
-Used to create only one incident record for an incident.
+The string Incident Manager uses to prevent duplicate incidents from
+being created by the same incident in the same account.
 
 
 
@@ -139,29 +171,29 @@ Used to create only one incident record for an incident.
 Defines the impact to the customers. Providing an impact overwrites the
 impact provided by a response plan.
 
-B<Possible impacts:>
+B<Supported impact codes>
 
 =over
 
 =item *
 
-C<5> - Severe impact
+C<1> - Critical
 
 =item *
 
-C<4> - High impact
+C<2> - High
 
 =item *
 
-C<3> - Medium impact
+C<3> - Medium
 
 =item *
 
-C<2> - Low impact
+C<4> - Low
 
 =item *
 
-C<1> - No impact
+C<5> - No Impact
 
 =back
 
@@ -170,8 +202,8 @@ C<1> - No impact
 
 =head2 IncidentTemplateNotificationTargets => ArrayRef[L<Paws::SSMIncidents::NotificationTargetItem>]
 
-The SNS targets that AWS Chatbot uses to notify the chat channels and
-perform actions on the incident record.
+The Amazon SNS targets that are notified when updates are made to an
+incident.
 
 
 
@@ -182,9 +214,25 @@ happened, what's currently happening, and next steps.
 
 
 
+=head2 IncidentTemplateTags => L<Paws::SSMIncidents::TagMapUpdate>
+
+Tags to assign to the template. When the C<StartIncident> API action is
+called, Incident Manager assigns the tags specified in the template to
+the incident. To call this action, you must also have permission to
+call the C<TagResource> API action for the incident record resource.
+
+
+
 =head2 IncidentTemplateTitle => Str
 
-The short format name of the incident. Can't contain spaces.
+The short format name of the incident. The title can't contain spaces.
+
+
+
+=head2 Integrations => ArrayRef[L<Paws::SSMIncidents::Integration>]
+
+Information about third-party services integrated into the response
+plan.
 
 
 

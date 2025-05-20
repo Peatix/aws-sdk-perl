@@ -49,9 +49,9 @@ request. The result includes a representation of a CloudTrail event.
 
 =head2 AccessKeyId => Str
 
-The AWS access key ID that was used to sign the request. If the request
-was made with temporary security credentials, this is the access key ID
-of the temporary credentials.
+The Amazon Web Services access key ID that was used to sign the
+request. If the request was made with temporary security credentials,
+this is the access key ID of the temporary credentials.
 
 
 =head2 CloudTrailEvent => Str
@@ -71,7 +71,7 @@ The name of the event returned.
 
 =head2 EventSource => Str
 
-The AWS service that the request was made to.
+The Amazon Web Services service to which the request was made.
 
 
 =head2 EventTime => Str

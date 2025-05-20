@@ -66,7 +66,10 @@ If supplied, must match the name of an existing DBParameterGroup.
 
 =head2 Filters => ArrayRef[L<Paws::RDS::Filter>]
 
-This parameter isn't currently supported.
+A filter that specifies one or more DB parameters to describe.
+
+The only supported filter is C<parameter-name>. The results list only
+includes information about the DB parameters with these names.
 
 
 

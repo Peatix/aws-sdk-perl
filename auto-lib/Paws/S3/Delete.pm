@@ -41,13 +41,18 @@ Container for the objects to delete.
 
 =head2 B<REQUIRED> Objects => ArrayRef[L<Paws::S3::ObjectIdentifier>]
 
-The objects to delete.
+The object to delete.
+
+B<Directory buckets> - For directory buckets, an object that's composed
+entirely of whitespace characters is not supported by the
+C<DeleteObjects> API operation. The request will receive a C<400 Bad
+Request> error and none of the objects in the request will be deleted.
 
 
 =head2 Quiet => Bool
 
 Element to enable quiet mode for the request. When you add this
-element, you must set its value to true.
+element, you must set its value to C<true>.
 
 
 

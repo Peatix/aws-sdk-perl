@@ -1,13 +1,13 @@
 
 package Paws::MediaConnect::RemoveFlowMediaStream;
   use Moose;
-  has FlowArn => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'flowArn', required => 1);
-  has MediaStreamName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'mediaStreamName', required => 1);
+  has FlowArn => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'FlowArn', required => 1);
+  has MediaStreamName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'MediaStreamName', required => 1);
 
   use MooseX::ClassAttribute;
 
   class_has _api_call => (isa => 'Str', is => 'ro', default => 'RemoveFlowMediaStream');
-  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/v1/flows/{flowArn}/mediaStreams/{mediaStreamName}');
+  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/v1/flows/{FlowArn}/mediaStreams/{MediaStreamName}');
   class_has _api_method  => (isa => 'Str', is => 'ro', default => 'DELETE');
   class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::MediaConnect::RemoveFlowMediaStreamResponse');
 1;
@@ -30,8 +30,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $mediaconnect = Paws->service('MediaConnect');
     my $RemoveFlowMediaStreamResponse = $mediaconnect->RemoveFlowMediaStream(
-      FlowArn         => 'My__string',
-      MediaStreamName => 'My__string',
+      FlowArn         => 'MyRemoveFlowMediaStreamRequestFlowArnString',
+      MediaStreamName => 'MyString',
 
     );
 
@@ -49,7 +49,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/med
 
 =head2 B<REQUIRED> FlowArn => Str
 
-The Amazon Resource Name (ARN) of the flow.
+The Amazon Resource Name (ARN) of the flow that you want to update.
 
 
 

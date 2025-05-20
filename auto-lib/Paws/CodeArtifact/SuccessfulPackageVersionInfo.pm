@@ -46,32 +46,7 @@ The revision of a package version.
 
 =head2 Status => Str
 
-The status of a package version. Valid statuses are:
-
-=over
-
-=item *
-
-C<Published>
-
-=item *
-
-C<Unfinished>
-
-=item *
-
-C<Unlisted>
-
-=item *
-
-C<Archived>
-
-=item *
-
-C<Disposed>
-
-=back
-
+The status of a package version.
 
 
 

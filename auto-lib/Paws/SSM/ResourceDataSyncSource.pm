@@ -45,36 +45,39 @@ sync.
 
 =head2 AwsOrganizationsSource => L<Paws::SSM::ResourceDataSyncAwsOrganizationsSource>
 
-Information about the AwsOrganizationsSource resource data sync source.
-A sync source of this type can synchronize data from AWS Organizations.
+Information about the C<AwsOrganizationsSource> resource data sync
+source. A sync source of this type can synchronize data from
+Organizations.
 
 
 =head2 EnableAllOpsDataSources => Bool
 
-When you create a resource data sync, if you choose one of the AWS
+When you create a resource data sync, if you choose one of the
 Organizations options, then Systems Manager automatically enables all
-OpsData sources in the selected AWS Regions for all AWS accounts in
-your organization (or in the selected organization units). For more
-information, see About multiple account and Region resource data syncs
-(https://docs.aws.amazon.com/systems-manager/latest/userguide/Explorer-resouce-data-sync-multiple-accounts-and-regions.html)
-in the I<AWS Systems Manager User Guide>.
+OpsData sources in the selected Amazon Web Services Regions for all
+Amazon Web Services accounts in your organization (or in the selected
+organization units). For more information, see Setting up Systems
+Manager Explorer to display data from multiple accounts and Regions
+(https://docs.aws.amazon.com/systems-manager/latest/userguide/Explorer-resource-data-sync.html)
+in the I<Amazon Web Services Systems Manager User Guide>.
 
 
 =head2 IncludeFutureRegions => Bool
 
-Whether to automatically synchronize and aggregate data from new AWS
-Regions when those Regions come online.
+Whether to automatically synchronize and aggregate data from new Amazon
+Web Services Regions when those Regions come online.
 
 
 =head2 B<REQUIRED> SourceRegions => ArrayRef[Str|Undef]
 
-The C<SyncSource> AWS Regions included in the resource data sync.
+The C<SyncSource> Amazon Web Services Regions included in the resource
+data sync.
 
 
 =head2 B<REQUIRED> SourceType => Str
 
 The type of data source for the resource data sync. C<SourceType> is
-either C<AwsOrganizations> (if an organization is present in AWS
+either C<AwsOrganizations> (if an organization is present in
 Organizations) or C<SingleAccountMultiRegions>.
 
 

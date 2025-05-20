@@ -83,7 +83,7 @@ The instance type to use when launching the server.
 
 =head2 LogicalId => Str
 
-The logical ID of the server in the AWS CloudFormation template.
+The logical ID of the server in the CloudFormation template.
 
 
 =head2 SecurityGroup => Str

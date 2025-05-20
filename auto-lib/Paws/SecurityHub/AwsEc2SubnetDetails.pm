@@ -45,7 +45,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SecurityHub
 
 =head1 DESCRIPTION
 
-Contains information about a subnet in EC2.
+Contains information about a subnet in Amazon EC2.
 
 =head1 ATTRIBUTES
 
@@ -94,12 +94,13 @@ Whether instances in this subnet receive a public IP address.
 
 =head2 OwnerId => Str
 
-The identifier of the AWS account that owns the subnet.
+The identifier of the Amazon Web Services account that owns the subnet.
 
 
 =head2 State => Str
 
-The current state of the subnet.
+The current state of the subnet. Valid values are C<available> or
+C<pending>.
 
 
 =head2 SubnetArn => Str

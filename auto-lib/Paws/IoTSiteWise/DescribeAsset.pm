@@ -2,6 +2,7 @@
 package Paws::IoTSiteWise::DescribeAsset;
   use Moose;
   has AssetId => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'assetId', required => 1);
+  has ExcludeProperties => (is => 'ro', isa => 'Bool', traits => ['ParamInQuery'], query_name => 'excludeProperties');
 
   use MooseX::ClassAttribute;
 
@@ -29,14 +30,18 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $iotsitewise = Paws->service('IoTSiteWise');
     my $DescribeAssetResponse = $iotsitewise->DescribeAsset(
-      AssetId => 'MyID',
-
+      AssetId           => 'MyCustomID',
+      ExcludeProperties => 1,              # OPTIONAL
     );
 
     # Results:
-    my $AssetArn             = $DescribeAssetResponse->AssetArn;
+    my $AssetArn = $DescribeAssetResponse->AssetArn;
+    my $AssetCompositeModelSummaries =
+      $DescribeAssetResponse->AssetCompositeModelSummaries;
     my $AssetCompositeModels = $DescribeAssetResponse->AssetCompositeModels;
     my $AssetCreationDate    = $DescribeAssetResponse->AssetCreationDate;
+    my $AssetDescription     = $DescribeAssetResponse->AssetDescription;
+    my $AssetExternalId      = $DescribeAssetResponse->AssetExternalId;
     my $AssetHierarchies     = $DescribeAssetResponse->AssetHierarchies;
     my $AssetId              = $DescribeAssetResponse->AssetId;
     my $AssetLastUpdateDate  = $DescribeAssetResponse->AssetLastUpdateDate;
@@ -55,7 +60,17 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/iot
 
 =head2 B<REQUIRED> AssetId => Str
 
-The ID of the asset.
+The ID of the asset. This can be either the actual ID in UUID format,
+or else C<externalId:> followed by the external ID, if it has one. For
+more information, see Referencing objects with external IDs
+(https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references)
+in the I<IoT SiteWise User Guide>.
+
+
+
+=head2 ExcludeProperties => Bool
+
+Whether or not to exclude asset properties from the response.
 
 
 

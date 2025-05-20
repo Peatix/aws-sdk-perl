@@ -56,7 +56,7 @@ keys correspond to replacement tags in the email template.
 
 =head2 B<REQUIRED> TemplateName => Str
 
-The name of the template that you want to render.
+The name of the template.
 
 
 

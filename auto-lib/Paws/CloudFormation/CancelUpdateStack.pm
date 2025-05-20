@@ -42,16 +42,27 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/clo
 =head2 ClientRequestToken => Str
 
 A unique identifier for this C<CancelUpdateStack> request. Specify this
-token if you plan to retry requests so that AWS CloudFormation knows
-that you're not attempting to cancel an update on a stack with the same
-name. You might retry C<CancelUpdateStack> requests to ensure that AWS
+token if you plan to retry requests so that CloudFormation knows that
+you're not attempting to cancel an update on a stack with the same
+name. You might retry C<CancelUpdateStack> requests to ensure that
 CloudFormation successfully received them.
 
 
 
 =head2 B<REQUIRED> StackName => Str
 
-The name or the unique stack ID that is associated with the stack.
+If you don't pass a parameter to C<StackName>, the API returns a
+response that describes all resources in the account.
+
+The IAM policy below can be added to IAM policies when you want to
+limit resource-level permissions and avoid returning a response when no
+parameter is sent in the request:
+
+C<{ "Version": "2012-10-17", "Statement": [{ "Effect": "Deny",
+"Action": "cloudformation:DescribeStacks", "NotResource":
+"arn:aws:cloudformation:*:*:stack/*/*" }] }>
+
+The name or the unique stack ID that's associated with the stack.
 
 
 

@@ -48,7 +48,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/com
 =head2 B<REQUIRED> JobId => Str
 
 The identifier that Amazon Comprehend generated for the job. The
-operation returns this identifier in its response.
+C<StartEntitiesDetectionJob> operation returns this identifier in its
+response.
 
 
 

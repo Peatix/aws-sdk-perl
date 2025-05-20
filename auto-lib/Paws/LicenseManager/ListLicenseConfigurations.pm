@@ -66,21 +66,18 @@ operators are supported:
 
 =item *
 
-C<licenseCountingType> - The dimension on which licenses are counted.
+C<licenseCountingType> - The dimension for which licenses are counted.
 Possible values are C<vCPU> | C<Instance> | C<Core> | C<Socket>.
-Logical operators are C<EQUALS> | C<NOT_EQUALS>.
 
 =item *
 
 C<enforceLicenseCount> - A Boolean value that indicates whether hard
-license enforcement is used. Logical operators are C<EQUALS> |
-C<NOT_EQUALS>.
+license enforcement is used.
 
 =item *
 
 C<usagelimitExceeded> - A Boolean value that indicates whether the
-available licenses have been exceeded. Logical operators are C<EQUALS>
-| C<NOT_EQUALS>.
+available licenses have been exceeded.
 
 =back
 

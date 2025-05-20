@@ -44,6 +44,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             ActivityMetrics => {
               IsEnabled => 1,    # OPTIONAL
             },    # OPTIONAL
+            AdvancedCostOptimizationMetrics => {
+              IsEnabled => 1,    # OPTIONAL
+            },    # OPTIONAL
+            AdvancedDataProtectionMetrics => {
+              IsEnabled => 1,    # OPTIONAL
+            },    # OPTIONAL
+            DetailedStatusCodesMetrics => {
+              IsEnabled => 1,    # OPTIONAL
+            },    # OPTIONAL
             PrefixLevel => {
               StorageMetrics => {
                 IsEnabled         => 1,    # OPTIONAL
@@ -60,6 +69,25 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           ActivityMetrics => {
             IsEnabled => 1,    # OPTIONAL
           },    # OPTIONAL
+          AdvancedCostOptimizationMetrics => {
+            IsEnabled => 1,    # OPTIONAL
+          },    # OPTIONAL
+          AdvancedDataProtectionMetrics => {
+            IsEnabled => 1,    # OPTIONAL
+          },    # OPTIONAL
+          DetailedStatusCodesMetrics => {
+            IsEnabled => 1,    # OPTIONAL
+          },    # OPTIONAL
+          StorageLensGroupLevel => {
+            SelectionCriteria => {
+              Exclude => [
+                'MyStorageLensGroupArn', ...    # min: 4, max: 1024
+              ],    # OPTIONAL
+              Include => [
+                'MyStorageLensGroupArn', ...    # min: 4, max: 1024
+              ],    # OPTIONAL
+            },    # OPTIONAL
+          },    # OPTIONAL
         },
         Id        => 'MyConfigId',    # min: 1, max: 64
         IsEnabled => 1,               # OPTIONAL
@@ -68,6 +96,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
         },    # OPTIONAL
         DataExport => {
+          CloudWatchMetrics => {
+            IsEnabled => 1,    # OPTIONAL
+
+          },    # OPTIONAL
           S3BucketDestination => {
             AccountId           => 'MyAccountId',         # max: 64
             Arn                 => 'MyS3BucketArnString', # min: 1, max: 128
@@ -83,8 +115,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
               },                                          # OPTIONAL
             },    # OPTIONAL
             Prefix => 'MyPrefix',    # OPTIONAL
-          },
-
+          },    # OPTIONAL
         },    # OPTIONAL
         Exclude => {
           Buckets => [
@@ -106,8 +137,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       },
       Tags => [
         {
-          Key   => 'MyTagKeyString',             # min: 1, max: 1024
-          Value => 'MyTagValueString',           # max: 1024
+          Key   => 'MyTagKeyString',             # min: 1, max: 128
+          Value => 'MyTagValueString',           # max: 256
 
         },
         ...

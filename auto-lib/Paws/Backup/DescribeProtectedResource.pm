@@ -35,8 +35,19 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     # Results:
     my $LastBackupTime = $DescribeProtectedResourceOutput->LastBackupTime;
-    my $ResourceArn    = $DescribeProtectedResourceOutput->ResourceArn;
-    my $ResourceType   = $DescribeProtectedResourceOutput->ResourceType;
+    my $LastBackupVaultArn =
+      $DescribeProtectedResourceOutput->LastBackupVaultArn;
+    my $LastRecoveryPointArn =
+      $DescribeProtectedResourceOutput->LastRecoveryPointArn;
+    my $LatestRestoreExecutionTimeMinutes =
+      $DescribeProtectedResourceOutput->LatestRestoreExecutionTimeMinutes;
+    my $LatestRestoreJobCreationDate =
+      $DescribeProtectedResourceOutput->LatestRestoreJobCreationDate;
+    my $LatestRestoreRecoveryPointCreationDate =
+      $DescribeProtectedResourceOutput->LatestRestoreRecoveryPointCreationDate;
+    my $ResourceArn  = $DescribeProtectedResourceOutput->ResourceArn;
+    my $ResourceName = $DescribeProtectedResourceOutput->ResourceName;
+    my $ResourceType = $DescribeProtectedResourceOutput->ResourceType;
 
     # Returns a L<Paws::Backup::DescribeProtectedResourceOutput> object.
 

@@ -58,14 +58,18 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/cod
 =head2 AfterCommitId => Str
 
 The full commit ID of the commit in the source branch that was the tip
-of the branch at the time the comment was made.
+of the branch at the time the comment was made. Requirement is
+conditional: C<afterCommitId> must be specified when C<repositoryName>
+is included.
 
 
 
 =head2 BeforeCommitId => Str
 
 The full commit ID of the commit in the destination branch that was the
-tip of the branch at the time the pull request was created.
+tip of the branch at the time the pull request was created. Requirement
+is conditional: C<beforeCommitId> must be specified when
+C<repositoryName> is included.
 
 
 
@@ -93,7 +97,9 @@ ListPullRequests.
 
 =head2 RepositoryName => Str
 
-The name of the repository that contains the pull request.
+The name of the repository that contains the pull request. Requirement
+is conditional: C<repositoryName> must be specified when
+C<beforeCommitId> and C<afterCommitId> are included.
 
 
 

@@ -17,7 +17,9 @@ Paws::ResourceGroups::GetGroupOutput
 
 =head2 Group => L<Paws::ResourceGroups::Group>
 
-A full description of the resource group.
+A structure that contains the metadata details for the specified
+resource group. Use GetGroupQuery and GetGroupConfiguration to get
+those additional details of the resource group.
 
 
 =head2 _request_id => Str

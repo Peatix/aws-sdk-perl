@@ -75,8 +75,9 @@ latest restorable auto snapshot> parameters are mutually exclusive.
 =item *
 
 Define this parameter only when copying an automatic snapshot as a
-manual snapshot. For more information, see the Lightsail Dev Guide
-(https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-keeping-automatic-snapshots).
+manual snapshot. For more information, see the Amazon Lightsail
+Developer Guide
+(https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-keeping-automatic-snapshots).
 
 =back
 
@@ -85,10 +86,10 @@ manual snapshot. For more information, see the Lightsail Dev Guide
 
 =head2 B<REQUIRED> SourceRegion => Str
 
-The AWS Region where the source manual or automatic snapshot is
-located.
+The Amazon Web Services Region where the source manual or automatic
+snapshot is located.
 
-Valid values are: C<"us-east-1">, C<"us-east-2">, C<"us-west-1">, C<"us-west-2">, C<"eu-west-1">, C<"eu-west-2">, C<"eu-west-3">, C<"eu-central-1">, C<"ca-central-1">, C<"ap-south-1">, C<"ap-southeast-1">, C<"ap-southeast-2">, C<"ap-northeast-1">, C<"ap-northeast-2">
+Valid values are: C<"us-east-1">, C<"us-east-2">, C<"us-west-1">, C<"us-west-2">, C<"eu-west-1">, C<"eu-west-2">, C<"eu-west-3">, C<"eu-central-1">, C<"ca-central-1">, C<"ap-south-1">, C<"ap-southeast-1">, C<"ap-southeast-2">, C<"ap-northeast-1">, C<"ap-northeast-2">, C<"eu-north-1">
 
 =head2 SourceResourceName => Str
 
@@ -102,8 +103,9 @@ Constraint:
 =item *
 
 Define this parameter only when copying an automatic snapshot as a
-manual snapshot. For more information, see the Lightsail Dev Guide
-(https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-keeping-automatic-snapshots).
+manual snapshot. For more information, see the Amazon Lightsail
+Developer Guide
+(https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-keeping-automatic-snapshots).
 
 =back
 
@@ -152,8 +154,9 @@ date> parameters are mutually exclusive.
 =item *
 
 Define this parameter only when copying an automatic snapshot as a
-manual snapshot. For more information, see the Lightsail Dev Guide
-(https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-keeping-automatic-snapshots).
+manual snapshot. For more information, see the Amazon Lightsail
+Developer Guide
+(https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-keeping-automatic-snapshots).
 
 =back
 

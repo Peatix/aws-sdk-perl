@@ -23,10 +23,10 @@ the next set of results.
 
 =head2 ResourceComplianceSummaryItems => ArrayRef[L<Paws::SSM::ResourceComplianceSummaryItem>]
 
-A summary count for specified or targeted managed instances. Summary
-count includes information about compliant and non-compliant State
-Manager associations, patch status, or custom items according to the
-filter criteria that you specify.
+A summary count for specified or targeted managed nodes. Summary count
+includes information about compliant and non-compliant State Manager
+associations, patch status, or custom items according to the filter
+criteria that you specify.
 
 
 =head2 _request_id => Str

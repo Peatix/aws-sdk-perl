@@ -17,8 +17,8 @@ Paws::Lightsail::GetDistributionLatestCacheResetResult
 
 =head2 CreateTime => Str
 
-The timestamp of the last cache reset (e.g., C<1479734909.17>) in Unix
-time format.
+The timestamp of the last cache reset (C<1479734909.17>) in Unix time
+format.
 
 
 =head2 Status => Str

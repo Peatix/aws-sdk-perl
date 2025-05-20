@@ -4,7 +4,7 @@ package Paws::KMS::PutKeyPolicy;
   has BypassPolicyLockoutSafetyCheck => (is => 'ro', isa => 'Bool');
   has KeyId => (is => 'ro', isa => 'Str', required => 1);
   has Policy => (is => 'ro', isa => 'Str', required => 1);
-  has PolicyName => (is => 'ro', isa => 'Str', required => 1);
+  has PolicyName => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -30,8 +30,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $kms = Paws->service('KMS');
-    # To attach a key policy to a customer master key (CMK)
-    # The following example attaches a key policy to the specified CMK.
+    # To attach a key policy to a KMS key
+    # The following example attaches a key policy to the specified KMS key.
     $kms->PutKeyPolicy(
       'KeyId'  => '1234abcd-12ab-34cd-56ef-1234567890ab',
       'Policy' => '{
@@ -120,29 +120,28 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/kms
 
 =head2 BypassPolicyLockoutSafetyCheck => Bool
 
-A flag to indicate whether to bypass the key policy lockout safety
-check.
+Skips ("bypasses") the key policy lockout safety check. The default
+value is false.
 
-Setting this value to true increases the risk that the CMK becomes
+Setting this value to true increases the risk that the KMS key becomes
 unmanageable. Do not set this value to true indiscriminately.
 
-For more information, refer to the scenario in the Default Key Policy
-(https://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html#key-policy-default-allow-root-enable-iam)
-section in the I<AWS Key Management Service Developer Guide>.
+For more information, see Default key policy
+(https://docs.aws.amazon.com/kms/latest/developerguide/key-policy-default.html#prevent-unmanageable-key)
+in the I<Key Management Service Developer Guide>.
 
 Use this parameter only when you intend to prevent the principal that
-is making the request from making a subsequent C<PutKeyPolicy> request
-on the CMK.
-
-The default value is false.
+is making the request from making a subsequent PutKeyPolicy
+(https://docs.aws.amazon.com/kms/latest/APIReference/API_PutKeyPolicy.html)
+request on the KMS key.
 
 
 
 =head2 B<REQUIRED> KeyId => Str
 
-Sets the key policy on the specified customer master key (CMK).
+Sets the key policy on the specified KMS key.
 
-Specify the key ID or key ARN of the CMK.
+Specify the key ID or key ARN of the KMS key.
 
 For example:
 
@@ -159,13 +158,14 @@ C<arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab>
 
 =back
 
-To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
+To get the key ID and key ARN for a KMS key, use ListKeys or
+DescribeKey.
 
 
 
 =head2 B<REQUIRED> Policy => Str
 
-The key policy to attach to the CMK.
+The key policy to attach to the KMS key.
 
 The key policy must meet the following criteria:
 
@@ -173,38 +173,63 @@ The key policy must meet the following criteria:
 
 =item *
 
-If you don't set C<BypassPolicyLockoutSafetyCheck> to true, the key
-policy must allow the principal that is making the C<PutKeyPolicy>
-request to make a subsequent C<PutKeyPolicy> request on the CMK. This
-reduces the risk that the CMK becomes unmanageable. For more
-information, refer to the scenario in the Default Key Policy
-(https://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html#key-policy-default-allow-root-enable-iam)
-section of the I<AWS Key Management Service Developer Guide>.
+The key policy must allow the calling principal to make a subsequent
+C<PutKeyPolicy> request on the KMS key. This reduces the risk that the
+KMS key becomes unmanageable. For more information, see Default key
+policy
+(https://docs.aws.amazon.com/kms/latest/developerguide/key-policy-default.html#prevent-unmanageable-key)
+in the I<Key Management Service Developer Guide>. (To omit this
+condition, set C<BypassPolicyLockoutSafetyCheck> to true.)
 
 =item *
 
 Each statement in the key policy must contain one or more principals.
-The principals in the key policy must exist and be visible to AWS KMS.
-When you create a new AWS principal (for example, an IAM user or role),
-you might need to enforce a delay before including the new principal in
-a key policy because the new principal might not be immediately visible
-to AWS KMS. For more information, see Changes that I make are not
-always immediately visible
+The principals in the key policy must exist and be visible to KMS. When
+you create a new Amazon Web Services principal, you might need to
+enforce a delay before including the new principal in a key policy
+because the new principal might not be immediately visible to KMS. For
+more information, see Changes that I make are not always immediately
+visible
 (https://docs.aws.amazon.com/IAM/latest/UserGuide/troubleshoot_general.html#troubleshoot_general_eventual-consistency)
-in the I<AWS Identity and Access Management User Guide>.
+in the I<Amazon Web Services Identity and Access Management User
+Guide>.
 
 =back
 
-The key policy cannot exceed 32 kilobytes (32768 bytes). For more
-information, see Resource Quotas
-(https://docs.aws.amazon.com/kms/latest/developerguide/resource-limits.html)
-in the I<AWS Key Management Service Developer Guide>.
+A key policy document can include only the following characters:
+
+=over
+
+=item *
+
+Printable ASCII characters from the space character (C<\u0020>) through
+the end of the ASCII character range.
+
+=item *
+
+Printable characters in the Basic Latin and Latin-1 Supplement
+character set (through C<\u00FF>).
+
+=item *
+
+The tab (C<\u0009>), line feed (C<\u000A>), and carriage return
+(C<\u000D>) special characters
+
+=back
+
+For information about key policies, see Key policies in KMS
+(https://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html)
+in the I<Key Management Service Developer Guide>.For help writing and
+formatting a JSON policy document, see the IAM JSON Policy Reference
+(https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies.html)
+in the I< I<Identity and Access Management User Guide> >.
 
 
 
-=head2 B<REQUIRED> PolicyName => Str
+=head2 PolicyName => Str
 
-The name of the key policy. The only valid value is C<default>.
+The name of the key policy. If no policy name is specified, the default
+value is C<default>. The only valid value is C<default>.
 
 
 

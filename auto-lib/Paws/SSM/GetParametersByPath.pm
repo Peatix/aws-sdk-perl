@@ -81,20 +81,21 @@ results.
 
 Filters to limit the request results.
 
-For C<GetParametersByPath>, the following filter C<Key> names are
-supported: C<Type>, C<KeyId>, C<Label>, and C<DataType>.
+The following C<Key> values are supported for C<GetParametersByPath>:
+C<Type>, C<KeyId>, and C<Label>.
 
-The following C<Key> values are not supported for
-C<GetParametersByPath>: C<tag>, C<Name>, C<Path>, and C<Tier>.
+The following C<Key> values aren't supported for
+C<GetParametersByPath>: C<tag>, C<DataType>, C<Name>, C<Path>, and
+C<Tier>.
 
 
 
 =head2 B<REQUIRED> Path => Str
 
 The hierarchy for the parameter. Hierarchies start with a forward slash
-(/). The hierachy is the parameter name except the last part of the
-parameter. For the API call to succeeed, the last part of the parameter
-name cannot be in the path. A parameter name hierarchy can have a
+(/). The hierarchy is the parameter name except the last part of the
+parameter. For the API call to succeed, the last part of the parameter
+name can't be in the path. A parameter name hierarchy can have a
 maximum of 15 levels. Here is an example of a hierarchy:
 C</Finance/Prod/IAD/WinServ2016/license33>
 
@@ -108,7 +109,7 @@ If a user has access to a path, then the user can access all levels of
 that path. For example, if a user has permission to access path C</a>,
 then the user can also access C</a/b>. Even if a user has explicitly
 been denied access in IAM for parameter C</a/b>, they can still call
-the GetParametersByPath API action recursively for C</a> and view
+the GetParametersByPath API operation recursively for C</a> and view
 C</a/b>.
 
 

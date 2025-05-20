@@ -40,6 +40,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       $DescribeResourceCollectionHealthResponse->CloudFormation;
     my $NextToken = $DescribeResourceCollectionHealthResponse->NextToken;
     my $Service   = $DescribeResourceCollectionHealthResponse->Service;
+    my $Tags      = $DescribeResourceCollectionHealthResponse->Tags;
 
 # Returns a L<Paws::DevOpsGuru::DescribeResourceCollectionHealthResponse> object.
 
@@ -58,13 +59,16 @@ this operation. If this value is null, it retrieves the first page.
 
 =head2 B<REQUIRED> ResourceCollectionType => Str
 
-An AWS resource collection type. This type specifies how analyzed AWS
-resources are defined. The one type of AWS resource collection
-supported is AWS CloudFormation stacks. DevOps Guru can be configured
-to analyze only the AWS resources that are defined in the stacks. You
-can specify up to 500 AWS CloudFormation stacks.
+An Amazon Web Services resource collection type. This type specifies
+how analyzed Amazon Web Services resources are defined. The two types
+of Amazon Web Services resource collections supported are Amazon Web
+Services CloudFormation stacks and Amazon Web Services resources that
+contain the same Amazon Web Services tag. DevOps Guru can be configured
+to analyze the Amazon Web Services resources that are defined in the
+stacks or that are tagged using the same tag I<key>. You can specify up
+to 500 Amazon Web Services CloudFormation stacks.
 
-Valid values are: C<"AWS_CLOUD_FORMATION">, C<"AWS_SERVICE">
+Valid values are: C<"AWS_CLOUD_FORMATION">, C<"AWS_SERVICE">, C<"AWS_TAGS">
 
 
 =head1 SEE ALSO

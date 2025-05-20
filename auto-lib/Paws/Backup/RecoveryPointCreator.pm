@@ -36,8 +36,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Backup::Rec
 
 =head1 DESCRIPTION
 
-Contains information about the backup plan and rule that AWS Backup
-used to initiate the recovery point backup.
+Contains information about the backup plan and rule that Backup used to
+initiate the recovery point backup.
 
 =head1 ATTRIBUTES
 

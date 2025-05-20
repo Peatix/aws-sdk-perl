@@ -5,10 +5,12 @@ package Paws::MediaConvert::VideoCodecSettings;
   has AvcIntraSettings => (is => 'ro', isa => 'Paws::MediaConvert::AvcIntraSettings', request_name => 'avcIntraSettings', traits => ['NameInRequest']);
   has Codec => (is => 'ro', isa => 'Str', request_name => 'codec', traits => ['NameInRequest']);
   has FrameCaptureSettings => (is => 'ro', isa => 'Paws::MediaConvert::FrameCaptureSettings', request_name => 'frameCaptureSettings', traits => ['NameInRequest']);
+  has GifSettings => (is => 'ro', isa => 'Paws::MediaConvert::GifSettings', request_name => 'gifSettings', traits => ['NameInRequest']);
   has H264Settings => (is => 'ro', isa => 'Paws::MediaConvert::H264Settings', request_name => 'h264Settings', traits => ['NameInRequest']);
   has H265Settings => (is => 'ro', isa => 'Paws::MediaConvert::H265Settings', request_name => 'h265Settings', traits => ['NameInRequest']);
   has Mpeg2Settings => (is => 'ro', isa => 'Paws::MediaConvert::Mpeg2Settings', request_name => 'mpeg2Settings', traits => ['NameInRequest']);
   has ProresSettings => (is => 'ro', isa => 'Paws::MediaConvert::ProresSettings', request_name => 'proresSettings', traits => ['NameInRequest']);
+  has UncompressedSettings => (is => 'ro', isa => 'Paws::MediaConvert::UncompressedSettings', request_name => 'uncompressedSettings', traits => ['NameInRequest']);
   has Vc3Settings => (is => 'ro', isa => 'Paws::MediaConvert::Vc3Settings', request_name => 'vc3Settings', traits => ['NameInRequest']);
   has Vp8Settings => (is => 'ro', isa => 'Paws::MediaConvert::Vp8Settings', request_name => 'vp8Settings', traits => ['NameInRequest']);
   has Vp9Settings => (is => 'ro', isa => 'Paws::MediaConvert::Vp9Settings', request_name => 'vp9Settings', traits => ['NameInRequest']);
@@ -44,15 +46,15 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::MediaConver
 
 =head1 DESCRIPTION
 
-Video codec settings, (CodecSettings) under (VideoDescription),
-contains the group of settings related to video encoding. The settings
-in this group vary depending on the value that you choose for Video
-codec (Codec). For each codec enum that you choose, define the
-corresponding settings object. The following lists the codec enum,
+Video codec settings contains the group of settings related to video
+encoding. The settings in this group vary depending on the value that
+you choose for Video codec. For each codec enum that you choose, define
+the corresponding settings object. The following lists the codec enum,
 settings object pairs. * AV1, Av1Settings * AVC_INTRA, AvcIntraSettings
-* FRAME_CAPTURE, FrameCaptureSettings * H_264, H264Settings * H_265,
-H265Settings * MPEG2, Mpeg2Settings * PRORES, ProresSettings * VC3,
-Vc3Settings * VP8, Vp8Settings * VP9, Vp9Settings * XAVC, XavcSettings
+* FRAME_CAPTURE, FrameCaptureSettings * GIF, GifSettings * H_264,
+H264Settings * H_265, H265Settings * MPEG2, Mpeg2Settings * PRORES,
+ProresSettings * UNCOMPRESSED, UncompressedSettings * VC3, Vc3Settings
+* VP8, Vp8Settings * VP9, Vp9Settings * XAVC, XavcSettings
 
 =head1 ATTRIBUTES
 
@@ -76,19 +78,27 @@ https://pro-av.panasonic.net/en/avc-ultra/AVC-ULTRAoverview.pdf.
 =head2 Codec => Str
 
 Specifies the video codec. This must be equal to one of the enum values
-defined by the object VideoCodec.
+defined by the object VideoCodec. To passthrough the video stream of
+your input JPEG2000, VC-3, AVC-INTRA or Apple ProRes video without any
+video encoding: Choose Passthrough. If you have multiple input videos,
+note that they must have identical encoding attributes. When you choose
+Passthrough, your output container must be MXF or QuickTime MOV.
 
 
 =head2 FrameCaptureSettings => L<Paws::MediaConvert::FrameCaptureSettings>
 
+Required when you set Codec to the value FRAME_CAPTURE.
+
+
+=head2 GifSettings => L<Paws::MediaConvert::GifSettings>
+
 Required when you set (Codec) under
-(VideoDescription)E<gt>(CodecSettings) to the value FRAME_CAPTURE.
+(VideoDescription)E<gt>(CodecSettings) to the value GIF
 
 
 =head2 H264Settings => L<Paws::MediaConvert::H264Settings>
 
-Required when you set (Codec) under
-(VideoDescription)E<gt>(CodecSettings) to the value H_264.
+Required when you set Codec to the value H_264.
 
 
 =head2 H265Settings => L<Paws::MediaConvert::H265Settings>
@@ -98,38 +108,38 @@ Settings for H265 codec
 
 =head2 Mpeg2Settings => L<Paws::MediaConvert::Mpeg2Settings>
 
-Required when you set (Codec) under
-(VideoDescription)E<gt>(CodecSettings) to the value MPEG2.
+Required when you set Codec to the value MPEG2.
 
 
 =head2 ProresSettings => L<Paws::MediaConvert::ProresSettings>
 
-Required when you set (Codec) under
-(VideoDescription)E<gt>(CodecSettings) to the value PRORES.
+Required when you set Codec to the value PRORES.
+
+
+=head2 UncompressedSettings => L<Paws::MediaConvert::UncompressedSettings>
+
+Required when you set Codec, under VideoDescriptionE<gt>CodecSettings
+to the value UNCOMPRESSED.
 
 
 =head2 Vc3Settings => L<Paws::MediaConvert::Vc3Settings>
 
-Required when you set (Codec) under
-(VideoDescription)E<gt>(CodecSettings) to the value VC3
+Required when you set Codec to the value VC3
 
 
 =head2 Vp8Settings => L<Paws::MediaConvert::Vp8Settings>
 
-Required when you set (Codec) under
-(VideoDescription)E<gt>(CodecSettings) to the value VP8.
+Required when you set Codec to the value VP8.
 
 
 =head2 Vp9Settings => L<Paws::MediaConvert::Vp9Settings>
 
-Required when you set (Codec) under
-(VideoDescription)E<gt>(CodecSettings) to the value VP9.
+Required when you set Codec to the value VP9.
 
 
 =head2 XavcSettings => L<Paws::MediaConvert::XavcSettings>
 
-Required when you set (Codec) under
-(VideoDescription)E<gt>(CodecSettings) to the value XAVC.
+Required when you set Codec to the value XAVC.
 
 
 

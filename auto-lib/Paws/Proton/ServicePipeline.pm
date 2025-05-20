@@ -5,8 +5,10 @@ package Paws::Proton::ServicePipeline;
   has CreatedAt => (is => 'ro', isa => 'Str', request_name => 'createdAt', traits => ['NameInRequest'], required => 1);
   has DeploymentStatus => (is => 'ro', isa => 'Str', request_name => 'deploymentStatus', traits => ['NameInRequest'], required => 1);
   has DeploymentStatusMessage => (is => 'ro', isa => 'Str', request_name => 'deploymentStatusMessage', traits => ['NameInRequest']);
+  has LastAttemptedDeploymentId => (is => 'ro', isa => 'Str', request_name => 'lastAttemptedDeploymentId', traits => ['NameInRequest']);
   has LastDeploymentAttemptedAt => (is => 'ro', isa => 'Str', request_name => 'lastDeploymentAttemptedAt', traits => ['NameInRequest'], required => 1);
   has LastDeploymentSucceededAt => (is => 'ro', isa => 'Str', request_name => 'lastDeploymentSucceededAt', traits => ['NameInRequest'], required => 1);
+  has LastSucceededDeploymentId => (is => 'ro', isa => 'Str', request_name => 'lastSucceededDeploymentId', traits => ['NameInRequest']);
   has Spec => (is => 'ro', isa => 'Str', request_name => 'spec', traits => ['NameInRequest']);
   has TemplateMajorVersion => (is => 'ro', isa => 'Str', request_name => 'templateMajorVersion', traits => ['NameInRequest'], required => 1);
   has TemplateMinorVersion => (is => 'ro', isa => 'Str', request_name => 'templateMinorVersion', traits => ['NameInRequest'], required => 1);
@@ -42,7 +44,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Proton::Ser
 
 =head1 DESCRIPTION
 
-The service pipeline detail data.
+Detailed data of an Proton service instance pipeline resource.
 
 =head1 ATTRIBUTES
 
@@ -67,6 +69,11 @@ The deployment status of the service pipeline.
 A service pipeline deployment status message.
 
 
+=head2 LastAttemptedDeploymentId => Str
+
+The ID of the last attempted deployment of this service pipeline.
+
+
 =head2 B<REQUIRED> LastDeploymentAttemptedAt => Str
 
 The time when a deployment of the service pipeline was last attempted.
@@ -77,6 +84,11 @@ The time when a deployment of the service pipeline was last attempted.
 The time when the service pipeline was last deployed successfully.
 
 
+=head2 LastSucceededDeploymentId => Str
+
+The ID of the last successful deployment of this service pipeline.
+
+
 =head2 Spec => Str
 
 The service spec that was used to create the service pipeline.
@@ -84,14 +96,14 @@ The service spec that was used to create the service pipeline.
 
 =head2 B<REQUIRED> TemplateMajorVersion => Str
 
-The ID of the major version of the service template that was used to
-create the service pipeline.
+The major version of the service template that was used to create the
+service pipeline.
 
 
 =head2 B<REQUIRED> TemplateMinorVersion => Str
 
-The ID of the minor version of the service template that was used to
-create the service pipeline.
+The minor version of the service template that was used to create the
+service pipeline.
 
 
 =head2 B<REQUIRED> TemplateName => Str

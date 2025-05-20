@@ -41,8 +41,8 @@ action.
 
 =head2 B<REQUIRED> ConfirmationUrl => Str
 
-The URL AWS IoT uses to confirm ownership of or access to the topic
-rule destination URL.
+The URL IoT uses to confirm ownership of or access to the topic rule
+destination URL.
 
 
 

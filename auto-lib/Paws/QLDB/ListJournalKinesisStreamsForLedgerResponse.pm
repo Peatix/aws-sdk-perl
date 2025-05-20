@@ -37,8 +37,8 @@ subsequent C<ListJournalKinesisStreamsForLedger> call.
 
 =head2 Streams => ArrayRef[L<Paws::QLDB::JournalKinesisStreamDescription>]
 
-The array of QLDB journal stream descriptors that are associated with
-the given ledger.
+The QLDB journal streams that are currently associated with the given
+ledger.
 
 
 =head2 _request_id => Str

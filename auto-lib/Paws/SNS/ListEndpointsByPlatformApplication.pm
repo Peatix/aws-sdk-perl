@@ -48,16 +48,16 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/sns
 
 =head2 NextToken => Str
 
-NextToken string is used when calling
-ListEndpointsByPlatformApplication action to retrieve additional
+C<NextToken> string is used when calling
+C<ListEndpointsByPlatformApplication> action to retrieve additional
 records that are available after the first page results.
 
 
 
 =head2 B<REQUIRED> PlatformApplicationArn => Str
 
-PlatformApplicationArn for ListEndpointsByPlatformApplicationInput
-action.
+C<PlatformApplicationArn> for
+C<ListEndpointsByPlatformApplicationInput> action.
 
 
 

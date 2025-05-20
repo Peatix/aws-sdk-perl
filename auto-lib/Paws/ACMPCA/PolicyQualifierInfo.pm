@@ -35,8 +35,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ACMPCA::Pol
 =head1 DESCRIPTION
 
 Modifies the C<CertPolicyId> of a C<PolicyInformation> object with a
-qualifier. ACM Private CA supports the certification practice statement
-(CPS) qualifier.
+qualifier. Amazon Web Services Private CA supports the certification
+practice statement (CPS) qualifier.
 
 =head1 ATTRIBUTES
 
@@ -48,8 +48,8 @@ Identifies the qualifier modifying a C<CertPolicyId>.
 
 =head2 B<REQUIRED> Qualifier => L<Paws::ACMPCA::Qualifier>
 
-Defines the qualifier type. ACM Private CA supports the use of a URI
-for a CPS qualifier in this field.
+Defines the qualifier type. Amazon Web Services Private CA supports the
+use of a URI for a CPS qualifier in this field.
 
 
 

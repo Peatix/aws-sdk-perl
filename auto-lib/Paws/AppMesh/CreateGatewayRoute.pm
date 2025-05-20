@@ -45,7 +45,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
                 VirtualServiceName => 'MyResourceName',    # min: 1, max: 255
 
               },
-
+              Port => 1,    # min: 1, max: 65535; OPTIONAL
             },
             Rewrite => {
               Hostname => {
@@ -77,6 +77,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
               },
               ...
             ],    # min: 1, max: 10; OPTIONAL
+            Port        => 1,                  # min: 1, max: 65535; OPTIONAL
             ServiceName => 'MyServiceName',    # OPTIONAL
           },
 
@@ -88,7 +89,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
                 VirtualServiceName => 'MyResourceName',    # min: 1, max: 255
 
               },
-
+              Port => 1,    # min: 1, max: 65535; OPTIONAL
             },
             Rewrite => {
               Hostname => {
@@ -135,6 +136,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
               Exact => 'MyHttpPathExact',    # min: 1, max: 255; OPTIONAL
               Regex => 'MyHttpPathRegex',    # min: 1, max: 255; OPTIONAL
             },    # OPTIONAL
+            Port            => 1,             # min: 1, max: 65535; OPTIONAL
             Prefix          => 'MyString',    # OPTIONAL
             QueryParameters => [
               {
@@ -155,7 +157,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
                 VirtualServiceName => 'MyResourceName',    # min: 1, max: 255
 
               },
-
+              Port => 1,    # min: 1, max: 65535; OPTIONAL
             },
             Rewrite => {
               Hostname => {
@@ -202,6 +204,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
               Exact => 'MyHttpPathExact',    # min: 1, max: 255; OPTIONAL
               Regex => 'MyHttpPathRegex',    # min: 1, max: 255; OPTIONAL
             },    # OPTIONAL
+            Port            => 1,             # min: 1, max: 65535; OPTIONAL
             Prefix          => 'MyString',    # OPTIONAL
             QueryParameters => [
               {
@@ -263,11 +266,11 @@ The name of the service mesh to create the gateway route in.
 
 =head2 MeshOwner => Str
 
-The AWS IAM account ID of the service mesh owner. If the account ID is
-not your own, then the account that you specify must share the mesh
-with your account before you can create the resource in the service
-mesh. For more information about mesh sharing, see Working with shared
-meshes
+The Amazon Web Services IAM account ID of the service mesh owner. If
+the account ID is not your own, then the account that you specify must
+share the mesh with your account before you can create the resource in
+the service mesh. For more information about mesh sharing, see Working
+with shared meshes
 (https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html).
 
 

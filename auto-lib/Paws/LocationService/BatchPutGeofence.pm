@@ -35,14 +35,23 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         {
           GeofenceId => 'MyId',    # min: 1, max: 100
           Geometry   => {
+            Circle => {
+              Center => [ 1, ... ],    # min: 2, max: 2
+              Radius => 1,
+
+            },    # OPTIONAL
+            Geobuf  => 'BlobBase64EncodedGeobuf',    # max: 600000; OPTIONAL
             Polygon => [
               [
-                [ 1, ... ], ...    # min: 2, max: 2
+                [ 1, ... ], ...                      # min: 2, max: 2
               ],
-              ...                  # min: 4
+              ...                                    # min: 4
             ],    # min: 1; OPTIONAL
           },
-
+          GeofenceProperties => {
+            'MyPropertyMapKeyString' => 'MyPropertyMapValueString'
+            ,     # key: min: 1, max: 20, value: min: 1, max: 40
+          },    # max: 3; OPTIONAL
         },
         ...
       ],

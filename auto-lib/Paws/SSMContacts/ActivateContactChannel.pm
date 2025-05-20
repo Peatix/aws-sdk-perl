@@ -28,11 +28,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $ssm-contacts = Paws->service('SSMContacts');
+# Activate a contact's contact channel
+# The following activate-contact-channel example activates a contact channel and
+# makes it usable as part of an incident.
     my $ActivateContactChannelResult = $ssm -contacts->ActivateContactChannel(
-      ActivationCode   => 'MyActivationCode',
-      ContactChannelId => 'MySsmContactsArn',
-
+      'ActivationCode'   => 466136,
+      'ContactChannelId' =>
+'arn:aws:ssm-contacts:us-east-2:111122223333:contact-channel/akuam/fc7405c4-46b2-48b7-87b2-93e2f225b90d'
     );
+
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ssm-contacts/ActivateContactChannel>

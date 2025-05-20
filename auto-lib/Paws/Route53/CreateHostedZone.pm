@@ -47,7 +47,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       VPC => {
         VPCId     => 'MyVPCId',    # max: 1024; OPTIONAL
         VPCRegion => 'us-east-1'
-        , # values: us-east-1, us-east-2, us-west-1, us-west-2, eu-west-1, eu-west-2, eu-west-3, eu-central-1, ap-east-1, me-south-1, us-gov-west-1, us-gov-east-1, us-iso-east-1, us-isob-east-1, ap-southeast-1, ap-southeast-2, ap-south-1, ap-northeast-1, ap-northeast-2, ap-northeast-3, eu-north-1, sa-east-1, ca-central-1, cn-north-1, af-south-1, eu-south-1min: 1, max: 64; OPTIONAL
+        , # values: us-east-1, us-east-2, us-west-1, us-west-2, eu-west-1, eu-west-2, eu-west-3, eu-central-1, eu-central-2, ap-east-1, me-south-1, us-gov-west-1, us-gov-east-1, us-iso-east-1, us-iso-west-1, us-isob-east-1, me-central-1, ap-southeast-1, ap-southeast-2, ap-southeast-3, ap-south-1, ap-south-2, ap-northeast-1, ap-northeast-2, ap-northeast-3, eu-north-1, sa-east-1, ca-central-1, cn-north-1, cn-northwest-1, af-south-1, eu-south-1, eu-south-2, ap-southeast-4, il-central-1, ca-west-1, ap-southeast-5, mx-central-1, us-isof-south-1, us-isof-east-1, ap-southeast-7min: 1, max: 64; OPTIONAL
       },    # OPTIONAL
     );
 
@@ -84,6 +84,12 @@ zone, the ID that Amazon Route 53 assigned to the reusable delegation
 set when you created it. For more information about reusable delegation
 sets, see CreateReusableDelegationSet
 (https://docs.aws.amazon.com/Route53/latest/APIReference/API_CreateReusableDelegationSet.html).
+
+If you are using a reusable delegation set to create a public hosted
+zone for a subdomain, make sure that the parent hosted zone doesn't use
+one or more of the same name servers. If you have overlapping
+nameservers, the operation will cause a C<ConflictingDomainsExist>
+error.
 
 
 
@@ -130,7 +136,10 @@ C<DelegationSet>.
 about the Amazon VPC that you're associating with this hosted zone.
 
 You can specify only one Amazon VPC when you create a private hosted
-zone. To associate additional Amazon VPCs with the hosted zone, use
+zone. If you are associating a VPC with a hosted zone with this
+request, the paramaters C<VPCId> and C<VPCRegion> are also required.
+
+To associate additional Amazon VPCs with the hosted zone, use
 AssociateVPCWithHostedZone
 (https://docs.aws.amazon.com/Route53/latest/APIReference/API_AssociateVPCWithHostedZone.html)
 after you create a hosted zone.

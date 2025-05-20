@@ -43,7 +43,7 @@ An object representing a change in state for a managed agent.
 
 =head2 B<REQUIRED> ContainerName => Str
 
-The name of the container associated with the managed agent.
+The name of the container that's associated with the managed agent.
 
 
 =head2 B<REQUIRED> ManagedAgentName => Str

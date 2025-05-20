@@ -4,6 +4,7 @@ package Paws::SecurityHub::AwsRdsDbClusterDetails;
   has ActivityStreamStatus => (is => 'ro', isa => 'Str');
   has AllocatedStorage => (is => 'ro', isa => 'Int');
   has AssociatedRoles => (is => 'ro', isa => 'ArrayRef[Paws::SecurityHub::AwsRdsDbClusterAssociatedRole]');
+  has AutoMinorVersionUpgrade => (is => 'ro', isa => 'Bool');
   has AvailabilityZones => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has BackupRetentionPeriod => (is => 'ro', isa => 'Int');
   has ClusterCreateTime => (is => 'ro', isa => 'Str');
@@ -76,7 +77,29 @@ Information about an Amazon RDS DB cluster.
 
 =head2 ActivityStreamStatus => Str
 
-The status of the database activity stream.
+The status of the database activity stream. Valid values are as
+follows:
+
+=over
+
+=item *
+
+C<started>
+
+=item *
+
+C<starting>
+
+=item *
+
+C<stopped>
+
+=item *
+
+C<stopping>
+
+=back
+
 
 
 =head2 AllocatedStorage => Int
@@ -88,6 +111,12 @@ size in gibibytes (GiB).
 =head2 AssociatedRoles => ArrayRef[L<Paws::SecurityHub::AwsRdsDbClusterAssociatedRole>]
 
 A list of the IAM roles that are associated with the DB cluster.
+
+
+=head2 AutoMinorVersionUpgrade => Bool
+
+Indicates if minor version upgrades are automatically applied to the
+cluster.
 
 
 =head2 AvailabilityZones => ArrayRef[Str|Undef]
@@ -106,10 +135,9 @@ The number of days for which automated backups are retained.
 Indicates when the DB cluster was created, in Universal Coordinated
 Time (UTC).
 
-Uses the C<date-time> format specified in RFC 3339 section 5.6,
-Internet Date/Time Format
-(https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot
-contain spaces. For example, C<2020-03-22T13:22:13.933Z>.
+For more information about the validation and formatting of timestamp
+fields in Security Hub, see Timestamps
+(https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
 
 
 =head2 CopyTagsToSnapshot => Bool
@@ -121,7 +149,7 @@ cluster.
 =head2 CrossAccountClone => Bool
 
 Whether the DB cluster is a clone of a DB cluster owned by a different
-AWS account.
+Amazon Web Services account.
 
 
 =head2 CustomEndpoints => ArrayRef[Str|Undef]
@@ -158,7 +186,7 @@ The name of the DB cluster parameter group for the DB cluster.
 =head2 DbClusterResourceId => Str
 
 The identifier of the DB cluster. The identifier must be unique within
-each AWS Region and is immutable.
+each Amazon Web Services Region and is immutable.
 
 
 =head2 DbSubnetGroup => Str
@@ -191,12 +219,55 @@ The connection endpoint for the primary instance of the DB cluster.
 
 =head2 Engine => Str
 
-The name of the database engine to use for this DB cluster.
+The name of the database engine to use for this DB cluster. Valid
+values are as follows:
+
+=over
+
+=item *
+
+C<aurora>
+
+=item *
+
+C<aurora-mysql>
+
+=item *
+
+C<aurora-postgresql>
+
+=back
+
 
 
 =head2 EngineMode => Str
 
-The database engine mode of the DB cluster.
+The database engine mode of the DB cluster.Valid values are as follows:
+
+=over
+
+=item *
+
+C<global>
+
+=item *
+
+C<multimaster>
+
+=item *
+
+C<parallelquery>
+
+=item *
+
+C<provisioned>
+
+=item *
+
+C<serverless>
+
+=back
+
 
 
 =head2 EngineVersion => Str
@@ -223,7 +294,7 @@ Whether the mapping of IAM accounts to database accounts is enabled.
 
 =head2 KmsKeyId => Str
 
-The ARN of the AWS KMS master key that is used to encrypt the database
+The ARN of the KMS master key that is used to encrypt the database
 instances in the DB cluster.
 
 

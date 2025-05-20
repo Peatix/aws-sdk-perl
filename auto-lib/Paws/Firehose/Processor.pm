@@ -36,6 +36,11 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Firehose::P
 
 Describes a data processor.
 
+If you want to add a new line delimiter between records in objects that
+are delivered to Amazon S3, choose C<AppendDelimiterToRecord> as a
+processor type. You donE<rsquo>t have to put a processor parameter when
+you select C<AppendDelimiterToRecord>.
+
 =head1 ATTRIBUTES
 
 

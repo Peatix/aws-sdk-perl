@@ -42,35 +42,35 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Signer::Sig
 =head1 DESCRIPTION
 
 Contains information about the signing configurations and parameters
-that are used to perform a code signing job.
+that are used to perform a code-signing job.
 
 =head1 ATTRIBUTES
 
 
 =head2 Category => Str
 
-The category of a code signing platform.
+The category of a signing platform.
 
 
 =head2 DisplayName => Str
 
-The display name of a code signing platform.
+The display name of a signing platform.
 
 
 =head2 MaxSizeInMB => Int
 
-The maximum size (in MB) of code that can be signed by a code signing
+The maximum size (in MB) of code that can be signed by a signing
 platform.
 
 
 =head2 Partner => Str
 
-Any partner entities linked to a code signing platform.
+Any partner entities linked to a signing platform.
 
 
 =head2 PlatformId => Str
 
-The ID of a code signing; platform.
+The ID of a signing platform.
 
 
 =head2 RevocationSupported => Bool
@@ -80,9 +80,8 @@ Indicates whether revocation is supported for the platform.
 
 =head2 SigningConfiguration => L<Paws::Signer::SigningConfiguration>
 
-The configuration of a code signing platform. This includes the
-designated hash algorithm and encryption algorithm of a signing
-platform.
+The configuration of a signing platform. This includes the designated
+hash algorithm and encryption algorithm of a signing platform.
 
 
 =head2 SigningImageFormat => L<Paws::Signer::SigningImageFormat>
@@ -92,7 +91,7 @@ platform.
 
 =head2 Target => Str
 
-The types of targets that can be signed by a code signing platform.
+The types of targets that can be signed by a signing platform.
 
 
 

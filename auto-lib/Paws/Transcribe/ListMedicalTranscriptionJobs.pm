@@ -54,33 +54,35 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/tra
 
 =head2 JobNameContains => Str
 
-When specified, the jobs returned in the list are limited to jobs whose
-name contains the specified string.
+Returns only the medical transcription jobs that contain the specified
+string. The search is not case sensitive.
 
 
 
 =head2 MaxResults => Int
 
-The maximum number of medical transcription jobs to return in the
-response. IF there are fewer results in the list, this response
-contains only the actual results.
+The maximum number of medical transcription jobs to return in each page
+of results. If there are fewer results than the value that you specify,
+only the actual results are returned. If you do not specify a value, a
+default of 5 is used.
 
 
 
 =head2 NextToken => Str
 
-If you a receive a truncated result in the previous request of
-C<ListMedicalTranscriptionJobs>, include C<NextToken> to fetch the next
-set of jobs.
+If your C<ListMedicalTranscriptionJobs> request returns more results
+than can be displayed, C<NextToken> is displayed in the response with
+an associated string. To get the next page of results, copy this string
+and repeat your request, including C<NextToken> with the value of the
+copied string. Repeat as needed to view all your results.
 
 
 
 =head2 Status => Str
 
-When specified, returns only medical transcription jobs with the
-specified status. Jobs are ordered by creation date, with the newest
-jobs returned first. If you don't specify a status, Amazon Transcribe
-Medical returns all transcription jobs ordered by creation date.
+Returns only medical transcription jobs with the specified status. Jobs
+are ordered by creation date, with the newest job first. If you do not
+include C<Status>, all medical transcription jobs are returned.
 
 Valid values are: C<"QUEUED">, C<"IN_PROGRESS">, C<"FAILED">, C<"COMPLETED">
 

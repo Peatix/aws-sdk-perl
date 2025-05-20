@@ -37,16 +37,20 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     # Results:
     my $Configuration = $DescribeDataSourceResponse->Configuration;
     my $CreatedAt     = $DescribeDataSourceResponse->CreatedAt;
-    my $Description   = $DescribeDataSourceResponse->Description;
-    my $ErrorMessage  = $DescribeDataSourceResponse->ErrorMessage;
-    my $Id            = $DescribeDataSourceResponse->Id;
-    my $IndexId       = $DescribeDataSourceResponse->IndexId;
-    my $Name          = $DescribeDataSourceResponse->Name;
-    my $RoleArn       = $DescribeDataSourceResponse->RoleArn;
-    my $Schedule      = $DescribeDataSourceResponse->Schedule;
-    my $Status        = $DescribeDataSourceResponse->Status;
-    my $Type          = $DescribeDataSourceResponse->Type;
-    my $UpdatedAt     = $DescribeDataSourceResponse->UpdatedAt;
+    my $CustomDocumentEnrichmentConfiguration =
+      $DescribeDataSourceResponse->CustomDocumentEnrichmentConfiguration;
+    my $Description      = $DescribeDataSourceResponse->Description;
+    my $ErrorMessage     = $DescribeDataSourceResponse->ErrorMessage;
+    my $Id               = $DescribeDataSourceResponse->Id;
+    my $IndexId          = $DescribeDataSourceResponse->IndexId;
+    my $LanguageCode     = $DescribeDataSourceResponse->LanguageCode;
+    my $Name             = $DescribeDataSourceResponse->Name;
+    my $RoleArn          = $DescribeDataSourceResponse->RoleArn;
+    my $Schedule         = $DescribeDataSourceResponse->Schedule;
+    my $Status           = $DescribeDataSourceResponse->Status;
+    my $Type             = $DescribeDataSourceResponse->Type;
+    my $UpdatedAt        = $DescribeDataSourceResponse->UpdatedAt;
+    my $VpcConfiguration = $DescribeDataSourceResponse->VpcConfiguration;
 
     # Returns a L<Paws::Kendra::DescribeDataSourceResponse> object.
 
@@ -58,13 +62,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ken
 
 =head2 B<REQUIRED> Id => Str
 
-The unique identifier of the data source to describe.
+The identifier of the data source connector.
 
 
 
 =head2 B<REQUIRED> IndexId => Str
 
-The identifier of the index that contains the data source.
+The identifier of the index used with the data source connector.
 
 
 

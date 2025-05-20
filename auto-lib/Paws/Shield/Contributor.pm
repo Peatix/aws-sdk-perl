@@ -41,10 +41,11 @@ A contributor to the attack and their contribution.
 
 =head2 Name => Str
 
-The name of the contributor. This is dependent on the
-C<AttackPropertyIdentifier>. For example, if the
-C<AttackPropertyIdentifier> is C<SOURCE_COUNTRY>, the C<Name> could be
-C<United States>.
+The name of the contributor. The type of name that you'll find here
+depends on the C<AttackPropertyIdentifier> setting in the
+C<AttackProperty> where this contributor is defined. For example, if
+the C<AttackPropertyIdentifier> is C<SOURCE_COUNTRY>, the C<Name> could
+be C<United States>.
 
 
 =head2 Value => Int

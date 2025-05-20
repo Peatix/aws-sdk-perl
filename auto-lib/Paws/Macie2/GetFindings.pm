@@ -51,7 +51,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/mac
 =head2 B<REQUIRED> FindingIds => ArrayRef[Str|Undef]
 
 An array of strings that lists the unique identifiers for the findings
-to retrieve.
+to retrieve. You can specify as many as 50 unique identifiers in this
+array.
 
 
 

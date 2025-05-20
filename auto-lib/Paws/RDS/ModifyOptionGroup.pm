@@ -57,9 +57,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/rds
 
 =head2 ApplyImmediately => Bool
 
-A value that indicates whether to apply the change immediately or
-during the next maintenance window for each instance associated with
-the option group.
+Specifies whether to apply the change immediately or during the next
+maintenance window for each instance associated with the option group.
 
 
 

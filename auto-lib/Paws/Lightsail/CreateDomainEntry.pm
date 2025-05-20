@@ -61,7 +61,7 @@ entry request.
 
 =head2 B<REQUIRED> DomainName => Str
 
-The domain name (e.g., C<example.com>) for which you want to create the
+The domain name (C<example.com>) for which you want to create the
 domain entry.
 
 

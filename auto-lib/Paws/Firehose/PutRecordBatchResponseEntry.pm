@@ -36,9 +36,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Firehose::P
 =head1 DESCRIPTION
 
 Contains the result for an individual record from a PutRecordBatch
-request. If the record is successfully added to your delivery stream,
+request. If the record is successfully added to your Firehose stream,
 it receives a record ID. If the record fails to be added to your
-delivery stream, the result includes an error code and an error
+Firehose stream, the result includes an error code and an error
 message.
 
 =head1 ATTRIBUTES

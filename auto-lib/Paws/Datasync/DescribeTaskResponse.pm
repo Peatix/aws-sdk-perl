@@ -9,13 +9,18 @@ package Paws::Datasync::DescribeTaskResponse;
   has ErrorCode => (is => 'ro', isa => 'Str');
   has ErrorDetail => (is => 'ro', isa => 'Str');
   has Excludes => (is => 'ro', isa => 'ArrayRef[Paws::Datasync::FilterRule]');
+  has Includes => (is => 'ro', isa => 'ArrayRef[Paws::Datasync::FilterRule]');
+  has ManifestConfig => (is => 'ro', isa => 'Paws::Datasync::ManifestConfig');
   has Name => (is => 'ro', isa => 'Str');
   has Options => (is => 'ro', isa => 'Paws::Datasync::Options');
   has Schedule => (is => 'ro', isa => 'Paws::Datasync::TaskSchedule');
+  has ScheduleDetails => (is => 'ro', isa => 'Paws::Datasync::TaskScheduleDetails');
   has SourceLocationArn => (is => 'ro', isa => 'Str');
   has SourceNetworkInterfaceArns => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has Status => (is => 'ro', isa => 'Str');
   has TaskArn => (is => 'ro', isa => 'Str');
+  has TaskMode => (is => 'ro', isa => 'Str');
+  has TaskReportConfig => (is => 'ro', isa => 'Paws::Datasync::TaskReportConfig');
 
   has _request_id => (is => 'ro', isa => 'Str');
 
@@ -30,11 +35,12 @@ Paws::Datasync::DescribeTaskResponse
 
 =head2 CloudWatchLogGroupArn => Str
 
-The Amazon Resource Name (ARN) of the Amazon CloudWatch log group that
-was used to monitor and log events in the task.
+The Amazon Resource Name (ARN) of an Amazon CloudWatch log group for
+monitoring your task.
 
-For more information on these groups, see Working with Log Groups and
-Log Streams in the I<Amazon CloudWatch User Guide>.
+For more information, see Monitoring data transfers with CloudWatch
+Logs
+(https://docs.aws.amazon.com/datasync/latest/userguide/configure-logging.html).
 
 
 =head2 CreationTime => Str
@@ -44,89 +50,125 @@ The time that the task was created.
 
 =head2 CurrentTaskExecutionArn => Str
 
-The Amazon Resource Name (ARN) of the task execution that is syncing
-files.
+The ARN of the most recent task execution.
 
 
 =head2 DestinationLocationArn => Str
 
-The Amazon Resource Name (ARN) of the AWS storage resource's location.
+The ARN of your transfer's destination location.
 
 
 =head2 DestinationNetworkInterfaceArns => ArrayRef[Str|Undef]
 
-The Amazon Resource Name (ARN) of the destination ENIs (Elastic Network
-Interface) that was created for your subnet.
+The ARNs of the network interfaces
+(https://docs.aws.amazon.com/datasync/latest/userguide/datasync-network.html#required-network-interfaces)
+that DataSync created for your destination location.
 
 
 =head2 ErrorCode => Str
 
-Errors that AWS DataSync encountered during execution of the task. You
-can use this error code to help troubleshoot issues.
+If there's an issue with your task, you can use the error code to help
+you troubleshoot the problem. For more information, see Troubleshooting
+issues with DataSync transfers
+(https://docs.aws.amazon.com/datasync/latest/userguide/troubleshooting-datasync-locations-tasks.html).
 
 
 =head2 ErrorDetail => Str
 
-Detailed description of an error that was encountered during the task
-execution. You can use this information to help troubleshoot issues.
+If there's an issue with your task, you can use the error details to
+help you troubleshoot the problem. For more information, see
+Troubleshooting issues with DataSync transfers
+(https://docs.aws.amazon.com/datasync/latest/userguide/troubleshooting-datasync-locations-tasks.html).
 
 
 =head2 Excludes => ArrayRef[L<Paws::Datasync::FilterRule>]
 
-A list of filter rules that determines which files to exclude from a
-task. The list should contain a single filter string that consists of
-the patterns to exclude. The patterns are delimited by "|" (that is, a
-pipe), for example: C<"/folder1|/folder2">
+The exclude filters that define the files, objects, and folders in your
+source location that you don't want DataSync to transfer. For more
+information and examples, see Specifying what DataSync transfers by
+using filters
+(https://docs.aws.amazon.com/datasync/latest/userguide/filtering.html).
+
+
+=head2 Includes => ArrayRef[L<Paws::Datasync::FilterRule>]
+
+The include filters that define the files, objects, and folders in your
+source location that you want DataSync to transfer. For more
+information and examples, see Specifying what DataSync transfers by
+using filters
+(https://docs.aws.amazon.com/datasync/latest/userguide/filtering.html).
+
+
+=head2 ManifestConfig => L<Paws::Datasync::ManifestConfig>
+
+The configuration of the manifest that lists the files or objects that
+you want DataSync to transfer. For more information, see Specifying
+what DataSync transfers by using a manifest
+(https://docs.aws.amazon.com/datasync/latest/userguide/transferring-with-manifest.html).
 
 
 =head2 Name => Str
 
-The name of the task that was described.
+The name of your task.
 
 
 =head2 Options => L<Paws::Datasync::Options>
 
-The set of configuration options that control the behavior of a single
-execution of the task that occurs when you call C<StartTaskExecution>.
-You can configure these options to preserve metadata such as user ID
-(UID) and group (GID), file permissions, data integrity verification,
-and so on.
-
-For each individual task execution, you can override these options by
-specifying the overriding C<OverrideOptions> value to
-StartTaskExecution
-(https://docs.aws.amazon.com/datasync/latest/userguide/API_StartTaskExecution.html)
-operation.
+The task's settings. For example, what file metadata gets preserved,
+how data integrity gets verified at the end of your transfer, bandwidth
+limits, among other options.
 
 
 =head2 Schedule => L<Paws::Datasync::TaskSchedule>
 
-The schedule used to periodically transfer files from a source to a
-destination location.
+The schedule for when you want your task to run. For more information,
+see Scheduling your task
+(https://docs.aws.amazon.com/datasync/latest/userguide/task-scheduling.html).
+
+
+=head2 ScheduleDetails => L<Paws::Datasync::TaskScheduleDetails>
+
+The details about your task schedule
+(https://docs.aws.amazon.com/datasync/latest/userguide/task-scheduling.html).
 
 
 =head2 SourceLocationArn => Str
 
-The Amazon Resource Name (ARN) of the source file system's location.
+The ARN of your transfer's source location.
 
 
 =head2 SourceNetworkInterfaceArns => ArrayRef[Str|Undef]
 
-The Amazon Resource Name (ARN) of the source ENIs (Elastic Network
-Interface) that was created for your subnet.
+The ARNs of the network interfaces
+(https://docs.aws.amazon.com/datasync/latest/userguide/datasync-network.html#required-network-interfaces)
+that DataSync created for your source location.
 
 
 =head2 Status => Str
 
-The status of the task that was described.
-
-For detailed information about task execution statuses, see
-Understanding Task Statuses in the I<AWS DataSync User Guide>.
+The status of your task. For information about what each status means,
+see Task statuses
+(https://docs.aws.amazon.com/datasync/latest/userguide/understand-task-statuses.html#understand-task-creation-statuses).
 
 Valid values are: C<"AVAILABLE">, C<"CREATING">, C<"QUEUED">, C<"RUNNING">, C<"UNAVAILABLE">
 =head2 TaskArn => Str
 
-The Amazon Resource Name (ARN) of the task that was described.
+The ARN of your task.
+
+
+=head2 TaskMode => Str
+
+The task mode that you're using. For more information, see Choosing a
+task mode for your data transfer
+(https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html).
+
+Valid values are: C<"BASIC">, C<"ENHANCED">
+=head2 TaskReportConfig => L<Paws::Datasync::TaskReportConfig>
+
+The configuration of your task report, which provides detailed
+information about your DataSync transfer. For more information, see
+Monitoring your DataSync transfers with task reports
+(https://docs.aws.amazon.com/datasync/latest/userguide/task-reports.html).
 
 
 =head2 _request_id => Str

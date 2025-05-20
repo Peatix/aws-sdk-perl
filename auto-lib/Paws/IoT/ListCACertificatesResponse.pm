@@ -18,7 +18,7 @@ Paws::IoT::ListCACertificatesResponse
 
 =head2 Certificates => ArrayRef[L<Paws::IoT::CACertificate>]
 
-The CA certificates registered in your AWS account.
+The CA certificates registered in your Amazon Web Services account.
 
 
 =head2 NextMarker => Str

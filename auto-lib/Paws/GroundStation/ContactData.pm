@@ -14,6 +14,8 @@ package Paws::GroundStation::ContactData;
   has SatelliteArn => (is => 'ro', isa => 'Str', request_name => 'satelliteArn', traits => ['NameInRequest']);
   has StartTime => (is => 'ro', isa => 'Str', request_name => 'startTime', traits => ['NameInRequest']);
   has Tags => (is => 'ro', isa => 'Paws::GroundStation::TagsMap', request_name => 'tags', traits => ['NameInRequest']);
+  has VisibilityEndTime => (is => 'ro', isa => 'Str', request_name => 'visibilityEndTime', traits => ['NameInRequest']);
+  has VisibilityStartTime => (is => 'ro', isa => 'Str', request_name => 'visibilityStartTime', traits => ['NameInRequest']);
 
 1;
 
@@ -34,7 +36,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::GroundStation::ContactData object:
 
-  $service_obj->Method(Att1 => { ContactId => $value, ..., Tags => $value  });
+  $service_obj->Method(Att1 => { ContactId => $value, ..., VisibilityStartTime => $value  });
 
 =head3 Results returned from an API call
 
@@ -62,7 +64,7 @@ Status of a contact.
 
 =head2 EndTime => Str
 
-End time of a contact.
+End time of a contact in UTC.
 
 
 =head2 ErrorMessage => Str
@@ -109,12 +111,32 @@ ARN of a satellite.
 
 =head2 StartTime => Str
 
-Start time of a contact.
+Start time of a contact in UTC.
 
 
 =head2 Tags => L<Paws::GroundStation::TagsMap>
 
 Tags assigned to a contact.
+
+
+=head2 VisibilityEndTime => Str
+
+Projected time in UTC your satellite will set below the receive mask
+(https://docs.aws.amazon.com/ground-station/latest/ug/site-masks.html).
+This time is based on the satellite's current active ephemeris for
+future contacts and the ephemeris that was active during contact
+execution for completed contacts. I<This field is not present for
+contacts with a C<SCHEDULING> or C<SCHEDULED> status.>
+
+
+=head2 VisibilityStartTime => Str
+
+Projected time in UTC your satellite will rise above the receive mask
+(https://docs.aws.amazon.com/ground-station/latest/ug/site-masks.html).
+This time is based on the satellite's current active ephemeris for
+future contacts and the ephemeris that was active during contact
+execution for completed contacts. I<This field is not present for
+contacts with a C<SCHEDULING> or C<SCHEDULED> status.>
 
 
 

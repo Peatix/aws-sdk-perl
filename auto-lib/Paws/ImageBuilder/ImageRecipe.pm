@@ -73,7 +73,9 @@ recipe.
 
 =head2 Components => ArrayRef[L<Paws::ImageBuilder::ComponentConfiguration>]
 
-The components of the image recipe.
+The components that are included in the image recipe. Recipes require a
+minimum of one build component, and can have a maximum of 20 build and
+test components in any combination.
 
 
 =head2 DateCreated => Str
@@ -98,7 +100,30 @@ The owner of the image recipe.
 
 =head2 ParentImage => Str
 
-The parent image of the image recipe.
+The base image for customizations specified in the image recipe. You
+can specify the parent image using one of the following options:
+
+=over
+
+=item *
+
+AMI ID
+
+=item *
+
+Image Builder image Amazon Resource Name (ARN)
+
+=item *
+
+Amazon Web Services Systems Manager (SSM) Parameter Store Parameter,
+prefixed by C<ssm:>, followed by the parameter name or ARN.
+
+=item *
+
+Amazon Web Services Marketplace product ID
+
+=back
+
 
 
 =head2 Platform => Str

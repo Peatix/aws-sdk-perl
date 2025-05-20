@@ -63,8 +63,8 @@ The publisher of the component version.
 
 =head2 Status => L<Paws::GreengrassV2::CloudComponentStatus>
 
-The status of the component version in AWS IoT Greengrass V2. This
-status is different from the status of the component on a core device.
+The status of the component version in IoT Greengrass V2. This status
+is different from the status of the component on a core device.
 
 
 =head2 Tags => L<Paws::GreengrassV2::TagMap>
@@ -72,7 +72,7 @@ status is different from the status of the component on a core device.
 A list of key-value pairs that contain metadata for the resource. For
 more information, see Tag your resources
 (https://docs.aws.amazon.com/greengrass/v2/developerguide/tag-resources.html)
-in the I<AWS IoT Greengrass V2 Developer Guide>.
+in the I<IoT Greengrass V2 Developer Guide>.
 
 
 =head2 _request_id => Str

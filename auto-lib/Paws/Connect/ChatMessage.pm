@@ -43,10 +43,32 @@ A chat message.
 
 The content of the chat message.
 
+=over
+
+=item *
+
+For C<text/plain> and C<text/markdown>, the Length Constraints are
+Minimum of 1, Maximum of 1024.
+
+=item *
+
+For C<application/json>, the Length Constraints are Minimum of 1,
+Maximum of 12000.
+
+=item *
+
+For C<application/vnd.amazonaws.connect.message.interactive.response>,
+the Length Constraints are Minimum of 1, Maximum of 12288.
+
+=back
+
+
 
 =head2 B<REQUIRED> ContentType => Str
 
-The type of the content. Supported types are text and plain.
+The type of the content. Supported types are C<text/plain>,
+C<text/markdown>, C<application/json>, and
+C<application/vnd.amazonaws.connect.message.interactive.response>.
 
 
 

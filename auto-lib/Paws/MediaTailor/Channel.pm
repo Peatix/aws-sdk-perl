@@ -2,13 +2,17 @@
 package Paws::MediaTailor::Channel;
   use Moose;
   has Arn => (is => 'ro', isa => 'Str', required => 1);
+  has Audiences => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has ChannelName => (is => 'ro', isa => 'Str', required => 1);
   has ChannelState => (is => 'ro', isa => 'Str', required => 1);
   has CreationTime => (is => 'ro', isa => 'Str');
+  has FillerSlate => (is => 'ro', isa => 'Paws::MediaTailor::SlateSource');
   has LastModifiedTime => (is => 'ro', isa => 'Str');
+  has LogConfiguration => (is => 'ro', isa => 'Paws::MediaTailor::LogConfigurationForChannel', required => 1);
   has Outputs => (is => 'ro', isa => 'ArrayRef[Paws::MediaTailor::ResponseOutputItem]', required => 1);
   has PlaybackMode => (is => 'ro', isa => 'Str', required => 1);
   has Tags => (is => 'ro', isa => 'Paws::MediaTailor::__mapOf__string', request_name => 'tags', traits => ['NameInRequest']);
+  has Tier => (is => 'ro', isa => 'Str', required => 1);
 
 1;
 
@@ -29,7 +33,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::MediaTailor::Channel object:
 
-  $service_obj->Method(Att1 => { Arn => $value, ..., Tags => $value  });
+  $service_obj->Method(Att1 => { Arn => $value, ..., Tier => $value  });
 
 =head3 Results returned from an API call
 
@@ -40,7 +44,10 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::MediaTailor
 
 =head1 DESCRIPTION
 
-The configuration parameters for a channel.
+The configuration parameters for a channel. For information about
+MediaTailor channels, see Working with channels
+(https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-channels.html)
+in the I<MediaTailor User Guide>.
 
 =head1 ATTRIBUTES
 
@@ -48,6 +55,11 @@ The configuration parameters for a channel.
 =head2 B<REQUIRED> Arn => Str
 
 The ARN of the channel.
+
+
+=head2 Audiences => ArrayRef[Str|Undef]
+
+The list of audiences defined in channel.
 
 
 =head2 B<REQUIRED> ChannelName => Str
@@ -65,9 +77,22 @@ Returns the state whether the channel is running or not.
 The timestamp of when the channel was created.
 
 
+=head2 FillerSlate => L<Paws::MediaTailor::SlateSource>
+
+The slate used to fill gaps between programs in the schedule. You must
+configure filler slate if your channel uses the C<LINEAR>
+C<PlaybackMode>. MediaTailor doesn't support filler slate for channels
+using the C<LOOP> C<PlaybackMode>.
+
+
 =head2 LastModifiedTime => Str
 
 The timestamp of when the channel was last modified.
+
+
+=head2 B<REQUIRED> LogConfiguration => L<Paws::MediaTailor::LogConfigurationForChannel>
+
+The log configuration.
 
 
 =head2 B<REQUIRED> Outputs => ArrayRef[L<Paws::MediaTailor::ResponseOutputItem>]
@@ -77,13 +102,28 @@ The channel's output properties.
 
 =head2 B<REQUIRED> PlaybackMode => Str
 
-The type of playback mode for this channel. Possible values: ONCE or
-LOOP.
+The type of playback mode for this channel.
+
+C<LINEAR> - Programs play back-to-back only once.
+
+C<LOOP> - Programs play back-to-back in an endless loop. When the last
+program in the schedule plays, playback loops back to the first program
+in the schedule.
 
 
 =head2 Tags => L<Paws::MediaTailor::__mapOf__string>
 
-The tags to assign to the channel.
+The tags to assign to the channel. Tags are key-value pairs that you
+can associate with Amazon resources to help with organization, access
+control, and cost tracking. For more information, see Tagging AWS
+Elemental MediaTailor Resources
+(https://docs.aws.amazon.com/mediatailor/latest/ug/tagging.html).
+
+
+=head2 B<REQUIRED> Tier => Str
+
+The tier for this channel. STANDARD tier channels can contain live
+programs.
 
 
 

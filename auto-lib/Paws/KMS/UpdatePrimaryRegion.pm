@@ -43,7 +43,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/kms
 =head2 B<REQUIRED> KeyId => Str
 
 Identifies the current primary key. When the operation completes, this
-CMK will be a replica key.
+KMS key will be a replica key.
 
 Specify the key ID or key ARN of a multi-Region primary key.
 
@@ -62,15 +62,16 @@ C<arn:aws:kms:us-east-2:111122223333:key/mrk-1234abcd12ab34cd56ef1234567890ab>
 
 =back
 
-To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
+To get the key ID and key ARN for a KMS key, use ListKeys or
+DescribeKey.
 
 
 
 =head2 B<REQUIRED> PrimaryRegion => Str
 
-The AWS Region of the new primary key. Enter the Region ID, such as
-C<us-east-1> or C<ap-southeast-2>. There must be an existing replica
-key in this Region.
+The Amazon Web Services Region of the new primary key. Enter the Region
+ID, such as C<us-east-1> or C<ap-southeast-2>. There must be an
+existing replica key in this Region.
 
 When the operation completes, the multi-Region key in this Region will
 be the primary key.

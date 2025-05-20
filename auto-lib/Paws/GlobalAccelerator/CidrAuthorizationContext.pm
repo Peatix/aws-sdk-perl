@@ -35,11 +35,12 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::GlobalAccel
 =head1 DESCRIPTION
 
 Provides authorization for Amazon to bring a specific IP address range
-to a specific AWS account using bring your own IP addresses (BYOIP).
+to a specific Amazon Web Services account using bring your own IP
+addresses (BYOIP).
 
-For more information, see Bring Your Own IP Addresses (BYOIP)
+For more information, see Bring your own IP addresses (BYOIP)
 (https://docs.aws.amazon.com/global-accelerator/latest/dg/using-byoip.html)
-in the I<AWS Global Accelerator Developer Guide>.
+in the I<Global Accelerator Developer Guide>.
 
 =head1 ATTRIBUTES
 

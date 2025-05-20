@@ -17,13 +17,14 @@ Paws::Proton::ListTagsForResourceOutput
 
 =head2 NextToken => Str
 
-A token to indicate the location of the next resource tag in the array
-of resource tags, after the current requested list of resource tags.
+A token that indicates the location of the next resource tag in the
+array of resource tags, after the current requested list of resource
+tags.
 
 
 =head2 B<REQUIRED> Tags => ArrayRef[L<Paws::Proton::Tag>]
 
-An array of resource tags with detail data.
+A list of resource tags with detail data.
 
 
 =head2 _request_id => Str

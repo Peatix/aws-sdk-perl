@@ -2,6 +2,7 @@
 package Paws::IoTSiteWise::Transform;
   use Moose;
   has Expression => (is => 'ro', isa => 'Str', request_name => 'expression', traits => ['NameInRequest'], required => 1);
+  has ProcessingConfig => (is => 'ro', isa => 'Paws::IoTSiteWise::TransformProcessingConfig', request_name => 'processingConfig', traits => ['NameInRequest']);
   has Variables => (is => 'ro', isa => 'ArrayRef[Paws::IoTSiteWise::ExpressionVariable]', request_name => 'variables', traits => ['NameInRequest'], required => 1);
 
 1;
@@ -44,7 +45,7 @@ C<DOUBLE>.
 
 For more information, see Transforms
 (https://docs.aws.amazon.com/iot-sitewise/latest/userguide/asset-properties.html#transforms)
-in the I<AWS IoT SiteWise User Guide>.
+in the I<IoT SiteWise User Guide>.
 
 =head1 ATTRIBUTES
 
@@ -57,7 +58,15 @@ to 10 functions per expression.
 
 For more information, see Quotas
 (https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html)
-in the I<AWS IoT SiteWise User Guide>.
+in the I<IoT SiteWise User Guide>.
+
+
+=head2 ProcessingConfig => L<Paws::IoTSiteWise::TransformProcessingConfig>
+
+The processing configuration for the given transform property. You can
+configure transforms to be kept at the edge or forwarded to the Amazon
+Web Services Cloud. You can also configure transforms to be computed at
+the edge or in the cloud.
 
 
 =head2 B<REQUIRED> Variables => ArrayRef[L<Paws::IoTSiteWise::ExpressionVariable>]

@@ -11,7 +11,9 @@ package Paws::ElastiCache::CreateCacheCluster;
   has CacheSubnetGroupName => (is => 'ro', isa => 'Str');
   has Engine => (is => 'ro', isa => 'Str');
   has EngineVersion => (is => 'ro', isa => 'Str');
+  has IpDiscovery => (is => 'ro', isa => 'Str');
   has LogDeliveryConfigurations => (is => 'ro', isa => 'ArrayRef[Paws::ElastiCache::LogDeliveryConfigurationRequest]');
+  has NetworkType => (is => 'ro', isa => 'Str');
   has NotificationTopicArn => (is => 'ro', isa => 'Str');
   has NumCacheNodes => (is => 'ro', isa => 'Int');
   has OutpostMode => (is => 'ro', isa => 'Str');
@@ -28,6 +30,7 @@ package Paws::ElastiCache::CreateCacheCluster;
   has SnapshotRetentionLimit => (is => 'ro', isa => 'Int');
   has SnapshotWindow => (is => 'ro', isa => 'Str');
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::ElastiCache::Tag]');
+  has TransitEncryptionEnabled => (is => 'ro', isa => 'Bool');
 
   use MooseX::ClassAttribute;
 
@@ -129,7 +132,10 @@ at http://redis.io/commands/AUTH.
 
 =head2 AutoMinorVersionUpgrade => Bool
 
-This parameter is currently disabled.
+If you are running Valkey 7.2 and above or Redis OSS engine version 6.0
+and above, set this parameter to yes to opt-in to the next auto minor
+version upgrade campaign. This parameter is disabled for previous
+versions.
 
 
 
@@ -193,15 +199,18 @@ General purpose:
 
 Current generation:
 
-B<M6g node types> (available only for Redis engine version 5.0.6 onward
-and for Memcached engine version 1.5.16 onward).
+B<M7g node types>: C<cache.m7g.large>, C<cache.m7g.xlarge>,
+C<cache.m7g.2xlarge>, C<cache.m7g.4xlarge>, C<cache.m7g.8xlarge>,
+C<cache.m7g.12xlarge>, C<cache.m7g.16xlarge>
 
+For region availability, see Supported Node Types
+(https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion)
+
+B<M6g node types> (available only for Redis OSS engine version 5.0.6
+onward and for Memcached engine version 1.5.16 onward):
 C<cache.m6g.large>, C<cache.m6g.xlarge>, C<cache.m6g.2xlarge>,
 C<cache.m6g.4xlarge>, C<cache.m6g.8xlarge>, C<cache.m6g.12xlarge>,
 C<cache.m6g.16xlarge>
-
-For region availability, see Supported Node Types
-(https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion)
 
 B<M5 node types:> C<cache.m5.large>, C<cache.m5.xlarge>,
 C<cache.m5.2xlarge>, C<cache.m5.4xlarge>, C<cache.m5.12xlarge>,
@@ -209,6 +218,10 @@ C<cache.m5.24xlarge>
 
 B<M4 node types:> C<cache.m4.large>, C<cache.m4.xlarge>,
 C<cache.m4.2xlarge>, C<cache.m4.4xlarge>, C<cache.m4.10xlarge>
+
+B<T4g node types> (available only for Redis OSS engine version 5.0.6
+onward and Memcached engine version 1.5.16 onward): C<cache.t4g.micro>,
+C<cache.t4g.small>, C<cache.t4g.medium>
 
 B<T3 node types:> C<cache.t3.micro>, C<cache.t3.small>,
 C<cache.t3.medium>
@@ -218,7 +231,9 @@ C<cache.t2.medium>
 
 =item *
 
-Previous generation: (not recommended)
+Previous generation: (not recommended. Existing clusters are still
+supported but creation of new clusters is not supported for these
+types.)
 
 B<T1 node types:> C<cache.t1.micro>
 
@@ -238,7 +253,9 @@ Compute optimized:
 
 =item *
 
-Previous generation: (not recommended)
+Previous generation: (not recommended. Existing clusters are still
+supported but creation of new clusters is not supported for these
+types.)
 
 B<C1 node types:> C<cache.c1.xlarge>
 
@@ -254,15 +271,18 @@ Memory optimized:
 
 Current generation:
 
-B<R6g node types> (available only for Redis engine version 5.0.6 onward
-and for Memcached engine version 1.5.16 onward).
+B<R7g node types>: C<cache.r7g.large>, C<cache.r7g.xlarge>,
+C<cache.r7g.2xlarge>, C<cache.r7g.4xlarge>, C<cache.r7g.8xlarge>,
+C<cache.r7g.12xlarge>, C<cache.r7g.16xlarge>
 
+For region availability, see Supported Node Types
+(https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion)
+
+B<R6g node types> (available only for Redis OSS engine version 5.0.6
+onward and for Memcached engine version 1.5.16 onward):
 C<cache.r6g.large>, C<cache.r6g.xlarge>, C<cache.r6g.2xlarge>,
 C<cache.r6g.4xlarge>, C<cache.r6g.8xlarge>, C<cache.r6g.12xlarge>,
 C<cache.r6g.16xlarge>
-
-For region availability, see Supported Node Types
-(https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion)
 
 B<R5 node types:> C<cache.r5.large>, C<cache.r5.xlarge>,
 C<cache.r5.2xlarge>, C<cache.r5.4xlarge>, C<cache.r5.12xlarge>,
@@ -274,7 +294,9 @@ C<cache.r4.16xlarge>
 
 =item *
 
-Previous generation: (not recommended)
+Previous generation: (not recommended. Existing clusters are still
+supported but creation of new clusters is not supported for these
+types.)
 
 B<M2 node types:> C<cache.m2.xlarge>, C<cache.m2.2xlarge>,
 C<cache.m2.4xlarge>
@@ -297,17 +319,18 @@ default.
 
 =item *
 
-Redis append-only files (AOF) are not supported for T1 or T2 instances.
+Valkey or Redis OSS append-only files (AOF) are not supported for T1 or
+T2 instances.
 
 =item *
 
-Redis Multi-AZ with automatic failover is not supported on T1
-instances.
+Valkey or Redis OSS Multi-AZ with automatic failover is not supported
+on T1 instances.
 
 =item *
 
-Redis configuration variables C<appendonly> and C<appendfsync> are not
-supported on Redis version 2.8.22 and later.
+The configuration variables C<appendonly> and C<appendfsync> are not
+supported on Valkey, or on Redis OSS version 2.8.22 and later.
 
 =back
 
@@ -342,7 +365,7 @@ Virtual Private Cloud (Amazon VPC).
 If you're going to launch your cluster in an Amazon VPC, you need to
 create a subnet group before you start creating a cluster. For more
 information, see Subnets and Subnet Groups
-(https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/SubnetGroups.html).
+(https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/SubnetGroups.html).
 
 
 
@@ -362,18 +385,37 @@ DescribeCacheEngineVersions operation.
 
 B<Important:> You can upgrade to a newer engine version (see Selecting
 a Cache Engine and Version
-(https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/SelectEngine.html#VersionManagement)),
+(https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/SelectEngine.html#VersionManagement)),
 but you cannot downgrade to an earlier engine version. If you want to
 use an earlier engine version, you must delete the existing cluster or
 replication group and create it anew with the earlier engine version.
 
 
 
+=head2 IpDiscovery => Str
+
+The network type you choose when modifying a cluster, either C<ipv4> |
+C<ipv6>. IPv6 is supported for workloads using Valkey 7.2 and above,
+Redis OSS engine version 6.2 to 7.1 and Memcached engine version 1.6.6
+and above on all instances built on the Nitro system
+(http://aws.amazon.com/ec2/nitro/).
+
+Valid values are: C<"ipv4">, C<"ipv6">
+
 =head2 LogDeliveryConfigurations => ArrayRef[L<Paws::ElastiCache::LogDeliveryConfigurationRequest>]
 
 Specifies the destination, format and type of the logs.
 
 
+
+=head2 NetworkType => Str
+
+Must be either C<ipv4> | C<ipv6> | C<dual_stack>. IPv6 is supported for
+workloads using Valkey 7.2 and above, Redis OSS engine version 6.2 to
+7.1 and Memcached engine version 1.6.6 and above on all instances built
+on the Nitro system (http://aws.amazon.com/ec2/nitro/).
+
+Valid values are: C<"ipv4">, C<"ipv6">, C<"dual_stack">
 
 =head2 NotificationTopicArn => Str
 
@@ -388,8 +430,8 @@ The Amazon SNS topic owner must be the same as the cluster owner.
 
 The initial number of cache nodes that the cluster has.
 
-For clusters running Redis, this value must be 1. For clusters running
-Memcached, this value must be between 1 and 40.
+For clusters running Valkey or Redis OSS, this value must be 1. For
+clusters running Memcached, this value must be between 1 and 40.
 
 If you need more than 40 nodes for your Memcached cluster, please fill
 out the ElastiCache Limit Increase Request form at
@@ -450,7 +492,7 @@ Default: System chosen Availability Zones.
 Specifies the weekly time range during which maintenance on the cluster
 is performed. It is specified as a range in the format
 ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window
-is a 60 minute period. Valid values for C<ddd> are:
+is a 60 minute period.
 
 
 
@@ -494,9 +536,10 @@ Virtual Private Cloud (Amazon VPC).
 =head2 SnapshotArns => ArrayRef[Str|Undef]
 
 A single-element string list containing an Amazon Resource Name (ARN)
-that uniquely identifies a Redis RDB snapshot file stored in Amazon S3.
-The snapshot file is used to populate the node group (shard). The
-Amazon S3 object name in the ARN cannot contain any commas.
+that uniquely identifies a Valkey or Redis OSS RDB snapshot file stored
+in Amazon S3. The snapshot file is used to populate the node group
+(shard). The Amazon S3 object name in the ARN cannot contain any
+commas.
 
 This parameter is only valid if the C<Engine> parameter is C<redis>.
 
@@ -506,9 +549,9 @@ Example of an Amazon S3 ARN: C<arn:aws:s3:::my_bucket/snapshot1.rdb>
 
 =head2 SnapshotName => Str
 
-The name of a Redis snapshot from which to restore data into the new
-node group (shard). The snapshot status changes to C<restoring> while
-the new node group (shard) is being created.
+The name of a Valkey or Redis OSS snapshot from which to restore data
+into the new node group (shard). The snapshot status changes to
+C<restoring> while the new node group (shard) is being created.
 
 This parameter is only valid if the C<Engine> parameter is C<redis>.
 
@@ -545,6 +588,12 @@ This parameter is only valid if the C<Engine> parameter is C<redis>.
 =head2 Tags => ArrayRef[L<Paws::ElastiCache::Tag>]
 
 A list of tags to be added to this resource.
+
+
+
+=head2 TransitEncryptionEnabled => Bool
+
+A flag that enables in-transit encryption when set to true.
 
 
 

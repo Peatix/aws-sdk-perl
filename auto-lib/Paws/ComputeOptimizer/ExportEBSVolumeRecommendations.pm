@@ -41,7 +41,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       AccountIds     => [ 'MyAccountId', ... ],    # OPTIONAL
       FieldsToExport => [
         'AccountId',
-        ... # values: AccountId, VolumeArn, Finding, UtilizationMetricsVolumeReadOpsPerSecondMaximum, UtilizationMetricsVolumeWriteOpsPerSecondMaximum, UtilizationMetricsVolumeReadBytesPerSecondMaximum, UtilizationMetricsVolumeWriteBytesPerSecondMaximum, LookbackPeriodInDays, CurrentConfigurationVolumeType, CurrentConfigurationVolumeBaselineIOPS, CurrentConfigurationVolumeBaselineThroughput, CurrentConfigurationVolumeBurstIOPS, CurrentConfigurationVolumeBurstThroughput, CurrentConfigurationVolumeSize, CurrentMonthlyPrice, RecommendationOptionsConfigurationVolumeType, RecommendationOptionsConfigurationVolumeBaselineIOPS, RecommendationOptionsConfigurationVolumeBaselineThroughput, RecommendationOptionsConfigurationVolumeBurstIOPS, RecommendationOptionsConfigurationVolumeBurstThroughput, RecommendationOptionsConfigurationVolumeSize, RecommendationOptionsMonthlyPrice, RecommendationOptionsPerformanceRisk, LastRefreshTimestamp
+        ... # values: AccountId, VolumeArn, Finding, UtilizationMetricsVolumeReadOpsPerSecondMaximum, UtilizationMetricsVolumeWriteOpsPerSecondMaximum, UtilizationMetricsVolumeReadBytesPerSecondMaximum, UtilizationMetricsVolumeWriteBytesPerSecondMaximum, LookbackPeriodInDays, CurrentConfigurationVolumeType, CurrentConfigurationVolumeBaselineIOPS, CurrentConfigurationVolumeBaselineThroughput, CurrentConfigurationVolumeBurstIOPS, CurrentConfigurationVolumeBurstThroughput, CurrentConfigurationVolumeSize, CurrentMonthlyPrice, RecommendationOptionsConfigurationVolumeType, RecommendationOptionsConfigurationVolumeBaselineIOPS, RecommendationOptionsConfigurationVolumeBaselineThroughput, RecommendationOptionsConfigurationVolumeBurstIOPS, RecommendationOptionsConfigurationVolumeBurstThroughput, RecommendationOptionsConfigurationVolumeSize, RecommendationOptionsMonthlyPrice, RecommendationOptionsPerformanceRisk, LastRefreshTimestamp, CurrentPerformanceRisk, RecommendationOptionsSavingsOpportunityPercentage, RecommendationOptionsEstimatedMonthlySavingsCurrency, RecommendationOptionsEstimatedMonthlySavingsValue, Tags, RootVolume, CurrentConfigurationRootVolume, EffectiveRecommendationPreferencesSavingsEstimationMode, RecommendationOptionsSavingsOpportunityAfterDiscountsPercentage, RecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts, RecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts
       ],    # OPTIONAL
       FileFormat => 'Csv',    # OPTIONAL
       Filters    => [
@@ -68,8 +68,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/com
 
 =head2 AccountIds => ArrayRef[Str|Undef]
 
-The IDs of the AWS accounts for which to export Amazon EBS volume
-recommendations.
+The IDs of the Amazon Web Services accounts for which to export Amazon
+EBS volume recommendations.
 
 If your account is the management account of an organization, use this
 parameter to specify the member account for which you want to export
@@ -104,7 +104,7 @@ Valid values are: C<"Csv">
 
 =head2 Filters => ArrayRef[L<Paws::ComputeOptimizer::EBSFilter>]
 
-An array of objects that describe a filter to export a more specific
+An array of objects to specify a filter that exports a more specific
 set of Amazon EBS volume recommendations.
 
 
@@ -118,9 +118,9 @@ account of an organization.
 The member accounts must also be opted in to Compute Optimizer, and
 trusted access for Compute Optimizer must be enabled in the
 organization account. For more information, see Compute Optimizer and
-AWS Organizations trusted access
+Amazon Web Services Organizations trusted access
 (https://docs.aws.amazon.com/compute-optimizer/latest/ug/security-iam.html#trusted-service-access)
-in the I<AWS Compute Optimizer User Guide>.
+in the I<Compute Optimizer User Guide>.
 
 Recommendations for member accounts of the organization are not
 included in the export file if this parameter is omitted.

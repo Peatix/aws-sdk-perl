@@ -43,14 +43,14 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ds/
 =head2 B<REQUIRED> DirectoryId => Str
 
 The Directory ID to remove as a publisher. This directory will no
-longer send messages to the specified SNS topic.
+longer send messages to the specified Amazon SNS topic.
 
 
 
 =head2 B<REQUIRED> TopicName => Str
 
-The name of the SNS topic from which to remove the directory as a
-publisher.
+The name of the Amazon SNS topic from which to remove the directory as
+a publisher.
 
 
 

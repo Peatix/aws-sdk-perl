@@ -64,9 +64,9 @@ Valid values are: C<"EVENT">, C<"MODEL_SCORE">, C<"EXTERNAL_MODEL_SCORE">
 
 =head2 B<REQUIRED> DataType => Str
 
-The data type.
+The data type of the variable.
 
-Valid values are: C<"STRING">, C<"INTEGER">, C<"FLOAT">, C<"BOOLEAN">
+Valid values are: C<"STRING">, C<"INTEGER">, C<"FLOAT">, C<"BOOLEAN">, C<"DATETIME">
 
 =head2 B<REQUIRED> DefaultValue => Str
 

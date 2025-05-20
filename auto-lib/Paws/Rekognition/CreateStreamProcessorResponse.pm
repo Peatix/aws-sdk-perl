@@ -16,7 +16,7 @@ Paws::Rekognition::CreateStreamProcessorResponse
 
 =head2 StreamProcessorArn => Str
 
-ARN for the newly create stream processor.
+Amazon Resource Number for the newly created stream processor.
 
 
 =head2 _request_id => Str

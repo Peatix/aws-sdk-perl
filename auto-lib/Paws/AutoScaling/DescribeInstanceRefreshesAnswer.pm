@@ -18,7 +18,8 @@ Paws::AutoScaling::DescribeInstanceRefreshesAnswer
 
 =head2 InstanceRefreshes => ArrayRef[L<Paws::AutoScaling::InstanceRefresh>]
 
-The instance refreshes for the specified group.
+The instance refreshes for the specified group, sorted by creation
+timestamp in descending order.
 
 
 =head2 NextToken => Str

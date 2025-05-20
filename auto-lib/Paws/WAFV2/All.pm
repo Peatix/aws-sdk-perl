@@ -33,11 +33,13 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::WAFV2::All 
 =head1 DESCRIPTION
 
 Inspect all of the elements that WAF has parsed and extracted from the
-web request JSON body that are within the JsonBody C<MatchScope>. This
-is used with the FieldToMatch option C<JsonBody>.
+web request component that you've identified in your FieldToMatch
+specifications.
 
-This is used only to indicate the web request component for WAF to
-inspect, in the FieldToMatch specification.
+This is used in the FieldToMatch specification for some web request
+component types.
+
+JSON specification: C<"All": {}>
 
 =head1 ATTRIBUTES
 

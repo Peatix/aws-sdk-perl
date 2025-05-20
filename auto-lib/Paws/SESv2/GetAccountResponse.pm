@@ -8,6 +8,7 @@ package Paws::SESv2::GetAccountResponse;
   has SendingEnabled => (is => 'ro', isa => 'Bool');
   has SendQuota => (is => 'ro', isa => 'Paws::SESv2::SendQuota');
   has SuppressionAttributes => (is => 'ro', isa => 'Paws::SESv2::SuppressionAttributes');
+  has VdmAttributes => (is => 'ro', isa => 'Paws::SESv2::VdmAttributes');
 
   has _request_id => (is => 'ro', isa => 'Str');
 1;
@@ -64,13 +65,11 @@ account's ability to send email is resumed.
 =head2 ProductionAccessEnabled => Bool
 
 Indicates whether or not your account has production access in the
-current AWS Region.
+current Amazon Web Services Region.
 
 If the value is C<false>, then your account is in the I<sandbox>. When
 your account is in the sandbox, you can only send email to verified
-identities. Additionally, the maximum number of emails you can send in
-a 24-hour period (your sending quota) is 200, and the maximum number of
-emails you can send per second (your maximum sending rate) is 1.
+identities.
 
 If the value is C<true>, then your account has production access. When
 your account has production access, you can send email to any address.
@@ -81,19 +80,25 @@ on your specific use case.
 =head2 SendingEnabled => Bool
 
 Indicates whether or not email sending is enabled for your Amazon SES
-account in the current AWS Region.
+account in the current Amazon Web Services Region.
 
 
 =head2 SendQuota => L<Paws::SESv2::SendQuota>
 
 An object that contains information about the per-day and per-second
-sending limits for your Amazon SES account in the current AWS Region.
+sending limits for your Amazon SES account in the current Amazon Web
+Services Region.
 
 
 =head2 SuppressionAttributes => L<Paws::SESv2::SuppressionAttributes>
 
 An object that contains information about the email address suppression
-preferences for your account in the current AWS Region.
+preferences for your account in the current Amazon Web Services Region.
+
+
+=head2 VdmAttributes => L<Paws::SESv2::VdmAttributes>
+
+The VDM attributes that apply to your Amazon SES account.
 
 
 =head2 _request_id => Str

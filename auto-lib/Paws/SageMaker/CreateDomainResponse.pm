@@ -2,6 +2,7 @@
 package Paws::SageMaker::CreateDomainResponse;
   use Moose;
   has DomainArn => (is => 'ro', isa => 'Str');
+  has DomainId => (is => 'ro', isa => 'Str');
   has Url => (is => 'ro', isa => 'Str');
 
   has _request_id => (is => 'ro', isa => 'Str');
@@ -18,6 +19,11 @@ Paws::SageMaker::CreateDomainResponse
 =head2 DomainArn => Str
 
 The Amazon Resource Name (ARN) of the created domain.
+
+
+=head2 DomainId => Str
+
+The ID of the created domain.
 
 
 =head2 Url => Str

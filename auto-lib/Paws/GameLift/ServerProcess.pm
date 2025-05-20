@@ -35,10 +35,10 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::GameLift::S
 
 =head1 DESCRIPTION
 
-A set of instructions for launching server processes on each instance
-in a fleet. Server processes run either an executable in a custom game
-build or a Realtime Servers script. Server process configurations are
-part of a fleet's RuntimeConfiguration.
+A set of instructions for launching server processes on fleet computes.
+Server processes run either an executable in a custom game build or a
+Amazon GameLift Realtime script. Server process configurations are part
+of a fleet's runtime configuration.
 
 =head1 ATTRIBUTES
 
@@ -46,14 +46,13 @@ part of a fleet's RuntimeConfiguration.
 =head2 B<REQUIRED> ConcurrentExecutions => Int
 
 The number of server processes using this configuration that run
-concurrently on each instance.
+concurrently on each instance or compute.
 
 
 =head2 B<REQUIRED> LaunchPath => Str
 
-The location of a game build executable or the Realtime script file
-that contains the C<Init()> function. Game builds and Realtime scripts
-are installed on instances at the root:
+The location of a game build executable or Realtime script. Game builds
+and Realtime scripts are installed on instances at the root:
 
 =over
 
@@ -69,6 +68,10 @@ Linux: C</local/game>. Examples: "C</local/game/MyGame/server.exe>" or
 
 =back
 
+Amazon GameLift doesn't support the use of setup scripts that launch
+the game executable. For custom game builds, this parameter must
+indicate the executable that calls the server SDK operations
+C<initSDK()> and C<ProcessReady()>.
 
 
 =head2 Parameters => Str

@@ -59,7 +59,7 @@ The unique ID of the service update
 
 =head2 UpdateActionStatus => Str
 
-The status of the update action on the Redis cluster
+The status of the update action on the Valkey or Redis OSS cluster
 
 
 

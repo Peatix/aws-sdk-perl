@@ -17,8 +17,8 @@ Paws::AuditManager::UpdateAssessmentResponse
 
 =head2 Assessment => L<Paws::AuditManager::Assessment>
 
-The response object (name of the updated assessment) for the
-C<UpdateAssessmentRequest> API.
+The response object for the C<UpdateAssessment> API. This is the name
+of the updated assessment.
 
 
 =head2 _request_id => Str

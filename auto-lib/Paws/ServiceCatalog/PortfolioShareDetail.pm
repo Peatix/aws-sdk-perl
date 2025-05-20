@@ -3,6 +3,7 @@ package Paws::ServiceCatalog::PortfolioShareDetail;
   use Moose;
   has Accepted => (is => 'ro', isa => 'Bool');
   has PrincipalId => (is => 'ro', isa => 'Str');
+  has SharePrincipals => (is => 'ro', isa => 'Bool');
   has ShareTagOptions => (is => 'ro', isa => 'Bool');
   has Type => (is => 'ro', isa => 'Str');
 
@@ -51,7 +52,7 @@ automatically imported, and the field is always set to true.
 =head2 PrincipalId => Str
 
 The identifier of the recipient entity that received the portfolio
-share. The recipient entities can be one of the following:
+share. The recipient entity can be one of the following:
 
 1. An external account.
 
@@ -61,6 +62,12 @@ share. The recipient entities can be one of the following:
 
 4. The organization itself. (This shares with every account in the
 organization).
+
+
+=head2 SharePrincipals => Bool
+
+Indicates if C<Principal> sharing is enabled or disabled for the
+portfolio share.
 
 
 =head2 ShareTagOptions => Bool

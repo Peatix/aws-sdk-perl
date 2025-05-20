@@ -19,7 +19,7 @@ Paws::Route53::GetTrafficPolicyInstanceCountResponse
 =head2 B<REQUIRED> TrafficPolicyInstanceCount => Int
 
 The number of traffic policy instances that are associated with the
-current AWS account.
+current Amazon Web Services account.
 
 
 

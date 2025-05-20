@@ -120,7 +120,7 @@ and a query logging configuration.
 
 =item *
 
-C<CREATED>: The association between an Amazon VPC and a query logging
+C<ACTIVE>: The association between an Amazon VPC and a query logging
 configuration was successfully created. Resolver is logging queries
 that originate in the specified VPC.
 

@@ -17,8 +17,8 @@ Paws::AuditManager::BatchImportEvidenceToAssessmentControlResponse
 
 =head2 Errors => ArrayRef[L<Paws::AuditManager::BatchImportEvidenceToAssessmentControlError>]
 
-A list of errors returned by the
-C<BatchImportEvidenceToAssessmentControl> API.
+A list of errors that the C<BatchImportEvidenceToAssessmentControl> API
+returned.
 
 
 =head2 _request_id => Str

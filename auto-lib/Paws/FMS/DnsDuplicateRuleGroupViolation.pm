@@ -42,7 +42,7 @@ a VPC is already associated with the VPC and can't be associated again.
 
 =head2 ViolationTarget => Str
 
-The ID of the VPC.
+Information about the VPC ID.
 
 
 =head2 ViolationTargetDescription => Str

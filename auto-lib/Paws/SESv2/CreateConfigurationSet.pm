@@ -1,6 +1,7 @@
 
 package Paws::SESv2::CreateConfigurationSet;
   use Moose;
+  has ArchivingOptions => (is => 'ro', isa => 'Paws::SESv2::ArchivingOptions');
   has ConfigurationSetName => (is => 'ro', isa => 'Str', required => 1);
   has DeliveryOptions => (is => 'ro', isa => 'Paws::SESv2::DeliveryOptions');
   has ReputationOptions => (is => 'ro', isa => 'Paws::SESv2::ReputationOptions');
@@ -8,6 +9,7 @@ package Paws::SESv2::CreateConfigurationSet;
   has SuppressionOptions => (is => 'ro', isa => 'Paws::SESv2::SuppressionOptions');
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::SESv2::Tag]');
   has TrackingOptions => (is => 'ro', isa => 'Paws::SESv2::TrackingOptions');
+  has VdmOptions => (is => 'ro', isa => 'Paws::SESv2::VdmOptions');
 
   use MooseX::ClassAttribute;
 
@@ -36,9 +38,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $email = Paws->service('SESv2');
     my $CreateConfigurationSetResponse = $email->CreateConfigurationSet(
       ConfigurationSetName => 'MyConfigurationSetName',
-      DeliveryOptions      => {
-        SendingPoolName => 'MyPoolName',   # OPTIONAL
-        TlsPolicy       => 'REQUIRE',      # values: REQUIRE, OPTIONAL; OPTIONAL
+      ArchivingOptions     => {
+        ArchiveArn => 'MyArchiveArn',    # min: 20, max: 1011; OPTIONAL
+      },    # OPTIONAL
+      DeliveryOptions => {
+        MaxDeliverySeconds => 1,               # min: 300, max: 50400; OPTIONAL
+        SendingPoolName    => 'MyPoolName',    # OPTIONAL
+        TlsPolicy          => 'REQUIRE',   # values: REQUIRE, OPTIONAL; OPTIONAL
       },    # OPTIONAL
       ReputationOptions => {
         LastFreshStart           => '1970-01-01T01:00:00',    # OPTIONAL
@@ -62,7 +68,17 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       ],    # OPTIONAL
       TrackingOptions => {
         CustomRedirectDomain => 'MyCustomRedirectDomain',
-
+        HttpsPolicy          =>
+          'REQUIRE',    # values: REQUIRE, REQUIRE_OPEN_ONLY, OPTIONAL; OPTIONAL
+      },    # OPTIONAL
+      VdmOptions => {
+        DashboardOptions => {
+          EngagementMetrics => 'ENABLED',  # values: ENABLED, DISABLED; OPTIONAL
+        },    # OPTIONAL
+        GuardianOptions => {
+          OptimizedSharedDelivery =>
+            'ENABLED',    # values: ENABLED, DISABLED; OPTIONAL
+        },    # OPTIONAL
       },    # OPTIONAL
     );
 
@@ -72,9 +88,18 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ema
 =head1 ATTRIBUTES
 
 
+=head2 ArchivingOptions => L<Paws::SESv2::ArchivingOptions>
+
+An object that defines the MailManager archiving options for emails
+that you send using the configuration set.
+
+
+
 =head2 B<REQUIRED> ConfigurationSetName => Str
 
-The name of the configuration set.
+The name of the configuration set. The name can contain up to 64
+alphanumeric characters, including letters, numbers, hyphens (-) and
+underscores (_) only.
 
 
 
@@ -107,8 +132,8 @@ you send using the configuration set.
 
 =head2 Tags => ArrayRef[L<Paws::SESv2::Tag>]
 
-An array of objects that define the tags (keys and values) that you
-want to associate with the configuration set.
+An array of objects that define the tags (keys and values) to associate
+with the configuration set.
 
 
 
@@ -116,6 +141,13 @@ want to associate with the configuration set.
 
 An object that defines the open and click tracking options for emails
 that you send using the configuration set.
+
+
+
+=head2 VdmOptions => L<Paws::SESv2::VdmOptions>
+
+An object that defines the VDM options for emails that you send using
+the configuration set.
 
 
 

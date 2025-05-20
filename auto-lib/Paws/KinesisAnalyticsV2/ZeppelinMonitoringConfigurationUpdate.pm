@@ -34,15 +34,15 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::KinesisAnal
 =head1 DESCRIPTION
 
 Updates to the monitoring configuration for Apache Zeppelin within a
-Kinesis Data Analytics Studio notebook.
+Managed Service for Apache Flink Studio notebook.
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> LogLevelUpdate => Str
 
-Updates to the logging level for Apache Zeppelin within a Kinesis Data
-Analytics Studio notebook.
+Updates to the logging level for Apache Zeppelin within a Managed
+Service for Apache Flink Studio notebook.
 
 
 

@@ -41,14 +41,14 @@ Contains logging configuration information for an extension.
 
 =head2 B<REQUIRED> LogGroupName => Str
 
-The Amazon CloudWatch log group to which CloudFormation sends error
+The Amazon CloudWatch Logs group to which CloudFormation sends error
 logging information when invoking the extension's handlers.
 
 
 =head2 B<REQUIRED> LogRoleArn => Str
 
-The ARN of the role that CloudFormation should assume when sending log
-entries to CloudWatch logs.
+The Amazon Resource Name (ARN) of the role that CloudFormation should
+assume when sending log entries to CloudWatch Logs.
 
 
 

@@ -3,6 +3,7 @@ package Paws::S3Control::JobProgressSummary;
   use Moose;
   has NumberOfTasksFailed => (is => 'ro', isa => 'Int');
   has NumberOfTasksSucceeded => (is => 'ro', isa => 'Int');
+  has Timers => (is => 'ro', isa => 'Paws::S3Control::JobTimers');
   has TotalNumberOfTasks => (is => 'ro', isa => 'Int');
 
 1;
@@ -50,6 +51,11 @@ failed.
 =head2 NumberOfTasksSucceeded => Int
 
 
+
+
+=head2 Timers => L<Paws::S3Control::JobTimers>
+
+The JobTimers attribute of a job's progress summary.
 
 
 =head2 TotalNumberOfTasks => Int

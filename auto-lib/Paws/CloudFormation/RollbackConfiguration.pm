@@ -34,16 +34,16 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CloudFormat
 
 =head1 DESCRIPTION
 
-Structure containing the rollback triggers for AWS CloudFormation to
+Structure containing the rollback triggers for CloudFormation to
 monitor during stack creation and updating operations, and for the
 specified monitoring period afterwards.
 
-Rollback triggers enable you to have AWS CloudFormation monitor the
-state of your application during stack creation and updating, and to
-roll back that operation if the application breaches the threshold of
-any of the alarms you've specified. For more information, see Monitor
-and Roll Back Stack Operations
-(http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-rollback-triggers.html).
+Rollback triggers enable you to have CloudFormation monitor the state
+of your application during stack creation and updating, and to roll
+back that operation if the application breaches the threshold of any of
+the alarms you've specified. For more information, see Roll back your
+CloudFormation stack on alarm breach with rollback triggers
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-rollback-triggers.html).
 
 =head1 ATTRIBUTES
 
@@ -56,7 +56,7 @@ operation deploys all necessary resources.
 
 The default is 0 minutes.
 
-If you specify a monitoring period but do not specify any rollback
+If you specify a monitoring period but don't specify any rollback
 triggers, CloudFormation still waits the specified period of time
 before cleaning up old resources after update operations. You can use
 this monitoring period to perform any manual stack validation desired,
@@ -75,9 +75,9 @@ resources immediately once the operation completes.
 
 The triggers to monitor during stack creation or update actions.
 
-By default, AWS CloudFormation saves the rollback triggers specified
-for a stack and applies them to any subsequent update operations for
-the stack, unless you specify otherwise. If you do specify rollback
+By default, CloudFormation saves the rollback triggers specified for a
+stack and applies them to any subsequent update operations for the
+stack, unless you specify otherwise. If you do specify rollback
 triggers for this parameter, those triggers replace any list of
 triggers previously specified for the stack. This means:
 
@@ -92,7 +92,7 @@ any, don't specify this parameter.
 
 To specify new or updated rollback triggers, you must specify I<all>
 the triggers that you want used for this stack, even triggers you've
-specifed before (for example, when creating the stack or during a
+specified before (for example, when creating the stack or during a
 previous stack update). Any triggers that you don't include in the
 updated list of triggers are no longer applied to the stack.
 

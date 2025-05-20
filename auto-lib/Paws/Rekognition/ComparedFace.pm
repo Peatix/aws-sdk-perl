@@ -3,9 +3,11 @@ package Paws::Rekognition::ComparedFace;
   use Moose;
   has BoundingBox => (is => 'ro', isa => 'Paws::Rekognition::BoundingBox');
   has Confidence => (is => 'ro', isa => 'Num');
+  has Emotions => (is => 'ro', isa => 'ArrayRef[Paws::Rekognition::Emotion]');
   has Landmarks => (is => 'ro', isa => 'ArrayRef[Paws::Rekognition::Landmark]');
   has Pose => (is => 'ro', isa => 'Paws::Rekognition::Pose');
   has Quality => (is => 'ro', isa => 'Paws::Rekognition::ImageQuality');
+  has Smile => (is => 'ro', isa => 'Paws::Rekognition::Smile');
 
 1;
 
@@ -26,7 +28,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::Rekognition::ComparedFace object:
 
-  $service_obj->Method(Att1 => { BoundingBox => $value, ..., Quality => $value  });
+  $service_obj->Method(Att1 => { BoundingBox => $value, ..., Smile => $value  });
 
 =head3 Results returned from an API call
 
@@ -53,6 +55,14 @@ Bounding box of the face.
 Level of confidence that what the bounding box contains is a face.
 
 
+=head2 Emotions => ArrayRef[L<Paws::Rekognition::Emotion>]
+
+The emotions that appear to be expressed on the face, and the
+confidence level in the determination. Valid values include "Happy",
+"Sad", "Angry", "Confused", "Disgusted", "Surprised", "Calm",
+"Unknown", and "Fear".
+
+
 =head2 Landmarks => ArrayRef[L<Paws::Rekognition::Landmark>]
 
 An array of facial landmarks.
@@ -67,6 +77,12 @@ yaw.
 =head2 Quality => L<Paws::Rekognition::ImageQuality>
 
 Identifies face image brightness and sharpness.
+
+
+=head2 Smile => L<Paws::Rekognition::Smile>
+
+Indicates whether or not the face is smiling, and the confidence level
+in the determination.
 
 
 

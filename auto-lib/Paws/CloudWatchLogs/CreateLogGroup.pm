@@ -2,6 +2,7 @@
 package Paws::CloudWatchLogs::CreateLogGroup;
   use Moose;
   has KmsKeyId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'kmsKeyId' );
+  has LogGroupClass => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'logGroupClass' );
   has LogGroupName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'logGroupName' , required => 1);
   has Tags => (is => 'ro', isa => 'Paws::CloudWatchLogs::Tags', traits => ['NameInRequest'], request_name => 'tags' );
 
@@ -30,9 +31,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $logs = Paws->service('CloudWatchLogs');
     $logs->CreateLogGroup(
-      LogGroupName => 'MyLogGroupName',
-      KmsKeyId     => 'MyKmsKeyId',       # OPTIONAL
-      Tags         => {
+      LogGroupName  => 'MyLogGroupName',
+      KmsKeyId      => 'MyKmsKeyId',       # OPTIONAL
+      LogGroupClass => 'STANDARD',         # OPTIONAL
+      Tags          => {
         'MyTagKey' => 'MyTagValue',    # key: min: 1, max: 128, value: max: 256
       },    # OPTIONAL
     );
@@ -45,22 +47,68 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/log
 
 =head2 KmsKeyId => Str
 
-The Amazon Resource Name (ARN) of the CMK to use when encrypting log
-data. For more information, see Amazon Resource Names - AWS Key
-Management Service (AWS KMS)
+The Amazon Resource Name (ARN) of the KMS key to use when encrypting
+log data. For more information, see Amazon Resource Names
 (https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-kms).
 
 
 
+=head2 LogGroupClass => Str
+
+Use this parameter to specify the log group class for this log group.
+There are three classes:
+
+=over
+
+=item *
+
+The C<Standard> log class supports all CloudWatch Logs features.
+
+=item *
+
+The C<Infrequent Access> log class supports a subset of CloudWatch Logs
+features and incurs lower costs.
+
+=item *
+
+Use the C<Delivery> log class only for delivering Lambda logs to store
+in Amazon S3 or Amazon Data Firehose. Log events in log groups in the
+Delivery class are kept in CloudWatch Logs for only one day. This log
+class doesn't offer rich CloudWatch Logs capabilities such as
+CloudWatch Logs Insights queries.
+
+=back
+
+If you omit this parameter, the default of C<STANDARD> is used.
+
+The value of C<logGroupClass> can't be changed after a log group is
+created.
+
+For details about the features supported by each class, see Log classes
+(https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch_Logs_Log_Classes.html)
+
+Valid values are: C<"STANDARD">, C<"INFREQUENT_ACCESS">, C<"DELIVERY">
+
 =head2 B<REQUIRED> LogGroupName => Str
 
-The name of the log group.
+A name for the log group.
 
 
 
 =head2 Tags => L<Paws::CloudWatchLogs::Tags>
 
 The key-value pairs to use for the tags.
+
+You can grant users access to certain log groups while preventing them
+from accessing other log groups. To do so, tag your groups and use IAM
+policies that refer to those tags. To assign tags when you create a log
+group, you must have either the C<logs:TagResource> or
+C<logs:TagLogGroup> permission. For more information about tagging, see
+Tagging Amazon Web Services resources
+(https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html). For
+more information about using tags to control access, see Controlling
+access to Amazon Web Services resources using tags
+(https://docs.aws.amazon.com/IAM/latest/UserGuide/access_tags.html).
 
 
 

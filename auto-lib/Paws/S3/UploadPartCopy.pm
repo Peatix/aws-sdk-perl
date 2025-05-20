@@ -94,22 +94,48 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/s3/
 
 The bucket name.
 
-When using this action with an access point, you must direct requests
-to the access point hostname. The access point hostname takes the form
+B<Directory buckets> - When you use this operation with a directory
+bucket, you must use virtual-hosted-style requests in the format C<
+I<Bucket-name>.s3express-I<zone-id>.I<region-code>.amazonaws.com>.
+Path-style requests are not supported. Directory bucket names must be
+unique in the chosen Zone (Availability Zone or Local Zone). Bucket
+names must follow the format C< I<bucket-base-name>--I<zone-id>--x-s3>
+(for example, C< I<amzn-s3-demo-bucket>--I<usw2-az1>--x-s3>). For
+information about bucket naming restrictions, see Directory bucket
+naming rules
+(https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-bucket-naming-rules.html)
+in the I<Amazon S3 User Guide>.
+
+Copying objects across different Amazon Web Services Regions isn't
+supported when the source or destination bucket is in Amazon Web
+Services Local Zones. The source and destination buckets must have the
+same parent Amazon Web Services Region. Otherwise, you get an HTTP
+C<400 Bad Request> error with the error code C<InvalidRequest>.
+
+B<Access points> - When you use this action with an access point for
+general purpose buckets, you must provide the alias of the access point
+in place of the bucket name or specify the access point ARN. When you
+use this action with an access point for directory buckets, you must
+provide the access point name in place of the bucket name. When using
+the access point ARN, you must direct requests to the access point
+hostname. The access point hostname takes the form
 I<AccessPointName>-I<AccountId>.s3-accesspoint.I<Region>.amazonaws.com.
-When using this action with an access point through the AWS SDKs, you
-provide the access point ARN in place of the bucket name. For more
-information about access point ARNs, see Using access points
+When using this action with an access point through the Amazon Web
+Services SDKs, you provide the access point ARN in place of the bucket
+name. For more information about access point ARNs, see Using access
+points
 (https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html)
 in the I<Amazon S3 User Guide>.
 
-When using this action with Amazon S3 on Outposts, you must direct
-requests to the S3 on Outposts hostname. The S3 on Outposts hostname
-takes the form
-I<AccessPointName>-I<AccountId>.I<outpostID>.s3-outposts.I<Region>.amazonaws.com.
-When using this action using S3 on Outposts through the AWS SDKs, you
-provide the Outposts bucket ARN in place of the bucket name. For more
-information about S3 on Outposts ARNs, see Using S3 on Outposts
+Object Lambda access points are not supported by directory buckets.
+
+B<S3 on Outposts> - When you use this action with S3 on Outposts, you
+must direct requests to the S3 on Outposts hostname. The S3 on Outposts
+hostname takes the form C<
+I<AccessPointName>-I<AccountId>.I<outpostID>.s3-outposts.I<Region>.amazonaws.com>.
+When you use this action with S3 on Outposts, the destination bucket
+must be the Outposts access point ARN or the access point alias. For
+more information about S3 on Outposts, see What is S3 on Outposts?
 (https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html)
 in the I<Amazon S3 User Guide>.
 
@@ -130,7 +156,7 @@ For objects not accessed through an access point, specify the name of
 the source bucket and key of the source object, separated by a slash
 (/). For example, to copy the object C<reports/january.pdf> from the
 bucket C<awsexamplebucket>, use
-C<awsexamplebucket/reports/january.pdf>. The value must be URL encoded.
+C<awsexamplebucket/reports/january.pdf>. The value must be URL-encoded.
 
 =item *
 
@@ -144,8 +170,19 @@ C<us-west-2>, use the URL encoding of
 C<arn:aws:s3:us-west-2:123456789012:accesspoint/my-access-point/object/reports/january.pdf>.
 The value must be URL encoded.
 
-Amazon S3 supports copy operations using access points only when the
-source and destination buckets are in the same AWS Region.
+=over
+
+=item *
+
+Amazon S3 supports copy operations using Access points only when the
+source and destination buckets are in the same Amazon Web Services
+Region.
+
+=item *
+
+Access points are not supported by directory buckets.
+
+=back
 
 Alternatively, for objects accessed through Amazon S3 on Outposts,
 specify the ARN of the object as accessed in the format
@@ -154,15 +191,28 @@ For example, to copy the object C<reports/january.pdf> through outpost
 C<my-outpost> owned by account C<123456789012> in Region C<us-west-2>,
 use the URL encoding of
 C<arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/object/reports/january.pdf>.
-The value must be URL encoded.
+The value must be URL-encoded.
 
 =back
 
-To copy a specific version of an object, append
-C<?versionId=E<lt>version-idE<gt>> to the value (for example,
-C<awsexamplebucket/reports/january.pdf?versionId=QUpfdndhfd8438MNFDN93jdnJFkdmqnh893>).
-If you don't specify a version ID, Amazon S3 copies the latest version
-of the source object.
+If your bucket has versioning enabled, you could have multiple versions
+of the same object. By default, C<x-amz-copy-source> identifies the
+current version of the source object to copy. To copy a specific
+version of the source object to copy, append
+C<?versionId=E<lt>version-idE<gt>> to the C<x-amz-copy-source> request
+header (for example, C<x-amz-copy-source:
+/awsexamplebucket/reports/january.pdf?versionId=QUpfdndhfd8438MNFDN93jdnJFkdmqnh893>).
+
+If the current version is a delete marker and you don't specify a
+versionId in the C<x-amz-copy-source> request header, Amazon S3 returns
+a C<404 Not Found> error, because the object does not exist. If you
+specify versionId in the C<x-amz-copy-source> and the versionId is a
+delete marker, Amazon S3 returns an HTTP C<400 Bad Request> error,
+because you are not allowed to specify a delete marker as a version for
+the C<x-amz-copy-source>.
+
+B<Directory buckets> - S3 Versioning isn't enabled and supported for
+directory buckets.
 
 
 
@@ -170,11 +220,33 @@ of the source object.
 
 Copies the object if its entity tag (ETag) matches the specified tag.
 
+If both of the C<x-amz-copy-source-if-match> and
+C<x-amz-copy-source-if-unmodified-since> headers are present in the
+request as follows:
+
+C<x-amz-copy-source-if-match> condition evaluates to C<true>, and;
+
+C<x-amz-copy-source-if-unmodified-since> condition evaluates to
+C<false>;
+
+Amazon S3 returns C<200 OK> and copies the data.
+
 
 
 =head2 CopySourceIfModifiedSince => Str
 
 Copies the object if it has been modified since the specified time.
+
+If both of the C<x-amz-copy-source-if-none-match> and
+C<x-amz-copy-source-if-modified-since> headers are present in the
+request as follows:
+
+C<x-amz-copy-source-if-none-match> condition evaluates to C<false>,
+and;
+
+C<x-amz-copy-source-if-modified-since> condition evaluates to C<true>;
+
+Amazon S3 returns C<412 Precondition Failed> response code.
 
 
 
@@ -183,11 +255,33 @@ Copies the object if it has been modified since the specified time.
 Copies the object if its entity tag (ETag) is different than the
 specified ETag.
 
+If both of the C<x-amz-copy-source-if-none-match> and
+C<x-amz-copy-source-if-modified-since> headers are present in the
+request as follows:
+
+C<x-amz-copy-source-if-none-match> condition evaluates to C<false>,
+and;
+
+C<x-amz-copy-source-if-modified-since> condition evaluates to C<true>;
+
+Amazon S3 returns C<412 Precondition Failed> response code.
+
 
 
 =head2 CopySourceIfUnmodifiedSince => Str
 
 Copies the object if it hasn't been modified since the specified time.
+
+If both of the C<x-amz-copy-source-if-match> and
+C<x-amz-copy-source-if-unmodified-since> headers are present in the
+request as follows:
+
+C<x-amz-copy-source-if-match> condition evaluates to C<true>, and;
+
+C<x-amz-copy-source-if-unmodified-since> condition evaluates to
+C<false>;
+
+Amazon S3 returns C<200 OK> and copies the data.
 
 
 
@@ -204,7 +298,10 @@ only if the source object is greater than 5 MB.
 =head2 CopySourceSSECustomerAlgorithm => Str
 
 Specifies the algorithm to use when decrypting the source object (for
-example, AES256).
+example, C<AES256>).
+
+This functionality is not supported when the source object is in a
+directory bucket.
 
 
 
@@ -214,6 +311,9 @@ Specifies the customer-provided encryption key for Amazon S3 to use to
 decrypt the source object. The encryption key provided in this header
 must be one that was used when the source object was created.
 
+This functionality is not supported when the source object is in a
+directory bucket.
+
 
 
 =head2 CopySourceSSECustomerKeyMD5 => Str
@@ -222,21 +322,26 @@ Specifies the 128-bit MD5 digest of the encryption key according to RFC
 1321. Amazon S3 uses this header for a message integrity check to
 ensure that the encryption key was transmitted without error.
 
+This functionality is not supported when the source object is in a
+directory bucket.
+
 
 
 =head2 ExpectedBucketOwner => Str
 
-The account ID of the expected destination bucket owner. If the
-destination bucket is owned by a different account, the request will
-fail with an HTTP C<403 (Access Denied)> error.
+The account ID of the expected destination bucket owner. If the account
+ID that you provide does not match the actual owner of the destination
+bucket, the request fails with the HTTP status code C<403 Forbidden>
+(access denied).
 
 
 
 =head2 ExpectedSourceBucketOwner => Str
 
-The account ID of the expected source bucket owner. If the source
-bucket is owned by a different account, the request will fail with an
-HTTP C<403 (Access Denied)> error.
+The account ID of the expected source bucket owner. If the account ID
+that you provide does not match the actual owner of the source bucket,
+the request fails with the HTTP status code C<403 Forbidden> (access
+denied).
 
 
 
@@ -261,8 +366,11 @@ Valid values are: C<"requester">
 
 =head2 SSECustomerAlgorithm => Str
 
-Specifies the algorithm to use to when encrypting the object (for
-example, AES256).
+Specifies the algorithm to use when encrypting the object (for example,
+AES256).
+
+This functionality is not supported when the destination bucket is a
+directory bucket.
 
 
 
@@ -276,6 +384,9 @@ C<x-amz-server-side-encryption-customer-algorithm> header. This must be
 the same encryption key specified in the initiate multipart upload
 request.
 
+This functionality is not supported when the destination bucket is a
+directory bucket.
+
 
 
 =head2 SSECustomerKeyMD5 => Str
@@ -283,6 +394,9 @@ request.
 Specifies the 128-bit MD5 digest of the encryption key according to RFC
 1321. Amazon S3 uses this header for a message integrity check to
 ensure that the encryption key was transmitted without error.
+
+This functionality is not supported when the destination bucket is a
+directory bucket.
 
 
 

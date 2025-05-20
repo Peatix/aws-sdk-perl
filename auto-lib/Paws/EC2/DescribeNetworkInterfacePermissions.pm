@@ -78,11 +78,13 @@ network interface.
 
 =item *
 
-C<network-interface-permission.aws-account-id> - The account ID.
+C<network-interface-permission.aws-account-id> - The Amazon Web
+Services account ID.
 
 =item *
 
-C<network-interface-permission.aws-service> - The Amazon Web Service.
+C<network-interface-permission.aws-service> - The Amazon Web Services
+service.
 
 =item *
 
@@ -96,22 +98,24 @@ C<network-interface-permission.permission> - The type of permission
 
 =head2 MaxResults => Int
 
-The maximum number of results to return in a single call. To retrieve
-the remaining results, make another call with the returned C<NextToken>
-value. If this parameter is not specified, up to 50 results are
-returned by default.
+The maximum number of items to return for this request. To get the next
+page of items, make another request with the token returned in the
+output. If this parameter is not specified, up to 50 results are
+returned by default. For more information, see Pagination
+(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Query-Requests.html#api-pagination).
 
 
 
 =head2 NetworkInterfacePermissionIds => ArrayRef[Str|Undef]
 
-One or more network interface permission IDs.
+The network interface permission IDs.
 
 
 
 =head2 NextToken => Str
 
-The token to request the next page of results.
+The token returned from a previous paginated request. Pagination
+continues from the end of the items returned by the previous request.
 
 
 

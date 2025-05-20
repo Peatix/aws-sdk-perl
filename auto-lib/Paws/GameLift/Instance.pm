@@ -42,13 +42,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::GameLift::I
 
 =head1 DESCRIPTION
 
-Represents an EC2 instance of virtual computing resources that hosts
-one or more game servers. In GameLift, a fleet can contain zero or more
-instances.
-
-B<Related actions>
-
-DescribeInstances
+Represents a virtual computing instance that runs game server processes
+and hosts game sessions. In Amazon GameLift, one or more instances make
+up a managed EC2 fleet.
 
 =head1 ATTRIBUTES
 
@@ -89,14 +85,14 @@ fleet, you must use the DNS name, not the IP address.
 
 The Amazon Resource Name (ARN
 (https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html))
-that is assigned to a GameLift fleet resource and uniquely identifies
-it. ARNs are unique across all Regions. Format is
+that is assigned to a Amazon GameLift fleet resource and uniquely
+identifies it. ARNs are unique across all Regions. Format is
 C<arn:aws:gamelift:E<lt>regionE<gt>::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912>.
 
 
 =head2 FleetId => Str
 
-A unique identifier for the fleet that the instance is in.
+A unique identifier for the fleet that the instance belongs to.
 
 
 =head2 InstanceId => Str
@@ -111,13 +107,21 @@ IP address that is assigned to the instance.
 
 =head2 Location => Str
 
-The fleet location of the instance, expressed as an AWS Region code,
-such as C<us-west-2>.
+The fleet location of the instance, expressed as an Amazon Web Services
+Region code, such as C<us-west-2>.
 
 
 =head2 OperatingSystem => Str
 
-Operating system that is running on this instance.
+Operating system that is running on this EC2 instance.
+
+Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more
+details in the Amazon Linux 2 FAQs
+(https://aws.amazon.com/amazon-linux-2/faqs/). For game servers that
+are hosted on AL2 and use server SDK version 4.x for Amazon GameLift,
+first update the game server build to server SDK 5.x, and then deploy
+to AL2023 instances. See Migrate to server SDK version 5.
+(https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-serversdk5-migration.html)
 
 
 =head2 Status => Str
@@ -137,8 +141,8 @@ configuration.
 
 B<ACTIVE> -- The instance has been successfully created and at least
 one server process has successfully launched and reported back to
-GameLift that it is ready to host a game session. The instance is now
-considered ready to host game sessions.
+Amazon GameLift that it is ready to host a game session. The instance
+is now considered ready to host game sessions.
 
 =item *
 

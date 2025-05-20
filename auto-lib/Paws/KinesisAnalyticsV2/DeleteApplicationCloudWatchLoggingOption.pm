@@ -46,6 +46,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $CloudWatchLoggingOptionDescriptions =
       $DeleteApplicationCloudWatchLoggingOptionResponse
       ->CloudWatchLoggingOptionDescriptions;
+    my $OperationId =
+      $DeleteApplicationCloudWatchLoggingOptionResponse->OperationId;
 
 # Returns a L<Paws::KinesisAnalyticsV2::DeleteApplicationCloudWatchLoggingOptionResponse> object.
 

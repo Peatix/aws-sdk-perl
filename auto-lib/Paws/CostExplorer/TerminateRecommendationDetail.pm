@@ -41,13 +41,14 @@ Details on termination recommendation.
 
 =head2 CurrencyCode => Str
 
-The currency code that AWS used to calculate the costs for this
-instance.
+The currency code that Amazon Web Services used to calculate the costs
+for this instance.
 
 
 =head2 EstimatedMonthlySavings => Str
 
-Estimated savings resulting from modification, on a monthly basis.
+The estimated savings that result from modification, on a monthly
+basis.
 
 
 

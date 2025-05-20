@@ -73,7 +73,7 @@ The expected version of the dynamic thing group to update.
 
 The dynamic thing group index to update.
 
-Currently one index is supported: 'AWS_Things'.
+Currently one index is supported: C<AWS_Things>.
 
 
 

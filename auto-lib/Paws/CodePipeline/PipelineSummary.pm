@@ -2,7 +2,9 @@
 package Paws::CodePipeline::PipelineSummary;
   use Moose;
   has Created => (is => 'ro', isa => 'Str', request_name => 'created', traits => ['NameInRequest']);
+  has ExecutionMode => (is => 'ro', isa => 'Str', request_name => 'executionMode', traits => ['NameInRequest']);
   has Name => (is => 'ro', isa => 'Str', request_name => 'name', traits => ['NameInRequest']);
+  has PipelineType => (is => 'ro', isa => 'Str', request_name => 'pipelineType', traits => ['NameInRequest']);
   has Updated => (is => 'ro', isa => 'Str', request_name => 'updated', traits => ['NameInRequest']);
   has Version => (is => 'ro', isa => 'Int', request_name => 'version', traits => ['NameInRequest']);
 
@@ -46,9 +48,47 @@ Returns a summary of a pipeline.
 The date and time the pipeline was created, in timestamp format.
 
 
+=head2 ExecutionMode => Str
+
+The method that the pipeline will use to handle multiple executions.
+The default mode is SUPERSEDED.
+
+
 =head2 Name => Str
 
 The name of the pipeline.
+
+
+=head2 PipelineType => Str
+
+CodePipeline provides the following pipeline types, which differ in
+characteristics and price, so that you can tailor your pipeline
+features and cost to the needs of your applications.
+
+=over
+
+=item *
+
+V1 type pipelines have a JSON structure that contains standard
+pipeline, stage, and action-level parameters.
+
+=item *
+
+V2 type pipelines have the same structure as a V1 type, along with
+additional parameters for release safety and trigger configuration.
+
+=back
+
+Including V2 parameters, such as triggers on Git tags, in the pipeline
+JSON when creating or updating a pipeline will result in the pipeline
+having the V2 type of pipeline and the associated costs.
+
+For information about pricing for CodePipeline, see Pricing
+(http://aws.amazon.com/codepipeline/pricing/).
+
+For information about which type of pipeline to choose, see What type
+of pipeline is right for me?
+(https://docs.aws.amazon.com/codepipeline/latest/userguide/pipeline-types-planning.html).
 
 
 =head2 Updated => Str

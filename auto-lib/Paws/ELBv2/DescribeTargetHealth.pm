@@ -1,6 +1,7 @@
 
 package Paws::ELBv2::DescribeTargetHealth;
   use Moose;
+  has Include => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has TargetGroupArn => (is => 'ro', isa => 'Str', required => 1);
   has Targets => (is => 'ro', isa => 'ArrayRef[Paws::ELBv2::TargetDescription]');
 
@@ -68,6 +69,12 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancing/DescribeTargetHealth>
 
 =head1 ATTRIBUTES
+
+
+=head2 Include => ArrayRef[Str|Undef]
+
+Used to include anomaly detection information.
+
 
 
 =head2 B<REQUIRED> TargetGroupArn => Str

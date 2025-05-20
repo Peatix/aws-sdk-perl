@@ -4,6 +4,7 @@ package Paws::Personalize::DatasetImportJobSummary;
   has CreationDateTime => (is => 'ro', isa => 'Str', request_name => 'creationDateTime', traits => ['NameInRequest']);
   has DatasetImportJobArn => (is => 'ro', isa => 'Str', request_name => 'datasetImportJobArn', traits => ['NameInRequest']);
   has FailureReason => (is => 'ro', isa => 'Str', request_name => 'failureReason', traits => ['NameInRequest']);
+  has ImportMode => (is => 'ro', isa => 'Str', request_name => 'importMode', traits => ['NameInRequest']);
   has JobName => (is => 'ro', isa => 'Str', request_name => 'jobName', traits => ['NameInRequest']);
   has LastUpdatedDateTime => (is => 'ro', isa => 'Str', request_name => 'lastUpdatedDateTime', traits => ['NameInRequest']);
   has Status => (is => 'ro', isa => 'Str', request_name => 'status', traits => ['NameInRequest']);
@@ -39,7 +40,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Personalize
 =head1 DESCRIPTION
 
 Provides a summary of the properties of a dataset import job. For a
-complete listing, call the DescribeDatasetImportJob API.
+complete listing, call the DescribeDatasetImportJob
+(https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeDatasetImportJob.html)
+API.
 
 =head1 ATTRIBUTES
 
@@ -58,6 +61,13 @@ The Amazon Resource Name (ARN) of the dataset import job.
 =head2 FailureReason => Str
 
 If a dataset import job fails, the reason behind the failure.
+
+
+=head2 ImportMode => Str
+
+The import mode the dataset import job used to update the data in the
+dataset. For more information see Updating existing bulk data
+(https://docs.aws.amazon.com/personalize/latest/dg/updating-existing-bulk-data.html).
 
 
 =head2 JobName => Str

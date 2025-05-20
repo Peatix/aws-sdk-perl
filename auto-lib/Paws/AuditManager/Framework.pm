@@ -46,82 +46,81 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AuditManage
 
 =head1 DESCRIPTION
 
-The file used to structure and automate AWS Audit Manager assessments
-for a given compliance standard.
+The file that's used to structure and automate Audit Manager
+assessments for a given compliance standard.
 
 =head1 ATTRIBUTES
 
 
 =head2 Arn => Str
 
-The Amazon Resource Name (ARN) of the specified framework.
+The Amazon Resource Name (ARN) of the framework.
 
 
 =head2 ComplianceType => Str
 
-The compliance type that the new custom framework supports, such as CIS
-or HIPAA.
+The compliance type that the framework supports, such as CIS or HIPAA.
 
 
 =head2 ControlSets => ArrayRef[L<Paws::AuditManager::ControlSet>]
 
-The control sets associated with the framework.
+The control sets that are associated with the framework.
 
 
 =head2 ControlSources => Str
 
-The sources from which AWS Audit Manager collects evidence for the
-control.
+The control data sources where Audit Manager collects evidence from.
 
 
 =head2 CreatedAt => Str
 
-Specifies when the framework was created.
+The time when the framework was created.
 
 
 =head2 CreatedBy => Str
 
-The IAM user or role that created the framework.
+The user or role that created the framework.
 
 
 =head2 Description => Str
 
-The description of the specified framework.
+The description of the framework.
 
 
 =head2 Id => Str
 
-The unique identifier for the specified framework.
+The unique identifier for the framework.
 
 
 =head2 LastUpdatedAt => Str
 
-Specifies when the framework was most recently updated.
+The time when the framework was most recently updated.
 
 
 =head2 LastUpdatedBy => Str
 
-The IAM user or role that most recently updated the framework.
+The user or role that most recently updated the framework.
 
 
 =head2 Logo => Str
 
-The logo associated with the framework.
+The logo that's associated with the framework.
 
 
 =head2 Name => Str
 
-The name of the specified framework.
+The name of the framework.
 
 
 =head2 Tags => L<Paws::AuditManager::TagMap>
 
-The tags associated with the framework.
+The tags that are associated with the framework.
 
 
 =head2 Type => Str
 
-The framework type, such as custom or standard.
+Specifies whether the framework is a standard framework or a custom
+framework.
 
 
 

@@ -82,20 +82,20 @@ A description for the directory.
 
 =head2 B<REQUIRED> Name => Str
 
-The fully qualified name of the on-premises directory, such as
+The fully qualified name of your self-managed directory, such as
 C<corp.example.com>.
 
 
 
 =head2 B<REQUIRED> Password => Str
 
-The password for the on-premises user account.
+The password for your self-managed user account.
 
 
 
 =head2 ShortName => Str
 
-The NetBIOS name of the on-premises directory, such as C<CORP>.
+The NetBIOS name of your self-managed directory, such as C<CORP>.
 
 
 

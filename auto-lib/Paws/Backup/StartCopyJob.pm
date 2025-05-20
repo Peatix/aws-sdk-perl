@@ -40,14 +40,16 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       SourceBackupVaultName     => 'MyBackupVaultName',
       IdempotencyToken          => 'Mystring',            # OPTIONAL
       Lifecycle                 => {
-        DeleteAfterDays            => 1,                  # OPTIONAL
-        MoveToColdStorageAfterDays => 1,                  # OPTIONAL
+        DeleteAfterDays                     => 1,         # OPTIONAL
+        MoveToColdStorageAfterDays          => 1,         # OPTIONAL
+        OptInToArchiveForSupportedResources => 1,         # OPTIONAL
       },    # OPTIONAL
     );
 
     # Results:
     my $CopyJobId    = $StartCopyJobOutput->CopyJobId;
     my $CreationDate = $StartCopyJobOutput->CreationDate;
+    my $IsParent     = $StartCopyJobOutput->IsParent;
 
     # Returns a L<Paws::Backup::StartCopyJobOutput> object.
 
@@ -61,7 +63,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/bac
 
 An Amazon Resource Name (ARN) that uniquely identifies a destination
 backup vault to copy to; for example,
-C<arn:aws:backup:us-east-1:123456789012:vault:aBackupVault>.
+C<arn:aws:backup:us-east-1:123456789012:backup-vault:aBackupVault>.
 
 
 
@@ -74,8 +76,10 @@ example, C<arn:aws:iam::123456789012:role/S3Access>.
 
 =head2 IdempotencyToken => Str
 
-A customer chosen string that can be used to distinguish between calls
-to C<StartCopyJob>.
+A customer-chosen string that you can use to distinguish between
+otherwise identical calls to C<StartCopyJob>. Retrying a successful
+request with the same idempotency token results in a success message
+with no action taken.
 
 
 
@@ -97,8 +101,7 @@ arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108
 
 The name of a logical source container where backups are stored. Backup
 vaults are identified by names that are unique to the account used to
-create them and the AWS Region where they are created. They consist of
-lowercase letters, numbers, and hyphens.
+create them and the Amazon Web Services Region where they are created.
 
 
 

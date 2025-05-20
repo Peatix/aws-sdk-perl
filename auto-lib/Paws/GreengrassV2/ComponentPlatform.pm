@@ -41,13 +41,13 @@ Contains information about a platform that a component supports.
 
 =head2 Attributes => L<Paws::GreengrassV2::PlatformAttributesMap>
 
-A dictionary of attributes for the platform. The AWS IoT Greengrass
-Core software defines the C<os> and C<platform> by default. You can
+A dictionary of attributes for the platform. The IoT Greengrass Core
+software defines the C<os> and C<architecture> by default. You can
 specify additional platform attributes for a core device when you
-deploy the AWS IoT Greengrass nucleus component. For more information,
-see the AWS IoT Greengrass nucleus component
+deploy the Greengrass nucleus component. For more information, see the
+Greengrass nucleus component
 (https://docs.aws.amazon.com/greengrass/v2/developerguide/greengrass-nucleus-component.html)
-in the I<AWS IoT Greengrass V2 Developer Guide>.
+in the I<IoT Greengrass V2 Developer Guide>.
 
 
 =head2 Name => Str
@@ -55,8 +55,8 @@ in the I<AWS IoT Greengrass V2 Developer Guide>.
 The friendly name of the platform. This name helps you identify the
 platform.
 
-If you omit this parameter, AWS IoT Greengrass creates a friendly name
-from the C<os> and C<architecture> of the platform.
+If you omit this parameter, IoT Greengrass creates a friendly name from
+the C<os> and C<architecture> of the platform.
 
 
 

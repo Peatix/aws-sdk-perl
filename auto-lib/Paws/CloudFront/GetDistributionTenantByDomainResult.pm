@@ -1,0 +1,34 @@
+
+package Paws::CloudFront::GetDistributionTenantByDomainResult;
+  use Moose;
+  has DistributionTenant => (is => 'ro', isa => 'Paws::CloudFront::DistributionTenant', traits => ['ParamInBody']);
+  has ETag => (is => 'ro', isa => 'Str', header_name => 'ETag', traits => ['ParamInHeader']);
+
+
+  has _request_id => (is => 'ro', isa => 'Str');
+1;
+
+### main pod documentation begin ###
+
+=head1 NAME
+
+Paws::CloudFront::GetDistributionTenantByDomainResult
+
+=head1 ATTRIBUTES
+
+
+=head2 DistributionTenant => L<Paws::CloudFront::DistributionTenant>
+
+
+
+
+
+=head2 ETag => Str
+
+The current version of the distribution tenant.
+
+
+
+
+=cut
+

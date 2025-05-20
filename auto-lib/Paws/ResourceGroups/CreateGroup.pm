@@ -2,8 +2,11 @@
 package Paws::ResourceGroups::CreateGroup;
   use Moose;
   has Configuration => (is => 'ro', isa => 'ArrayRef[Paws::ResourceGroups::GroupConfigurationItem]');
+  has Criticality => (is => 'ro', isa => 'Int');
   has Description => (is => 'ro', isa => 'Str');
+  has DisplayName => (is => 'ro', isa => 'Str');
   has Name => (is => 'ro', isa => 'Str', required => 1);
+  has Owner => (is => 'ro', isa => 'Str');
   has ResourceQuery => (is => 'ro', isa => 'Paws::ResourceGroups::ResourceQuery');
   has Tags => (is => 'ro', isa => 'Paws::ResourceGroups::Tags');
 
@@ -33,7 +36,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $resource-groups = Paws->service('ResourceGroups');
     my $CreateGroupOutput = $resource -groups->CreateGroup(
-      Name          => 'MyGroupName',
+      Name          => 'MyCreateGroupName',
       Configuration => [
         {
           Type       => 'MyGroupConfigurationType',    # max: 40
@@ -49,7 +52,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },
         ...
       ],    # OPTIONAL
+      Criticality   => 1,                  # OPTIONAL
       Description   => 'MyDescription',    # OPTIONAL
+      DisplayName   => 'MyDisplayName',    # OPTIONAL
+      Owner         => 'MyOwner',          # OPTIONAL
       ResourceQuery => {
         Query => 'MyQuery',                # max: 4096
         Type  => 'TAG_FILTERS_1_0'
@@ -77,15 +83,23 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/res
 
 =head2 Configuration => ArrayRef[L<Paws::ResourceGroups::GroupConfigurationItem>]
 
-A configuration associates the resource group with an AWS service and
-specifies how the service can interact with the resources in the group.
-A configuration is an array of GroupConfigurationItem elements. For
-details about the syntax of service configurations, see Service
-configurations for resource groups
+A configuration associates the resource group with an Amazon Web
+Services service and specifies how the service can interact with the
+resources in the group. A configuration is an array of
+GroupConfigurationItem elements. For details about the syntax of
+service configurations, see Service configurations for Resource Groups
 (https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html).
 
 A resource group can contain either a C<Configuration> or a
 C<ResourceQuery>, but not both.
+
+
+
+=head2 Criticality => Int
+
+The critical rank of the application group on a scale of 1 to 10, with
+a rank of 1 being the most critical, and a rank of 10 being least
+critical.
 
 
 
@@ -96,22 +110,37 @@ letters, numbers, hyphens, underscores, periods, and spaces.
 
 
 
+=head2 DisplayName => Str
+
+The name of the application group, which you can change at any time.
+
+
+
 =head2 B<REQUIRED> Name => Str
 
 The name of the group, which is the identifier of the group in other
 operations. You can't change the name of a resource group after you
 create it. A resource group name can consist of letters, numbers,
-hyphens, periods, and underscores. The name cannot start with C<AWS> or
-C<aws>; these are reserved. A resource group name must be unique within
-each AWS Region in your AWS account.
+hyphens, periods, and underscores. The name cannot start with C<AWS>,
+C<aws>, or any other possible capitalization; these are reserved. A
+resource group name must be unique within each Amazon Web Services
+Region in your Amazon Web Services account.
+
+
+
+=head2 Owner => Str
+
+A name, email address or other identifier for the person or group who
+is considered as the owner of this application group within your
+organization.
 
 
 
 =head2 ResourceQuery => L<Paws::ResourceGroups::ResourceQuery>
 
-The resource query that determines which AWS resources are members of
-this group. For more information about resource queries, see Create a
-tag-based group in Resource Groups
+The resource query that determines which Amazon Web Services resources
+are members of this group. For more information about resource queries,
+see Create a tag-based group in Resource Groups
 (https://docs.aws.amazon.com/ARG/latest/userguide/gettingstarted-query.html#gettingstarted-query-cli-tag).
 
 A resource group can contain either a C<ResourceQuery> or a

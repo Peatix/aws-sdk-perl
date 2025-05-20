@@ -32,30 +32,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $servicediscovery = Paws->service('ServiceDiscovery');
+    # Example: Create private DNS namespace
+    # Example: Create private DNS namespace
     my $CreatePrivateDnsNamespaceResponse =
       $servicediscovery->CreatePrivateDnsNamespace(
-      Name             => 'MyNamespaceNamePrivate',
-      Vpc              => 'MyResourceId',
-      CreatorRequestId => 'MyResourceId',             # OPTIONAL
-      Description      => 'MyResourceDescription',    # OPTIONAL
-      Properties       => {
-        DnsProperties => {
-          SOA => {
-            TTL => 1,    # max: 2147483647
-
-          },
-
-        },
-
-      },    # OPTIONAL
-      Tags => [
-        {
-          Key   => 'MyTagKey',      # min: 1, max: 128
-          Value => 'MyTagValue',    # max: 256
-
-        },
-        ...
-      ],    # OPTIONAL
+      'CreatorRequestId' => 'eedd6892-50f3-41b2-8af9-611d6e1d1a8c',
+      'Name'             => 'example.com',
+      'Vpc'              => 'vpc-1c56417b'
       );
 
     # Results:

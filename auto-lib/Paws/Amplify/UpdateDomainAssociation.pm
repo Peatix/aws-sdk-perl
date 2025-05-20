@@ -4,9 +4,10 @@ package Paws::Amplify::UpdateDomainAssociation;
   has AppId => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'appId', required => 1);
   has AutoSubDomainCreationPatterns => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'autoSubDomainCreationPatterns');
   has AutoSubDomainIAMRole => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'autoSubDomainIAMRole');
+  has CertificateSettings => (is => 'ro', isa => 'Paws::Amplify::CertificateSettings', traits => ['NameInRequest'], request_name => 'certificateSettings');
   has DomainName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'domainName', required => 1);
   has EnableAutoSubDomain => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'enableAutoSubDomain');
-  has SubDomainSettings => (is => 'ro', isa => 'ArrayRef[Paws::Amplify::SubDomainSetting]', traits => ['NameInRequest'], request_name => 'subDomainSettings', required => 1);
+  has SubDomainSettings => (is => 'ro', isa => 'ArrayRef[Paws::Amplify::SubDomainSetting]', traits => ['NameInRequest'], request_name => 'subDomainSettings');
 
   use MooseX::ClassAttribute;
 
@@ -34,22 +35,25 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $amplify = Paws->service('Amplify');
     my $UpdateDomainAssociationResult = $amplify->UpdateDomainAssociation(
-      AppId             => 'MyAppId',
-      DomainName        => 'MyDomainName',
-      SubDomainSettings => [
+      AppId                         => 'MyAppId',
+      DomainName                    => 'MyDomainName',
+      AutoSubDomainCreationPatterns => [
+        'MyAutoSubDomainCreationPattern', ...    # min: 1, max: 2048
+      ],    # OPTIONAL
+      AutoSubDomainIAMRole => 'MyAutoSubDomainIAMRole',    # OPTIONAL
+      CertificateSettings  => {
+        Type => 'AMPLIFY_MANAGED',    # values: AMPLIFY_MANAGED, CUSTOM
+        CustomCertificateArn => 'MyCertificateArn',    # max: 1000; OPTIONAL
+      },    # OPTIONAL
+      EnableAutoSubDomain => 1,    # OPTIONAL
+      SubDomainSettings   => [
         {
           BranchName => 'MyBranchName',      # min: 1, max: 255
           Prefix     => 'MyDomainPrefix',    # max: 255
 
         },
         ...
-      ],
-      AutoSubDomainCreationPatterns => [
-        'MyAutoSubDomainCreationPattern',
-        ...    # min: 1, max: 2048
       ],    # OPTIONAL
-      AutoSubDomainIAMRole => 'MyAutoSubDomainIAMRole',    # OPTIONAL
-      EnableAutoSubDomain  => 1,                           # OPTIONAL
     );
 
     # Results:
@@ -82,6 +86,12 @@ the Amazon Resource Name (ARN) for automatically creating subdomains.
 
 
 
+=head2 CertificateSettings => L<Paws::Amplify::CertificateSettings>
+
+The type of SSL/TLS certificate to use for your custom domain.
+
+
+
 =head2 B<REQUIRED> DomainName => Str
 
 The name of the domain.
@@ -94,7 +104,7 @@ Enables the automated creation of subdomains for branches.
 
 
 
-=head2 B<REQUIRED> SubDomainSettings => ArrayRef[L<Paws::Amplify::SubDomainSetting>]
+=head2 SubDomainSettings => ArrayRef[L<Paws::Amplify::SubDomainSetting>]
 
 Describes the settings for the subdomain.
 

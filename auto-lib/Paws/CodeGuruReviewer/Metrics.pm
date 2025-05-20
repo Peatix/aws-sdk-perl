@@ -3,6 +3,7 @@ package Paws::CodeGuruReviewer::Metrics;
   use Moose;
   has FindingsCount => (is => 'ro', isa => 'Int');
   has MeteredLinesOfCodeCount => (is => 'ro', isa => 'Int');
+  has SuppressedLinesOfCodeCount => (is => 'ro', isa => 'Int');
 
 1;
 
@@ -23,7 +24,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::CodeGuruReviewer::Metrics object:
 
-  $service_obj->Method(Att1 => { FindingsCount => $value, ..., MeteredLinesOfCodeCount => $value  });
+  $service_obj->Method(Att1 => { FindingsCount => $value, ..., SuppressedLinesOfCodeCount => $value  });
 
 =head3 Results returned from an API call
 
@@ -46,18 +47,19 @@ Total number of recommendations found in the code review.
 
 =head2 MeteredLinesOfCodeCount => Int
 
-Lines of code metered in the code review. For the initial code review
-pull request and all subsequent revisions, this includes all lines of
-code in the files added to the pull request. In subsequent revisions,
-for files that already existed in the pull request, this includes only
-the changed lines of code. In both cases, this does not include
-non-code lines such as comments and import statements. For example, if
-you submit a pull request containing 5 files, each with 500 lines of
-code, and in a subsequent revision you added a new file with 200 lines
-of code, and also modified a total of 25 lines across the initial 5
-files, C<MeteredLinesOfCodeCount> includes the first 5 files (5 * 500 =
-2,500 lines), the new file (200 lines) and the 25 changed lines of code
-for a total of 2,725 lines of code.
+C<MeteredLinesOfCodeCount> is the number of lines of code in the
+repository where the code review happened. This does not include
+non-code lines such as comments and blank lines.
+
+
+=head2 SuppressedLinesOfCodeCount => Int
+
+C<SuppressedLinesOfCodeCount> is the number of lines of code in the
+repository where the code review happened that CodeGuru Reviewer did
+not analyze. The lines suppressed in the analysis is based on the
+C<excludeFiles> variable in the C<aws-codeguru-reviewer.yml> file. This
+number does not include non-code lines such as comments and blank
+lines.
 
 
 

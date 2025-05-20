@@ -44,8 +44,8 @@ format.
 
 =head2 B<REQUIRED> Status => L<Paws::GreengrassV2::CloudComponentStatus>
 
-The status of the component version in AWS IoT Greengrass V2. This
-status is different from the status of the component on a core device.
+The status of the component version in IoT Greengrass V2. This status
+is different from the status of the component on a core device.
 
 
 =head2 _request_id => Str

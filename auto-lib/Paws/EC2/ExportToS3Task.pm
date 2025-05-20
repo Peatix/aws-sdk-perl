@@ -53,8 +53,11 @@ The format for the exported image.
 =head2 S3Bucket => Str
 
 The Amazon S3 bucket for the destination image. The destination bucket
-must exist and grant WRITE and READ_ACP permissions to the AWS account
-C<vm-import-export@amazon.com>.
+must exist and have an access control list (ACL) attached that
+specifies the Region-specific canonical account ID for the C<Grantee>.
+For more information about the ACL to your S3 bucket, see Prerequisites
+(https://docs.aws.amazon.com/vm-import/latest/userguide/vmexport.html#vmexport-prerequisites)
+in the VM Import/Export User Guide.
 
 
 =head2 S3Key => Str

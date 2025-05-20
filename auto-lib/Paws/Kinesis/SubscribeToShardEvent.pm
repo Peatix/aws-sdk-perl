@@ -44,7 +44,8 @@ this type over an HTTP/2 connection to your consumer.
 
 =head2 ChildShards => ArrayRef[L<Paws::Kinesis::ChildShard>]
 
-
+The list of the child shards of the current shard, returned only at the
+end of the current shard.
 
 
 =head2 B<REQUIRED> ContinuationSequenceNumber => Str

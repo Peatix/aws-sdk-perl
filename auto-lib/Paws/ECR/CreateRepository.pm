@@ -4,6 +4,7 @@ package Paws::ECR::CreateRepository;
   has EncryptionConfiguration => (is => 'ro', isa => 'Paws::ECR::EncryptionConfiguration', traits => ['NameInRequest'], request_name => 'encryptionConfiguration' );
   has ImageScanningConfiguration => (is => 'ro', isa => 'Paws::ECR::ImageScanningConfiguration', traits => ['NameInRequest'], request_name => 'imageScanningConfiguration' );
   has ImageTagMutability => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'imageTagMutability' );
+  has RegistryId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'registryId' );
   has RepositoryName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'repositoryName' , required => 1);
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::ECR::Tag]', traits => ['NameInRequest'], request_name => 'tags' );
 
@@ -23,7 +24,7 @@ Paws::ECR::CreateRepository - Arguments for method CreateRepository on L<Paws::E
 =head1 DESCRIPTION
 
 This class represents the parameters used for calling the method CreateRepository on the
-L<Amazon EC2 Container Registry|Paws::ECR> service. Use the attributes of this class
+L<Amazon Elastic Container Registry|Paws::ECR> service. Use the attributes of this class
 as arguments to method CreateRepository.
 
 You shouldn't make instances of this class. Each attribute should be used as a named argument in the call to CreateRepository.
@@ -73,12 +74,23 @@ them from being overwritten.
 
 Valid values are: C<"MUTABLE">, C<"IMMUTABLE">
 
+=head2 RegistryId => Str
+
+The Amazon Web Services account ID associated with the registry to
+create the repository. If you do not specify a registry, the default
+registry is assumed.
+
+
+
 =head2 B<REQUIRED> RepositoryName => Str
 
 The name to use for the repository. The repository name may be
 specified on its own (such as C<nginx-web-app>) or it can be prepended
 with a namespace to group the repository into a category (such as
 C<project-a/nginx-web-app>).
+
+The repository name must start with a letter and can only contain
+lowercase letters, numbers, hyphens, underscores, and forward slashes.
 
 
 

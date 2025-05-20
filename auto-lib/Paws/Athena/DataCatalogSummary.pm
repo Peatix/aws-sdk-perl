@@ -2,6 +2,9 @@
 package Paws::Athena::DataCatalogSummary;
   use Moose;
   has CatalogName => (is => 'ro', isa => 'Str');
+  has ConnectionType => (is => 'ro', isa => 'Str');
+  has Error => (is => 'ro', isa => 'Str');
+  has Status => (is => 'ro', isa => 'Str');
   has Type => (is => 'ro', isa => 'Str');
 
 1;
@@ -42,7 +45,95 @@ and type.
 
 =head2 CatalogName => Str
 
-The name of the data catalog.
+The name of the data catalog. The catalog name is unique for the Amazon
+Web Services account and can use a maximum of 127 alphanumeric,
+underscore, at sign, or hyphen characters. The remainder of the length
+constraint of 256 is reserved for use by Athena.
+
+
+=head2 ConnectionType => Str
+
+The type of connection for a C<FEDERATED> data catalog (for example,
+C<REDSHIFT>, C<MYSQL>, or C<SQLSERVER>). For information about
+individual connectors, see Available data source connectors
+(https://docs.aws.amazon.com/athena/latest/ug/connectors-available.html).
+
+
+=head2 Error => Str
+
+Text of the error that occurred during data catalog creation or
+deletion.
+
+
+=head2 Status => Str
+
+The status of the creation or deletion of the data catalog.
+
+=over
+
+=item *
+
+The C<LAMBDA>, C<GLUE>, and C<HIVE> data catalog types are created
+synchronously. Their status is either C<CREATE_COMPLETE> or
+C<CREATE_FAILED>.
+
+=item *
+
+The C<FEDERATED> data catalog type is created asynchronously.
+
+=back
+
+Data catalog creation status:
+
+=over
+
+=item *
+
+C<CREATE_IN_PROGRESS>: Federated data catalog creation in progress.
+
+=item *
+
+C<CREATE_COMPLETE>: Data catalog creation complete.
+
+=item *
+
+C<CREATE_FAILED>: Data catalog could not be created.
+
+=item *
+
+C<CREATE_FAILED_CLEANUP_IN_PROGRESS>: Federated data catalog creation
+failed and is being removed.
+
+=item *
+
+C<CREATE_FAILED_CLEANUP_COMPLETE>: Federated data catalog creation
+failed and was removed.
+
+=item *
+
+C<CREATE_FAILED_CLEANUP_FAILED>: Federated data catalog creation failed
+but could not be removed.
+
+=back
+
+Data catalog deletion status:
+
+=over
+
+=item *
+
+C<DELETE_IN_PROGRESS>: Federated data catalog deletion in progress.
+
+=item *
+
+C<DELETE_COMPLETE>: Federated data catalog deleted.
+
+=item *
+
+C<DELETE_FAILED>: Federated data catalog could not be deleted.
+
+=back
+
 
 
 =head2 Type => Str

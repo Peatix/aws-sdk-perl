@@ -16,8 +16,8 @@ Paws::SageMaker::CreateHyperParameterTuningJobResponse
 
 =head2 B<REQUIRED> HyperParameterTuningJobArn => Str
 
-The Amazon Resource Name (ARN) of the tuning job. Amazon SageMaker
-assigns an ARN to a hyperparameter tuning job when you create it.
+The Amazon Resource Name (ARN) of the tuning job. SageMaker assigns an
+ARN to a hyperparameter tuning job when you create it.
 
 
 =head2 _request_id => Str

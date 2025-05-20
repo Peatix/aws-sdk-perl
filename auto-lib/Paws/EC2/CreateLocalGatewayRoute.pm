@@ -1,10 +1,12 @@
 
 package Paws::EC2::CreateLocalGatewayRoute;
   use Moose;
-  has DestinationCidrBlock => (is => 'ro', isa => 'Str', required => 1);
+  has DestinationCidrBlock => (is => 'ro', isa => 'Str');
+  has DestinationPrefixListId => (is => 'ro', isa => 'Str');
   has DryRun => (is => 'ro', isa => 'Bool');
   has LocalGatewayRouteTableId => (is => 'ro', isa => 'Str', required => 1);
-  has LocalGatewayVirtualInterfaceGroupId => (is => 'ro', isa => 'Str', required => 1);
+  has LocalGatewayVirtualInterfaceGroupId => (is => 'ro', isa => 'Str');
+  has NetworkInterfaceId => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -31,11 +33,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $ec2 = Paws->service('EC2');
     my $CreateLocalGatewayRouteResult = $ec2->CreateLocalGatewayRoute(
-      DestinationCidrBlock                => 'MyString',
-      LocalGatewayRouteTableId            => 'MyLocalGatewayRoutetableId',
+      LocalGatewayRouteTableId => 'MyLocalGatewayRoutetableId',
+      DestinationCidrBlock     => 'MyString',                     # OPTIONAL
+      DestinationPrefixListId  => 'MyPrefixListResourceId',       # OPTIONAL
+      DryRun                   => 1,                              # OPTIONAL
       LocalGatewayVirtualInterfaceGroupId =>
-        'MyLocalGatewayVirtualInterfaceGroupId',
-      DryRun => 1,    # OPTIONAL
+        'MyLocalGatewayVirtualInterfaceGroupId',                  # OPTIONAL
+      NetworkInterfaceId => 'MyNetworkInterfaceId',               # OPTIONAL
     );
 
     # Results:
@@ -49,10 +53,18 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ec2
 =head1 ATTRIBUTES
 
 
-=head2 B<REQUIRED> DestinationCidrBlock => Str
+=head2 DestinationCidrBlock => Str
 
 The CIDR range used for destination matches. Routing decisions are
 based on the most specific match.
+
+
+
+=head2 DestinationPrefixListId => Str
+
+The ID of the prefix list. Use a prefix list in place of
+C<DestinationCidrBlock>. You cannot use C<DestinationPrefixListId> and
+C<DestinationCidrBlock> in the same request.
 
 
 
@@ -71,9 +83,15 @@ The ID of the local gateway route table.
 
 
 
-=head2 B<REQUIRED> LocalGatewayVirtualInterfaceGroupId => Str
+=head2 LocalGatewayVirtualInterfaceGroupId => Str
 
 The ID of the virtual interface group.
+
+
+
+=head2 NetworkInterfaceId => Str
+
+The ID of the network interface.
 
 
 

@@ -26,8 +26,8 @@ The import token to send in a subsequent ImportKeyMaterial request.
 
 The Amazon Resource Name (key ARN
 (https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN))
-of the CMK to use in a subsequent ImportKeyMaterial request. This is
-the same CMK specified in the C<GetParametersForImport> request.
+of the KMS key to use in a subsequent ImportKeyMaterial request. This
+is the same KMS key specified in the C<GetParametersForImport> request.
 
 
 =head2 ParametersValidTo => Str

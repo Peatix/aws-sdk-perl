@@ -35,17 +35,16 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Discovery::
 
 =head1 DESCRIPTION
 
-Information about agents or connectors that were instructed to start
-collecting data. Information includes the agent/connector ID, a
-description of the operation, and whether the agent/connector
-configuration was updated.
+Information about agents that were instructed to start collecting data.
+Information includes the agent ID, a description of the operation, and
+whether the agent configuration was updated.
 
 =head1 ATTRIBUTES
 
 
 =head2 AgentId => Str
 
-The agent/connector ID.
+The agent ID.
 
 
 =head2 Description => Str
@@ -57,8 +56,8 @@ A description of the operation performed.
 
 Information about the status of the C<StartDataCollection> and
 C<StopDataCollection> operations. The system has recorded the data
-collection operation. The agent/connector receives this command the
-next time it polls for a new command.
+collection operation. The agent receives this command the next time it
+polls for a new command.
 
 
 

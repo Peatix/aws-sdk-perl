@@ -79,8 +79,8 @@ name can't contain two consecutive hyphens or end with a hyphen.
 
 =head2 ResourceOwner => Str
 
-The AWS account ID of the owner of the cluster. This is only required
-if the cluster is in another AWS account.
+The Amazon Web Services account ID of the owner of the cluster. This is
+only required if the cluster is in another Amazon Web Services account.
 
 
 

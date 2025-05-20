@@ -36,35 +36,34 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Neptune::Va
 
 =head1 DESCRIPTION
 
-Information about valid modifications that you can make to your DB
-instance.
-
-Contains the result of a successful call to the
-DescribeValidDBInstanceModifications action.
+Not applicable. In Neptune the storage type is managed at the DB
+Cluster level.
 
 =head1 ATTRIBUTES
 
 
 =head2 IopsToStorageRatio => ArrayRef[L<Paws::Neptune::DoubleRange>]
 
-The valid range of Provisioned IOPS to gibibytes of storage multiplier.
-For example, 3-10, which means that provisioned IOPS can be between 3
-and 10 times storage.
+Not applicable. In Neptune the storage type is managed at the DB
+Cluster level.
 
 
 =head2 ProvisionedIops => ArrayRef[L<Paws::Neptune::Range>]
 
-The valid range of provisioned IOPS. For example, 1000-20000.
+Not applicable. In Neptune the storage type is managed at the DB
+Cluster level.
 
 
 =head2 StorageSize => ArrayRef[L<Paws::Neptune::Range>]
 
-The valid range of storage in gibibytes. For example, 100 to 16384.
+Not applicable. In Neptune the storage type is managed at the DB
+Cluster level.
 
 
 =head2 StorageType => Str
 
-The valid storage types for your DB instance. For example, gp2, io1.
+Not applicable. In Neptune the storage type is managed at the DB
+Cluster level.
 
 
 

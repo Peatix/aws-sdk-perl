@@ -34,7 +34,11 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SageMaker::
 =head1 DESCRIPTION
 
 Defines under what conditions SageMaker creates a human loop. Used
-within . See for the required format of activation conditions.
+within CreateFlowDefinition
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateFlowDefinition.html).
+See HumanLoopActivationConditionsConfig
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_HumanLoopActivationConditionsConfig.html)
+for the required format of activation conditions.
 
 =head1 ATTRIBUTES
 

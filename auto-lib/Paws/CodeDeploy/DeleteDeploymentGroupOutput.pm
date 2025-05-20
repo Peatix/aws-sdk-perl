@@ -17,10 +17,10 @@ Paws::CodeDeploy::DeleteDeploymentGroupOutput
 =head2 HooksNotCleanedUp => ArrayRef[L<Paws::CodeDeploy::AutoScalingGroup>]
 
 If the output contains no data, and the corresponding deployment group
-contained at least one Auto Scaling group, AWS CodeDeploy successfully
+contained at least one Auto Scaling group, CodeDeploy successfully
 removed all corresponding Auto Scaling lifecycle event hooks from the
 Amazon EC2 instances in the Auto Scaling group. If the output contains
-data, AWS CodeDeploy could not remove some Auto Scaling lifecycle event
+data, CodeDeploy could not remove some Auto Scaling lifecycle event
 hooks from the Amazon EC2 instances in the Auto Scaling group.
 
 

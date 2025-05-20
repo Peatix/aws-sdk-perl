@@ -42,13 +42,13 @@ An Internet Control Message Protocol (ICMP) type and code.
 =head2 Code => Int
 
 The ICMP code for which to deny or allow access. To deny or allow all
-codes, use the value -1.
+codes, use the value C<-1>.
 
 
 =head2 Type => Int
 
 The ICMP type for which to deny or allow access. To deny or allow all
-types, use the value -1.
+types, use the value C<-1>.
 
 
 

@@ -32,7 +32,7 @@ A unique identifier for the import.
 =head2 ImportStatus => Str
 
 The current status of the import. When the status is C<Complete> the
-bot or bot alias is ready to use.
+bot, bot alias, or custom vocabulary is ready to use.
 
 Valid values are: C<"InProgress">, C<"Completed">, C<"Failed">, C<"Deleting">
 =head2 MergeStrategy => Str
@@ -42,10 +42,10 @@ resource and an existing resource. When the merge strategy is
 C<FailOnConflict> existing resources are not overwritten and the import
 fails.
 
-Valid values are: C<"Overwrite">, C<"FailOnConflict">
+Valid values are: C<"Overwrite">, C<"FailOnConflict">, C<"Append">
 =head2 ResourceSpecification => L<Paws::LexModelsV2::ImportResourceSpecification>
 
-The parameters used when importing the bot or bot locale.
+The parameters used when importing the resource.
 
 
 =head2 _request_id => Str

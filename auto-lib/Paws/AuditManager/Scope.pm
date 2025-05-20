@@ -34,20 +34,38 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AuditManage
 
 =head1 DESCRIPTION
 
-The wrapper that contains the AWS accounts and AWS services in scope
-for the assessment.
+The wrapper that contains the Amazon Web Services accounts that are in
+scope for the assessment.
+
+You no longer need to specify which Amazon Web Services are in scope
+when you create or update an assessment. Audit Manager infers the
+services in scope by examining your assessment controls and their data
+sources, and then mapping this information to the relevant Amazon Web
+Services.
+
+If an underlying data source changes for your assessment, we
+automatically update the services scope as needed to reflect the
+correct Amazon Web Services. This ensures that your assessment collects
+accurate and comprehensive evidence about all of the relevant services
+in your AWS environment.
 
 =head1 ATTRIBUTES
 
 
 =head2 AwsAccounts => ArrayRef[L<Paws::AuditManager::AWSAccount>]
 
-The AWS accounts included in the scope of the assessment.
+The Amazon Web Services accounts that are included in the scope of the
+assessment.
 
 
 =head2 AwsServices => ArrayRef[L<Paws::AuditManager::AWSService>]
 
-The AWS services included in the scope of the assessment.
+The Amazon Web Services services that are included in the scope of the
+assessment.
+
+This API parameter is no longer supported. If you use this parameter to
+specify one or more Amazon Web Services, Audit Manager ignores this
+input. Instead, the value for C<awsServices> will show as empty.
 
 
 

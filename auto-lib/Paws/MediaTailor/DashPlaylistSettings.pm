@@ -43,29 +43,29 @@ Dash manifest configuration parameters.
 
 =head2 ManifestWindowSeconds => Int
 
-The total duration (in seconds) of each manifest. Minimum value: 30
-seconds. Maximum value: 3600 seconds.
+The total duration (in seconds) of each manifest. Minimum value: C<30>
+seconds. Maximum value: C<3600> seconds.
 
 
 =head2 MinBufferTimeSeconds => Int
 
 Minimum amount of content (measured in seconds) that a player must keep
-available in the buffer. Minimum value: 2 seconds. Maximum value: 60
-seconds.
+available in the buffer. Minimum value: C<2> seconds. Maximum value:
+C<60> seconds.
 
 
 =head2 MinUpdatePeriodSeconds => Int
 
 Minimum amount of time (in seconds) that the player should wait before
-requesting updates to the manifest. Minimum value: 2 seconds. Maximum
-value: 60 seconds.
+requesting updates to the manifest. Minimum value: C<2> seconds.
+Maximum value: C<60> seconds.
 
 
 =head2 SuggestedPresentationDelaySeconds => Int
 
 Amount of time (in seconds) that the player should be from the live
-point at the end of the manifest. Minimum value: 2 seconds. Maximum
-value: 60 seconds.
+point at the end of the manifest. Minimum value: C<2> seconds. Maximum
+value: C<60> seconds.
 
 
 

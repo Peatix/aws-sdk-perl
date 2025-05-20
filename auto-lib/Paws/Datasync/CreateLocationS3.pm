@@ -46,7 +46,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       Tags           => [
         {
           Key   => 'MyTagKey',      # min: 1, max: 256
-          Value => 'MyTagValue',    # min: 1, max: 256; OPTIONAL
+          Value => 'MyTagValue',    # max: 256; OPTIONAL
         },
         ...
       ],    # OPTIONAL
@@ -65,18 +65,25 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/dat
 
 =head2 AgentArns => ArrayRef[Str|Undef]
 
-If you are using DataSync on an AWS Outpost, specify the Amazon
-Resource Names (ARNs) of the DataSync agents deployed on your Outpost.
-For more information about launching a DataSync agent on an AWS
-Outpost, see Deploy your DataSync agent on AWS Outposts
+(Amazon S3 on Outposts only) Specifies the Amazon Resource Name (ARN)
+of the DataSync agent on your Outpost.
+
+For more information, see Deploy your DataSync agent on Outposts
 (https://docs.aws.amazon.com/datasync/latest/userguide/deploy-agents.html#outposts-agent).
 
 
 
 =head2 B<REQUIRED> S3BucketArn => Str
 
-The ARN of the Amazon S3 bucket. If the bucket is on an AWS Outpost,
-this must be an access point ARN.
+Specifies the ARN of the S3 bucket that you want to use as a location.
+(When creating your DataSync task later, you specify whether this
+location is a transfer source or destination.)
+
+If your S3 bucket is located on an Outposts resource, you must specify
+an Amazon S3 access point. For more information, see Managing data
+access with Amazon S3 access points
+(https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points.html)
+in the I<Amazon S3 User Guide>.
 
 
 
@@ -88,33 +95,56 @@ this must be an access point ARN.
 
 =head2 S3StorageClass => Str
 
-The Amazon S3 storage class that you want to store your files in when
-this location is used as a task destination. For buckets in AWS
-Regions, the storage class defaults to Standard. For buckets on AWS
-Outposts, the storage class defaults to AWS S3 Outposts.
+Specifies the storage class that you want your objects to use when
+Amazon S3 is a transfer destination.
 
-For more information about S3 storage classes, see Amazon S3 Storage
-Classes (http://aws.amazon.com/s3/storage-classes/). Some storage
-classes have behaviors that can affect your S3 storage cost. For
-detailed information, see Considerations when working with S3 storage
-classes in DataSync
+For buckets in Amazon Web Services Regions, the storage class defaults
+to C<STANDARD>. For buckets on Outposts, the storage class defaults to
+C<OUTPOSTS>.
+
+For more information, see Storage class considerations with Amazon S3
+transfers
 (https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#using-storage-classes).
 
-Valid values are: C<"STANDARD">, C<"STANDARD_IA">, C<"ONEZONE_IA">, C<"INTELLIGENT_TIERING">, C<"GLACIER">, C<"DEEP_ARCHIVE">, C<"OUTPOSTS">
+Valid values are: C<"STANDARD">, C<"STANDARD_IA">, C<"ONEZONE_IA">, C<"INTELLIGENT_TIERING">, C<"GLACIER">, C<"DEEP_ARCHIVE">, C<"OUTPOSTS">, C<"GLACIER_INSTANT_RETRIEVAL">
 
 =head2 Subdirectory => Str
 
-A subdirectory in the Amazon S3 bucket. This subdirectory in Amazon S3
-is used to read data from the S3 source location or write data to the
-S3 destination.
+Specifies a prefix in the S3 bucket that DataSync reads from or writes
+to (depending on whether the bucket is a source or destination
+location).
+
+DataSync can't transfer objects with a prefix that begins with a slash
+(C</>) or includes C<//>, C</./>, or C</../> patterns. For example:
+
+=over
+
+=item *
+
+C</photos>
+
+=item *
+
+C<photos//2006/January>
+
+=item *
+
+C<photos/./2006/February>
+
+=item *
+
+C<photos/../2006/March>
+
+=back
+
 
 
 
 =head2 Tags => ArrayRef[L<Paws::Datasync::TagListEntry>]
 
-The key-value pair that represents the tag that you want to add to the
-location. The value can be an empty string. We recommend using tags to
-name your resources.
+Specifies labels that help you categorize, filter, and search for your
+Amazon Web Services resources. We recommend creating at least a name
+tag for your transfer location.
 
 
 

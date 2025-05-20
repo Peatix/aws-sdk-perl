@@ -3,6 +3,7 @@ package Paws::EC2::ModifyVpcAttribute;
   use Moose;
   has EnableDnsHostnames => (is => 'ro', isa => 'Paws::EC2::AttributeBooleanValue');
   has EnableDnsSupport => (is => 'ro', isa => 'Paws::EC2::AttributeBooleanValue');
+  has EnableNetworkAddressUsageMetrics => (is => 'ro', isa => 'Paws::EC2::AttributeBooleanValue');
   has VpcId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'vpcId' , required => 1);
 
   use MooseX::ClassAttribute;
@@ -83,6 +84,13 @@ IP addresses is not enabled.
 
 You cannot modify the DNS resolution and DNS hostnames attributes in
 the same request. Use separate requests for each attribute.
+
+
+
+=head2 EnableNetworkAddressUsageMetrics => L<Paws::EC2::AttributeBooleanValue>
+
+Indicates whether Network Address Usage metrics are enabled for your
+VPC.
 
 
 

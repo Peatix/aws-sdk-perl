@@ -53,7 +53,7 @@ models.
 =head2 ApiName => Str
 
 The API name used to interact with the data model, configured as a part
-of the amplify project.
+of your Amplify project.
 
 
 =head2 ConflictResolution => L<Paws::AmplifyBackend::BackendAPIConflictResolution>

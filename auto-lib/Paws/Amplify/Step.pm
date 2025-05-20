@@ -50,7 +50,7 @@ Describes an execution step, for an execution job, for an Amplify app.
 
 =head2 ArtifactsUrl => Str
 
-The URL to the artifact for the execution step.
+The URL to the build artifact for the execution step.
 
 
 =head2 Context => Str

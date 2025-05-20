@@ -6,6 +6,7 @@ package Paws::EC2::ProvisionByoipCidr;
   has Description => (is => 'ro', isa => 'Str');
   has DryRun => (is => 'ro', isa => 'Bool');
   has MultiRegion => (is => 'ro', isa => 'Bool');
+  has NetworkBorderGroup => (is => 'ro', isa => 'Str');
   has PoolTagSpecifications => (is => 'ro', isa => 'ArrayRef[Paws::EC2::TagSpecification]', traits => ['NameInRequest'], request_name => 'PoolTagSpecification' );
   has PubliclyAdvertisable => (is => 'ro', isa => 'Bool');
 
@@ -43,10 +44,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       Description           => 'MyString',    # OPTIONAL
       DryRun                => 1,             # OPTIONAL
       MultiRegion           => 1,             # OPTIONAL
+      NetworkBorderGroup    => 'MyString',    # OPTIONAL
       PoolTagSpecifications => [
         {
-          ResourceType => 'client-vpn-endpoint'
-          , # values: client-vpn-endpoint, customer-gateway, dedicated-host, dhcp-options, egress-only-internet-gateway, elastic-ip, elastic-gpu, export-image-task, export-instance-task, fleet, fpga-image, host-reservation, image, import-image-task, import-snapshot-task, instance, internet-gateway, key-pair, launch-template, local-gateway-route-table-vpc-association, natgateway, network-acl, network-interface, network-insights-analysis, network-insights-path, placement-group, reserved-instances, route-table, security-group, snapshot, spot-fleet-request, spot-instances-request, subnet, traffic-mirror-filter, traffic-mirror-session, traffic-mirror-target, transit-gateway, transit-gateway-attachment, transit-gateway-connect-peer, transit-gateway-multicast-domain, transit-gateway-route-table, volume, vpc, vpc-peering-connection, vpn-connection, vpn-gateway, vpc-flow-log; OPTIONAL
+          ResourceType => 'capacity-reservation'
+          , # values: capacity-reservation, client-vpn-endpoint, customer-gateway, carrier-gateway, coip-pool, declarative-policies-report, dedicated-host, dhcp-options, egress-only-internet-gateway, elastic-ip, elastic-gpu, export-image-task, export-instance-task, fleet, fpga-image, host-reservation, image, import-image-task, import-snapshot-task, instance, instance-event-window, internet-gateway, ipam, ipam-pool, ipam-scope, ipv4pool-ec2, ipv6pool-ec2, key-pair, launch-template, local-gateway, local-gateway-route-table, local-gateway-virtual-interface, local-gateway-virtual-interface-group, local-gateway-route-table-vpc-association, local-gateway-route-table-virtual-interface-group-association, natgateway, network-acl, network-interface, network-insights-analysis, network-insights-path, network-insights-access-scope, network-insights-access-scope-analysis, outpost-lag, placement-group, prefix-list, replace-root-volume-task, reserved-instances, route-table, security-group, security-group-rule, service-link-virtual-interface, snapshot, spot-fleet-request, spot-instances-request, subnet, subnet-cidr-reservation, traffic-mirror-filter, traffic-mirror-session, traffic-mirror-target, transit-gateway, transit-gateway-attachment, transit-gateway-connect-peer, transit-gateway-multicast-domain, transit-gateway-policy-table, transit-gateway-route-table, transit-gateway-route-table-announcement, volume, vpc, vpc-endpoint, vpc-endpoint-connection, vpc-endpoint-service, vpc-endpoint-service-permission, vpc-peering-connection, vpn-connection, vpn-gateway, vpc-flow-log, capacity-reservation-fleet, traffic-mirror-filter-rule, vpc-endpoint-connection-device-type, verified-access-instance, verified-access-group, verified-access-endpoint, verified-access-policy, verified-access-trust-provider, vpn-connection-device-type, vpc-block-public-access-exclusion, route-server, route-server-endpoint, route-server-peer, ipam-resource-discovery, ipam-resource-discovery-association, instance-connect-endpoint, verified-access-endpoint-target, ipam-external-resource-verification-token, mac-modification-task; OPTIONAL
           Tags => [
             {
               Key   => 'MyString',
@@ -75,9 +77,10 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ec2
 
 The public IPv4 or IPv6 address range, in CIDR notation. The most
 specific IPv4 prefix that you can specify is /24. The most specific
-IPv6 prefix you can specify is /56. The address range cannot overlap
-with another address range that you've brought to this or another
-Region.
+IPv6 address range that you can bring is /48 for CIDRs that are
+publicly advertisable and /56 for CIDRs that are not publicly
+advertisable. The address range cannot overlap with another address
+range that you've brought to this or another Region.
 
 
 
@@ -106,6 +109,39 @@ C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
 =head2 MultiRegion => Bool
 
 Reserved.
+
+
+
+=head2 NetworkBorderGroup => Str
+
+If you have Local Zones
+(https://docs.aws.amazon.com/local-zones/latest/ug/how-local-zones-work.html)
+enabled, you can choose a network border group for Local Zones when you
+provision and advertise a BYOIPv4 CIDR. Choose the network border group
+carefully as the EIP and the Amazon Web Services resource it is
+associated with must reside in the same network border group.
+
+You can provision BYOIP address ranges to and advertise them in the
+following Local Zone network border groups:
+
+=over
+
+=item *
+
+us-east-1-dfw-2
+
+=item *
+
+us-west-2-lax-1
+
+=item *
+
+us-west-2-phx-2
+
+=back
+
+You cannot provision or advertise BYOIPv6 address ranges in Local Zones
+at this time.
 
 
 

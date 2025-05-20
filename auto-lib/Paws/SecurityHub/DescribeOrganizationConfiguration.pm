@@ -32,8 +32,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     # Results:
     my $AutoEnable = $DescribeOrganizationConfigurationResponse->AutoEnable;
+    my $AutoEnableStandards =
+      $DescribeOrganizationConfigurationResponse->AutoEnableStandards;
     my $MemberAccountLimitReached =
       $DescribeOrganizationConfigurationResponse->MemberAccountLimitReached;
+    my $OrganizationConfiguration =
+      $DescribeOrganizationConfigurationResponse->OrganizationConfiguration;
 
 # Returns a L<Paws::SecurityHub::DescribeOrganizationConfigurationResponse> object.
 

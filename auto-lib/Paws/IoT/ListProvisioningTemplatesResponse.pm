@@ -23,7 +23,7 @@ A token to retrieve the next set of results.
 
 =head2 Templates => ArrayRef[L<Paws::IoT::ProvisioningTemplateSummary>]
 
-A list of fleet provisioning templates
+A list of provisioning templates
 
 
 =head2 _request_id => Str

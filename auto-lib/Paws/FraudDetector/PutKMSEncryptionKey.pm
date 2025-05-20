@@ -42,6 +42,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/fra
 
 The KMS encryption key ARN.
 
+The KMS key must be single-Region key. Amazon Fraud Detector does not
+support multi-Region KMS key.
+
 
 
 

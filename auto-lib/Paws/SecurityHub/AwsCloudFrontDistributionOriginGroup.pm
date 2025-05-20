@@ -33,7 +33,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SecurityHub
 
 =head1 DESCRIPTION
 
-Information about an origin group for the distribution.
+Information about an origin group for the CloudFront distribution.
 
 =head1 ATTRIBUTES
 

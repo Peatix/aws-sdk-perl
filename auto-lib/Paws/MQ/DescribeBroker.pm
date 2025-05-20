@@ -34,28 +34,36 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     );
 
     # Results:
+    my $ActionsRequired = $DescribeBrokerResponse->ActionsRequired;
     my $AuthenticationStrategy =
       $DescribeBrokerResponse->AuthenticationStrategy;
     my $AutoMinorVersionUpgrade =
       $DescribeBrokerResponse->AutoMinorVersionUpgrade;
-    my $BrokerArn          = $DescribeBrokerResponse->BrokerArn;
-    my $BrokerId           = $DescribeBrokerResponse->BrokerId;
-    my $BrokerInstances    = $DescribeBrokerResponse->BrokerInstances;
-    my $BrokerName         = $DescribeBrokerResponse->BrokerName;
-    my $BrokerState        = $DescribeBrokerResponse->BrokerState;
-    my $Configurations     = $DescribeBrokerResponse->Configurations;
-    my $Created            = $DescribeBrokerResponse->Created;
-    my $DeploymentMode     = $DescribeBrokerResponse->DeploymentMode;
-    my $EncryptionOptions  = $DescribeBrokerResponse->EncryptionOptions;
-    my $EngineType         = $DescribeBrokerResponse->EngineType;
-    my $EngineVersion      = $DescribeBrokerResponse->EngineVersion;
-    my $HostInstanceType   = $DescribeBrokerResponse->HostInstanceType;
-    my $LdapServerMetadata = $DescribeBrokerResponse->LdapServerMetadata;
-    my $Logs               = $DescribeBrokerResponse->Logs;
+    my $BrokerArn       = $DescribeBrokerResponse->BrokerArn;
+    my $BrokerId        = $DescribeBrokerResponse->BrokerId;
+    my $BrokerInstances = $DescribeBrokerResponse->BrokerInstances;
+    my $BrokerName      = $DescribeBrokerResponse->BrokerName;
+    my $BrokerState     = $DescribeBrokerResponse->BrokerState;
+    my $Configurations  = $DescribeBrokerResponse->Configurations;
+    my $Created         = $DescribeBrokerResponse->Created;
+    my $DataReplicationMetadata =
+      $DescribeBrokerResponse->DataReplicationMetadata;
+    my $DataReplicationMode = $DescribeBrokerResponse->DataReplicationMode;
+    my $DeploymentMode      = $DescribeBrokerResponse->DeploymentMode;
+    my $EncryptionOptions   = $DescribeBrokerResponse->EncryptionOptions;
+    my $EngineType          = $DescribeBrokerResponse->EngineType;
+    my $EngineVersion       = $DescribeBrokerResponse->EngineVersion;
+    my $HostInstanceType    = $DescribeBrokerResponse->HostInstanceType;
+    my $LdapServerMetadata  = $DescribeBrokerResponse->LdapServerMetadata;
+    my $Logs                = $DescribeBrokerResponse->Logs;
     my $MaintenanceWindowStartTime =
       $DescribeBrokerResponse->MaintenanceWindowStartTime;
     my $PendingAuthenticationStrategy =
       $DescribeBrokerResponse->PendingAuthenticationStrategy;
+    my $PendingDataReplicationMetadata =
+      $DescribeBrokerResponse->PendingDataReplicationMetadata;
+    my $PendingDataReplicationMode =
+      $DescribeBrokerResponse->PendingDataReplicationMode;
     my $PendingEngineVersion = $DescribeBrokerResponse->PendingEngineVersion;
     my $PendingHostInstanceType =
       $DescribeBrokerResponse->PendingHostInstanceType;
@@ -79,10 +87,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/mq/
 
 =head2 B<REQUIRED> BrokerId => Str
 
-The name of the broker. This value must be unique in your AWS account,
-1-50 characters long, must contain only letters, numbers, dashes, and
-underscores, and must not contain whitespaces, brackets, wildcard
-characters, or special characters.
+The unique ID that Amazon MQ generates for the broker.
 
 
 

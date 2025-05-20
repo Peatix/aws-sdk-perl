@@ -104,9 +104,9 @@ supports.
 
 =head2 Cluster => Str
 
-The short name or full Amazon Resource Name (ARN) of the cluster with
-which to register your container instance. If you do not specify a
-cluster, the default cluster is assumed.
+The short name or full Amazon Resource Name (ARN) of the cluster to
+register your container instance with. If you do not specify a cluster,
+the default cluster is assumed.
 
 
 
@@ -145,7 +145,7 @@ supported device type is a GPU.
 
 The metadata that you apply to the container instance to help you
 categorize and organize them. Each tag consists of a key and an
-optional value, both of which you define.
+optional value. You define both.
 
 The following basic restrictions apply to tags:
 
@@ -183,10 +183,10 @@ Tag keys and values are case-sensitive.
 =item *
 
 Do not use C<aws:>, C<AWS:>, or any upper or lowercase combination of
-such as a prefix for either keys or values as it is reserved for AWS
-use. You cannot edit or delete tag keys or values with this prefix.
-Tags with this prefix do not count against your tags per resource
-limit.
+such as a prefix for either keys or values as it is reserved for Amazon
+Web Services use. You cannot edit or delete tag keys or values with
+this prefix. Tags with this prefix do not count against your tags per
+resource limit.
 
 =back
 
@@ -202,7 +202,7 @@ The resources available on the instance.
 =head2 VersionInfo => L<Paws::ECS::VersionInfo>
 
 The version information for the Amazon ECS container agent and Docker
-daemon running on the container instance.
+daemon that runs on the container instance.
 
 
 

@@ -2,6 +2,8 @@
 package Paws::EMRContainers::MonitoringConfiguration;
   use Moose;
   has CloudWatchMonitoringConfiguration => (is => 'ro', isa => 'Paws::EMRContainers::CloudWatchMonitoringConfiguration', request_name => 'cloudWatchMonitoringConfiguration', traits => ['NameInRequest']);
+  has ContainerLogRotationConfiguration => (is => 'ro', isa => 'Paws::EMRContainers::ContainerLogRotationConfiguration', request_name => 'containerLogRotationConfiguration', traits => ['NameInRequest']);
+  has ManagedLogs => (is => 'ro', isa => 'Paws::EMRContainers::ManagedLogs', request_name => 'managedLogs', traits => ['NameInRequest']);
   has PersistentAppUI => (is => 'ro', isa => 'Str', request_name => 'persistentAppUI', traits => ['NameInRequest']);
   has S3MonitoringConfiguration => (is => 'ro', isa => 'Paws::EMRContainers::S3MonitoringConfiguration', request_name => 's3MonitoringConfiguration', traits => ['NameInRequest']);
 
@@ -43,6 +45,16 @@ Configuration setting for monitoring.
 =head2 CloudWatchMonitoringConfiguration => L<Paws::EMRContainers::CloudWatchMonitoringConfiguration>
 
 Monitoring configurations for CloudWatch.
+
+
+=head2 ContainerLogRotationConfiguration => L<Paws::EMRContainers::ContainerLogRotationConfiguration>
+
+Enable or disable container log rotation.
+
+
+=head2 ManagedLogs => L<Paws::EMRContainers::ManagedLogs>
+
+The entity that controls configuration for managed logs.
 
 
 =head2 PersistentAppUI => Str

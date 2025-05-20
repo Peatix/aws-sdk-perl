@@ -85,13 +85,18 @@ C<local-gateway-id> - The ID of a local gateway.
 
 =item *
 
+C<local-gateway-virtual-interface-group-id> - The ID of the virtual
+interface group.
+
+=item *
+
 C<local-gateway-virtual-interface-id> - The ID of the virtual
 interface.
 
 =item *
 
-C<local-gateway-virtual-interface-group-id> - The ID of the virtual
-interface group.
+C<owner-id> - The ID of the Amazon Web Services account that owns the
+local gateway virtual interface group.
 
 =back
 

@@ -38,8 +38,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $AdminContact      = $GetDomainDetailResponse->AdminContact;
     my $AdminPrivacy      = $GetDomainDetailResponse->AdminPrivacy;
     my $AutoRenew         = $GetDomainDetailResponse->AutoRenew;
+    my $BillingContact    = $GetDomainDetailResponse->BillingContact;
+    my $BillingPrivacy    = $GetDomainDetailResponse->BillingPrivacy;
     my $CreationDate      = $GetDomainDetailResponse->CreationDate;
     my $DnsSec            = $GetDomainDetailResponse->DnsSec;
+    my $DnssecKeys        = $GetDomainDetailResponse->DnssecKeys;
     my $DomainName        = $GetDomainDetailResponse->DomainName;
     my $ExpirationDate    = $GetDomainDetailResponse->ExpirationDate;
     my $Nameservers       = $GetDomainDetailResponse->Nameservers;

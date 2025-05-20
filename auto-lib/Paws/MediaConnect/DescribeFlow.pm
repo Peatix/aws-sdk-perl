@@ -1,12 +1,12 @@
 
 package Paws::MediaConnect::DescribeFlow;
   use Moose;
-  has FlowArn => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'flowArn', required => 1);
+  has FlowArn => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'FlowArn', required => 1);
 
   use MooseX::ClassAttribute;
 
   class_has _api_call => (isa => 'Str', is => 'ro', default => 'DescribeFlow');
-  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/v1/flows/{flowArn}');
+  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/v1/flows/{FlowArn}');
   class_has _api_method  => (isa => 'Str', is => 'ro', default => 'GET');
   class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::MediaConnect::DescribeFlowResponse');
 1;
@@ -29,7 +29,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $mediaconnect = Paws->service('MediaConnect');
     my $DescribeFlowResponse = $mediaconnect->DescribeFlow(
-      FlowArn => 'My__string',
+      FlowArn => 'MyDescribeFlowRequestFlowArnString',
 
     );
 

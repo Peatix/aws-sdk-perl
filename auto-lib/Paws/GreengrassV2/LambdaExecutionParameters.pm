@@ -43,8 +43,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::GreengrassV
 
 =head1 DESCRIPTION
 
-Contains parameters for a Lambda function that runs on AWS IoT
-Greengrass.
+Contains parameters for a Lambda function that runs on IoT Greengrass.
 
 =head1 ATTRIBUTES
 
@@ -60,7 +59,8 @@ function when it runs.
 The list of event sources to which to subscribe to receive work
 messages. The Lambda function runs when it receives a message from an
 event source. You can subscribe this function to local
-publish/subscribe messages and AWS IoT Core MQTT messages.
+publish/subscribe messages and Amazon Web Services IoT Core MQTT
+messages.
 
 
 =head2 ExecArgs => ArrayRef[Str|Undef]
@@ -83,7 +83,7 @@ The parameters for the Linux process that contains the Lambda function.
 =head2 MaxIdleTimeInSeconds => Int
 
 The maximum amount of time in seconds that a non-pinned Lambda function
-can idle before the AWS IoT Greengrass Core software stops its process.
+can idle before the IoT Greengrass Core software stops its process.
 
 
 =head2 MaxInstancesCount => Int
@@ -95,7 +95,7 @@ run at the same time.
 =head2 MaxQueueSize => Int
 
 The maximum size of the message queue for the Lambda function
-component. The AWS IoT Greengrass core stores messages in a FIFO
+component. The IoT Greengrass core stores messages in a FIFO
 (first-in-first-out) queue until it can run the Lambda function to
 consume each message.
 
@@ -108,14 +108,14 @@ Whether or not the Lambda function is pinned, or long-lived.
 
 =item *
 
-A pinned Lambda function starts when AWS IoT Greengrass starts and
-keeps running in its own container.
+A pinned Lambda function starts when IoT Greengrass starts and keeps
+running in its own container.
 
 =item *
 
 A non-pinned Lambda function starts only when it receives a work item
 and exists after it idles for C<maxIdleTimeInSeconds>. If the function
-has multiple work items, the AWS IoT Greengrass Core software creates
+has multiple work items, the IoT Greengrass Core software creates
 multiple instances of the function.
 
 =back

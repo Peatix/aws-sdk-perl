@@ -2,6 +2,7 @@
 package Paws::IoT::ThingConnectivity;
   use Moose;
   has Connected => (is => 'ro', isa => 'Bool', request_name => 'connected', traits => ['NameInRequest']);
+  has DisconnectReason => (is => 'ro', isa => 'Str', request_name => 'disconnectReason', traits => ['NameInRequest']);
   has Timestamp => (is => 'ro', isa => 'Int', request_name => 'timestamp', traits => ['NameInRequest']);
 
 1;
@@ -41,15 +42,22 @@ The connectivity status of the thing.
 
 =head2 Connected => Bool
 
-True if the thing is connected to the AWS IoT service; false if it is
-not connected.
+True if the thing is connected to the Amazon Web Services IoT Core
+service; false if it is not connected.
+
+
+=head2 DisconnectReason => Str
+
+The reason why the client is disconnected. If the thing has been
+disconnected for approximately an hour, the C<disconnectReason> value
+might be missing.
 
 
 =head2 Timestamp => Int
 
 The epoch time (in milliseconds) when the thing last connected or
-disconnected. If the thing has been disconnected for more than a few
-weeks, the time value might be missing.
+disconnected. If the thing has been disconnected for approximately an
+hour, the time value might be missing.
 
 
 

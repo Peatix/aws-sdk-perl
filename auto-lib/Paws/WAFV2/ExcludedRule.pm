@@ -33,17 +33,18 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::WAFV2::Excl
 
 =head1 DESCRIPTION
 
-Specifies a single rule to exclude from the rule group. Excluding a
-rule overrides its action setting for the rule group in the web ACL,
-setting it to C<COUNT>. This effectively excludes the rule from acting
-on web requests.
+Specifies a single rule in a rule group whose action you want to
+override to C<Count>.
+
+Instead of this option, use C<RuleActionOverrides>. It accepts any
+valid action setting, including C<Count>.
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> Name => Str
 
-The name of the rule to exclude.
+The name of the rule whose action you want to override to C<Count>.
 
 
 

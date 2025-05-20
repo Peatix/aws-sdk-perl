@@ -1,7 +1,7 @@
 
 package Paws::Route53Domains::TransferDomainResponse;
   use Moose;
-  has OperationId => (is => 'ro', isa => 'Str', required => 1);
+  has OperationId => (is => 'ro', isa => 'Str');
 
   has _request_id => (is => 'ro', isa => 'Str');
 
@@ -14,7 +14,7 @@ Paws::Route53Domains::TransferDomainResponse
 =head1 ATTRIBUTES
 
 
-=head2 B<REQUIRED> OperationId => Str
+=head2 OperationId => Str
 
 Identifier for tracking the progress of the request. To query the
 operation status, use GetOperationDetail

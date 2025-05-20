@@ -2,14 +2,17 @@
 package Paws::WellArchitected::UpdateWorkload;
   use Moose;
   has AccountIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has Applications => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has ArchitecturalDesign => (is => 'ro', isa => 'Str');
   has AwsRegions => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has Description => (is => 'ro', isa => 'Str');
+  has DiscoveryConfig => (is => 'ro', isa => 'Paws::WellArchitected::WorkloadDiscoveryConfig');
   has Environment => (is => 'ro', isa => 'Str');
   has ImprovementStatus => (is => 'ro', isa => 'Str');
   has Industry => (is => 'ro', isa => 'Str');
   has IndustryType => (is => 'ro', isa => 'Str');
   has IsReviewOwnerUpdateAcknowledged => (is => 'ro', isa => 'Bool');
+  has JiraConfiguration => (is => 'ro', isa => 'Paws::WellArchitected::WorkloadJiraConfigurationInput');
   has NonAwsRegions => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has Notes => (is => 'ro', isa => 'Str');
   has PillarPriorities => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
@@ -43,19 +46,37 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $wellarchitected = Paws->service('WellArchitected');
     my $UpdateWorkloadOutput = $wellarchitected->UpdateWorkload(
-      WorkloadId          => 'MyWorkloadId',
-      AccountIds          => [ 'MyAwsAccountId', ... ],          # OPTIONAL
+      WorkloadId => 'MyWorkloadId',
+      AccountIds => [
+        'MyAwsAccountId', ...    # min: 12, max: 12
+      ],    # OPTIONAL
+      Applications => [
+        'MyApplicationArn', ...    # max: 2084
+      ],    # OPTIONAL
       ArchitecturalDesign => 'MyWorkloadArchitecturalDesign',    # OPTIONAL
       AwsRegions          => [
         'MyAwsRegion', ...                                       # max: 100
       ],    # OPTIONAL
-      Description                     => 'MyWorkloadDescription',     # OPTIONAL
+      Description     => 'MyWorkloadDescription',    # OPTIONAL
+      DiscoveryConfig => {
+        TrustedAdvisorIntegrationStatus =>
+          'ENABLED',    # values: ENABLED, DISABLED; OPTIONAL
+        WorkloadResourceDefinition => [
+          'WORKLOAD_METADATA', ...    # values: WORKLOAD_METADATA, APP_REGISTRY
+        ],    # OPTIONAL
+      },    # OPTIONAL
       Environment                     => 'PRODUCTION',                # OPTIONAL
       ImprovementStatus               => 'NOT_APPLICABLE',            # OPTIONAL
       Industry                        => 'MyWorkloadIndustry',        # OPTIONAL
       IndustryType                    => 'MyWorkloadIndustryType',    # OPTIONAL
       IsReviewOwnerUpdateAcknowledged => 1,                           # OPTIONAL
-      NonAwsRegions                   => [
+      JiraConfiguration               => {
+        IssueManagementStatus =>
+          'ENABLED',    # values: ENABLED, DISABLED, INHERIT; OPTIONAL
+        IssueManagementType => 'AUTO',    # values: AUTO, MANUAL; OPTIONAL
+        JiraProjectKey      => 'MyJiraProjectKey',  # min: 1, max: 100; OPTIONAL
+      },    # OPTIONAL
+      NonAwsRegions => [
         'MyWorkloadNonAwsRegion', ...    # min: 3, max: 25
       ],    # OPTIONAL
       Notes            => 'MyNotes',    # OPTIONAL
@@ -83,6 +104,12 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/wel
 
 
 
+=head2 Applications => ArrayRef[Str|Undef]
+
+List of AppRegistry application ARNs to associate to the workload.
+
+
+
 =head2 ArchitecturalDesign => Str
 
 
@@ -98,6 +125,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/wel
 =head2 Description => Str
 
 
+
+
+
+=head2 DiscoveryConfig => L<Paws::WellArchitected::WorkloadDiscoveryConfig>
+
+Well-Architected discovery configuration settings to associate to the
+workload.
 
 
 
@@ -133,6 +167,12 @@ I<Review owner> field is required.
 If a B<Review owner> is not added to the workload within 60 days of
 acknowledgement, access to the workload is restricted until an owner is
 added.
+
+
+
+=head2 JiraConfiguration => L<Paws::WellArchitected::WorkloadJiraConfigurationInput>
+
+Configuration of the Jira integration.
 
 
 

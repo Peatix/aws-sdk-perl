@@ -2,6 +2,7 @@
 package Paws::LexRuntimeV2::Slot;
   use Moose;
   has Shape => (is => 'ro', isa => 'Str', request_name => 'shape', traits => ['NameInRequest']);
+  has SubSlots => (is => 'ro', isa => 'Paws::LexRuntimeV2::Slots', request_name => 'subSlots', traits => ['NameInRequest']);
   has Value => (is => 'ro', isa => 'Paws::LexRuntimeV2::Value', request_name => 'value', traits => ['NameInRequest']);
   has Values => (is => 'ro', isa => 'ArrayRef[Paws::LexRuntimeV2::Slot]', request_name => 'values', traits => ['NameInRequest']);
 
@@ -45,6 +46,11 @@ A value that Amazon Lex V2 uses to fulfill an intent.
 When the C<shape> value is C<List>, it indicates that the C<values>
 field contains a list of slot values. When the value is C<Scalar>, it
 indicates that the C<value> field contains a single value.
+
+
+=head2 SubSlots => L<Paws::LexRuntimeV2::Slots>
+
+The constituent sub slots of a composite slot.
 
 
 =head2 Value => L<Paws::LexRuntimeV2::Value>

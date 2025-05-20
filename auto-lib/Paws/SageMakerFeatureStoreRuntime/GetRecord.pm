@@ -1,6 +1,7 @@
 
 package Paws::SageMakerFeatureStoreRuntime::GetRecord;
   use Moose;
+  has ExpirationTimeResponse => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'ExpirationTimeResponse');
   has FeatureGroupName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'FeatureGroupName', required => 1);
   has FeatureNames => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['ParamInQuery'], query_name => 'FeatureName');
   has RecordIdentifierValueAsString => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'RecordIdentifierValueAsString', required => 1);
@@ -31,15 +32,17 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $featurestore-runtime.sagemaker = Paws->service('SageMakerFeatureStoreRuntime');
     my $GetRecordResponse = $featurestore -runtime . sagemaker->GetRecord(
-      FeatureGroupName              => 'MyFeatureGroupName',
+      FeatureGroupName              => 'MyFeatureGroupNameOrArn',
       RecordIdentifierValueAsString => 'MyValueAsString',
+      ExpirationTimeResponse        => 'Enabled',                   # OPTIONAL
       FeatureNames                  => [
         'MyFeatureName', ...    # min: 1, max: 64
       ],    # OPTIONAL
     );
 
     # Results:
-    my $Record = $GetRecordResponse->Record;
+    my $ExpiresAt = $GetRecordResponse->ExpiresAt;
+    my $Record    = $GetRecordResponse->Record;
 
     # Returns a L<Paws::SageMakerFeatureStoreRuntime::GetRecordResponse> object.
 
@@ -49,9 +52,18 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/fea
 =head1 ATTRIBUTES
 
 
+=head2 ExpirationTimeResponse => Str
+
+Parameter to request C<ExpiresAt> in response. If C<Enabled>,
+C<GetRecord> will return the value of C<ExpiresAt>, if it is not null.
+If C<Disabled> and null, C<GetRecord> will return null.
+
+Valid values are: C<"Enabled">, C<"Disabled">
+
 =head2 B<REQUIRED> FeatureGroupName => Str
 
-The name of the feature group in which you want to put the records.
+The name or Amazon Resource Name (ARN) of the feature group from which
+you want to retrieve a record.
 
 
 

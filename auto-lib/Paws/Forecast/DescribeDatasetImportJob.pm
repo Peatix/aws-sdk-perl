@@ -44,8 +44,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $EstimatedTimeRemainingInMinutes =
       $DescribeDatasetImportJobResponse->EstimatedTimeRemainingInMinutes;
     my $FieldStatistics = $DescribeDatasetImportJobResponse->FieldStatistics;
+    my $Format          = $DescribeDatasetImportJobResponse->Format;
     my $GeolocationFormat =
       $DescribeDatasetImportJobResponse->GeolocationFormat;
+    my $ImportMode = $DescribeDatasetImportJobResponse->ImportMode;
     my $LastModificationTime =
       $DescribeDatasetImportJobResponse->LastModificationTime;
     my $Message         = $DescribeDatasetImportJobResponse->Message;

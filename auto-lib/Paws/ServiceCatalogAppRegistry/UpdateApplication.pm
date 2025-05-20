@@ -50,7 +50,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ser
 
 =head2 B<REQUIRED> Application => Str
 
-The name or ID of the application that will be updated.
+The name, ID, or ARN of the application that will be updated.
 
 
 
@@ -62,8 +62,9 @@ The new description of the application.
 
 =head2 Name => Str
 
-The new name of the application. The name must be unique in the region
-in which you are updating the application.
+Deprecated: The new name of the application. The name must be unique in
+the region in which you are updating the application. Please do not use
+this field as we have stopped supporting name updates.
 
 
 

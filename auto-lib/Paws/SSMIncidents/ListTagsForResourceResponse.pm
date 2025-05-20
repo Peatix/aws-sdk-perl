@@ -17,7 +17,7 @@ Paws::SSMIncidents::ListTagsForResourceResponse
 
 =head2 B<REQUIRED> Tags => L<Paws::SSMIncidents::TagMap>
 
-A list of tags for the response plan.
+A list of tags for the response plan or incident.
 
 
 =head2 _request_id => Str

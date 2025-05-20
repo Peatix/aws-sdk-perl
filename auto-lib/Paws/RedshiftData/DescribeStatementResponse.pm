@@ -13,11 +13,15 @@ package Paws::RedshiftData::DescribeStatementResponse;
   has QueryString => (is => 'ro', isa => 'Str');
   has RedshiftPid => (is => 'ro', isa => 'Int');
   has RedshiftQueryId => (is => 'ro', isa => 'Int');
+  has ResultFormat => (is => 'ro', isa => 'Str');
   has ResultRows => (is => 'ro', isa => 'Int');
   has ResultSize => (is => 'ro', isa => 'Int');
   has SecretArn => (is => 'ro', isa => 'Str');
+  has SessionId => (is => 'ro', isa => 'Str');
   has Status => (is => 'ro', isa => 'Str');
+  has SubStatements => (is => 'ro', isa => 'ArrayRef[Paws::RedshiftData::SubStatementData]');
   has UpdatedAt => (is => 'ro', isa => 'Str');
+  has WorkgroupName => (is => 'ro', isa => 'Str');
 
   has _request_id => (is => 'ro', isa => 'Str');
 
@@ -64,7 +68,8 @@ error while running.
 =head2 HasResultSet => Bool
 
 A value that indicates whether the statement has a result set. The
-result set can be empty.
+result set can be empty. The value is true for an empty result set. The
+value is true if any substatement returns a result set.
 
 
 =head2 B<REQUIRED> Id => Str
@@ -96,23 +101,34 @@ identifiers are also available in the C<query> column of the
 C<STL_QUERY> system view.
 
 
+=head2 ResultFormat => Str
+
+The data format of the result of the SQL statement.
+
+Valid values are: C<"JSON">, C<"CSV">
 =head2 ResultRows => Int
 
 Either the number of rows returned from the SQL statement or the number
 of rows affected. If result size is greater than zero, the result rows
 can be the number of rows affected by SQL statements such as INSERT,
-UPDATE, DELETE, COPY, and others.
+UPDATE, DELETE, COPY, and others. A C<-1> indicates the value is null.
 
 
 =head2 ResultSize => Int
 
-The size in bytes of the returned results.
+The size in bytes of the returned results. A C<-1> indicates the value
+is null.
 
 
 =head2 SecretArn => Str
 
 The name or Amazon Resource Name (ARN) of the secret that enables
 access to the database.
+
+
+=head2 SessionId => Str
+
+The session identifier of the query.
 
 
 =head2 Status => Str
@@ -155,10 +171,20 @@ SUBMITTED - The query was submitted, but not yet processed.
 
 
 Valid values are: C<"SUBMITTED">, C<"PICKED">, C<"STARTED">, C<"FINISHED">, C<"ABORTED">, C<"FAILED">, C<"ALL">
+=head2 SubStatements => ArrayRef[L<Paws::RedshiftData::SubStatementData>]
+
+The SQL statements from a multiple statement run.
+
+
 =head2 UpdatedAt => Str
 
 The date and time (UTC) that the metadata for the SQL statement was
 last updated. An example is the time the status last changed.
+
+
+=head2 WorkgroupName => Str
+
+The serverless workgroup name or Amazon Resource Name (ARN).
 
 
 =head2 _request_id => Str

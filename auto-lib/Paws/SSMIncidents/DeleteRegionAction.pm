@@ -33,15 +33,16 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SSMIncident
 
 =head1 DESCRIPTION
 
-Defines the information about the Region you're deleting from your
-replication set.
+Defines the information about the Amazon Web Services Region you're
+deleting from your replication set.
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> RegionName => Str
 
-The name of the Region you're deleting from the replication set.
+The name of the Amazon Web Services Region you're deleting from the
+replication set.
 
 
 

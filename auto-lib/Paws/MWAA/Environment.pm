@@ -4,14 +4,19 @@ package Paws::MWAA::Environment;
   has AirflowConfigurationOptions => (is => 'ro', isa => 'Paws::MWAA::AirflowConfigurationOptions');
   has AirflowVersion => (is => 'ro', isa => 'Str');
   has Arn => (is => 'ro', isa => 'Str');
+  has CeleryExecutorQueue => (is => 'ro', isa => 'Str');
   has CreatedAt => (is => 'ro', isa => 'Str');
   has DagS3Path => (is => 'ro', isa => 'Str');
+  has DatabaseVpcEndpointService => (is => 'ro', isa => 'Str');
+  has EndpointManagement => (is => 'ro', isa => 'Str');
   has EnvironmentClass => (is => 'ro', isa => 'Str');
   has ExecutionRoleArn => (is => 'ro', isa => 'Str');
   has KmsKey => (is => 'ro', isa => 'Str');
   has LastUpdate => (is => 'ro', isa => 'Paws::MWAA::LastUpdate');
   has LoggingConfiguration => (is => 'ro', isa => 'Paws::MWAA::LoggingConfiguration');
+  has MaxWebservers => (is => 'ro', isa => 'Int');
   has MaxWorkers => (is => 'ro', isa => 'Int');
+  has MinWebservers => (is => 'ro', isa => 'Int');
   has MinWorkers => (is => 'ro', isa => 'Int');
   has Name => (is => 'ro', isa => 'Str');
   has NetworkConfiguration => (is => 'ro', isa => 'Paws::MWAA::NetworkConfiguration');
@@ -22,10 +27,13 @@ package Paws::MWAA::Environment;
   has Schedulers => (is => 'ro', isa => 'Int');
   has ServiceRoleArn => (is => 'ro', isa => 'Str');
   has SourceBucketArn => (is => 'ro', isa => 'Str');
+  has StartupScriptS3ObjectVersion => (is => 'ro', isa => 'Str');
+  has StartupScriptS3Path => (is => 'ro', isa => 'Str');
   has Status => (is => 'ro', isa => 'Str');
   has Tags => (is => 'ro', isa => 'Paws::MWAA::TagMap');
   has WebserverAccessMode => (is => 'ro', isa => 'Str');
   has WebserverUrl => (is => 'ro', isa => 'Str');
+  has WebserverVpcEndpointService => (is => 'ro', isa => 'Str');
   has WeeklyMaintenanceWindowStart => (is => 'ro', isa => 'Str');
 
 1;
@@ -58,7 +66,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::MWAA::Envir
 
 =head1 DESCRIPTION
 
-The Amazon Managed Workflows for Apache Airflow (MWAA) environment.
+Describes an Amazon Managed Workflows for Apache Airflow (MWAA)
+environment.
 
 =head1 ATTRIBUTES
 
@@ -66,20 +75,31 @@ The Amazon Managed Workflows for Apache Airflow (MWAA) environment.
 =head2 AirflowConfigurationOptions => L<Paws::MWAA::AirflowConfigurationOptions>
 
 A list of key-value pairs containing the Apache Airflow configuration
-options attached to your environment. To learn more, see Apache Airflow
-configuration options
+options attached to your environment. For more information, see Apache
+Airflow configuration options
 (https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-env-variables.html).
 
 
 =head2 AirflowVersion => Str
 
-The Apache Airflow version on your environment. For example,
-C<v1.10.12>.
+The Apache Airflow version on your environment.
+
+Valid values: C<1.10.12>, C<2.0.2>, C<2.2.2>, C<2.4.3>, C<2.5.1>,
+C<2.6.3>, C<2.7.2>, C<2.8.1>, C<2.9.2>, C<2.10.1>, and C<2.10.3>.
 
 
 =head2 Arn => Str
 
 The Amazon Resource Name (ARN) of the Amazon MWAA environment.
+
+
+=head2 CeleryExecutorQueue => Str
+
+The queue ARN for the environment's Celery Executor
+(https://airflow.apache.org/docs/apache-airflow/stable/core-concepts/executor/celery.html).
+Amazon MWAA uses a Celery Executor to distribute tasks across multiple
+workers. When you create an environment in a shared VPC, you must
+provide access to the Celery Executor queue from your VPC.
 
 
 =head2 CreatedAt => Str
@@ -89,49 +109,95 @@ The day and time the environment was created.
 
 =head2 DagS3Path => Str
 
-The relative path to the DAGs folder on your Amazon S3 bucket. For
-example, C<dags>. To learn more, see Adding or updating DAGs
+The relative path to the DAGs folder in your Amazon S3 bucket. For
+example, C<s3://mwaa-environment/dags>. For more information, see
+Adding or updating DAGs
 (https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-dag-folder.html).
+
+
+=head2 DatabaseVpcEndpointService => Str
+
+The VPC endpoint for the environment's Amazon RDS database.
+
+
+=head2 EndpointManagement => Str
+
+Defines whether the VPC endpoints configured for the environment are
+created, and managed, by the customer or by Amazon MWAA. If set to
+C<SERVICE>, Amazon MWAA will create and manage the required VPC
+endpoints in your VPC. If set to C<CUSTOMER>, you must create, and
+manage, the VPC endpoints in your VPC.
 
 
 =head2 EnvironmentClass => Str
 
-The environment class type. Valid values: C<mw1.small>, C<mw1.medium>,
-C<mw1.large>. To learn more, see Amazon MWAA environment class
+The environment class type. Valid values: C<mw1.micro>, C<mw1.small>,
+C<mw1.medium>, C<mw1.large>, C<mw1.xlarge>, and C<mw1.2xlarge>. For
+more information, see Amazon MWAA environment class
 (https://docs.aws.amazon.com/mwaa/latest/userguide/environment-class.html).
 
 
 =head2 ExecutionRoleArn => Str
 
 The Amazon Resource Name (ARN) of the execution role in IAM that allows
-MWAA to access AWS resources in your environment. For example,
-C<arn:aws:iam::123456789:role/my-execution-role>. To learn more, see
-Amazon MWAA Execution role
+MWAA to access Amazon Web Services resources in your environment. For
+example, C<arn:aws:iam::123456789:role/my-execution-role>. For more
+information, see Amazon MWAA Execution role
 (https://docs.aws.amazon.com/mwaa/latest/userguide/mwaa-create-role.html).
 
 
 =head2 KmsKey => Str
 
-The Key Management Service (KMS) encryption key used to encrypt the
-data in your environment.
+The KMS encryption key used to encrypt the data in your environment.
 
 
 =head2 LastUpdate => L<Paws::MWAA::LastUpdate>
 
-
+The status of the last update on the environment.
 
 
 =head2 LoggingConfiguration => L<Paws::MWAA::LoggingConfiguration>
 
-The Apache Airflow logs being sent to CloudWatch Logs:
-C<DagProcessingLogs>, C<SchedulerLogs>, C<TaskLogs>, C<WebserverLogs>,
-C<WorkerLogs>.
+The Apache Airflow logs published to CloudWatch Logs.
+
+
+=head2 MaxWebservers => Int
+
+The maximum number of web servers that you want to run in your
+environment. Amazon MWAA scales the number of Apache Airflow web
+servers up to the number you specify for C<MaxWebservers> when you
+interact with your Apache Airflow environment using Apache Airflow REST
+API, or the Apache Airflow CLI. For example, in scenarios where your
+workload requires network calls to the Apache Airflow REST API with a
+high transaction-per-second (TPS) rate, Amazon MWAA will increase the
+number of web servers up to the number set in C<MaxWebserers>. As TPS
+rates decrease Amazon MWAA disposes of the additional web servers, and
+scales down to the number set in C<MinxWebserers>.
+
+Valid values: For environments larger than mw1.micro, accepts values
+from C<2> to C<5>. Defaults to C<2> for all environment sizes except
+mw1.micro, which defaults to C<1>.
 
 
 =head2 MaxWorkers => Int
 
 The maximum number of workers that run in your environment. For
 example, C<20>.
+
+
+=head2 MinWebservers => Int
+
+The minimum number of web servers that you want to run in your
+environment. Amazon MWAA scales the number of Apache Airflow web
+servers up to the number you specify for C<MaxWebservers> when you
+interact with your Apache Airflow environment using Apache Airflow REST
+API, or the Apache Airflow CLI. As the transaction-per-second rate, and
+the network load, decrease, Amazon MWAA disposes of the additional web
+servers, and scales down to the number set in C<MinxWebserers>.
+
+Valid values: For environments larger than mw1.micro, accepts values
+from C<2> to C<5>. Defaults to C<2> for all environment sizes except
+mw1.micro, which defaults to C<1>.
 
 
 =head2 MinWorkers => Int
@@ -148,36 +214,57 @@ C<MyMWAAEnvironment>.
 
 =head2 NetworkConfiguration => L<Paws::MWAA::NetworkConfiguration>
 
-
+Describes the VPC networking components used to secure and enable
+network traffic between the Amazon Web Services resources for your
+environment. For more information, see About networking on Amazon MWAA
+(https://docs.aws.amazon.com/mwaa/latest/userguide/networking-about.html).
 
 
 =head2 PluginsS3ObjectVersion => Str
 
-The version of the plugins.zip file on your Amazon S3 bucket. To learn
-more, see Installing custom plugins
+The version of the C<plugins.zip> file in your Amazon S3 bucket. You
+must specify the version ID
+(https://docs.aws.amazon.com/AmazonS3/latest/userguide/versioning-workflows.html)
+that Amazon S3 assigns to the file.
+
+Version IDs are Unicode, UTF-8 encoded, URL-ready, opaque strings that
+are no more than 1,024 bytes long. The following is an example:
+
+C<3sL4kqtJlcpXroDTDmJ+rmSpXd3dIbrHY+MTRCxf3vjVBH40Nr8X8gdRQBpUMLUo>
+
+For more information, see Installing custom plugins
 (https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-dag-import-plugins.html).
 
 
 =head2 PluginsS3Path => Str
 
-The relative path to the C<plugins.zip> file on your Amazon S3 bucket.
-For example, C<plugins.zip>. To learn more, see Installing custom
-plugins
+The relative path to the file in your Amazon S3 bucket. For example,
+C<s3://mwaa-environment/plugins.zip>. For more information, see
+Installing custom plugins
 (https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-dag-import-plugins.html).
 
 
 =head2 RequirementsS3ObjectVersion => Str
 
-The version of the requirements.txt file on your Amazon S3 bucket. To
-learn more, see Installing Python dependencies
+The version of the C<requirements.txt > file on your Amazon S3 bucket.
+You must specify the version ID
+(https://docs.aws.amazon.com/AmazonS3/latest/userguide/versioning-workflows.html)
+that Amazon S3 assigns to the file.
+
+Version IDs are Unicode, UTF-8 encoded, URL-ready, opaque strings that
+are no more than 1,024 bytes long. The following is an example:
+
+C<3sL4kqtJlcpXroDTDmJ+rmSpXd3dIbrHY+MTRCxf3vjVBH40Nr8X8gdRQBpUMLUo>
+
+For more information, see Installing Python dependencies
 (https://docs.aws.amazon.com/mwaa/latest/userguide/working-dags-dependencies.html).
 
 
 =head2 RequirementsS3Path => Str
 
-The relative path to the C<requirements.txt> file on your Amazon S3
-bucket. For example, C<requirements.txt>. To learn more, see Installing
-Python dependencies
+The relative path to the C<requirements.txt> file in your Amazon S3
+bucket. For example, C<s3://mwaa-environment/requirements.txt>. For
+more information, see Installing Python dependencies
 (https://docs.aws.amazon.com/mwaa/latest/userguide/working-dags-dependencies.html).
 
 
@@ -190,7 +277,7 @@ environment.
 =head2 ServiceRoleArn => Str
 
 The Amazon Resource Name (ARN) for the service-linked role of the
-environment. To learn more, see Amazon MWAA Service-linked role
+environment. For more information, see Amazon MWAA Service-linked role
 (https://docs.aws.amazon.com/mwaa/latest/userguide/mwaa-slr.html).
 
 
@@ -198,14 +285,44 @@ environment. To learn more, see Amazon MWAA Service-linked role
 
 The Amazon Resource Name (ARN) of the Amazon S3 bucket where your DAG
 code and supporting files are stored. For example,
-C<arn:aws:s3:::my-airflow-bucket-unique-name>. To learn more, see
-Create an Amazon S3 bucket for Amazon MWAA
+C<arn:aws:s3:::my-airflow-bucket-unique-name>. For more information,
+see Create an Amazon S3 bucket for Amazon MWAA
 (https://docs.aws.amazon.com/mwaa/latest/userguide/mwaa-s3-bucket.html).
+
+
+=head2 StartupScriptS3ObjectVersion => Str
+
+The version of the startup shell script in your Amazon S3 bucket. You
+must specify the version ID
+(https://docs.aws.amazon.com/AmazonS3/latest/userguide/versioning-workflows.html)
+that Amazon S3 assigns to the file.
+
+Version IDs are Unicode, UTF-8 encoded, URL-ready, opaque strings that
+are no more than 1,024 bytes long. The following is an example:
+
+C<3sL4kqtJlcpXroDTDmJ+rmSpXd3dIbrHY+MTRCxf3vjVBH40Nr8X8gdRQBpUMLUo>
+
+For more information, see Using a startup script
+(https://docs.aws.amazon.com/mwaa/latest/userguide/using-startup-script.html).
+
+
+=head2 StartupScriptS3Path => Str
+
+The relative path to the startup shell script in your Amazon S3 bucket.
+For example, C<s3://mwaa-environment/startup.sh>.
+
+Amazon MWAA runs the script as your environment starts, and before
+running the Apache Airflow process. You can use this script to install
+dependencies, modify Apache Airflow configuration options, and set
+environment variables. For more information, see Using a startup script
+(https://docs.aws.amazon.com/mwaa/latest/userguide/using-startup-script.html).
 
 
 =head2 Status => Str
 
-The status of the Amazon MWAA environment. Valid values:
+The status of the Amazon MWAA environment.
+
+Valid values:
 
 =over
 
@@ -213,6 +330,16 @@ The status of the Amazon MWAA environment. Valid values:
 
 C<CREATING> - Indicates the request to create the environment is in
 progress.
+
+=item *
+
+C<CREATING_SNAPSHOT> - Indicates the request to update environment
+details, or upgrade the environment version, is in progress and Amazon
+MWAA is creating a storage volume snapshot of the Amazon RDS database
+cluster associated with the environment. A database snapshot is a
+backup created at a specific point in time. Amazon MWAA uses snapshots
+to recover environment metadata if the process to update or upgrade an
+environment fails.
 
 =item *
 
@@ -226,8 +353,21 @@ is ready to use.
 
 =item *
 
+C<PENDING> - Indicates the request was successful, but the process to
+create the environment is paused until you create the required VPC
+endpoints in your VPC. After you create the VPC endpoints, the process
+resumes.
+
+=item *
+
 C<UPDATING> - Indicates the request to update the environment is in
 progress.
+
+=item *
+
+C<ROLLING_BACK> - Indicates the request to update environment details,
+or upgrade the environment version, failed and Amazon MWAA is restoring
+the environment using the latest storage volume snapshot.
 
 =item *
 
@@ -241,19 +381,27 @@ complete, and the environment has been deleted.
 
 =item *
 
-C<UNAVAILABLE> - Indicates the request failed, but the environment was
-unable to rollback and is not in a stable state.
+C<UNAVAILABLE> - Indicates the request failed, but the environment did
+not return to its previous state and is not stable.
 
 =item *
 
 C<UPDATE_FAILED> - Indicates the request to update the environment
-failed, and the environment has rolled back successfully and is ready
-to use.
+failed, and the environment was restored to its previous state
+successfully and is ready to use.
+
+=item *
+
+C<MAINTENANCE> - Indicates that the environment is undergoing
+maintenance. Depending on the type of work Amazon MWAA is performing,
+your environment might become unavailable during this process. After
+all operations are done, your environment will return to its status
+prior to mainteneace operations.
 
 =back
 
 We recommend reviewing our troubleshooting guide for a list of common
-errors and their solutions. To learn more, see Amazon MWAA
+errors and their solutions. For more information, see Amazon MWAA
 troubleshooting
 (https://docs.aws.amazon.com/mwaa/latest/userguide/troubleshooting.html).
 
@@ -261,28 +409,35 @@ troubleshooting
 =head2 Tags => L<Paws::MWAA::TagMap>
 
 The key-value tag pairs associated to your environment. For example,
-C<"Environment": "Staging">. To learn more, see Tagging AWS resources
+C<"Environment": "Staging">. For more information, see Tagging Amazon
+Web Services resources
 (https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
 
 
 =head2 WebserverAccessMode => Str
 
-The Apache Airflow I<Web server> access mode. To learn more, see Apache
-Airflow access modes
+The Apache Airflow I<web server> access mode. For more information, see
+Apache Airflow access modes
 (https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-networking.html).
 
 
 =head2 WebserverUrl => Str
 
-The Apache Airflow I<Web server> host name for the Amazon MWAA
-environment. To learn more, see Accessing the Apache Airflow UI
+The Apache Airflow I<web server> host name for the Amazon MWAA
+environment. For more information, see Accessing the Apache Airflow UI
 (https://docs.aws.amazon.com/mwaa/latest/userguide/access-airflow-ui.html).
+
+
+=head2 WebserverVpcEndpointService => Str
+
+The VPC endpoint for the environment's web server.
 
 
 =head2 WeeklyMaintenanceWindowStart => Str
 
-The day and time of the week that weekly maintenance updates are
-scheduled. For example: C<TUE:03:30>.
+The day and time of the week in Coordinated Universal Time (UTC)
+24-hour standard time that weekly maintenance updates are scheduled.
+For example: C<TUE:03:30>.
 
 
 

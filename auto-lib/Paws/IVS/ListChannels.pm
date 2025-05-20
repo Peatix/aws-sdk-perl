@@ -2,6 +2,7 @@
 package Paws::IVS::ListChannels;
   use Moose;
   has FilterByName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'filterByName');
+  has FilterByPlaybackRestrictionPolicyArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'filterByPlaybackRestrictionPolicyArn');
   has FilterByRecordingConfigurationArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'filterByRecordingConfigurationArn');
   has MaxResults => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'maxResults');
   has NextToken => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'nextToken');
@@ -32,11 +33,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $ivs = Paws->service('IVS');
     my $ListChannelsResponse = $ivs->ListChannels(
-      FilterByName                      => 'MyChannelName',    # OPTIONAL
+      FilterByName                         => 'MyChannelName',    # OPTIONAL
+      FilterByPlaybackRestrictionPolicyArn =>
+        'MyChannelPlaybackRestrictionPolicyArn',                  # OPTIONAL
       FilterByRecordingConfigurationArn =>
-        'MyChannelRecordingConfigurationArn',                  # OPTIONAL
-      MaxResults => 1,                                         # OPTIONAL
-      NextToken  => 'MyPaginationToken',                       # OPTIONAL
+        'MyChannelRecordingConfigurationArn',                     # OPTIONAL
+      MaxResults => 1,                                            # OPTIONAL
+      NextToken  => 'MyPaginationToken',                          # OPTIONAL
     );
 
     # Results:
@@ -57,6 +60,12 @@ Filters the channel list to match the specified name.
 
 
 
+=head2 FilterByPlaybackRestrictionPolicyArn => Str
+
+Filters the channel list to match the specified policy.
+
+
+
 =head2 FilterByRecordingConfigurationArn => Str
 
 Filters the channel list to match the specified recording-configuration
@@ -66,7 +75,7 @@ ARN.
 
 =head2 MaxResults => Int
 
-Maximum number of channels to return. Default: 50.
+Maximum number of channels to return. Default: 100.
 
 
 

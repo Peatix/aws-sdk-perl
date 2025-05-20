@@ -35,13 +35,26 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ECS::Epheme
 
 The amount of ephemeral storage to allocate for the task. This
 parameter is used to expand the total amount of ephemeral storage
-available, beyond the default amount, for tasks hosted on AWS Fargate.
-For more information, see Fargate task storage
-(https://docs.aws.amazon.com/AmazonECS/latest/userguide/using_data_volumes.html)
-in the I<Amazon ECS User Guide for AWS Fargate>.
+available, beyond the default amount, for tasks hosted on Fargate. For
+more information, see Using data volumes in tasks
+(https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_data_volumes.html)
+in the I<Amazon ECS Developer Guide;>.
 
-This parameter is only supported for tasks hosted on AWS Fargate using
-platform version C<1.4.0> or later.
+For tasks using the Fargate launch type, the task requires the
+following platforms:
+
+=over
+
+=item *
+
+Linux platform version C<1.4.0> or later.
+
+=item *
+
+Windows platform version C<1.0.0> or later.
+
+=back
+
 
 =head1 ATTRIBUTES
 

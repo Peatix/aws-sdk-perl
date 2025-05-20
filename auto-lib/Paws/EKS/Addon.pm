@@ -5,9 +5,14 @@ package Paws::EKS::Addon;
   has AddonName => (is => 'ro', isa => 'Str', request_name => 'addonName', traits => ['NameInRequest']);
   has AddonVersion => (is => 'ro', isa => 'Str', request_name => 'addonVersion', traits => ['NameInRequest']);
   has ClusterName => (is => 'ro', isa => 'Str', request_name => 'clusterName', traits => ['NameInRequest']);
+  has ConfigurationValues => (is => 'ro', isa => 'Str', request_name => 'configurationValues', traits => ['NameInRequest']);
   has CreatedAt => (is => 'ro', isa => 'Str', request_name => 'createdAt', traits => ['NameInRequest']);
   has Health => (is => 'ro', isa => 'Paws::EKS::AddonHealth', request_name => 'health', traits => ['NameInRequest']);
+  has MarketplaceInformation => (is => 'ro', isa => 'Paws::EKS::MarketplaceInformation', request_name => 'marketplaceInformation', traits => ['NameInRequest']);
   has ModifiedAt => (is => 'ro', isa => 'Str', request_name => 'modifiedAt', traits => ['NameInRequest']);
+  has Owner => (is => 'ro', isa => 'Str', request_name => 'owner', traits => ['NameInRequest']);
+  has PodIdentityAssociations => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'podIdentityAssociations', traits => ['NameInRequest']);
+  has Publisher => (is => 'ro', isa => 'Str', request_name => 'publisher', traits => ['NameInRequest']);
   has ServiceAccountRoleArn => (is => 'ro', isa => 'Str', request_name => 'serviceAccountRoleArn', traits => ['NameInRequest']);
   has Status => (is => 'ro', isa => 'Str', request_name => 'status', traits => ['NameInRequest']);
   has Tags => (is => 'ro', isa => 'Paws::EKS::TagMap', request_name => 'tags', traits => ['NameInRequest']);
@@ -42,7 +47,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::EKS::Addon 
 
 =head1 DESCRIPTION
 
-An Amazon EKS add-on.
+An Amazon EKS add-on. For more information, see Amazon EKS add-ons
+(https://docs.aws.amazon.com/eks/latest/userguide/eks-add-ons.html) in
+the I<Amazon EKS User Guide>.
 
 =head1 ATTRIBUTES
 
@@ -64,12 +71,17 @@ The version of the add-on.
 
 =head2 ClusterName => Str
 
-The name of the cluster.
+The name of your cluster.
+
+
+=head2 ConfigurationValues => Str
+
+The configuration values that you provided.
 
 
 =head2 CreatedAt => Str
 
-The date and time that the add-on was created.
+The Unix epoch timestamp at object creation.
 
 
 =head2 Health => L<Paws::EKS::AddonHealth>
@@ -77,15 +89,43 @@ The date and time that the add-on was created.
 An object that represents the health of the add-on.
 
 
+=head2 MarketplaceInformation => L<Paws::EKS::MarketplaceInformation>
+
+Information about an Amazon EKS add-on from the Amazon Web Services
+Marketplace.
+
+
 =head2 ModifiedAt => Str
 
-The date and time that the add-on was last modified.
+The Unix epoch timestamp for the last modification to the object.
+
+
+=head2 Owner => Str
+
+The owner of the add-on.
+
+
+=head2 PodIdentityAssociations => ArrayRef[Str|Undef]
+
+An array of Pod Identity Assocations owned by the Addon. Each EKS Pod
+Identity association maps a role to a service account in a namespace in
+the cluster.
+
+For more information, see Attach an IAM Role to an Amazon EKS add-on
+using Pod Identity
+(https://docs.aws.amazon.com/eks/latest/userguide/add-ons-iam.html) in
+the I<Amazon EKS User Guide>.
+
+
+=head2 Publisher => Str
+
+The publisher of the add-on.
 
 
 =head2 ServiceAccountRoleArn => Str
 
-The Amazon Resource Name (ARN) of the IAM role that is bound to the
-Kubernetes service account used by the add-on.
+The Amazon Resource Name (ARN) of the IAM role that's bound to the
+Kubernetes C<ServiceAccount> object that the add-on uses.
 
 
 =head2 Status => Str
@@ -95,10 +135,9 @@ The status of the add-on.
 
 =head2 Tags => L<Paws::EKS::TagMap>
 
-The metadata that you apply to the add-on to assist with categorization
-and organization. Each tag consists of a key and an optional value,
-both of which you define. Add-on tags do not propagate to any other
-resources associated with the cluster.
+Metadata that assists with categorization and organization. Each tag
+consists of a key and an optional value. You define both. Tags don't
+propagate to any other cluster or Amazon Web Services resources.
 
 
 

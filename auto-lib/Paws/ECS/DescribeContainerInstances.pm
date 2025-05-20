@@ -71,7 +71,9 @@ A list of up to 100 container instance IDs or full Amazon Resource Name
 
 Specifies whether you want to see the resource tags for the container
 instance. If C<TAGS> is specified, the tags are included in the
-response. If this field is omitted, tags are not included in the
+response. If C<CONTAINER_INSTANCE_HEALTH> is specified, the container
+instance health is included in the response. If this field is omitted,
+tags and container instance health status aren't included in the
 response.
 
 

@@ -1,6 +1,7 @@
 
 package Paws::GameLift::UpdateGameSession;
   use Moose;
+  has GameProperties => (is => 'ro', isa => 'ArrayRef[Paws::GameLift::GameProperty]');
   has GameSessionId => (is => 'ro', isa => 'Str', required => 1);
   has MaximumPlayerSessionCount => (is => 'ro', isa => 'Int');
   has Name => (is => 'ro', isa => 'Str');
@@ -32,7 +33,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $gamelift = Paws->service('GameLift');
     my $UpdateGameSessionOutput = $gamelift->UpdateGameSession(
-      GameSessionId               => 'MyArnStringModel',
+      GameSessionId  => 'MyArnStringModel',
+      GameProperties => [
+        {
+          Key   => 'MyGamePropertyKey',      # max: 32
+          Value => 'MyGamePropertyValue',    # max: 96
+
+        },
+        ...
+      ],    # OPTIONAL
       MaximumPlayerSessionCount   => 1,                          # OPTIONAL
       Name                        => 'MyNonZeroAndMaxString',    # OPTIONAL
       PlayerSessionCreationPolicy => 'ACCEPT_ALL',               # OPTIONAL
@@ -48,6 +57,18 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/gamelift/UpdateGameSession>
 
 =head1 ATTRIBUTES
+
+
+=head2 GameProperties => ArrayRef[L<Paws::GameLift::GameProperty>]
+
+A set of key-value pairs that can store custom data in a game session.
+For example: C<{"Key": "difficulty", "Value": "novice"}>. You can use
+this parameter to modify game properties in an active game session.
+This action adds new properties and modifies existing properties. There
+is no way to delete properties. For an example, see Update the value of
+a game property
+(https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-client-api.html#game-properties-update).
+
 
 
 =head2 B<REQUIRED> GameSessionId => Str
@@ -85,12 +106,12 @@ Game session protection policy to apply to this game session only.
 
 =item *
 
-B<NoProtection> -- The game session can be terminated during a
+C<NoProtection> -- The game session can be terminated during a
 scale-down event.
 
 =item *
 
-B<FullProtection> -- If the game session is in an C<ACTIVE> status, it
+C<FullProtection> -- If the game session is in an C<ACTIVE> status, it
 cannot be terminated during a scale-down event.
 
 =back

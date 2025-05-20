@@ -18,8 +18,8 @@ Paws::SageMaker::ListNotebookInstancesOutput
 =head2 NextToken => Str
 
 If the response to the previous C<ListNotebookInstances> request was
-truncated, Amazon SageMaker returns this token. To retrieve the next
-set of notebook instances, use the token in the next request.
+truncated, SageMaker AI returns this token. To retrieve the next set of
+notebook instances, use the token in the next request.
 
 
 =head2 NotebookInstances => ArrayRef[L<Paws::SageMaker::NotebookInstanceSummary>]

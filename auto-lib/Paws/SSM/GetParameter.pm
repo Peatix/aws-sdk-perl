@@ -46,14 +46,24 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ssm
 
 =head2 B<REQUIRED> Name => Str
 
-The name of the parameter you want to query.
+The name or Amazon Resource Name (ARN) of the parameter that you want
+to query. For parameters shared with you from another account, you must
+use the full ARN.
+
+To query by parameter label, use C<"Name": "name:label">. To query by
+parameter version, use C<"Name": "name:version">.
+
+For more information about shared parameters, see Working with shared
+parameters
+(https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-shared-parameters.html)
+in the I<Amazon Web Services Systems Manager User Guide>.
 
 
 
 =head2 WithDecryption => Bool
 
 Return decrypted values for secure string parameters. This flag is
-ignored for String and StringList parameter types.
+ignored for C<String> and C<StringList> parameter types.
 
 
 

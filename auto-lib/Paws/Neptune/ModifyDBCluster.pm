@@ -1,12 +1,14 @@
 
 package Paws::Neptune::ModifyDBCluster;
   use Moose;
+  has AllowMajorVersionUpgrade => (is => 'ro', isa => 'Bool');
   has ApplyImmediately => (is => 'ro', isa => 'Bool');
   has BackupRetentionPeriod => (is => 'ro', isa => 'Int');
   has CloudwatchLogsExportConfiguration => (is => 'ro', isa => 'Paws::Neptune::CloudwatchLogsExportConfiguration');
   has CopyTagsToSnapshot => (is => 'ro', isa => 'Bool');
   has DBClusterIdentifier => (is => 'ro', isa => 'Str', required => 1);
   has DBClusterParameterGroupName => (is => 'ro', isa => 'Str');
+  has DBInstanceParameterGroupName => (is => 'ro', isa => 'Str');
   has DeletionProtection => (is => 'ro', isa => 'Bool');
   has EnableIAMDatabaseAuthentication => (is => 'ro', isa => 'Bool');
   has EngineVersion => (is => 'ro', isa => 'Str');
@@ -16,6 +18,8 @@ package Paws::Neptune::ModifyDBCluster;
   has Port => (is => 'ro', isa => 'Int');
   has PreferredBackupWindow => (is => 'ro', isa => 'Str');
   has PreferredMaintenanceWindow => (is => 'ro', isa => 'Str');
+  has ServerlessV2ScalingConfiguration => (is => 'ro', isa => 'Paws::Neptune::ServerlessV2ScalingConfiguration');
+  has StorageType => (is => 'ro', isa => 'Str');
   has VpcSecurityGroupIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
 
   use MooseX::ClassAttribute;
@@ -44,24 +48,31 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $rds = Paws->service('Neptune');
     my $ModifyDBClusterResult = $rds->ModifyDBCluster(
       DBClusterIdentifier               => 'MyString',
+      AllowMajorVersionUpgrade          => 1,            # OPTIONAL
       ApplyImmediately                  => 1,            # OPTIONAL
       BackupRetentionPeriod             => 1,            # OPTIONAL
       CloudwatchLogsExportConfiguration => {
         DisableLogTypes => [ 'MyString', ... ],          # OPTIONAL
         EnableLogTypes  => [ 'MyString', ... ],          # OPTIONAL
       },    # OPTIONAL
-      CopyTagsToSnapshot              => 1,                      # OPTIONAL
-      DBClusterParameterGroupName     => 'MyString',             # OPTIONAL
-      DeletionProtection              => 1,                      # OPTIONAL
-      EnableIAMDatabaseAuthentication => 1,                      # OPTIONAL
-      EngineVersion                   => 'MyString',             # OPTIONAL
-      MasterUserPassword              => 'MyString',             # OPTIONAL
-      NewDBClusterIdentifier          => 'MyString',             # OPTIONAL
-      OptionGroupName                 => 'MyString',             # OPTIONAL
-      Port                            => 1,                      # OPTIONAL
-      PreferredBackupWindow           => 'MyString',             # OPTIONAL
-      PreferredMaintenanceWindow      => 'MyString',             # OPTIONAL
-      VpcSecurityGroupIds             => [ 'MyString', ... ],    # OPTIONAL
+      CopyTagsToSnapshot               => 1,             # OPTIONAL
+      DBClusterParameterGroupName      => 'MyString',    # OPTIONAL
+      DBInstanceParameterGroupName     => 'MyString',    # OPTIONAL
+      DeletionProtection               => 1,             # OPTIONAL
+      EnableIAMDatabaseAuthentication  => 1,             # OPTIONAL
+      EngineVersion                    => 'MyString',    # OPTIONAL
+      MasterUserPassword               => 'MyString',    # OPTIONAL
+      NewDBClusterIdentifier           => 'MyString',    # OPTIONAL
+      OptionGroupName                  => 'MyString',    # OPTIONAL
+      Port                             => 1,             # OPTIONAL
+      PreferredBackupWindow            => 'MyString',    # OPTIONAL
+      PreferredMaintenanceWindow       => 'MyString',    # OPTIONAL
+      ServerlessV2ScalingConfiguration => {
+        MaxCapacity => 1,                                # OPTIONAL
+        MinCapacity => 1,                                # OPTIONAL
+      },    # OPTIONAL
+      StorageType         => 'MyString',             # OPTIONAL
+      VpcSecurityGroupIds => [ 'MyString', ... ],    # OPTIONAL
     );
 
     # Results:
@@ -73,6 +84,17 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/rds/ModifyDBCluster>
 
 =head1 ATTRIBUTES
+
+
+=head2 AllowMajorVersionUpgrade => Bool
+
+A value that indicates whether upgrades between different major
+versions are allowed.
+
+Constraints: You must set the allow-major-version-upgrade flag when
+providing an C<EngineVersion> parameter that uses a different major
+version than the DB cluster's current version.
+
 
 
 =head2 ApplyImmediately => Bool
@@ -117,7 +139,9 @@ Must be a value from 1 to 35
 =head2 CloudwatchLogsExportConfiguration => L<Paws::Neptune::CloudwatchLogsExportConfiguration>
 
 The configuration setting for the log types to be enabled for export to
-CloudWatch Logs for a specific DB cluster.
+CloudWatch Logs for a specific DB cluster. See Using the CLI to publish
+Neptune audit logs to CloudWatch Logs
+(https://docs.aws.amazon.com/neptune/latest/userguide/cloudwatch-logs.html#cloudwatch-logs-cli).
 
 
 
@@ -152,6 +176,36 @@ The name of the DB cluster parameter group to use for the DB cluster.
 
 
 
+=head2 DBInstanceParameterGroupName => Str
+
+The name of the DB parameter group to apply to all instances of the DB
+cluster.
+
+When you apply a parameter group using C<DBInstanceParameterGroupName>,
+parameter changes aren't applied during the next maintenance window but
+instead are applied immediately.
+
+Default: The existing name setting
+
+Constraints:
+
+=over
+
+=item *
+
+The DB parameter group must be in the same DB parameter group family as
+the target DB cluster version.
+
+=item *
+
+The C<DBInstanceParameterGroupName> parameter is only valid in
+combination with the C<AllowMajorVersionUpgrade> parameter.
+
+=back
+
+
+
+
 =head2 DeletionProtection => Bool
 
 A value that indicates whether the DB cluster has deletion protection
@@ -179,8 +233,7 @@ parameter is set to true.
 For a list of valid engine versions, see Engine Releases for Amazon
 Neptune
 (https://docs.aws.amazon.com/neptune/latest/userguide/engine-releases.html),
-or call DescribeDBEngineVersions
-(https://docs.aws.amazon.com/neptune/latest/userguide/api-other-apis.html#DescribeDBEngineVersions).
+or call DescribeDBEngineVersions.
 
 
 
@@ -281,6 +334,45 @@ week.
 Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun.
 
 Constraints: Minimum 30-minute window.
+
+
+
+=head2 ServerlessV2ScalingConfiguration => L<Paws::Neptune::ServerlessV2ScalingConfiguration>
+
+Contains the scaling configuration of a Neptune Serverless DB cluster.
+
+For more information, see Using Amazon Neptune Serverless
+(https://docs.aws.amazon.com/neptune/latest/userguide/neptune-serverless-using.html)
+in the I<Amazon Neptune User Guide>.
+
+
+
+=head2 StorageType => Str
+
+The storage type to associate with the DB cluster.
+
+Valid Values:
+
+=over
+
+=item *
+
+B<C<standard> > E<ndash> ( I<the default> ) Configures cost-effective
+database storage for applications with moderate to small I/O usage.
+
+=item *
+
+B<C<iopt1> > E<ndash> Enables I/O-Optimized storage
+(https://docs.aws.amazon.com/neptune/latest/userguide/storage-types.html#provisioned-iops-storage)
+that's designed to meet the needs of I/O-intensive graph workloads that
+require predictable pricing with low I/O latency and consistent I/O
+throughput.
+
+Neptune I/O-Optimized storage is only available starting with engine
+release 1.3.0.0.
+
+=back
+
 
 
 

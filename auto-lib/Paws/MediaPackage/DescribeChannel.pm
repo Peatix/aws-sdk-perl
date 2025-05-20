@@ -35,6 +35,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     # Results:
     my $Arn               = $DescribeChannelResponse->Arn;
+    my $CreatedAt         = $DescribeChannelResponse->CreatedAt;
     my $Description       = $DescribeChannelResponse->Description;
     my $EgressAccessLogs  = $DescribeChannelResponse->EgressAccessLogs;
     my $HlsIngest         = $DescribeChannelResponse->HlsIngest;

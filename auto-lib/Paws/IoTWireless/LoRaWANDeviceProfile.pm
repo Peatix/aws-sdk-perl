@@ -79,7 +79,7 @@ device profile.
 
 =head2 MaxDutyCycle => Int
 
-The MaxDutyCycle value.
+The MaxDutyCycle value. It ranges from 0 to 15.
 
 
 =head2 MaxEirp => Int

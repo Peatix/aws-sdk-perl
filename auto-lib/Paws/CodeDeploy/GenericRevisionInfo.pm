@@ -54,17 +54,17 @@ A comment about the revision.
 
 =head2 FirstUsedTime => Str
 
-When the revision was first used by AWS CodeDeploy.
+When the revision was first used by CodeDeploy.
 
 
 =head2 LastUsedTime => Str
 
-When the revision was last used by AWS CodeDeploy.
+When the revision was last used by CodeDeploy.
 
 
 =head2 RegisterTime => Str
 
-When the revision was registered with AWS CodeDeploy.
+When the revision was registered with CodeDeploy.
 
 
 

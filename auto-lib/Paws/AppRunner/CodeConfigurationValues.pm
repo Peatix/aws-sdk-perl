@@ -4,6 +4,7 @@ package Paws::AppRunner::CodeConfigurationValues;
   has BuildCommand => (is => 'ro', isa => 'Str');
   has Port => (is => 'ro', isa => 'Str');
   has Runtime => (is => 'ro', isa => 'Str', required => 1);
+  has RuntimeEnvironmentSecrets => (is => 'ro', isa => 'Paws::AppRunner::RuntimeEnvironmentSecrets');
   has RuntimeEnvironmentVariables => (is => 'ro', isa => 'Paws::AppRunner::RuntimeEnvironmentVariables');
   has StartCommand => (is => 'ro', isa => 'Str');
 
@@ -38,9 +39,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AppRunner::
 =head1 DESCRIPTION
 
 Describes the basic configuration needed for building and running an
-AWS App Runner service. This type doesn't support the full set of
-possible configuration options. Fur full configuration capabilities,
-use a C<apprunner.yaml> file in the source code repository.
+App Runner service. This type doesn't support the full set of possible
+configuration options. Fur full configuration capabilities, use a
+C<apprunner.yaml> file in the source code repository.
 
 =head1 ATTRIBUTES
 
@@ -63,11 +64,37 @@ A runtime environment type for building and running an App Runner
 service. It represents a programming language runtime.
 
 
+=head2 RuntimeEnvironmentSecrets => L<Paws::AppRunner::RuntimeEnvironmentSecrets>
+
+An array of key-value pairs representing the secrets and parameters
+that get referenced to your service as an environment variable. The
+supported values are either the full Amazon Resource Name (ARN) of the
+Secrets Manager secret or the full ARN of the parameter in the Amazon
+Web Services Systems Manager Parameter Store.
+
+=over
+
+=item *
+
+If the Amazon Web Services Systems Manager Parameter Store parameter
+exists in the same Amazon Web Services Region as the service that
+you're launching, you can use either the full ARN or name of the
+secret. If the parameter exists in a different Region, then the full
+ARN must be specified.
+
+=item *
+
+Currently, cross account referencing of Amazon Web Services Systems
+Manager Parameter Store parameter is not supported.
+
+=back
+
+
+
 =head2 RuntimeEnvironmentVariables => L<Paws::AppRunner::RuntimeEnvironmentVariables>
 
 The environment variables that are available to your running App Runner
-service. An array of key-value pairs. Keys with a prefix of
-C<AWSAPPRUNNER> are reserved for system use and aren't valid.
+service. An array of key-value pairs.
 
 
 =head2 StartCommand => Str

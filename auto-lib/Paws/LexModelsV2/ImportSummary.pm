@@ -4,6 +4,7 @@ package Paws::LexModelsV2::ImportSummary;
   has CreationDateTime => (is => 'ro', isa => 'Str', request_name => 'creationDateTime', traits => ['NameInRequest']);
   has ImportedResourceId => (is => 'ro', isa => 'Str', request_name => 'importedResourceId', traits => ['NameInRequest']);
   has ImportedResourceName => (is => 'ro', isa => 'Str', request_name => 'importedResourceName', traits => ['NameInRequest']);
+  has ImportedResourceType => (is => 'ro', isa => 'Str', request_name => 'importedResourceType', traits => ['NameInRequest']);
   has ImportId => (is => 'ro', isa => 'Str', request_name => 'importId', traits => ['NameInRequest']);
   has ImportStatus => (is => 'ro', isa => 'Str', request_name => 'importStatus', traits => ['NameInRequest']);
   has LastUpdatedDateTime => (is => 'ro', isa => 'Str', request_name => 'lastUpdatedDateTime', traits => ['NameInRequest']);
@@ -58,6 +59,11 @@ resource.
 =head2 ImportedResourceName => Str
 
 The name that you gave the imported resource.
+
+
+=head2 ImportedResourceType => Str
+
+The type of resource that was imported.
 
 
 =head2 ImportId => Str

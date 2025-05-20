@@ -1,6 +1,7 @@
 
 package Paws::Translate::TranslateTextResponse;
   use Moose;
+  has AppliedSettings => (is => 'ro', isa => 'Paws::Translate::TranslationSettings');
   has AppliedTerminologies => (is => 'ro', isa => 'ArrayRef[Paws::Translate::AppliedTerminology]');
   has SourceLanguageCode => (is => 'ro', isa => 'Str', required => 1);
   has TargetLanguageCode => (is => 'ro', isa => 'Str', required => 1);
@@ -15,6 +16,11 @@ package Paws::Translate::TranslateTextResponse;
 Paws::Translate::TranslateTextResponse
 
 =head1 ATTRIBUTES
+
+
+=head2 AppliedSettings => L<Paws::Translate::TranslationSettings>
+
+Optional settings that modify the translation output.
 
 
 =head2 AppliedTerminologies => ArrayRef[L<Paws::Translate::AppliedTerminology>]

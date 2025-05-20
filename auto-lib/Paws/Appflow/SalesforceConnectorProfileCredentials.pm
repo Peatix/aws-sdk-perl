@@ -3,6 +3,8 @@ package Paws::Appflow::SalesforceConnectorProfileCredentials;
   use Moose;
   has AccessToken => (is => 'ro', isa => 'Str', request_name => 'accessToken', traits => ['NameInRequest']);
   has ClientCredentialsArn => (is => 'ro', isa => 'Str', request_name => 'clientCredentialsArn', traits => ['NameInRequest']);
+  has JwtToken => (is => 'ro', isa => 'Str', request_name => 'jwtToken', traits => ['NameInRequest']);
+  has OAuth2GrantType => (is => 'ro', isa => 'Str', request_name => 'oAuth2GrantType', traits => ['NameInRequest']);
   has OAuthRequest => (is => 'ro', isa => 'Paws::Appflow::ConnectorOAuthRequest', request_name => 'oAuthRequest', traits => ['NameInRequest']);
   has RefreshToken => (is => 'ro', isa => 'Str', request_name => 'refreshToken', traits => ['NameInRequest']);
 
@@ -51,6 +53,42 @@ The credentials used to access protected Salesforce resources.
 
 The secret manager ARN, which contains the client ID and client secret
 of the connected app.
+
+
+=head2 JwtToken => Str
+
+A JSON web token (JWT) that authorizes Amazon AppFlow to access your
+Salesforce records.
+
+
+=head2 OAuth2GrantType => Str
+
+Specifies the OAuth 2.0 grant type that Amazon AppFlow uses when it
+requests an access token from Salesforce. Amazon AppFlow requires an
+access token each time it attempts to access your Salesforce records.
+
+You can specify one of the following values:
+
+=over
+
+=item AUTHORIZATION_CODE
+
+Amazon AppFlow passes an authorization code when it requests the access
+token from Salesforce. Amazon AppFlow receives the authorization code
+from Salesforce after you log in to your Salesforce account and
+authorize Amazon AppFlow to access your records.
+
+=item JWT_BEARER
+
+Amazon AppFlow passes a JSON web token (JWT) when it requests the
+access token from Salesforce. You provide the JWT to Amazon AppFlow
+when you define the connection to your Salesforce account. When you use
+this grant type, you don't need to log in to your Salesforce account to
+authorize Amazon AppFlow to access your records.
+
+=back
+
+The CLIENT_CREDENTIALS value is not supported for Salesforce.
 
 
 =head2 OAuthRequest => L<Paws::Appflow::ConnectorOAuthRequest>

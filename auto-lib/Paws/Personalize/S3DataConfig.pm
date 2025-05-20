@@ -41,9 +41,9 @@ The configuration details of an Amazon S3 input or output bucket.
 
 =head2 KmsKeyArn => Str
 
-The Amazon Resource Name (ARN) of the Amazon Key Management Service
-(KMS) key that Amazon Personalize uses to encrypt or decrypt the input
-and output files of a batch inference job.
+The Amazon Resource Name (ARN) of the Key Management Service (KMS) key
+that Amazon Personalize uses to encrypt or decrypt the input and output
+files.
 
 
 =head2 B<REQUIRED> Path => Str

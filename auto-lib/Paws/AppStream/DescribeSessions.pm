@@ -3,6 +3,7 @@ package Paws::AppStream::DescribeSessions;
   use Moose;
   has AuthenticationType => (is => 'ro', isa => 'Str');
   has FleetName => (is => 'ro', isa => 'Str', required => 1);
+  has InstanceId => (is => 'ro', isa => 'Str');
   has Limit => (is => 'ro', isa => 'Int');
   has NextToken => (is => 'ro', isa => 'Str');
   has StackName => (is => 'ro', isa => 'Str', required => 1);
@@ -33,9 +34,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $appstream2 = Paws->service('AppStream');
     my $DescribeSessionsResult = $appstream2->DescribeSessions(
-      FleetName          => 'MyString',
-      StackName          => 'MyString',
+      FleetName          => 'MyName',
+      StackName          => 'MyName',
       AuthenticationType => 'API',         # OPTIONAL
+      InstanceId         => 'MyString',    # OPTIONAL
       Limit              => 1,             # OPTIONAL
       NextToken          => 'MyString',    # OPTIONAL
       UserId             => 'MyUserId',    # OPTIONAL
@@ -59,11 +61,17 @@ The authentication method. Specify C<API> for a user authenticated
 using a streaming URL or C<SAML> for a SAML federated user. The default
 is to authenticate users using a streaming URL.
 
-Valid values are: C<"API">, C<"SAML">, C<"USERPOOL">
+Valid values are: C<"API">, C<"SAML">, C<"USERPOOL">, C<"AWS_AD">
 
 =head2 B<REQUIRED> FleetName => Str
 
 The name of the fleet. This value is case-sensitive.
+
+
+
+=head2 InstanceId => Str
+
+The identifier for the instance hosting the session.
 
 
 

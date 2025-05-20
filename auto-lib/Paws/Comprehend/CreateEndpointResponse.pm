@@ -2,6 +2,7 @@
 package Paws::Comprehend::CreateEndpointResponse;
   use Moose;
   has EndpointArn => (is => 'ro', isa => 'Str');
+  has ModelArn => (is => 'ro', isa => 'Str');
 
   has _request_id => (is => 'ro', isa => 'Str');
 
@@ -17,6 +18,12 @@ Paws::Comprehend::CreateEndpointResponse
 =head2 EndpointArn => Str
 
 The Amazon Resource Number (ARN) of the endpoint being created.
+
+
+=head2 ModelArn => Str
+
+The Amazon Resource Number (ARN) of the model to which the endpoint is
+attached.
 
 
 =head2 _request_id => Str

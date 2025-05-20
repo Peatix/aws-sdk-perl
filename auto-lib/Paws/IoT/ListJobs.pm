@@ -66,13 +66,15 @@ The maximum number of results to return per request.
 
 The namespace used to indicate that a job is a customer-managed job.
 
-When you specify a value for this parameter, AWS IoT Core sends jobs
-notifications to MQTT topics that contain the value in the following
-format.
+When you specify a value for this parameter, Amazon Web Services IoT
+Core sends jobs notifications to MQTT topics that contain the value in
+the following format.
 
 C<$aws/things/I<THING_NAME>/jobs/I<JOB_ID>/notify-namespace-I<NAMESPACE_ID>/>
 
-The C<namespaceId> feature is in public preview.
+The C<namespaceId> feature is only supported by IoT Greengrass at this
+time. For more information, see Setting up IoT Greengrass core devices.
+(https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html)
 
 
 
@@ -87,7 +89,7 @@ The token to retrieve the next set of results.
 An optional filter that lets you search for jobs that have the
 specified status.
 
-Valid values are: C<"IN_PROGRESS">, C<"CANCELED">, C<"COMPLETED">, C<"DELETION_IN_PROGRESS">
+Valid values are: C<"IN_PROGRESS">, C<"CANCELED">, C<"COMPLETED">, C<"DELETION_IN_PROGRESS">, C<"SCHEDULED">
 
 =head2 TargetSelection => Str
 
@@ -97,6 +99,11 @@ job (SNAPSHOT). If continuous, the job may also be run on a thing when
 a change is detected in a target. For example, a job will run on a
 thing when the thing is added to a target group, even after the job was
 completed by all things originally in the group.
+
+We recommend that you use continuous jobs instead of snapshot jobs for
+dynamic thing group targets. By using continuous jobs, devices that
+join the group receive the job execution even after the job has been
+created.
 
 Valid values are: C<"CONTINUOUS">, C<"SNAPSHOT">
 

@@ -2,7 +2,9 @@
 package Paws::EC2::CreateFlowLogs;
   use Moose;
   has ClientToken => (is => 'ro', isa => 'Str');
+  has DeliverCrossAccountRole => (is => 'ro', isa => 'Str');
   has DeliverLogsPermissionArn => (is => 'ro', isa => 'Str');
+  has DestinationOptions => (is => 'ro', isa => 'Paws::EC2::DestinationOptionsRequest');
   has DryRun => (is => 'ro', isa => 'Bool');
   has LogDestination => (is => 'ro', isa => 'Str');
   has LogDestinationType => (is => 'ro', isa => 'Str');
@@ -12,7 +14,7 @@ package Paws::EC2::CreateFlowLogs;
   has ResourceIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'ResourceId' , required => 1);
   has ResourceType => (is => 'ro', isa => 'Str', required => 1);
   has TagSpecifications => (is => 'ro', isa => 'ArrayRef[Paws::EC2::TagSpecification]', traits => ['NameInRequest'], request_name => 'TagSpecification' );
-  has TrafficType => (is => 'ro', isa => 'Str', required => 1);
+  has TrafficType => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -41,19 +43,24 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $CreateFlowLogsResult = $ec2->CreateFlowLogs(
       ResourceIds              => [ 'MyFlowLogResourceId', ... ],
       ResourceType             => 'VPC',
-      TrafficType              => 'ACCEPT',
       ClientToken              => 'MyString',                       # OPTIONAL
+      DeliverCrossAccountRole  => 'MyString',                       # OPTIONAL
       DeliverLogsPermissionArn => 'MyString',                       # OPTIONAL
-      DryRun                   => 1,                                # OPTIONAL
-      LogDestination           => 'MyString',                       # OPTIONAL
-      LogDestinationType       => 'cloud-watch-logs',               # OPTIONAL
-      LogFormat                => 'MyString',                       # OPTIONAL
-      LogGroupName             => 'MyString',                       # OPTIONAL
-      MaxAggregationInterval   => 1,                                # OPTIONAL
-      TagSpecifications        => [
+      DestinationOptions       => {
+        FileFormat => 'plain-text',    # values: plain-text, parquet; OPTIONAL
+        HiveCompatiblePartitions => 1,    # OPTIONAL
+        PerHourPartition         => 1,    # OPTIONAL
+      },    # OPTIONAL
+      DryRun                 => 1,                     # OPTIONAL
+      LogDestination         => 'MyString',            # OPTIONAL
+      LogDestinationType     => 'cloud-watch-logs',    # OPTIONAL
+      LogFormat              => 'MyString',            # OPTIONAL
+      LogGroupName           => 'MyString',            # OPTIONAL
+      MaxAggregationInterval => 1,                     # OPTIONAL
+      TagSpecifications      => [
         {
-          ResourceType => 'client-vpn-endpoint'
-          , # values: client-vpn-endpoint, customer-gateway, dedicated-host, dhcp-options, egress-only-internet-gateway, elastic-ip, elastic-gpu, export-image-task, export-instance-task, fleet, fpga-image, host-reservation, image, import-image-task, import-snapshot-task, instance, internet-gateway, key-pair, launch-template, local-gateway-route-table-vpc-association, natgateway, network-acl, network-interface, network-insights-analysis, network-insights-path, placement-group, reserved-instances, route-table, security-group, snapshot, spot-fleet-request, spot-instances-request, subnet, traffic-mirror-filter, traffic-mirror-session, traffic-mirror-target, transit-gateway, transit-gateway-attachment, transit-gateway-connect-peer, transit-gateway-multicast-domain, transit-gateway-route-table, volume, vpc, vpc-peering-connection, vpn-connection, vpn-gateway, vpc-flow-log; OPTIONAL
+          ResourceType => 'capacity-reservation'
+          , # values: capacity-reservation, client-vpn-endpoint, customer-gateway, carrier-gateway, coip-pool, declarative-policies-report, dedicated-host, dhcp-options, egress-only-internet-gateway, elastic-ip, elastic-gpu, export-image-task, export-instance-task, fleet, fpga-image, host-reservation, image, import-image-task, import-snapshot-task, instance, instance-event-window, internet-gateway, ipam, ipam-pool, ipam-scope, ipv4pool-ec2, ipv6pool-ec2, key-pair, launch-template, local-gateway, local-gateway-route-table, local-gateway-virtual-interface, local-gateway-virtual-interface-group, local-gateway-route-table-vpc-association, local-gateway-route-table-virtual-interface-group-association, natgateway, network-acl, network-interface, network-insights-analysis, network-insights-path, network-insights-access-scope, network-insights-access-scope-analysis, outpost-lag, placement-group, prefix-list, replace-root-volume-task, reserved-instances, route-table, security-group, security-group-rule, service-link-virtual-interface, snapshot, spot-fleet-request, spot-instances-request, subnet, subnet-cidr-reservation, traffic-mirror-filter, traffic-mirror-session, traffic-mirror-target, transit-gateway, transit-gateway-attachment, transit-gateway-connect-peer, transit-gateway-multicast-domain, transit-gateway-policy-table, transit-gateway-route-table, transit-gateway-route-table-announcement, volume, vpc, vpc-endpoint, vpc-endpoint-connection, vpc-endpoint-service, vpc-endpoint-service-permission, vpc-peering-connection, vpn-connection, vpn-gateway, vpc-flow-log, capacity-reservation-fleet, traffic-mirror-filter-rule, vpc-endpoint-connection-device-type, verified-access-instance, verified-access-group, verified-access-endpoint, verified-access-policy, verified-access-trust-provider, vpn-connection-device-type, vpc-block-public-access-exclusion, route-server, route-server-endpoint, route-server-peer, ipam-resource-discovery, ipam-resource-discovery-association, instance-connect-endpoint, verified-access-endpoint-target, ipam-external-resource-verification-token, mac-modification-task; OPTIONAL
           Tags => [
             {
               Key   => 'MyString',
@@ -64,6 +71,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },
         ...
       ],    # OPTIONAL
+      TrafficType => 'ACCEPT',    # OPTIONAL
     );
 
     # Results:
@@ -82,19 +90,34 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ec2
 =head2 ClientToken => Str
 
 Unique, case-sensitive identifier that you provide to ensure the
-idempotency of the request. For more information, see How to Ensure
-Idempotency
-(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Run_Instance_Idempotency.html).
+idempotency of the request. For more information, see How to ensure
+idempotency
+(https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+
+
+
+=head2 DeliverCrossAccountRole => Str
+
+The ARN of the IAM role that allows Amazon EC2 to publish flow logs
+across accounts.
 
 
 
 =head2 DeliverLogsPermissionArn => Str
 
-The ARN for the IAM role that permits Amazon EC2 to publish flow logs
-to a CloudWatch Logs log group in your account.
+The ARN of the IAM role that allows Amazon EC2 to publish flow logs to
+the log destination.
 
-If you specify C<LogDestinationType> as C<s3>, do not specify
-C<DeliverLogsPermissionArn> or C<LogGroupName>.
+This parameter is required if the destination type is
+C<cloud-watch-logs>, or if the destination type is
+C<kinesis-data-firehose> and the delivery stream and the resources to
+monitor are in different accounts.
+
+
+
+=head2 DestinationOptions => L<Paws::EC2::DestinationOptionsRequest>
+
+The destination options.
 
 
 
@@ -109,55 +132,64 @@ C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
 
 =head2 LogDestination => Str
 
-Specifies the destination to which the flow log data is to be
-published. Flow log data can be published to a CloudWatch Logs log
-group or an Amazon S3 bucket. The value specified for this parameter
-depends on the value specified for C<LogDestinationType>.
+The destination for the flow log data. The meaning of this parameter
+depends on the destination type.
 
-If C<LogDestinationType> is not specified or C<cloud-watch-logs>,
-specify the Amazon Resource Name (ARN) of the CloudWatch Logs log
-group. For example, to publish to a log group called C<my-logs>,
-specify C<arn:aws:logs:us-east-1:123456789012:log-group:my-logs>.
-Alternatively, use C<LogGroupName> instead.
+=over
 
-If LogDestinationType is C<s3>, specify the ARN of the Amazon S3
-bucket. You can also specify a subfolder in the bucket. To specify a
-subfolder in the bucket, use the following ARN format:
-C<bucket_ARN/subfolder_name/>. For example, to specify a subfolder
-named C<my-logs> in a bucket named C<my-bucket>, use the following ARN:
-C<arn:aws:s3:::my-bucket/my-logs/>. You cannot use C<AWSLogs> as a
-subfolder name. This is a reserved term.
+=item *
+
+If the destination type is C<cloud-watch-logs>, specify the ARN of a
+CloudWatch Logs log group. For example:
+
+arn:aws:logs:I<region>:I<account_id>:log-group:I<my_group>
+
+Alternatively, use the C<LogGroupName> parameter.
+
+=item *
+
+If the destination type is C<s3>, specify the ARN of an S3 bucket. For
+example:
+
+arn:aws:s3:::I<my_bucket>/I<my_subfolder>/
+
+The subfolder is optional. Note that you can't use C<AWSLogs> as a
+subfolder name.
+
+=item *
+
+If the destination type is C<kinesis-data-firehose>, specify the ARN of
+a Kinesis Data Firehose delivery stream. For example:
+
+arn:aws:firehose:I<region>:I<account_id>:deliverystream:I<my_stream>
+
+=back
+
 
 
 
 =head2 LogDestinationType => Str
 
-Specifies the type of destination to which the flow log data is to be
-published. Flow log data can be published to CloudWatch Logs or Amazon
-S3. To publish flow log data to CloudWatch Logs, specify
-C<cloud-watch-logs>. To publish flow log data to Amazon S3, specify
-C<s3>.
-
-If you specify C<LogDestinationType> as C<s3>, do not specify
-C<DeliverLogsPermissionArn> or C<LogGroupName>.
+The type of destination for the flow log data.
 
 Default: C<cloud-watch-logs>
 
-Valid values are: C<"cloud-watch-logs">, C<"s3">
+Valid values are: C<"cloud-watch-logs">, C<"s3">, C<"kinesis-data-firehose">
 
 =head2 LogFormat => Str
 
-The fields to include in the flow log record, in the order in which
-they should appear. For a list of available fields, see Flow Log
-Records
-(https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs.html#flow-log-records).
-If you omit this parameter, the flow log is created using the default
-format. If you specify this parameter, you must specify at least one
-field.
+The fields to include in the flow log record. List the fields in the
+order in which they should appear. If you omit this parameter, the flow
+log is created using the default format. If you specify this parameter,
+you must include at least one field. For more information about the
+available fields, see Flow log records
+(https://docs.aws.amazon.com/vpc/latest/userguide/flow-log-records.html)
+in the I<Amazon VPC User Guide> or Transit Gateway Flow Log records
+(https://docs.aws.amazon.com/vpc/latest/tgw/tgw-flow-logs.html#flow-log-records)
+in the I<Amazon Web Services Transit Gateway Guide>.
 
 Specify the fields using the C<${field-id}> format, separated by
-spaces. For the AWS CLI, use single quotation marks (' ') to surround
-the parameter value.
+spaces.
 
 
 
@@ -166,19 +198,20 @@ the parameter value.
 The name of a new or existing CloudWatch Logs log group where Amazon
 EC2 publishes your flow logs.
 
-If you specify C<LogDestinationType> as C<s3>, do not specify
-C<DeliverLogsPermissionArn> or C<LogGroupName>.
+This parameter is valid only if the destination type is
+C<cloud-watch-logs>.
 
 
 
 =head2 MaxAggregationInterval => Int
 
 The maximum interval of time during which a flow of packets is captured
-and aggregated into a flow log record. You can specify 60 seconds (1
-minute) or 600 seconds (10 minutes).
+and aggregated into a flow log record. The possible values are 60
+seconds (1 minute) or 600 seconds (10 minutes). This parameter must be
+60 seconds for transit gateway resource types.
 
 When a network interface is attached to a Nitro-based instance
-(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances),
+(https://docs.aws.amazon.com/ec2/latest/instancetypes/ec2-nitro-instances.html),
 the aggregation interval is always 60 seconds or less, regardless of
 the value that you specify.
 
@@ -188,20 +221,19 @@ Default: 600
 
 =head2 B<REQUIRED> ResourceIds => ArrayRef[Str|Undef]
 
-The ID of the subnet, network interface, or VPC for which you want to
-create a flow log.
+The IDs of the resources to monitor. For example, if the resource type
+is C<VPC>, specify the IDs of the VPCs.
 
-Constraints: Maximum of 1000 resources
+Constraints: Maximum of 25 for transit gateway resource types. Maximum
+of 1000 for the other resource types.
 
 
 
 =head2 B<REQUIRED> ResourceType => Str
 
-The type of resource for which to create the flow log. For example, if
-you specified a VPC ID for the C<ResourceId> property, specify C<VPC>
-for this property.
+The type of resource to monitor.
 
-Valid values are: C<"VPC">, C<"Subnet">, C<"NetworkInterface">
+Valid values are: C<"VPC">, C<"Subnet">, C<"NetworkInterface">, C<"TransitGateway">, C<"TransitGatewayAttachment">
 
 =head2 TagSpecifications => ArrayRef[L<Paws::EC2::TagSpecification>]
 
@@ -209,10 +241,11 @@ The tags to apply to the flow logs.
 
 
 
-=head2 B<REQUIRED> TrafficType => Str
+=head2 TrafficType => Str
 
-The type of traffic to log. You can log traffic that the resource
-accepts or rejects, or all traffic.
+The type of traffic to monitor (accepted traffic, rejected traffic, or
+all traffic). This parameter is not supported for transit gateway
+resource types. It is required for the other resource types.
 
 Valid values are: C<"ACCEPT">, C<"REJECT">, C<"ALL">
 

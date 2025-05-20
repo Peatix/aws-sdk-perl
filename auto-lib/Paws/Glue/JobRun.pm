@@ -5,21 +5,28 @@ package Paws::Glue::JobRun;
   has Arguments => (is => 'ro', isa => 'Paws::Glue::GenericMap');
   has Attempt => (is => 'ro', isa => 'Int');
   has CompletedOn => (is => 'ro', isa => 'Str');
+  has DPUSeconds => (is => 'ro', isa => 'Num');
   has ErrorMessage => (is => 'ro', isa => 'Str');
+  has ExecutionClass => (is => 'ro', isa => 'Str');
   has ExecutionTime => (is => 'ro', isa => 'Int');
   has GlueVersion => (is => 'ro', isa => 'Str');
   has Id => (is => 'ro', isa => 'Str');
+  has JobMode => (is => 'ro', isa => 'Str');
   has JobName => (is => 'ro', isa => 'Str');
+  has JobRunQueuingEnabled => (is => 'ro', isa => 'Bool');
   has JobRunState => (is => 'ro', isa => 'Str');
   has LastModifiedOn => (is => 'ro', isa => 'Str');
   has LogGroupName => (is => 'ro', isa => 'Str');
+  has MaintenanceWindow => (is => 'ro', isa => 'Str');
   has MaxCapacity => (is => 'ro', isa => 'Num');
   has NotificationProperty => (is => 'ro', isa => 'Paws::Glue::NotificationProperty');
   has NumberOfWorkers => (is => 'ro', isa => 'Int');
   has PredecessorRuns => (is => 'ro', isa => 'ArrayRef[Paws::Glue::Predecessor]');
   has PreviousRunId => (is => 'ro', isa => 'Str');
+  has ProfileName => (is => 'ro', isa => 'Str');
   has SecurityConfiguration => (is => 'ro', isa => 'Str');
   has StartedOn => (is => 'ro', isa => 'Str');
+  has StateDetail => (is => 'ro', isa => 'Str');
   has Timeout => (is => 'ro', isa => 'Int');
   has TriggerName => (is => 'ro', isa => 'Str');
   has WorkerType => (is => 'ro', isa => 'Str');
@@ -78,15 +85,25 @@ replace the default arguments set in the job definition itself.
 You can specify arguments here that your own job-execution script
 consumes, as well as arguments that Glue itself consumes.
 
-For information about how to specify and consume your own job
+Job arguments may be logged. Do not pass plaintext secrets as
+arguments. Retrieve secrets from a Glue Connection, Secrets Manager or
+other secret management mechanism if you intend to keep them within the
+Job.
+
+For information about how to specify and consume your own Job
 arguments, see the Calling Glue APIs in Python
 (https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-python-calling.html)
 topic in the developer guide.
 
-For information about the key-value pairs that Glue consumes to set up
-your job, see the Special Parameters Used by Glue
+For information about the arguments you can provide to this field when
+configuring Spark jobs, see the Special Parameters Used by Glue
 (https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-glue-arguments.html)
 topic in the developer guide.
+
+For information about the arguments you can provide to this field when
+configuring Ray jobs, see Using job parameters in Ray jobs
+(https://docs.aws.amazon.com/glue/latest/dg/author-job-ray-job-parameters.html)
+in the developer guide.
 
 
 =head2 Attempt => Int
@@ -99,9 +116,37 @@ The number of the attempt to run this job.
 The date and time that this job run completed.
 
 
+=head2 DPUSeconds => Num
+
+This field can be set for either job runs with execution class C<FLEX>
+or when Auto Scaling is enabled, and represents the total time each
+executor ran during the lifecycle of a job run in seconds, multiplied
+by a DPU factor (1 for C<G.1X>, 2 for C<G.2X>, or 0.25 for C<G.025X>
+workers). This value may be different than the
+C<executionEngineRuntime> * C<MaxCapacity> as in the case of Auto
+Scaling jobs, as the number of executors running at a given time may be
+less than the C<MaxCapacity>. Therefore, it is possible that the value
+of C<DPUSeconds> is less than C<executionEngineRuntime> *
+C<MaxCapacity>.
+
+
 =head2 ErrorMessage => Str
 
 An error message associated with this job run.
+
+
+=head2 ExecutionClass => Str
+
+Indicates whether the job is run with a standard or flexible execution
+class. The standard execution-class is ideal for time-sensitive
+workloads that require fast job startup and dedicated resources.
+
+The flexible execution class is appropriate for time-insensitive jobs
+whose start and completion times may vary.
+
+Only jobs with Glue version 3.0 and above and command type C<glueetl>
+will be allowed to set C<ExecutionClass> to C<FLEX>. The flexible
+execution class is available for Spark jobs.
 
 
 =head2 ExecutionTime => Int
@@ -111,9 +156,13 @@ The amount of time (in seconds) that the job run consumed resources.
 
 =head2 GlueVersion => Str
 
-Glue version determines the versions of Apache Spark and Python that
-Glue supports. The Python version indicates the version supported for
-jobs of type Spark.
+In Spark jobs, C<GlueVersion> determines the versions of Apache Spark
+and Python that Glue available in a job. The Python version indicates
+the version supported for jobs of type Spark.
+
+Ray jobs should set C<GlueVersion> to C<4.0> or greater. However, the
+versions of Ray, Python and additional libraries available in your Ray
+job are determined by the C<Runtime> parameter of the Job command.
 
 For more information about the available Glue versions and
 corresponding Spark and Python versions, see Glue version
@@ -129,9 +178,43 @@ Jobs that are created without specifying a Glue version default to Glue
 The ID of this job run.
 
 
+=head2 JobMode => Str
+
+A mode that describes how a job was created. Valid values are:
+
+=over
+
+=item *
+
+C<SCRIPT> - The job was created using the Glue Studio script editor.
+
+=item *
+
+C<VISUAL> - The job was created using the Glue Studio visual editor.
+
+=item *
+
+C<NOTEBOOK> - The job was created using an interactive sessions
+notebook.
+
+=back
+
+When the C<JobMode> field is missing or null, C<SCRIPT> is assigned as
+the default value.
+
+
 =head2 JobName => Str
 
 The name of the job definition being used in this run.
+
+
+=head2 JobRunQueuingEnabled => Bool
+
+Specifies whether job run queuing is enabled for the job run.
+
+A value of true means job run queuing is enabled for the job run. If
+false or not populated, the job run will not be considered for
+queueing.
 
 
 =head2 JobRunState => Str
@@ -157,19 +240,38 @@ C</aws-glue/jobs-yourRoleName-yourSecurityConfigurationName/>), then
 that security configuration is used to encrypt the log group.
 
 
+=head2 MaintenanceWindow => Str
+
+This field specifies a day of the week and hour for a maintenance
+window for streaming jobs. Glue periodically performs maintenance
+activities. During these maintenance windows, Glue will need to restart
+your streaming jobs.
+
+Glue will restart the job within 3 hours of the specified maintenance
+window. For instance, if you set up the maintenance window for Monday
+at 10:00AM GMT, your jobs will be restarted between 10:00AM GMT to
+1:00PM GMT.
+
+
 =head2 MaxCapacity => Num
 
-The number of Glue data processing units (DPUs) that can be allocated
+For Glue version 1.0 or earlier jobs, using the standard worker type,
+the number of Glue data processing units (DPUs) that can be allocated
 when this job runs. A DPU is a relative measure of processing power
 that consists of 4 vCPUs of compute capacity and 16 GB of memory. For
 more information, see the Glue pricing page
 (https://aws.amazon.com/glue/pricing/).
 
-Do not set C<Max Capacity> if using C<WorkerType> and
+For Glue version 2.0+ jobs, you cannot specify a C<Maximum capacity>.
+Instead, you should specify a C<Worker type> and the C<Number of
+workers>.
+
+Do not set C<MaxCapacity> if using C<WorkerType> and
 C<NumberOfWorkers>.
 
 The value that can be allocated for C<MaxCapacity> depends on whether
-you are running a Python shell job or an Apache Spark ETL job:
+you are running a Python shell job, an Apache Spark ETL job, or an
+Apache Spark streaming ETL job:
 
 =over
 
@@ -180,10 +282,10 @@ you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.
 
 =item *
 
-When you specify an Apache Spark ETL job
-(C<JobCommand.Name>="glueetl"), you can allocate from 2 to 100 DPUs.
-The default is 10 DPUs. This job type cannot have a fractional DPU
-allocation.
+When you specify an Apache Spark ETL job (C<JobCommand.Name>="glueetl")
+or Apache Spark streaming ETL job (C<JobCommand.Name>="gluestreaming"),
+you can allocate from 2 to 100 DPUs. The default is 10 DPUs. This job
+type cannot have a fractional DPU allocation.
 
 =back
 
@@ -199,9 +301,6 @@ Specifies configuration properties of a job run notification.
 The number of workers of a defined C<workerType> that are allocated
 when a job runs.
 
-The maximum number of workers you can define are 299 for C<G.1X>, and
-149 for C<G.2X>.
-
 
 =head2 PredecessorRuns => ArrayRef[L<Paws::Glue::Predecessor>]
 
@@ -212,6 +311,11 @@ A list of predecessors to this job run.
 
 The ID of the previous run of this job. For example, the C<JobRunId>
 specified in the C<StartJobRun> action.
+
+
+=head2 ProfileName => Str
+
+The name of an Glue usage profile associated with the job run.
 
 
 =head2 SecurityConfiguration => Str
@@ -225,12 +329,32 @@ job run.
 The date and time at which this job run was started.
 
 
+=head2 StateDetail => Str
+
+This field holds details that pertain to the state of a job run. The
+field is nullable.
+
+For example, when a job run is in a WAITING state as a result of job
+run queuing, the field has the reason why the job run is in that state.
+
+
 =head2 Timeout => Int
 
 The C<JobRun> timeout in minutes. This is the maximum time that a job
 run can consume resources before it is terminated and enters C<TIMEOUT>
-status. The default is 2,880 minutes (48 hours). This overrides the
-timeout value set in the parent job.
+status. This value overrides the timeout value set in the parent job.
+
+Jobs must have timeout values less than 7 days or 10080 minutes.
+Otherwise, the jobs will throw an exception.
+
+When the value is left blank, the timeout is defaulted to 2880 minutes.
+
+Any existing Glue jobs that had a timeout value greater than 7 days
+will be defaulted to 7 days. For instance if you have specified a
+timeout of 20 days for a batch job, it will be stopped on the 7th day.
+
+For streaming jobs, if you have set up a maintenance window, it will be
+restarted during the maintenance window after 7 days.
 
 
 =head2 TriggerName => Str
@@ -241,24 +365,61 @@ The name of the trigger that started this job run.
 =head2 WorkerType => Str
 
 The type of predefined worker that is allocated when a job runs.
-Accepts a value of Standard, G.1X, or G.2X.
+Accepts a value of G.1X, G.2X, G.4X, G.8X or G.025X for Spark jobs.
+Accepts the value Z.2X for Ray jobs.
 
 =over
 
 =item *
 
-For the C<Standard> worker type, each worker provides 4 vCPU, 16 GB of
-memory and a 50GB disk, and 2 executors per worker.
+For the C<G.1X> worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB
+of memory) with 94GB disk, and provides 1 executor per worker. We
+recommend this worker type for workloads such as data transforms,
+joins, and queries, to offers a scalable and cost effective way to run
+most jobs.
 
 =item *
 
-For the C<G.1X> worker type, each worker provides 4 vCPU, 16 GB of
-memory and a 64GB disk, and 1 executor per worker.
+For the C<G.2X> worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB
+of memory) with 138GB disk, and provides 1 executor per worker. We
+recommend this worker type for workloads such as data transforms,
+joins, and queries, to offers a scalable and cost effective way to run
+most jobs.
 
 =item *
 
-For the C<G.2X> worker type, each worker provides 8 vCPU, 32 GB of
-memory and a 128GB disk, and 1 executor per worker.
+For the C<G.4X> worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB
+of memory) with 256GB disk, and provides 1 executor per worker. We
+recommend this worker type for jobs whose workloads contain your most
+demanding transforms, aggregations, joins, and queries. This worker
+type is available only for Glue version 3.0 or later Spark ETL jobs in
+the following Amazon Web Services Regions: US East (Ohio), US East (N.
+Virginia), US West (Oregon), Asia Pacific (Singapore), Asia Pacific
+(Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt),
+Europe (Ireland), and Europe (Stockholm).
+
+=item *
+
+For the C<G.8X> worker type, each worker maps to 8 DPU (32 vCPUs, 128
+GB of memory) with 512GB disk, and provides 1 executor per worker. We
+recommend this worker type for jobs whose workloads contain your most
+demanding transforms, aggregations, joins, and queries. This worker
+type is available only for Glue version 3.0 or later Spark ETL jobs, in
+the same Amazon Web Services Regions as supported for the C<G.4X>
+worker type.
+
+=item *
+
+For the C<G.025X> worker type, each worker maps to 0.25 DPU (2 vCPUs, 4
+GB of memory) with 84GB disk, and provides 1 executor per worker. We
+recommend this worker type for low volume streaming jobs. This worker
+type is only available for Glue version 3.0 or later streaming jobs.
+
+=item *
+
+For the C<Z.2X> worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB
+of memory) with 128 GB disk, and provides up to 8 Ray workers based on
+the autoscaler.
 
 =back
 

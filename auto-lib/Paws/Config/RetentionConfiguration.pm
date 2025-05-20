@@ -36,7 +36,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Config::Ret
 
 An object with the name of the retention configuration and the
 retention period in days. The object stores the configuration for data
-retention in AWS Config.
+retention in Config.
 
 =head1 ATTRIBUTES
 
@@ -48,7 +48,7 @@ The name of the retention configuration object.
 
 =head2 B<REQUIRED> RetentionPeriodInDays => Int
 
-Number of days AWS Config stores your historical information.
+Number of days Config stores your historical information.
 
 Currently, only applicable to the configuration item history.
 

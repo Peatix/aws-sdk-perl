@@ -10,6 +10,7 @@ package Paws::DynamoDB::PutItem;
   has ReturnConsumedCapacity => (is => 'ro', isa => 'Str');
   has ReturnItemCollectionMetrics => (is => 'ro', isa => 'Str');
   has ReturnValues => (is => 'ro', isa => 'Str');
+  has ReturnValuesOnConditionCheckFailure => (is => 'ro', isa => 'Str');
   has TableName => (is => 'ro', isa => 'Str', required => 1);
 
   use MooseX::ClassAttribute;
@@ -278,15 +279,33 @@ the content of the old item is returned.
 
 =back
 
+The values returned are strongly consistent.
+
+There is no additional cost associated with requesting a return value
+aside from the small network and processing overhead of receiving a
+larger response. No read capacity units are consumed.
+
 The C<ReturnValues> parameter is used by several DynamoDB operations;
 however, C<PutItem> does not recognize any values other than C<NONE> or
 C<ALL_OLD>.
 
 Valid values are: C<"NONE">, C<"ALL_OLD">, C<"UPDATED_OLD">, C<"ALL_NEW">, C<"UPDATED_NEW">
 
+=head2 ReturnValuesOnConditionCheckFailure => Str
+
+An optional parameter that returns the item attributes for a C<PutItem>
+operation that failed a condition check.
+
+There is no additional cost associated with requesting a return value
+aside from the small network and processing overhead of receiving a
+larger response. No read capacity units are consumed.
+
+Valid values are: C<"ALL_OLD">, C<"NONE">
+
 =head2 B<REQUIRED> TableName => Str
 
-The name of the table to contain the item.
+The name of the table to contain the item. You can also provide the
+Amazon Resource Name (ARN) of the table in this parameter.
 
 
 

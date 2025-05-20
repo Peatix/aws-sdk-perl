@@ -45,7 +45,8 @@ Describes a file to be associated with an OTA update.
 
 =head2 Attributes => L<Paws::IoT::AttributesMap>
 
-A list of name/attribute pairs.
+A list of name-attribute pairs. They won't be sent to devices as a part
+of the Job document.
 
 
 =head2 CodeSigning => L<Paws::IoT::CodeSigning>

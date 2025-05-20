@@ -5,8 +5,11 @@ package Paws::EC2::ModifyImageAttribute;
   has Description => (is => 'ro', isa => 'Paws::EC2::AttributeValue');
   has DryRun => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'dryRun' );
   has ImageId => (is => 'ro', isa => 'Str', required => 1);
+  has ImdsSupport => (is => 'ro', isa => 'Paws::EC2::AttributeValue');
   has LaunchPermission => (is => 'ro', isa => 'Paws::EC2::LaunchPermissionModifications');
   has OperationType => (is => 'ro', isa => 'Str');
+  has OrganizationalUnitArns => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'OrganizationalUnitArn' );
+  has OrganizationArns => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'OrganizationArn' );
   has ProductCodes => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'ProductCode' );
   has UserGroups => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'UserGroup' );
   has UserIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'UserId' );
@@ -74,8 +77,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ec2
 
 =head2 Attribute => Str
 
-The name of the attribute to modify. The valid values are
-C<description>, C<launchPermission>, and C<productCodes>.
+The name of the attribute to modify.
+
+Valid values: C<description> | C<imdsSupport> | C<launchPermission>
 
 
 
@@ -100,6 +104,24 @@ The ID of the AMI.
 
 
 
+=head2 ImdsSupport => L<Paws::EC2::AttributeValue>
+
+Set to C<v2.0> to indicate that IMDSv2 is specified in the AMI.
+Instances launched from this AMI will have C<HttpTokens> automatically
+set to C<required> so that, by default, the instance requires that
+IMDSv2 is used when requesting instance metadata. In addition,
+C<HttpPutResponseHopLimit> is set to C<2>. For more information, see
+Configure the AMI
+(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-IMDS-new-instances.html#configure-IMDS-new-instances-ami-configuration)
+in the I<Amazon EC2 User Guide>.
+
+Do not use this parameter unless your AMI software supports IMDSv2.
+After you set the value to C<v2.0>, you can't undo it. The only way to
+E<ldquo>resetE<rdquo> your AMI is to create a new AMI from the
+underlying snapshot.
+
+
+
 =head2 LaunchPermission => L<Paws::EC2::LaunchPermissionModifications>
 
 A new launch permission for the AMI.
@@ -113,10 +135,24 @@ C<Attribute> parameter is C<launchPermission>.
 
 Valid values are: C<"add">, C<"remove">
 
+=head2 OrganizationalUnitArns => ArrayRef[Str|Undef]
+
+The Amazon Resource Name (ARN) of an organizational unit (OU). This
+parameter can be used only when the C<Attribute> parameter is
+C<launchPermission>.
+
+
+
+=head2 OrganizationArns => ArrayRef[Str|Undef]
+
+The Amazon Resource Name (ARN) of an organization. This parameter can
+be used only when the C<Attribute> parameter is C<launchPermission>.
+
+
+
 =head2 ProductCodes => ArrayRef[Str|Undef]
 
-The DevPay product codes. After you add a product code to an AMI, it
-can't be removed.
+Not supported.
 
 
 
@@ -129,8 +165,8 @@ parameter is C<launchPermission>.
 
 =head2 UserIds => ArrayRef[Str|Undef]
 
-The AWS account IDs. This parameter can be used only when the
-C<Attribute> parameter is C<launchPermission>.
+The Amazon Web Services account IDs. This parameter can be used only
+when the C<Attribute> parameter is C<launchPermission>.
 
 
 
@@ -138,7 +174,7 @@ C<Attribute> parameter is C<launchPermission>.
 
 The value of the attribute being modified. This parameter can be used
 only when the C<Attribute> parameter is C<description> or
-C<productCodes>.
+C<imdsSupport>.
 
 
 

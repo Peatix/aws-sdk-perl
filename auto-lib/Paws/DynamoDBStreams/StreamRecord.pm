@@ -48,7 +48,8 @@ item in a DynamoDB table.
 =head2 ApproximateCreationDateTime => Str
 
 The approximate date and time when the stream record was created, in
-UNIX epoch time (http://www.epochconverter.com/) format.
+UNIX epoch time (http://www.epochconverter.com/) format and rounded
+down to the closest second.
 
 
 =head2 Keys => L<Paws::DynamoDBStreams::AttributeMap>

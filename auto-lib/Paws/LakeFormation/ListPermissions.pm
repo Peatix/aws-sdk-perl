@@ -2,6 +2,7 @@
 package Paws::LakeFormation::ListPermissions;
   use Moose;
   has CatalogId => (is => 'ro', isa => 'Str');
+  has IncludeRelated => (is => 'ro', isa => 'Str');
   has MaxResults => (is => 'ro', isa => 'Int');
   has NextToken => (is => 'ro', isa => 'Str');
   has Principal => (is => 'ro', isa => 'Paws::LakeFormation::DataLakePrincipal');
@@ -11,8 +12,9 @@ package Paws::LakeFormation::ListPermissions;
   use MooseX::ClassAttribute;
 
   class_has _api_call => (isa => 'Str', is => 'ro', default => 'ListPermissions');
+  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/ListPermissions');
+  class_has _api_method  => (isa => 'Str', is => 'ro', default => 'POST');
   class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::LakeFormation::ListPermissionsResponse');
-  class_has _result_key => (isa => 'Str', is => 'ro');
 1;
 
 ### main pod documentation begin ###
@@ -33,64 +35,76 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $lakeformation = Paws->service('LakeFormation');
     my $ListPermissionsResponse = $lakeformation->ListPermissions(
-      CatalogId  => 'MyCatalogIdString',    # OPTIONAL
-      MaxResults => 1,                      # OPTIONAL
-      NextToken  => 'MyToken',              # OPTIONAL
-      Principal  => {
+      CatalogId      => 'MyCatalogIdString',    # OPTIONAL
+      IncludeRelated => 'MyTrueFalseString',    # OPTIONAL
+      MaxResults     => 1,                      # OPTIONAL
+      NextToken      => 'MyToken',              # OPTIONAL
+      Principal      => {
         DataLakePrincipalIdentifier =>
-          'MyDataLakePrincipalString',      # min: 1, max: 255; OPTIONAL
+          'MyDataLakePrincipalString',          # min: 1, max: 255; OPTIONAL
       },    # OPTIONAL
       Resource => {
         Catalog => {
-
+          Id => 'MyCatalogIdString',    # min: 1, max: 255
+        },    # OPTIONAL
+        DataCellsFilter => {
+          DatabaseName   => 'MyNameString',         # min: 1, max: 255; OPTIONAL
+          Name           => 'MyNameString',         # min: 1, max: 255; OPTIONAL
+          TableCatalogId => 'MyCatalogIdString',    # min: 1, max: 255
+          TableName      => 'MyNameString',         # min: 1, max: 255; OPTIONAL
         },    # OPTIONAL
         DataLocation => {
           ResourceArn => 'MyResourceArnString',
           CatalogId   => 'MyCatalogIdString',     # min: 1, max: 255
         },    # OPTIONAL
         Database => {
-          Name      => 'MyNameString',         # min: 1, max: 255
+          Name      => 'MyNameString',         # min: 1, max: 255; OPTIONAL
           CatalogId => 'MyCatalogIdString',    # min: 1, max: 255
         },    # OPTIONAL
         LFTag => {
-          TagKey    => 'MyNameString',    # min: 1, max: 255
+          TagKey    => 'MyNameString',    # min: 1, max: 255; OPTIONAL
           TagValues => [
             'MyLFTagValue', ...           # max: 256
           ],    # min: 1, max: 50
           CatalogId => 'MyCatalogIdString',    # min: 1, max: 255
         },    # OPTIONAL
+        LFTagExpression => {
+          Name      => 'MyNameString',         # min: 1, max: 255; OPTIONAL
+          CatalogId => 'MyCatalogIdString',    # min: 1, max: 255
+        },    # OPTIONAL
         LFTagPolicy => {
-          Expression => [
+          ResourceType => 'DATABASE',             # values: DATABASE, TABLE
+          CatalogId    => 'MyCatalogIdString',    # min: 1, max: 255
+          Expression   => [
             {
-              TagKey    => 'MyLFTagKey',    # min: 1, max: 128
+              TagKey    => 'MyLFTagKey',          # min: 1, max: 128
               TagValues => [
-                'MyLFTagValue', ...         # max: 256
+                'MyLFTagValue', ...               # max: 256
               ],    # min: 1, max: 50
 
             },
             ...
-          ],    # min: 1, max: 5
-          ResourceType => 'DATABASE',             # values: DATABASE, TABLE
-          CatalogId    => 'MyCatalogIdString',    # min: 1, max: 255
+          ],    # OPTIONAL
+          ExpressionName => 'MyNameString',    # min: 1, max: 255; OPTIONAL
         },    # OPTIONAL
         Table => {
-          DatabaseName  => 'MyNameString',         # min: 1, max: 255
+          DatabaseName  => 'MyNameString',         # min: 1, max: 255; OPTIONAL
           CatalogId     => 'MyCatalogIdString',    # min: 1, max: 255
-          Name          => 'MyNameString',         # min: 1, max: 255
+          Name          => 'MyNameString',         # min: 1, max: 255; OPTIONAL
           TableWildcard => {
 
           },                                       # OPTIONAL
         },    # OPTIONAL
         TableWithColumns => {
-          DatabaseName => 'MyNameString',         # min: 1, max: 255
-          Name         => 'MyNameString',         # min: 1, max: 255
+          DatabaseName => 'MyNameString',         # min: 1, max: 255; OPTIONAL
+          Name         => 'MyNameString',         # min: 1, max: 255; OPTIONAL
           CatalogId    => 'MyCatalogIdString',    # min: 1, max: 255
           ColumnNames  => [
-            'MyNameString', ...                   # min: 1, max: 255
+            'MyNameString', ...                   # min: 1, max: 255; OPTIONAL
           ],    # OPTIONAL
           ColumnWildcard => {
             ExcludedColumnNames => [
-              'MyNameString', ...    # min: 1, max: 255
+              'MyNameString', ...    # min: 1, max: 255; OPTIONAL
             ],    # OPTIONAL
           },    # OPTIONAL
         },    # OPTIONAL
@@ -116,7 +130,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/lak
 The identifier for the Data Catalog. By default, the account ID. The
 Data Catalog is the persistent metadata store. It contains database
 definitions, table definitions, and other control information to manage
-your AWS Lake Formation environment.
+your Lake Formation environment.
+
+
+
+=head2 IncludeRelated => Str
+
+Indicates that related permissions should be included in the results.
 
 
 
@@ -153,7 +173,7 @@ returns the table and the table w columns.
 
 Specifies a resource type to filter the permissions returned.
 
-Valid values are: C<"CATALOG">, C<"DATABASE">, C<"TABLE">, C<"DATA_LOCATION">, C<"LF_TAG">, C<"LF_TAG_POLICY">, C<"LF_TAG_POLICY_DATABASE">, C<"LF_TAG_POLICY_TABLE">
+Valid values are: C<"CATALOG">, C<"DATABASE">, C<"TABLE">, C<"DATA_LOCATION">, C<"LF_TAG">, C<"LF_TAG_POLICY">, C<"LF_TAG_POLICY_DATABASE">, C<"LF_TAG_POLICY_TABLE">, C<"LF_NAMED_TAG_EXPRESSION">
 
 
 =head1 SEE ALSO

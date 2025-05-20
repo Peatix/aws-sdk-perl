@@ -17,7 +17,7 @@ Paws::SSM::UnlabelParameterVersionResult
 
 =head2 InvalidLabels => ArrayRef[Str|Undef]
 
-The labels that are not attached to the given parameter version.
+The labels that aren't attached to the given parameter version.
 
 
 =head2 RemovedLabels => ArrayRef[Str|Undef]

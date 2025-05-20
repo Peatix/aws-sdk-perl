@@ -39,7 +39,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CodeDeploy:
 
 =head1 DESCRIPTION
 
-Information about the target AWS Lambda function during an AWS Lambda
+Information about the target Lambda function during an Lambda
 deployment.
 
 =head1 ATTRIBUTES
@@ -68,7 +68,7 @@ The lifecycle events of the deployment to this target Lambda function.
 
 =head2 Status => Str
 
-The status an AWS Lambda deployment's target Lambda function.
+The status an Lambda deployment's target Lambda function.
 
 
 =head2 TargetArn => Str

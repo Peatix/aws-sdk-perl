@@ -3,6 +3,7 @@ package Paws::GuardDuty::Finding;
   use Moose;
   has AccountId => (is => 'ro', isa => 'Str', request_name => 'accountId', traits => ['NameInRequest'], required => 1);
   has Arn => (is => 'ro', isa => 'Str', request_name => 'arn', traits => ['NameInRequest'], required => 1);
+  has AssociatedAttackSequenceArn => (is => 'ro', isa => 'Str', request_name => 'associatedAttackSequenceArn', traits => ['NameInRequest']);
   has Confidence => (is => 'ro', isa => 'Num', request_name => 'confidence', traits => ['NameInRequest']);
   has CreatedAt => (is => 'ro', isa => 'Str', request_name => 'createdAt', traits => ['NameInRequest'], required => 1);
   has Description => (is => 'ro', isa => 'Str', request_name => 'description', traits => ['NameInRequest']);
@@ -47,8 +48,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::GuardDuty::
 
 =head1 DESCRIPTION
 
-Contains information about the finding, which is generated when
-abnormal or suspicious activity is detected.
+Contains information about the finding that is generated when abnormal
+or suspicious activity is detected.
 
 =head1 ATTRIBUTES
 
@@ -61,6 +62,11 @@ The ID of the account in which the finding was generated.
 =head2 B<REQUIRED> Arn => Str
 
 The ARN of the finding.
+
+
+=head2 AssociatedAttackSequenceArn => Str
+
+Amazon Resource Name (ARN) associated with the attack sequence finding.
 
 
 =head2 Confidence => Num

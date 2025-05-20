@@ -2,6 +2,9 @@
 package Paws::LakeFormation::PrincipalResourcePermissions;
   use Moose;
   has AdditionalDetails => (is => 'ro', isa => 'Paws::LakeFormation::DetailsMap');
+  has Condition => (is => 'ro', isa => 'Paws::LakeFormation::Condition');
+  has LastUpdated => (is => 'ro', isa => 'Str');
+  has LastUpdatedBy => (is => 'ro', isa => 'Str');
   has Permissions => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has PermissionsWithGrantOption => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has Principal => (is => 'ro', isa => 'Paws::LakeFormation::DataLakePrincipal');
@@ -47,6 +50,22 @@ The permissions granted or revoked on a resource.
 This attribute can be used to return any additional details of
 C<PrincipalResourcePermissions>. Currently returns only as a RAM
 resource share ARN.
+
+
+=head2 Condition => L<Paws::LakeFormation::Condition>
+
+A Lake Formation condition, which applies to permissions and opt-ins
+that contain an expression.
+
+
+=head2 LastUpdated => Str
+
+The date and time when the resource was last updated.
+
+
+=head2 LastUpdatedBy => Str
+
+The user who updated the record.
 
 
 =head2 Permissions => ArrayRef[Str|Undef]

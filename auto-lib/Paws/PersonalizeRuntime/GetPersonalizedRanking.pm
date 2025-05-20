@@ -6,6 +6,7 @@ package Paws::PersonalizeRuntime::GetPersonalizedRanking;
   has FilterArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'filterArn');
   has FilterValues => (is => 'ro', isa => 'Paws::PersonalizeRuntime::FilterValues', traits => ['NameInRequest'], request_name => 'filterValues');
   has InputList => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'inputList', required => 1);
+  has MetadataColumns => (is => 'ro', isa => 'Paws::PersonalizeRuntime::MetadataColumns', traits => ['NameInRequest'], request_name => 'metadataColumns');
   has UserId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'userId', required => 1);
 
   use MooseX::ClassAttribute;
@@ -48,6 +49,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       FilterValues => {
         'MyFilterAttributeName' =>
           'MyFilterAttributeValue',    # key: max: 50, value: max: 1000
+      },    # OPTIONAL
+      MetadataColumns => {
+        'MyDatasetType' => [
+          'MyColumnName', ...    # max: 150
+        ],    # key: max: 256, value: max: 99
       },    # OPTIONAL
       );
 
@@ -112,7 +118,22 @@ For more information, see Filtering Recommendations
 
 A list of items (by C<itemId>) to rank. If an item was not included in
 the training dataset, the item is appended to the end of the reranked
-list. The maximum is 500.
+list. If you are including metadata in recommendations, the maximum is
+50. Otherwise, the maximum is 500.
+
+
+
+=head2 MetadataColumns => L<Paws::PersonalizeRuntime::MetadataColumns>
+
+If you enabled metadata in recommendations when you created or updated
+the campaign, specify metadata columns from your Items dataset to
+include in the personalized ranking. The map key is C<ITEMS> and the
+value is a list of column names from your Items dataset. The maximum
+number of columns you can provide is 10.
+
+For information about enabling metadata for a campaign, see Enabling
+metadata in recommendations for a campaign
+(https://docs.aws.amazon.com/personalize/latest/dg/campaigns.html#create-campaign-return-metadata).
 
 
 

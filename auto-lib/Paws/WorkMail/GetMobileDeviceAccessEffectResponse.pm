@@ -18,8 +18,8 @@ Paws::WorkMail::GetMobileDeviceAccessEffectResponse
 =head2 Effect => Str
 
 The effect of the simulated access, C<ALLOW> or C<DENY>, after
-evaluating mobile device access rules in the Amazon WorkMail
-organization for the simulated user parameters.
+evaluating mobile device access rules in the WorkMail organization for
+the simulated user parameters.
 
 Valid values are: C<"ALLOW">, C<"DENY">
 =head2 MatchedRules => ArrayRef[L<Paws::WorkMail::MobileDeviceAccessMatchedRule>]

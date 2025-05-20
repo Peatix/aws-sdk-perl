@@ -8,7 +8,8 @@ package Paws::ServiceCatalog::CreateProduct;
   has Name => (is => 'ro', isa => 'Str', required => 1);
   has Owner => (is => 'ro', isa => 'Str', required => 1);
   has ProductType => (is => 'ro', isa => 'Str', required => 1);
-  has ProvisioningArtifactParameters => (is => 'ro', isa => 'Paws::ServiceCatalog::ProvisioningArtifactProperties', required => 1);
+  has ProvisioningArtifactParameters => (is => 'ro', isa => 'Paws::ServiceCatalog::ProvisioningArtifactProperties');
+  has SourceConnection => (is => 'ro', isa => 'Paws::ServiceCatalog::SourceConnection');
   has SupportDescription => (is => 'ro', isa => 'Str');
   has SupportEmail => (is => 'ro', isa => 'Str');
   has SupportUrl => (is => 'ro', isa => 'Str');
@@ -39,27 +40,39 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $servicecatalog = Paws->service('ServiceCatalog');
     my $CreateProductOutput = $servicecatalog->CreateProduct(
-      IdempotencyToken               => 'MyIdempotencyToken',
-      Name                           => 'MyProductViewName',
-      Owner                          => 'MyProductViewOwner',
-      ProductType                    => 'CLOUD_FORMATION_TEMPLATE',
+      IdempotencyToken => 'MyIdempotencyToken',
+      Name             => 'MyProductViewName',
+      Owner            => 'MyProductViewOwner',
+      ProductType      => 'CLOUD_FORMATION_TEMPLATE',
+      AcceptLanguage   => 'MyAcceptLanguage',                 # OPTIONAL
+      Description      => 'MyProductViewShortDescription',    # OPTIONAL
+      Distributor      => 'MyProductViewOwner',               # OPTIONAL
       ProvisioningArtifactParameters => {
-        Info => {
-          'MyProvisioningArtifactInfoKey' => 'MyProvisioningArtifactInfoValue',
-        },    # min: 1, max: 100
         Description =>
           'MyProvisioningArtifactDescription',    # max: 8192; OPTIONAL
         DisableTemplateValidation => 1,           # OPTIONAL
+        Info                      => {
+          'MyProvisioningArtifactInfoKey' => 'MyProvisioningArtifactInfoValue',
+        },                                        # min: 1, max: 100; OPTIONAL
         Name => 'MyProvisioningArtifactName',     # max: 8192; OPTIONAL
         Type => 'CLOUD_FORMATION_TEMPLATE'
-        , # values: CLOUD_FORMATION_TEMPLATE, MARKETPLACE_AMI, MARKETPLACE_CAR; OPTIONAL
-      },
-      AcceptLanguage     => 'MyAcceptLanguage',                 # OPTIONAL
-      Description        => 'MyProductViewShortDescription',    # OPTIONAL
-      Distributor        => 'MyProductViewOwner',               # OPTIONAL
-      SupportDescription => 'MySupportDescription',             # OPTIONAL
-      SupportEmail       => 'MySupportEmail',                   # OPTIONAL
-      SupportUrl         => 'MySupportUrl',                     # OPTIONAL
+        , # values: CLOUD_FORMATION_TEMPLATE, MARKETPLACE_AMI, MARKETPLACE_CAR, TERRAFORM_OPEN_SOURCE, TERRAFORM_CLOUD, EXTERNAL; OPTIONAL
+      },    # OPTIONAL
+      SourceConnection => {
+        ConnectionParameters => {
+          CodeStar => {
+            ArtifactPath  => 'MyRepositoryArtifactPath',    # min: 1, max: 4096
+            Branch        => 'MyRepositoryBranch',          # min: 1, max: 250
+            ConnectionArn => 'MyCodeStarConnectionArn',     # min: 1, max: 1224
+            Repository    => 'MyRepository',                # min: 1, max: 100
+
+          },    # OPTIONAL
+        },
+        Type => 'CODESTAR',    # values: CODESTAR; OPTIONAL
+      },    # OPTIONAL
+      SupportDescription => 'MySupportDescription',    # OPTIONAL
+      SupportEmail       => 'MySupportEmail',          # OPTIONAL
+      SupportUrl         => 'MySupportUrl',            # OPTIONAL
       Tags               => [
         {
           Key   => 'MyTagKey',      # min: 1, max: 128
@@ -89,10 +102,6 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ser
 The language code.
 
 =over
-
-=item *
-
-C<en> - English (default)
 
 =item *
 
@@ -143,11 +152,33 @@ The owner of the product.
 
 The type of product.
 
-Valid values are: C<"CLOUD_FORMATION_TEMPLATE">, C<"MARKETPLACE">
+Valid values are: C<"CLOUD_FORMATION_TEMPLATE">, C<"MARKETPLACE">, C<"TERRAFORM_OPEN_SOURCE">, C<"TERRAFORM_CLOUD">, C<"EXTERNAL">
 
-=head2 B<REQUIRED> ProvisioningArtifactParameters => L<Paws::ServiceCatalog::ProvisioningArtifactProperties>
+=head2 ProvisioningArtifactParameters => L<Paws::ServiceCatalog::ProvisioningArtifactProperties>
 
 The configuration of the provisioning artifact.
+
+
+
+=head2 SourceConnection => L<Paws::ServiceCatalog::SourceConnection>
+
+Specifies connection details for the created product and syncs the
+product to the connection source artifact. This automatically manages
+the product's artifacts based on changes to the source. The
+C<SourceConnection> parameter consists of the following sub-fields.
+
+=over
+
+=item *
+
+C<Type>
+
+=item *
+
+C<ConnectionParamters>
+
+=back
+
 
 
 

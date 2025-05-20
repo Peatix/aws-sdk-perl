@@ -50,14 +50,15 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ela
 
 =head2 BypassPolicyLockoutSafetyCheck => Bool
 
-(Optional) A flag to indicate whether to bypass the C<FileSystemPolicy>
-lockout safety check. The policy lockout safety check determines
-whether the policy in the request will prevent the principal making the
-request will be locked out from making future C<PutFileSystemPolicy>
-requests on the file system. Set C<BypassPolicyLockoutSafetyCheck> to
-C<True> only when you intend to prevent the principal that is making
-the request from making a subsequent C<PutFileSystemPolicy> request on
-the file system. The default value is False.
+(Optional) A boolean that specifies whether or not to bypass the
+C<FileSystemPolicy> lockout safety check. The lockout safety check
+determines whether the policy in the request will lock out, or prevent,
+the IAM principal that is making the request from making future
+C<PutFileSystemPolicy> requests on this file system. Set
+C<BypassPolicyLockoutSafetyCheck> to C<True> only when you intend to
+prevent the IAM principal that is making the request from making
+subsequent C<PutFileSystemPolicy> requests on this file system. The
+default value is C<False>.
 
 
 
@@ -73,8 +74,8 @@ C<FileSystemPolicy> for.
 The C<FileSystemPolicy> that you're creating. Accepts a JSON formatted
 policy definition. EFS file system policies have a 20,000 character
 limit. To find out more about the elements that make up a file system
-policy, see EFS Resource-based Policies
-(https://docs.aws.amazon.com/efs/latest/ug/access-control-overview.html#access-control-manage-access-intro-resource-policies).
+policy, see Resource-based policies within Amazon EFS
+(https://docs.aws.amazon.com/efs/latest/ug/security_iam_service-with-iam.html#security_iam_service-with-iam-resource-based-policies).
 
 
 

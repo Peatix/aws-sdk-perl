@@ -41,7 +41,8 @@ Details about the account that was not processed.
 
 =head2 AccountId => Str
 
-An AWS account ID of the account that was not processed.
+An Amazon Web Services account ID of the account that was not
+processed.
 
 
 =head2 ProcessingResult => Str

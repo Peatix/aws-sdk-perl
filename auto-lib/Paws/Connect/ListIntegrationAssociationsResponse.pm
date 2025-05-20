@@ -18,7 +18,7 @@ Paws::Connect::ListIntegrationAssociationsResponse
 
 =head2 IntegrationAssociationSummaryList => ArrayRef[L<Paws::Connect::IntegrationAssociationSummary>]
 
-The AppIntegration associations.
+The associations.
 
 
 =head2 NextToken => Str

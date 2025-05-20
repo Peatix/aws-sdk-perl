@@ -1,6 +1,7 @@
 package Paws::EC2::ModifyTransitGatewayOptions;
   use Moose;
   has AddTransitGatewayCidrBlocks => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has AmazonSideAsn => (is => 'ro', isa => 'Int');
   has AssociationDefaultRouteTableId => (is => 'ro', isa => 'Str');
   has AutoAcceptSharedAttachments => (is => 'ro', isa => 'Str');
   has DefaultRouteTableAssociation => (is => 'ro', isa => 'Str');
@@ -8,6 +9,7 @@ package Paws::EC2::ModifyTransitGatewayOptions;
   has DnsSupport => (is => 'ro', isa => 'Str');
   has PropagationDefaultRouteTableId => (is => 'ro', isa => 'Str');
   has RemoveTransitGatewayCidrBlocks => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has SecurityGroupReferencingSupport => (is => 'ro', isa => 'Str');
   has VpnEcmpSupport => (is => 'ro', isa => 'Str');
 1;
 
@@ -51,6 +53,39 @@ Adds IPv4 or IPv6 CIDR blocks for the transit gateway. Must be a size
 for IPv6.
 
 
+=head2 AmazonSideAsn => Int
+
+A private Autonomous System Number (ASN) for the Amazon side of a BGP
+session. The range is 64512 to 65534 for 16-bit ASNs and 4200000000 to
+4294967294 for 32-bit ASNs.
+
+The modify ASN operation is not allowed on a transit gateway if it has
+the following attachments:
+
+=over
+
+=item *
+
+Dynamic VPN
+
+=item *
+
+Static VPN
+
+=item *
+
+Direct Connect Gateway
+
+=item *
+
+Connect
+
+=back
+
+You must first delete all transit gateway attachments configured prior
+to modifying the ASN on the transit gateway.
+
+
 =head2 AssociationDefaultRouteTableId => Str
 
 The ID of the default association route table.
@@ -86,6 +121,19 @@ The ID of the default propagation route table.
 =head2 RemoveTransitGatewayCidrBlocks => ArrayRef[Str|Undef]
 
 Removes CIDR blocks for the transit gateway.
+
+
+=head2 SecurityGroupReferencingSupport => Str
+
+Enables you to reference a security group across VPCs attached to a
+transit gateway to simplify security group management.
+
+This option is disabled by default.
+
+For more information about security group referencing, see Security
+group referencing
+(https://docs.aws.amazon.com/vpc/latest/tgw/tgw-vpc-attachments.html#vpc-attachment-security)
+in the I<Amazon Web Services Transit Gateways Guide>.
 
 
 =head2 VpnEcmpSupport => Str

@@ -83,8 +83,9 @@ The user-friendly name of the provisioned product.
 
 =head2 ProvisionedProductType => Str
 
-The type of provisioned product. The supported values are C<CFN_STACK>
-and C<CFN_STACKSET>.
+The type of provisioned product. The supported values are C<CFN_STACK>,
+C<CFN_STACKSET>, C<TERRAFORM_OPEN_SOURCE>, C<TERRAFORM_CLOUD>, and
+C<EXTERNAL>.
 
 
 =head2 ProvisioningArtifactId => Str

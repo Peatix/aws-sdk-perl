@@ -30,16 +30,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $ssm-contacts = Paws->service('SSMContacts');
-    my $ListContactsResult = $ssm -contacts->ListContacts(
-      AliasPrefix => 'MyContactAlias',       # OPTIONAL
-      MaxResults  => 1,                      # OPTIONAL
-      NextToken   => 'MyPaginationToken',    # OPTIONAL
-      Type        => 'PERSONAL',             # OPTIONAL
-    );
+# To list all escalation plans and contacts
+# The following list-contacts example lists the contacts and escalation plans in
+# your account.
+    my $ListContactsResult = $ssm -contacts->ListContacts();
 
     # Results:
-    my $Contacts  = $ListContactsResult->Contacts;
-    my $NextToken = $ListContactsResult->NextToken;
+    my $Contacts = $ListContactsResult->Contacts;
 
     # Returns a L<Paws::SSMContacts::ListContactsResult> object.
 
@@ -74,7 +71,7 @@ The pagination token to continue to the next page of results.
 The type of contact. A contact is type C<PERSONAL> and an escalation
 plan is type C<ESCALATION>.
 
-Valid values are: C<"PERSONAL">, C<"ESCALATION">
+Valid values are: C<"PERSONAL">, C<"ESCALATION">, C<"ONCALL_SCHEDULE">
 
 
 =head1 SEE ALSO

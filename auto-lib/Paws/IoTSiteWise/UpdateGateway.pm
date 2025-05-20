@@ -31,7 +31,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $iotsitewise = Paws->service('IoTSiteWise');
     $iotsitewise->UpdateGateway(
       GatewayId   => 'MyID',
-      GatewayName => 'MyName',
+      GatewayName => 'MyGatewayName',
 
     );
 
@@ -49,7 +49,7 @@ The ID of the gateway to update.
 
 =head2 B<REQUIRED> GatewayName => Str
 
-A unique, friendly name for the gateway.
+A unique name for the gateway.
 
 
 

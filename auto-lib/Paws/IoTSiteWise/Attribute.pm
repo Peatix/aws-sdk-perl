@@ -36,7 +36,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::IoTSiteWise
 Contains an asset attribute property. For more information, see
 Attributes
 (https://docs.aws.amazon.com/iot-sitewise/latest/userguide/asset-properties.html#attributes)
-in the I<AWS IoT SiteWise User Guide>.
+in the I<IoT SiteWise User Guide>.
 
 =head1 ATTRIBUTES
 
@@ -48,7 +48,7 @@ that you create from the asset model contain this attribute value. You
 can update an attribute's value after you create an asset. For more
 information, see Updating attribute values
 (https://docs.aws.amazon.com/iot-sitewise/latest/userguide/update-attribute-values.html)
-in the I<AWS IoT SiteWise User Guide>.
+in the I<IoT SiteWise User Guide>.
 
 
 

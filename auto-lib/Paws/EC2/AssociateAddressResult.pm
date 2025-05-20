@@ -17,8 +17,8 @@ Paws::EC2::AssociateAddressResult
 
 =head2 AssociationId => Str
 
-[EC2-VPC] The ID that represents the association of the Elastic IP
-address with an instance.
+The ID that represents the association of the Elastic IP address with
+an instance.
 
 
 =head2 _request_id => Str

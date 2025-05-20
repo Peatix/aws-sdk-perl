@@ -64,8 +64,6 @@ associated with the pool. When you use your backup application to eject
 the tape, the tape is archived directly into the storage class (S3
 Glacier or S3 Glacier Deep Archive) that corresponds to the pool.
 
-Valid Values: C<GLACIER> | C<DEEP_ARCHIVE>
-
 
 =head2 B<REQUIRED> TapeBarcodePrefix => Str
 

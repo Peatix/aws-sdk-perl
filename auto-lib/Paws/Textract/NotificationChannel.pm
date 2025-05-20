@@ -36,7 +36,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Textract::N
 
 The Amazon Simple Notification Service (Amazon SNS) topic to which
 Amazon Textract publishes the completion status of an asynchronous
-document operation, such as StartDocumentTextDetection.
+document operation.
 
 =head1 ATTRIBUTES
 

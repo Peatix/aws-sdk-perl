@@ -1,6 +1,7 @@
 
 package Paws::DevOpsGuru::ListEvents;
   use Moose;
+  has AccountId => (is => 'ro', isa => 'Str');
   has Filters => (is => 'ro', isa => 'Paws::DevOpsGuru::ListEventsFilters', required => 1);
   has MaxResults => (is => 'ro', isa => 'Int');
   has NextToken => (is => 'ro', isa => 'Str');
@@ -49,8 +50,19 @@ You shouldn't make instances of this class. Each attribute should be used as a n
               'MyStackName', ...    # min: 1, max: 128
             ],    # OPTIONAL
           },    # OPTIONAL
+          Tags => [
+            {
+              AppBoundaryKey => 'MyAppBoundaryKey',    # min: 1, max: 128
+              TagValues      => [
+                'MyTagValue', ...                      # max: 256
+              ],
+
+            },
+            ...
+          ],    # OPTIONAL
         },    # OPTIONAL
       },
+      AccountId  => 'MyAwsAccountId',     # OPTIONAL
       MaxResults => 1,                    # OPTIONAL
       NextToken  => 'MyUuidNextToken',    # OPTIONAL
     );
@@ -65,6 +77,12 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/devops-guru/ListEvents>
 
 =head1 ATTRIBUTES
+
+
+=head2 AccountId => Str
+
+The ID of the Amazon Web Services account.
+
 
 
 =head2 B<REQUIRED> Filters => L<Paws::DevOpsGuru::ListEventsFilters>

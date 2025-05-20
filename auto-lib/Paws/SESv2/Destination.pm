@@ -37,6 +37,15 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SESv2::Dest
 
 An object that describes the recipients for an email.
 
+Amazon SES does not support the SMTPUTF8 extension, as described in
+RFC6531 (https://tools.ietf.org/html/rfc6531). For this reason, the
+I<local part> of a destination email address (the part of the email
+address that precedes the @ sign) may only contain 7-bit ASCII
+characters (https://en.wikipedia.org/wiki/Email_address#Local-part). If
+the I<domain part> of an address (the part after the @ sign) contains
+non-ASCII characters, they must be encoded using Punycode, as described
+in RFC3492 (https://tools.ietf.org/html/rfc3492.html).
+
 =head1 ATTRIBUTES
 
 

@@ -4,8 +4,11 @@ package Paws::Connect::HierarchyGroup;
   has Arn => (is => 'ro', isa => 'Str');
   has HierarchyPath => (is => 'ro', isa => 'Paws::Connect::HierarchyPath');
   has Id => (is => 'ro', isa => 'Str');
+  has LastModifiedRegion => (is => 'ro', isa => 'Str');
+  has LastModifiedTime => (is => 'ro', isa => 'Str');
   has LevelId => (is => 'ro', isa => 'Str');
   has Name => (is => 'ro', isa => 'Str');
+  has Tags => (is => 'ro', isa => 'Paws::Connect::TagMap');
 
 1;
 
@@ -26,7 +29,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::Connect::HierarchyGroup object:
 
-  $service_obj->Method(Att1 => { Arn => $value, ..., Name => $value  });
+  $service_obj->Method(Att1 => { Arn => $value, ..., Tags => $value  });
 
 =head3 Results returned from an API call
 
@@ -57,6 +60,16 @@ Information about the levels in the hierarchy group.
 The identifier of the hierarchy group.
 
 
+=head2 LastModifiedRegion => Str
+
+The Amazon Web Services Region where this resource was last modified.
+
+
+=head2 LastModifiedTime => Str
+
+The timestamp when this resource was last modified.
+
+
 =head2 LevelId => Str
 
 The identifier of the level in the hierarchy group.
@@ -65,6 +78,12 @@ The identifier of the level in the hierarchy group.
 =head2 Name => Str
 
 The name of the hierarchy group.
+
+
+=head2 Tags => L<Paws::Connect::TagMap>
+
+The tags used to organize, track, or control access for this resource.
+For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
 
 
 

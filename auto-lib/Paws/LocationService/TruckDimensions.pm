@@ -56,6 +56,8 @@ For example, C<4.5>.
 
 =back
 
+For routes calculated with a HERE resource, this value must be between
+0 and 50 meters.
 
 
 =head2 Length => Num
@@ -70,6 +72,8 @@ For example, C<15.5>.
 
 =back
 
+For routes calculated with a HERE resource, this value must be between
+0 and 300 meters.
 
 
 =head2 Unit => Str
@@ -91,6 +95,8 @@ For example, C<4.5>.
 
 =back
 
+For routes calculated with a HERE resource, this value must be between
+0 and 50 meters.
 
 
 

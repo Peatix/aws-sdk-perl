@@ -41,7 +41,7 @@ Contains information about the accounts that weren't processed.
 
 =head2 B<REQUIRED> AccountId => Str
 
-The AWS account ID.
+The Amazon Web Services account ID.
 
 
 =head2 B<REQUIRED> Result => Str

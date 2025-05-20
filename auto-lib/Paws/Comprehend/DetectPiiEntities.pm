@@ -47,14 +47,14 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/com
 
 =head2 B<REQUIRED> LanguageCode => Str
 
-The language of the input documents.
+The language of the input text. Enter the language code for English
+(en) or Spanish (es).
 
 Valid values are: C<"en">, C<"es">, C<"fr">, C<"de">, C<"it">, C<"pt">, C<"ar">, C<"hi">, C<"ja">, C<"ko">, C<"zh">, C<"zh-TW">
 
 =head2 B<REQUIRED> Text => Str
 
-A UTF-8 text string. Each string must contain fewer that 5,000 bytes of
-UTF-8 encoded characters.
+A UTF-8 text string. The maximum string size is 100 KB.
 
 
 

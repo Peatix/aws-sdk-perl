@@ -60,7 +60,7 @@ The status of a VPC peering connection, if applicable.
 
 =head2 UserId => Str
 
-The ID of an AWS account.
+The ID of an Amazon Web Services account.
 
 For a referenced security group in another VPC, the account ID of the
 referenced security group is returned in the response. If the

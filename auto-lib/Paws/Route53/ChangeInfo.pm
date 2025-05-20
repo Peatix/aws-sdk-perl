@@ -44,17 +44,14 @@ your hosted zone.
 
 =head2 Comment => Str
 
-A complex type that describes change information about changes made to
-your hosted zone.
-
-This element contains an ID that you use when performing a GetChange
-(https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetChange.html)
-action to get detailed information about the change.
+A comment you can provide.
 
 
 =head2 B<REQUIRED> Id => Str
 
-The ID of the request.
+This element contains an ID that you use when performing a GetChange
+(https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetChange.html)
+action to get detailed information about the change.
 
 
 =head2 B<REQUIRED> Status => Str

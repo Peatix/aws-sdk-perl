@@ -3,6 +3,7 @@ package Paws::Glue::JobCommand;
   use Moose;
   has Name => (is => 'ro', isa => 'Str');
   has PythonVersion => (is => 'ro', isa => 'Str');
+  has Runtime => (is => 'ro', isa => 'Str');
   has ScriptLocation => (is => 'ro', isa => 'Str');
 
 1;
@@ -44,13 +45,24 @@ Specifies code that runs when a job is run.
 
 The name of the job command. For an Apache Spark ETL job, this must be
 C<glueetl>. For a Python shell job, it must be C<pythonshell>. For an
-Apache Spark streaming ETL job, this must be C<gluestreaming>.
+Apache Spark streaming ETL job, this must be C<gluestreaming>. For a
+Ray job, this must be C<glueray>.
 
 
 =head2 PythonVersion => Str
 
 The Python version being used to run a Python shell job. Allowed values
 are 2 or 3.
+
+
+=head2 Runtime => Str
+
+In Ray jobs, Runtime is used to specify the versions of Ray, Python and
+additional libraries available in your environment. This field is not
+used in other job types. For supported runtime environment values, see
+Supported Ray runtime environments
+(https://docs.aws.amazon.com/glue/latest/dg/ray-jobs-section.html) in
+the Glue Developer Guide.
 
 
 =head2 ScriptLocation => Str

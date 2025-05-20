@@ -33,14 +33,14 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SSM::Resour
 
 =head1 DESCRIPTION
 
-The AWS Organizations organizational unit data source for the sync.
+The Organizations organizational unit data source for the sync.
 
 =head1 ATTRIBUTES
 
 
 =head2 OrganizationalUnitId => Str
 
-The AWS Organization unit ID data source for the sync.
+The Organizations unit ID data source for the sync.
 
 
 

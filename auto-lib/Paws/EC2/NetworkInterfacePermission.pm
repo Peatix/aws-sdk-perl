@@ -43,12 +43,12 @@ This class has no description
 
 =head2 AwsAccountId => Str
 
-The account ID.
+The Amazon Web Services account ID.
 
 
 =head2 AwsService => Str
 
-The Amazon Web Service.
+The Amazon Web Services service.
 
 
 =head2 NetworkInterfaceId => Str

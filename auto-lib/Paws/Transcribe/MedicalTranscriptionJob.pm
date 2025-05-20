@@ -13,6 +13,7 @@ package Paws::Transcribe::MedicalTranscriptionJob;
   has Settings => (is => 'ro', isa => 'Paws::Transcribe::MedicalTranscriptionSetting');
   has Specialty => (is => 'ro', isa => 'Str');
   has StartTime => (is => 'ro', isa => 'Str');
+  has Tags => (is => 'ro', isa => 'ArrayRef[Paws::Transcribe::Tag]');
   has Transcript => (is => 'ro', isa => 'Paws::Transcribe::MedicalTranscript');
   has TranscriptionJobStatus => (is => 'ro', isa => 'Str');
   has Type => (is => 'ro', isa => 'Str');
@@ -47,34 +48,47 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Transcribe:
 
 =head1 DESCRIPTION
 
-The data structure that contains the information for a medical
-transcription job.
+Provides detailed information about a medical transcription job.
+
+To view the status of the specified medical transcription job, check
+the C<TranscriptionJobStatus> field. If the status is C<COMPLETED>, the
+job is finished and you can find the results at the location specified
+in C<TranscriptFileUri>. If the status is C<FAILED>, C<FailureReason>
+provides details on why your transcription job failed.
 
 =head1 ATTRIBUTES
 
 
 =head2 CompletionTime => Str
 
-A timestamp that shows when the job was completed.
+The date and time the specified medical transcription job finished
+processing.
+
+Timestamps are in the format C<YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC>. For
+example, C<2022-05-04T12:33:13.922000-07:00> represents a transcription
+job that started processing at 12:33 PM UTC-7 on May 4, 2022.
 
 
 =head2 ContentIdentificationType => Str
 
-Shows the type of content that you've configured Amazon Transcribe
-Medical to identify in a transcription job. If the value is C<PHI>,
-you've configured the job to identify personal health information (PHI)
-in the transcription output.
+Indicates whether content identification was enabled for your
+transcription request.
 
 
 =head2 CreationTime => Str
 
-A timestamp that shows when the job was created.
+The date and time the specified medical transcription job request was
+made.
+
+Timestamps are in the format C<YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC>. For
+example, C<2022-05-04T12:32:58.761000-07:00> represents a transcription
+job that started processing at 12:32 PM UTC-7 on May 4, 2022.
 
 
 =head2 FailureReason => Str
 
-If the C<TranscriptionJobStatus> field is C<FAILED>, this field
-contains information about why the job failed.
+If C<TranscriptionJobStatus> is C<FAILED>, C<FailureReason> contains
+information about why the transcription job request failed.
 
 The C<FailureReason> field contains one of the following values:
 
@@ -82,47 +96,49 @@ The C<FailureReason> field contains one of the following values:
 
 =item *
 
-C<Unsupported media format>- The media format specified in the
-C<MediaFormat> field of the request isn't valid. See the description of
-the C<MediaFormat> field for a list of valid values.
+C<Unsupported media format>.
+
+The media format specified in C<MediaFormat> isn't valid. Refer to
+refer to the C<MediaFormat> parameter for a list of supported formats.
 
 =item *
 
-C<The media format provided does not match the detected media format>-
-The media format of the audio file doesn't match the format specified
-in the C<MediaFormat> field in the request. Check the media format of
-your media file and make sure the two values match.
+C<The media format provided does not match the detected media format>.
+
+The media format specified in C<MediaFormat> doesn't match the format
+of the input file. Check the media format of your media file and
+correct the specified value.
 
 =item *
 
-C<Invalid sample rate for audio file>- The sample rate specified in the
-C<MediaSampleRateHertz> of the request isn't valid. The sample rate
-must be between 8000 and 48000 Hertz.
+C<Invalid sample rate for audio file>.
+
+The sample rate specified in C<MediaSampleRateHertz> isn't valid. The
+sample rate must be between 16,000 and 48,000 hertz.
 
 =item *
 
-C<The sample rate provided does not match the detected sample rate>-
-The sample rate in the audio file doesn't match the sample rate
-specified in the C<MediaSampleRateHertz> field in the request. Check
-the sample rate of your media file and make sure that the two values
-match.
+C<The sample rate provided does not match the detected sample rate>.
+
+The sample rate specified in C<MediaSampleRateHertz> doesn't match the
+sample rate detected in your input media file. Check the sample rate of
+your media file and correct the specified value.
 
 =item *
 
-C<Invalid file size: file size too large>- The size of your audio file
-is larger than what Amazon Transcribe Medical can process. For more
-information, see Guidelines and Quotas
-(https://docs.aws.amazon.com/transcribe/latest/dg/limits-guidelines.html#limits)
-in the I<Amazon Transcribe Medical Guide>
+C<Invalid file size: file size too large>.
+
+The size of your media file is larger than what Amazon Transcribe can
+process. For more information, refer to Service quotas
+(https://docs.aws.amazon.com/general/latest/gr/transcribe.html#limits-amazon-transcribe).
 
 =item *
 
-C<Invalid number of channels: number of channels too large>- Your audio
-contains more channels than Amazon Transcribe Medical is configured to
-process. To request additional channels, see Amazon Transcribe Medical
-Endpoints and Quotas
-(https://docs.aws.amazon.com/general/latest/gr/transcribe-medical.html)
-in the I<Amazon Web Services General Reference>
+C<Invalid number of channels: number of channels too large>.
+
+Your audio contains more channels than Amazon Transcribe is able to
+process. For more information, refer to Service quotas
+(https://docs.aws.amazon.com/general/latest/gr/transcribe.html#limits-amazon-transcribe).
 
 =back
 
@@ -130,10 +146,9 @@ in the I<Amazon Web Services General Reference>
 
 =head2 LanguageCode => Str
 
-The language code for the language spoken in the source audio file. US
-English (en-US) is the only supported language for medical
-transcriptions. Any other value you enter for language code results in
-a C<BadRequestException> error.
+The language code used to create your medical transcription job. US
+English (C<en-US>) is the only supported language for medical
+transcriptions.
 
 
 =head2 Media => L<Paws::Transcribe::Media>
@@ -148,65 +163,64 @@ The format of the input media file.
 
 =head2 MediaSampleRateHertz => Int
 
-The sample rate, in Hertz, of the source audio containing medical
-information.
-
-If you don't specify the sample rate, Amazon Transcribe Medical
-determines it for you. If you choose to specify the sample rate, it
-must match the rate detected by Amazon Transcribe Medical. In most
-cases, you should leave the C<MediaSampleHertz> blank and let Amazon
-Transcribe Medical determine the sample rate.
+The sample rate, in hertz, of the audio track in your input media file.
 
 
 =head2 MedicalTranscriptionJobName => Str
 
-The name for a given medical transcription job.
+The name of the medical transcription job. Job names are case sensitive
+and must be unique within an Amazon Web Services account.
 
 
 =head2 Settings => L<Paws::Transcribe::MedicalTranscriptionSetting>
 
-Object that contains object.
+Provides information on any additional settings that were included in
+your request. Additional settings include channel identification,
+alternative transcriptions, speaker partitioning, custom vocabularies,
+and custom vocabulary filters.
 
 
 =head2 Specialty => Str
 
-The medical specialty of any clinicians providing a dictation or having
-a conversation. C<PRIMARYCARE> is the only available setting for this
-object. This specialty enables you to generate transcriptions for the
-following medical fields:
-
-=over
-
-=item *
-
-Family Medicine
-
-=back
-
+Describes the medical specialty represented in your media.
 
 
 =head2 StartTime => Str
 
-A timestamp that shows when the job started processing.
+The date and time the specified medical transcription job began
+processing.
+
+Timestamps are in the format C<YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC>. For
+example, C<2022-05-04T12:32:58.789000-07:00> represents a transcription
+job that started processing at 12:32 PM UTC-7 on May 4, 2022.
+
+
+=head2 Tags => ArrayRef[L<Paws::Transcribe::Tag>]
+
+The tags, each in the form of a key:value pair, assigned to the
+specified medical transcription job.
 
 
 =head2 Transcript => L<Paws::Transcribe::MedicalTranscript>
 
-An object that contains the C<MedicalTranscript>. The
-C<MedicalTranscript> contains the C<TranscriptFileUri>.
+Provides you with the Amazon S3 URI you can use to access your
+transcript.
 
 
 =head2 TranscriptionJobStatus => Str
 
-The completion status of a medical transcription job.
+Provides the status of the specified medical transcription job.
+
+If the status is C<COMPLETED>, the job is finished and you can find the
+results at the location specified in C<TranscriptFileUri>. If the
+status is C<FAILED>, C<FailureReason> provides details on why your
+transcription job failed.
 
 
 =head2 Type => Str
 
-The type of speech in the transcription job. C<CONVERSATION> is
-generally used for patient-physician dialogues. C<DICTATION> is the
-setting for physicians speaking their notes after seeing a patient. For
-more information, see how-it-works-med
+Indicates whether the input media is a dictation or a conversation, as
+specified in the C<StartMedicalTranscriptionJob> request.
 
 
 

@@ -10,6 +10,7 @@ package Paws::SageMaker::CreateFeatureGroup;
   has RecordIdentifierFeatureName => (is => 'ro', isa => 'Str', required => 1);
   has RoleArn => (is => 'ro', isa => 'Str');
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::SageMaker::Tag]');
+  has ThroughputConfig => (is => 'ro', isa => 'Paws::SageMaker::ThroughputConfig');
 
   use MooseX::ClassAttribute;
 
@@ -39,9 +40,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       EventTimeFeatureName => 'MyFeatureName',
       FeatureDefinitions   => [
         {
-          FeatureName => 'MyFeatureName',    # min: 1, max: 64
-          FeatureType =>
-            'Integral',    # values: Integral, Fractional, String; OPTIONAL
+          FeatureName => 'MyFeatureName', # min: 1, max: 64
+          FeatureType => 'Integral',      # values: Integral, Fractional, String
+          CollectionConfig => {
+            VectorConfig => {
+              Dimension => 1,             # min: 1, max: 8192
+
+            },    # OPTIONAL
+          },    # OPTIONAL
+          CollectionType => 'List',    # values: List, Set, Vector; OPTIONAL
         },
         ...
       ],
@@ -61,11 +68,18 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
         },    # OPTIONAL
         DisableGlueTableCreation => 1,    # OPTIONAL
+        TableFormat => 'Default',    # values: Default, Glue, Iceberg; OPTIONAL
       },    # OPTIONAL
       OnlineStoreConfig => {
         EnableOnlineStore => 1,    # OPTIONAL
         SecurityConfig    => {
           KmsKeyId => 'MyKmsKeyId',    # max: 2048; OPTIONAL
+        },    # OPTIONAL
+        StorageType => 'Standard',    # values: Standard, InMemory; OPTIONAL
+        TtlDuration => {
+          Unit =>
+            'Seconds',  # values: Seconds, Minutes, Hours, Days, Weeks; OPTIONAL
+          Value => 1,   # min: 1; OPTIONAL
         },    # OPTIONAL
       },    # OPTIONAL
       RoleArn => 'MyRoleArn',    # OPTIONAL
@@ -77,6 +91,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },
         ...
       ],    # OPTIONAL
+      ThroughputConfig => {
+        ThroughputMode => 'OnDemand',          # values: OnDemand, Provisioned
+        ProvisionedReadCapacityUnits  => 1,    # max: 10000000; OPTIONAL
+        ProvisionedWriteCapacityUnits => 1,    # max: 10000000; OPTIONAL
+      },    # OPTIONAL
     );
 
     # Results:
@@ -148,18 +167,20 @@ You can create up to 2,500 C<FeatureDefinition>s per C<FeatureGroup>.
 =head2 B<REQUIRED> FeatureGroupName => Str
 
 The name of the C<FeatureGroup>. The name must be unique within an
-Amazon Web Services Region in an Amazon Web Services account. The name:
+Amazon Web Services Region in an Amazon Web Services account.
+
+The name:
 
 =over
 
 =item *
 
-Must start and end with an alphanumeric character.
+Must start with an alphanumeric character.
 
 =item *
 
-Can only contain alphanumeric character and hyphens. Spaces are not
-allowed.
+Can only include alphanumeric characters, underscores, and hyphens.
+Spaces are not allowed.
 
 =back
 
@@ -181,27 +202,39 @@ C<OfflineStore>.
 =item *
 
 A configuration for an Amazon Web Services Glue or Amazon Web Services
-Hive data cataolgue.
+Hive data catalog.
 
 =item *
 
 An KMS encryption key to encrypt the Amazon S3 location used for
-C<OfflineStore>.
+C<OfflineStore>. If KMS encryption key is not specified, by default we
+encrypt all data at rest using Amazon Web Services KMS key. By defining
+your bucket-level key
+(https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucket-key.html)
+for SSE, you can reduce Amazon Web Services KMS requests costs by up to
+99 percent.
+
+=item *
+
+Format for the offline store table. Supported formats are Glue
+(Default) and Apache Iceberg (https://iceberg.apache.org/).
 
 =back
 
-To learn more about this parameter, see OfflineStoreConfig.
+To learn more about this parameter, see OfflineStoreConfig
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_OfflineStoreConfig.html).
 
 
 
 =head2 OnlineStoreConfig => L<Paws::SageMaker::OnlineStoreConfig>
 
 You can turn the C<OnlineStore> on or off by specifying C<True> for the
-C<EnableOnlineStore> flag in C<OnlineStoreConfig>; the default value is
-C<False>.
+C<EnableOnlineStore> flag in C<OnlineStoreConfig>.
 
 You can also include an Amazon Web Services KMS key ID (C<KMSKeyId>)
 for at-rest encryption of the C<OnlineStore>.
+
+The default value is C<False>.
 
 
 
@@ -222,7 +255,7 @@ This name:
 
 =item *
 
-Must start and end with an alphanumeric character.
+Must start with an alphanumeric character.
 
 =item *
 
@@ -245,6 +278,12 @@ provided.
 =head2 Tags => ArrayRef[L<Paws::SageMaker::Tag>]
 
 Tags used to identify C<Features> in each C<FeatureGroup>.
+
+
+
+=head2 ThroughputConfig => L<Paws::SageMaker::ThroughputConfig>
+
+
 
 
 

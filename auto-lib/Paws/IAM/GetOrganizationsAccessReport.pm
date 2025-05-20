@@ -30,24 +30,21 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $iam = Paws->service('IAM');
+    # To get details from a previously generated organizational unit report
+    # The following operation gets details about the report with the job ID:
+    # examplea-1234-b567-cde8-90fg123abcd4
     my $GetOrganizationsAccessReportResponse =
       $iam->GetOrganizationsAccessReport(
-      JobId    => 'MyjobIDType',
-      Marker   => 'MymarkerType',                   # OPTIONAL
-      MaxItems => 1,                                # OPTIONAL
-      SortKey  => 'SERVICE_NAMESPACE_ASCENDING',    # OPTIONAL
-      );
+      'JobId' => 'examplea-1234-b567-cde8-90fg123abcd4' );
 
     # Results:
     my $AccessDetails = $GetOrganizationsAccessReportResponse->AccessDetails;
-    my $ErrorDetails  = $GetOrganizationsAccessReportResponse->ErrorDetails;
     my $IsTruncated   = $GetOrganizationsAccessReportResponse->IsTruncated;
     my $JobCompletionDate =
       $GetOrganizationsAccessReportResponse->JobCompletionDate;
     my $JobCreationDate =
       $GetOrganizationsAccessReportResponse->JobCreationDate;
     my $JobStatus = $GetOrganizationsAccessReportResponse->JobStatus;
-    my $Marker    = $GetOrganizationsAccessReportResponse->Marker;
     my $NumberOfServicesAccessible =
       $GetOrganizationsAccessReportResponse->NumberOfServicesAccessible;
     my $NumberOfServicesNotAccessed =

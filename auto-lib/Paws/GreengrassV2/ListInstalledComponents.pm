@@ -4,6 +4,7 @@ package Paws::GreengrassV2::ListInstalledComponents;
   has CoreDeviceThingName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'coreDeviceThingName', required => 1);
   has MaxResults => (is => 'ro', isa => 'Int', traits => ['ParamInQuery'], query_name => 'maxResults');
   has NextToken => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'nextToken');
+  has TopologyFilter => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'topologyFilter');
 
   use MooseX::ClassAttribute;
 
@@ -34,6 +35,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       CoreDeviceThingName => 'MyCoreDeviceThingName',
       MaxResults          => 1,                         # OPTIONAL
       NextToken           => 'MyNextTokenString',       # OPTIONAL
+      TopologyFilter      => 'ALL',                     # OPTIONAL
     );
 
     # Results:
@@ -51,8 +53,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/gre
 
 =head2 B<REQUIRED> CoreDeviceThingName => Str
 
-The name of the core device. This is also the name of the AWS IoT
-thing.
+The name of the core device. This is also the name of the IoT thing.
 
 
 
@@ -67,6 +68,31 @@ The maximum number of results to be returned per paginated request.
 The token to be used for the next set of paginated results.
 
 
+
+=head2 TopologyFilter => Str
+
+The filter for the list of components. Choose from the following
+options:
+
+=over
+
+=item *
+
+C<ALL> E<ndash> The list includes all components installed on the core
+device.
+
+=item *
+
+C<ROOT> E<ndash> The list includes only I<root> components, which are
+components that you specify in a deployment. When you choose this
+option, the list doesn't include components that the core device
+installs as dependencies of other components.
+
+=back
+
+Default: C<ROOT>
+
+Valid values are: C<"ALL">, C<"ROOT">
 
 
 =head1 SEE ALSO

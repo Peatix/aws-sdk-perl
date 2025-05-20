@@ -9,6 +9,8 @@ package Paws::ApiGateway::CreateDomainName;
   has DomainName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'domainName', required => 1);
   has EndpointConfiguration => (is => 'ro', isa => 'Paws::ApiGateway::EndpointConfiguration', traits => ['NameInRequest'], request_name => 'endpointConfiguration');
   has MutualTlsAuthentication => (is => 'ro', isa => 'Paws::ApiGateway::MutualTlsAuthenticationInput', traits => ['NameInRequest'], request_name => 'mutualTlsAuthentication');
+  has OwnershipVerificationCertificateArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'ownershipVerificationCertificateArn');
+  has Policy => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'policy');
   has RegionalCertificateArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'regionalCertificateArn');
   has RegionalCertificateName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'regionalCertificateName');
   has SecurityPolicy => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'securityPolicy');
@@ -47,8 +49,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       CertificateName       => 'MyString',    # OPTIONAL
       CertificatePrivateKey => 'MyString',    # OPTIONAL
       EndpointConfiguration => {
-        Types => [
-          'REGIONAL', ...                     # values: REGIONAL, EDGE, PRIVATE
+        IpAddressType => 'ipv4',    # values: ipv4, dualstack; OPTIONAL
+        Types         => [
+          'REGIONAL', ...           # values: REGIONAL, EDGE, PRIVATE
         ],    # OPTIONAL
         VpcEndpointIds => [ 'MyString', ... ],    # OPTIONAL
       },    # OPTIONAL
@@ -56,10 +59,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         TruststoreUri     => 'MyString',
         TruststoreVersion => 'MyString',
       },    # OPTIONAL
-      RegionalCertificateArn  => 'MyString',                       # OPTIONAL
-      RegionalCertificateName => 'MyString',                       # OPTIONAL
-      SecurityPolicy          => 'TLS_1_0',                        # OPTIONAL
-      Tags                    => { 'MyString' => 'MyString', },    # OPTIONAL
+      OwnershipVerificationCertificateArn => 'MyString',    # OPTIONAL
+      Policy                              => 'MyString',    # OPTIONAL
+      RegionalCertificateArn              => 'MyString',    # OPTIONAL
+      RegionalCertificateName             => 'MyString',    # OPTIONAL
+      SecurityPolicy                      => 'TLS_1_0',     # OPTIONAL
+      Tags => { 'MyString' => 'MyString', },                # OPTIONAL
     );
 
     # Results:
@@ -69,16 +74,22 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $DistributionDomainName   = $DomainName->DistributionDomainName;
     my $DistributionHostedZoneId = $DomainName->DistributionHostedZoneId;
     my $DomainName               = $DomainName->DomainName;
+    my $DomainNameArn            = $DomainName->DomainNameArn;
+    my $DomainNameId             = $DomainName->DomainNameId;
     my $DomainNameStatus         = $DomainName->DomainNameStatus;
     my $DomainNameStatusMessage  = $DomainName->DomainNameStatusMessage;
     my $EndpointConfiguration    = $DomainName->EndpointConfiguration;
+    my $ManagementPolicy         = $DomainName->ManagementPolicy;
     my $MutualTlsAuthentication  = $DomainName->MutualTlsAuthentication;
-    my $RegionalCertificateArn   = $DomainName->RegionalCertificateArn;
-    my $RegionalCertificateName  = $DomainName->RegionalCertificateName;
-    my $RegionalDomainName       = $DomainName->RegionalDomainName;
-    my $RegionalHostedZoneId     = $DomainName->RegionalHostedZoneId;
-    my $SecurityPolicy           = $DomainName->SecurityPolicy;
-    my $Tags                     = $DomainName->Tags;
+    my $OwnershipVerificationCertificateArn =
+      $DomainName->OwnershipVerificationCertificateArn;
+    my $Policy                  = $DomainName->Policy;
+    my $RegionalCertificateArn  = $DomainName->RegionalCertificateArn;
+    my $RegionalCertificateName = $DomainName->RegionalCertificateName;
+    my $RegionalDomainName      = $DomainName->RegionalDomainName;
+    my $RegionalHostedZoneId    = $DomainName->RegionalHostedZoneId;
+    my $SecurityPolicy          = $DomainName->SecurityPolicy;
+    my $Tags                    = $DomainName->Tags;
 
     # Returns a L<Paws::ApiGateway::DomainName> object.
 
@@ -90,17 +101,17 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 CertificateArn => Str
 
-The reference to an AWS-managed certificate that will be used by
-edge-optimized endpoint for this domain name. AWS Certificate Manager
-is the only supported source.
+The reference to an Amazon Web Services-managed certificate that will
+be used by edge-optimized endpoint or private endpoint for this domain
+name. Certificate Manager is the only supported source.
 
 
 
 =head2 CertificateBody => Str
 
 [Deprecated] The body of the server certificate that will be used by
-edge-optimized endpoint for this domain name provided by your
-certificate authority.
+edge-optimized endpoint or private endpoint for this domain name
+provided by your certificate authority.
 
 
 
@@ -119,7 +130,7 @@ include any intermediaries that are not in the chain of trust path.
 =head2 CertificateName => Str
 
 The user-friendly name of the certificate that will be used by
-edge-optimized endpoint for this domain name.
+edge-optimized endpoint or private endpoint for this domain name.
 
 
 
@@ -132,14 +143,14 @@ private key.
 
 =head2 B<REQUIRED> DomainName => Str
 
-[Required] The name of the DomainName resource.
+The name of the DomainName resource.
 
 
 
 =head2 EndpointConfiguration => L<Paws::ApiGateway::EndpointConfiguration>
 
 The endpoint configuration of this DomainName showing the endpoint
-types of the domain name.
+types and IP address types of the domain name.
 
 
 
@@ -149,11 +160,28 @@ types of the domain name.
 
 
 
+=head2 OwnershipVerificationCertificateArn => Str
+
+The ARN of the public certificate issued by ACM to validate ownership
+of your custom domain. Only required when configuring mutual TLS and
+using an ACM imported or private CA certificate ARN as the
+regionalCertificateArn.
+
+
+
+=head2 Policy => Str
+
+A stringified JSON policy document that applies to the C<execute-api>
+service for this DomainName regardless of the caller and Method
+configuration. Supported only for private custom domain names.
+
+
+
 =head2 RegionalCertificateArn => Str
 
-The reference to an AWS-managed certificate that will be used by
-regional endpoint for this domain name. AWS Certificate Manager is the
-only supported source.
+The reference to an Amazon Web Services-managed certificate that will
+be used by regional endpoint for this domain name. Certificate Manager
+is the only supported source.
 
 
 

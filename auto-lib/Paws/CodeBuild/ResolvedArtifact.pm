@@ -35,8 +35,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CodeBuild::
 
 =head1 DESCRIPTION
 
-Represents a resolved build artifact. A resolve artifact is an artifact
-that is built and deployed to the destination, such as Amazon S3.
+Represents a resolved build artifact. A resolved artifact is an
+artifact that is built and deployed to the destination, such as Amazon
+S3.
 
 =head1 ATTRIBUTES
 

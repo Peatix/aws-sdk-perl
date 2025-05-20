@@ -3,8 +3,10 @@ package Paws::S3Control::CreateAccessPoint;
   use Moose;
   has AccountId => (is => 'ro', isa => 'Str', header_name => 'x-amz-account-id', traits => ['ParamInHeader'], required => 1);
   has Bucket => (is => 'ro', isa => 'Str', required => 1);
+  has BucketAccountId => (is => 'ro', isa => 'Str');
   has Name => (is => 'ro', isa => 'Str', uri_name => 'name', traits => ['ParamInURI'], required => 1);
   has PublicAccessBlockConfiguration => (is => 'ro', isa => 'Paws::S3Control::PublicAccessBlockConfiguration');
+  has Scope => (is => 'ro', isa => 'Paws::S3Control::Scope');
   has VpcConfiguration => (is => 'ro', isa => 'Paws::S3Control::VpcConfiguration');
 
 
@@ -40,11 +42,19 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       AccountId                      => 'MyAccountId',
       Bucket                         => 'MyBucketName',
       Name                           => 'MyAccessPointName',
+      BucketAccountId                => 'MyAccountId',         # OPTIONAL
       PublicAccessBlockConfiguration => {
-        BlockPublicAcls       => 1,    # OPTIONAL
-        BlockPublicPolicy     => 1,    # OPTIONAL
-        IgnorePublicAcls      => 1,    # OPTIONAL
-        RestrictPublicBuckets => 1,    # OPTIONAL
+        BlockPublicAcls       => 1,                            # OPTIONAL
+        BlockPublicPolicy     => 1,                            # OPTIONAL
+        IgnorePublicAcls      => 1,                            # OPTIONAL
+        RestrictPublicBuckets => 1,                            # OPTIONAL
+      },    # OPTIONAL
+      Scope => {
+        Permissions => [
+          'GetObject',
+          ... # values: GetObject, GetObjectAttributes, ListMultipartUploadParts, ListBucket, ListBucketMultipartUploads, PutObject, DeleteObject, AbortMultipartUpload
+        ],    # OPTIONAL
+        Prefixes => [ 'MyPrefix', ... ],    # OPTIONAL
       },    # OPTIONAL
       VpcConfiguration => {
         VpcId => 'MyVpcId',    # min: 1, max: 1024
@@ -54,6 +64,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     # Results:
     my $AccessPointArn = $CreateAccessPointResult->AccessPointArn;
+    my $Alias          = $CreateAccessPointResult->Alias;
 
     # Returns a L<Paws::S3Control::CreateAccessPointResult> object.
 
@@ -65,8 +76,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/s3-
 
 =head2 B<REQUIRED> AccountId => Str
 
-The AWS account ID for the owner of the bucket for which you want to
-create an access point.
+The Amazon Web Services account ID for the account that owns the
+specified access point.
 
 
 
@@ -78,10 +89,11 @@ with.
 For using this parameter with Amazon S3 on Outposts with the REST API,
 you must specify the name and the x-amz-outpost-id as well.
 
-For using this parameter with S3 on Outposts with the AWS SDK and CLI,
-you must specify the ARN of the bucket accessed in the format
+For using this parameter with S3 on Outposts with the Amazon Web
+Services SDK and CLI, you must specify the ARN of the bucket accessed
+in the format
 C<arn:aws:s3-outposts:E<lt>RegionE<gt>:E<lt>account-idE<gt>:outpost/E<lt>outpost-idE<gt>/bucket/E<lt>my-bucket-nameE<gt>>.
-For example, to access the bucket C<reports> through outpost
+For example, to access the bucket C<reports> through Outpost
 C<my-outpost> owned by account C<123456789012> in Region C<us-west-2>,
 use the URL encoding of
 C<arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports>.
@@ -89,9 +101,29 @@ The value must be URL encoded.
 
 
 
+=head2 BucketAccountId => Str
+
+The Amazon Web Services account ID associated with the S3 bucket
+associated with this access point.
+
+For same account access point when your bucket and access point belong
+to the same account owner, the C<BucketAccountId> is not required. For
+cross-account access point when your bucket and access point are not in
+the same account, the C<BucketAccountId> is required.
+
+
+
 =head2 B<REQUIRED> Name => Str
 
 The name you want to assign to this access point.
+
+For directory buckets, the access point name must consist of a base
+name that you provide and suffix that includes the C<ZoneID> (Amazon
+Web Services Availability Zone or Local Zone) of your bucket location,
+followed by C<--xa-s3>. For more information, see Managing access to
+shared datasets in directory buckets with access points
+(https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-directory-buckets.html)
+in the Amazon S3 User Guide.
 
 
 
@@ -99,6 +131,19 @@ The name you want to assign to this access point.
 
 The C<PublicAccessBlock> configuration that you want to apply to the
 access point.
+
+
+
+=head2 Scope => L<Paws::S3Control::Scope>
+
+For directory buckets, you can filter access control to specific
+prefixes, API operations, or a combination of both. For more
+information, see Managing access to shared datasets in directory
+buckets with access points
+(https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-directory-buckets.html)
+in the Amazon S3 User Guide.
+
+Scope is not supported for access points for general purpose buckets.
 
 
 

@@ -33,15 +33,15 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Snowball::I
 
 =head1 DESCRIPTION
 
-The tax documents required in AWS Regions in India.
+The tax documents required in Amazon Web Services Region in India.
 
 =head1 ATTRIBUTES
 
 
 =head2 GSTIN => Str
 
-The Goods and Services Tax (GST) documents required in AWS Regions in
-India.
+The Goods and Services Tax (GST) documents required in Amazon Web
+Services Region in India.
 
 
 

@@ -59,13 +59,13 @@ A description about the new documentation snapshot.
 
 =head2 B<REQUIRED> DocumentationVersion => Str
 
-[Required] The version identifier of the new snapshot.
+The version identifier of the new snapshot.
 
 
 
 =head2 B<REQUIRED> RestApiId => Str
 
-[Required] The string identifier of the associated RestApi.
+The string identifier of the associated RestApi.
 
 
 

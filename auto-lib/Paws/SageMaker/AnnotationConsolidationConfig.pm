@@ -46,8 +46,7 @@ logic for annotation consolidation
 (https://docs.aws.amazon.com/sagemaker/latest/dg/sms-annotation-consolidation.html)
 and to process output data.
 
-This parameter is required for all labeling jobs. For built-in task
-types
+For built-in task types
 (https://docs.aws.amazon.com/sagemaker/latest/dg/sms-task-types.html),
 use one of the following Amazon SageMaker Ground Truth Lambda function
 ARNs for C<AnnotationConsolidationLambdaArn>. For custom labeling
@@ -285,7 +284,7 @@ individual workers.
 
 =item *
 
-C<rn:aws:lambda:us-east-1:432418664414:function:ACS-TextMultiClass>
+C<arn:aws:lambda:us-east-1:432418664414:function:ACS-TextMultiClass>
 
 =item *
 

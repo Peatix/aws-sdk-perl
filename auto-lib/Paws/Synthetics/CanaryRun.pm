@@ -2,8 +2,11 @@
 package Paws::Synthetics::CanaryRun;
   use Moose;
   has ArtifactS3Location => (is => 'ro', isa => 'Str');
+  has DryRunConfig => (is => 'ro', isa => 'Paws::Synthetics::CanaryDryRunConfigOutput');
   has Id => (is => 'ro', isa => 'Str');
   has Name => (is => 'ro', isa => 'Str');
+  has RetryAttempt => (is => 'ro', isa => 'Int');
+  has ScheduledRunId => (is => 'ro', isa => 'Str');
   has Status => (is => 'ro', isa => 'Paws::Synthetics::CanaryRunStatus');
   has Timeline => (is => 'ro', isa => 'Paws::Synthetics::CanaryRunTimeline');
 
@@ -48,6 +51,11 @@ The location where the canary stored artifacts from the run. Artifacts
 include the log file, screenshots, and HAR files.
 
 
+=head2 DryRunConfig => L<Paws::Synthetics::CanaryDryRunConfigOutput>
+
+Returns the dry run configurations for a canary.
+
+
 =head2 Id => Str
 
 A unique ID that identifies this canary run.
@@ -56,6 +64,16 @@ A unique ID that identifies this canary run.
 =head2 Name => Str
 
 The name of the canary.
+
+
+=head2 RetryAttempt => Int
+
+The count in number of the retry attempt.
+
+
+=head2 ScheduledRunId => Str
+
+The ID of the scheduled canary run.
 
 
 =head2 Status => L<Paws::Synthetics::CanaryRunStatus>

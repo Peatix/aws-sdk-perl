@@ -176,10 +176,9 @@ The name of the domain in which to register the workflow type.
 
 The name of the workflow type.
 
-The specified string must not start or end with whitespace. It must not
-contain a C<:> (colon), C</> (slash), C<|> (vertical bar), or any
-control characters (C<\u0000-\u001f> | C<\u007f-\u009f>). Also, it must
-not I<be> the literal string C<arn>.
+The specified string must not contain a C<:> (colon), C</> (slash),
+C<|> (vertical bar), or any control characters (C<\u0000-\u001f> |
+C<\u007f-\u009f>). Also, it must I<not> be the literal string C<arn>.
 
 
 
@@ -191,10 +190,9 @@ The workflow type consists of the name and version, the combination of
 which must be unique within the domain. To get a list of all currently
 registered workflow types, use the ListWorkflowTypes action.
 
-The specified string must not start or end with whitespace. It must not
-contain a C<:> (colon), C</> (slash), C<|> (vertical bar), or any
-control characters (C<\u0000-\u001f> | C<\u007f-\u009f>). Also, it must
-not I<be> the literal string C<arn>.
+The specified string must not contain a C<:> (colon), C</> (slash),
+C<|> (vertical bar), or any control characters (C<\u0000-\u001f> |
+C<\u007f-\u009f>). Also, it must I<not> be the literal string C<arn>.
 
 
 

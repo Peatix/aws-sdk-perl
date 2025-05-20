@@ -3,6 +3,7 @@ package Paws::Backup::Lifecycle;
   use Moose;
   has DeleteAfterDays => (is => 'ro', isa => 'Int');
   has MoveToColdStorageAfterDays => (is => 'ro', isa => 'Int');
+  has OptInToArchiveForSupportedResources => (is => 'ro', isa => 'Bool');
 
 1;
 
@@ -23,7 +24,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::Backup::Lifecycle object:
 
-  $service_obj->Method(Att1 => { DeleteAfterDays => $value, ..., MoveToColdStorageAfterDays => $value  });
+  $service_obj->Method(Att1 => { DeleteAfterDays => $value, ..., OptInToArchiveForSupportedResources => $value  });
 
 =head3 Results returned from an API call
 
@@ -34,33 +35,45 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Backup::Lif
 
 =head1 DESCRIPTION
 
-Contains an array of C<Transition> objects specifying how long in days
-before a recovery point transitions to cold storage or is deleted.
+Specifies the time period, in days, before a recovery point transitions
+to cold storage or is deleted.
 
 Backups transitioned to cold storage must be stored in cold storage for
-a minimum of 90 days. Therefore, on the console, the E<ldquo>expire
-after daysE<rdquo> setting must be 90 days greater than the
-E<ldquo>transition to cold after daysE<rdquo> setting. The
-E<ldquo>transition to cold after daysE<rdquo> setting cannot be changed
-after a backup has been transitioned to cold.
+a minimum of 90 days. Therefore, on the console, the retention setting
+must be 90 days greater than the transition to cold after days setting.
+The transition to cold after days setting can't be changed after a
+backup has been transitioned to cold.
 
-Only Amazon EFS file system backups can be transitioned to cold
-storage.
+Resource types that can transition to cold storage are listed in the
+Feature availability by resource
+(https://docs.aws.amazon.com/aws-backup/latest/devguide/backup-feature-availability.html#features-by-resource)
+table. Backup ignores this expression for other resource types.
+
+To remove the existing lifecycle and retention periods and keep your
+recovery points indefinitely, specify -1 for
+C<MoveToColdStorageAfterDays> and C<DeleteAfterDays>.
 
 =head1 ATTRIBUTES
 
 
 =head2 DeleteAfterDays => Int
 
-Specifies the number of days after creation that a recovery point is
-deleted. Must be greater than 90 days plus
-C<MoveToColdStorageAfterDays>.
+The number of days after creation that a recovery point is deleted.
+This value must be at least 90 days after the number of days specified
+in C<MoveToColdStorageAfterDays>.
 
 
 =head2 MoveToColdStorageAfterDays => Int
 
-Specifies the number of days after creation that a recovery point is
-moved to cold storage.
+The number of days after creation that a recovery point is moved to
+cold storage.
+
+
+=head2 OptInToArchiveForSupportedResources => Bool
+
+If the value is true, your backup plan transitions supported resources
+to archive (cold) storage tier in accordance with your lifecycle
+settings.
 
 
 

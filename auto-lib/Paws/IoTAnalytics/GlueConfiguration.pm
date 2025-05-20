@@ -34,24 +34,23 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::IoTAnalytic
 
 =head1 DESCRIPTION
 
-Configuration information for coordination with AWS Glue, a fully
-managed extract, transform and load (ETL) service.
+Configuration information for coordination with Glue, a fully managed
+extract, transform and load (ETL) service.
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> DatabaseName => Str
 
-The name of the database in your AWS Glue Data Catalog in which the
-table is located. An AWS Glue Data Catalog database contains metadata
-tables.
+The name of the database in your Glue Data Catalog in which the table
+is located. An Glue Data Catalog database contains metadata tables.
 
 
 =head2 B<REQUIRED> TableName => Str
 
-The name of the table in your AWS Glue Data Catalog that is used to
-perform the ETL operations. An AWS Glue Data Catalog table contains
-partitioned data and descriptions of data sources and targets.
+The name of the table in your Glue Data Catalog that is used to perform
+the ETL operations. An Glue Data Catalog table contains partitioned
+data and descriptions of data sources and targets.
 
 
 

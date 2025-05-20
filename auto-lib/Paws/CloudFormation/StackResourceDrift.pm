@@ -45,16 +45,16 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CloudFormat
 
 Contains the drift information for a resource that has been checked for
 drift. This includes actual and expected property values for resources
-in which AWS CloudFormation has detected drift. Only resource
-properties explicitly defined in the stack template are checked for
-drift. For more information, see Detecting Unregulated Configuration
-Changes to Stacks and Resources
+in which CloudFormation has detected drift. Only resource properties
+explicitly defined in the stack template are checked for drift. For
+more information, see Detect unmanaged configuration changes to stacks
+and resources with drift detection
 (https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html).
 
-Resources that do not currently support drift detection cannot be
+Resources that don't currently support drift detection can't be
 checked. For a list of resources that support drift detection, see
-Resources that Support Drift Detection
-(http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift-resource-list.html).
+Resource type support for imports and drift detection
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import-supported-resources.html).
 
 Use DetectStackResourceDrift to detect drift on individual resources,
 or DetectStackDrift to detect drift on all resources in a given stack
@@ -97,16 +97,16 @@ stack template.
 =head2 PhysicalResourceId => Str
 
 The name or unique identifier that corresponds to a physical instance
-ID of a resource supported by AWS CloudFormation.
+ID of a resource supported by CloudFormation.
 
 
 =head2 PhysicalResourceIdContext => ArrayRef[L<Paws::CloudFormation::PhysicalResourceIdContextKeyValuePair>]
 
-Context information that enables AWS CloudFormation to uniquely
-identify a resource. AWS CloudFormation uses context key-value pairs in
-cases where a resource's logical and physical IDs are not enough to
-uniquely identify that resource. Each context key-value pair specifies
-a unique resource that contains the targeted resource.
+Context information that enables CloudFormation to uniquely identify a
+resource. CloudFormation uses context key-value pairs in cases where a
+resource's logical and physical IDs aren't enough to uniquely identify
+that resource. Each context key-value pair specifies a unique resource
+that contains the targeted resource.
 
 
 =head2 PropertyDifferences => ArrayRef[L<Paws::CloudFormation::PropertyDifference>]
@@ -129,7 +129,7 @@ The ID of the stack.
 =head2 B<REQUIRED> StackResourceDriftStatus => Str
 
 Status of the resource's actual configuration compared to its expected
-configuration
+configuration.
 
 =over
 
@@ -146,13 +146,12 @@ template parameters).
 
 =item *
 
-C<IN_SYNC>: The resources's actual configuration matches its expected
+C<IN_SYNC>: The resource's actual configuration matches its expected
 template configuration.
 
 =item *
 
-C<NOT_CHECKED>: AWS CloudFormation does not currently return this
-value.
+C<NOT_CHECKED>: CloudFormation does not currently return this value.
 
 =back
 
@@ -160,7 +159,7 @@ value.
 
 =head2 B<REQUIRED> Timestamp => Str
 
-Time at which AWS CloudFormation performed drift detection on the stack
+Time at which CloudFormation performed drift detection on the stack
 resource.
 
 

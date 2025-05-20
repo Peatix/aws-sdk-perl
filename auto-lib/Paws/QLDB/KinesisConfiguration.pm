@@ -45,9 +45,11 @@ destination for an Amazon QLDB journal stream.
 Enables QLDB to publish multiple data records in a single Kinesis Data
 Streams record, increasing the number of records sent per API call.
 
-I<This option is enabled by default.> Record aggregation has important
-implications for processing records and requires de-aggregation in your
-stream consumer. To learn more, see KPL Key Concepts
+Default: C<True>
+
+Record aggregation has important implications for processing records
+and requires de-aggregation in your stream consumer. To learn more, see
+KPL Key Concepts
 (https://docs.aws.amazon.com/streams/latest/dev/kinesis-kpl-concepts.html)
 and Consumer De-aggregation
 (https://docs.aws.amazon.com/streams/latest/dev/kinesis-kpl-consumer-deaggregation.html)

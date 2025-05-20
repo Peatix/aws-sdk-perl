@@ -36,6 +36,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       DryRun           => 1,                      # OPTIONAL
       Options          => {
         AddTransitGatewayCidrBlocks    => [ 'MyString', ... ],    # OPTIONAL
+        AmazonSideAsn                  => 1,                      # OPTIONAL
         AssociationDefaultRouteTableId =>
           'MyTransitGatewayRouteTableId',                         # OPTIONAL
         AutoAcceptSharedAttachments =>
@@ -47,7 +48,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         DnsSupport => 'enable',    # values: enable, disable; OPTIONAL
         PropagationDefaultRouteTableId =>
           'MyTransitGatewayRouteTableId',    # OPTIONAL
-        RemoveTransitGatewayCidrBlocks => [ 'MyString', ... ],    # OPTIONAL
+        RemoveTransitGatewayCidrBlocks  => [ 'MyString', ... ],    # OPTIONAL
+        SecurityGroupReferencingSupport =>
+          'enable',    # values: enable, disable; OPTIONAL
         VpnEcmpSupport => 'enable',    # values: enable, disable; OPTIONAL
       },    # OPTIONAL
     );

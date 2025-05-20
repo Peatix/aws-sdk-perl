@@ -5,17 +5,24 @@ package Paws::RDS::DBInstance;
   has ActivityStreamKinesisStreamName => (is => 'ro', isa => 'Str');
   has ActivityStreamKmsKeyId => (is => 'ro', isa => 'Str');
   has ActivityStreamMode => (is => 'ro', isa => 'Str');
+  has ActivityStreamPolicyStatus => (is => 'ro', isa => 'Str');
   has ActivityStreamStatus => (is => 'ro', isa => 'Str');
   has AllocatedStorage => (is => 'ro', isa => 'Int');
   has AssociatedRoles => (is => 'ro', isa => 'ArrayRef[Paws::RDS::DBInstanceRole]', request_name => 'DBInstanceRole', traits => ['NameInRequest']);
+  has AutomaticRestartTime => (is => 'ro', isa => 'Str');
+  has AutomationMode => (is => 'ro', isa => 'Str');
   has AutoMinorVersionUpgrade => (is => 'ro', isa => 'Bool');
   has AvailabilityZone => (is => 'ro', isa => 'Str');
   has AwsBackupRecoveryPointArn => (is => 'ro', isa => 'Str');
   has BackupRetentionPeriod => (is => 'ro', isa => 'Int');
+  has BackupTarget => (is => 'ro', isa => 'Str');
   has CACertificateIdentifier => (is => 'ro', isa => 'Str');
+  has CertificateDetails => (is => 'ro', isa => 'Paws::RDS::CertificateDetails');
   has CharacterSetName => (is => 'ro', isa => 'Str');
   has CopyTagsToSnapshot => (is => 'ro', isa => 'Bool');
   has CustomerOwnedIpEnabled => (is => 'ro', isa => 'Bool');
+  has CustomIamInstanceProfile => (is => 'ro', isa => 'Str');
+  has DatabaseInsightsMode => (is => 'ro', isa => 'Str');
   has DBClusterIdentifier => (is => 'ro', isa => 'Str');
   has DBInstanceArn => (is => 'ro', isa => 'Str');
   has DBInstanceAutomatedBackupsReplications => (is => 'ro', isa => 'ArrayRef[Paws::RDS::DBInstanceAutomatedBackupsReplication]', request_name => 'DBInstanceAutomatedBackupsReplication', traits => ['NameInRequest']);
@@ -28,28 +35,36 @@ package Paws::RDS::DBInstance;
   has DBParameterGroups => (is => 'ro', isa => 'ArrayRef[Paws::RDS::DBParameterGroupStatus]', request_name => 'DBParameterGroup', traits => ['NameInRequest']);
   has DBSecurityGroups => (is => 'ro', isa => 'ArrayRef[Paws::RDS::DBSecurityGroupMembership]', request_name => 'DBSecurityGroup', traits => ['NameInRequest']);
   has DBSubnetGroup => (is => 'ro', isa => 'Paws::RDS::DBSubnetGroup');
+  has DBSystemId => (is => 'ro', isa => 'Str');
+  has DedicatedLogVolume => (is => 'ro', isa => 'Bool');
   has DeletionProtection => (is => 'ro', isa => 'Bool');
   has DomainMemberships => (is => 'ro', isa => 'ArrayRef[Paws::RDS::DomainMembership]', request_name => 'DomainMembership', traits => ['NameInRequest']);
   has EnabledCloudwatchLogsExports => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has Endpoint => (is => 'ro', isa => 'Paws::RDS::Endpoint');
   has Engine => (is => 'ro', isa => 'Str');
+  has EngineLifecycleSupport => (is => 'ro', isa => 'Str');
   has EngineVersion => (is => 'ro', isa => 'Str');
   has EnhancedMonitoringResourceArn => (is => 'ro', isa => 'Str');
   has IAMDatabaseAuthenticationEnabled => (is => 'ro', isa => 'Bool');
   has InstanceCreateTime => (is => 'ro', isa => 'Str');
   has Iops => (is => 'ro', isa => 'Int');
+  has IsStorageConfigUpgradeAvailable => (is => 'ro', isa => 'Bool');
   has KmsKeyId => (is => 'ro', isa => 'Str');
   has LatestRestorableTime => (is => 'ro', isa => 'Str');
   has LicenseModel => (is => 'ro', isa => 'Str');
   has ListenerEndpoint => (is => 'ro', isa => 'Paws::RDS::Endpoint');
   has MasterUsername => (is => 'ro', isa => 'Str');
+  has MasterUserSecret => (is => 'ro', isa => 'Paws::RDS::MasterUserSecret');
   has MaxAllocatedStorage => (is => 'ro', isa => 'Int');
   has MonitoringInterval => (is => 'ro', isa => 'Int');
   has MonitoringRoleArn => (is => 'ro', isa => 'Str');
   has MultiAZ => (is => 'ro', isa => 'Bool');
+  has MultiTenant => (is => 'ro', isa => 'Bool');
   has NcharCharacterSetName => (is => 'ro', isa => 'Str');
+  has NetworkType => (is => 'ro', isa => 'Str');
   has OptionGroupMemberships => (is => 'ro', isa => 'ArrayRef[Paws::RDS::OptionGroupMembership]', request_name => 'OptionGroupMembership', traits => ['NameInRequest']);
   has PendingModifiedValues => (is => 'ro', isa => 'Paws::RDS::PendingModifiedValues');
+  has PercentProgress => (is => 'ro', isa => 'Str');
   has PerformanceInsightsEnabled => (is => 'ro', isa => 'Bool');
   has PerformanceInsightsKMSKeyId => (is => 'ro', isa => 'Str');
   has PerformanceInsightsRetentionPeriod => (is => 'ro', isa => 'Int');
@@ -60,11 +75,14 @@ package Paws::RDS::DBInstance;
   has PubliclyAccessible => (is => 'ro', isa => 'Bool');
   has ReadReplicaDBClusterIdentifiers => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'ReadReplicaDBClusterIdentifier', traits => ['NameInRequest']);
   has ReadReplicaDBInstanceIdentifiers => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'ReadReplicaDBInstanceIdentifier', traits => ['NameInRequest']);
+  has ReadReplicaSourceDBClusterIdentifier => (is => 'ro', isa => 'Str');
   has ReadReplicaSourceDBInstanceIdentifier => (is => 'ro', isa => 'Str');
   has ReplicaMode => (is => 'ro', isa => 'Str');
+  has ResumeFullAutomationModeTime => (is => 'ro', isa => 'Str');
   has SecondaryAvailabilityZone => (is => 'ro', isa => 'Str');
   has StatusInfos => (is => 'ro', isa => 'ArrayRef[Paws::RDS::DBInstanceStatusInfo]', request_name => 'DBInstanceStatusInfo', traits => ['NameInRequest']);
   has StorageEncrypted => (is => 'ro', isa => 'Bool');
+  has StorageThroughput => (is => 'ro', isa => 'Int');
   has StorageType => (is => 'ro', isa => 'Str');
   has TagList => (is => 'ro', isa => 'ArrayRef[Paws::RDS::Tag]', request_name => 'Tag', traits => ['NameInRequest']);
   has TdeCredentialArn => (is => 'ro', isa => 'Str');
@@ -103,8 +121,13 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::RDS::DBInst
 
 Contains the details of an Amazon RDS DB instance.
 
-This data type is used as a response element in the
-C<DescribeDBInstances> action.
+This data type is used as a response element in the operations
+C<CreateDBInstance>, C<CreateDBInstanceReadReplica>,
+C<DeleteDBInstance>, C<DescribeDBInstances>, C<ModifyDBInstance>,
+C<PromoteReadReplica>, C<RebootDBInstance>,
+C<RestoreDBInstanceFromDBSnapshot>, C<RestoreDBInstanceFromS3>,
+C<RestoreDBInstanceToPointInTime>, C<StartDBInstance>, and
+C<StopDBInstance>.
 
 =head1 ATTRIBUTES
 
@@ -125,8 +148,8 @@ activity stream.
 
 The Amazon Web Services KMS key identifier used for encrypting messages
 in the database activity stream. The Amazon Web Services KMS key
-identifier is the key ARN, key ID, alias ARN, or alias name for the
-Amazon Web Services KMS customer master key (CMK).
+identifier is the key ARN, key ID, alias ARN, or alias name for the KMS
+key.
 
 
 =head2 ActivityStreamMode => Str
@@ -136,6 +159,11 @@ change or access generate an activity stream event. RDS for Oracle
 always handles these events asynchronously.
 
 
+=head2 ActivityStreamPolicyStatus => Str
+
+The status of the policy state of the activity stream.
+
+
 =head2 ActivityStreamStatus => Str
 
 The status of the database activity stream.
@@ -143,7 +171,7 @@ The status of the database activity stream.
 
 =head2 AllocatedStorage => Int
 
-Specifies the allocated storage size specified in gibibytes.
+The amount of storage in gibibytes (GiB) allocated for the DB instance.
 
 
 =head2 AssociatedRoles => ArrayRef[L<Paws::RDS::DBInstanceRole>]
@@ -152,16 +180,31 @@ The Amazon Web Services Identity and Access Management (IAM) roles
 associated with the DB instance.
 
 
+=head2 AutomaticRestartTime => Str
+
+The time when a stopped DB instance is restarted automatically.
+
+
+=head2 AutomationMode => Str
+
+The automation mode of the RDS Custom DB instance: C<full> or C<all
+paused>. If C<full>, the DB instance automates monitoring and instance
+recovery. If C<all paused>, the instance pauses automation for the
+duration set by C<--resume-full-automation-mode-minutes>.
+
+
 =head2 AutoMinorVersionUpgrade => Bool
 
-A value that indicates that minor version patches are applied
-automatically.
+Indicates whether minor version patches are applied automatically.
+
+For more information about automatic minor version upgrades, see
+Automatically upgrading the minor engine version
+(https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Upgrading.html#USER_UpgradeDBInstance.Upgrading.AutoMinorVersionUpgrades).
 
 
 =head2 AvailabilityZone => Str
 
-Specifies the name of the Availability Zone the DB instance is located
-in.
+The name of the Availability Zone where the DB instance is located.
 
 
 =head2 AwsBackupRecoveryPointArn => Str
@@ -172,13 +215,31 @@ Services Backup.
 
 =head2 BackupRetentionPeriod => Int
 
-Specifies the number of days for which automatic DB snapshots are
-retained.
+The number of days for which automatic DB snapshots are retained.
+
+
+=head2 BackupTarget => Str
+
+The location where automated backups and manual snapshots are stored:
+Amazon Web Services Outposts or the Amazon Web Services Region.
 
 
 =head2 CACertificateIdentifier => Str
 
 The identifier of the CA certificate for this DB instance.
+
+For more information, see Using SSL/TLS to encrypt a connection to a DB
+instance
+(https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html)
+in the I<Amazon RDS User Guide> and Using SSL/TLS to encrypt a
+connection to a DB cluster
+(https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.SSL.html)
+in the I<Amazon Aurora User Guide>.
+
+
+=head2 CertificateDetails => L<Paws::RDS::CertificateDetails>
+
+The details of the DB instance's server certificate.
 
 
 =head2 CharacterSetName => Str
@@ -189,19 +250,18 @@ is associated with.
 
 =head2 CopyTagsToSnapshot => Bool
 
-Specifies whether tags are copied from the DB instance to snapshots of
+Indicates whether tags are copied from the DB instance to snapshots of
 the DB instance.
 
-B<Amazon Aurora>
-
-Not applicable. Copying tags to snapshots is managed by the DB cluster.
-Setting this value for an Aurora DB instance has no effect on the DB
-cluster setting. For more information, see C<DBCluster>.
+This setting doesn't apply to Amazon Aurora DB instances. Copying tags
+to snapshots is managed by the DB cluster. Setting this value for an
+Aurora DB instance has no effect on the DB cluster setting. For more
+information, see C<DBCluster>.
 
 
 =head2 CustomerOwnedIpEnabled => Bool
 
-Specifies whether a customer-owned IP address (CoIP) is enabled for an
+Indicates whether a customer-owned IP address (CoIP) is enabled for an
 RDS on Outposts DB instance.
 
 A I<CoIP >provides local or external connectivity to resources in your
@@ -215,13 +275,48 @@ on Amazon Web Services Outposts
 in the I<Amazon RDS User Guide>.
 
 For more information about CoIPs, see Customer-owned IP addresses
-(https://docs.aws.amazon.com/outposts/latest/userguide/outposts-networking-components.html#ip-addressing)
+(https://docs.aws.amazon.com/outposts/latest/userguide/routing.html#ip-addressing)
 in the I<Amazon Web Services Outposts User Guide>.
+
+
+=head2 CustomIamInstanceProfile => Str
+
+The instance profile associated with the underlying Amazon EC2 instance
+of an RDS Custom DB instance. The instance profile must meet the
+following requirements:
+
+=over
+
+=item *
+
+The profile must exist in your account.
+
+=item *
+
+The profile must have an IAM role that Amazon EC2 has permissions to
+assume.
+
+=item *
+
+The instance profile name and the associated IAM role name must start
+with the prefix C<AWSRDSCustom>.
+
+=back
+
+For the list of permissions required for the IAM role, see Configure
+IAM and your VPC
+(https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-setup-orcl.html#custom-setup-orcl.iam-vpc)
+in the I<Amazon RDS User Guide>.
+
+
+=head2 DatabaseInsightsMode => Str
+
+The mode of Database Insights that is enabled for the instance.
 
 
 =head2 DBClusterIdentifier => Str
 
-If the DB instance is a member of a DB cluster, contains the name of
+If the DB instance is a member of a DB cluster, indicates the name of
 the DB cluster that the DB instance is a member of.
 
 
@@ -238,26 +333,24 @@ instance.
 
 =head2 DBInstanceClass => Str
 
-Contains the name of the compute and memory capacity class of the DB
-instance.
+The name of the compute and memory capacity class of the DB instance.
 
 
 =head2 DBInstanceIdentifier => Str
 
-Contains a user-supplied database identifier. This identifier is the
-unique key that identifies a DB instance.
+The user-supplied database identifier. This identifier is the unique
+key that identifies a DB instance.
 
 
 =head2 DbInstancePort => Int
 
-Specifies the port that the DB instance listens on. If the DB instance
-is part of a DB cluster, this can be a different port than the DB
-cluster port.
+The port that the DB instance listens on. If the DB instance is part of
+a DB cluster, this can be a different port than the DB cluster port.
 
 
 =head2 DBInstanceStatus => Str
 
-Specifies the current state of this database.
+The current state of this database.
 
 For information about DB instance statuses, see Viewing DB instance
 status
@@ -269,33 +362,21 @@ in the I<Amazon RDS User Guide.>
 
 The Amazon Web Services Region-unique, immutable identifier for the DB
 instance. This identifier is found in Amazon Web Services CloudTrail
-log entries whenever the Amazon Web Services KMS customer master key
-(CMK) for the DB instance is accessed.
+log entries whenever the Amazon Web Services KMS key for the DB
+instance is accessed.
 
 
 =head2 DBName => Str
 
-The meaning of this parameter differs according to the database engine
-you use.
-
-B<MySQL, MariaDB, SQL Server, PostgreSQL>
-
-Contains the name of the initial database of this instance that was
-provided at create time, if one was specified when the DB instance was
-created. This same name is returned for the life of the DB instance.
-
-Type: String
-
-B<Oracle>
-
-Contains the Oracle System ID (SID) of the created DB instance. Not
-shown when the returned parameters do not apply to an Oracle DB
-instance.
+The initial database name that you provided (if required) when you
+created the DB instance. This name is returned for the life of your DB
+instance. For an RDS for Oracle CDB instance, the name identifies the
+PDB rather than the CDB.
 
 
 =head2 DBParameterGroups => ArrayRef[L<Paws::RDS::DBParameterGroupStatus>]
 
-Provides the list of DB parameter groups applied to this DB instance.
+The list of DB parameter groups applied to this DB instance.
 
 
 =head2 DBSecurityGroups => ArrayRef[L<Paws::RDS::DBSecurityGroupMembership>]
@@ -306,14 +387,26 @@ and C<DBSecurityGroup.Status> subelements.
 
 =head2 DBSubnetGroup => L<Paws::RDS::DBSubnetGroup>
 
-Specifies information on the subnet group associated with the DB
-instance, including the name, description, and subnets in the subnet
-group.
+Information about the subnet group associated with the DB instance,
+including the name, description, and subnets in the subnet group.
+
+
+=head2 DBSystemId => Str
+
+The Oracle system ID (Oracle SID) for a container database (CDB). The
+Oracle SID is also the name of the CDB. This setting is only valid for
+RDS Custom DB instances.
+
+
+=head2 DedicatedLogVolume => Bool
+
+Indicates whether the DB instance has a dedicated log volume (DLV)
+enabled.
 
 
 =head2 DeletionProtection => Bool
 
-Indicates if the DB instance has deletion protection enabled. The
+Indicates whether the DB instance has deletion protection enabled. The
 database can't be deleted when deletion protection is enabled. For more
 information, see Deleting a DB Instance
 (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_DeleteInstance.html).
@@ -331,24 +424,34 @@ A list of log types that this DB instance is configured to export to
 CloudWatch Logs.
 
 Log types vary by DB engine. For information about the log types for
-each DB engine, see Amazon RDS Database Log Files
+each DB engine, see Monitoring Amazon RDS log files
 (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_LogAccess.html)
 in the I<Amazon RDS User Guide.>
 
 
 =head2 Endpoint => L<Paws::RDS::Endpoint>
 
-Specifies the connection endpoint.
+The connection endpoint for the DB instance.
+
+The endpoint might not be shown for instances with the status of
+C<creating>.
 
 
 =head2 Engine => Str
 
-The name of the database engine to be used for this DB instance.
+The database engine used for this DB instance.
+
+
+=head2 EngineLifecycleSupport => Str
+
+The life cycle type for the DB instance.
+
+For more information, see CreateDBInstance.
 
 
 =head2 EngineVersion => Str
 
-Indicates the database engine version.
+The version of the database engine.
 
 
 =head2 EnhancedMonitoringResourceArn => Str
@@ -359,76 +462,86 @@ that receives the Enhanced Monitoring metrics data for the DB instance.
 
 =head2 IAMDatabaseAuthenticationEnabled => Bool
 
-True if mapping of Amazon Web Services Identity and Access Management
-(IAM) accounts to database accounts is enabled, and otherwise false.
+Indicates whether mapping of Amazon Web Services Identity and Access
+Management (IAM) accounts to database accounts is enabled for the DB
+instance.
 
-IAM database authentication can be enabled for the following database
-engines
-
-=over
-
-=item *
-
-For MySQL 5.6, minor version 5.6.34 or higher
-
-=item *
-
-For MySQL 5.7, minor version 5.7.16 or higher
-
-=item *
-
-Aurora 5.6 or higher. To enable IAM database authentication for Aurora,
-see DBCluster Type.
-
-=back
-
+For a list of engine versions that support IAM database authentication,
+see IAM database authentication
+(https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.RDS_Fea_Regions_DB-eng.Feature.IamDatabaseAuthentication.html)
+in the I<Amazon RDS User Guide> and IAM database authentication in
+Aurora
+(https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.Aurora_Fea_Regions_DB-eng.Feature.IAMdbauth.html)
+in the I<Amazon Aurora User Guide>.
 
 
 =head2 InstanceCreateTime => Str
 
-Provides the date and time the DB instance was created.
+The date and time when the DB instance was created.
 
 
 =head2 Iops => Int
 
-Specifies the Provisioned IOPS (I/O operations per second) value.
+The Provisioned IOPS (I/O operations per second) value for the DB
+instance.
+
+
+=head2 IsStorageConfigUpgradeAvailable => Bool
+
+Indicates whether an upgrade is recommended for the storage file system
+configuration on the DB instance. To migrate to the preferred
+configuration, you can either create a blue/green deployment, or create
+a read replica from the DB instance. For more information, see
+Upgrading the storage file system for a DB instance
+(https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PIOPS.StorageTypes.html#USER_PIOPS.UpgradeFileSystem).
 
 
 =head2 KmsKeyId => Str
 
-If C<StorageEncrypted> is true, the Amazon Web Services KMS key
+If C<StorageEncrypted> is enabled, the Amazon Web Services KMS key
 identifier for the encrypted DB instance.
 
 The Amazon Web Services KMS key identifier is the key ARN, key ID,
-alias ARN, or alias name for the Amazon Web Services KMS customer
-master key (CMK).
+alias ARN, or alias name for the KMS key.
 
 
 =head2 LatestRestorableTime => Str
 
-Specifies the latest time to which a database can be restored with
-point-in-time restore.
+The latest time to which a database in this DB instance can be restored
+with point-in-time restore.
 
 
 =head2 LicenseModel => Str
 
-License model information for this DB instance.
+The license model information for this DB instance. This setting
+doesn't apply to Amazon Aurora or RDS Custom DB instances.
 
 
 =head2 ListenerEndpoint => L<Paws::RDS::Endpoint>
 
-Specifies the listener connection endpoint for SQL Server Always On.
+The listener connection endpoint for SQL Server Always On.
 
 
 =head2 MasterUsername => Str
 
-Contains the master username for the DB instance.
+The master username for the DB instance.
+
+
+=head2 MasterUserSecret => L<Paws::RDS::MasterUserSecret>
+
+The secret managed by RDS in Amazon Web Services Secrets Manager for
+the master user password.
+
+For more information, see Password management with Amazon Web Services
+Secrets Manager
+(https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-secrets-manager.html)
+in the I<Amazon RDS User Guide.>
 
 
 =head2 MaxAllocatedStorage => Int
 
-The upper limit to which Amazon RDS can automatically scale the storage
-of the DB instance.
+The upper limit in gibibytes (GiB) to which Amazon RDS can
+automatically scale the storage of the DB instance.
 
 
 =head2 MonitoringInterval => Int
@@ -445,7 +558,14 @@ metrics to Amazon CloudWatch Logs.
 
 =head2 MultiAZ => Bool
 
-Specifies if the DB instance is a Multi-AZ deployment.
+Indicates whether the DB instance is a Multi-AZ deployment. This
+setting doesn't apply to RDS Custom DB instances.
+
+
+=head2 MultiTenant => Bool
+
+Specifies whether the DB instance is in the multi-tenant configuration
+(TRUE) or the single-tenant configuration (FALSE).
 
 
 =head2 NcharCharacterSetName => Str
@@ -455,22 +575,43 @@ character set specifies the Unicode encoding for data stored in table
 columns of type NCHAR, NCLOB, or NVARCHAR2.
 
 
+=head2 NetworkType => Str
+
+The network type of the DB instance.
+
+The network type is determined by the C<DBSubnetGroup> specified for
+the DB instance. A C<DBSubnetGroup> can support only the IPv4 protocol
+or the IPv4 and the IPv6 protocols (C<DUAL>).
+
+For more information, see Working with a DB instance in a VPC
+(https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_VPC.WorkingWithRDSInstanceinaVPC.html)
+in the I<Amazon RDS User Guide> and Working with a DB instance in a VPC
+(https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_VPC.WorkingWithRDSInstanceinaVPC.html)
+in the I<Amazon Aurora User Guide.>
+
+Valid Values: C<IPV4 | DUAL>
+
+
 =head2 OptionGroupMemberships => ArrayRef[L<Paws::RDS::OptionGroupMembership>]
 
-Provides the list of option group memberships for this DB instance.
+The list of option group memberships for this DB instance.
 
 
 =head2 PendingModifiedValues => L<Paws::RDS::PendingModifiedValues>
 
-A value that specifies that changes to the DB instance are pending.
-This element is only included when changes are pending. Specific
-changes are identified by subelements.
+Information about pending changes to the DB instance. This information
+is returned only when there are pending changes. Specific changes are
+identified by subelements.
+
+
+=head2 PercentProgress => Str
+
+The progress of the storage optimization operation as a percentage.
 
 
 =head2 PerformanceInsightsEnabled => Bool
 
-True if Performance Insights is enabled for the DB instance, and
-otherwise false.
+Indicates whether Performance Insights is enabled for the DB instance.
 
 
 =head2 PerformanceInsightsKMSKeyId => Str
@@ -479,27 +620,47 @@ The Amazon Web Services KMS key identifier for encryption of
 Performance Insights data.
 
 The Amazon Web Services KMS key identifier is the key ARN, key ID,
-alias ARN, or alias name for the Amazon Web Services KMS customer
-master key (CMK).
+alias ARN, or alias name for the KMS key.
 
 
 =head2 PerformanceInsightsRetentionPeriod => Int
 
-The amount of time, in days, to retain Performance Insights data. Valid
-values are 7 or 731 (2 years).
+The number of days to retain Performance Insights data.
+
+Valid Values:
+
+=over
+
+=item *
+
+C<7>
+
+=item *
+
+I<month> * 31, where I<month> is a number of months from 1-23.
+Examples: C<93> (3 months * 31), C<341> (11 months * 31), C<589> (19
+months * 31)
+
+=item *
+
+C<731>
+
+=back
+
+Default: C<7> days
 
 
 =head2 PreferredBackupWindow => Str
 
-Specifies the daily time range during which automated backups are
-created if automated backups are enabled, as determined by the
+The daily time range during which automated backups are created if
+automated backups are enabled, as determined by the
 C<BackupRetentionPeriod>.
 
 
 =head2 PreferredMaintenanceWindow => Str
 
-Specifies the weekly time range during which system maintenance can
-occur, in Universal Coordinated Time (UTC).
+The weekly time range during which system maintenance can occur, in
+Universal Coordinated Time (UTC).
 
 
 =head2 ProcessorFeatures => ArrayRef[L<Paws::RDS::ProcessorFeature>]
@@ -510,24 +671,25 @@ instance class of the DB instance.
 
 =head2 PromotionTier => Int
 
-A value that specifies the order in which an Aurora Replica is promoted
-to the primary instance after a failure of the existing primary
-instance. For more information, see Fault Tolerance for an Aurora DB
-Cluster
-(https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Aurora.Managing.Backups.html#Aurora.Managing.FaultTolerance)
+The order of priority in which an Aurora Replica is promoted to the
+primary instance after a failure of the existing primary instance. For
+more information, see Fault Tolerance for an Aurora DB Cluster
+(https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.AuroraHighAvailability.html#Aurora.Managing.FaultTolerance)
 in the I<Amazon Aurora User Guide>.
 
 
 =head2 PubliclyAccessible => Bool
 
-Specifies the accessibility options for the DB instance.
+Indicates whether the DB instance is publicly accessible.
 
-When the DB instance is publicly accessible, its DNS endpoint resolves
-to the private IP address from within the DB instance's VPC, and to the
-public IP address from outside of the DB instance's VPC. Access to the
-DB instance is ultimately controlled by the security group it uses, and
-that public access is not permitted if the security group assigned to
-the DB instance doesn't permit it.
+When the DB instance is publicly accessible and you connect from
+outside of the DB instance's virtual private cloud (VPC), its Domain
+Name System (DNS) endpoint resolves to the public IP address. When you
+connect from within the same VPC as the DB instance, the endpoint
+resolves to the private IP address. Access to the DB cluster is
+ultimately controlled by the security group it uses. That public access
+isn't permitted if the security group assigned to the DB cluster
+doesn't permit it.
 
 When the DB instance isn't publicly accessible, it is an internal DB
 instance with a DNS name that resolves to a private IP address.
@@ -537,25 +699,30 @@ For more information, see CreateDBInstance.
 
 =head2 ReadReplicaDBClusterIdentifiers => ArrayRef[Str|Undef]
 
-Contains one or more identifiers of Aurora DB clusters to which the RDS
-DB instance is replicated as a read replica. For example, when you
-create an Aurora read replica of an RDS MySQL DB instance, the Aurora
-MySQL DB cluster for the Aurora read replica is shown. This output does
-not contain information about cross region Aurora read replicas.
+The identifiers of Aurora DB clusters to which the RDS DB instance is
+replicated as a read replica. For example, when you create an Aurora
+read replica of an RDS for MySQL DB instance, the Aurora MySQL DB
+cluster for the Aurora read replica is shown. This output doesn't
+contain information about cross-Region Aurora read replicas.
 
 Currently, each RDS DB instance can have only one Aurora read replica.
 
 
 =head2 ReadReplicaDBInstanceIdentifiers => ArrayRef[Str|Undef]
 
-Contains one or more identifiers of the read replicas associated with
-this DB instance.
+The identifiers of the read replicas associated with this DB instance.
+
+
+=head2 ReadReplicaSourceDBClusterIdentifier => Str
+
+The identifier of the source DB cluster if this DB instance is a read
+replica.
 
 
 =head2 ReadReplicaSourceDBInstanceIdentifier => Str
 
-Contains the identifier of the source DB instance if this DB instance
-is a read replica.
+The identifier of the source DB instance if this DB instance is a read
+replica.
 
 
 =head2 ReplicaMode => Str
@@ -569,6 +736,13 @@ in the I<Amazon RDS User Guide>.
 This attribute is only supported in RDS for Oracle.
 
 
+=head2 ResumeFullAutomationModeTime => Str
+
+The number of minutes to pause the automation. When the time period
+ends, RDS Custom resumes full automation. The minimum value is 60
+(default). The maximum value is 1,440.
+
+
 =head2 SecondaryAvailabilityZone => Str
 
 If present, specifies the name of the secondary Availability Zone for a
@@ -577,18 +751,25 @@ DB instance with multi-AZ support.
 
 =head2 StatusInfos => ArrayRef[L<Paws::RDS::DBInstanceStatusInfo>]
 
-The status of a read replica. If the instance isn't a read replica,
-this is blank.
+The status of a read replica. If the DB instance isn't a read replica,
+the value is blank.
 
 
 =head2 StorageEncrypted => Bool
 
-Specifies whether the DB instance is encrypted.
+Indicates whether the DB instance is encrypted.
+
+
+=head2 StorageThroughput => Int
+
+The storage throughput for the DB instance.
+
+This setting applies only to the C<gp3> storage type.
 
 
 =head2 StorageType => Str
 
-Specifies the storage type associated with DB instance.
+The storage type associated with the DB instance.
 
 
 =head2 TagList => ArrayRef[L<Paws::RDS::Tag>]
@@ -605,14 +786,15 @@ TDE encryption.
 =head2 Timezone => Str
 
 The time zone of the DB instance. In most cases, the C<Timezone>
-element is empty. C<Timezone> content appears only for Microsoft SQL
-Server DB instances that were created with a time zone specified.
+element is empty. C<Timezone> content appears only for RDS for Db2 and
+RDS for SQL Server DB instances that were created with a time zone
+specified.
 
 
 =head2 VpcSecurityGroups => ArrayRef[L<Paws::RDS::VpcSecurityGroupMembership>]
 
-Provides a list of VPC security group elements that the DB instance
-belongs to.
+The list of Amazon EC2 VPC security groups that the DB instance belongs
+to.
 
 
 

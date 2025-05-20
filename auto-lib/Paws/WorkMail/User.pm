@@ -6,6 +6,8 @@ package Paws::WorkMail::User;
   has Email => (is => 'ro', isa => 'Str');
   has EnabledDate => (is => 'ro', isa => 'Str');
   has Id => (is => 'ro', isa => 'Str');
+  has IdentityProviderIdentityStoreId => (is => 'ro', isa => 'Str');
+  has IdentityProviderUserId => (is => 'ro', isa => 'Str');
   has Name => (is => 'ro', isa => 'Str');
   has State => (is => 'ro', isa => 'Str');
   has UserRole => (is => 'ro', isa => 'Str');
@@ -40,15 +42,14 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::WorkMail::U
 
 =head1 DESCRIPTION
 
-The representation of an Amazon WorkMail user.
+The representation of an WorkMail user.
 
 =head1 ATTRIBUTES
 
 
 =head2 DisabledDate => Str
 
-The date indicating when the user was disabled from Amazon WorkMail
-use.
+The date indicating when the user was disabled from WorkMail use.
 
 
 =head2 DisplayName => Str
@@ -63,12 +64,26 @@ The email of the user.
 
 =head2 EnabledDate => Str
 
-The date indicating when the user was enabled for Amazon WorkMail use.
+The date indicating when the user was enabled for WorkMail use.
 
 
 =head2 Id => Str
 
 The identifier of the user.
+
+
+=head2 IdentityProviderIdentityStoreId => Str
+
+Identity store ID from the IAM Identity Center. If this parameter is
+empty it will be updated automatically when the user logs in for the
+first time to the mailbox associated with WorkMail.
+
+
+=head2 IdentityProviderUserId => Str
+
+User ID from the IAM Identity Center. If this parameter is empty it
+will be updated automatically when the user logs in for the first time
+to the mailbox associated with WorkMail.
 
 
 =head2 Name => Str

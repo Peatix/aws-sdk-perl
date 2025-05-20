@@ -4,6 +4,7 @@ package Paws::EMRContainers::CreateVirtualCluster;
   has ClientToken => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'clientToken', required => 1);
   has ContainerProvider => (is => 'ro', isa => 'Paws::EMRContainers::ContainerProvider', traits => ['NameInRequest'], request_name => 'containerProvider', required => 1);
   has Name => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'name', required => 1);
+  has SecurityConfigurationId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'securityConfigurationId');
   has Tags => (is => 'ro', isa => 'Paws::EMRContainers::TagMap', traits => ['NameInRequest'], request_name => 'tags');
 
   use MooseX::ClassAttribute;
@@ -34,16 +35,17 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $CreateVirtualClusterResponse = $emr -containers->CreateVirtualCluster(
       ClientToken       => 'MyClientToken',
       ContainerProvider => {
-        Id   => 'MyString256',    # min: 1, max: 256
+        Id   => 'MyClusterId',    # min: 1, max: 100
         Type => 'EKS',            # values: EKS
         Info => {
           EksInfo => {
-            Namespace => 'MyString256',    # min: 1, max: 256
+            Namespace => 'MyKubernetesNamespace',    # min: 1, max: 63; OPTIONAL
           },    # OPTIONAL
         },    # OPTIONAL
       },
-      Name => 'MyResourceNameString',
-      Tags => {
+      Name                    => 'MyResourceNameString',
+      SecurityConfigurationId => 'MyResourceIdString',     # OPTIONAL
+      Tags                    => {
         'MyString128' =>
           'MyStringEmpty256',    # key: min: 1, max: 128, value: max: 256
       },    # OPTIONAL
@@ -77,6 +79,12 @@ The container provider of the virtual cluster.
 =head2 B<REQUIRED> Name => Str
 
 The specified name of the virtual cluster.
+
+
+
+=head2 SecurityConfigurationId => Str
+
+The ID of the security configuration.
 
 
 

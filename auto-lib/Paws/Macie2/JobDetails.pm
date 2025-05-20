@@ -37,8 +37,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Macie2::Job
 =head1 DESCRIPTION
 
 Specifies whether any one-time or recurring classification jobs are
-configured to analyze data in an S3 bucket, and, if so, the details of
-the job that ran most recently.
+configured to analyze objects in an S3 bucket, and, if so, the details
+of the job that ran most recently.
 
 =head1 ATTRIBUTES
 
@@ -46,7 +46,7 @@ the job that ran most recently.
 =head2 IsDefinedInJob => Str
 
 Specifies whether any one-time or recurring jobs are configured to
-analyze data in the bucket. Possible values are:
+analyze objects in the bucket. Possible values are:
 
 =over
 
@@ -77,8 +77,8 @@ job data for the bucket.
 
 =head2 IsMonitoredByJob => Str
 
-Specifies whether any recurring jobs are configured to analyze data in
-the bucket. Possible values are:
+Specifies whether any recurring jobs are configured to analyze objects
+in the bucket. Possible values are:
 
 =over
 
@@ -110,7 +110,7 @@ job data for the bucket.
 =head2 LastJobId => Str
 
 The unique identifier for the job that ran most recently and is
-configured to analyze data in the bucket, either the latest run of a
+configured to analyze objects in the bucket, either the latest run of a
 recurring job or the only run of a one-time job.
 
 This value is typically null if the value for the isDefinedInJob

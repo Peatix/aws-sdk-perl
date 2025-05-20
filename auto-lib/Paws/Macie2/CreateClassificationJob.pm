@@ -1,11 +1,14 @@
 
 package Paws::Macie2::CreateClassificationJob;
   use Moose;
+  has AllowListIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'allowListIds');
   has ClientToken => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'clientToken', required => 1);
   has CustomDataIdentifierIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'customDataIdentifierIds');
   has Description => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'description');
   has InitialRun => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'initialRun');
   has JobType => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'jobType', required => 1);
+  has ManagedDataIdentifierIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'managedDataIdentifierIds');
+  has ManagedDataIdentifierSelector => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'managedDataIdentifierSelector');
   has Name => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'name', required => 1);
   has S3JobDefinition => (is => 'ro', isa => 'Paws::Macie2::S3JobDefinition', traits => ['NameInRequest'], request_name => 's3JobDefinition', required => 1);
   has SamplingPercentage => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'samplingPercentage');
@@ -159,15 +162,18 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           },    # OPTIONAL
         },    # OPTIONAL
       },
-      CustomDataIdentifierIds => [ 'My__string', ... ],    # OPTIONAL
-      Description             => 'My__string',             # OPTIONAL
-      InitialRun              => 1,                        # OPTIONAL
-      SamplingPercentage      => 1,                        # OPTIONAL
-      ScheduleFrequency       => {
+      AllowListIds                  => [ 'My__string', ... ],    # OPTIONAL
+      CustomDataIdentifierIds       => [ 'My__string', ... ],    # OPTIONAL
+      Description                   => 'My__string',             # OPTIONAL
+      InitialRun                    => 1,                        # OPTIONAL
+      ManagedDataIdentifierIds      => [ 'My__string', ... ],    # OPTIONAL
+      ManagedDataIdentifierSelector => 'ALL',                    # OPTIONAL
+      SamplingPercentage            => 1,                        # OPTIONAL
+      ScheduleFrequency             => {
         DailySchedule => {
 
-        },                                                 # OPTIONAL
-        MonthlySchedule => { DayOfMonth => 1, },           # OPTIONAL
+        },                                                       # OPTIONAL
+        MonthlySchedule => { DayOfMonth => 1, },                 # OPTIONAL
         WeeklySchedule  => {
           DayOfWeek => 'SUNDAY'
           , # values: SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY; OPTIONAL
@@ -188,6 +194,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/mac
 =head1 ATTRIBUTES
 
 
+=head2 AllowListIds => ArrayRef[Str|Undef]
+
+An array of unique identifiers, one for each allow list for the job to
+use when it analyzes data.
+
+
+
 =head2 B<REQUIRED> ClientToken => Str
 
 A unique, case-sensitive token that you provide to ensure the
@@ -197,8 +210,10 @@ idempotency of the request.
 
 =head2 CustomDataIdentifierIds => ArrayRef[Str|Undef]
 
-The custom data identifiers to use for data analysis and
-classification.
+An array of unique identifiers, one for each custom data identifier for
+the job to use when it analyzes data. To use only managed data
+identifiers, don't specify a value for this property and specify a
+value other than NONE for the managedDataIdentifierSelector property.
 
 
 
@@ -211,8 +226,14 @@ A custom description of the job. The description can contain as many as
 
 =head2 InitialRun => Bool
 
-Specifies whether to analyze all existing, eligible objects immediately
-after the job is created.
+For a recurring job, specifies whether to analyze all existing,
+eligible objects immediately after the job is created (true). To
+analyze only those objects that are created or changed after you create
+the job and before the job's first scheduled run, set this value to
+false.
+
+If you configure the job to run only once, don't specify a value for
+this property.
 
 
 
@@ -230,13 +251,82 @@ specify a value for the scheduleFrequency property.
 =item *
 
 SCHEDULED - Run the job on a daily, weekly, or monthly basis. If you
-specify this value, use the scheduleFrequency property to define the
+specify this value, use the scheduleFrequency property to specify the
 recurrence pattern for the job.
 
 =back
 
 
 Valid values are: C<"ONE_TIME">, C<"SCHEDULED">
+
+=head2 ManagedDataIdentifierIds => ArrayRef[Str|Undef]
+
+An array of unique identifiers, one for each managed data identifier
+for the job to include (use) or exclude (not use) when it analyzes
+data. Inclusion or exclusion depends on the managed data identifier
+selection type that you specify for the job
+(managedDataIdentifierSelector).
+
+To retrieve a list of valid values for this property, use the
+ListManagedDataIdentifiers operation.
+
+
+
+=head2 ManagedDataIdentifierSelector => Str
+
+The selection type to apply when determining which managed data
+identifiers the job uses to analyze data. Valid values are:
+
+=over
+
+=item *
+
+ALL - Use all managed data identifiers. If you specify this value,
+don't specify any values for the managedDataIdentifierIds property.
+
+=item *
+
+EXCLUDE - Use all managed data identifiers except the ones specified by
+the managedDataIdentifierIds property.
+
+=item *
+
+INCLUDE - Use only the managed data identifiers specified by the
+managedDataIdentifierIds property.
+
+=item *
+
+NONE - Don't use any managed data identifiers. If you specify this
+value, specify at least one value for the customDataIdentifierIds
+property and don't specify any values for the managedDataIdentifierIds
+property.
+
+=item *
+
+RECOMMENDED (default) - Use the recommended set of managed data
+identifiers. If you specify this value, don't specify any values for
+the managedDataIdentifierIds property.
+
+=back
+
+If you don't specify a value for this property, the job uses the
+recommended set of managed data identifiers.
+
+If the job is a recurring job and you specify ALL or EXCLUDE, each job
+run automatically uses new managed data identifiers that are released.
+If you don't specify a value for this property or you specify
+RECOMMENDED for a recurring job, each job run automatically uses all
+the managed data identifiers that are in the recommended set when the
+run starts.
+
+To learn about individual managed data identifiers or determine which
+ones are in the recommended set, see Using managed data identifiers
+(https://docs.aws.amazon.com/macie/latest/user/managed-data-identifiers.html)
+or Recommended managed data identifiers
+(https://docs.aws.amazon.com/macie/latest/user/discovery-jobs-mdis-recommended.html)
+in the I<Amazon Macie User Guide>.
+
+Valid values are: C<"ALL">, C<"EXCLUDE">, C<"INCLUDE">, C<"NONE">, C<"RECOMMENDED">
 
 =head2 B<REQUIRED> Name => Str
 
@@ -254,11 +344,11 @@ that analysis.
 
 =head2 SamplingPercentage => Int
 
-The sampling depth, as a percentage, to apply when processing objects.
-This value determines the percentage of eligible objects that the job
-analyzes. If this value is less than 100, Amazon Macie selects the
-objects to analyze at random, up to the specified percentage, and
-analyzes all the data in those objects.
+The sampling depth, as a percentage, for the job to apply when
+processing objects. This value determines the percentage of eligible
+objects that the job analyzes. If this value is less than 100, Amazon
+Macie selects the objects to analyze at random, up to the specified
+percentage, and analyzes all the data in those objects.
 
 
 

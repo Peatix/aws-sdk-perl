@@ -35,7 +35,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AuditManage
 
 =head1 DESCRIPTION
 
-A set of controls in AWS Audit Manager.
+A set of controls in Audit Manager.
 
 =head1 ATTRIBUTES
 

@@ -50,8 +50,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 B<REQUIRED> ResourceType => Str
 
-The type of the resource, currently support WirelessDevice and
-WirelessGateway.
+The type of resource, which can be C<WirelessDevice>,
+C<WirelessGateway>, or C<FuotaTask>.
 
 
 

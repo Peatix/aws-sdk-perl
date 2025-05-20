@@ -7,8 +7,10 @@ package Paws::Glue::GetPartitions;
   has Expression => (is => 'ro', isa => 'Str');
   has MaxResults => (is => 'ro', isa => 'Int');
   has NextToken => (is => 'ro', isa => 'Str');
+  has QueryAsOfTime => (is => 'ro', isa => 'Str');
   has Segment => (is => 'ro', isa => 'Paws::Glue::Segment');
   has TableName => (is => 'ro', isa => 'Str', required => 1);
+  has TransactionId => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -37,16 +39,18 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $GetPartitionsResponse = $glue->GetPartitions(
       DatabaseName        => 'MyNameString',
       TableName           => 'MyNameString',
-      CatalogId           => 'MyCatalogIdString',    # OPTIONAL
-      ExcludeColumnSchema => 1,                      # OPTIONAL
-      Expression          => 'MyPredicateString',    # OPTIONAL
-      MaxResults          => 1,                      # OPTIONAL
-      NextToken           => 'MyToken',              # OPTIONAL
+      CatalogId           => 'MyCatalogIdString',      # OPTIONAL
+      ExcludeColumnSchema => 1,                        # OPTIONAL
+      Expression          => 'MyPredicateString',      # OPTIONAL
+      MaxResults          => 1,                        # OPTIONAL
+      NextToken           => 'MyToken',                # OPTIONAL
+      QueryAsOfTime       => '1970-01-01T01:00:00',    # OPTIONAL
       Segment             => {
         SegmentNumber => 1,
-        TotalSegments => 1,                          # min: 1, max: 10
+        TotalSegments => 1,                            # min: 1, max: 10
 
       },    # OPTIONAL
+      TransactionId => 'MyTransactionIdString',    # OPTIONAL
     );
 
     # Results:
@@ -77,7 +81,10 @@ The name of the catalog database where the partitions reside.
 
 =head2 ExcludeColumnSchema => Bool
 
-
+When true, specifies not returning the partition column schema. Useful
+when you are interested only in other partition attributes such as
+partition values or location. This approach avoids the problem of a
+large response by not returning duplicate data.
 
 
 
@@ -212,6 +219,14 @@ partitions.
 
 
 
+=head2 QueryAsOfTime => Str
+
+The time as of when to read the partition contents. If not set, the
+most recent transaction commit time will be used. Cannot be specified
+along with C<TransactionId>.
+
+
+
 =head2 Segment => L<Paws::Glue::Segment>
 
 The segment of the table's partitions to scan in this request.
@@ -221,6 +236,12 @@ The segment of the table's partitions to scan in this request.
 =head2 B<REQUIRED> TableName => Str
 
 The name of the partitions' table.
+
+
+
+=head2 TransactionId => Str
+
+The transaction ID at which to read the partition contents.
 
 
 

@@ -34,7 +34,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SecurityHub
 
 =head1 DESCRIPTION
 
-Identifies a finding to update using C<BatchUpdateFindings>.
+Identifies which finding to get the finding history for.
 
 =head1 ATTRIBUTES
 

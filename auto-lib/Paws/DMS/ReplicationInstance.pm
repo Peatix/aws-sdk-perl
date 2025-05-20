@@ -8,14 +8,17 @@ package Paws::DMS::ReplicationInstance;
   has EngineVersion => (is => 'ro', isa => 'Str');
   has FreeUntil => (is => 'ro', isa => 'Str');
   has InstanceCreateTime => (is => 'ro', isa => 'Str');
+  has KerberosAuthenticationSettings => (is => 'ro', isa => 'Paws::DMS::KerberosAuthenticationSettings');
   has KmsKeyId => (is => 'ro', isa => 'Str');
   has MultiAZ => (is => 'ro', isa => 'Bool');
+  has NetworkType => (is => 'ro', isa => 'Str');
   has PendingModifiedValues => (is => 'ro', isa => 'Paws::DMS::ReplicationPendingModifiedValues');
   has PreferredMaintenanceWindow => (is => 'ro', isa => 'Str');
   has PubliclyAccessible => (is => 'ro', isa => 'Bool');
   has ReplicationInstanceArn => (is => 'ro', isa => 'Str');
   has ReplicationInstanceClass => (is => 'ro', isa => 'Str');
   has ReplicationInstanceIdentifier => (is => 'ro', isa => 'Str');
+  has ReplicationInstanceIpv6Addresses => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has ReplicationInstancePrivateIpAddress => (is => 'ro', isa => 'Str');
   has ReplicationInstancePrivateIpAddresses => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has ReplicationInstancePublicIpAddress => (is => 'ro', isa => 'Str');
@@ -106,16 +109,23 @@ the Free DMS program.
 The time the replication instance was created.
 
 
+=head2 KerberosAuthenticationSettings => L<Paws::DMS::KerberosAuthenticationSettings>
+
+Specifies the settings required for kerberos authentication when
+replicating an instance.
+
+
 =head2 KmsKeyId => Str
 
-An AWS KMS key identifier that is used to encrypt the data on the
+An KMS key identifier that is used to encrypt the data on the
 replication instance.
 
-If you don't specify a value for the C<KmsKeyId> parameter, then AWS
-DMS uses your default encryption key.
+If you don't specify a value for the C<KmsKeyId> parameter, then DMS
+uses your default encryption key.
 
-AWS KMS creates the default encryption key for your AWS account. Your
-AWS account has a different default encryption key for each AWS Region.
+KMS creates the default encryption key for your Amazon Web Services
+account. Your Amazon Web Services account has a different default
+encryption key for each Amazon Web Services Region.
 
 
 =head2 MultiAZ => Bool
@@ -123,6 +133,13 @@ AWS account has a different default encryption key for each AWS Region.
 Specifies whether the replication instance is a Multi-AZ deployment.
 You can't set the C<AvailabilityZone> parameter if the Multi-AZ
 parameter is set to C<true>.
+
+
+=head2 NetworkType => Str
+
+The type of IP address protocol used by a replication instance, such as
+IPv4 only or Dual-stack that supports both IPv4 and IPv6 addressing.
+IPv6 only is not yet supported.
 
 
 =head2 PendingModifiedValues => L<Paws::DMS::ReplicationPendingModifiedValues>
@@ -153,11 +170,11 @@ The Amazon Resource Name (ARN) of the replication instance.
 
 The compute and memory capacity of the replication instance as defined
 for the specified replication instance class. It is a required
-parameter, although a defualt value is pre-selected in the DMS console.
+parameter, although a default value is pre-selected in the DMS console.
 
 For more information on the settings and capacities for the available
-replication instance classes, see Selecting the right AWS DMS
-replication instance for your migration
+replication instance classes, see Selecting the right DMS replication
+instance for your migration
 (https://docs.aws.amazon.com/dms/latest/userguide/CHAP_ReplicationInstance.html#CHAP_ReplicationInstance.InDepth).
 
 
@@ -185,6 +202,11 @@ Cannot end with a hyphen or contain two consecutive hyphens.
 =back
 
 Example: C<myrepinstance>
+
+
+=head2 ReplicationInstanceIpv6Addresses => ArrayRef[Str|Undef]
+
+One or more IPv6 addresses for the replication instance.
 
 
 =head2 ReplicationInstancePrivateIpAddress => Str

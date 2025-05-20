@@ -35,15 +35,16 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CodeDeploy:
 
 =head1 DESCRIPTION
 
-Information about alarms associated with the deployment group.
+Information about alarms associated with a deployment or deployment
+group.
 
 =head1 ATTRIBUTES
 
 
 =head2 Alarms => ArrayRef[L<Paws::CodeDeploy::Alarm>]
 
-A list of alarms configured for the deployment group. A maximum of 10
-alarms can be added to a deployment group.
+A list of alarms configured for the deployment or deployment group. A
+maximum of 10 alarms can be added.
 
 
 =head2 Enabled => Bool

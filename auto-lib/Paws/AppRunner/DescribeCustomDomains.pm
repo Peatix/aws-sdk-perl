@@ -40,6 +40,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $DNSTarget     = $DescribeCustomDomainsResponse->DNSTarget;
     my $NextToken     = $DescribeCustomDomainsResponse->NextToken;
     my $ServiceArn    = $DescribeCustomDomainsResponse->ServiceArn;
+    my $VpcDNSTargets = $DescribeCustomDomainsResponse->VpcDNSTargets;
 
     # Returns a L<Paws::AppRunner::DescribeCustomDomainsResponse> object.
 

@@ -30,17 +30,25 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $kms = Paws->service('KMS');
-    my $DescribeCustomKeyStoresResponse = $kms->DescribeCustomKeyStores(
-      CustomKeyStoreId   => 'MyCustomKeyStoreIdType',      # OPTIONAL
-      CustomKeyStoreName => 'MyCustomKeyStoreNameType',    # OPTIONAL
-      Limit              => 1,                             # OPTIONAL
-      Marker             => 'MyMarkerType',                # OPTIONAL
-    );
+ # To get detailed information about custom key stores in the account and Region
+ # This example gets detailed information about all AWS KMS custom key stores in
+ # an AWS account and Region. To get all key stores, do not enter a custom key
+ # store name or ID.
+    my $DescribeCustomKeyStoresResponse = $kms->DescribeCustomKeyStores();
 
     # Results:
     my $CustomKeyStores = $DescribeCustomKeyStoresResponse->CustomKeyStores;
-    my $NextMarker      = $DescribeCustomKeyStoresResponse->NextMarker;
-    my $Truncated       = $DescribeCustomKeyStoresResponse->Truncated;
+
+# Returns a L<Paws::KMS::DescribeCustomKeyStoresResponse> object.
+# To get detailed information about a custom key store associated with a CloudHSM cluster.
+# This example gets detailed information about a particular AWS KMS custom key
+# store that is associate with an AWS CloudHSM cluster. To limit the output to a
+# particular custom key store, provide the custom key store name or ID.
+    my $DescribeCustomKeyStoresResponse = $kms->DescribeCustomKeyStores(
+      'CustomKeyStoreName' => 'ExampleKeyStore' );
+
+    # Results:
+    my $CustomKeyStores = $DescribeCustomKeyStoresResponse->CustomKeyStores;
 
     # Returns a L<Paws::KMS::DescribeCustomKeyStoresResponse> object.
 
@@ -57,7 +65,7 @@ key store ID.
 
 By default, this operation gets information about all custom key stores
 in the account and Region. To limit the output to a particular custom
-key store, you can use either the C<CustomKeyStoreId> or
+key store, provide either the C<CustomKeyStoreId> or
 C<CustomKeyStoreName> parameter, but not both.
 
 
@@ -69,7 +77,7 @@ friendly name of the custom key store.
 
 By default, this operation gets information about all custom key stores
 in the account and Region. To limit the output to a particular custom
-key store, you can use either the C<CustomKeyStoreId> or
+key store, provide either the C<CustomKeyStoreId> or
 C<CustomKeyStoreName> parameter, but not both.
 
 
@@ -77,8 +85,8 @@ C<CustomKeyStoreName> parameter, but not both.
 =head2 Limit => Int
 
 Use this parameter to specify the maximum number of items to return.
-When this value is present, AWS KMS does not return more than the
-specified number of items, but it might return fewer.
+When this value is present, KMS does not return more than the specified
+number of items, but it might return fewer.
 
 
 

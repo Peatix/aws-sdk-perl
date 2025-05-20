@@ -34,15 +34,16 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Snowball::N
 
 =head1 DESCRIPTION
 
-An object that represents metadata and configuration settings for NFS
-service on an AWS Snow Family device.
+An object that represents the metadata and configuration settings for
+the NFS (Network File System) service on an Amazon Web Services Snow
+Family device.
 
 =head1 ATTRIBUTES
 
 
 =head2 StorageLimit => Int
 
-The maximum NFS storage for one Snowball Family device.
+The maximum NFS storage for one Snow Family device.
 
 
 =head2 StorageUnit => Str

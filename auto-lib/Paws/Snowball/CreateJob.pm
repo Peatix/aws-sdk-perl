@@ -6,11 +6,13 @@ package Paws::Snowball::CreateJob;
   has Description => (is => 'ro', isa => 'Str');
   has DeviceConfiguration => (is => 'ro', isa => 'Paws::Snowball::DeviceConfiguration');
   has ForwardingAddressId => (is => 'ro', isa => 'Str');
+  has ImpactLevel => (is => 'ro', isa => 'Str');
   has JobType => (is => 'ro', isa => 'Str');
   has KmsKeyARN => (is => 'ro', isa => 'Str');
   has LongTermPricingId => (is => 'ro', isa => 'Str');
   has Notification => (is => 'ro', isa => 'Paws::Snowball::Notification');
   has OnDeviceServiceConfiguration => (is => 'ro', isa => 'Paws::Snowball::OnDeviceServiceConfiguration');
+  has PickupDetails => (is => 'ro', isa => 'Paws::Snowball::PickupDetails');
   has RemoteManagement => (is => 'ro', isa => 'Str');
   has Resources => (is => 'ro', isa => 'Paws::Snowball::JobResource');
   has RoleARN => (is => 'ro', isa => 'Str');
@@ -112,7 +114,7 @@ C<Important Photos 2016-08-11>.
 
 =head2 DeviceConfiguration => L<Paws::Snowball::DeviceConfiguration>
 
-Defines the device configuration for an AWS Snowcone job.
+Defines the device configuration for an Snowcone job.
 
 For more information, see
 "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html"
@@ -129,6 +131,13 @@ most Regions.
 
 
 
+=head2 ImpactLevel => Str
+
+The highest impact level of data that will be stored or processed on
+the device, provided at job creation.
+
+Valid values are: C<"IL2">, C<"IL4">, C<"IL5">, C<"IL6">, C<"IL99">
+
 =head2 JobType => Str
 
 Defines the type of job that you're creating.
@@ -140,7 +149,7 @@ Valid values are: C<"IMPORT">, C<"EXPORT">, C<"LOCAL_USE">
 The C<KmsKeyARN> that you want to associate with this job.
 C<KmsKeyARN>s are created using the CreateKey
 (https://docs.aws.amazon.com/kms/latest/APIReference/API_CreateKey.html)
-AWS Key Management Service (KMS) API action.
+Key Management Service (KMS) API action.
 
 
 
@@ -160,8 +169,15 @@ notification settings for this job.
 =head2 OnDeviceServiceConfiguration => L<Paws::Snowball::OnDeviceServiceConfiguration>
 
 Specifies the service or services on the Snow Family device that your
-transferred data will be exported from or imported into. AWS Snow
-Family supports Amazon S3 and NFS (Network File System).
+transferred data will be exported from or imported into. Amazon Web
+Services Snow Family supports Amazon S3 and NFS (Network File System)
+and the Amazon Web Services Storage Gateway service Tape Gateway type.
+
+
+
+=head2 PickupDetails => L<Paws::Snowball::PickupDetails>
+
+Information identifying the person picking up the device.
 
 
 
@@ -171,9 +187,11 @@ Allows you to securely operate and manage Snowcone devices remotely
 from outside of your internal network. When set to
 C<INSTALLED_AUTOSTART>, remote management will automatically be
 available when the device arrives at your location. Otherwise, you need
-to use the Snowball Client to manage the device.
+to use the Snowball Edge client to manage the device. When set to
+C<NOT_INSTALLED>, remote management will not be available on the
+device.
 
-Valid values are: C<"INSTALLED_ONLY">, C<"INSTALLED_AUTOSTART">
+Valid values are: C<"INSTALLED_ONLY">, C<"INSTALLED_AUTOSTART">, C<"NOT_INSTALLED">
 
 =head2 Resources => L<Paws::Snowball::JobResource>
 
@@ -196,7 +214,7 @@ are UTF-8 binary sorted.
 The C<RoleARN> that you want to associate with this job. C<RoleArn>s
 are created using the CreateRole
 (https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html)
-AWS Identity and Access Management (IAM) API action.
+Identity and Access Management (IAM) API action.
 
 
 
@@ -246,17 +264,17 @@ For more information, see
 "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html"
 (Snow Family Devices and Capacity) in the I<Snowcone User Guide>.
 
-Valid values are: C<"T50">, C<"T80">, C<"T100">, C<"T42">, C<"T98">, C<"T8">, C<"T14">, C<"NoPreference">
+Valid values are: C<"T50">, C<"T80">, C<"T100">, C<"T42">, C<"T98">, C<"T8">, C<"T14">, C<"T32">, C<"NoPreference">, C<"T240">, C<"T13">
 
 =head2 SnowballType => Str
 
-The type of AWS Snow Family device to use for this job.
+The type of Snow Family devices to use for this job.
 
-For cluster jobs, AWS Snow Family currently supports only the C<EDGE>
-device type.
+For cluster jobs, Amazon Web Services Snow Family currently supports
+only the C<EDGE> device type.
 
-The type of AWS Snow device to use for this job. Currently, the only
-supported device type for cluster jobs is C<EDGE>.
+The type of Amazon Web Services Snow device to use for this job.
+Currently, the only supported device type for cluster jobs is C<EDGE>.
 
 For more information, see Snowball Edge Device Options
 (https://docs.aws.amazon.com/snowball/latest/developer-guide/device-differences.html)
@@ -268,11 +286,11 @@ For more information, see
 "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html"
 (Snow Family Devices and Capacity) in the I<Snowcone User Guide>.
 
-Valid values are: C<"STANDARD">, C<"EDGE">, C<"EDGE_C">, C<"EDGE_CG">, C<"EDGE_S">, C<"SNC1_HDD">, C<"SNC1_SSD">
+Valid values are: C<"STANDARD">, C<"EDGE">, C<"EDGE_C">, C<"EDGE_CG">, C<"EDGE_S">, C<"SNC1_HDD">, C<"SNC1_SSD">, C<"V3_5C">, C<"V3_5S">, C<"RACK_5U_C">
 
 =head2 TaxDocuments => L<Paws::Snowball::TaxDocuments>
 
-The tax documents required in your AWS Region.
+The tax documents required in your Amazon Web Services Region.
 
 
 

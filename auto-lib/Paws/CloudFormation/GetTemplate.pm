@@ -49,7 +49,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/clo
 
 =head2 ChangeSetName => Str
 
-The name or Amazon Resource Name (ARN) of a change set for which AWS
+The name or Amazon Resource Name (ARN) of a change set for which
 CloudFormation returns the associated template. If you specify a name,
 you must also specify the C<StackName>.
 
@@ -57,8 +57,8 @@ you must also specify the C<StackName>.
 
 =head2 StackName => Str
 
-The name or the unique stack ID that is associated with the stack,
-which are not always interchangeable:
+The name or the unique stack ID that's associated with the stack, which
+aren't always interchangeable:
 
 =over
 
@@ -73,19 +73,18 @@ Deleted stacks: You must specify the unique stack ID.
 
 =back
 
-Default: There is no default value.
 
 
 
 =head2 TemplateStage => Str
 
 For templates that include transforms, the stage of the template that
-AWS CloudFormation returns. To get the user-submitted template, specify
-C<Original>. To get the template after AWS CloudFormation has processed
-all transforms, specify C<Processed>.
+CloudFormation returns. To get the user-submitted template, specify
+C<Original>. To get the template after CloudFormation has processed all
+transforms, specify C<Processed>.
 
 If the template doesn't include transforms, C<Original> and
-C<Processed> return the same template. By default, AWS CloudFormation
+C<Processed> return the same template. By default, CloudFormation
 specifies C<Processed>.
 
 Valid values are: C<"Original">, C<"Processed">

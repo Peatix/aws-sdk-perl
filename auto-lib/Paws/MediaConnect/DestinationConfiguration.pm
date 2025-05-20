@@ -36,27 +36,28 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::MediaConnec
 
 =head1 DESCRIPTION
 
-The transport parameters that are associated with an outbound media
-stream.
+The transport parameters that you want to associate with an outbound
+media stream.
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> DestinationIp => Str
 
-The IP address where contents of the media stream will be sent.
+The IP address where you want MediaConnect to send contents of the
+media stream.
 
 
 =head2 B<REQUIRED> DestinationPort => Int
 
-The port to use when the content of the media stream is distributed to
-the output.
+The port that you want MediaConnect to use when it distributes the
+media stream to the output.
 
 
 =head2 B<REQUIRED> Interface => L<Paws::MediaConnect::Interface>
 
-The VPC interface that is used for the media stream associated with the
-output.
+The VPC interface that you want to use for the media stream associated
+with the output.
 
 
 =head2 B<REQUIRED> OutboundIp => Str
@@ -64,7 +65,7 @@ output.
 The IP address that the receiver requires in order to establish a
 connection with the flow. This value is represented by the elastic
 network interface IP address of the VPC. This field applies only to
-outputs that use the CDI or ST 2110 JPEG XS protocol.
+outputs that use the CDI or ST 2110 JPEG XS or protocol.
 
 
 

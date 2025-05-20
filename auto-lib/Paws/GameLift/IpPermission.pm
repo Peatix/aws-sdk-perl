@@ -37,16 +37,12 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::GameLift::I
 =head1 DESCRIPTION
 
 A range of IP addresses and port settings that allow inbound traffic to
-connect to server processes on an instance in a fleet. New game
-sessions are assigned an IP address/port number combination, which must
-fall into the fleet's allowed ranges. Fleets with custom game builds
-must have permissions explicitly set. For Realtime Servers fleets,
-GameLift automatically opens two port ranges, one for TCP messaging and
-one for UDP.
+connect to processes on an instance in a fleet. Processes are assigned
+an IP address/port number combination, which must fall into the fleet's
+allowed ranges.
 
-B<Related actions>
-
-DescribeFleetPortSettings
+For Amazon GameLift Realtime fleets, Amazon GameLift automatically
+opens two port ranges, one for TCP messaging and one for UDP.
 
 =head1 ATTRIBUTES
 
@@ -54,6 +50,11 @@ DescribeFleetPortSettings
 =head2 B<REQUIRED> FromPort => Int
 
 A starting value for a range of allowed port numbers.
+
+For fleets using Linux builds, only ports C<22> and C<1026-60000> are
+valid.
+
+For fleets using Windows builds, only ports C<1026-60000> are valid.
 
 
 =head2 B<REQUIRED> IpRange => Str
@@ -71,7 +72,12 @@ The network communication protocol used by the fleet.
 =head2 B<REQUIRED> ToPort => Int
 
 An ending value for a range of allowed port numbers. Port numbers are
-end-inclusive. This value must be higher than C<FromPort>.
+end-inclusive. This value must be equal to or greater than C<FromPort>.
+
+For fleets using Linux builds, only ports C<22> and C<1026-60000> are
+valid.
+
+For fleets using Windows builds, only ports C<1026-60000> are valid.
 
 
 

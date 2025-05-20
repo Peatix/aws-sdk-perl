@@ -58,8 +58,8 @@ is multiplied by this factor.
 
 The criteria to initiate the increase in rate of rollout for a job.
 
-AWS IoT supports up to one digit after the decimal (for example, 1.5,
-but not 1.55).
+Amazon Web Services IoT Core supports up to one digit after the decimal
+(for example, 1.5, but not 1.55).
 
 
 

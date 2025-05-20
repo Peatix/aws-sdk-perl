@@ -112,6 +112,10 @@ Valid values are: C<"TERMINATE">, C<"REQUEST_CANCEL">, C<"ABANDON">
 
 The name of the domain in which the workflow execution is created.
 
+The specified string must not contain a C<:> (colon), C</> (slash),
+C<|> (vertical bar), or any control characters (C<\u0000-\u001f> |
+C<\u007f-\u009f>). Also, it must I<not> be the literal string C<arn>.
+
 
 
 =head2 ExecutionStartToCloseTimeout => Str
@@ -176,10 +180,9 @@ default for the workflow type or through this parameter. If neither
 this parameter is set nor a default task list was specified at
 registration time then a fault is returned.
 
-The specified string must not start or end with whitespace. It must not
-contain a C<:> (colon), C</> (slash), C<|> (vertical bar), or any
-control characters (C<\u0000-\u001f> | C<\u007f-\u009f>). Also, it must
-not I<be> the literal string C<arn>.
+The specified string must not contain a C<:> (colon), C</> (slash),
+C<|> (vertical bar), or any control characters (C<\u0000-\u001f> |
+C<\u007f-\u009f>). Also, it must I<not> be the literal string C<arn>.
 
 
 
@@ -226,10 +229,9 @@ is logically a I<restart> of a previous execution. You cannot have two
 open workflow executions with the same C<workflowId> at the same time
 within the same domain.
 
-The specified string must not start or end with whitespace. It must not
-contain a C<:> (colon), C</> (slash), C<|> (vertical bar), or any
-control characters (C<\u0000-\u001f> | C<\u007f-\u009f>). Also, it must
-not I<be> the literal string C<arn>.
+The specified string must not contain a C<:> (colon), C</> (slash),
+C<|> (vertical bar), or any control characters (C<\u0000-\u001f> |
+C<\u007f-\u009f>). Also, it must I<not> be the literal string C<arn>.
 
 
 

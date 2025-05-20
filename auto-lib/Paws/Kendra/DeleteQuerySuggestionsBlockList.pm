@@ -42,13 +42,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ken
 
 =head2 B<REQUIRED> Id => Str
 
-The unique identifier of the block list that needs to be deleted.
+The identifier of the block list you want to delete.
 
 
 
 =head2 B<REQUIRED> IndexId => Str
 
-The identifier of the you want to delete a block list from.
+The identifier of the index for the block list.
 
 
 

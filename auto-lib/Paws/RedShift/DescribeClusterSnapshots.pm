@@ -7,6 +7,7 @@ package Paws::RedShift::DescribeClusterSnapshots;
   has Marker => (is => 'ro', isa => 'Str');
   has MaxRecords => (is => 'ro', isa => 'Int');
   has OwnerAccount => (is => 'ro', isa => 'Str');
+  has SnapshotArn => (is => 'ro', isa => 'Str');
   has SnapshotIdentifier => (is => 'ro', isa => 'Str');
   has SnapshotType => (is => 'ro', isa => 'Str');
   has SortingEntities => (is => 'ro', isa => 'ArrayRef[Paws::RedShift::SnapshotSortingEntity]');
@@ -45,6 +46,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       Marker             => 'MyString',               # OPTIONAL
       MaxRecords         => 1,                        # OPTIONAL
       OwnerAccount       => 'MyString',               # OPTIONAL
+      SnapshotArn        => 'MyString',               # OPTIONAL
       SnapshotIdentifier => 'MyString',               # OPTIONAL
       SnapshotType       => 'MyString',               # OPTIONAL
       SortingEntities    => [
@@ -133,10 +135,10 @@ Example: C<2012-07-16T18:00:00Z>
 
 An optional parameter that specifies the starting point to return a set
 of response records. When the results of a DescribeClusterSnapshots
-request exceed the value specified in C<MaxRecords>, AWS returns a
-value in the C<Marker> field of the response. You can retrieve the next
-set of response records by providing the returned marker value in the
-C<Marker> parameter and retrying the request.
+request exceed the value specified in C<MaxRecords>, Amazon Web
+Services returns a value in the C<Marker> field of the response. You
+can retrieve the next set of response records by providing the returned
+marker value in the C<Marker> parameter and retrying the request.
 
 
 
@@ -156,10 +158,17 @@ Constraints: minimum 20, maximum 100.
 
 =head2 OwnerAccount => Str
 
-The AWS customer account used to create or copy the snapshot. Use this
-field to filter the results to snapshots owned by a particular account.
-To describe snapshots you own, either specify your AWS customer
-account, or do not specify the parameter.
+The Amazon Web Services account used to create or copy the snapshot.
+Use this field to filter the results to snapshots owned by a particular
+account. To describe snapshots you own, either specify your Amazon Web
+Services account, or do not specify the parameter.
+
+
+
+=head2 SnapshotArn => Str
+
+The Amazon Resource Name (ARN) of the snapshot associated with the
+message to describe cluster snapshots.
 
 
 

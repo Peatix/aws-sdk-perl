@@ -58,15 +58,15 @@ The digests of the image layers to check.
 
 =head2 RegistryId => Str
 
-The AWS account ID associated with the public registry that contains
-the image layers to check. If you do not specify a registry, the
-default public registry is assumed.
+The Amazon Web Services account ID, or registry alias, associated with
+the public registry that contains the image layers to check. If you do
+not specify a registry, the default public registry is assumed.
 
 
 
 =head2 B<REQUIRED> RepositoryName => Str
 
-The name of the repository that is associated with the image layers to
+The name of the repository that's associated with the image layers to
 check.
 
 

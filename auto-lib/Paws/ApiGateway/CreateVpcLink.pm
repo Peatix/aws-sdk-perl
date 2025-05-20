@@ -63,7 +63,7 @@ The description of the VPC link.
 
 =head2 B<REQUIRED> Name => Str
 
-[Required] The name used to label and identify the VPC link.
+The name used to label and identify the VPC link.
 
 
 
@@ -77,9 +77,9 @@ start with C<aws:>. The tag value can be up to 256 characters.
 
 =head2 B<REQUIRED> TargetArns => ArrayRef[Str|Undef]
 
-[Required] The ARN of the network load balancer of the VPC targeted by
-the VPC link. The network load balancer must be owned by the same AWS
-account of the API owner.
+The ARN of the network load balancer of the VPC targeted by the VPC
+link. The network load balancer must be owned by the same Amazon Web
+Services account of the API owner.
 
 
 

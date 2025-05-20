@@ -56,7 +56,7 @@ Amazon Resource Name (ARN) of the grant.
 
 =head2 StatusReason => Str
 
-
+The Status reason for the delete request.
 
 
 

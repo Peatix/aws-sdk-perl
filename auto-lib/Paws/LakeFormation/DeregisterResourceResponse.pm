@@ -3,6 +3,7 @@ package Paws::LakeFormation::DeregisterResourceResponse;
   use Moose;
 
   has _request_id => (is => 'ro', isa => 'Str');
+1;
 
 ### main pod documentation begin ###
 
@@ -18,4 +19,3 @@ Paws::LakeFormation::DeregisterResourceResponse
 
 =cut
 
-1;

@@ -44,7 +44,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::RDSData::Va
 
 Contains the value of a column.
 
- <important> <p>This data type is deprecated.</p> </important>
+This data structure is only used with the deprecated C<ExecuteSql>
+operation. Use the C<BatchExecuteStatement> or C<ExecuteStatement>
+operation instead.
 
 =head1 ATTRIBUTES
 

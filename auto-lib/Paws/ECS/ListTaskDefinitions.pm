@@ -57,22 +57,22 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ecs
 
 =head2 FamilyPrefix => Str
 
-The full family name with which to filter the C<ListTaskDefinitions>
-results. Specifying a C<familyPrefix> limits the listed task
-definitions to task definition revisions that belong to that family.
+The full family name to filter the C<ListTaskDefinitions> results with.
+Specifying a C<familyPrefix> limits the listed task definitions to task
+definition revisions that belong to that family.
 
 
 
 =head2 MaxResults => Int
 
-The maximum number of task definition results returned by
-C<ListTaskDefinitions> in paginated output. When this parameter is
-used, C<ListTaskDefinitions> only returns C<maxResults> results in a
-single page along with a C<nextToken> response element. The remaining
-results of the initial request can be seen by sending another
-C<ListTaskDefinitions> request with the returned C<nextToken> value.
-This value can be between 1 and 100. If this parameter is not used,
-then C<ListTaskDefinitions> returns up to 100 results and a
+The maximum number of task definition results that
+C<ListTaskDefinitions> returned in paginated output. When this
+parameter is used, C<ListTaskDefinitions> only returns C<maxResults>
+results in a single page along with a C<nextToken> response element.
+The remaining results of the initial request can be seen by sending
+another C<ListTaskDefinitions> request with the returned C<nextToken>
+value. This value can be between 1 and 100. If this parameter isn't
+used, then C<ListTaskDefinitions> returns up to 100 results and a
 C<nextToken> value if applicable.
 
 
@@ -92,27 +92,26 @@ purposes.
 
 =head2 Sort => Str
 
-The order in which to sort the results. Valid values are C<ASC> and
-C<DESC>. By default (C<ASC>), task definitions are listed
-lexicographically by family name and in ascending numerical order by
-revision so that the newest task definitions in a family are listed
-last. Setting this parameter to C<DESC> reverses the sort order on
-family name and revision so that the newest task definitions in a
-family are listed first.
+The order to sort the results in. Valid values are C<ASC> and C<DESC>.
+By default, (C<ASC>) task definitions are listed lexicographically by
+family name and in ascending numerical order by revision so that the
+newest task definitions in a family are listed last. Setting this
+parameter to C<DESC> reverses the sort order on family name and
+revision. This is so that the newest task definitions in a family are
+listed first.
 
 Valid values are: C<"ASC">, C<"DESC">
 
 =head2 Status => Str
 
-The task definition status with which to filter the
-C<ListTaskDefinitions> results. By default, only C<ACTIVE> task
-definitions are listed. By setting this parameter to C<INACTIVE>, you
-can view task definitions that are C<INACTIVE> as long as an active
-task or service still references them. If you paginate the resulting
-output, be sure to keep the C<status> value constant in each subsequent
-request.
+The task definition status to filter the C<ListTaskDefinitions> results
+with. By default, only C<ACTIVE> task definitions are listed. By
+setting this parameter to C<INACTIVE>, you can view task definitions
+that are C<INACTIVE> as long as an active task or service still
+references them. If you paginate the resulting output, be sure to keep
+the C<status> value constant in each subsequent request.
 
-Valid values are: C<"ACTIVE">, C<"INACTIVE">
+Valid values are: C<"ACTIVE">, C<"INACTIVE">, C<"DELETE_IN_PROGRESS">
 
 
 =head1 SEE ALSO

@@ -4,6 +4,9 @@ package Paws::WellArchitected::LensUpgradeSummary;
   has CurrentLensVersion => (is => 'ro', isa => 'Str');
   has LatestLensVersion => (is => 'ro', isa => 'Str');
   has LensAlias => (is => 'ro', isa => 'Str');
+  has LensArn => (is => 'ro', isa => 'Str');
+  has ResourceArn => (is => 'ro', isa => 'Str');
+  has ResourceName => (is => 'ro', isa => 'Str');
   has WorkloadId => (is => 'ro', isa => 'Str');
   has WorkloadName => (is => 'ro', isa => 'Str');
 
@@ -53,6 +56,21 @@ The latest version of the lens.
 
 
 =head2 LensAlias => Str
+
+
+
+
+=head2 LensArn => Str
+
+The ARN for the lens.
+
+
+=head2 ResourceArn => Str
+
+C<ResourceArn> of the lens being upgraded
+
+
+=head2 ResourceName => Str
 
 
 

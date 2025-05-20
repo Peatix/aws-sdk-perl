@@ -50,9 +50,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ds/
 
 The requested alias.
 
-The alias must be unique amongst all aliases in AWS. This operation
-throws an C<EntityAlreadyExistsException> error if the alias already
-exists.
+The alias must be unique amongst all aliases in Amazon Web Services.
+This operation throws an C<EntityAlreadyExistsException> error if the
+alias already exists.
 
 
 

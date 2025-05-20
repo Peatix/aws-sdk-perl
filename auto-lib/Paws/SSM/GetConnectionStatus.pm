@@ -46,7 +46,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ssm
 
 =head2 B<REQUIRED> Target => Str
 
-The ID of the instance.
+The managed node ID.
 
 
 

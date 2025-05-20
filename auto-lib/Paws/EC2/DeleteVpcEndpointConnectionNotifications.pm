@@ -48,7 +48,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ec2
 
 =head2 B<REQUIRED> ConnectionNotificationIds => ArrayRef[Str|Undef]
 
-One or more notification IDs.
+The IDs of the notifications.
 
 
 

@@ -7,6 +7,7 @@ package Paws::SSMIncidents::GetResponsePlanOutput;
   has DisplayName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'displayName');
   has Engagements => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'engagements');
   has IncidentTemplate => (is => 'ro', isa => 'Paws::SSMIncidents::IncidentTemplate', traits => ['NameInRequest'], request_name => 'incidentTemplate', required => 1);
+  has Integrations => (is => 'ro', isa => 'ArrayRef[Paws::SSMIncidents::Integration]', traits => ['NameInRequest'], request_name => 'integrations');
   has Name => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'name', required => 1);
 
   has _request_id => (is => 'ro', isa => 'Str');
@@ -34,7 +35,7 @@ The ARN of the response plan.
 
 =head2 ChatChannel => L<Paws::SSMIncidents::ChatChannel>
 
-The AWS Chatbot chat channel used for collaboration during an incident.
+The Chatbot chat channel used for collaboration during an incident.
 
 
 =head2 DisplayName => Str
@@ -44,8 +45,8 @@ The long format name of the response plan. Can contain spaces.
 
 =head2 Engagements => ArrayRef[Str|Undef]
 
-The contacts and escalation plans that the response plan engages during
-an incident.
+The Amazon Resource Name (ARN) for the contacts and escalation plans
+that the response plan engages during an incident.
 
 
 =head2 B<REQUIRED> IncidentTemplate => L<Paws::SSMIncidents::IncidentTemplate>
@@ -53,9 +54,16 @@ an incident.
 Details used to create the incident when using this response plan.
 
 
+=head2 Integrations => ArrayRef[L<Paws::SSMIncidents::Integration>]
+
+Information about third-party services integrated into the Incident
+Manager response plan.
+
+
 =head2 B<REQUIRED> Name => Str
 
-The short format name of the response plan. Can't contain spaces.
+The short format name of the response plan. The name can't contain
+spaces.
 
 
 =head2 _request_id => Str

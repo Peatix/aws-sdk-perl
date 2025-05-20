@@ -5,6 +5,7 @@ package Paws::WorkMail::DescribeGroupResponse;
   has Email => (is => 'ro', isa => 'Str');
   has EnabledDate => (is => 'ro', isa => 'Str');
   has GroupId => (is => 'ro', isa => 'Str');
+  has HiddenFromGlobalAddressList => (is => 'ro', isa => 'Bool');
   has Name => (is => 'ro', isa => 'Str');
   has State => (is => 'ro', isa => 'Str');
 
@@ -41,6 +42,12 @@ time format.
 The identifier of the described group.
 
 
+=head2 HiddenFromGlobalAddressList => Bool
+
+If the value is set to I<true>, the group is hidden from the address
+book.
+
+
 =head2 Name => Str
 
 The name of the described group.
@@ -48,8 +55,8 @@ The name of the described group.
 
 =head2 State => Str
 
-The state of the user: enabled (registered to Amazon WorkMail) or
-disabled (deregistered or never registered to WorkMail).
+The state of the user: enabled (registered to WorkMail) or disabled
+(deregistered or never registered to WorkMail).
 
 Valid values are: C<"ENABLED">, C<"DISABLED">, C<"DELETED">
 =head2 _request_id => Str

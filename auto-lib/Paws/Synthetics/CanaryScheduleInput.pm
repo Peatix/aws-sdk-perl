@@ -3,6 +3,7 @@ package Paws::Synthetics::CanaryScheduleInput;
   use Moose;
   has DurationInSeconds => (is => 'ro', isa => 'Int');
   has Expression => (is => 'ro', isa => 'Str', required => 1);
+  has RetryConfig => (is => 'ro', isa => 'Paws::Synthetics::RetryConfigInput');
 
 1;
 
@@ -23,7 +24,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::Synthetics::CanaryScheduleInput object:
 
-  $service_obj->Method(Att1 => { DurationInSeconds => $value, ..., Expression => $value  });
+  $service_obj->Method(Att1 => { DurationInSeconds => $value, ..., RetryConfig => $value  });
 
 =head3 Results returned from an API call
 
@@ -50,9 +51,11 @@ field, the default of 0 is used.
 
 =head2 B<REQUIRED> Expression => Str
 
-A rate expression that defines how often the canary is to run. The
-syntax is C<rate(I<number unit>)>. I<unit> can be C<minute>,
-C<minutes>, or C<hour>.
+A C<rate> expression or a C<cron> expression that defines how often the
+canary is to run.
+
+For a rate expression, The syntax is C<rate(I<number unit>)>. I<unit>
+can be C<minute>, C<minutes>, or C<hour>.
 
 For example, C<rate(1 minute)> runs the canary once a minute, C<rate(10
 minutes)> runs it once every 10 minutes, and C<rate(1 hour)> runs it
@@ -61,6 +64,17 @@ and C<rate(1 hour)>.
 
 Specifying C<rate(0 minute)> or C<rate(0 hour)> is a special value that
 causes the canary to run only once when it is started.
+
+Use C<cron(I<expression>)> to specify a cron expression. You can't
+schedule a canary to wait for more than a year before running. For
+information about the syntax for cron expressions, see Scheduling
+canary runs using cron
+(https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_cron.html).
+
+
+=head2 RetryConfig => L<Paws::Synthetics::RetryConfigInput>
+
+A structure that contains the retry configuration for a canary
 
 
 

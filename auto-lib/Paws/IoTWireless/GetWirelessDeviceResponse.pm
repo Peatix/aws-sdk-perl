@@ -7,6 +7,7 @@ package Paws::IoTWireless::GetWirelessDeviceResponse;
   has Id => (is => 'ro', isa => 'Str');
   has LoRaWAN => (is => 'ro', isa => 'Paws::IoTWireless::LoRaWANDevice');
   has Name => (is => 'ro', isa => 'Str');
+  has Positioning => (is => 'ro', isa => 'Str');
   has Sidewalk => (is => 'ro', isa => 'Paws::IoTWireless::SidewalkDevice');
   has ThingArn => (is => 'ro', isa => 'Str');
   has ThingName => (is => 'ro', isa => 'Str');
@@ -54,6 +55,12 @@ Information about the wireless device.
 The name of the resource.
 
 
+=head2 Positioning => Str
+
+FPort values for the GNSS, stream, and ClockSync functions of the
+positioning information.
+
+Valid values are: C<"Enabled">, C<"Disabled">
 =head2 Sidewalk => L<Paws::IoTWireless::SidewalkDevice>
 
 Sidewalk device object.

@@ -60,7 +60,7 @@ Filters applied to the event categories.
 
 =head2 SourceType => Str
 
-The type of AWS DMS resource that generates events.
+The type of DMS resource that generates events.
 
 Valid values: replication-instance | replication-task
 

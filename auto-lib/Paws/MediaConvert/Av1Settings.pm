@@ -2,6 +2,8 @@
 package Paws::MediaConvert::Av1Settings;
   use Moose;
   has AdaptiveQuantization => (is => 'ro', isa => 'Str', request_name => 'adaptiveQuantization', traits => ['NameInRequest']);
+  has BitDepth => (is => 'ro', isa => 'Str', request_name => 'bitDepth', traits => ['NameInRequest']);
+  has FilmGrainSynthesis => (is => 'ro', isa => 'Str', request_name => 'filmGrainSynthesis', traits => ['NameInRequest']);
   has FramerateControl => (is => 'ro', isa => 'Str', request_name => 'framerateControl', traits => ['NameInRequest']);
   has FramerateConversionAlgorithm => (is => 'ro', isa => 'Str', request_name => 'framerateConversionAlgorithm', traits => ['NameInRequest']);
   has FramerateDenominator => (is => 'ro', isa => 'Int', request_name => 'framerateDenominator', traits => ['NameInRequest']);
@@ -9,6 +11,7 @@ package Paws::MediaConvert::Av1Settings;
   has GopSize => (is => 'ro', isa => 'Num', request_name => 'gopSize', traits => ['NameInRequest']);
   has MaxBitrate => (is => 'ro', isa => 'Int', request_name => 'maxBitrate', traits => ['NameInRequest']);
   has NumberBFramesBetweenReferenceFrames => (is => 'ro', isa => 'Int', request_name => 'numberBFramesBetweenReferenceFrames', traits => ['NameInRequest']);
+  has PerFrameMetrics => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'perFrameMetrics', traits => ['NameInRequest']);
   has QvbrSettings => (is => 'ro', isa => 'Paws::MediaConvert::Av1QvbrSettings', request_name => 'qvbrSettings', traits => ['NameInRequest']);
   has RateControlMode => (is => 'ro', isa => 'Str', request_name => 'rateControlMode', traits => ['NameInRequest']);
   has Slices => (is => 'ro', isa => 'Int', request_name => 'slices', traits => ['NameInRequest']);
@@ -54,39 +57,54 @@ to the value AV1.
 
 Specify the strength of any adaptive quantization filters that you
 enable. The value that you choose here applies to Spatial adaptive
-quantization (spatialAdaptiveQuantization).
+quantization.
+
+
+=head2 BitDepth => Str
+
+Specify the Bit depth. You can choose 8-bit or 10-bit.
+
+
+=head2 FilmGrainSynthesis => Str
+
+Film grain synthesis replaces film grain present in your content with
+similar quality synthesized AV1 film grain. We recommend that you
+choose Enabled to reduce the bandwidth of your QVBR quality level 5, 6,
+7, or 8 outputs. For QVBR quality level 9 or 10 outputs we recommend
+that you keep the default value, Disabled. When you include Film grain
+synthesis, you cannot include the Noise reducer preprocessor.
 
 
 =head2 FramerateControl => Str
 
-If you are using the console, use the Framerate setting to specify the
-frame rate for this output. If you want to keep the same frame rate as
-the input video, choose Follow source. If you want to do frame rate
-conversion, choose a frame rate from the dropdown list or choose
-Custom. The framerates shown in the dropdown list are decimal
-approximations of fractions. If you choose Custom, specify your frame
-rate as a fraction. If you are creating your transcoding job
-specification as a JSON file without the console, use FramerateControl
-to specify which value the service uses for the frame rate for this
-output. Choose INITIALIZE_FROM_SOURCE if you want the service to use
-the frame rate from the input. Choose SPECIFIED if you want the service
-to use the frame rate you specify in the settings FramerateNumerator
-and FramerateDenominator.
+Use the Framerate setting to specify the frame rate for this output. If
+you want to keep the same frame rate as the input video, choose Follow
+source. If you want to do frame rate conversion, choose a frame rate
+from the dropdown list or choose Custom. The framerates shown in the
+dropdown list are decimal approximations of fractions. If you choose
+Custom, specify your frame rate as a fraction.
 
 
 =head2 FramerateConversionAlgorithm => Str
 
 Choose the method that you want MediaConvert to use when increasing or
-decreasing the frame rate. We recommend using drop duplicate
-(DUPLICATE_DROP) for numerically simple conversions, such as 60 fps to
-30 fps. For numerically complex conversions, you can use interpolate
-(INTERPOLATE) to avoid stutter. This results in a smooth picture, but
-might introduce undesirable video artifacts. For complex frame rate
+decreasing your video's frame rate. For numerically simple conversions,
+such as 60 fps to 30 fps: We recommend that you keep the default value,
+Drop duplicate. For numerically complex conversions, to avoid stutter:
+Choose Interpolate. This results in a smooth picture, but might
+introduce undesirable video artifacts. For complex frame rate
 conversions, especially if your source video has already been converted
-from its original cadence, use FrameFormer (FRAMEFORMER) to do
-motion-compensated interpolation. FrameFormer chooses the best
-conversion method frame by frame. Note that using FrameFormer increases
-the transcoding time and incurs a significant add-on cost.
+from its original cadence: Choose FrameFormer to do motion-compensated
+interpolation. FrameFormer uses the best conversion method frame by
+frame. Note that using FrameFormer increases the transcoding time and
+incurs a significant add-on cost. When you choose FrameFormer, your
+input video resolution must be at least 128x96. To create an output
+with the same number of frames as your input: Choose Maintain frame
+count. When you do, MediaConvert will not drop, interpolate, add, or
+otherwise change the frame count from your input to your output. Note
+that since the frame count is maintained, the duration of your output
+will become shorter at higher frame rates and longer at lower frame
+rates.
 
 
 =head2 FramerateDenominator => Int
@@ -133,12 +151,33 @@ lower bitrate and smaller file size; choose a smaller number for better
 video quality.
 
 
+=head2 PerFrameMetrics => ArrayRef[Str|Undef]
+
+Optionally choose one or more per frame metric reports to generate
+along with your output. You can use these metrics to analyze your video
+output according to one or more commonly used image quality metrics.
+You can specify per frame metrics for output groups or for individual
+outputs. When you do, MediaConvert writes a CSV (Comma-Separated
+Values) file to your S3 output destination, named after the output name
+and metric type. For example: videofile_PSNR.csv Jobs that generate per
+frame metrics will take longer to complete, depending on the resolution
+and complexity of your output. For example, some 4K jobs might take up
+to twice as long to complete. Note that when analyzing the video
+quality of your output, or when comparing the video quality of multiple
+different outputs, we generally also recommend a detailed visual review
+in a controlled environment. You can choose from the following per
+frame metrics: * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural
+Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index
+Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System *
+VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined
+Variable Bitrate. This option is only available when your output uses
+the QVBR rate control mode.
+
+
 =head2 QvbrSettings => L<Paws::MediaConvert::Av1QvbrSettings>
 
-Settings for quality-defined variable bitrate encoding with the AV1
-codec. Required when you set Rate control mode to QVBR. Not valid when
-you set Rate control mode to a value other than QVBR, or when you don't
-define Rate control mode.
+Settings for quality-defined variable bitrate encoding with the H.265
+codec. Use these settings only when you set QVBR for Rate control mode.
 
 
 =head2 RateControlMode => Str
@@ -157,22 +196,22 @@ value must be less than or equal to half the number of macroblock rows.
 
 =head2 SpatialAdaptiveQuantization => Str
 
-Keep the default value, Enabled (ENABLED), to adjust quantization
-within each frame based on spatial variation of content complexity.
-When you enable this feature, the encoder uses fewer bits on areas that
-can sustain more distortion with no noticeable visual degradation and
-uses more bits on areas where any small distortion will be noticeable.
-For example, complex textured blocks are encoded with fewer bits and
-smooth textured blocks are encoded with more bits. Enabling this
-feature will almost always improve your video quality. Note, though,
-that this feature doesn't take into account where the viewer's
-attention is likely to be. If viewers are likely to be focusing their
-attention on a part of the screen with a lot of complex texture, you
-might choose to disable this feature. Related setting: When you enable
-spatial adaptive quantization, set the value for Adaptive quantization
-(adaptiveQuantization) depending on your content. For homogeneous
-content, such as cartoons and video games, set it to Low. For content
-with a wider variety of textures, set it to High or Higher.
+Keep the default value, Enabled, to adjust quantization within each
+frame based on spatial variation of content complexity. When you enable
+this feature, the encoder uses fewer bits on areas that can sustain
+more distortion with no noticeable visual degradation and uses more
+bits on areas where any small distortion will be noticeable. For
+example, complex textured blocks are encoded with fewer bits and smooth
+textured blocks are encoded with more bits. Enabling this feature will
+almost always improve your video quality. Note, though, that this
+feature doesn't take into account where the viewer's attention is
+likely to be. If viewers are likely to be focusing their attention on a
+part of the screen with a lot of complex texture, you might choose to
+disable this feature. Related setting: When you enable spatial adaptive
+quantization, set the value for Adaptive quantization depending on your
+content. For homogeneous content, such as cartoons and video games, set
+it to Low. For content with a wider variety of textures, set it to High
+or Higher.
 
 
 

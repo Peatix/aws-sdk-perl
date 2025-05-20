@@ -10,6 +10,7 @@ package Paws::GreengrassV2::EffectiveDeployment;
   has IotJobId => (is => 'ro', isa => 'Str', request_name => 'iotJobId', traits => ['NameInRequest']);
   has ModifiedTimestamp => (is => 'ro', isa => 'Str', request_name => 'modifiedTimestamp', traits => ['NameInRequest'], required => 1);
   has Reason => (is => 'ro', isa => 'Str', request_name => 'reason', traits => ['NameInRequest']);
+  has StatusDetails => (is => 'ro', isa => 'Paws::GreengrassV2::EffectiveDeploymentStatusDetails', request_name => 'statusDetails', traits => ['NameInRequest']);
   has TargetArn => (is => 'ro', isa => 'Str', request_name => 'targetArn', traits => ['NameInRequest'], required => 1);
 
 1;
@@ -42,15 +43,58 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::GreengrassV
 
 =head1 DESCRIPTION
 
-Contains information about a deployment job that AWS IoT Greengrass
-sends to a AWS IoT Greengrass core device.
+Contains information about a deployment job that IoT Greengrass sends
+to a Greengrass core device.
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> CoreDeviceExecutionStatus => Str
 
-The status of the deployment job on the AWS IoT Greengrass core device.
+The status of the deployment job on the Greengrass core device.
+
+=over
+
+=item *
+
+C<IN_PROGRESS> E<ndash> The deployment job is running.
+
+=item *
+
+C<QUEUED> E<ndash> The deployment job is in the job queue and waiting
+to run.
+
+=item *
+
+C<FAILED> E<ndash> The deployment failed. For more information, see the
+C<statusDetails> field.
+
+=item *
+
+C<COMPLETED> E<ndash> The deployment to an IoT thing was completed
+successfully.
+
+=item *
+
+C<TIMED_OUT> E<ndash> The deployment didn't complete in the allotted
+time.
+
+=item *
+
+C<CANCELED> E<ndash> The deployment was canceled by the user.
+
+=item *
+
+C<REJECTED> E<ndash> The deployment was rejected. For more information,
+see the C<statusDetails> field.
+
+=item *
+
+C<SUCCEEDED> E<ndash> The deployment to an IoT thing group was
+completed successfully.
+
+=back
+
 
 
 =head2 B<REQUIRED> CreationTimestamp => Str
@@ -68,12 +112,6 @@ The ID of the deployment.
 
 The name of the deployment.
 
-You can create deployments without names. If you create a deployment
-without a name, the AWS IoT Greengrass V2 console shows the deployment
-name as C<E<lt>targetTypeE<gt>:E<lt>targetNameE<gt>>, where
-C<targetType> and C<targetName> are the type and name of the deployment
-target.
-
 
 =head2 Description => Str
 
@@ -84,13 +122,12 @@ The description of the deployment job.
 
 The ARN
 (https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
-of the AWS IoT job that applies the deployment to target devices.
+of the IoT job that applies the deployment to target devices.
 
 
 =head2 IotJobId => Str
 
-The ID of the AWS IoT job that applies the deployment to target
-devices.
+The ID of the IoT job that applies the deployment to target devices.
 
 
 =head2 B<REQUIRED> ModifiedTimestamp => Str
@@ -104,11 +141,17 @@ ISO 8601 format.
 The reason code for the update, if the job was updated.
 
 
+=head2 StatusDetails => L<Paws::GreengrassV2::EffectiveDeploymentStatusDetails>
+
+The status details that explain why a deployment has an error. This
+response will be null if the deployment is in a success state.
+
+
 =head2 B<REQUIRED> TargetArn => Str
 
 The ARN
 (https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
-of the target AWS IoT thing or thing group.
+of the target IoT thing or thing group.
 
 
 

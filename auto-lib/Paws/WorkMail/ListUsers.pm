@@ -1,6 +1,7 @@
 
 package Paws::WorkMail::ListUsers;
   use Moose;
+  has Filters => (is => 'ro', isa => 'Paws::WorkMail::ListUsersFilters');
   has MaxResults => (is => 'ro', isa => 'Int');
   has NextToken => (is => 'ro', isa => 'Str');
   has OrganizationId => (is => 'ro', isa => 'Str', required => 1);
@@ -31,8 +32,16 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $workmail = Paws->service('WorkMail');
     my $ListUsersResponse = $workmail->ListUsers(
       OrganizationId => 'MyOrganizationId',
-      MaxResults     => 1,                    # OPTIONAL
-      NextToken      => 'MyNextToken',        # OPTIONAL
+      Filters        => {
+        DisplayNamePrefix            => 'MyUserAttribute',  # max: 256; OPTIONAL
+        IdentityProviderUserIdPrefix =>
+          'MyIdentityProviderUserIdPrefix',    # min: 1, max: 47; OPTIONAL
+        PrimaryEmailPrefix => 'MyString',      # max: 256; OPTIONAL
+        State => 'ENABLED',    # values: ENABLED, DISABLED, DELETED; OPTIONAL
+        UsernamePrefix => 'MyString',    # max: 256; OPTIONAL
+      },    # OPTIONAL
+      MaxResults => 1,                # OPTIONAL
+      NextToken  => 'MyNextToken',    # OPTIONAL
     );
 
     # Results:
@@ -45,6 +54,13 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/workmail/ListUsers>
 
 =head1 ATTRIBUTES
+
+
+=head2 Filters => L<Paws::WorkMail::ListUsersFilters>
+
+Limit the user search results based on the filter criteria. You can
+only use one filter per request.
+
 
 
 =head2 MaxResults => Int

@@ -93,7 +93,7 @@ C<ScheduledActions>
 
 =back
 
-If you omit this parameter, all processes are specified.
+If you omit this property, all processes are specified.
 
 
 

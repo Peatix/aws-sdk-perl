@@ -3,15 +3,18 @@ package Paws::Detective::MemberDetail;
   use Moose;
   has AccountId => (is => 'ro', isa => 'Str');
   has AdministratorId => (is => 'ro', isa => 'Str');
+  has DatasourcePackageIngestStates => (is => 'ro', isa => 'Paws::Detective::DatasourcePackageIngestStates');
   has DisabledReason => (is => 'ro', isa => 'Str');
   has EmailAddress => (is => 'ro', isa => 'Str');
   has GraphArn => (is => 'ro', isa => 'Str');
+  has InvitationType => (is => 'ro', isa => 'Str');
   has InvitedTime => (is => 'ro', isa => 'Str');
   has MasterId => (is => 'ro', isa => 'Str');
   has PercentOfGraphUtilization => (is => 'ro', isa => 'Num');
   has PercentOfGraphUtilizationUpdatedTime => (is => 'ro', isa => 'Str');
   has Status => (is => 'ro', isa => 'Str');
   has UpdatedTime => (is => 'ro', isa => 'Str');
+  has VolumeUsageByDatasourcePackage => (is => 'ro', isa => 'Paws::Detective::VolumeUsageByDatasourcePackage');
   has VolumeUsageInBytes => (is => 'ro', isa => 'Int');
   has VolumeUsageUpdatedTime => (is => 'ro', isa => 'Str');
 
@@ -45,21 +48,25 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Detective::
 
 =head1 DESCRIPTION
 
-Details about a member account that was invited to contribute to a
-behavior graph.
+Details about a member account in a behavior graph.
 
 =head1 ATTRIBUTES
 
 
 =head2 AccountId => Str
 
-The AWS account identifier for the member account.
+The Amazon Web Services account identifier for the member account.
 
 
 =head2 AdministratorId => Str
 
-The AWS account identifier of the administrator account for the
-behavior graph.
+The Amazon Web Services account identifier of the administrator account
+for the behavior graph.
+
+
+=head2 DatasourcePackageIngestStates => L<Paws::Detective::DatasourcePackageIngestStates>
+
+The state of a data source package for the behavior graph.
 
 
 =head2 DisabledReason => Str
@@ -88,24 +95,37 @@ account is not enrolled in Amazon GuardDuty.
 
 =head2 EmailAddress => Str
 
-The AWS account root user email address for the member account.
+The Amazon Web Services account root user email address for the member
+account.
 
 
 =head2 GraphArn => Str
 
-The ARN of the behavior graph that the member account was invited to.
+The ARN of the behavior graph.
+
+
+=head2 InvitationType => Str
+
+The type of behavior graph membership.
+
+For an organization account in the organization behavior graph, the
+type is C<ORGANIZATION>.
+
+For an account that was invited to a behavior graph, the type is
+C<INVITATION>.
 
 
 =head2 InvitedTime => Str
 
-The date and time that Detective sent the invitation to the member
-account. The value is in milliseconds since the epoch.
+For invited accounts, the date and time that Detective sent the
+invitation to the account. The value is an ISO8601 formatted string.
+For example, C<2021-08-18T16:35:56.284Z>.
 
 
 =head2 MasterId => Str
 
-The AWS account identifier of the administrator account for the
-behavior graph.
+The Amazon Web Services account identifier of the administrator account
+for the behavior graph.
 
 
 =head2 PercentOfGraphUtilization => Num
@@ -124,7 +144,8 @@ member account is 40 GB per day, then C<PercentOfGraphUtilization> is
 =head2 PercentOfGraphUtilizationUpdatedTime => Str
 
 The date and time when the graph utilization percentage was last
-updated.
+updated. The value is an ISO8601 formatted string. For example,
+C<2021-08-18T16:35:56.284Z>.
 
 
 =head2 Status => Str
@@ -136,45 +157,61 @@ have one of the following values:
 
 =item *
 
-C<INVITED> - Indicates that the member was sent an invitation but has
-not yet responded.
+C<INVITED> - For invited accounts only. Indicates that the member was
+sent an invitation but has not yet responded.
 
 =item *
 
-C<VERIFICATION_IN_PROGRESS> - Indicates that Detective is verifying
-that the account identifier and email address provided for the member
-account match. If they do match, then Detective sends the invitation.
-If the email address and account identifier don't match, then the
-member cannot be added to the behavior graph.
+C<VERIFICATION_IN_PROGRESS> - For invited accounts only, indicates that
+Detective is verifying that the account identifier and email address
+provided for the member account match. If they do match, then Detective
+sends the invitation. If the email address and account identifier don't
+match, then the member cannot be added to the behavior graph.
+
+For organization accounts in the organization behavior graph, indicates
+that Detective is verifying that the account belongs to the
+organization.
 
 =item *
 
-C<VERIFICATION_FAILED> - Indicates that the account and email address
-provided for the member account do not match, and Detective did not
-send an invitation to the account.
+C<VERIFICATION_FAILED> - For invited accounts only. Indicates that the
+account and email address provided for the member account do not match,
+and Detective did not send an invitation to the account.
 
 =item *
 
-C<ENABLED> - Indicates that the member account accepted the invitation
-to contribute to the behavior graph.
+C<ENABLED> - Indicates that the member account currently contributes
+data to the behavior graph. For invited accounts, the member account
+accepted the invitation. For organization accounts in the organization
+behavior graph, the Detective administrator account enabled the
+organization account as a member account.
 
 =item *
 
-C<ACCEPTED_BUT_DISABLED> - Indicates that the member account accepted
-the invitation but is prevented from contributing data to the behavior
-graph. C<DisabledReason> provides the reason why the member account is
-not enabled.
+C<ACCEPTED_BUT_DISABLED> - The account accepted the invitation, or was
+enabled by the Detective administrator account, but is prevented from
+contributing data to the behavior graph. C<DisabledReason> provides the
+reason why the member account is not enabled.
 
 =back
 
-Member accounts that declined an invitation or that were removed from
-the behavior graph are not included.
+Invited accounts that declined an invitation or that were removed from
+the behavior graph are not included. In the organization behavior
+graph, organization accounts that the Detective administrator account
+did not enable are not included.
 
 
 =head2 UpdatedTime => Str
 
 The date and time that the member account was last updated. The value
-is in milliseconds since the epoch.
+is an ISO8601 formatted string. For example,
+C<2021-08-18T16:35:56.284Z>.
+
+
+=head2 VolumeUsageByDatasourcePackage => L<Paws::Detective::VolumeUsageByDatasourcePackage>
+
+Details on the volume of usage for each data source package in a
+behavior graph.
 
 
 =head2 VolumeUsageInBytes => Int
@@ -185,6 +222,8 @@ The data volume in bytes per day for the member account.
 =head2 VolumeUsageUpdatedTime => Str
 
 The data and time when the member account data volume was last updated.
+The value is an ISO8601 formatted string. For example,
+C<2021-08-18T16:35:56.284Z>.
 
 
 

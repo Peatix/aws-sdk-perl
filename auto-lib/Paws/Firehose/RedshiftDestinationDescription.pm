@@ -10,7 +10,8 @@ package Paws::Firehose::RedshiftDestinationDescription;
   has S3BackupDescription => (is => 'ro', isa => 'Paws::Firehose::S3DestinationDescription');
   has S3BackupMode => (is => 'ro', isa => 'Str');
   has S3DestinationDescription => (is => 'ro', isa => 'Paws::Firehose::S3DestinationDescription', required => 1);
-  has Username => (is => 'ro', isa => 'Str', required => 1);
+  has SecretsManagerConfiguration => (is => 'ro', isa => 'Paws::Firehose::SecretsManagerConfiguration');
+  has Username => (is => 'ro', isa => 'Str');
 
 1;
 
@@ -49,7 +50,7 @@ Describes a destination in Amazon Redshift.
 
 =head2 CloudWatchLoggingOptions => L<Paws::Firehose::CloudWatchLoggingOptions>
 
-The Amazon CloudWatch logging options for your delivery stream.
+The Amazon CloudWatch logging options for your Firehose stream.
 
 
 =head2 B<REQUIRED> ClusterJDBCURL => Str
@@ -69,15 +70,15 @@ The data processing configuration.
 
 =head2 RetryOptions => L<Paws::Firehose::RedshiftRetryOptions>
 
-The retry behavior in case Kinesis Data Firehose is unable to deliver
-documents to Amazon Redshift. Default value is 3600 (60 minutes).
+The retry behavior in case Firehose is unable to deliver documents to
+Amazon Redshift. Default value is 3600 (60 minutes).
 
 
 =head2 B<REQUIRED> RoleARN => Str
 
-The Amazon Resource Name (ARN) of the AWS credentials. For more
-information, see Amazon Resource Names (ARNs) and AWS Service
-Namespaces
+The Amazon Resource Name (ARN) of the Amazon Web Services credentials.
+For more information, see Amazon Resource Names (ARNs) and Amazon Web
+Services Service Namespaces
 (https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
 
 
@@ -96,7 +97,13 @@ The Amazon S3 backup mode.
 The Amazon S3 destination.
 
 
-=head2 B<REQUIRED> Username => Str
+=head2 SecretsManagerConfiguration => L<Paws::Firehose::SecretsManagerConfiguration>
+
+The configuration that defines how you access secrets for Amazon
+Redshift.
+
+
+=head2 Username => Str
 
 The name of the user.
 

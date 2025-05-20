@@ -69,7 +69,8 @@ Name of the requested backup.
 
 =head2 BackupSizeBytes => Int
 
-Size of the backup in bytes.
+Size of the backup in bytes. DynamoDB updates this value approximately
+every six hours. Recent changes might not be reflected in this value.
 
 
 =head2 B<REQUIRED> BackupStatus => Str
@@ -98,8 +99,7 @@ deleted table to the state it was in just before the point of deletion.
 
 =item *
 
-C<AWS_BACKUP> - On-demand backup created by you from AWS Backup
-service.
+C<AWS_BACKUP> - On-demand backup created by you from Backup service.
 
 =back
 

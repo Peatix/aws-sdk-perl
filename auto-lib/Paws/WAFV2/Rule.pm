@@ -2,6 +2,8 @@
 package Paws::WAFV2::Rule;
   use Moose;
   has Action => (is => 'ro', isa => 'Paws::WAFV2::RuleAction');
+  has CaptchaConfig => (is => 'ro', isa => 'Paws::WAFV2::CaptchaConfig');
+  has ChallengeConfig => (is => 'ro', isa => 'Paws::WAFV2::ChallengeConfig');
   has Name => (is => 'ro', isa => 'Str', required => 1);
   has OverrideAction => (is => 'ro', isa => 'Paws::WAFV2::OverrideAction');
   has Priority => (is => 'ro', isa => 'Int', required => 1);
@@ -40,8 +42,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::WAFV2::Rule
 =head1 DESCRIPTION
 
 A single rule, which you can use in a WebACL or RuleGroup to identify
-web requests that you want to allow, block, or count. Each rule
-includes one top-level Statement that WAF uses to identify matching web
+web requests that you want to manage in some way. Each rule includes
+one top-level Statement that WAF uses to identify matching web
 requests, and parameters that govern how WAF handles them.
 
 =head1 ATTRIBUTES
@@ -76,39 +78,45 @@ setting and not this action setting.
 
 
 
+=head2 CaptchaConfig => L<Paws::WAFV2::CaptchaConfig>
+
+Specifies how WAF should handle C<CAPTCHA> evaluations. If you don't
+specify this, WAF uses the C<CAPTCHA> configuration that's defined for
+the web ACL.
+
+
+=head2 ChallengeConfig => L<Paws::WAFV2::ChallengeConfig>
+
+Specifies how WAF should handle C<Challenge> evaluations. If you don't
+specify this, WAF uses the challenge configuration that's defined for
+the web ACL.
+
+
 =head2 B<REQUIRED> Name => Str
 
-The name of the rule. You can't change the name of a C<Rule> after you
-create it.
+The name of the rule.
+
+If you change the name of a C<Rule> after you create it and you want
+the rule's metric name to reflect the change, update the metric name in
+the rule's C<VisibilityConfig> settings. WAF doesn't automatically
+update the metric name when you update the rule name.
 
 
 =head2 OverrideAction => L<Paws::WAFV2::OverrideAction>
 
-The override action to apply to the rules in a rule group. Used only
-for rule statements that reference a rule group, like
-C<RuleGroupReferenceStatement> and C<ManagedRuleGroupStatement>.
+The action to use in the place of the action that results from the rule
+group evaluation. Set the override action to none to leave the result
+of the rule group alone. Set it to count to override the result to
+count only.
 
-Set the override action to none to leave the rule actions in effect.
-Set it to count to only count matches, regardless of the rule action
-settings.
+You can only use this for rule statements that reference a rule group,
+like C<RuleGroupReferenceStatement> and C<ManagedRuleGroupStatement>.
 
-In a Rule, you must specify either this C<OverrideAction> setting or
-the rule C<Action> setting, but not both:
-
-=over
-
-=item *
-
-If the rule statement references a rule group, use this override action
-setting and not the action setting.
-
-=item *
-
-If the rule statement does not reference a rule group, use the rule
-action setting and not this rule override action setting.
-
-=back
-
+This option is usually set to none. It does not affect how the rules in
+the rule group are evaluated. If you want the rules in the rule group
+to only count matches, do not use this and instead use the rule action
+override option, with C<Count> action, in your rule group reference
+statement settings.
 
 
 =head2 B<REQUIRED> Priority => Int
@@ -126,6 +134,9 @@ Labels to apply to web requests that match the rule match statement.
 WAF applies fully qualified labels to matching web requests. A fully
 qualified label is the concatenation of a label namespace and a rule
 label. The rule's rule group or web ACL defines the label namespace.
+
+Any rule that isn't a rule group reference statement or managed rule
+group statement can add labels to matching web requests.
 
 Rules that run after this rule in the web ACL can match against these
 labels using a C<LabelMatchStatement>.
@@ -168,6 +179,10 @@ ByteMatchStatement or SizeConstraintStatement.
 
 Defines and enables Amazon CloudWatch metrics and web request sample
 collection.
+
+If you change the name of a C<Rule> after you create it and you want
+the rule's metric name to reflect the change, update the metric name as
+well. WAF doesn't automatically update the metric name.
 
 
 

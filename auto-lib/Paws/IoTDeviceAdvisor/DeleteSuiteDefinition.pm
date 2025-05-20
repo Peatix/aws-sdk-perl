@@ -42,7 +42,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 B<REQUIRED> SuiteDefinitionId => Str
 
-Suite definition Id of the test suite to be deleted.
+Suite definition ID of the test suite to be deleted.
 
 
 

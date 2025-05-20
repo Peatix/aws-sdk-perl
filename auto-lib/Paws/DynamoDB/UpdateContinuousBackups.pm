@@ -31,9 +31,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $UpdateContinuousBackupsOutput = $dynamodb->UpdateContinuousBackups(
       PointInTimeRecoverySpecification => {
         PointInTimeRecoveryEnabled => 1,
-
+        RecoveryPeriodInDays       => 1,    # min: 1, max: 35; OPTIONAL
       },
-      TableName => 'MyTableName',
+      TableName => 'MyTableArn',
 
     );
 
@@ -57,7 +57,8 @@ Represents the settings used to enable point in time recovery.
 
 =head2 B<REQUIRED> TableName => Str
 
-The name of the table.
+The name of the table. You can also provide the Amazon Resource Name
+(ARN) of the table in this parameter.
 
 
 

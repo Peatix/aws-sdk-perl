@@ -5,6 +5,7 @@ package Paws::LookoutEquipment::InferenceSchedulerSummary;
   has DataUploadFrequency => (is => 'ro', isa => 'Str');
   has InferenceSchedulerArn => (is => 'ro', isa => 'Str');
   has InferenceSchedulerName => (is => 'ro', isa => 'Str');
+  has LatestInferenceResult => (is => 'ro', isa => 'Str');
   has ModelArn => (is => 'ro', isa => 'Str');
   has ModelName => (is => 'ro', isa => 'Str');
   has Status => (is => 'ro', isa => 'Str');
@@ -47,11 +48,11 @@ data delay offset, model name and ARN, status, and so on.
 
 =head2 DataDelayOffsetInMinutes => Int
 
-E<gt> A period of time (in minutes) by which inference on the data is
-delayed after the data starts. For instance, if an offset delay time of
-five minutes was selected, inference will not begin on the data until
-the first data measurement after the five minute mark. For example, if
-five minutes is selected, the inference scheduler will wake up at the
+A period of time (in minutes) by which inference on the data is delayed
+after the data starts. For instance, if an offset delay time of five
+minutes was selected, inference will not begin on the data until the
+first data measurement after the five minute mark. For example, if five
+minutes is selected, the inference scheduler will wake up at the
 configured frequency with the additional five minute delay time to
 check the customer S3 bucket. The customer can upload data at the same
 frequency and they don't need to stop and restart the scheduler when
@@ -79,15 +80,23 @@ The Amazon Resource Name (ARN) of the inference scheduler.
 The name of the inference scheduler.
 
 
+=head2 LatestInferenceResult => Str
+
+Indicates whether the latest execution for the inference scheduler was
+Anomalous (anomalous events found) or Normal (no anomalous events
+found).
+
+
 =head2 ModelArn => Str
 
-The Amazon Resource Name (ARN) of the ML model used by the inference
-scheduler.
+The Amazon Resource Name (ARN) of the machine learning model used by
+the inference scheduler.
 
 
 =head2 ModelName => Str
 
-The name of the ML model used for the inference scheduler.
+The name of the machine learning model used for the inference
+scheduler.
 
 
 =head2 Status => Str

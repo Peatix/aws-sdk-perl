@@ -2,6 +2,7 @@
 package Paws::FIS::StartExperiment;
   use Moose;
   has ClientToken => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'clientToken', required => 1);
+  has ExperimentOptions => (is => 'ro', isa => 'Paws::FIS::StartExperimentExperimentOptionsInput', traits => ['NameInRequest'], request_name => 'experimentOptions');
   has ExperimentTemplateId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'experimentTemplateId', required => 1);
   has Tags => (is => 'ro', isa => 'Paws::FIS::TagMap', traits => ['NameInRequest'], request_name => 'tags');
 
@@ -33,7 +34,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $StartExperimentResponse = $fis->StartExperiment(
       ClientToken          => 'MyClientToken',
       ExperimentTemplateId => 'MyExperimentTemplateId',
-      Tags                 => {
+      ExperimentOptions    => {
+        ActionsMode => 'skip-all',    # values: skip-all, run-all; OPTIONAL
+      },    # OPTIONAL
+      Tags => {
         'MyTagKey' => 'MyTagValue',    # key: max: 128, value: max: 256
       },    # OPTIONAL
     );
@@ -53,6 +57,12 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/fis
 
 Unique, case-sensitive identifier that you provide to ensure the
 idempotency of the request.
+
+
+
+=head2 ExperimentOptions => L<Paws::FIS::StartExperimentExperimentOptionsInput>
+
+The experiment options for running the experiment.
 
 
 

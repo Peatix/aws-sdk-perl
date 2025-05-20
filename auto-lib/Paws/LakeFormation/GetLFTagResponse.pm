@@ -6,6 +6,7 @@ package Paws::LakeFormation::GetLFTagResponse;
   has TagValues => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
 
   has _request_id => (is => 'ro', isa => 'Str');
+1;
 
 ### main pod documentation begin ###
 
@@ -21,12 +22,12 @@ Paws::LakeFormation::GetLFTagResponse
 The identifier for the Data Catalog. By default, the account ID. The
 Data Catalog is the persistent metadata store. It contains database
 definitions, table definitions, and other control information to manage
-your AWS Lake Formation environment.
+your Lake Formation environment.
 
 
 =head2 TagKey => Str
 
-The key-name for the tag.
+The key-name for the LF-tag.
 
 
 =head2 TagValues => ArrayRef[Str|Undef]
@@ -39,4 +40,3 @@ A list of possible values an attribute can take.
 
 =cut
 
-1;

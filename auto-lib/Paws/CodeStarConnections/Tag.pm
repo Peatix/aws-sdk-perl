@@ -36,7 +36,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CodeStarCon
 
 A tag is a key-value pair that is used to manage the resource.
 
-This tag is available for use by AWS services that support tags.
+This tag is available for use by Amazon Web Services services that
+support tags.
 
 =head1 ATTRIBUTES
 

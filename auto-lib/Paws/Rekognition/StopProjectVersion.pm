@@ -46,7 +46,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/rek
 =head2 B<REQUIRED> ProjectVersionArn => Str
 
 The Amazon Resource Name (ARN) of the model version that you want to
-delete.
+stop.
 
 This operation requires permissions to perform the
 C<rekognition:StopProjectVersion> action.

@@ -44,7 +44,7 @@ escalation plan or engagement plan.
 
 The type of contact, either C<PERSONAL> or C<ESCALATION>.
 
-Valid values are: C<"PERSONAL">, C<"ESCALATION">
+Valid values are: C<"PERSONAL">, C<"ESCALATION">, C<"ONCALL_SCHEDULE">
 =head2 _request_id => Str
 
 

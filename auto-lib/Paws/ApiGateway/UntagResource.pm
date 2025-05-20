@@ -43,13 +43,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 B<REQUIRED> ResourceArn => Str
 
-[Required] The ARN of a resource that can be tagged.
+The ARN of a resource that can be tagged.
 
 
 
 =head2 B<REQUIRED> TagKeys => ArrayRef[Str|Undef]
 
-[Required] The Tag keys to delete.
+The Tag keys to delete.
 
 
 

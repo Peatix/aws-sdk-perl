@@ -55,10 +55,10 @@ The name of the service mesh to delete the virtual gateway from.
 
 =head2 MeshOwner => Str
 
-The AWS IAM account ID of the service mesh owner. If the account ID is
-not your own, then it's the ID of the account that shared the mesh with
-your account. For more information about mesh sharing, see Working with
-shared meshes
+The Amazon Web Services IAM account ID of the service mesh owner. If
+the account ID is not your own, then it's the ID of the account that
+shared the mesh with your account. For more information about mesh
+sharing, see Working with shared meshes
 (https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html).
 
 

@@ -29,15 +29,17 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $ssm-contacts = Paws->service('SSMContacts');
-    my $ListPageReceiptsResult = $ssm -contacts->ListPageReceipts(
-      PageId     => 'MySsmContactsArn',
-      MaxResults => 1,                      # OPTIONAL
-      NextToken  => 'MyPaginationToken',    # OPTIONAL
-    );
+# To list page receipts
+# The following command-name example lists whether a page was received or not by
+# a contact.
+    my $ListPageReceiptsResult =
+      $ssm -
+      contacts->ListPageReceipts( 'PageId' =>
+'arn:aws:ssm-contacts:us-east-2:111122223333:page/akuam/94ea0c7b-56d9-46c3-b84a-a37c8b067ad3'
+      );
 
     # Results:
-    my $NextToken = $ListPageReceiptsResult->NextToken;
-    my $Receipts  = $ListPageReceiptsResult->Receipts;
+    my $Receipts = $ListPageReceiptsResult->Receipts;
 
     # Returns a L<Paws::SSMContacts::ListPageReceiptsResult> object.
 

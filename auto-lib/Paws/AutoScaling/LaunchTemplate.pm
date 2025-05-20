@@ -34,30 +34,21 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AutoScaling
 
 =head1 DESCRIPTION
 
-Describes a launch template and overrides.
-
-You specify these properties as part of a mixed instances policy.
-
-When you update the launch template or overrides, existing Amazon EC2
-instances continue to run. When scale out occurs, Amazon EC2 Auto
-Scaling launches instances to match the new settings. When scale in
-occurs, Amazon EC2 Auto Scaling terminates instances according to the
-group's termination policies.
+Use this structure to specify the launch templates and instance types
+(overrides) for a mixed instances policy.
 
 =head1 ATTRIBUTES
 
 
 =head2 LaunchTemplateSpecification => L<Paws::AutoScaling::LaunchTemplateSpecification>
 
-The launch template to use.
+The launch template.
 
 
 =head2 Overrides => ArrayRef[L<Paws::AutoScaling::LaunchTemplateOverrides>]
 
 Any properties that you specify override the same properties in the
-launch template. If not provided, Amazon EC2 Auto Scaling uses the
-instance type specified in the launch template when it launches an
-instance.
+launch template.
 
 
 

@@ -16,7 +16,7 @@ Paws::DS::DescribeEventTopicsResult
 
 =head2 EventTopics => ArrayRef[L<Paws::DS::EventTopic>]
 
-A list of SNS topic names that receive status messages from the
+A list of Amazon SNS topic names that receive status messages from the
 specified Directory ID.
 
 

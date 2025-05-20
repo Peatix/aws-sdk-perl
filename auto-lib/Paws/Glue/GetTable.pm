@@ -3,7 +3,10 @@ package Paws::Glue::GetTable;
   use Moose;
   has CatalogId => (is => 'ro', isa => 'Str');
   has DatabaseName => (is => 'ro', isa => 'Str', required => 1);
+  has IncludeStatusDetails => (is => 'ro', isa => 'Bool');
   has Name => (is => 'ro', isa => 'Str', required => 1);
+  has QueryAsOfTime => (is => 'ro', isa => 'Str');
+  has TransactionId => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -30,9 +33,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $glue = Paws->service('Glue');
     my $GetTableResponse = $glue->GetTable(
-      DatabaseName => 'MyNameString',
-      Name         => 'MyNameString',
-      CatalogId    => 'MyCatalogIdString',    # OPTIONAL
+      DatabaseName         => 'MyNameString',
+      Name                 => 'MyNameString',
+      CatalogId            => 'MyCatalogIdString',        # OPTIONAL
+      IncludeStatusDetails => 1,                          # OPTIONAL
+      QueryAsOfTime        => '1970-01-01T01:00:00',      # OPTIONAL
+      TransactionId        => 'MyTransactionIdString',    # OPTIONAL
     );
 
     # Results:
@@ -60,10 +66,31 @@ Hive compatibility, this name is entirely lowercase.
 
 
 
+=head2 IncludeStatusDetails => Bool
+
+Specifies whether to include status details related to a request to
+create or update an Glue Data Catalog view.
+
+
+
 =head2 B<REQUIRED> Name => Str
 
 The name of the table for which to retrieve the definition. For Hive
 compatibility, this name is entirely lowercase.
+
+
+
+=head2 QueryAsOfTime => Str
+
+The time as of when to read the table contents. If not set, the most
+recent transaction commit time will be used. Cannot be specified along
+with C<TransactionId>.
+
+
+
+=head2 TransactionId => Str
+
+The transaction ID at which to read the table contents.
 
 
 

@@ -29,14 +29,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $appconfig = Paws->service('AppConfig');
-    my $Applications = $appconfig->ListApplications(
-      MaxResults => 1,                # OPTIONAL
-      NextToken  => 'MyNextToken',    # OPTIONAL
-    );
+   # To list the available applications
+   # The following list-applications example lists the available applications in
+   # your AWS account.
+    my $Applications = $appconfig->ListApplications();
 
     # Results:
-    my $Items     = $Applications->Items;
-    my $NextToken = $Applications->NextToken;
+    my $Items = $Applications->Items;
 
     # Returns a L<Paws::AppConfig::Applications> object.
 
@@ -56,8 +55,11 @@ next set of results.
 
 =head2 NextToken => Str
 
-A token to start the list. Use this token to get the next set of
-results.
+A token to start the list. Next token is a pagination token generated
+by AppConfig to describe what page the previous List call ended on. For
+the first List request, the nextToken should not be set. On subsequent
+calls, the nextToken parameter should be set to the previous responses
+nextToken value. Use this token to get the next set of results.
 
 
 

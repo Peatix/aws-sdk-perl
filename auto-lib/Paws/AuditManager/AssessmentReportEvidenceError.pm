@@ -35,20 +35,20 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AuditManage
 
 =head1 DESCRIPTION
 
-An error entity for the C<AssessmentReportEvidence> API. This is used
-to provide more meaningful errors than a simple string message.
+An error entity for assessment report evidence errors. This is used to
+provide more meaningful errors than a simple string message.
 
 =head1 ATTRIBUTES
 
 
 =head2 ErrorCode => Str
 
-The error code returned by the C<AssessmentReportEvidence> API.
+The error code that was returned.
 
 
 =head2 ErrorMessage => Str
 
-The error message returned by the C<AssessmentReportEvidence> API.
+The error message that was returned.
 
 
 =head2 EvidenceId => Str

@@ -4,6 +4,8 @@ package Paws::GuardDuty::DataSourceConfigurationsResult;
   has CloudTrail => (is => 'ro', isa => 'Paws::GuardDuty::CloudTrailConfigurationResult', request_name => 'cloudTrail', traits => ['NameInRequest'], required => 1);
   has DNSLogs => (is => 'ro', isa => 'Paws::GuardDuty::DNSLogsConfigurationResult', request_name => 'dnsLogs', traits => ['NameInRequest'], required => 1);
   has FlowLogs => (is => 'ro', isa => 'Paws::GuardDuty::FlowLogsConfigurationResult', request_name => 'flowLogs', traits => ['NameInRequest'], required => 1);
+  has Kubernetes => (is => 'ro', isa => 'Paws::GuardDuty::KubernetesConfigurationResult', request_name => 'kubernetes', traits => ['NameInRequest']);
+  has MalwareProtection => (is => 'ro', isa => 'Paws::GuardDuty::MalwareProtectionConfigurationResult', request_name => 'malwareProtection', traits => ['NameInRequest']);
   has S3Logs => (is => 'ro', isa => 'Paws::GuardDuty::S3LogsConfigurationResult', request_name => 's3Logs', traits => ['NameInRequest'], required => 1);
 
 1;
@@ -57,6 +59,17 @@ source.
 
 An object that contains information on the status of VPC flow logs as a
 data source.
+
+
+=head2 Kubernetes => L<Paws::GuardDuty::KubernetesConfigurationResult>
+
+An object that contains information on the status of all Kubernetes
+data sources.
+
+
+=head2 MalwareProtection => L<Paws::GuardDuty::MalwareProtectionConfigurationResult>
+
+Describes the configuration of Malware Protection data sources.
 
 
 =head2 B<REQUIRED> S3Logs => L<Paws::GuardDuty::S3LogsConfigurationResult>
