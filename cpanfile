@@ -49,6 +49,8 @@ on 'develop' => sub {
   requires 'Pod::Escapes';
   requires 'Data::Munge';
   requires 'Parallel::ForkManager';
+
+  requires 'Clone';
 };
 
 on 'test' => sub {
