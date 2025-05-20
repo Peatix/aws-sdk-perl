@@ -8,7 +8,7 @@ requires 'URI';
 requires 'Net::Amazon::Signature::V4';
 requires 'JSON::MaybeXS';
 requires 'XML::Simple' => '2.21';
-requires 'IO::Socket::SSL';
+requires 'IO::Socket::SSL' => '>2.009';
 requires 'DateTime';
 requires 'DateTime::Format::ISO8601';
 requires 'URL::Encode';
